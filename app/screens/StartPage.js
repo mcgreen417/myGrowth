@@ -14,15 +14,15 @@ function StartPage({ navigation }) {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
       <Image style={styles.logo} source={require('../assets/icon.png')} />
-      <Text>myGrowth</Text>
-      <Text>Your General Wellness Tracker</Text>
+      <Text style={{fontWeight: 'bold', color: '#816868', fontSize: 44}}>myGrowth</Text>
+      <Text style={{fontWeight: 'bold', color: '#816868', fontSize: 20, marginBottom: 40}}>Your General Wellness Tracker</Text>
       <View style={styles.buttons}>
         <Button
           title='SIGN UP'
           color='#A5DFB2'
           onPress={() => navigation.navigate('SignUpPage')}
         />
-        <View style={{ marginVertical: 8 }} />
+        <View style={{marginVertical: 8}} />
         <Button
           title='LOG IN'
           color='#A5DFB2'
@@ -41,13 +41,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logo: {
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 150,
+    marginTop: -100,
   },
   buttons: {
     marginTop: 10,
     marginBottom: 10,
-    width: 100,
+    width: 200,
     height: 50,
   },
 });

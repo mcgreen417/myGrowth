@@ -23,8 +23,8 @@ function SignUpPage({ navigation }) {
         }}
       >
         <Image style={styles.logo} source={require('../assets/icon.png')} />
-        <Text>myGrowth</Text>
-        <Text>Your General Wellness Tracker</Text>
+        <Text style={{fontWeight: 'bold', color: '#816868', fontSize: 36}}>myGrowth</Text>
+        <Text style={{fontWeight: 'bold', color: '#816868', fontSize: 16, marginBottom: 20}}>Your General Wellness Tracker</Text>
       </View>
       <View style={styles.buttons}>
         <TextInput style={styles.textInput} placeholder='Username' />
@@ -47,19 +47,10 @@ function SignUpPage({ navigation }) {
         <View style={{ marginVertical: 8 }} />
       </View>
       <View style={{ flexDirection: 'row' }}>
-        <Text style={{}}>Don't have an account? </Text>
-        <TouchableOpacity>
+        <Text style={{}}>Already have an account? </Text>
+        <TouchableOpacity onPress={() => navigation.navigate('LoginPage')}>
           <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>
-            Sign up here.
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <View>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('ForgotPasswordPage')}
-        >
-          <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>
-            Forgot your password
+            Log in here.
           </Text>
         </TouchableOpacity>
       </View>
@@ -98,7 +89,7 @@ const styles = StyleSheet.create({
   buttons: {
     marginTop: 10,
     marginBottom: 10,
-    width: 200,
+    width: 300,
     borderColor: 'black',
   },
   textInput: {
