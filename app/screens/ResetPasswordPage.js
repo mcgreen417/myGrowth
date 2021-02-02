@@ -15,41 +15,28 @@ function ResetPasswordPage({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
-      <View
-        style={{
-          height: '40%',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-        }}
-      >
+      <View style={{ justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+        {/* Logo + title + page instructions */}
         <Image style={styles.logo} source={require('../assets/icon.png')} />
-        <Text>myGrowth</Text>
-        <Text>Your General Wellness Tracker</Text>
-        <Text>You may now reset your password.</Text>
-        <Text>Enter your new password below.</Text>
-      </View>
-      <View style={styles.buttons}>
-        <TextInput
-          style={styles.textInput}
-          placeholder='New Password'
-          secureTextEntry={true}
-        />
-        <View style={{ marginVertical: 8 }} />
-        <TextInput
-          style={styles.textInput}
-          placeholder='Confirm New Password'
-          secureTextEntry={true}
-        />
-        <View style={{ marginVertical: 8 }} />
-        <Button title='SUBMIT' color='#A5DFB2' />
-        <View style={{ marginVertical: 8 }} />
-      </View>
-      <View style={{ flexDirection: 'row' }}>
-        <TouchableOpacity onPress={() => navigation.navigate('LoginPage')}>
-          <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>
-            Return to login.
-          </Text>
-        </TouchableOpacity>
+        <Text style={{ fontWeight: 'bold', color: '#816868', fontSize: 44 }}>myGrowth</Text>
+        <Text style={{ fontWeight: 'bold', color: '#816868', fontSize: 20, marginBottom: 16 }}>Your General Wellness Tracker</Text>
+        <Text style={{ color: '#816868' }}>You may now reset your password.</Text>
+        <Text style={{ color: '#816868', marginBottom: 16 }}>Enter your new password below.</Text>
+        {/* New password + confirm password buttons, submit button */}
+        <View style={styles.buttons}>
+          <TextInput style={styles.textInput} placeholder='New Password' secureTextEntry={true} />
+          <View style={{ marginVertical: 8 }} />
+          <TextInput style={styles.textInput} placeholder='Confirm New Password' secureTextEntry={true} />
+          <View style={{ marginVertical: 8 }} />
+          <Button title='SUBMIT' color='#A5DFB2' onPress={() => navigation.navigate('LoginPage')} />
+          <View style={{ marginVertical: 8 }} />
+        </View>
+        {/* Login page redirect */}
+        <View style={{ flexDirection: 'row' }}>
+          <TouchableOpacity onPress={() => navigation.navigate('LoginPage')}>
+            <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>Return to login.</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -69,7 +56,7 @@ const styles = StyleSheet.create({
   buttons: {
     marginTop: 10,
     marginBottom: 10,
-    width: 200,
+    width: 300,
     borderColor: 'black',
   },
   textInput: {

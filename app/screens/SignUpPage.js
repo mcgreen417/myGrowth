@@ -15,60 +15,44 @@ function SignUpPage({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
-      <View
-        style={{
-          height: '40%',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-        }}
-      >
+      <View style={{ height: '100%', justifyContent: 'center', alignItems: 'center' }}>
+        {/* Logo + title */}
         <Image style={styles.logo} source={require('../assets/icon.png')} />
-        <Text style={{fontWeight: 'bold', color: '#816868', fontSize: 36}}>myGrowth</Text>
-        <Text style={{fontWeight: 'bold', color: '#816868', fontSize: 16, marginBottom: 20}}>Your General Wellness Tracker</Text>
-      </View>
-      <View style={styles.buttons}>
-        <TextInput style={styles.textInput} placeholder='Username' />
-        <View style={{ marginVertical: 8 }} />
-        <TextInput style={styles.textInput} placeholder='E-mail Address' />
-        <View style={{ marginVertical: 8 }} />
-        <TextInput
-          style={styles.textInput}
-          placeholder='Password'
-          secureTextEntry={true}
-        />
-        <View style={{ marginVertical: 8 }} />
-        <TextInput
-          style={styles.textInput}
-          placeholder='Confirm Password'
-          secureTextEntry={true}
-        />
-        <View style={{ marginVertical: 8 }} />
-        <Button title='SIGN UP' color='#A5DFB2' />
-        <View style={{ marginVertical: 8 }} />
-      </View>
-      <View style={{ flexDirection: 'row' }}>
-        <Text style={{}}>Already have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('LoginPage')}>
-          <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>
-            Log in here.
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <View style={{ marginVertical: 8 }} />
-      <View>
-        <Text style={{}}>By continuing, you're accepting our </Text>
+        <Text style={{ fontWeight: 'bold', color: '#816868', fontSize: 36 }}>myGrowth</Text>
+        <Text style={{ fontWeight: 'bold', color: '#816868', fontSize: 16, marginBottom: 20 }}>Your General Wellness Tracker</Text>
+        {/* Username, e-mail address, password, confirm password entry boxes + signup button */}
+        <View style={styles.buttons}>
+          <TextInput style={styles.textInput} placeholder='Username' />
+          <View style={{ marginVertical: 8 }} />
+          <TextInput style={styles.textInput} placeholder='E-mail Address' />
+          <View style={{ marginVertical: 8 }} />
+          <TextInput style={styles.textInput} placeholder='Password' secureTextEntry={true} />
+          <View style={{ marginVertical: 8 }} />
+          <TextInput style={styles.textInput} placeholder='Confirm Password' secureTextEntry={true} />
+          <View style={{ marginVertical: 8 }} />
+          <Button title='SIGN UP' color='#A5DFB2' onPress={() => navigation.navigate('UserInitializationPage')} />
+          <View style={{ marginVertical: 8 }} />
+        </View>
+        {/* Login/signup page switch */}
         <View style={{ flexDirection: 'row' }}>
-          <TouchableOpacity>
-            <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>
-              Terms of Service
-            </Text>
+          <Text style={{ color: '#816868' }}>Already have an account? </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('LoginPage')}>
+            <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>Log in here.</Text>
           </TouchableOpacity>
-          <Text> and </Text>
-          <TouchableOpacity>
-            <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>
-              Privacy Policy.
-            </Text>
-          </TouchableOpacity>
+        </View>
+        {/* TOS + privacy policy agreement */}
+        <View style={{ marginVertical: 8 }} />
+        <View>
+          <Text style={{ color: '#816868' }}>By continuing, you're accepting our </Text>
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity>
+              <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>Terms of Service</Text>
+            </TouchableOpacity>
+            <Text style={{ color: '#816868' }}> and </Text>
+            <TouchableOpacity>
+              <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>Privacy Policy.</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </SafeAreaView>

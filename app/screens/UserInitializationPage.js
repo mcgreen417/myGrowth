@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const UserUtilizationPage = () => {
+const UserInitializationPage = () => {
   return (
     <View>
       <Text></Text>
@@ -9,4 +9,4 @@ const UserUtilizationPage = () => {
   );
 };
 
-export default UserUtilizationPage;
+export default UserInitializationPage;
