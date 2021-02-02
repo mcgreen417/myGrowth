@@ -20,8 +20,10 @@ function PasswordResetVerificationPage({ navigation }) {
         <Image style={styles.logo} source={require('../assets/icon.png')} />
         <Text style={{ fontWeight: 'bold', color: '#816868', fontSize: 44 }}>myGrowth</Text>
         <Text style={{ fontWeight: 'bold', color: '#816868', fontSize: 20, marginBottom: 16 }}>Your General Wellness Tracker</Text>
-        <Text style={{ color: '#816868' }}>A password reset code has been sent to your e-mail.</Text>
-        <Text style={{ color: '#816868', marginBottom: 16 }}>Enter the password reset code you received below.</Text>
+        <Text style={{ color: '#816868' }}>
+          A password reset code has been sent to your e-mail.{"\n"}
+          Enter the password reset code you received below.
+        </Text>
         {/* Reset code text entry + verify button */}
         <View style={styles.buttons}>
           <TextInput style={styles.textInput} placeholder='Reset Code' />
@@ -53,8 +55,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F6EFED',
-    alignItems: 'center',
-    //justifyContent: 'center',
   },
   logo: {
     width: 100,

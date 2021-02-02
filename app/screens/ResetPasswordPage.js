@@ -20,8 +20,9 @@ function ResetPasswordPage({ navigation }) {
         <Image style={styles.logo} source={require('../assets/icon.png')} />
         <Text style={{ fontWeight: 'bold', color: '#816868', fontSize: 44 }}>myGrowth</Text>
         <Text style={{ fontWeight: 'bold', color: '#816868', fontSize: 20, marginBottom: 16 }}>Your General Wellness Tracker</Text>
-        <Text style={{ color: '#816868' }}>You may now reset your password.</Text>
-        <Text style={{ color: '#816868', marginBottom: 16 }}>Enter your new password below.</Text>
+        <Text style={{ color: '#816868' }}>
+          You may now reset your password.{"\n"}
+          Enter your new password below.</Text>
         {/* New password + confirm password buttons, submit button */}
         <View style={styles.buttons}>
           <TextInput style={styles.textInput} placeholder='New Password' secureTextEntry={true} />
@@ -46,8 +47,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F6EFED',
-    alignItems: 'center',
-    //justifyContent: 'center',
   },
   logo: {
     width: 100,
