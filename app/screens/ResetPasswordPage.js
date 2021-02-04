@@ -20,7 +20,7 @@ function ResetPasswordPage({ navigation }) {
         <Image style={styles.logo} source={require('../assets/icon.png')} />
         <Text style={{ fontWeight: 'bold', color: '#816868', fontSize: 44 }}>myGrowth</Text>
         <Text style={{ fontWeight: 'bold', color: '#816868', fontSize: 20, marginBottom: 16 }}>Your General Wellness Tracker</Text>
-        <Text style={{ color: '#816868' }}>
+        <Text style={{ color: '#816868', marginBottom: 12, textAlign: 'center' }}>
           You may now reset your password.{"\n"}
           Enter your new password below.</Text>
         {/* New password + confirm password buttons, submit button */}

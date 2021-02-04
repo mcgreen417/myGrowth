@@ -20,10 +20,9 @@ function ForgotPasswordPage({ navigation }) {
         <Image style={styles.logo} source={require('../assets/icon.png')} />
         <Text style={{ fontWeight: 'bold', color: '#816868', fontSize: 44 }}>myGrowth</Text>
         <Text style={{ fontWeight: 'bold', color: '#816868', fontSize: 20, marginBottom: 16 }}>Your General Wellness Tracker</Text>
-        <Text style={{ color: '#816868' }}>
-          To reset your password, please enter{"\n"}
-          the username and e-mail address{"\n"}
-          associated with your account.
+        <Text style={{ color: '#816868', marginBottom: 12, textAlign: 'center'}}>
+          To reset your password, please enter the username{"\n"}
+          and e-mail address associated with your account.
         </Text>
         {/* Username + e-mail address entry boxes, submit button */}
         <View style={styles.buttons}>
