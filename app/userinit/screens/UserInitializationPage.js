@@ -154,7 +154,10 @@ const UserInitializationPage3 = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <Image style={styles.logo} source={require('../assets/icon.png')} />
+        <Image
+          style={styles.logo}
+          source={require('../../shared/assets/icon.png')}
+        />
         <Text>
           Before we begin, let's tailor your health entries to your personal
           preferences. You can edit this later in Settings.
