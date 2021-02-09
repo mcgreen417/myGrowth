@@ -23,8 +23,19 @@ function LoginPage({ navigation }) {
         }}
       >
         <Image style={styles.logo} source={require('../assets/icon.png')} />
-        <Text style={{fontWeight: 'bold', color: '#816868', fontSize: 36}}>myGrowth</Text>
-        <Text style={{fontWeight: 'bold', color: '#816868', fontSize: 16, marginBottom: 20}}>Your General Wellness Tracker</Text>
+        <Text style={{ fontWeight: 'bold', color: '#816868', fontSize: 36 }}>
+          myGrowth
+        </Text>
+        <Text
+          style={{
+            fontWeight: 'bold',
+            color: '#816868',
+            fontSize: 16,
+            marginBottom: 20,
+          }}
+        >
+          Your General Wellness Tracker
+        </Text>
       </View>
       <View style={styles.buttons}>
         <TextInput style={styles.textInput} placeholder='E-mail Address' />
@@ -35,7 +46,11 @@ function LoginPage({ navigation }) {
           secureTextEntry={true}
         />
         <View style={{ marginVertical: 8 }} />
-        <Button title='LOG IN' color='#A5DFB2' />
+        <Button
+          title='LOG IN'
+          color='#A5DFB2'
+          onPress={() => navigation.navigate('UserInitializationPage1')}
+        />
         <View style={{ marginVertical: 8 }} />
       </View>
       <View style={{ flexDirection: 'row' }}>
@@ -47,7 +62,9 @@ function LoginPage({ navigation }) {
         </TouchableOpacity>
       </View>
       <View>
-        <TouchableOpacity onPress={() => navigation.navigate('ForgotPasswordPage')}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('ForgotPasswordPage')}
+        >
           <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>
             Forgot your password
           </Text>
