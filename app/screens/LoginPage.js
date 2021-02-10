@@ -16,59 +16,45 @@ function LoginPage({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
-      <View
-        style={{
-          height: '40%',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-        }}
-      >
+      <View style={{ height: '100%', justifyContent: 'center', alignItems: 'center' }}>
+        {/* Logo + title */}
         <Image style={styles.logo} source={require('../assets/icon.png')} />
         <Text style={{fontWeight: 'bold', color: '#816868', fontSize: 36}}>myGrowth</Text>
         <Text style={{fontWeight: 'bold', color: '#816868', fontSize: 16, marginBottom: 20}}>Your General Wellness Tracker</Text>
-      </View>
-      <View style={styles.buttons}>
-        <TextInput style={styles.textInput} placeholder='E-mail Address' />
-        <View style={{ marginVertical: 8 }} />
-        <TextInput
-          style={styles.textInput}
-          placeholder='Password'
-          secureTextEntry={true}
-        />
-        <View style={{ marginVertical: 8 }} />
-        <Button title='LOG IN' color='#A5DFB2' onPress={ () => signIn()} />
-        <View style={{ marginVertical: 8 }} />
-      </View>
-      <View style={{ flexDirection: 'row' }}>
-        <Text style={{}}>Don't have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('SignUpPage')}>
-          <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>
-            Sign up here.
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <View>
-        <TouchableOpacity onPress={() => navigation.navigate('ForgotPasswordPage')}>
-          <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>
-            Forgot your password
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <View style={{ marginVertical: 8 }} />
-      <View>
-        <Text style={{}}>By continuing, you're accepting our </Text>
+        {/* E-mail address + password entry boxes, login button */}
+        <View style={styles.buttons}>
+          <TextInput style={styles.textInput} placeholder='E-mail Address' />
+          <View style={{ marginVertical: 8 }} />
+          <TextInput style={styles.textInput} placeholder='Password' secureTextEntry={true} />
+          <View style={{ marginVertical: 8 }} />
+          <Button title='LOG IN' color='#A5DFB2' onPress={ () => signIn() } />
+          <View style={{ marginVertical: 8 }} />
+        </View>
+        {/* Login/signup page switch */}
         <View style={{ flexDirection: 'row' }}>
-          <TouchableOpacity>
-            <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>
-              Terms of Service
-            </Text>
+          <Text style={{ color: '#816868' }}>Don't have an account? </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('SignUpPage')}>
+            <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>Sign up here.</Text>
           </TouchableOpacity>
-          <Text> and </Text>
-          <TouchableOpacity>
-            <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>
-              Privacy Policy.
-            </Text>
+        </View>
+        <View>
+          <TouchableOpacity onPress={() => navigation.navigate('ForgotPasswordPage')}>
+            <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>Forgot your password?</Text>
           </TouchableOpacity>
+        </View>
+        {/* TOS + privacy policy agreement */}
+        <View style={{ marginVertical: 8 }} />
+        <View>
+          <Text style={{ color: '#816868' }}>By continuing, you're accepting our </Text>
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity>
+              <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>Terms of Service</Text>
+            </TouchableOpacity>
+            <Text style={{ color: '#816868' }}> and </Text>
+            <TouchableOpacity>
+              <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>Privacy Policy.</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </SafeAreaView>
@@ -78,9 +64,9 @@ function LoginPage({ navigation }) {
 async function signIn() {
   try {
       await signOut(); // This is to clear any tokens saved when debugging
-      const user = await Auth.signIn("testUser", "123!@#aA");
+      // const user = await Auth.signIn(username, pw)
       console.log(user);
-      await testQuery("testUser");
+      await testQuery(user.username);
   } catch (error) {
       console.log('error signing in', error);
   }
@@ -114,8 +100,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F6EFED',
-    alignItems: 'center',
-    //justifyContent: 'center',
   },
   logo: {
     width: 100,
