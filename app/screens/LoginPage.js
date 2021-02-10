@@ -1,4 +1,5 @@
 import React from 'react';
+import { Auth, API } from 'aws-amplify';
 import {
   StyleSheet,
   Text,
@@ -35,7 +36,7 @@ function LoginPage({ navigation }) {
           secureTextEntry={true}
         />
         <View style={{ marginVertical: 8 }} />
-        <Button title='LOG IN' color='#A5DFB2' />
+        <Button title='LOG IN' color='#A5DFB2' onPress={ () => signIn()} />
         <View style={{ marginVertical: 8 }} />
       </View>
       <View style={{ flexDirection: 'row' }}>
@@ -72,6 +73,41 @@ function LoginPage({ navigation }) {
       </View>
     </SafeAreaView>
   );
+}
+
+async function signIn() {
+  try {
+      await signOut(); // This is to clear any tokens saved when debugging
+      const user = await Auth.signIn("testUser", "123!@#aA");
+      console.log(user);
+      await testQuery("testUser");
+  } catch (error) {
+      console.log('error signing in', error);
+  }
+}
+
+async function signOut() {
+    try {
+        await Auth.signOut();
+    } catch (error) {
+        console.log('error signing out: ', error);
+    }
+}
+
+async function testQuery(username) {
+  const query = `
+  query test($username: ID!) {
+    getTodos(userID: $username) {
+      toDos {
+        Completed
+        Timestamp
+        Title
+      }
+    }
+  }
+  `
+  const res = await API.graphql({query, variables:{username: username}, authMode: 'AMAZON_COGNITO_USER_POOLS'})
+  console.log(res);
 }
 
 const styles = StyleSheet.create({
