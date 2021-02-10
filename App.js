@@ -11,9 +11,14 @@ import PasswordResetVerificationPage from './app/screens/PasswordResetVerificati
 import ResetPasswordPage from './app/screens/ResetPasswordPage';
 import UserInitializationPage from './app/screens/UserInitializationPage';
 
+import Amplify, { Auth } from 'aws-amplify';
+import awsconfig from './aws-exports';
+import { Authenticator } from 'aws-amplify-react-native/dist/Auth';
+Amplify.configure(awsconfig);
+
 const Stack = createStackNavigator();
 
-export default function App() {
+function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='StartPage'>
@@ -28,3 +33,5 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+export default App;
