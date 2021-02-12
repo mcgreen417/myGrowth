@@ -1,11 +1,35 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  Image,
+  Button,
+} from 'react-native';
 
 const PlantShop = () => {
   return (
-    <View>
-      <Text></Text>
-    </View>
+    <SafeAreaView>
+      <View>
+        <Text>Select an item and check out how it looks!</Text>
+        <Image source={require('../../assets/icon.png')} />
+      </View>
+      <View>
+        <Image source={require('../../assets/icon.png')} />
+      </View>
+      <View>
+        <StoreItems />
+      </View>
+      <View>
+        <Button title='Clear changes' />
+        <Button title='Purchase all shown' />
+      </View>
+      <View>
+        <Text>Need more stars? </Text>
+        <Button title='Create a new goal ->' />
+      </View>
+    </SafeAreaView>
   );
 };
 
