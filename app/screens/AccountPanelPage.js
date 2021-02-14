@@ -11,8 +11,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/FontAwesome'
-
 function AccountPanelPage({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
@@ -23,7 +21,7 @@ function AccountPanelPage({ navigation }) {
                     <Text style={styles.info}>Here you can edit your account settings. Please select from one of the options below.</Text>
                     <Image source={require('../assets/gardener-avatar.png')} />
                 </View>
-                
+
                 {/* Settings redirect */} 
                 <View style={styles.line}/>
                 <TouchableOpacity 
