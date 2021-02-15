@@ -22,9 +22,23 @@ function SignUpPage({ navigation }) {
           alignItems: 'center',
         }}
       >
-        <Image style={styles.logo} source={require('../assets/icon.png')} />
-        <Text style={{fontWeight: 'bold', color: '#816868', fontSize: 36}}>myGrowth</Text>
-        <Text style={{fontWeight: 'bold', color: '#816868', fontSize: 16, marginBottom: 20}}>Your General Wellness Tracker</Text>
+        <Image
+          style={styles.logo}
+          source={require('../../shared/assets/icon.png')}
+        />
+        <Text style={{ fontWeight: 'bold', color: '#816868', fontSize: 36 }}>
+          myGrowth
+        </Text>
+        <Text
+          style={{
+            fontWeight: 'bold',
+            color: '#816868',
+            fontSize: 16,
+            marginBottom: 20,
+          }}
+        >
+          Your General Wellness Tracker
+        </Text>
       </View>
       <View style={styles.buttons}>
         <TextInput style={styles.textInput} placeholder='Username' />

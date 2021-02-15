@@ -12,20 +12,8 @@ import {
   UserInitializationPage1,
   UserInitializationPage2,
   UserInitializationPage3,
-} from './app/screens/UserInitializationPage';
-import Home from './app/home/screens/Home';
-import CustomizePlant from './app/home/screens/CustomizePlant';
-import PlantShop from './app/home/screens/PlantShop';
-import {
-  EntryCompletion,
-  HealthEntry1,
-  HealthEntry2,
-  HealthEntry3,
-  HealthEntry4,
-  HealthEntry5,
-  ReviewEntry,
-  ViewEntry,
-} from './app/healthentry/screens/HealthEntry';
+} from './app/userinit/screens/UserInitializationPage';
+import HomePage from './app/home/screens/Home';
 
 const Stack = createStackNavigator();
 
@@ -57,17 +45,7 @@ export default function App() {
           name='UserInitializationPage3'
           component={UserInitializationPage3}
         />
-        <Stack.Screen name='Home' component={Home} />
-        <Stack.Screen name='CustomizePlant' component={CustomizePlant} />
-        <Stack.Screen name='PlantShop' component={PlantShop} />
-        <Stack.Screen name='HealthEntry1' component={HealthEntry1} />
-        <Stack.Screen name='HealthEntry2' component={HealthEntry2} />
-        <Stack.Screen name='HealthEntry3' component={HealthEntry3} />
-        <Stack.Screen name='HealthEntry4' component={HealthEntry4} />
-        <Stack.Screen name='HealthEntry5' component={HealthEntry5} />
-        <Stack.Screen name='ReviewEntry' component={ReviewEntry} />
-        <Stack.Screen name='EntryCompletion' component={EntryCompletion} />
-        <Stack.Screen name='ViewEntry' component={ViewEntry} />
+        <Stack.Screen name='HomePage' component={HomePage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

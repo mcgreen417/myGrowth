@@ -8,26 +8,26 @@ import {
   Button,
 } from 'react-native';
 
-const Home = () => {
+const HomePage = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View>
         <Text>Good Morning, Firstname!</Text>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Button title='<- Customize plant' />
-        <Button titel='Enter plant shop ->' />
+        <Button title='Enter plant shop ->' />
       </View>
       <View>
         <Button title='Write a new entry! You wrote your last entry on (date) at (time)' />
         <Button title='View past entries ->' />
       </View>
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
         <View>
           <Text>Why don't you try doing one of these?</Text>
           <Button title='Write a journal entry' />
@@ -40,6 +40,6 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;
 
 const styles = StyleSheet.create({});

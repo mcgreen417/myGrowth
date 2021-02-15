@@ -20,7 +20,10 @@ const UserInitializationPage1 = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <Image style={styles.logo} source={require('../assets/icon.png')} />
+        <Image
+          style={styles.logo}
+          source={require('../../shared/assets/icon.png')}
+        />
         <Text>
           Welcome to myGrowth! Let's initialize your account. First, please
           answer a few questions about yourself.
@@ -28,15 +31,24 @@ const UserInitializationPage1 = ({ navigation }) => {
       </View>
       <View>
         <Text>FIRST NAME</Text>
-        <Image style={styles.infoLogo} source={require('../assets/icon.png')} />
+        <Image
+          style={styles.infoLogo}
+          source={require('../../shared/assets/icon.png')}
+        />
       </View>
       <View>
         <Text>DATE OF BIRTH</Text>
-        <Image style={styles.infoLogo} source={require('../assets/icon.png')} />
+        <Image
+          style={styles.infoLogo}
+          source={require('../../shared/assets/icon.png')}
+        />
       </View>
       <View>
         <Text>GENDER</Text>
-        <Image style={styles.infoLogo} source={require('../assets/icon.png')} />
+        <Image
+          style={styles.infoLogo}
+          source={require('../../shared/assets/icon.png')}
+        />
         <Picker
           selectedValue={gender}
           style={{ height: 50, width: 200 }}
@@ -50,7 +62,10 @@ const UserInitializationPage1 = ({ navigation }) => {
       </View>
       <View>
         <Text>BIOLOGICAL SEX</Text>
-        <Image style={styles.infoLogo} source={require('../assets/icon.png')} />
+        <Image
+          style={styles.infoLogo}
+          source={require('../../shared/assets/icon.png')}
+        />
         <Picker
           selectedValue={sex}
           style={{ height: 50, width: 200 }}
@@ -64,14 +79,20 @@ const UserInitializationPage1 = ({ navigation }) => {
       </View>
       <View>
         <Text>HEIGHT</Text>
-        <Image style={styles.infoLogo} source={require('../assets/icon.png')} />
+        <Image
+          style={styles.infoLogo}
+          source={require('../../shared/assets/icon.png')}
+        />
         <TextInput>ft</TextInput>
         <TextInput>in</TextInput>
         <Button title='Switch to cm' />
       </View>
       <View>
         <Text>WEIGHT</Text>
-        <Image style={styles.infoLogo} source={require('../assets/icon.png')} />
+        <Image
+          style={styles.infoLogo}
+          source={require('../../shared/assets/icon.png')}
+        />
         <TextInput>lbs</TextInput>
         <Button title='Switch to kgs' />
       </View>
@@ -93,7 +114,10 @@ const UserInitializationPage2 = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ margin: 5, flexDirection: 'row' }}>
-        <Image style={styles.logo} source={require('../assets/icon.png')} />
+        <Image
+          style={styles.logo}
+          source={require('../../shared/assets/icon.png')}
+        />
         <Text style={{ flex: 1, flexWrap: 'wrap' }}>
           As our next step, take some time to select and appearance for me! I'll
           be here to guide you through the app.
@@ -255,7 +279,7 @@ const UserInitializationPage3 = ({ navigation }) => {
       <View style={{ flexDirection: 'row' }}>
         <Button title='Back' />
         <View style={{ width: 20 }}></View>
-        <Button title='Next' onPress={() => navigation.navigate('Home')} />
+        <Button title='Next' onPress={() => navigation.navigate('HomePage')} />
       </View>
     </SafeAreaView>
   );

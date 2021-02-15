@@ -22,7 +22,10 @@ function ForgotPasswordPage({ navigation }) {
           alignItems: 'center',
         }}
       >
-        <Image style={styles.logo} source={require('../assets/icon.png')} />
+        <Image
+          style={styles.logo}
+          source={require('../../shared/assets/icon.png')}
+        />
         <Text>myGrowth</Text>
         <Text>Your General Wellness Tracker</Text>
         <Text>To reset your password, please enter</Text>

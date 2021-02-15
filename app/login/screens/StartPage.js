@@ -13,16 +13,30 @@ function StartPage({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
-      <Image style={styles.logo} source={require('../assets/icon.png')} />
-      <Text style={{fontWeight: 'bold', color: '#816868', fontSize: 44}}>myGrowth</Text>
-      <Text style={{fontWeight: 'bold', color: '#816868', fontSize: 20, marginBottom: 40}}>Your General Wellness Tracker</Text>
+      <Image
+        style={styles.logo}
+        source={require('../../shared/assets/icon.png')}
+      />
+      <Text style={{ fontWeight: 'bold', color: '#816868', fontSize: 44 }}>
+        myGrowth
+      </Text>
+      <Text
+        style={{
+          fontWeight: 'bold',
+          color: '#816868',
+          fontSize: 20,
+          marginBottom: 40,
+        }}
+      >
+        Your General Wellness Tracker
+      </Text>
       <View style={styles.buttons}>
         <Button
           title='SIGN UP'
           color='#A5DFB2'
           onPress={() => navigation.navigate('SignUpPage')}
         />
-        <View style={{marginVertical: 8}} />
+        <View style={{ marginVertical: 8 }} />
         <Button
           title='LOG IN'
           color='#A5DFB2'

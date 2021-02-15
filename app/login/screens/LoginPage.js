@@ -22,7 +22,10 @@ function LoginPage({ navigation }) {
           alignItems: 'center',
         }}
       >
-        <Image style={styles.logo} source={require('../assets/icon.png')} />
+        <Image
+          style={styles.logo}
+          source={require('../../shared/assets/icon.png')}
+        />
         <Text style={{ fontWeight: 'bold', color: '#816868', fontSize: 36 }}>
           myGrowth
         </Text>
