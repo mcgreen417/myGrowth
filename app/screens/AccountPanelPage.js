@@ -6,8 +6,6 @@ import {
   SafeAreaView,
   Image,
   StatusBar,
-  Button,
-  TextInput,
   TouchableOpacity,
 } from 'react-native';
 
@@ -73,8 +71,7 @@ function AccountPanelPage({ navigation }) {
                 <View style={styles.line}/> 
 
                 {/* content frame */}
-
-                {/* navigation bar */}
+                <Image source={require('../assets/Rectangle.png')} />
    
             </View>
         </SafeAreaView>
