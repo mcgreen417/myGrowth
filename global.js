@@ -5,7 +5,7 @@ var brownColor = "#816868";
 var blackColor = "#000000";
 var whiteColor = "#FFFFFF";
 
-// On every page
+// Screen properties
 global.statusBarColor = lightGreenColor;
 global.pageBackgroundColor = creamColor;
 
@@ -21,5 +21,6 @@ global.textInputColor = blackColor;
 
 // Any sort of text being used.
 global.textColor = brownColor;
+global.hyperlinkedTextColor = lightGreenColor;
 
 global.colorblindMode = false;
