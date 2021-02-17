@@ -2,6 +2,7 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import './global.js';
 
 import StartPage from './app/screens/StartPage';
 import SignUpPage from './app/screens/SignUpPage';
