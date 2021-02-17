@@ -23,8 +23,8 @@ function StartPage({ navigation }) {
       <View style={{ justifyContent: 'center', alignItems: 'center', height: '100%' }}>
         {/* Logo + title */}
         <Image style={styles.logo} source={require('../assets/icon.png')} />
-        <Text style={{ fontWeight: 'bold', color: global.headingColor, fontSize: 44 }}>myGrowth</Text>
-        <Text style={{ fontWeight: 'bold', color: global.headingColor, fontSize: 20, marginBottom: 40 }}>Your General Wellness Tracker</Text>
+        <Text style={{ fontWeight: 'bold', color: global.textColor, fontSize: 44 }}>myGrowth</Text>
+        <Text style={{ fontWeight: 'bold', color: global.textColor, fontSize: 20, marginBottom: 40 }}>Your General Wellness Tracker</Text>
         {/* Sign up + login buttons */}
         <View style={styles.buttons}>
           <Button title='SIGN UP' color={global.optionButtonsColor} onPress={() => navigation.navigate('SignUpPage')} />
