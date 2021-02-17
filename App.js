@@ -12,6 +12,7 @@ import ResetPasswordPage from './app/screens/ResetPasswordPage';
 import UserInitializationPage from './app/screens/UserInitializationPage';
 import AccountPanelPage from  './app/screens/AccountPanelPage';
 import settingsPage from './app/screens/settingsPage';
+import genReportPage from './app/screens/genReportPage'
 
 import Amplify, { Auth } from 'aws-amplify';
 import awsconfig from './aws-exports';
@@ -33,6 +34,7 @@ function App() {
         <Stack.Screen name='UserInitializationPage' component={UserInitializationPage} options={{ headerShown: false }} />
         <Stack.Screen name='AccountPanelPage' component={AccountPanelPage} options={{ headerShown: false }} />
         <Stack.Screen name='settingsPage' component={settingsPage} options={{ headerShown: false }} />
+        <Stack.Screen name='genReportPage' component={genReportPage} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
