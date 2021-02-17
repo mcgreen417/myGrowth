@@ -8,6 +8,7 @@ var whiteColor = "#FFFFFF";
 // Screen properties
 global.statusBarColor = lightGreenColor;
 global.pageBackgroundColor = creamColor;
+global.contentDividerColor = brownColor;
 
 // Specific to buttons - not sure if the button outline is actually viewable.
 // I think this is overwritten by textInputBorderColor
