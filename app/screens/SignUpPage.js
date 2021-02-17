@@ -10,7 +10,6 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import '../../global.js';
 
 function SignUpPage({ navigation }) {
   return (

@@ -9,13 +9,6 @@ import {
   Button,
 } from 'react-native';
 
-// Can delete this line once finished - allows for hot reloading of this page.
-// If this is deleted (since it is imported in App.js), the app has to be
-//  manually reloaded for major changes to occur since App.js is loaded/created
-//  only once (I think?).
-import '../../global.js';
-
-
 function StartPage({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
