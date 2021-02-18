@@ -2,15 +2,16 @@ import React from 'react';
 import {
   Button,
   Modal,
-  SafeView,
+  SafeAreaView,
   StyleSheet,
   Text,
   View,
-  Modal,
+  Image,
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
+import NavBar from '../../shared/components/NavBar';
 
-const Mood = (type) => {
+const Mood = ({ type }) => {
   return (
     <View>
       <Image />
@@ -39,10 +40,11 @@ const AddExercise = () => {
   return <View>{/* add exercise */}</View>;
 };
 
-const HealthEntry1 = () => {
+const HealthEntry1 = ({ navigation }) => {
+  var stress_level = 0;
   return (
-    <SafeView>
-      <Modal>
+    <SafeAreaView style={styles.container}>
+      {/* <Modal>
         <Text>Add Feelings</Text>
       </Modal>
       <Modal>
@@ -50,9 +52,12 @@ const HealthEntry1 = () => {
       </Modal>
       <Modal>
         <Text>Add Activities</Text>
-      </Modal>
+      </Modal> */}
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image
+          source={require('../../shared/assets/icon.png')}
+          style={styles.avatar}
+        />
         <View>
           <Text>Time for a new health entry!</Text>
           <Text>After you save your entry, you may edit it at any time.</Text>
@@ -89,13 +94,14 @@ const HealthEntry1 = () => {
       <View>
         <Button title='Next >' />
       </View>
-    </SafeView>
+      <NavBar navigation={navigation} />
+    </SafeAreaView>
   );
 };
 
 const HealthEntry2 = () => {
   return (
-    <SafeView>
+    <SafeAreaView>
       <View>
         <Text>PHYSICAL/MENTAL HEALTH</Text>
         <View>
@@ -133,13 +139,13 @@ const HealthEntry2 = () => {
         <Button title='< Back' />
         <Button title='Next >' />
       </View>
-    </SafeView>
+    </SafeAreaView>
   );
 };
 
 const HealthEntry3 = () => {
   return (
-    <SafeView>
+    <SafeAreaView>
       <Text>SLEEP</Text>
       <View>
         <Text>Did you sleep today?</Text>
@@ -178,13 +184,13 @@ const HealthEntry3 = () => {
         <Button title='< Back' />
         <Button title='Next >' />
       </View>
-    </SafeView>
+    </SafeAreaView>
   );
 };
 
 const HealthEntry4 = () => {
   return (
-    <SafeView>
+    <SafeAreaView>
       <View>
         <Text>Have you eaten today? </Text>
         <Switch
@@ -212,13 +218,13 @@ const HealthEntry4 = () => {
         <Button title='< Back' />
         <Button title='Next >' />
       </View>
-    </SafeView>
+    </SafeAreaView>
   );
 };
 
 const HealthEntry5 = () => {
   return (
-    <SafeView>
+    <SafeAreaView>
       <Text>FITNESS TRACKING</Text>
       <View>
         <Text>Did you exercise today? </Text>
@@ -254,7 +260,7 @@ const HealthEntry5 = () => {
       <Text>ADVANCED FITNESS TRACKING</Text>
       <AddExercise />
       <Button title='+ Add Exercise' />
-    </SafeView>
+    </SafeAreaView>
   );
 };
 
@@ -268,12 +274,12 @@ const ReviewEntry = () => {
 
 const EntryCompletion = () => {
   return (
-    <SafeView>
+    <SafeAreaView>
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
         <Text>You have watered (plant name) today!</Text>
         <Text>+5 growth points</Text>
       </View>
@@ -281,7 +287,7 @@ const EntryCompletion = () => {
         <Button title='View Entry' />
         <Button title='Return to Home' />
       </View>
-    </SafeView>
+    </SafeAreaView>
   );
 };
 
@@ -304,4 +310,20 @@ export {
   ViewEntry,
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F6EFED',
+  },
+  avatar: {
+    width: 75,
+    height: 75,
+    marginRight: 24,
+  },
+  buttons: {
+    marginTop: 10,
+    marginBottom: 10,
+    width: 100,
+    height: 50,
+  },
+});

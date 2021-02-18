@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
-  SafeView,
+  SafeAreaView,
   Text,
   View,
   Button,
@@ -10,8 +10,10 @@ import {
   Alert,
 } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
+import NavBar from '../../shared/components/NavBar';
 
-const Goal = (title, description, type) => {
+const Goal = ({ title, description, type }) => {
+  const [toggleCheckBox, setToggleCheckBox] = useState(false);
   return (
     <View style={{ flexDirection: 'row' }}>
       <CheckBox
@@ -25,16 +27,17 @@ const Goal = (title, description, type) => {
   );
 };
 
-const Goals = () => {
+const Goals = ({ navigation }) => {
+  var time = new Date();
   return (
-    <SafeView>
-      <Modal>
+    <SafeAreaView style={styles.container}>
+      {/* <Modal>
         <Text>Add Create New Goals Here</Text>
-      </Modal>
+      </Modal> */}
       <View>
         <View>
           <Text>Daily Goals</Text>
-          <Text>{time} until reset</Text>
+          <Text>{time.toLocaleString()} until reset</Text>
         </View>
         <View>
           <Goal
@@ -65,7 +68,7 @@ const Goals = () => {
       <View>
         <View>
           <Text>Weekly Goals</Text>
-          <Text>{time} until reset</Text>
+          <Text>{time.toLocaleString()} until reset</Text>
         </View>
         <View>
           <Goal
@@ -86,18 +89,19 @@ const Goals = () => {
           <Button title='New Goal +' />
         </View>
       </View>
-    </SafeView>
+      <NavBar goals={true} navigation={navigation} />
+    </SafeAreaView>
   );
 };
 
 const GoalsCompletion = () => {
   return (
-    <SafeView>
+    <SafeAreaView>
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
         <Text>You have completed a goal!</Text>
         <Text>+30 stars</Text>
       </View>
@@ -105,10 +109,26 @@ const GoalsCompletion = () => {
         <Button title='Return to Goals' />
         <Button title='Return to Home' />
       </View>
-    </SafeView>
+    </SafeAreaView>
   );
 };
 
 export { Goals, GoalsCompletion };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F6EFED',
+  },
+  avatar: {
+    width: 75,
+    height: 75,
+    marginRight: 24,
+  },
+  buttons: {
+    marginTop: 10,
+    marginBottom: 10,
+    width: 100,
+    height: 50,
+  },
+});

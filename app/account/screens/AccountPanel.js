@@ -1,15 +1,26 @@
 import React from 'react';
-import { Button, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import {
+  Button,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+} from 'react-native';
+import NavBar from '../../shared/components/NavBar';
 
-const AccountPanel = () => {
+const AccountPanel = ({ navigation }) => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <View>
         <Text>
           Here you can edit your account settings. Please select from one of the
           options below.
         </Text>
-        <Image source={require('../../shared/assets/icon.png')} />
+        <Image
+          source={require('../../shared/assets/icon.png')}
+          style={styles.avatar}
+        />
       </View>
       <View>
         <Button title='User Settings' />
@@ -20,12 +31,32 @@ const AccountPanel = () => {
         <Button title='About' />
       </View>
       <View>
-        <Image source={require('../../shared/assets/icon.png')} />
+        <Image
+          source={require('../../shared/assets/icon.png')}
+          style={styles.avatar}
+        />
       </View>
+      <NavBar account={true} navigation={navigation} />
     </SafeAreaView>
   );
 };
 
 export default AccountPanel;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F6EFED',
+  },
+  avatar: {
+    width: 75,
+    height: 75,
+    marginRight: 24,
+  },
+  buttons: {
+    marginTop: 10,
+    marginBottom: 10,
+    width: 100,
+    height: 50,
+  },
+});

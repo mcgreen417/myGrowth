@@ -1,19 +1,37 @@
 import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import {
+  Button,
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  Image,
+} from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
+import NavBar from '../../shared/components/NavBar';
 
-const Journal = () => {
+const InputSearchBar = () => {
+  return <View></View>;
+};
+
+const Journal = ({ navigation }) => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <View>
         <Text>
           Let's get to writing! Put your feelings on paper and let the stress
           melt away.
         </Text>
-        <Image source={require('../../assets/icon.png')} />
+        <Image
+          source={require('../../shared/assets/icon.png')}
+          style={styles.avatar}
+        />
       </View>
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image
+          source={require('../../shared/assets/icon.png')}
+          style={styles.avatar}
+        />
       </View>
       <View>
         <Button title='Write new entry' />
@@ -24,8 +42,9 @@ const Journal = () => {
           Or search through past hournal entries by entering a specific world or
           phrase...
         </Text>
-        <InpuSearchBar />
+        <InputSearchBar />
       </View>
+      <NavBar journal={true} navigation={navigation} />
     </SafeAreaView>
   );
 };
@@ -55,10 +74,10 @@ const JournalEntryCompletion = () => {
   return (
     <SafeAreaView>
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
         <Text>You have completed a journal entry!</Text>
       </View>
       <View>
@@ -77,7 +96,7 @@ const JournalHistory = () => {
           Select ajournal entry to view below. Change the month by using the
           arrows.
         </Text>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Button title='Date' />
@@ -130,7 +149,7 @@ const WordCloudDisplay = () => {
         <Button title='>' />
       </View>
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
     </SafeAreaView>
   );
@@ -145,4 +164,20 @@ export {
   WordCloudDisplay,
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F6EFED',
+  },
+  avatar: {
+    width: 75,
+    height: 75,
+    marginRight: 24,
+  },
+  buttons: {
+    marginTop: 10,
+    marginBottom: 10,
+    width: 100,
+    height: 50,
+  },
+});

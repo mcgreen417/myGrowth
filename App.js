@@ -14,6 +14,14 @@ import {
   UserInitializationPage3,
 } from './app/userinit/screens/UserInitializationPage';
 import HomePage from './app/home/screens/Home';
+import PlantShop from './app/home/screens/PlantShop';
+import CustomizePlant from './app/home/screens/CustomizePlant';
+import { Journal } from './app/journal/screens/Journal';
+import { Goals } from './app/goals/screens/Goals';
+import { HealthEntry1 } from './app/healthentry/screens/HealthEntry';
+import { ToDoList } from './app/todolist/screens/ToDoList';
+import { HistoryHealthEntries } from './app/history/screens/History';
+import AccountPanel from './app/account/screens/AccountPanel';
 
 const Stack = createStackNavigator();
 
@@ -46,6 +54,17 @@ export default function App() {
           component={UserInitializationPage3}
         />
         <Stack.Screen name='HomePage' component={HomePage} />
+        <Stack.Screen name='PlantShop' component={PlantShop} />
+        <Stack.Screen name='CustomizePlant' component={CustomizePlant} />
+        <Stack.Screen name='Journal' component={Journal} />
+        <Stack.Screen name='GoalsPage' component={Goals} />
+        <Stack.Screen name='HealthEntry1' component={HealthEntry1} />
+        <Stack.Screen name='ToDoList' component={ToDoList} />
+        <Stack.Screen
+          name='HistoryHealthEntries'
+          component={HistoryHealthEntries}
+        />
+        <Stack.Screen name='AccountPanel' component={AccountPanel} />
       </Stack.Navigator>
     </NavigationContainer>
   );

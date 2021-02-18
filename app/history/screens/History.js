@@ -9,28 +9,35 @@ import {
   Switch,
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import NavBar from '../../shared/components/NavBar';
 
 const CategoryChooser = () => {
   return <View>{/* add category chooser modal here */}</View>;
 };
 
-const HistoryHealthEntries = () => {
+const HistoryHealthEntries = ({ navigation }) => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <View>
         <Text>
           View an easily digestable summary of your health entry histor! View
           your individual health entries below or select a category to get
           started!
         </Text>
-        <Image source={require('../../assets/icon.png')} />
+        <Image
+          source={require('../../shared/assets/icon.png')}
+          style={styles.avatar}
+        />
       </View>
       <View>
         <Button title='Categories' />
         <Button title='History' />
       </View>
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image
+          source={require('../../shared/assets/icon.png')}
+          style={styles.avatar}
+        />
       </View>
       <View>
         <Text>
@@ -40,6 +47,7 @@ const HistoryHealthEntries = () => {
         </Text>
         <Button title='Search for Correlations' />
       </View>
+      <NavBar history={true} navigation={navigation} />
     </SafeAreaView>
   );
 };
@@ -52,7 +60,7 @@ const HistoryMood = () => {
           View your mood history and easily visualize changes in your mood over
           time, alongside potential causes for these changes.
         </Text>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Button title='History' />
@@ -60,7 +68,7 @@ const HistoryMood = () => {
         <Button title='Categories' />
       </View>
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Text>TIME PERIOD</Text>
@@ -101,7 +109,7 @@ const HistoryStress = () => {
           View your stress level history and easily visualize changes in your
           stress levels over time, alongside potential causes for these changes.
         </Text>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Button title='History' />
@@ -109,7 +117,7 @@ const HistoryStress = () => {
         <Button title='Categories' />
       </View>
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Text>TIME PERIOD</Text>
@@ -150,7 +158,7 @@ const HistoryDailyActivities1 = () => {
           View your stress level history and easily visualize changes in your
           stress levels over time, alongside potential causes for these changes.
         </Text>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Button title='History' />
@@ -159,7 +167,7 @@ const HistoryDailyActivities1 = () => {
         <Button title='Categories' />
       </View>
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Text>TIME PERIOD</Text>
@@ -209,7 +217,7 @@ const HistoryPeriodTracking = () => {
           View your period history and our predictions for your upcoming period.
           Predictions based on info from your health entries.
         </Text>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Button title='History' />
@@ -217,7 +225,7 @@ const HistoryPeriodTracking = () => {
         <Button title='Categories' />
       </View>
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <PeriodPrediction />
@@ -241,7 +249,7 @@ const HistoryWeight = () => {
           View a history of your changes in weight over time and receive calorie
           and exercise recommendations.
         </Text>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Button title='History' />
@@ -249,7 +257,7 @@ const HistoryWeight = () => {
         <Button title='Categories' />
       </View>
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Text>TIME PERIOD</Text>
@@ -286,7 +294,7 @@ const HistoryGeneralHealth1 = () => {
           View an easily digestable summary of your physical and mental health
           history!
         </Text>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Button title='History' />
@@ -295,7 +303,7 @@ const HistoryGeneralHealth1 = () => {
         <Button title='Categories' />
       </View>
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Text>TIME PERIOD</Text>
@@ -358,7 +366,7 @@ const HistoryMedication = () => {
           View your medication history and our predictions for potential effects
           stemming from your medication.
         </Text>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Button title='History' />
@@ -366,7 +374,7 @@ const HistoryMedication = () => {
         <Button title='Categories' />
       </View>
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Text>SELECT MEDICATION</Text>
@@ -410,7 +418,7 @@ const HistorySleep1 = () => {
           View your sleep history and our analysis of activities that may have a
           measurable effect on your duration or quality of sleep.
         </Text>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Button title='History' />
@@ -419,7 +427,7 @@ const HistorySleep1 = () => {
         <Button title='Categories' />
       </View>
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <View>
@@ -499,7 +507,7 @@ const HistoryMealTracking = () => {
           View your meal history and our analysis of the potential effects of
           your eating havits. Check how much you've been eating recently!
         </Text>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Button title='History' />
@@ -507,7 +515,7 @@ const HistoryMealTracking = () => {
         <Button title='Categories' />
       </View>
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <View>
@@ -611,4 +619,20 @@ export {
   HistoryFitness2,
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F6EFED',
+  },
+  avatar: {
+    width: 75,
+    height: 75,
+    marginRight: 24,
+  },
+  buttons: {
+    marginTop: 10,
+    marginBottom: 10,
+    width: 100,
+    height: 50,
+  },
+});

@@ -13,10 +13,10 @@ const PlantShop = () => {
     <SafeAreaView>
       <View>
         <Text>Select an item and check out how it looks!</Text>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <StoreItems />

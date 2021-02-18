@@ -13,10 +13,10 @@ const CustomizePlant = () => {
     <SafeAreaView>
       <View>
         <Text>Select and item to change your palnt's appearance!</Text>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
-        <Image source={require('../../assets/icon.png')} />
+        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Button title='item1' />
