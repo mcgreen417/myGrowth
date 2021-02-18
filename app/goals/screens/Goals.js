@@ -9,18 +9,12 @@ import {
   Pressable,
   Alert,
 } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
 import NavBar from '../../shared/components/NavBar';
 
 const Goal = ({ title, description, type }) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   return (
     <View style={{ flexDirection: 'row' }}>
-      <CheckBox
-        disabled={false}
-        value={toggleCheckBox}
-        onValueChange={(newValue) => setToggleCheckBox(newValue)}
-      />
       <Text>{title}</Text>
       <Button title='X' />
     </View>

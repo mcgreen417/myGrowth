@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import 'crypto-js/lib-typedarrays';
 import { Auth, API } from 'aws-amplify';
 import {
   StyleSheet,
@@ -57,7 +58,7 @@ function LoginPage({ navigation }) {
           <TextInput
             style={styles.textInput}
             placeholder='Password'
-            secureTextEntry={true}
+            // secureTextEntry={true}
             value={password}
             onChangeText={(password) => {
               setPassword(password);
