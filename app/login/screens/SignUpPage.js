@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Auth, API } from 'aws-amplify';
 import {
   StyleSheet,
   Text,
@@ -12,6 +13,10 @@ import {
 } from 'react-native';
 
 function SignUpPage({ navigation }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
@@ -42,26 +47,50 @@ function SignUpPage({ navigation }) {
         </Text>
         {/* Username, e-mail address, password, confirm password entry boxes + signup button */}
         <View style={styles.buttons}>
-          <TextInput style={styles.textInput} placeholder='Username' />
+          <TextInput
+            style={styles.textInput}
+            placeholder='Username'
+            value={username}
+            onChangeText={(username) => {
+              setUsername(username);
+            }}
+          />
           <View style={{ marginVertical: 8 }} />
-          <TextInput style={styles.textInput} placeholder='E-mail Address' />
+          <TextInput
+            style={styles.textInput}
+            placeholder='E-mail Address'
+            value={email}
+            onChangeText={(email) => {
+              setEmail(email);
+            }}
+          />
           <View style={{ marginVertical: 8 }} />
           <TextInput
             style={styles.textInput}
             placeholder='Password'
             secureTextEntry={true}
+            value={password}
+            onChangeText={(password) => {
+              setPassword(password);
+            }}
           />
           <View style={{ marginVertical: 8 }} />
           <TextInput
             style={styles.textInput}
             placeholder='Confirm Password'
             secureTextEntry={true}
+            value={confirmPassword}
+            onChangeText={(confirmPassword) => {
+              setConfirmPassword(confirmPassword);
+            }}
           />
           <View style={{ marginVertical: 8 }} />
           <Button
             title='SIGN UP'
             color='#A5DFB2'
-            onPress={() => navigation.navigate('UserInitializationPage1')}
+            onPress={() =>
+              signUp(username, email, password, confirmPassword, navigation)
+            }
           />
           <View style={{ marginVertical: 8 }} />
         </View>
@@ -101,6 +130,25 @@ function SignUpPage({ navigation }) {
       </View>
     </SafeAreaView>
   );
+}
+
+async function signUp(username, email, password, confirmPassword, navigation) {
+  try {
+    if (password != confirmPassword) {
+      throw 'Password and Confirm Password are not the same';
+    }
+    const { user } = await Auth.signUp({
+      username,
+      password,
+      attributes: {
+        email,
+      },
+    });
+    // console.log(user);
+    navigation.navigate('VerificationCodePage', { username: username });
+  } catch (error) {
+    console.log('error signing up', error);
+  }
 }
 
 const styles = StyleSheet.create({

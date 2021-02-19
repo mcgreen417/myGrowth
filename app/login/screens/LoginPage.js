@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import 'crypto-js/lib-typedarrays';
 import { Auth, API } from 'aws-amplify';
 import {
   StyleSheet,
@@ -58,7 +57,7 @@ function LoginPage({ navigation }) {
           <TextInput
             style={styles.textInput}
             placeholder='Password'
-            // secureTextEntry={true}
+            secureTextEntry={true}
             value={password}
             onChangeText={(password) => {
               setPassword(password);
@@ -123,11 +122,11 @@ function LoginPage({ navigation }) {
 async function signIn(username, pw, navigation) {
   try {
     await signOut(); // This is to clear any tokens saved when debugging
-    console.log(username);
-    console.log(pw);
+    // console.log(username);
+    // console.log(pw);
     const user = await Auth.signIn(username, pw);
-    console.log(user);
-    await testQuery(user.username);
+    // console.log(user);
+    // await testQuery(user.username);
     navigation.navigate('UserInitializationPage1');
   } catch (error) {
     console.log('error signing in', error);

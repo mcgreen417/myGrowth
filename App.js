@@ -28,6 +28,7 @@ import GenerateReport from './app/account/screens/GenerateReport';
 import Amplify, { Auth } from 'aws-amplify';
 import awsconfig from './app/shared/config/aws-exports';
 import { Authenticator } from 'aws-amplify-react-native/dist/Auth';
+import VerificationCodePage from './app/login/screens/VerificationCode';
 Amplify.configure(awsconfig);
 
 const Stack = createStackNavigator();
@@ -44,6 +45,11 @@ export default function App() {
         <Stack.Screen
           name='SignUpPage'
           component={SignUpPage}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='VerificationCodePage'
+          component={VerificationCodePage}
           options={{ header: () => null }}
         />
         <Stack.Screen
