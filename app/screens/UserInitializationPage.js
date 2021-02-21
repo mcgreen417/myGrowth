@@ -135,7 +135,7 @@ function UserInitializationPage({ navigation }) {
             <TextInput style={styles.textInput2} placeholder='#' />
             <Text>IN</Text>
             <ToggleButton
-              icon = {useHeightMeasurement ? "bluetooth" : "alarm"}
+              icon = {useHeightMeasurement ? require('../assets/toggle_on.png') : require('../assets/toggle_off.png')}
               value="heightMeasurement"
               status = {useHeightMeasurement ? 'checked' : 'unchecked'}
               onPress= {toggleHeightMeasurement}
@@ -149,7 +149,7 @@ function UserInitializationPage({ navigation }) {
             <TextInput style={styles.textInput2} placeholder='#' />
             <Text>LBS</Text>
             <ToggleButton
-              icon = {useWeightMeasurement ? "bluetooth" : "alarm"}
+              icon = {useWeightMeasurement ? require('../assets/toggle_on.png') : require('../assets/toggle_off.png')}
               value="weightMeasurement"
               status = {useWeightMeasurement ? 'checked' : 'unchecked'}
               onPress= {toggleWeightMeasurement}
