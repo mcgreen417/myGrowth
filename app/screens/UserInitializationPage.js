@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Button,
   Image,
@@ -11,43 +11,97 @@ import {
   View, 
 } from 'react-native';
 
+import { Picker } from '@react-native-picker/picker';
+import { ScrollView } from 'react-native-gesture-handler';
+
 function UserInitializationPage({ navigation }) {
+  const [gender, setGender] = useState('unselected');
+  const [bioSex, setBioSex] = useState('unselected');
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
-      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-        {/* Gardener avatar + page blurb */}
-        <View style={styles.avatarView}>
-          <Image style={styles.avatar} source={require('../assets/gardener-avatar.png')} />
-          <Text style={styles.pageDescription}>
-            Welcome to myGrowth! Let’s initialize{"\n"} 
-            your account. First, please answer a{"\n"} 
-            few questions about yourself.
-          </Text>
-        </View>
-        {/* Top page divider */}
-        <View style={styles.dividerView}>
-          <View style={styles.divider} />
-        </View>
-        {/* User selection section */}
-          {/* First name user input entry */}
-          {/* Date of birth calendar pop-up */}
-          {/* Gender drop-down */}
-          {/* Biological sex drop-down */}
-          {/* Height user input entry + cm switch button */}
-          {/* Weight user input entry + kgs switch button */}
+      <ScrollView>
+        <View style={{ justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+          
+          {/* Gardener avatar + page blurb */}
+          <View style={styles.avatarView}>
+            <Image style={styles.avatar} source={require('../assets/gardener-avatar.png')} />
+            <Text style={styles.pageDescription}>
+              Welcome to myGrowth! Let’s initialize{"\n"} 
+              your account. First, please answer a{"\n"} 
+              few questions about yourself.
+            </Text>
+          </View>
+          {/* Top page divider */}
+          <View style={styles.dividerView}>
+            <View style={styles.divider} />
+          </View>
 
-        {/* Delete later, temp link for working */}
-        <TouchableOpacity onPress={() => navigation.navigate('AccountPanelPage')}>
-          <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>Account Panel</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('SettingsPage')}>
-          <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>Settings</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('GenReportPage')}>
-          <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>Generate Report</Text>
-        </TouchableOpacity>
-      </View>
+          {/* First name user input entry */}
+          <Text style={styles.heading}>FIRST NAME</Text>
+          <View style={styles.userPrompt}>
+            <TextInput style={styles.textInput} placeholder='First name' />
+          </View>
+
+          {/* Date of birth calendar pop-up */}
+          <Text style={styles.heading}>DATE OF BIRTH</Text>
+          
+          {/* Gender drop-down */}
+          <Text style={styles.heading}>GENDER</Text>
+          <View style={{ width: '90%' }}>
+            <View style={styles.pickerView}>
+              <Picker
+                selectedValue={gender}
+                style={styles.picker}
+                onValueChange={(itemValue, itemIndex) => setGender(itemValue)}>
+                <Picker.Item label='Select one...' value='unselected' />
+                <Picker.Item label='Male' value='male' />
+                <Picker.Item label='Female' value='female' />
+                <Picker.Item label='Non-binary' value='nonbinary' />
+                <Picker.Item label='Other' value='other' />
+                <Picker.Item label='Prefer not to answer' value='noAnswer' />
+              </Picker>
+            </View>
+          </View>
+
+          {/* Biological sex drop-down */}
+          <Text style={styles.heading}>BIOLOGICAL SEX</Text>
+          <View style={{ width: '90%' }}>
+            <View style={styles.pickerView}>
+              <Picker
+                selectedValue={bioSex}
+                style={styles.picker}
+                onValueChange={(itemValue, itemIndex) => setBioSex(itemValue)}>
+                <Picker.Item label='Select one...' value='unselected' />
+                <Picker.Item label='Male' value='male' />
+                <Picker.Item label='Female' value='female' />
+              </Picker>
+            </View>
+          </View>
+
+          {/* Height user input entry + cm switch button */}
+          <Text style={styles.heading}>HEIGHT</Text>
+          <View style={styles.userPrompt}>
+            <TextInput style={styles.textInput2} placeholder='#' />
+          </View>
+
+          {/* Weight user input entry + kgs switch button */}
+          <Text style={styles.heading}>WEIGHT</Text>
+          <View style={styles.userPrompt}>
+            <TextInput style={styles.textInput2} placeholder='#' />
+          </View>
+
+          {/* Next button */}
+          <View style={styles.buttonsContainer}>
+            <View style={styles.buttons}>
+              <Button title='NEXT' color='#A5DFB2' onPress={ () => signIn() } />
+            </View>
+          </View>
+
+          <View style={styles.pageEnd}/>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -68,10 +122,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttons: {
-    marginTop: 10,
     marginBottom: 10,
-    width: 100,
-    height: 50,
+    width: '20%',
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+    width: '90%',
   },
   divider: {
     flex: 1, 
@@ -86,10 +144,66 @@ const styles = StyleSheet.create({
     marginTop: 20, 
     marginBottom: 20,
   },
+  heading: {
+    color: '#816868',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'left',
+    marginBottom: 10,
+    width: '90%',
+  },
+  text: {
+    color: 'black',
+    textDecorationLine: 'none',
+    textAlign: 'left',
+  },
   pageDescription: {
     color: '#816868', 
-    fontSize: 16
+    fontSize: 16,
   },
+  pageEnd: {
+    marginBottom: 10,
+  },
+  picker: {
+    height: 32, 
+    width: '100%',
+  },
+  pickerView: {
+    borderWidth: 1, 
+    marginBottom: 20,
+    flexDirection: 'row', 
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    width: '70%',
+    backgroundColor: '#f4f3f4',
+  },
+  textInput: {
+    height: 40,
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 4,
+    backgroundColor: '#f4f3f4',
+    color: '#000000',
+    width: '70%',
+    paddingLeft: 10,
+    fontSize: 16,
+  },
+  textInput2: {
+    height: 36,
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 4,
+    backgroundColor: '#f4f3f4',
+    color: '#000000',
+    width: '12%',
+    textAlign: 'center',
+    fontSize: 16,
+  },
+  userPrompt: {
+    marginBottom: 20,
+    width: '90%',
+    borderColor: 'black',
+  }
 });
 
 export default UserInitializationPage;

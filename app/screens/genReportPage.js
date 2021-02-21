@@ -376,6 +376,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     width: '60%',
+    backgroundColor: '#f4f3f4',
   },
   switchView: {
     flex: 1, 
