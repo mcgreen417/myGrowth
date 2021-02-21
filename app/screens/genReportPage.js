@@ -14,7 +14,7 @@ import {
 import { Picker } from '@react-native-picker/picker';
 import { ScrollView } from 'react-native-gesture-handler';
 
-function genReportPage({ navigation }) {
+function GenReportPage({ navigation }) {
   const [time, setTime] = useState('unselected');
   
   const [useMoodNFeel, setUseMoodNFeel] = useState(false);
@@ -386,4 +386,4 @@ const styles = StyleSheet.create({
   }
 });
   
-  export default genReportPage;
+  export default GenReportPage;

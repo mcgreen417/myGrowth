@@ -8,15 +8,44 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Platform,
   View, 
 } from 'react-native';
 
+import { ToggleButton } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
 import { ScrollView } from 'react-native-gesture-handler';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 function UserInitializationPage({ navigation }) {
+  const [date, setDate] = useState(new Date(1598051730000));
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
   const [gender, setGender] = useState('unselected');
   const [bioSex, setBioSex] = useState('unselected');
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'android');
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
+  const [useHeightMeasurement, setUseHeightMeasurement] = useState(false);
+    const toggleHeightMeasurement = () =>
+      setUseHeightMeasurement((previousState) => !previousState);
+
+  const [useWeightMeasurement, setUseWeightMeasurement] = useState(false);
+  const toggleWeightMeasurement = () =>
+    setUseWeightMeasurement((previousState) => !previousState);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -46,6 +75,26 @@ function UserInitializationPage({ navigation }) {
 
           {/* Date of birth calendar pop-up */}
           <Text style={styles.heading}>DATE OF BIRTH</Text>
+          <View>
+            <TouchableOpacity onPress={showDatepicker}>
+              <View style={styles.inlineRow}>
+                <View style={styles.iconView}>
+                  <Image source={require('../assets/baseline_event_black_18dp.png')} />
+                </View>
+                <Text>MM/DD/YYYY</Text>
+              </View>
+            </TouchableOpacity>
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode={mode}
+                is24Hour={true}
+                display="default"
+                onChange={onChange}
+              />
+            )}
+          </View>
           
           {/* Gender drop-down */}
           <Text style={styles.heading}>GENDER</Text>
@@ -84,12 +133,28 @@ function UserInitializationPage({ navigation }) {
           <Text style={styles.heading}>HEIGHT</Text>
           <View style={styles.userPrompt}>
             <TextInput style={styles.textInput2} placeholder='#' />
+            <Text>IN</Text>
+            <ToggleButton
+              icon = {useHeightMeasurement ? "bluetooth" : "alarm"}
+              value="heightMeasurement"
+              status = {useHeightMeasurement ? 'checked' : 'unchecked'}
+              onPress= {toggleHeightMeasurement}
+            />
+            <Text>CM</Text>
           </View>
 
           {/* Weight user input entry + kgs switch button */}
           <Text style={styles.heading}>WEIGHT</Text>
           <View style={styles.userPrompt}>
             <TextInput style={styles.textInput2} placeholder='#' />
+            <Text>LBS</Text>
+            <ToggleButton
+              icon = {useWeightMeasurement ? "bluetooth" : "alarm"}
+              value="weightMeasurement"
+              status = {useWeightMeasurement ? 'checked' : 'unchecked'}
+              onPress= {toggleWeightMeasurement}
+            />
+            <Text>KG</Text>
           </View>
 
           {/* Next button */}

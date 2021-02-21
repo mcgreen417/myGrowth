@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
-function settingsPage({ navigation }) {
+function SettingsPage({ navigation }) {
     const [useStressLevels, setUseStressLevels] = useState(false);
     const toggleStressLevels = () =>
       setUseStressLevels((previousState) => !previousState);
@@ -412,4 +412,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default settingsPage;
+export default SettingsPage;
