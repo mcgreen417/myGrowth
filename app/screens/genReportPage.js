@@ -8,12 +8,11 @@ import {
   StatusBar,
   Switch,
   Button,
-  FlatList,
 } from 'react-native';
 
 import { Picker } from '@react-native-picker/picker';
 
-function genReportPage({ navigation }) {
+function GenReportPage({ navigation }) {
     const [gender, setGender] = useState('unselected');
     
     const [useMoodNFeel, setUseMoodNFeel] = useState(false);
@@ -31,10 +30,6 @@ function genReportPage({ navigation }) {
     const [useMentalPhysical, setUseMentalPhysical] = useState(false);
     const toggleMentalPhysical = () =>
         setUseMentalPhysical((previousState) => !previousState);
-    
-    const [useWeightTracking, setWeightTracking] = useState(false);
-    const toggleWeightTracking = () =>
-      setUseWeightTracking((previousState) => !previousState);
     
     const [usePeriodTracking, setUsePeriodTracking] = useState(false);
     const togglePeriodTracking = () =>
@@ -273,4 +268,4 @@ const styles = StyleSheet.create({
     }
   });
   
-  export default genReportPage;
+  export default GenReportPage;

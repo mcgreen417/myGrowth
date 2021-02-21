@@ -34,7 +34,7 @@ function LoginPage({ navigation }) {
         <View style={{ flexDirection: 'row' }}>
           <Text style={{ color: '#816868' }}>Don't have an account? </Text>
           {/* FOR TESTING ONLY REMEMBER TO CHANGE LATER */}
-          <TouchableOpacity onPress={() => navigation.navigate('SignUpPage')}>
+          <TouchableOpacity onPress={() => navigation.navigate('HistoryPage')}>
             <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>Sign up here.</Text>
           </TouchableOpacity>
         </View>

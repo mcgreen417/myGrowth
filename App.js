@@ -11,8 +11,21 @@ import PasswordResetVerificationPage from './app/screens/PasswordResetVerificati
 import ResetPasswordPage from './app/screens/ResetPasswordPage';
 import UserInitializationPage from './app/screens/UserInitializationPage';
 import AccountPanelPage from  './app/screens/AccountPanelPage';
-import settingsPage from './app/screens/settingsPage';
-import genReportPage from './app/screens/genReportPage'
+import SettingsPage from './app/screens/SettingsPage';
+import GenReportPage from './app/screens/GenReportPage';
+import {
+        HistoryPage,
+        HistoryMoodPage,
+        HistoryStressPage,
+        HistoryDailyActPage,
+        HistoryPeriodPage,
+        HistoryWeightPage,
+        HistoryGenHealthPage,
+        HistoryMedicationPage,
+        HistorySleepPage,
+        HistoryMealTrackPage,
+        HistoryFitnessPage,
+} from './app/screens/HistoryPages/HistoryPage';
 
 import Amplify, { Auth } from 'aws-amplify';
 import awsconfig from './aws-exports';
@@ -33,8 +46,19 @@ function App() {
         <Stack.Screen name='ResetPasswordPage' component={ResetPasswordPage} options={{ headerShown: false }} />
         <Stack.Screen name='UserInitializationPage' component={UserInitializationPage} options={{ headerShown: false }} />
         <Stack.Screen name='AccountPanelPage' component={AccountPanelPage} options={{ headerShown: false }} />
-        <Stack.Screen name='settingsPage' component={settingsPage} options={{ headerShown: false }} />
-        <Stack.Screen name='genReportPage' component={genReportPage} options={{ headerShown: false }} />
+        <Stack.Screen name='SettingsPage' component={SettingsPage} options={{ headerShown: false }} />
+        <Stack.Screen name='GenReportPage' component={GenReportPage} options={{ headerShown: false }} />
+        <Stack.Screen name='HistoryPage' component={HistoryPage} options={{ headerShown: false }}/>
+        <Stack.Screen name='HistoryMoodPage' component={HistoryMoodPage} options={{ headerShown: false }}/>
+        <Stack.Screen name='HistoryStressPage' component={HistoryStressPage} options={{ headerShown: false }}/>
+        <Stack.Screen name='HistoryDailyActPage' component={HistoryDailyActPage} options={{ headerShown: false }}/>
+        <Stack.Screen name='HistoryPeriodPage' component={HistoryPeriodPage} options={{ headerShown: false }}/>
+        <Stack.Screen name='HistoryWeightPage' component={HistoryWeightPage} options={{ headerShown: false }}/>
+        <Stack.Screen name='HistoryGenHealthPage' component={HistoryGenHealthPage} options={{ headerShown: false }}/>
+        <Stack.Screen name='HistoryMedicationPage' component={HistoryMedicationPage} options={{ headerShown: false }}/>
+        <Stack.Screen name='HistorySleepPage' component={HistorySleepPage} options={{ headerShown: false }}/>
+        <Stack.Screen name='HistoryMealTrackPage' component={HistoryMealTrackPage} options={{ headerShown: false }}/>
+        <Stack.Screen name='HistoryFitnessPage' component={HistoryFitnessPage} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

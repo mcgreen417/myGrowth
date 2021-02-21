@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-function settingsPage({ navigation }) {
+function SettingsPage({ navigation }) {
     const [useStressLevels, setUseStressLevels] = useState(false);
     const toggleStressLevels = () =>
       setUseStressLevels((previousState) => !previousState);
@@ -282,4 +282,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default settingsPage;
+export default SettingsPage;
