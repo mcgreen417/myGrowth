@@ -78,7 +78,7 @@ function settingsPage({ navigation }) {
               <View style={styles.switchView}>
                 <View style={styles.line2}/>
                 <Switch
-                  trackColor={{ false: '#9AD2AF', true: '#9AD2AF' }}
+                  trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
                   thumbColor={usePinReq ? '#4CB97A' : '#f4f3f4'}
                   ios_backgroundColor='#3e3e3e'
                   onValueChange={togglePinReq}
@@ -92,7 +92,7 @@ function settingsPage({ navigation }) {
             <View style={styles.inlineRow}>
               <TouchableOpacity 
                 style={styles.buttons} 
-                onPress= { () => navigation.navigate('settingsPage')}>
+                onPress= { () => navigation.navigate('SettingsPage')}>
                   <View style={styles.inlineRow}>
                     <Text style={styles.text}>Set User PIN</Text>
                     <View style={styles.iconView}>
@@ -107,7 +107,7 @@ function settingsPage({ navigation }) {
             <View style={styles.inlineRow}>
               <TouchableOpacity 
                 style={styles.buttons} 
-                onPress= { () => navigation.navigate('settingsPage')}>
+                onPress= { () => navigation.navigate('SettingsPage')}>
                 <View style={styles.inlineRow}>
                   <Text style={styles.text}>Change Password</Text>
                   <View style={styles.iconView}>
@@ -122,7 +122,7 @@ function settingsPage({ navigation }) {
             <View style={styles.inlineRow}>
               <TouchableOpacity 
                 style={styles.buttons} 
-                onPress= { () => navigation.navigate('settingsPage')}>
+                onPress= { () => navigation.navigate('SettingsPage')}>
                 <View style={styles.inlineRow}>
                   <Text style={styles.text}>Change Email</Text>
                   <View style={styles.iconView}>
@@ -137,7 +137,7 @@ function settingsPage({ navigation }) {
             <View style={styles.inlineRow}>
               <TouchableOpacity 
                 style={styles.buttons} 
-                onPress= { () => navigation.navigate('settingsPage')}>
+                onPress= { () => navigation.navigate('LinkAccountPage')}>
                 <View style={styles.inlineRow}>
                   <Text style={styles.text}>Link Your Account</Text>
                   <View style={styles.iconView}>
@@ -157,7 +157,7 @@ function settingsPage({ navigation }) {
             <View style={styles.inlineRow}>
               <TouchableOpacity 
                 style={styles.buttons} 
-                onPress= { () => navigation.navigate('settingsPage')}>
+                onPress= { () => navigation.navigate('ProfilePage')}>
                 <View style={styles.inlineRow}>
                   <Text style={styles.text}>Personal Profile</Text>
                   <View style={styles.iconView}>
@@ -172,7 +172,7 @@ function settingsPage({ navigation }) {
             <View style={styles.inlineRow}>
               <TouchableOpacity 
                 style={styles.buttons} 
-                onPress= { () => navigation.navigate('settingsPage')}>
+                onPress= { () => navigation.navigate('AvatarSelectPage')}>
                 <View style={styles.inlineRow}>
                   <Text style={styles.text}>Change Gardener Avatar</Text>
                   <View style={styles.iconView}>
@@ -194,7 +194,7 @@ function settingsPage({ navigation }) {
               <View style={styles.switchView}>
                 <View style={styles.line2}/>
                 <Switch
-                  trackColor={{ false: '#9AD2AF', true: '#9AD2AF' }}
+                  trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
                   thumbColor={useStressLevels ? '#4CB97A' : '#f4f3f4'}
                   ios_backgroundColor='#3e3e3e'
                   onValueChange={toggleStressLevels}
@@ -210,7 +210,7 @@ function settingsPage({ navigation }) {
               <View style={styles.switchView}>
                 <View style={styles.line2}/>
                 <Switch
-                  trackColor={{ false: '#9AD2AF', true: '#9AD2AF' }}
+                  trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
                   thumbColor={useDailyActivities ? '#4CB97A' : '#f4f3f4'}
                   ios_backgroundColor='#3e3e3e'
                   onValueChange={toggleDailyActivities}
@@ -226,7 +226,7 @@ function settingsPage({ navigation }) {
               <View style={styles.switchView}>
                 <View style={styles.line2}/>
                 <Switch
-                  trackColor={{ false: '#9AD2AF', true: '#9AD2AF' }}
+                  trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
                   thumbColor={useWeightTracking ? '#4CB97A' : '#f4f3f4'}
                   ios_backgroundColor='#3e3e3e'
                   onValueChange={toggleWeightTracking}
@@ -242,7 +242,7 @@ function settingsPage({ navigation }) {
               <View style={styles.switchView}>
                 <View style={styles.line2}/>
                 <Switch
-                  trackColor={{ false: '#9AD2AF', true: '#9AD2AF' }}
+                  trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
                   thumbColor={usePeriodTracking ? '#4CB97A' : '#f4f3f4'}
                   ios_backgroundColor='#3e3e3e'
                   onValueChange={togglePeriodTracking}
@@ -258,7 +258,7 @@ function settingsPage({ navigation }) {
               <View style={styles.switchView}>
                 <View style={styles.line2}/>
                 <Switch
-                  trackColor={{ false: '#9AD2AF', true: '#9AD2AF' }}
+                  trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
                   thumbColor={useMedicationTracking ? '#4CB97A' : '#f4f3f4'}
                   ios_backgroundColor='#3e3e3e'
                   onValueChange={toggleMedicationTracking}
@@ -274,7 +274,7 @@ function settingsPage({ navigation }) {
               <View style={styles.switchView}>
                 <View style={styles.line2}/>
                 <Switch
-                  trackColor={{ false: '#9AD2AF', true: '#9AD2AF' }}
+                  trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
                   thumbColor={useSleepTracking ? '#4CB97A' : '#f4f3f4'}
                   ios_backgroundColor='#3e3e3e'
                   onValueChange={toggleSleepTracking}
@@ -290,7 +290,7 @@ function settingsPage({ navigation }) {
               <View style={styles.switchView}>
                 <View style={styles.line2}/>
                 <Switch
-                  trackColor={{ false: '#9AD2AF', true: '#9AD2AF' }}
+                  trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
                   thumbColor={useMealTracking ? '#4CB97A' : '#f4f3f4'}
                   ios_backgroundColor='#3e3e3e'
                   onValueChange={toggleMealTracking}
@@ -306,7 +306,7 @@ function settingsPage({ navigation }) {
               <View style={styles.switchView}>
                 <View style={styles.line2}/>
                 <Switch
-                  trackColor={{ false: '#9AD2AF', true: '#9AD2AF' }}
+                  trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
                   thumbColor={useFitnessTracking ? '#4CB97A' : '#f4f3f4'}
                   ios_backgroundColor='#3e3e3e'
                   onValueChange={toggleFitnessTracking}
@@ -373,10 +373,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column', 
     justifyContent: 'center', 
     alignItems: 'flex-end',
-  },
-  info: {
-    color: 'black',
-    fontSize: 18,
   },
   line: {
     width: '90%',
