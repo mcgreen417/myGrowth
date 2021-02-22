@@ -10,6 +10,8 @@ import {
   TouchableOpacity,
   Platform,
   View,
+  FlatList,
+  Switch,
 } from 'react-native';
 
 import { ToggleButton } from 'react-native-paper';
