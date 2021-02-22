@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Auth, API } from 'aws-amplify';
 import {
   StyleSheet,
   Text,
@@ -11,7 +12,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-function ResetPasswordPage({ navigation }) {
+function VerificationCodePage({ route, navigation }) {
+  const [verificationCode, setVerificationCode] = useState('');
+  const { username } = route.params;
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
@@ -43,32 +46,44 @@ function ResetPasswordPage({ navigation }) {
         <Text
           style={{ color: '#816868', marginBottom: 12, textAlign: 'center' }}
         >
-          You may now reset your password.{'\n'}
-          Enter your new password below.
+          A verification code has been sent to your e-mail.{'\n'}
+          Enter the verification code you received below.
         </Text>
-        {/* New password + confirm password buttons, submit button */}
+        {/* verification code text entry + verify button */}
         <View style={styles.buttons}>
           <TextInput
             style={styles.textInput}
-            placeholder='New Password'
-            secureTextEntry={true}
-          />
-          <View style={{ marginVertical: 8 }} />
-          <TextInput
-            style={styles.textInput}
-            placeholder='Confirm New Password'
-            secureTextEntry={true}
+            placeholder='Verification Code'
+            value={verificationCode}
+            onChangeText={(verificationCode) => {
+              setVerificationCode(verificationCode);
+            }}
           />
           <View style={{ marginVertical: 8 }} />
           <Button
-            title='SUBMIT'
+            title='VERIFY'
             color='#A5DFB2'
-            onPress={() => navigation.navigate('LoginPage')}
+            onPress={() => verify(username, verificationCode, navigation)}
           />
           <View style={{ marginVertical: 8 }} />
         </View>
+        {/* Resend verification code */}
+        <View>
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={{ color: '#816868' }}>
+              Didn't receive a verification code?{' '}
+            </Text>
+            <TouchableOpacity onPress={() => resend(username)}>
+              <Text
+                style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}
+              >
+                Resend e-mail.
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
         {/* Login page redirect */}
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: 'row', marginTop: 8 }}>
           <TouchableOpacity onPress={() => navigation.navigate('LoginPage')}>
             <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>
               Return to login.
@@ -78,6 +93,25 @@ function ResetPasswordPage({ navigation }) {
       </View>
     </SafeAreaView>
   );
+}
+
+async function verify(username, code, navigation) {
+  try {
+    await Auth.confirmSignUp(username, code);
+    // console.log('confirm signup successfully');
+    navigation.navigate('LoginPage');
+  } catch (error) {
+    console.log('error signing up', error);
+  }
+}
+
+async function resend(username) {
+  try {
+    await Auth.resendSignUp(username);
+    // console.log('code resent successfully');
+  } catch (error) {
+    console.log('error signing up', error);
+  }
 }
 
 const styles = StyleSheet.create({
@@ -106,4 +140,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ResetPasswordPage;
+export default VerificationCodePage;
