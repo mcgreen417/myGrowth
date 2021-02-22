@@ -33,7 +33,7 @@ Amplify.configure(awsconfig);
 
 const Stack = createStackNavigator();
 
-export default function App() {
+function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='StartPage'>
@@ -146,3 +146,5 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+export default App;
