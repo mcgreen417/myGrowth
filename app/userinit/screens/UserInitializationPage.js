@@ -1,110 +1,199 @@
 import React, { useState } from 'react';
 import {
+  Button,
+  Image,
+  SafeAreaView,
+  StatusBar,
   StyleSheet,
   Text,
-  View,
-  SafeAreaView,
-  Image,
-  Button,
-  FlatList,
-  Switch,
   TextInput,
+  TouchableOpacity,
+  Platform,
+  View,
 } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { Picker } from '@react-native-picker/picker';
 
-const UserInitializationPage1 = ({ navigation }) => {
+import { ToggleButton } from 'react-native-paper';
+import { Picker } from '@react-native-picker/picker';
+import { ScrollView } from 'react-native-gesture-handler';
+import DateTimePicker from '@react-native-community/datetimepicker';
+
+function UserInitializationPage1({ navigation }) {
+  const [date, setDate] = useState(new Date(1598051730000));
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
   const [gender, setGender] = useState('unselected');
-  const [sex, setSex] = useState('unselected');
+  const [bioSex, setBioSex] = useState('unselected');
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'android');
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
+  const [useHeightMeasurement, setUseHeightMeasurement] = useState(false);
+  const toggleHeightMeasurement = () =>
+    setUseHeightMeasurement((previousState) => !previousState);
+
+  const [useWeightMeasurement, setUseWeightMeasurement] = useState(false);
+  const toggleWeightMeasurement = () =>
+    setUseWeightMeasurement((previousState) => !previousState);
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <Image
-          style={styles.logo}
-          source={require('../../shared/assets/icon.png')}
-        />
-        <Text>
-          Welcome to myGrowth! Let's initialize your account. First, please
-          answer a few questions about yourself.
-        </Text>
-      </View>
-      <View>
-        <Text>FIRST NAME</Text>
-        <Image
-          style={styles.infoLogo}
-          source={require('../../shared/assets/icon.png')}
-        />
-      </View>
-      <View>
-        <Text>DATE OF BIRTH</Text>
-        <Image
-          style={styles.infoLogo}
-          source={require('../../shared/assets/icon.png')}
-        />
-      </View>
-      <View>
-        <Text>GENDER</Text>
-        <Image
-          style={styles.infoLogo}
-          source={require('../../shared/assets/icon.png')}
-        />
-        <Picker
-          selectedValue={gender}
-          style={{ height: 50, width: 200 }}
-          onValueChange={(itemValue, itemIndex) => setGender(itemValue)}
+      <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
+      <ScrollView>
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%',
+          }}
         >
-          <Picker.Item label='Select one...' value='unselected' />
-          <Picker.Item label='Man' value='man' />
-          <Picker.Item label='Woman' value='woman' />
-          <Picker.Item label='Nonbinary' value='nonbinary' />
-        </Picker>
-      </View>
-      <View>
-        <Text>BIOLOGICAL SEX</Text>
-        <Image
-          style={styles.infoLogo}
-          source={require('../../shared/assets/icon.png')}
-        />
-        <Picker
-          selectedValue={sex}
-          style={{ height: 50, width: 200 }}
-          onValueChange={(itemValue, itemIndex) => setSex(itemValue)}
-        >
-          <Picker.Item label='Select one...' value='unselected' />
-          <Picker.Item label='Male' value='male' />
-          <Picker.Item label='Female' value='female' />
-          <Picker.Item label='Intersex' value='intersex' />
-        </Picker>
-      </View>
-      <View>
-        <Text>HEIGHT</Text>
-        <Image
-          style={styles.infoLogo}
-          source={require('../../shared/assets/icon.png')}
-        />
-        <TextInput>ft</TextInput>
-        <TextInput>in</TextInput>
-        <Button title='Switch to cm' />
-      </View>
-      <View>
-        <Text>WEIGHT</Text>
-        <Image
-          style={styles.infoLogo}
-          source={require('../../shared/assets/icon.png')}
-        />
-        <TextInput>lbs</TextInput>
-        <Button title='Switch to kgs' />
-      </View>
-      <View>
-        <Button
-          title='Next'
-          onPress={() => navigation.navigate('UserInitializationPage2')}
-        />
-      </View>
+          {/* Gardener avatar + page blurb */}
+          <View style={styles.avatarView}>
+            <Image
+              style={styles.avatar}
+              source={require('../../shared/assets/gardener-avatar.png')}
+            />
+            <Text style={styles.pageDescription}>
+              Welcome to myGrowth! Let’s initialize{'\n'}
+              your account. First, please answer a{'\n'}
+              few questions about yourself.
+            </Text>
+          </View>
+          {/* Top page divider */}
+          <View style={styles.dividerView}>
+            <View style={styles.divider} />
+          </View>
+
+          {/* First name user input entry */}
+          <Text style={styles.heading}>FIRST NAME</Text>
+          <View style={styles.userPrompt}>
+            <TextInput style={styles.textInput} placeholder='First name' />
+          </View>
+
+          {/* Date of birth calendar pop-up */}
+          <Text style={styles.heading}>DATE OF BIRTH</Text>
+          <View>
+            <TouchableOpacity onPress={showDatepicker}>
+              <View style={styles.inlineRow}>
+                <View style={styles.iconView}>
+                  <Image
+                    source={require('../../shared/assets/baseline_event_black_18dp.png')}
+                  />
+                </View>
+                <Text>MM/DD/YYYY</Text>
+              </View>
+            </TouchableOpacity>
+            {show && (
+              <DateTimePicker
+                testID='dateTimePicker'
+                value={date}
+                mode={mode}
+                is24Hour={true}
+                display='default'
+                onChange={onChange}
+              />
+            )}
+          </View>
+
+          {/* Gender drop-down */}
+          <Text style={styles.heading}>GENDER</Text>
+          <View style={{ width: '90%' }}>
+            <View style={styles.pickerView}>
+              <Picker
+                selectedValue={gender}
+                style={styles.picker}
+                onValueChange={(itemValue, itemIndex) => setGender(itemValue)}
+              >
+                <Picker.Item label='Select one...' value='unselected' />
+                <Picker.Item label='Male' value='male' />
+                <Picker.Item label='Female' value='female' />
+                <Picker.Item label='Non-binary' value='nonbinary' />
+                <Picker.Item label='Other' value='other' />
+                <Picker.Item label='Prefer not to answer' value='noAnswer' />
+              </Picker>
+            </View>
+          </View>
+
+          {/* Biological sex drop-down */}
+          <Text style={styles.heading}>BIOLOGICAL SEX</Text>
+          <View style={{ width: '90%' }}>
+            <View style={styles.pickerView}>
+              <Picker
+                selectedValue={bioSex}
+                style={styles.picker}
+                onValueChange={(itemValue, itemIndex) => setBioSex(itemValue)}
+              >
+                <Picker.Item label='Select one...' value='unselected' />
+                <Picker.Item label='Male' value='male' />
+                <Picker.Item label='Female' value='female' />
+              </Picker>
+            </View>
+          </View>
+
+          {/* Height user input entry + cm switch button */}
+          <Text style={styles.heading}>HEIGHT</Text>
+          <View style={styles.userPrompt}>
+            <TextInput style={styles.textInput2} placeholder='#' />
+            <Text>IN</Text>
+            <ToggleButton
+              icon={
+                useHeightMeasurement
+                  ? require('../../shared/assets/toggle_on.png')
+                  : require('../../shared/assets/toggle_off.png')
+              }
+              value='heightMeasurement'
+              status={useHeightMeasurement ? 'checked' : 'unchecked'}
+              onPress={toggleHeightMeasurement}
+            />
+            <Text>CM</Text>
+          </View>
+
+          {/* Weight user input entry + kgs switch button */}
+          <Text style={styles.heading}>WEIGHT</Text>
+          <View style={styles.userPrompt}>
+            <TextInput style={styles.textInput2} placeholder='#' />
+            <Text>LBS</Text>
+            <ToggleButton
+              icon={
+                useWeightMeasurement
+                  ? require('../../shared/assets/toggle_on.png')
+                  : require('../../shared/assets/toggle_off.png')
+              }
+              value='weightMeasurement'
+              status={useWeightMeasurement ? 'checked' : 'unchecked'}
+              onPress={toggleWeightMeasurement}
+            />
+            <Text>KG</Text>
+          </View>
+
+          {/* Next button */}
+          <View style={styles.buttonsContainer}>
+            <View style={styles.buttons}>
+              <Button
+                title='NEXT'
+                color='#A5DFB2'
+                onPress={() => navigation.navigate('UserInitializationPage2')}
+              />
+            </View>
+          </View>
+
+          <View style={styles.pageEnd} />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
-};
+}
 
 const avatars = new Array(48).fill('http://placeimg.com/100/100/any');
 
