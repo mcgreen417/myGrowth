@@ -1,28 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
   View,
   SafeAreaView,
+  Switch,
   Image,
   StatusBar,
   Button,
 } from 'react-native';
 
 function StartPage({ navigation }) {
+
+  // Colorblind mode switch initialization
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => {
+    setIsEnabled(previousState => !previousState);
+    global.colorblindMode = !global.colorblindMode;
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={global.statusBarColor} barStyle='light-content' />
+      <StatusBar backgroundColor={(global.colorblindMode ? global.cb_statusBarColor : global.statusBarColor)} barStyle='light-content' />
+    
+      {/* Colorblind mode switch displayed on screen */}
+      <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+        <Text style={{fontWeight: 'bold', fontSize: 18, marginTop: 1}}>
+          {"Colorblind mode?"}
+        </Text>
+        <Switch
+          trackColor={{ false: global.cbSwitchTrackColorFalse, true: global.cbSwitchTrackColorTrue }}
+          thumbColor={isEnabled ? global.cbSwitchThumbColorTrue : global.cbSwitchThumbColorFalse}
+          ios_backgroundColor={global.cb_blackColor}
+          onValueChange={toggleSwitch}
+          value={isEnabled}
+          caption="test"
+        /> 
+      </View>
+
       <View style={{ justifyContent: 'center', alignItems: 'center', height: '100%' }}>
         {/* Logo + title */}
         <Image style={styles.logo} source={require('../assets/icon.png')} />
-        <Text style={{ fontWeight: 'bold', color: global.textColor, fontSize: 44 }}>myGrowth</Text>
-        <Text style={{ fontWeight: 'bold', color: global.textColor, fontSize: 20, marginBottom: 40 }}>Your General Wellness Tracker</Text>
+        <Text style={{ fontWeight: 'bold', color: (global.colorblindMode ? global.cb_textColor : global.textColor), fontSize: 44 }}>myGrowth</Text>
+        <Text style={{ fontWeight: 'bold', color: (global.colorblindMode ? global.cb_textColor : global.textColor), fontSize: 20, marginBottom: 40 }}>Your General Wellness Tracker</Text>
         {/* Sign up + login buttons */}
         <View style={styles.buttons}>
-          <Button title='SIGN UP' color={global.optionButtonsColor} onPress={() => navigation.navigate('SignUpPage')} />
+          <Button title='SIGN UP' color={(global.colorblindMode ? global.cb_optionButtonsColor : global.optionButtonsColor)} onPress={() => navigation.navigate('SignUpPage')} />
           <View style={{ marginVertical: 8 }} />
-          <Button title='LOG IN' color={global.optionButtonsColor} onPress={() => navigation.navigate('LoginPage')} />
+          <Button title='LOG IN' color={(global.colorblindMode ? global.cb_optionButtonsColor : global.optionButtonsColor)} onPress={() => navigation.navigate('LoginPage')} />
         </View>
       </View>
     </SafeAreaView>
@@ -32,7 +57,7 @@ function StartPage({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: global.pageBackgroundColor,
+    backgroundColor: (global.colorblindMode ? global.cb_pageBackgroundColor : global.pageBackgroundColor),
   },
   logo: {
     width: 150,
