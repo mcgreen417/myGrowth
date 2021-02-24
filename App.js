@@ -8,11 +8,9 @@ import LoginPage from './app/login/screens/LoginPage';
 import ForgotPasswordPage from './app/login/screens/ForgotPasswordPage';
 import PasswordResetVerificationPage from './app/login/screens/PasswordResetVerificationPage';
 import ResetPasswordPage from './app/login/screens/ResetPasswordPage';
-import {
-  UserInitializationPage1,
-  UserInitializationPage2,
-  UserInitializationPage3,
-} from './app/userinit/screens/UserInitializationPage';
+import UserInitializationPage1 from './app/userinit/screens/UserInitializationPage1';
+import UserInitializationPage2 from './app/userinit/screens/UserInitializationPage2';
+import UserInitializationPage3 from './app/userinit/screens/UserInitializationPage3';
 import HomePage from './app/home/screens/Home';
 import PlantShop from './app/home/screens/PlantShop';
 import CustomizePlant from './app/home/screens/CustomizePlant';
