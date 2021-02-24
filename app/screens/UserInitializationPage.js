@@ -13,13 +13,13 @@ import {
 
 function UserInitializationPage({ navigation }) {
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={global.statusBarColor} barStyle='light-content' />
+    <SafeAreaView style={styles().container}>
+      <StatusBar backgroundColor={(global.colorblindMode ? global.cb_statusBarColor : global.statusBarColor)} barStyle='light-content' />
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
         <View style={{ flexDirection: 'row', marginTop: 20, alignItems: 'center'}}>
           {/* Gardener avatar + page blurb */}
-          <Image style={styles.avatar} source={require('../assets/gardener-avatar.png')} />
-          <Text style={{ color: global.textColor, fontSize: 16 }}>
+          <Image style={styles().avatar} source={require('../assets/gardener-avatar.png')} />
+          <Text style={{ color: (global.colorblindMode ? global.cb_textColor : global.textColor), fontSize: 16 }}>
             Welcome to myGrowth! Let’s initialize{"\n"} 
             your account. First, please answer a{"\n"} 
             few questions about yourself.
@@ -27,7 +27,7 @@ function UserInitializationPage({ navigation }) {
         </View>
         {/* Top page divider */}
         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
-          <View style={{ flex: 1, height: 1, backgroundColor: global.contentDividerColor, marginLeft: 20, marginRight: 20 }} />
+          <View style={{ flex: 1, height: 1, backgroundColor: (global.colorblindMode ? global.cb_contentDividerColor : global.contentDividerColor), marginLeft: 20, marginRight: 20 }} />
         </View>
         {/* User selection section */}
           {/* First name user input entry */}
@@ -41,10 +41,10 @@ function UserInitializationPage({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = () => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: global.pageBackgroundColor,
+    backgroundColor: (global.colorblindMode ? global.cb_pageBackgroundColor : global.pageBackgroundColor),
   },
   avatar: {
     width: 75,
