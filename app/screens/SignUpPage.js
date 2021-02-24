@@ -13,22 +13,22 @@ import {
 
 function SignUpPage({ navigation }) {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles().container}>
       <StatusBar backgroundColor={(global.colorblindMode ? global.cb_statusBarColor : global.statusBarColor)} barStyle='light-content' />
       <View style={{ height: '100%', justifyContent: 'center', alignItems: 'center' }}>
         {/* Logo + title */}
-        <Image style={styles.logo} source={require('../assets/icon.png')} />
+        <Image style={styles().logo} source={require('../assets/icon.png')} />
         <Text style={{ fontWeight: 'bold', color: (global.colorblindMode ? global.cb_textColor : global.textColor), fontSize: 36 }}>myGrowth</Text>
         <Text style={{ fontWeight: 'bold', color: (global.colorblindMode ? global.cb_textColor : global.textColor), fontSize: 16, marginBottom: 20 }}>Your General Wellness Tracker</Text>
         {/* Username, e-mail address, password, confirm password entry boxes + signup button */}
-        <View style={styles.buttons}>
-          <TextInput style={styles.textInput} placeholder='Username' />
+        <View style={styles().buttons}>
+          <TextInput style={styles().textInput} placeholder='Username' />
           <View style={{ marginVertical: 8 }} />
-          <TextInput style={styles.textInput} placeholder='E-mail Address' />
+          <TextInput style={styles().textInput} placeholder='E-mail Address' />
           <View style={{ marginVertical: 8 }} />
-          <TextInput style={styles.textInput} placeholder='Password' secureTextEntry={true} />
+          <TextInput style={styles().textInput} placeholder='Password' secureTextEntry={true} />
           <View style={{ marginVertical: 8 }} />
-          <TextInput style={styles.textInput} placeholder='Confirm Password' secureTextEntry={true} />
+          <TextInput style={styles().textInput} placeholder='Confirm Password' secureTextEntry={true} />
           <View style={{ marginVertical: 8 }} />
           <Button title='SIGN UP' color={(global.colorblindMode ? global.cb_optionButtonsColor : global.optionButtonsColor)} onPress={() => navigation.navigate('UserInitializationPage')} />
           <View style={{ marginVertical: 8 }} />
@@ -59,7 +59,7 @@ function SignUpPage({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = () => StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: (global.colorblindMode ? global.cb_pageBackgroundColor : global.pageBackgroundColor),
