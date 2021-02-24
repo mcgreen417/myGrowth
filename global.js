@@ -45,7 +45,7 @@ global.textInputFillColor = whiteColor;
 global.textInputColor = blackColor;
 
 global.cb_textInputBorderColor = cb_lightGreenColor;
-global.cb_textInputBorderColor = cb_whiteColor;
+global.cb_textInputFillColor = cb_whiteColor;
 global.cb_textInputColor = cb_blackColor;
 
 
