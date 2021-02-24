@@ -5,12 +5,15 @@ var creamColor = "#F6EFED";
 var brownColor = "#816868"; 
 var blackColor = "#000000";
 var whiteColor = "#FFFFFF";
+var lightGreyColor = "#D3D3D3";
 
 var cb_lightGreenColor = "#1D572A";
 var cb_creamColor = "#F6EFED";
 var cb_brownColor = "#812800";
 var cb_blackColor = "#000000";
 var cb_whiteColor = "#FFFFFF";
+var cb_lightGreyColor = "#000000";
+
 
 // Colorblind switch, landing page on application.
 global.cbSwitchTrackColorTrue = lightGreenColor;
@@ -50,9 +53,11 @@ global.cb_textInputColor = cb_blackColor;
 
 
 // Any sort of text being used.
+global.cb_placeHolderTextColor = lightGreyColor
 global.textColor = brownColor;
 global.hyperlinkedTextColor = lightGreenColor;
 
+global.cb_placeHolderTextColor = cb_lightGreyColor;
 global.cb_textColor = cb_brownColor;
 global.cb_hyperlinkedTextColor = cb_lightGreenColor;
 

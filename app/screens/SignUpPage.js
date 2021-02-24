@@ -22,13 +22,13 @@ function SignUpPage({ navigation }) {
         <Text style={{ fontWeight: 'bold', color: (global.colorblindMode ? global.cb_textColor : global.textColor), fontSize: 16, marginBottom: 20 }}>Your General Wellness Tracker</Text>
         {/* Username, e-mail address, password, confirm password entry boxes + signup button */}
         <View style={styles().buttons}>
-          <TextInput style={styles().textInput} placeholder='Username' />
+          <TextInput style={styles().textInput} placeholder='Username' placeholderTextColor={(global.colorblindMode ? global.cb_placeHolderTextColor : global.placeholderTextColor)} />
           <View style={{ marginVertical: 8 }} />
-          <TextInput style={styles().textInput} placeholder='E-mail Address' />
+          <TextInput style={styles().textInput} placeholder='E-mail Address' placeholderTextColor={(global.colorblindMode ? global.cb_placeHolderTextColor : global.placeholderTextColor)}/>
           <View style={{ marginVertical: 8 }} />
-          <TextInput style={styles().textInput} placeholder='Password' secureTextEntry={true} />
+          <TextInput style={styles().textInput} placeholder='Password' placeholderTextColor={(global.colorblindMode ? global.cb_placeHolderTextColor : global.placeholderTextColor)} secureTextEntry={true} />
           <View style={{ marginVertical: 8 }} />
-          <TextInput style={styles().textInput} placeholder='Confirm Password' secureTextEntry={true} />
+          <TextInput style={styles().textInput} placeholder='Confirm Password' placeholderTextColor={(global.colorblindMode ? global.cb_placeHolderTextColor : global.placeholderTextColor)} secureTextEntry={true} />
           <View style={{ marginVertical: 8 }} />
           <Button title='SIGN UP' color={(global.colorblindMode ? global.cb_optionButtonsColor : global.optionButtonsColor)} onPress={() => navigation.navigate('UserInitializationPage')} />
           <View style={{ marginVertical: 8 }} />
