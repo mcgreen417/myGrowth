@@ -14,45 +14,45 @@ import {
 
 function LoginPage({ navigation }) {
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={global.statusBarColor} barStyle='light-content' />
+    <SafeAreaView style={styles().container}>
+      <StatusBar backgroundColor={(global.colorblindMode ? global.cb_statusBarColor : global.statusBarColor)} barStyle='light-content' />
       <View style={{ height: '100%', justifyContent: 'center', alignItems: 'center' }}>
         {/* Logo + title */}
-        <Image style={styles.logo} source={require('../assets/icon.png')} />
-        <Text style={{fontWeight: 'bold', color: global.textColor, fontSize: 36}}>myGrowth</Text>
-        <Text style={{fontWeight: 'bold', color: global.textColor, fontSize: 16, marginBottom: 20}}>Your General Wellness Tracker</Text>
+        <Image style={styles().logo} source={require('../assets/icon.png')} />
+        <Text style={{fontWeight: 'bold', color: (global.colorblindMode ? global.cb_textColor : global.textColor), fontSize: 36}}>myGrowth</Text>
+        <Text style={{fontWeight: 'bold', color: (global.colorblindMode ? global.cb_textColor : global.textColor), fontSize: 16, marginBottom: 20}}>Your General Wellness Tracker</Text>
         {/* E-mail address + password entry boxes, login button */}
-        <View style={styles.buttons}>
-          <TextInput style={styles.textInput} placeholder='E-mail Address' />
+        <View style={styles().buttons}>
+          <TextInput style={styles().textInput} placeholder='E-mail Address' placeholderTextColor={(global.colorblindMode ? global.cb_placeHolderTextColor : global.placeholderTextColor)} />
           <View style={{ marginVertical: 8 }} />
-          <TextInput style={styles.textInput} placeholder='Password' secureTextEntry={true} />
+          <TextInput style={styles().textInput} placeholder='Password' placeholderTextColor={(global.colorblindMode ? global.cb_placeHolderTextColor : global.placeholderTextColor)} secureTextEntry={true} />
           <View style={{ marginVertical: 8 }} />
-          <Button title='LOG IN' color={global.optionButtonsColor} onPress={ () => signIn() } />
+          <Button title='LOG IN' color={( global.colorblindMode ? global.cb_optionButtonsColor : global.optionButtonsColor)} onPress={ () => signIn() } />
           <View style={{ marginVertical: 8 }} />
         </View>
         {/* Login/signup page switch */}
         <View style={{ flexDirection: 'row' }}>
-          <Text style={{ color: global.textColor }}>Don't have an account? </Text>
+          <Text style={{ color: (global.colorblindMode ? global.cb_textColor : global.textColor) }}>Don't have an account? </Text>
           <TouchableOpacity onPress={() => navigation.navigate('SignUpPage')}>
-            <Text style={{ color: global.hyperlinkedTextColor, textDecorationLine: 'underline' }}>Sign up here.</Text>
+            <Text style={{ color: (global.colorblindMode ? global.cb_hyperlinkedTextColor : global.hyperlinkedTextColor), textDecorationLine: 'underline' }}>Sign up here.</Text>
           </TouchableOpacity>
         </View>
         <View>
           <TouchableOpacity onPress={() => navigation.navigate('ForgotPasswordPage')}>
-            <Text style={{ color: global.hyperlinkedTextColor, textDecorationLine: 'underline' }}>Forgot your password?</Text>
+            <Text style={{ color: (global.colorblindMode ? global.cb_hyperlinkedTextColor : global.hyperlinkedTextColor), textDecorationLine: 'underline' }}>Forgot your password?</Text>
           </TouchableOpacity>
         </View>
         {/* TOS + privacy policy agreement */}
         <View style={{ marginVertical: 8 }} />
         <View>
-          <Text style={{ color: global.textColor }}>By continuing, you're accepting our </Text>
+          <Text style={{ color: (global.colorblindMode ? global.cb_textColor : global.textColor) }}>By continuing, you're accepting our </Text>
           <View style={{ flexDirection: 'row' }}>
             <TouchableOpacity>
-              <Text style={{ color: global.hyperlinkedTextColor, textDecorationLine: 'underline' }}>Terms of Service</Text>
+              <Text style={{ color: (global.colorblindMode ? global.cb_hyperlinkedTextColor : global.hyperlinkedTextColor), textDecorationLine: 'underline' }}>Terms of Service</Text>
             </TouchableOpacity>
-            <Text style={{ color: global.textColor }}> and </Text>
+            <Text style={{ color: (global.colorblindMode ? global.cb_textColor : global.textColor) }}> and </Text>
             <TouchableOpacity>
-              <Text style={{ color: global.hyperlinkedTextColor, textDecorationLine: 'underline' }}>Privacy Policy.</Text>
+              <Text style={{ color: (global.colorblindMode ? global.cb_hyperlinkedTextColor : global.hyperlinkedTextColor), textDecorationLine: 'underline' }}>Privacy Policy.</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -96,10 +96,10 @@ async function testQuery(username) {
   console.log(res);
 }
 
-const styles = StyleSheet.create({
+const styles = () => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: global.pageBackgroundColor,
+    backgroundColor: (global.colorblindMode ? global.cb_pageBackgroundColor : global.pageBackgroundColor),
   },
   logo: {
     width: 100,
@@ -109,15 +109,15 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     width: 300,
-    borderColor: global.optionButtonsBorderColor,
+    borderColor: (global.colorblindMode ? global.cb_optionButtonsBorderColor : global.optionButtonsBorderColor),
   },
   textInput: {
     height: 40,
-    borderColor: global.textInputBorderColor,
+    borderColor: (global.colorblindMode ? global.cb_textInputBorderColor : global.textInputBorderColor),
     borderWidth: 2,
     borderRadius: 10,
-    backgroundColor: global.textInputFillColor,
-    color: global.textInputColor,
+    backgroundColor: (global.colorblindMode ? global.cb_textInputFillColor : global.textInputFillColor),
+    color: (global.colorblindMode ? global.cb_textInputColor : global.textInputColor),
     textAlign: 'center',
   },
 });
