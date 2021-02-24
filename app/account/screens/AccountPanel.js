@@ -14,19 +14,16 @@ function AccountPanel({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
-      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+      <View style={styles.pageSetup}>
+
         {/* Gardener avatar + page blurb */}
         <View style={styles.avatarView}>
-          <Image
-            style={styles.avatar}
-            source={require('../../shared/assets/gardener-avatar.png')}
-          />
+          <Image style={styles.avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
           <Text style={styles.pageDescription}>
-            You can edit your account settings{'\n'}
-            on this page. Please select one of{'\n'}
-            the options below.
+            You can edit your account settings on this page. Please select one of the options below.
           </Text>
         </View>
+
         {/* Top page divider */}
         <View style={styles.dividerView}>
           <View style={styles.divider} />
@@ -38,12 +35,9 @@ function AccountPanel({ navigation }) {
 
         {/* Settings */}
         <View style={styles.inlineRow}>
-          <TouchableOpacity
-            style={styles.buttons}
-            onPress={() => navigation.navigate('UserSettings')}
-          >
+          <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('UserSettings')}>
             <View style={styles.inlineRow}>
-              <Text style={styles.text}>User Settings</Text>
+              <Text style={styles.textReg}>User Settings</Text>
               <View style={styles.iconView}>
                 <Image source={require('../../shared/assets/chevron.png')} />
               </View>
@@ -59,7 +53,7 @@ function AccountPanel({ navigation }) {
             onPress={() => navigation.navigate('GenerateReport')}
           >
             <View style={styles.inlineRow}>
-              <Text style={styles.text}>Generate Report</Text>
+              <Text style={styles.textReg}>Generate Report</Text>
               <View style={styles.iconView}>
                 <Image source={require('../../shared/assets/chevron.png')} />
               </View>
@@ -75,7 +69,7 @@ function AccountPanel({ navigation }) {
             onPress={() => navigation.navigate('LinkAccount')}
           >
             <View style={styles.inlineRow}>
-              <Text style={styles.text}>Link Account</Text>
+              <Text style={styles.textReg}>Link Account</Text>
               <View style={styles.iconView}>
                 <Image source={require('../../shared/assets/chevron.png')} />
               </View>
@@ -86,12 +80,9 @@ function AccountPanel({ navigation }) {
 
         {/* Report a problem */}
         <View style={styles.inlineRow}>
-          <TouchableOpacity
-            style={styles.buttons}
-            onPress={() => navigation.navigate('ReportProblemPage')}
-          >
+          <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('ReportProblemPage')}>
             <View style={styles.inlineRow}>
-              <Text style={styles.text}>Report a Problem</Text>
+              <Text style={styles.textReg}>Report a Problem</Text>
               <View style={styles.iconView}>
                 <Image source={require('../../shared/assets/chevron.png')} />
               </View>
@@ -107,7 +98,7 @@ function AccountPanel({ navigation }) {
             onPress={() => navigation.navigate('LeaveReviewPage')}
           >
             <View style={styles.inlineRow}>
-              <Text style={styles.text}>Leave a Review</Text>
+              <Text style={styles.textReg}>Leave a Review</Text>
               <View style={styles.iconView}>
                 <Image source={require('../../shared/assets/chevron.png')} />
               </View>
@@ -123,20 +114,15 @@ function AccountPanel({ navigation }) {
             onPress={() => navigation.navigate('AboutPage')}
           >
             <View style={styles.inlineRow}>
-              <Text style={styles.text}>About</Text>
+              <Text style={styles.textReg}>About</Text>
               <View style={styles.iconView}>
                 <Image source={require('../../shared/assets/chevron.png')} />
               </View>
             </View>
           </TouchableOpacity>
         </View>
-        <View style={styles.line} />
 
-        {/* Placeholder image of person reading a book */}
-        <Image
-          style={{ height: '40%', width: '76%', marginTop: 10 }}
-          source={require('../../shared/assets/SettingsGirlReading2.png')}
-        />
+        <View style={styles.line} />
       </View>
       <NavBar account={true} navigation={navigation} />
     </SafeAreaView>
@@ -162,6 +148,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 20,
     alignItems: 'center',
+    justifyContent: 'center',
+    width: '90%'
   },
   buttons: {
     marginTop: 7,
@@ -213,7 +201,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     marginRight: 20,
   },
-  text: {
+  textReg: {
     color: 'black',
     textDecorationLine: 'none',
     textAlign: 'left',
@@ -221,9 +209,15 @@ const styles = StyleSheet.create({
   pageDescription: {
     color: '#816868',
     fontSize: 16,
+    flex: 1,
+    flexWrap: 'wrap',
   },
   pageEnd: {
     marginBottom: 30,
+  },
+  pageSetup: {
+    justifyContent: 'center', 
+    alignItems: 'center',
   },
   switchView: {
     flex: 1,

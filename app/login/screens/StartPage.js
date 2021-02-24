@@ -13,44 +13,18 @@ function StartPage({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100%',
-        }}
-      >
+      <View style={styles.pageSetup}>
+
         {/* Logo + title */}
-        <Image
-          style={styles.logo}
-          source={require('../../shared/assets/icon.png')}
-        />
-        <Text style={{ fontWeight: 'bold', color: '#816868', fontSize: 44 }}>
-          myGrowth
-        </Text>
-        <Text
-          style={{
-            fontWeight: 'bold',
-            color: '#816868',
-            fontSize: 20,
-            marginBottom: 40,
-          }}
-        >
-          Your General Wellness Tracker
-        </Text>
+        <Image style={styles.logo} source={require('../../shared/assets/icon.png')}/>
+        <Text style={styles.textTitle}>myGrowth</Text>
+        <Text style={styles.textSubtitle}>Your General Wellness Tracker</Text>
+
         {/* Sign up + login buttons */}
         <View style={styles.buttons}>
-          <Button
-            title='SIGN UP'
-            color='#A5DFB2'
-            onPress={() => navigation.navigate('SignUpPage')}
-          />
+          <Button title='SIGN UP' color='#A5DFB2' onPress={() => navigation.navigate('SignUpPage')}/>
           <View style={{ marginVertical: 8 }} />
-          <Button
-            title='LOG IN'
-            color='#A5DFB2'
-            onPress={() => navigation.navigate('LoginPage')}
-          />
+          <Button title='LOG IN' color='#A5DFB2' onPress={() => navigation.navigate('LoginPage')}/>
         </View>
       </View>
     </SafeAreaView>
@@ -63,15 +37,30 @@ const styles = StyleSheet.create({
     backgroundColor: '#F6EFED',
   },
   logo: {
-    width: 150,
-    height: 150,
-    marginTop: -100,
+    height: 100,
+    width: 100,
   },
   buttons: {
     marginTop: 10,
     marginBottom: 10,
-    width: 200,
-    height: 50,
+    width: '40%',
+    borderColor: 'black',
+  },
+  pageSetup:{
+    height: '100%', 
+    justifyContent: 'center', 
+    alignItems: 'center'
+  },
+  textSubtitle: {
+    color: '#816868',
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginBottom: 20,
+  },
+  textTitle: {
+    color: '#816868',
+    fontWeight: 'bold',
+    fontSize: 44,
   },
 });
 

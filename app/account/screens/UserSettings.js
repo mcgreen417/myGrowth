@@ -46,27 +46,18 @@ function UserSettings({ navigation }) {
   const [useFitnessTracking, setUseFitnessTracking] = useState(false);
   const toggleFitnessTracking = () =>
     setUseFitnessTracking((previousState) => !previousState);
+    
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
       <ScrollView>
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100%',
-          }}
-        >
+        <View style={styles.pageSetup}>
+
           {/* Gardener avatar + page blurb */}
           <View style={styles.avatarView}>
-            <Image
-              style={styles.avatar}
-              source={require('../../shared/assets/gardener-avatar.png')}
-            />
+            <Image style={styles.avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
             <Text style={styles.pageDescription}>
-              Edit your user settings below. These{'\n'}
-              user settings may be changed at any{'\n'}
-              time by returning to this page.
+              Edit your user settings below. These user settings may be changed at any time by returning to this page.
             </Text>
           </View>
           {/* Top page divider */}
@@ -80,7 +71,7 @@ function UserSettings({ navigation }) {
 
           {/* Require pin when opening app */}
           <View style={styles.inlineRow}>
-            <Text style={styles.text}>Require PIN when opening app</Text>
+            <Text style={styles.textReg}>Require PIN when opening app</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -96,12 +87,9 @@ function UserSettings({ navigation }) {
 
           {/* Set user pin */}
           <View style={styles.inlineRow}>
-            <TouchableOpacity
-              style={styles.buttons}
-              onPress={() => navigation.navigate('UserSettings')}
-            >
+            <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('UserSettings')}>
               <View style={styles.inlineRow}>
-                <Text style={styles.text}>Set User PIN</Text>
+                <Text style={styles.textReg}>Set User PIN</Text>
                 <View style={styles.iconView}>
                   <Image source={require('../../shared/assets/chevron.png')} />
                 </View>
@@ -112,12 +100,9 @@ function UserSettings({ navigation }) {
 
           {/* Change password */}
           <View style={styles.inlineRow}>
-            <TouchableOpacity
-              style={styles.buttons}
-              onPress={() => navigation.navigate('UserSettings')}
-            >
+            <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('UserSettings')}>
               <View style={styles.inlineRow}>
-                <Text style={styles.text}>Change Password</Text>
+                <Text style={styles.textReg}>Change Password</Text>
                 <View style={styles.iconView}>
                   <Image source={require('../../shared/assets/chevron.png')} />
                 </View>
@@ -128,12 +113,9 @@ function UserSettings({ navigation }) {
 
           {/* Change email */}
           <View style={styles.inlineRow}>
-            <TouchableOpacity
-              style={styles.buttons}
-              onPress={() => navigation.navigate('UserSettings')}
-            >
+            <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('UserSettings')}>
               <View style={styles.inlineRow}>
-                <Text style={styles.text}>Change Email</Text>
+                <Text style={styles.textReg}>Change Email</Text>
                 <View style={styles.iconView}>
                   <Image source={require('../../shared/assets/chevron.png')} />
                 </View>
@@ -144,12 +126,9 @@ function UserSettings({ navigation }) {
 
           {/* Link your acct */}
           <View style={styles.inlineRow}>
-            <TouchableOpacity
-              style={styles.buttons}
-              onPress={() => navigation.navigate('LinkAccountPage')}
-            >
+            <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('LinkAccountPage')}>
               <View style={styles.inlineRow}>
-                <Text style={styles.text}>Link Your Account</Text>
+                <Text style={styles.textReg}>Link Your Account</Text>
                 <View style={styles.iconView}>
                   <Image source={require('../../shared/assets/chevron.png')} />
                 </View>
@@ -165,12 +144,9 @@ function UserSettings({ navigation }) {
 
           {/* Personal profile */}
           <View style={styles.inlineRow}>
-            <TouchableOpacity
-              style={styles.buttons}
-              onPress={() => navigation.navigate('ProfilePage')}
-            >
+            <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('ProfilePage')}>
               <View style={styles.inlineRow}>
-                <Text style={styles.text}>Personal Profile</Text>
+                <Text style={styles.textReg}>Personal Profile</Text>
                 <View style={styles.iconView}>
                   <Image source={require('../../shared/assets/chevron.png')} />
                 </View>
@@ -181,12 +157,9 @@ function UserSettings({ navigation }) {
 
           {/* Change gardener avatar */}
           <View style={styles.inlineRow}>
-            <TouchableOpacity
-              style={styles.buttons}
-              onPress={() => navigation.navigate('AvatarSelectPage')}
-            >
+            <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('AvatarSelectPage')}>
               <View style={styles.inlineRow}>
-                <Text style={styles.text}>Change Gardener Avatar</Text>
+                <Text style={styles.textReg}>Change Gardener Avatar</Text>
                 <View style={styles.iconView}>
                   <Image source={require('../../shared/assets/chevron.png')} />
                 </View>
@@ -202,7 +175,7 @@ function UserSettings({ navigation }) {
 
           {/* Stress levels */}
           <View style={styles.inlineRow}>
-            <Text style={styles.text}>Stress Levels</Text>
+            <Text style={styles.textReg}>Stress Levels</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -218,7 +191,7 @@ function UserSettings({ navigation }) {
 
           {/* Daily activities */}
           <View style={styles.inlineRow}>
-            <Text style={styles.text}>Daily Activities</Text>
+            <Text style={styles.textReg}>Daily Activities</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -234,7 +207,7 @@ function UserSettings({ navigation }) {
 
           {/* Weight tracking */}
           <View style={styles.inlineRow}>
-            <Text style={styles.text}>Weight Tracking</Text>
+            <Text style={styles.textReg}>Weight Tracking</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -250,7 +223,7 @@ function UserSettings({ navigation }) {
 
           {/* Period tracking */}
           <View style={styles.inlineRow}>
-            <Text style={styles.text}>Period Tracking</Text>
+            <Text style={styles.textReg}>Period Tracking</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -266,7 +239,7 @@ function UserSettings({ navigation }) {
 
           {/* Medication tracking */}
           <View style={styles.inlineRow}>
-            <Text style={styles.text}>Medication Tracking</Text>
+            <Text style={styles.textReg}>Medication Tracking</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -282,7 +255,7 @@ function UserSettings({ navigation }) {
 
           {/* Sleep tracking */}
           <View style={styles.inlineRow}>
-            <Text style={styles.text}>Sleep Tracking</Text>
+            <Text style={styles.textReg}>Sleep Tracking</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -298,7 +271,7 @@ function UserSettings({ navigation }) {
 
           {/* Meal tracking */}
           <View style={styles.inlineRow}>
-            <Text style={styles.text}>Meal Tracking</Text>
+            <Text style={styles.textReg}>Meal Tracking</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -314,7 +287,7 @@ function UserSettings({ navigation }) {
 
           {/* Fitness tracking */}
           <View style={styles.inlineRow}>
-            <Text style={styles.text}>Fitness Tracking</Text>
+            <Text style={styles.textReg}>Fitness Tracking</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -327,6 +300,7 @@ function UserSettings({ navigation }) {
             </View>
           </View>
           <View style={styles.line} />
+          
           <View style={styles.pageEnd} />
         </View>
       </ScrollView>
@@ -341,11 +315,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F6EFED',
   },
-  inlineRow: {
-    flexDirection: 'row',
-    width: '90%',
-    alignItems: 'center',
-  },
   avatar: {
     width: 75,
     height: 75,
@@ -355,6 +324,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 20,
     alignItems: 'center',
+    justifyContent: 'center',
+    width: '90%'
   },
   buttons: {
     marginTop: 7,
@@ -388,6 +359,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-end',
   },
+  inlineRow: {
+    flexDirection: 'row',
+    width: '90%',
+    alignItems: 'center',
+  },
   line: {
     width: '90%',
     borderColor: '#816868',
@@ -406,7 +382,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     marginRight: 20,
   },
-  text: {
+  textReg: {
     color: 'black',
     textDecorationLine: 'none',
     textAlign: 'left',
@@ -414,9 +390,16 @@ const styles = StyleSheet.create({
   pageDescription: {
     color: '#816868',
     fontSize: 16,
+    flex: 1,
+    flexWrap: 'wrap',
   },
   pageEnd: {
     marginBottom: 30,
+  },
+  pageSetup: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
   },
   switchView: {
     flex: 1,

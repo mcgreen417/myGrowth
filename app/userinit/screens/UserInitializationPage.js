@@ -53,23 +53,13 @@ function UserInitializationPage1({ navigation }) {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
       <ScrollView>
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100%',
-          }}
-        >
+        <View style={styles.pageSetup}>
+
           {/* Gardener avatar + page blurb */}
           <View style={styles.avatarView}>
-            <Image
-              style={styles.avatar}
-              source={require('../../shared/assets/gardener-avatar.png')}
-            />
+            <Image style={styles.avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
             <Text style={styles.pageDescription}>
-              Welcome to myGrowth! Let’s initialize{'\n'}
-              your account. First, please answer a{'\n'}
-              few questions about yourself.
+              Welcome to myGrowth! Let’s initialize your account. First, please answer a few questions about yourself.
             </Text>
           </View>
           {/* Top page divider */}
@@ -85,15 +75,13 @@ function UserInitializationPage1({ navigation }) {
 
           {/* Date of birth calendar pop-up */}
           <Text style={styles.heading}>DATE OF BIRTH</Text>
-          <View>
+          <View style={styles.datePicker}>
             <TouchableOpacity onPress={showDatepicker}>
               <View style={styles.inlineRow}>
                 <View style={styles.iconView}>
-                  <Image
-                    source={require('../../shared/assets/baseline_event_black_18dp.png')}
-                  />
+                  <Image source={require('../../shared/assets/baseline_event_black_18dp.png')}/>
                 </View>
-                <Text>MM/DD/YYYY</Text>
+                <Text>   MM/DD/YYYY</Text>
               </View>
             </TouchableOpacity>
             {show && (
@@ -147,7 +135,7 @@ function UserInitializationPage1({ navigation }) {
           <Text style={styles.heading}>HEIGHT</Text>
           <View style={styles.userPrompt}>
             <TextInput style={styles.textInput2} placeholder='#' />
-            <Text>IN</Text>
+            <Text>     IN</Text>
             <ToggleButton
               icon={
                 useHeightMeasurement
@@ -165,7 +153,7 @@ function UserInitializationPage1({ navigation }) {
           <Text style={styles.heading}>WEIGHT</Text>
           <View style={styles.userPrompt}>
             <TextInput style={styles.textInput2} placeholder='#' />
-            <Text>LBS</Text>
+            <Text>     LB</Text>
             <ToggleButton
               icon={
                 useWeightMeasurement
@@ -182,11 +170,11 @@ function UserInitializationPage1({ navigation }) {
           {/* Next button */}
           <View style={styles.buttonsContainer}>
             <View style={styles.buttons}>
-              <Button
-                title='NEXT'
-                color='#A5DFB2'
-                onPress={() => navigation.navigate('UserInitializationPage2')}
-              />
+              <Button 
+                title='NEXT' 
+                color='#A5DFB2' 
+                onPress={() => navigation.navigate('UserInitializationPage2')}/
+              >
             </View>
           </View>
 
@@ -204,37 +192,51 @@ const UserInitializationPage2 = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ margin: 5, flexDirection: 'row' }}>
-        <Image
-          style={styles.logo}
-          source={require('../../shared/assets/icon.png')}
-        />
-        <Text style={{ flex: 1, flexWrap: 'wrap' }}>
-          As our next step, take some time to select and appearance for me! I'll
-          be here to guide you through the app.
-        </Text>
-      </View>
-      <View style={{ height: '75%' }}>
-        <FlatList
-          data={avatar}
-          renderItem={({ item, index }) => (
-            <Image
-              source={{ uri: item, cache: 'reload' }}
-              key={index}
-              style={{ width: 55, height: 55, margin: 5 }}
-            />
-          )}
-          keyExtractor={(item, index) => index.toString()}
-          numColumns={6}
-        />
-      </View>
-      <View style={{ flexDirection: 'row' }}>
-        <Button title='Back' />
-        <View style={{ width: 20 }}></View>
-        <Button
-          title='Next'
-          onPress={() => navigation.navigate('UserInitializationPage3')}
-        />
+      <View style={styles.pageSetup}>
+
+        {/* Gardener avatar + page blurb */}
+        <View style={styles.avatarView}>
+          <Image style={styles.avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
+          <Text style={styles.pageDescription}>
+            As our next step, take some time to select and appearance for me! I'll
+            be here to guide you through the app. Think of me as your new friend!
+          </Text>
+        </View>
+        {/* Top page divider */}
+        <View style={styles.dividerView}>
+          <View style={styles.divider} />
+        </View>
+
+        {/* Gardener avatar select */}
+        <View style={styles.avatarSelectView}>
+          <FlatList
+            data={avatar}
+            renderItem={({ item, index }) => (
+              <Image
+                source={{ uri: item, cache: 'reload' }}
+                key={index}
+                style={{ width: 55, height: 55, margin: 4 }}
+              />
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={6}
+          />
+        </View>
+
+        {/* Back & next buttons */}
+        <View style={styles.buttonsContainer}>
+          <Button 
+            title='Back' 
+            color='#A5DFB2' 
+            onPress={() => navigation.navigate('UserInitializationPage1')}/
+          >
+          <View style={{ width: '72%' }}></View>
+          <Button 
+            title='Next' 
+            color='#A5DFB2' 
+            onPress={() => navigation.navigate('UserInitializationPage3')}/
+          >
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -242,135 +244,200 @@ const UserInitializationPage2 = ({ navigation }) => {
 
 const UserInitializationPage3 = ({ navigation }) => {
   const [useStressLevels, setUseStressLevels] = useState(false);
-  const [useDailyActivities, setUseDailyActivities] = useState(false);
-  const [useWeightTracking, setUseWeightTracking] = useState(false);
-  const [usePeriodTracking, setUsePeriodTracking] = useState(false);
-  const [useMedicationTracking, setUseMedicationTracking] = useState(false);
-  const [useSleepLog, setUseSleepLog] = useState(false);
-  const [useMealTracking, setUseMealTracking] = useState(false);
-  const [useFitnessTracking, setUseFitnessTracking] = useState(false);
   const toggleStressLevels = () =>
     setUseStressLevels((previousState) => !previousState);
+
+  const [useDailyActivities, setUseDailyActivities] = useState(false);
   const toggleDailyActivities = () =>
     setUseDailyActivities((previousState) => !previousState);
+
+  const [useWeightTracking, setUseWeightTracking] = useState(false);
   const toggleWeightTracking = () =>
     setUseWeightTracking((previousState) => !previousState);
+
+  const [usePeriodTracking, setUsePeriodTracking] = useState(false);
   const togglePeriodTracking = () =>
     setUsePeriodTracking((previousState) => !previousState);
+
+  const [useMedicationTracking, setUseMedicationTracking] = useState(false);
   const toggleMedicationTracking = () =>
     setUseMedicationTracking((previousState) => !previousState);
-  const toggleSleepLog = () =>
-    setUseSleepLog((previousState) => !previousState);
+
+  const [useSleepTracking, setUseSleepTracking] = useState(false);
+  const toggleSleepTracking = () =>
+    setUseSleepTracking((previousState) => !previousState);
+
+  const [useMealTracking, setUseMealTracking] = useState(false);
   const toggleMealTracking = () =>
     setUseMealTracking((previousState) => !previousState);
+
+  const [useFitnessTracking, setUseFitnessTracking] = useState(false);
   const toggleFitnessTracking = () =>
     setUseFitnessTracking((previousState) => !previousState);
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <Image
-          style={styles.logo}
-          source={require('../../shared/assets/icon.png')}
-        />
-        <Text>
-          Before we begin, let's tailor your health entries to your personal
-          preferences. You can edit this later in Settings.
-        </Text>
-      </View>
-      <View>
-        <View style={{ flexDirection: 'row' }}>
-          <Text>Stress Levels</Text>
-          <Switch
-            trackColor={{ false: '#767577', true: '#9AD2AF' }}
-            thumbColor={useStressLevels ? '#4CB97A' : '#f4f3f4'}
-            ios_backgroundColor='#3e3e3e'
-            onValueChange={toggleStressLevels}
-            value={useStressLevels}
-          />
+      <View style={styles.pageSetup}>
+
+        {/* Gardener avatar + page blurb */}
+        <View style={styles.avatarView}>
+          <Image style={styles.avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
+          <Text style={styles.pageDescription}>
+            Edit your user settings below. These user settings may be changed at any time by returning to this page.
+          </Text>
+        </View>
+        {/* Top page divider */}
+        <View style={styles.dividerView}>
+          <View style={styles.divider} />
         </View>
 
-        <View style={{ flexDirection: 'row' }}>
-          <Text>Daily Activities</Text>
-          <Switch
-            trackColor={{ false: '#767577', true: '#9AD2AF' }}
-            thumbColor={useDailyActivities ? '#4CB97A' : '#f4f3f4'}
-            ios_backgroundColor='#3e3e3e'
-            onValueChange={toggleDailyActivities}
-            value={useDailyActivities}
-          />
-        </View>
+        {/* Health entry settings */}
+          <Text style={styles.heading}>HEALTH ENTRY SETTINGS</Text>
+          <View style={styles.line} />
 
-        <View style={{ flexDirection: 'row' }}>
-          <Text>Weight Tracking</Text>
-          <Switch
-            trackColor={{ false: '#767577', true: '#9AD2AF' }}
-            thumbColor={useWeightTracking ? '#4CB97A' : '#f4f3f4'}
-            ios_backgroundColor='#3e3e3e'
-            onValueChange={toggleWeightTracking}
-            value={useWeightTracking}
-          />
+        {/* Stress levels */}
+        <View style={styles.inlineRow}>
+          <Text style={styles.textReg}>Stress Levels</Text>
+          <View style={styles.switchView}>
+            <View style={styles.line2} />
+            <Switch
+              trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
+              thumbColor={useStressLevels ? '#4CB97A' : '#f4f3f4'}
+              ios_backgroundColor='#3e3e3e'
+              onValueChange={toggleStressLevels}
+              value={useStressLevels}
+            />
+          </View>
         </View>
+        <View style={styles.line} />
 
-        <View style={{ flexDirection: 'row' }}>
-          <Text>Period Tracking</Text>
-          <Switch
-            trackColor={{ false: '#767577', true: '#9AD2AF' }}
-            thumbColor={usePeriodTracking ? '#4CB97A' : '#f4f3f4'}
-            ios_backgroundColor='#3e3e3e'
-            onValueChange={togglePeriodTracking}
-            value={usePeriodTracking}
-          />
+        {/* Daily activities */}
+        <View style={styles.inlineRow}>
+          <Text style={styles.textReg}>Daily Activities</Text>
+          <View style={styles.switchView}>
+            <View style={styles.line2} />
+            <Switch
+              trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
+              thumbColor={useDailyActivities ? '#4CB97A' : '#f4f3f4'}
+              ios_backgroundColor='#3e3e3e'
+              onValueChange={toggleDailyActivities}
+              value={useDailyActivities}
+            />
+          </View>
         </View>
+        <View style={styles.line} />
 
-        <View style={{ flexDirection: 'row' }}>
-          <Text>Medication Tracking</Text>
-          <Switch
-            trackColor={{ false: '#767577', true: '#9AD2AF' }}
-            thumbColor={useMedicationTracking ? '#4CB97A' : '#f4f3f4'}
-            ios_backgroundColor='#3e3e3e'
-            onValueChange={toggleMedicationTracking}
-            value={useMedicationTracking}
-          />
+        {/* Weight tracking */}
+        <View style={styles.inlineRow}>
+          <Text style={styles.textReg}>Weight Tracking</Text>
+          <View style={styles.switchView}>
+            <View style={styles.line2} />
+            <Switch
+              trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
+              thumbColor={useWeightTracking ? '#4CB97A' : '#f4f3f4'}
+              ios_backgroundColor='#3e3e3e'
+              onValueChange={toggleWeightTracking}
+              value={useWeightTracking}
+            />
+          </View>
         </View>
+        <View style={styles.line} />
 
-        <View style={{ flexDirection: 'row' }}>
-          <Text>Sleep Log</Text>
-          <Switch
-            trackColor={{ false: '#767577', true: '#9AD2AF' }}
-            thumbColor={useSleepLog ? '#4CB97A' : '#f4f3f4'}
-            ios_backgroundColor='#3e3e3e'
-            onValueChange={toggleSleepLog}
-            value={useSleepLog}
-          />
+        {/* Period tracking */}
+        <View style={styles.inlineRow}>
+          <Text style={styles.textReg}>Period Tracking</Text>
+          <View style={styles.switchView}>
+            <View style={styles.line2} />
+            <Switch
+              trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
+              thumbColor={usePeriodTracking ? '#4CB97A' : '#f4f3f4'}
+              ios_backgroundColor='#3e3e3e'
+              onValueChange={togglePeriodTracking}
+              value={usePeriodTracking}
+            />
+          </View>
         </View>
+        <View style={styles.line} />
 
-        <View style={{ flexDirection: 'row' }}>
-          <Text>Meal Tracking</Text>
-          <Switch
-            trackColor={{ false: '#767577', true: '#9AD2AF' }}
-            thumbColor={useMealTracking ? '#4CB97A' : '#f4f3f4'}
-            ios_backgroundColor='#3e3e3e'
-            onValueChange={toggleMealTracking}
-            value={useMealTracking}
-          />
+        {/* Medication tracking */}
+        <View style={styles.inlineRow}>
+          <Text style={styles.textReg}>Medication Tracking</Text>
+          <View style={styles.switchView}>
+            <View style={styles.line2} />
+            <Switch
+              trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
+              thumbColor={useMedicationTracking ? '#4CB97A' : '#f4f3f4'}
+              ios_backgroundColor='#3e3e3e'
+              onValueChange={toggleMedicationTracking}
+              value={useMedicationTracking}
+            />
+          </View>
         </View>
+        <View style={styles.line} />
 
-        <View style={{ flexDirection: 'row' }}>
-          <Text>Fitness Tracking</Text>
-          <Switch
-            trackColor={{ false: '#767577', true: '#9AD2AF' }}
-            thumbColor={useFitnessTracking ? '#4CB97A' : '#f4f3f4'}
-            ios_backgroundColor='#3e3e3e'
-            onValueChange={toggleFitnessTracking}
-            value={useFitnessTracking}
-          />
+        {/* Sleep tracking */}
+        <View style={styles.inlineRow}>
+          <Text style={styles.textReg}>Sleep Tracking</Text>
+          <View style={styles.switchView}>
+            <View style={styles.line2} />
+            <Switch
+              trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
+              thumbColor={useSleepTracking ? '#4CB97A' : '#f4f3f4'}
+              ios_backgroundColor='#3e3e3e'
+              onValueChange={toggleSleepTracking}
+              value={useSleepTracking}
+            />
+          </View>
         </View>
-      </View>
-      <View style={{ flexDirection: 'row' }}>
-        <Button title='Back' />
-        <View style={{ width: 20 }}></View>
-        <Button title='Next' onPress={() => navigation.navigate('HomePage')} />
+        <View style={styles.line} />
+
+        {/* Meal tracking */}
+        <View style={styles.inlineRow}>
+          <Text style={styles.textReg}>Meal Tracking</Text>
+          <View style={styles.switchView}>
+            <View style={styles.line2} />
+            <Switch
+              trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
+              thumbColor={useMealTracking ? '#4CB97A' : '#f4f3f4'}
+              ios_backgroundColor='#3e3e3e'
+              onValueChange={toggleMealTracking}
+              value={useMealTracking}
+            />
+          </View>
+        </View>
+        <View style={styles.line} />
+
+        {/* Fitness tracking */}
+        <View style={styles.inlineRow}>
+          <Text style={styles.textReg}>Fitness Tracking</Text>
+          <View style={styles.switchView}>
+            <View style={styles.line2} />
+            <Switch
+              trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
+              thumbColor={useFitnessTracking ? '#4CB97A' : '#f4f3f4'}
+              ios_backgroundColor='#3e3e3e'
+              onValueChange={toggleFitnessTracking}
+              value={useFitnessTracking}
+            />
+          </View>
+        </View>
+        <View style={styles.line} />
+        
+        {/* Back & next buttons */}
+        <View style={{ marginTop: '33%' }}/>
+        <View style={styles.buttonsContainer}>
+          <Button 
+            title='Back' 
+            color='#A5DFB2' 
+            onPress={() => navigation.navigate('UserInitializationPage2')}/
+          >
+          <View style={{ width: '70%' }}></View>
+          <Button 
+            title='Finish' 
+            color='#A5DFB2' 
+            onPress={() => navigation.navigate('HomePage')}/
+          >
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -396,6 +463,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 20,
     alignItems: 'center',
+    justifyContent: 'center',
+    width: '90%'
+  },
+  avatarSelectView: {
+    height: '68%',
+    marginBottom: 20,
   },
   buttons: {
     marginBottom: 10,
@@ -405,6 +478,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
+    width: '90%',
+  },
+  datePicker: {
+    marginTop: 10,
+    marginBottom: 30,
+    flexDirection: 'row',
     width: '90%',
   },
   divider: {
@@ -428,17 +507,45 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     width: '90%',
   },
-  text: {
+  inlineRow: {
+    flexDirection: 'row',
+    width: '90%',
+    alignItems: 'center',
+  },
+  line: {
+    width: '90%',
+    borderColor: '#816868',
+    borderBottomWidth: 1,
+    minHeight: 1,
+  },
+  line2: {
+    borderColor: '#816868',
+    borderRightWidth: 1,
+    minHeight: 28,
+    marginTop: 4,
+    marginBottom: 4,
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    marginRight: 20,
+  },
+  textReg: {
     color: 'black',
-    textDecorationLine: 'none',
     textAlign: 'left',
   },
   pageDescription: {
     color: '#816868',
     fontSize: 16,
+    flex: 1,
+    flexWrap: 'wrap',
   },
   pageEnd: {
     marginBottom: 10,
+  },
+  pageSetup: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   picker: {
     height: 32,
@@ -464,6 +571,12 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     fontSize: 16,
   },
+  switchView: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   textInput2: {
     height: 36,
     borderColor: 'black',
@@ -478,12 +591,7 @@ const styles = StyleSheet.create({
   userPrompt: {
     marginBottom: 20,
     width: '90%',
-    borderColor: 'black',
-  },
-  datePicker: {
-    marginTop: 10,
-    marginBottom: 30,
     flexDirection: 'row',
-    width: '90%',
+    alignItems: 'center',
   },
 });

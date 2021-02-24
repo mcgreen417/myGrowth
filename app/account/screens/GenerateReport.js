@@ -64,24 +64,14 @@ const GenerateReport = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
       <ScrollView>
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100%',
-          }}
-        >
+        <View style={styles.pageSetup}>
+
           {/* Gardener avatar + page blurb */}
           <View style={styles.avatarView}>
-            <Image
-              style={styles.avatar}
-              source={require('../../shared/assets/gardener-avatar.png')}
-            />
+            <Image style={styles.avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
             <Text style={styles.pageDescription}>
-              Generate a report of your health entry{'\n'}
-              history for your personal records. Select{'\n'}
-              the time period and sections you'd like{'\n'}
-              to be included in your report.
+              Generate a report of your health entry history for your personal records. 
+              Select the time period and sections you'd like to be included in your report.
             </Text>
           </View>
           {/* Top page divider */}
@@ -119,7 +109,7 @@ const GenerateReport = () => {
 
           {/* mood & feels */}
           <View style={styles.inlineRow}>
-            <Text style={styles.text}>Mood & Feelings</Text>
+            <Text style={styles.textReg}>Mood & Feelings</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -135,7 +125,7 @@ const GenerateReport = () => {
 
           {/* Stress levels */}
           <View style={styles.inlineRow}>
-            <Text style={styles.text}>Stress Levels</Text>
+            <Text style={styles.textReg}>Stress Levels</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -151,7 +141,7 @@ const GenerateReport = () => {
 
           {/* daily activities */}
           <View style={styles.inlineRow}>
-            <Text style={styles.text}>Daily Activities</Text>
+            <Text style={styles.textReg}>Daily Activities</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -167,7 +157,7 @@ const GenerateReport = () => {
 
           {/* Mental/phys health */}
           <View style={styles.inlineRow}>
-            <Text style={styles.text}>Physical/Mental Health Symptoms</Text>
+            <Text style={styles.textReg}>Physical/Mental Health Symptoms</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -183,7 +173,7 @@ const GenerateReport = () => {
 
           {/* Weight tracking */}
           <View style={styles.inlineRow}>
-            <Text style={styles.text}>Weight Tracking</Text>
+            <Text style={styles.textReg}>Weight Tracking</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -199,7 +189,7 @@ const GenerateReport = () => {
 
           {/* Period tracking */}
           <View style={styles.inlineRow}>
-            <Text style={styles.text}>Period Tracking</Text>
+            <Text style={styles.textReg}>Period Tracking</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -215,7 +205,7 @@ const GenerateReport = () => {
 
           {/* Medication tracking */}
           <View style={styles.inlineRow}>
-            <Text style={styles.text}>Medication Tracking</Text>
+            <Text style={styles.textReg}>Medication Tracking</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -231,7 +221,7 @@ const GenerateReport = () => {
 
           {/* Sleep tracking */}
           <View style={styles.inlineRow}>
-            <Text style={styles.text}>Sleep Tracking</Text>
+            <Text style={styles.textReg}>Sleep Tracking</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -247,7 +237,7 @@ const GenerateReport = () => {
 
           {/* Meal tracking */}
           <View style={styles.inlineRow}>
-            <Text style={styles.text}>Meal Tracking</Text>
+            <Text style={styles.textReg}>Meal Tracking</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -263,7 +253,7 @@ const GenerateReport = () => {
 
           {/* Fitness tracking */}
           <View style={styles.inlineRow}>
-            <Text style={styles.text}>Fitness Tracking</Text>
+            <Text style={styles.textReg}>Fitness Tracking</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -279,7 +269,7 @@ const GenerateReport = () => {
 
           {/* Journal entries */}
           <View style={styles.inlineRow}>
-            <Text style={styles.text}>Journal Entries</Text>
+            <Text style={styles.textReg}>Journal Entries</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -296,19 +286,11 @@ const GenerateReport = () => {
           {/* PDF/Google Drive export buttons */}
           <View style={{ flexDirection: 'row', marginTop: 30 }}>
             <View style={{ width: '42.5%' }}>
-              <Button
-                title='Download as PDF'
-                color='#A5DFB2'
-                onPress={() => onPress()}
-              />
+              <Button title='Download as PDF' color='#A5DFB2' onPress={() => onPress()}/>
             </View>
             <View style={{ width: '5%' }} />
             <View style={{ width: '42.5%' }}>
-              <Button
-                title='Save to Google Drive'
-                color='#A5DFB2'
-                onPress={() => onPress()}
-              />
+              <Button title='Save to Google Drive' color='#A5DFB2' onPress={() => onPress()}/>
             </View>
           </View>
 
@@ -340,6 +322,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 20,
     alignItems: 'center',
+    justifyContent: 'center',
+    width: '90%'
   },
   buttons: {
     marginTop: 7,
@@ -385,7 +369,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     marginRight: 20,
   },
-  text: {
+  textReg: {
     color: 'black',
     textDecorationLine: 'none',
     textAlign: 'left',
@@ -393,9 +377,16 @@ const styles = StyleSheet.create({
   pageDescription: {
     color: '#816868',
     fontSize: 16,
+    flex: 1,
+    flexWrap: 'wrap',
   },
   pageEnd: {
     marginBottom: 30,
+  },
+  pageSetup: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
   },
   picker: {
     height: 32,

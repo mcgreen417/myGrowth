@@ -18,31 +18,13 @@ function LoginPage({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
-      <View
-        style={{
-          height: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
+      <View style={styles.pageSetup}>
+
         {/* Logo + title */}
-        <Image
-          style={styles.logo}
-          source={require('../../shared/assets/icon.png')}
-        />
-        <Text style={{ fontWeight: 'bold', color: '#816868', fontSize: 36 }}>
-          myGrowth
-        </Text>
-        <Text
-          style={{
-            fontWeight: 'bold',
-            color: '#816868',
-            fontSize: 16,
-            marginBottom: 20,
-          }}
-        >
-          Your General Wellness Tracker
-        </Text>
+        <Image style={styles.logo} source={require('../../shared/assets/icon.png')}/>
+        <Text style={styles.textTitle}>myGrowth</Text>
+        <Text style={styles.textSubtitle}>Your General Wellness Tracker</Text>
+
         {/* E-mail address + password entry boxes, login button */}
         <View style={styles.buttons}>
           <TextInput
@@ -64,53 +46,34 @@ function LoginPage({ navigation }) {
             }}
           />
           <View style={{ marginVertical: 8 }} />
-          <Button
-            title='LOG IN'
-            color='#A5DFB2'
-            onPress={() => signIn(email, password, navigation)}
-          />
+          <Button title='LOG IN' color='#A5DFB2' onPress={() => signIn(email, password, navigation)}/>
           <View style={{ marginVertical: 8 }} />
         </View>
-        {/* Login/signup page switch */}
+
+        {/* Login/signup page switch + forgot password button */}
         <View style={{ flexDirection: 'row' }}>
-          <Text style={{ color: '#816868' }}>Don't have an account? </Text>
-          {/* FOR TESTING ONLY REMEMBER TO CHANGE LATER */}
+          <Text style={styles.textReg}>Don't have an account? </Text>
           <TouchableOpacity onPress={() => navigation.navigate('SignUpPage')}>
-            <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>
-              Sign up here.
-            </Text>
+            <Text style={styles.textLink}>Sign up here.</Text>
           </TouchableOpacity>
         </View>
         <View>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ForgotPasswordPage')}
-          >
-            <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>
-              Forgot your password?
-            </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('ForgotPasswordPage')}>
+            <Text style={styles.textLink}>Forgot your password?</Text>
           </TouchableOpacity>
         </View>
+
         {/* TOS + privacy policy agreement */}
         <View style={{ marginVertical: 8 }} />
         <View>
-          <Text style={{ color: '#816868' }}>
-            By continuing, you're accepting our{' '}
-          </Text>
+          <Text style={styles.textReg}>By continuing, you're accepting our{' '}</Text>
           <View style={{ flexDirection: 'row' }}>
             <TouchableOpacity>
-              <Text
-                style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}
-              >
-                Terms of Service
-              </Text>
+              <Text style={styles.textLink}>Terms of Service</Text>
             </TouchableOpacity>
-            <Text style={{ color: '#816868' }}> and </Text>
+            <Text style={styles.textReg}> and </Text>
             <TouchableOpacity>
-              <Text
-                style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}
-              >
-                Privacy Policy.
-              </Text>
+              <Text style={styles.textLink}>Privacy Policy.</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -167,23 +130,50 @@ const styles = StyleSheet.create({
     backgroundColor: '#F6EFED',
   },
   logo: {
-    width: 100,
     height: 100,
+    width: 100,
   },
   buttons: {
     marginTop: 10,
     marginBottom: 10,
-    width: 300,
+    width: '70%',
     borderColor: 'black',
+  },
+  pageSetup:{
+    height: '100%', 
+    justifyContent: 'center', 
+    alignItems: 'center'
   },
   textInput: {
     height: 40,
     borderColor: '#A5DFB2',
     borderWidth: 2,
     borderRadius: 10,
-    backgroundColor: '#FFFFFF',
-    color: '#000000',
+    backgroundColor: '#f4f3f4',
     textAlign: 'center',
+  },
+  textInstructions: {
+    color: '#816868', 
+    marginBottom: 12, 
+    textAlign: 'center'
+  },
+  textLink: {
+    color: '#A5DFB2', 
+    textDecorationLine: 'underline',
+  },
+  textReg: {
+    color: '#816868',
+  },
+  textSubtitle: {
+    color: '#816868',
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginBottom: 20,
+  },
+  textTitle: {
+    color: '#816868',
+    fontWeight: 'bold',
+    fontSize: 44,
   },
 });
 

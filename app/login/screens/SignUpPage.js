@@ -20,31 +20,13 @@ function SignUpPage({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
-      <View
-        style={{
-          height: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
+      <View style={styles.pageSetup}>
+
         {/* Logo + title */}
-        <Image
-          style={styles.logo}
-          source={require('../../shared/assets/icon.png')}
-        />
-        <Text style={{ fontWeight: 'bold', color: '#816868', fontSize: 36 }}>
-          myGrowth
-        </Text>
-        <Text
-          style={{
-            fontWeight: 'bold',
-            color: '#816868',
-            fontSize: 16,
-            marginBottom: 20,
-          }}
-        >
-          Your General Wellness Tracker
-        </Text>
+        <Image style={styles.logo} source={require('../../shared/assets/icon.png')}/>
+        <Text style={styles.textTitle}>myGrowth</Text>
+        <Text style={styles.textSubtitle}>Your General Wellness Tracker</Text>
+
         {/* Username, e-mail address, password, confirm password entry boxes + signup button */}
         <View style={styles.buttons}>
           <TextInput
@@ -85,45 +67,29 @@ function SignUpPage({ navigation }) {
             }}
           />
           <View style={{ marginVertical: 8 }} />
-          <Button
-            title='SIGN UP'
-            color='#A5DFB2'
-            onPress={() =>
-              signUp(username, email, password, confirmPassword, navigation)
-            }
-          />
+          <Button title='SIGN UP' color='#A5DFB2' onPress={() => signUp(username, email, password, confirmPassword, navigation)}/>
           <View style={{ marginVertical: 8 }} />
         </View>
+
         {/* Login/signup page switch */}
         <View style={{ flexDirection: 'row' }}>
-          <Text style={{ color: '#816868' }}>Already have an account? </Text>
+          <Text style={styles.textReg}>Already have an account? </Text>
           <TouchableOpacity onPress={() => navigation.navigate('LoginPage')}>
-            <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>
-              Log in here.
-            </Text>
+            <Text style={styles.textLink}>Log in here.</Text>
           </TouchableOpacity>
         </View>
+
         {/* TOS + privacy policy agreement */}
         <View style={{ marginVertical: 8 }} />
         <View>
-          <Text style={{ color: '#816868' }}>
-            By continuing, you're accepting our{' '}
-          </Text>
+          <Text style={styles.textReg}>By continuing, you're accepting our{' '}</Text>
           <View style={{ flexDirection: 'row' }}>
             <TouchableOpacity>
-              <Text
-                style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}
-              >
-                Terms of Service
-              </Text>
+              <Text style={styles.textLink}>Terms of Service </Text>
             </TouchableOpacity>
-            <Text style={{ color: '#816868' }}> and </Text>
+            <Text style={styles.textReg}> and </Text>
             <TouchableOpacity>
-              <Text
-                style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}
-              >
-                Privacy Policy.
-              </Text>
+              <Text style={styles.textLink}>Privacy Policy.</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -157,23 +123,45 @@ const styles = StyleSheet.create({
     backgroundColor: '#F6EFED',
   },
   logo: {
-    width: 100,
     height: 100,
+    width: 100,
   },
   buttons: {
     marginTop: 10,
     marginBottom: 10,
-    width: 300,
+    width: '70%',
     borderColor: 'black',
+  },
+  pageSetup:{
+    height: '100%', 
+    justifyContent: 'center', 
+    alignItems: 'center'
   },
   textInput: {
     height: 40,
     borderColor: '#A5DFB2',
     borderWidth: 2,
     borderRadius: 10,
-    backgroundColor: '#FFFFFF',
-    color: '#000000',
+    backgroundColor: '#f4f3f4',
     textAlign: 'center',
+  },
+  textLink: {
+    color: '#A5DFB2', 
+    textDecorationLine: 'underline',
+  },
+  textReg: {
+    color: '#816868',
+  },
+  textSubtitle: {
+    color: '#816868',
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginBottom: 20,
+  },
+  textTitle: {
+    color: '#816868',
+    fontWeight: 'bold',
+    fontSize: 44,
   },
 });
 
