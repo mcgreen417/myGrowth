@@ -26,9 +26,9 @@ function PasswordResetVerificationPage({ navigation }) {
         </Text>
         {/* Reset code text entry + verify button */}
         <View style={styles().buttons}>
-          <TextInput style={styles().textInput} placeholder='Reset Code' />
+          <TextInput style={styles().textInput} placeholder='Reset Code' placeholderTextColor={(global.colorblindMode ? global.cb_placeHolderTextColor : global.placeholderTextColor)} />
           <View style={{ marginVertical: 8 }} />
-          <Button title='VERIFY' color={(global.colorblindMode ? global.cb_optionBUttonsColor : global.optionButtonsColor)} onPress={() => navigation.navigate('ResetPasswordPage')} />
+          <Button title='VERIFY' color={(global.colorblindMode ? global.cb_optionButtonsColor : global.optionButtonsColor)} onPress={() => navigation.navigate('ResetPasswordPage')} />
           <View style={{ marginVertical: 8 }} />
         </View>
         {/* Resend password reset code */}
