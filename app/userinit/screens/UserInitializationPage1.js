@@ -20,7 +20,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 function UserInitializationPage1({ navigation }) {
-  const [date, setDate] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   const [gender, setGender] = useState('unselected');
@@ -28,7 +28,8 @@ function UserInitializationPage1({ navigation }) {
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    setShow(Platform.OS === 'android');
+    console.log(currentDate);
+    setShow(Platform.OS === 'ios');
     setDate(currentDate);
   };
 
@@ -54,12 +55,15 @@ function UserInitializationPage1({ navigation }) {
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
       <ScrollView>
         <View style={styles.pageSetup}>
-
           {/* Gardener avatar + page blurb */}
           <View style={styles.avatarView}>
-            <Image style={styles.avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
+            <Image
+              style={styles.avatar}
+              source={require('../../shared/assets/gardener-avatar.png')}
+            />
             <Text style={styles.pageDescription}>
-              Welcome to myGrowth! Let’s initialize your account. First, please answer a few questions about yourself.
+              Welcome to myGrowth! Let’s initialize your account. First, please
+              answer a few questions about yourself.
             </Text>
           </View>
           {/* Top page divider */}
@@ -79,9 +83,11 @@ function UserInitializationPage1({ navigation }) {
             <TouchableOpacity onPress={showDatepicker}>
               <View style={styles.inlineRow}>
                 <View style={styles.iconView}>
-                  <Image source={require('../../shared/assets/baseline_event_black_18dp.png')}/>
+                  <Image
+                    source={require('../../shared/assets/baseline_event_black_18dp.png')}
+                  />
                 </View>
-                <Text>   MM/DD/YYYY</Text>
+                <Text> MM/DD/YYYY</Text>
               </View>
             </TouchableOpacity>
             {show && (
@@ -103,8 +109,7 @@ function UserInitializationPage1({ navigation }) {
               <Picker
                 selectedValue={gender}
                 style={styles.picker}
-                onValueChange={(itemValue, itemIndex) => setGender(itemValue)}
-              >
+                onValueChange={(itemValue, itemIndex) => setGender(itemValue)}>
                 <Picker.Item label='Select one...' value='unselected' />
                 <Picker.Item label='Male' value='male' />
                 <Picker.Item label='Female' value='female' />
@@ -122,8 +127,7 @@ function UserInitializationPage1({ navigation }) {
               <Picker
                 selectedValue={bioSex}
                 style={styles.picker}
-                onValueChange={(itemValue, itemIndex) => setBioSex(itemValue)}
-              >
+                onValueChange={(itemValue, itemIndex) => setBioSex(itemValue)}>
                 <Picker.Item label='Select one...' value='unselected' />
                 <Picker.Item label='Male' value='male' />
                 <Picker.Item label='Female' value='female' />
@@ -135,7 +139,7 @@ function UserInitializationPage1({ navigation }) {
           <Text style={styles.heading}>HEIGHT</Text>
           <View style={styles.userPrompt}>
             <TextInput style={styles.textInput2} placeholder='#' />
-            <Text>     IN</Text>
+            <Text> IN</Text>
             <ToggleButton
               icon={
                 useHeightMeasurement
@@ -153,7 +157,7 @@ function UserInitializationPage1({ navigation }) {
           <Text style={styles.heading}>WEIGHT</Text>
           <View style={styles.userPrompt}>
             <TextInput style={styles.textInput2} placeholder='#' />
-            <Text>     LB</Text>
+            <Text> LB</Text>
             <ToggleButton
               icon={
                 useWeightMeasurement
@@ -170,9 +174,9 @@ function UserInitializationPage1({ navigation }) {
           {/* Next button */}
           <View style={styles.buttonsContainer}>
             <View style={styles.buttons}>
-              <Button 
-                title='NEXT' 
-                color='#A5DFB2' 
+              <Button
+                title='NEXT'
+                color='#A5DFB2'
                 onPress={() => navigation.navigate('UserInitializationPage2')}
               />
             </View>
@@ -202,7 +206,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    width: '90%'
+    width: '90%',
   },
   avatarSelectView: {
     height: '68%',
