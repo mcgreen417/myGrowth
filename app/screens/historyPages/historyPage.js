@@ -18,7 +18,16 @@ function HistoryPage({ navigation }) {
     <SafeAreaView>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
       <View style = {{ justifyContent: 'center', alignItems: 'center', height: '100%'}}>
+        { /* blurb and icon */ }
 
+        { /* categories selector */ }
+
+        { /* custom component */ }
+
+        { /* blurb */ }
+
+        { /* search for correlations button */ }
+        <Button title='Search for Correlations' color='#E5E5E5' onPress={  } />
       </View>
     </SafeAreaView>
   );
@@ -30,7 +39,15 @@ function HistoryMoodPage({ navigation }) {
     <SafeAreaView>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
       <View style = {{ justifyContent: 'center', alignItems: 'center', height: '100%'}}>
-        
+      { /* blurb and icon */ }
+
+      { /* categories selector */ }
+
+      { /* custom component */ }
+
+      { /* time period selector */ }
+
+      { /* correlation blurb */ }
       </View>
     </SafeAreaView>
   );
@@ -42,7 +59,15 @@ function HistoryStressPage({ navigation }) {
     <SafeAreaView>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
       <View style = {{ justifyContent: 'center', alignItems: 'center', height: '100%'}}>
-        
+        { /* blurb and icon */ }
+
+        { /* categories selector */ }
+
+        { /* custom component */ }
+
+        { /* time period selector */ }
+
+        { /* correlation blurb */ }
       </View>
     </SafeAreaView>
   );
@@ -54,7 +79,13 @@ function HistoryDailyActPage({ navigation }) {
     <SafeAreaView>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
       <View style = {{ justifyContent: 'center', alignItems: 'center', height: '100%'}}>
-        
+        { /* blurb and icon */ }
+
+        { /* categories selector */ }
+
+        { /* custom component */ }
+
+        { /* time period selector */ }
       </View>
     </SafeAreaView>
   );
@@ -66,7 +97,17 @@ function HistoryPeriodPage({ navigation }) {
     <SafeAreaView>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
       <View style = {{ justifyContent: 'center', alignItems: 'center', height: '100%'}}>
-        
+        { /* blurb and icon */ }
+
+        { /* categories selector */ }
+
+        { /* custom component */ }
+
+        { /* time period selector */ }
+
+        { /* next period calculation */ }
+
+        { /* correlation symptom blurb */ }
       </View>
     </SafeAreaView>
   );
@@ -78,7 +119,17 @@ function HistoryWeightPage({ navigation }) {
     <SafeAreaView>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
       <View style = {{ justifyContent: 'center', alignItems: 'center', height: '100%'}}>
-        
+        { /* blurb and icon */ }
+
+        { /* categories selector */ }
+
+        { /* custom component */ }
+
+        { /* time period selector */ }
+
+        { /* correlation symptom blurb */ }
+
+        { /* exercise blurb */ }
       </View>
     </SafeAreaView>
   );
@@ -90,7 +141,13 @@ function HistoryGenHealthPage({ navigation }) {
     <SafeAreaView>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
       <View style = {{ justifyContent: 'center', alignItems: 'center', height: '100%'}}>
-        
+        { /* blurb and icon */ }
+
+        { /* categories selector */ }
+
+        { /* custom component */ }
+
+        { /* time period selector */ }
       </View>
     </SafeAreaView>
   );
@@ -102,7 +159,15 @@ function HistoryMedicationPage({ navigation }) {
     <SafeAreaView>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
       <View style = {{ justifyContent: 'center', alignItems: 'center', height: '100%'}}>
-        
+        { /* blurb and icon */ }
+
+        { /* categories selector */ }
+
+        { /* custom component */ }
+
+        { /* medication selector */ }
+
+        { /* correlation symptom blurbs */ }
       </View>
     </SafeAreaView>
   );
@@ -114,7 +179,17 @@ function HistorySleepPage({ navigation }) {
     <SafeAreaView>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
       <View style = {{ justifyContent: 'center', alignItems: 'center', height: '100%'}}>
-        
+        { /* blurb and icon */ }
+
+        { /* categories selector */ }
+
+        { /* custom component */ }
+
+        { /* time period selector */ }
+
+        { /* display selector */ }
+
+        { /* correlation symptom blurbs */ }
       </View>
     </SafeAreaView>
   );
@@ -126,7 +201,15 @@ function HistoryMealTrackPage({ navigation }) {
     <SafeAreaView>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
       <View style = {{ justifyContent: 'center', alignItems: 'center', height: '100%'}}>
-        
+        { /* blurb and icon */ }
+
+        { /* categories selector */ }
+
+        { /* custom component */ }
+
+        { /* recommonded nutritional values */ }
+
+        { /* correlation symptom blurbs */ }
       </View>
     </SafeAreaView>
   );
@@ -138,7 +221,13 @@ function HistoryFitnessPage({ navigation }) {
     <SafeAreaView>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
       <View style = {{ justifyContent: 'center', alignItems: 'center', height: '100%'}}>
-        
+        { /* blurb and icon */ }
+
+        { /* categories selector */ }
+
+        { /* custom component */ }
+
+        { /* correlation symptom blurb */ }
       </View>
     </SafeAreaView>
   );
