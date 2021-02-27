@@ -15,35 +15,39 @@ function PasswordResetVerificationPage({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
-      <View style={{ justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+      <View style={styles.pageSetup}>
+
         {/* Logo + title + page instructions */}
-        <Image style={styles.logo} source={require('../assets/icon.png')} />
-        <Text style={{ fontWeight: 'bold', color: '#816868', fontSize: 44 }}>myGrowth</Text>
-        <Text style={{ fontWeight: 'bold', color: '#816868', fontSize: 20, marginBottom: 16 }}>Your General Wellness Tracker</Text>
-        <Text style={{ color: '#816868', marginBottom: 12, textAlign: 'center' }}>
-          A password reset code has been sent to your e-mail.{"\n"}
+        <Image style={styles.logo} source={require('../../shared/assets/icon.png')}/>
+        <Text style={styles.textTitle}>myGrowth</Text>
+        <Text style={styles.textSubtitle}>Your General Wellness Tracker</Text>
+        <Text style={styles.textInstructions}>
+          A password reset code has been sent to your e-mail.{'\n'}
           Enter the password reset code you received below.
         </Text>
+
         {/* Reset code text entry + verify button */}
         <View style={styles.buttons}>
           <TextInput style={styles.textInput} placeholder='Reset Code' />
           <View style={{ marginVertical: 8 }} />
-          <Button title='VERIFY' color='#A5DFB2' onPress={() => navigation.navigate('ResetPasswordPage')} />
+          <Button title='VERIFY' color='#A5DFB2' onPress={() => navigation.navigate('ResetPasswordPage')}/>
           <View style={{ marginVertical: 8 }} />
         </View>
+
         {/* Resend password reset code */}
         <View>
           <View style={{ flexDirection: 'row' }}>
-            <Text style={{ color: '#816868' }}>Didn't receive a reset code? </Text>
+            <Text style={styles.textReg}>Didn't receive a reset code?{' '}</Text>
             <TouchableOpacity>
-              <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>Resend e-mail.</Text>
+              <Text style={styles.textLink}>Resend e-mail.</Text>
             </TouchableOpacity>
           </View>
         </View>
+
         {/* Login page redirect */}
         <View style={{ flexDirection: 'row', marginTop: 8 }}>
           <TouchableOpacity onPress={() => navigation.navigate('LoginPage')}>
-            <Text style={{ color: '#A5DFB2', textDecorationLine: 'underline' }}>Return to login.</Text>
+            <Text style={styles.textLink}>Return to login.</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -57,23 +61,50 @@ const styles = StyleSheet.create({
     backgroundColor: '#F6EFED',
   },
   logo: {
-    width: 100,
     height: 100,
+    width: 100,
   },
   buttons: {
     marginTop: 10,
     marginBottom: 10,
-    width: 300,
+    width: '70%',
     borderColor: 'black',
+  },
+  pageSetup:{
+    height: '100%', 
+    justifyContent: 'center', 
+    alignItems: 'center'
   },
   textInput: {
     height: 40,
     borderColor: '#A5DFB2',
     borderWidth: 2,
     borderRadius: 10,
-    backgroundColor: '#FFFFFF',
-    color: '#000000',
+    backgroundColor: '#f4f3f4',
     textAlign: 'center',
+  },
+  textInstructions: {
+    color: '#816868', 
+    marginBottom: 12, 
+    textAlign: 'center'
+  },
+  textLink: {
+    color: '#A5DFB2', 
+    textDecorationLine: 'underline',
+  },
+  textReg: {
+    color: '#816868',
+  },
+  textSubtitle: {
+    color: '#816868',
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginBottom: 20,
+  },
+  textTitle: {
+    color: '#816868',
+    fontWeight: 'bold',
+    fontSize: 44,
   },
 });
 
