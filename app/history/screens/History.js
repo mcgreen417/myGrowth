@@ -7,12 +7,17 @@ import {
   Button,
   Image,
   Switch,
+  TouchableOpacity,
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
 
 const CategoryChooser = () => {
-  return <View>{/* add category chooser modal here */}</View>;
+  return (
+    <View>
+      {/* add category chooser modal here */}
+    </View>
+  );
 };
 
 const HistoryHealthEntries = ({ navigation }) => {
@@ -29,8 +34,21 @@ const HistoryHealthEntries = ({ navigation }) => {
           style={styles.avatar}
         />
       </View>
+      {/* Top page divider */}
+      <View style={styles.dividerView}>
+        <View style={styles.divider} />
+      </View>
       <View>
-        <Button title='Categories' />
+        <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('HistoryHealthEntries')}>
+          <View style={styles.inlineRow}>
+            <Text style={styles.textReg}>Categories</Text>
+            <View>
+            <Image source={require('../../shared/assets/transit_enterexit.png')} />
+            </View>
+          </View>
+        </TouchableOpacity>
+        
+        { /* replace w/ custom component in future */ }
         <Button title='History' />
       </View>
       <View>
@@ -39,13 +57,20 @@ const HistoryHealthEntries = ({ navigation }) => {
           style={styles.avatar}
         />
       </View>
+      <View style={styles.dividerView}>
+        <View style={styles.divider} />
+      </View>
       <View>
         <Text>
           Did you know? You can also overlay graphs from different categories to
           easily search for correlations between your physical and mental
           health. Click below to get started!
         </Text>
-        <Button title='Search for Correlations' />
+        <TouchableOpacity style={styles.buttonsCorr} onPress={() => navigation.navigate('HistoryHealthEntries')}>
+          <View style={styles.inlineRow}>
+            <Text style={styles.textCorr}>Search for Correlations</Text>
+          </View>
+        </TouchableOpacity>
       </View>
       <NavBar history={true} navigation={navigation} />
     </SafeAreaView>
@@ -65,7 +90,14 @@ const HistoryMood = () => {
       <View>
         <Button title='History' />
         <Button title='Correlations' />
-        <Button title='Categories' />
+        <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('HistoryHealthEntries')}>
+          <View style={styles.inlineRow}>
+            <Text style={styles.textReg}>Categories</Text>
+            <View>
+            <Image source={require('../../shared/assets/transit_enterexit.png')} />
+            </View>
+          </View>
+        </TouchableOpacity>
       </View>
       <View>
         <Image source={require('../../shared/assets/icon.png')} />
@@ -114,7 +146,14 @@ const HistoryStress = () => {
       <View>
         <Button title='History' />
         <Button title='Correlations' />
-        <Button title='Categories' />
+        <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('HistoryHealthEntries')}>
+          <View style={styles.inlineRow}>
+            <Text style={styles.textReg}>Categories</Text>
+            <View>
+            <Image source={require('../../shared/assets/transit_enterexit.png')} />
+            </View>
+          </View>
+        </TouchableOpacity>
       </View>
       <View>
         <Image source={require('../../shared/assets/icon.png')} />
@@ -164,7 +203,14 @@ const HistoryDailyActivities1 = () => {
         <Button title='History' />
         <Button title='Correlations' />
         <Button title='Activity View' />
-        <Button title='Categories' />
+        <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('HistoryHealthEntries')}>
+          <View style={styles.inlineRow}>
+            <Text style={styles.textReg}>Categories</Text>
+            <View>
+            <Image source={require('../../shared/assets/transit_enterexit.png')} />
+            </View>
+          </View>
+        </TouchableOpacity>
       </View>
       <View>
         <Image source={require('../../shared/assets/icon.png')} />
@@ -222,7 +268,14 @@ const HistoryPeriodTracking = () => {
       <View>
         <Button title='History' />
         <Button title='Correlations' />
-        <Button title='Categories' />
+        <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('HistoryHealthEntries')}>
+          <View style={styles.inlineRow}>
+            <Text style={styles.textReg}>Categories</Text>
+            <View>
+            <Image source={require('../../shared/assets/transit_enterexit.png')} />
+            </View>
+          </View>
+        </TouchableOpacity>
       </View>
       <View>
         <Image source={require('../../shared/assets/icon.png')} />
@@ -254,7 +307,14 @@ const HistoryWeight = () => {
       <View>
         <Button title='History' />
         <Button title='Correlations' />
-        <Button title='Categories' />
+        <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('HistoryHealthEntries')}>
+          <View style={styles.inlineRow}>
+            <Text style={styles.textReg}>Categories</Text>
+            <View>
+            <Image source={require('../../shared/assets/transit_enterexit.png')} />
+            </View>
+          </View>
+        </TouchableOpacity>
       </View>
       <View>
         <Image source={require('../../shared/assets/icon.png')} />
@@ -300,7 +360,14 @@ const HistoryGeneralHealth1 = () => {
         <Button title='History' />
         <Button title='Correlations' />
         <Button title='Intensity' />
-        <Button title='Categories' />
+        <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('HistoryHealthEntries')}>
+          <View style={styles.inlineRow}>
+            <Text style={styles.textReg}>Categories</Text>
+            <View>
+            <Image source={require('../../shared/assets/transit_enterexit.png')} />
+            </View>
+          </View>
+        </TouchableOpacity>
       </View>
       <View>
         <Image source={require('../../shared/assets/icon.png')} />
@@ -371,7 +438,14 @@ const HistoryMedication = () => {
       <View>
         <Button title='History' />
         <Button title='Correlations' />
-        <Button title='Categories' />
+        <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('HistoryHealthEntries')}>
+          <View style={styles.inlineRow}>
+            <Text style={styles.textReg}>Categories</Text>
+            <View>
+            <Image source={require('../../shared/assets/transit_enterexit.png')} />
+            </View>
+          </View>
+        </TouchableOpacity>
       </View>
       <View>
         <Image source={require('../../shared/assets/icon.png')} />
@@ -424,7 +498,14 @@ const HistorySleep1 = () => {
         <Button title='History' />
         <Button title='Correlations' />
         <Button title='Quality' />
-        <Button title='Categories' />
+        <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('HistoryHealthEntries')}>
+          <View style={styles.inlineRow}>
+            <Text style={styles.textReg}>Categories</Text>
+            <View>
+            <Image source={require('../../shared/assets/transit_enterexit.png')} />
+            </View>
+          </View>
+        </TouchableOpacity>
       </View>
       <View>
         <Image source={require('../../shared/assets/icon.png')} />
@@ -512,7 +593,14 @@ const HistoryMealTracking = () => {
       <View>
         <Button title='History' />
         <Button title='Correlations' />
-        <Button title='Categories' />
+        <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('HistoryHealthEntries')}>
+          <View style={styles.inlineRow}>
+            <Text style={styles.textReg}>Categories</Text>
+            <View>
+            <Image source={require('../../shared/assets/transit_enterexit.png')} />
+            </View>
+          </View>
+        </TouchableOpacity>
       </View>
       <View>
         <Image source={require('../../shared/assets/icon.png')} />
@@ -632,7 +720,50 @@ const styles = StyleSheet.create({
   buttons: {
     marginTop: 10,
     marginBottom: 10,
-    width: 100,
-    height: 50,
+    width: 80,
+    height: 25,
+    backgroundColor: '#4CB97A',
+  },
+  buttonsCorr: {
+    marginTop: 10,
+    marginBottom: 10,
+    width: 190,
+    height: 40,
+    backgroundColor: '#E5E5E5',
+    shadowColor: 'gray',
+    shadowOffset: { height: 1, width: 1 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
+    elevation: 20,
+  },
+  divider: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#816868',
+    marginLeft: 20,
+    marginRight: 20,
+  },
+  dividerView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  inlineRow: {
+    flexDirection: 'row',
+    width: '90%',
+    alignItems: 'center',
+  },
+  textCorr: {
+    color: 'black',
+    textDecorationLine: 'none',
+    textAlign: 'center',
+    fontSize: 16,
+  },
+  textReg: {
+    color: 'white',
+    textDecorationLine: 'none',
+    textAlign: 'center',
+    fontSize: 12,
   },
 });
