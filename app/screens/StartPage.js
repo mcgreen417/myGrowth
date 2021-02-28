@@ -29,7 +29,7 @@ function StartPage({ navigation }) {
       {/* Colorblind mode switch displayed on screen */}
       <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
         <Text style={{fontWeight: 'bold', fontSize: 18, marginTop: 1}}>
-          {"Colorblind mode?"}
+          {global.colorblindMode ? "Colorblind mode enabled" : "Colorblind mode?"}
         </Text>
         <Switch
           trackColor={{ false: global.cbSwitchTrackColorFalse, true: global.cbSwitchTrackColorTrue }}
