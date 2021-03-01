@@ -8,13 +8,12 @@ import {
   StatusBar,
   Switch,
   Button,
-  FlatList,
 } from 'react-native';
-
 import { Picker } from '@react-native-picker/picker';
 import { ScrollView } from 'react-native-gesture-handler';
+import NavBar from '../../shared/components/NavBar';
 
-const GenerateReport = () => {
+function GenerateReport({ navigation }) {
   const [time, setTime] = useState('unselected');
 
   const [useMoodNFeel, setUseMoodNFeel] = useState(false);
@@ -297,6 +296,7 @@ const GenerateReport = () => {
           <View style={styles.pageEnd} />
         </View>
       </ScrollView>
+      <NavBar account={true} navigation={navigation} />
     </SafeAreaView>
   );
 };
@@ -381,7 +381,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   pageEnd: {
-    marginBottom: 30,
+    marginBottom: 100,
   },
   pageSetup: {
     justifyContent: 'center',
