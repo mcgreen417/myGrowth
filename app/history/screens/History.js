@@ -12,10 +12,10 @@ import {
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
 
-const CategoryChooser = () => {
+const CategoryChooser = ({ navigation }) => {
   return (
     <View>
-      <View style={{backgroundColor: '#A5DFB2', width: 100, height: 18}}>
+      <View style={{backgroundColor: '#A5DFB2', width: 300, height: 30}}>
       {/* add category chooser modal here */}
         <TouchableOpacity>
           { /* image asset */ }
@@ -34,7 +34,7 @@ const CategoryChooser = () => {
           </View>
         </TouchableOpacity>
       </View>
-      <View style={{backgroundColor: '#F6EFED', width: 100, height: 150}}>
+      <View style={{backgroundColor: '#F6EFED', width: 300, height: 350}}>
         { /* health entries */ }
         <View>
           <TouchableOpacity>
@@ -111,7 +111,7 @@ const HistoryHealthEntries = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <View>
         <Text>
-          View an easily digestable summary of your health entry histor! View
+          View an easily digestable summary of your health entry history! View
           your individual health entries below or select a category to get
           started!
         </Text>
@@ -163,7 +163,7 @@ const HistoryHealthEntries = ({ navigation }) => {
   );
 };
 
-const HistoryMood = () => {
+const HistoryMood = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View>
@@ -219,7 +219,7 @@ const HistoryMood = () => {
   );
 };
 
-const HistoryStress = () => {
+const HistoryStress = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View>
@@ -275,7 +275,7 @@ const HistoryStress = () => {
   );
 };
 
-const HistoryDailyActivities1 = () => {
+const HistoryDailyActivities1 = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View>
@@ -318,7 +318,7 @@ const HistoryDailyActivities1 = () => {
   );
 };
 
-const HistoryDailyActivities2 = () => {
+const HistoryDailyActivities2 = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View>
@@ -341,7 +341,7 @@ const HistoryDailyActivities2 = () => {
   );
 };
 
-const HistoryPeriodTracking = () => {
+const HistoryPeriodTracking = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View>
@@ -380,7 +380,7 @@ const HistoryPeriodTracking = () => {
   );
 };
 
-const HistoryWeight = () => {
+const HistoryWeight = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View>
@@ -432,7 +432,7 @@ const HistoryWeight = () => {
   );
 };
 
-const HistoryGeneralHealth1 = () => {
+const HistoryGeneralHealth1 = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View>
@@ -475,7 +475,7 @@ const HistoryGeneralHealth1 = () => {
   );
 };
 
-const HistoryGeneralHealth2 = () => {
+const HistoryGeneralHealth2 = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View>
@@ -511,7 +511,7 @@ const HistoryGeneralHealth2 = () => {
   );
 };
 
-const HistoryMedication = () => {
+const HistoryMedication = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View>
@@ -570,7 +570,7 @@ const HistoryMedication = () => {
   );
 };
 
-const HistorySleep1 = () => {
+const HistorySleep1 = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View>
@@ -658,7 +658,7 @@ const HistorySleep1 = () => {
   );
 };
 
-const HistorySleep2 = () => {
+const HistorySleep2 = ({ navigation }) => {
   return (
     <SafeAreaView>
       <Text>{/* add sleep quality page */}</Text>
@@ -666,7 +666,7 @@ const HistorySleep2 = () => {
   );
 };
 
-const HistoryMealTracking = () => {
+const HistoryMealTracking = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View>
@@ -750,7 +750,7 @@ const HistoryMealTracking = () => {
   );
 };
 
-const HistoryFitness1 = () => {
+const HistoryFitness1 = ({ navigation }) => {
   return (
     <SafeAreaView>
       <Text></Text>
@@ -758,7 +758,7 @@ const HistoryFitness1 = () => {
   );
 };
 
-const HistoryFitness2 = () => {
+const HistoryFitness2 = ({ navigation }) => {
   return (
     <SafeAreaView>
       <Text></Text>
@@ -766,7 +766,7 @@ const HistoryFitness2 = () => {
   );
 };
 
-const HistoryCorrelations = () => {
+const HistoryCorrelations = ({ navigation }) => {
   return (
     <SafeAreaView>
       <Text>{/* add correlations page here */}</Text>
@@ -792,6 +792,8 @@ export {
   HistoryFitness1,
   HistoryFitness2,
 };
+
+export default CategoryChooser;
 
 const styles = StyleSheet.create({
   container: {
@@ -823,8 +825,10 @@ const styles = StyleSheet.create({
     elevation: 20,
   },
   chooserImg: {
-    borderWidth: 5,
+    borderWidth: 1,
     borderColor: '#4CB97A',
+    width: 40,
+    height: 40,
   },
   divider: {
     flex: 1,
