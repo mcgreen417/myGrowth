@@ -15,7 +15,93 @@ import NavBar from '../../shared/components/NavBar';
 const CategoryChooser = () => {
   return (
     <View>
+      <View style={{backgroundColor: '#A5DFB2', width: 100, height: 18}}>
       {/* add category chooser modal here */}
+        <TouchableOpacity>
+          { /* image asset */ }
+          <View>
+            <Image source={require('../../shared/assets/Path.png')}/>
+          </View>
+          <View>
+            <Text>|</Text>
+          </View>
+          <View>
+            <Text>Select a Category</Text>
+          </View>
+          { /* X asset */ }
+          <View>
+            <Image source={require('../../shared/assets/close.png')}/>
+          </View>
+        </TouchableOpacity>
+      </View>
+      <View style={{backgroundColor: '#F6EFED', width: 100, height: 150}}>
+        { /* health entries */ }
+        <View>
+          <TouchableOpacity>
+            <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+          </TouchableOpacity>
+        </View>
+        { /* mood */ }
+        <View>
+          <TouchableOpacity>
+            <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+          </TouchableOpacity>
+        </View>
+        { /* stress */ }
+        <View>
+          <TouchableOpacity>
+            <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+          </TouchableOpacity>
+        </View>
+        { /* daily activities */ }
+        <View>
+          <TouchableOpacity>
+            <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+          </TouchableOpacity>
+        </View>
+        { /* period tracking */ }
+        <View>
+          <TouchableOpacity>
+            <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+          </TouchableOpacity>
+        </View>
+        { /* weight */ }
+        <View>
+          <TouchableOpacity>
+            <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+          </TouchableOpacity>
+        </View>
+        { /* gen health */ }
+        <View>
+          <TouchableOpacity>
+            <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+          </TouchableOpacity>
+        </View>
+        { /* medicine */ }
+        <View>
+          <TouchableOpacity>
+            <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+          </TouchableOpacity>
+        </View>
+        { /* sleep */ }
+        <View>  
+          <TouchableOpacity>
+            <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+          </TouchableOpacity>
+        </View>
+        { /* meal tracking */ }
+        <View>
+          <TouchableOpacity>
+            <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+          </TouchableOpacity>
+        </View>
+        { /* fitness */ }
+        <View>
+          <TouchableOpacity>
+            <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 };
@@ -39,7 +125,7 @@ const HistoryHealthEntries = ({ navigation }) => {
         <View style={styles.divider} />
       </View>
       <View>
-        <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('HistoryHealthEntries')}>
+        <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('CategoryChooser')}>
           <View style={styles.inlineRow}>
             <Text style={styles.textReg}>Categories</Text>
             <View>
@@ -735,6 +821,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 1,
     elevation: 20,
+  },
+  chooserImg: {
+    borderWidth: 5,
+    borderColor: '#4CB97A',
   },
   divider: {
     flex: 1,
