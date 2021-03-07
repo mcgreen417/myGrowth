@@ -12,101 +12,17 @@ import {
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
 
-const CategoryChooser = ({ navigation }) => {
-  return (
-    <View>
-      <View style={{backgroundColor: '#A5DFB2', width: 300, height: 30}}>
-      {/* add category chooser modal here */}
-        <TouchableOpacity>
-          { /* image asset */ }
-          <View>
-            <Image source={require('../../shared/assets/Path.png')}/>
-          </View>
-          <View>
-            <Text>|</Text>
-          </View>
-          <View>
-            <Text>Select a Category</Text>
-          </View>
-          { /* X asset */ }
-          <View>
-            <Image source={require('../../shared/assets/close.png')}/>
-          </View>
-        </TouchableOpacity>
-      </View>
-      <View style={{backgroundColor: '#F6EFED', width: 300, height: 350}}>
-        { /* health entries */ }
-        <View>
-          <TouchableOpacity>
-            <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-          </TouchableOpacity>
-        </View>
-        { /* mood */ }
-        <View>
-          <TouchableOpacity>
-            <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-          </TouchableOpacity>
-        </View>
-        { /* stress */ }
-        <View>
-          <TouchableOpacity>
-            <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-          </TouchableOpacity>
-        </View>
-        { /* daily activities */ }
-        <View>
-          <TouchableOpacity>
-            <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-          </TouchableOpacity>
-        </View>
-        { /* period tracking */ }
-        <View>
-          <TouchableOpacity>
-            <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-          </TouchableOpacity>
-        </View>
-        { /* weight */ }
-        <View>
-          <TouchableOpacity>
-            <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-          </TouchableOpacity>
-        </View>
-        { /* gen health */ }
-        <View>
-          <TouchableOpacity>
-            <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-          </TouchableOpacity>
-        </View>
-        { /* medicine */ }
-        <View>
-          <TouchableOpacity>
-            <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-          </TouchableOpacity>
-        </View>
-        { /* sleep */ }
-        <View>  
-          <TouchableOpacity>
-            <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-          </TouchableOpacity>
-        </View>
-        { /* meal tracking */ }
-        <View>
-          <TouchableOpacity>
-            <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-          </TouchableOpacity>
-        </View>
-        { /* fitness */ }
-        <View>
-          <TouchableOpacity>
-            <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </View>
-  );
-};
-
 const HistoryHealthEntries = ({ navigation }) => {
+  state = {
+    seen: false
+  };
+
+  togglePop = () => {
+    this.setState({
+      seen: !this.state.seen
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -823,12 +739,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 1,
     elevation: 20,
-  },
-  chooserImg: {
-    borderWidth: 1,
-    borderColor: '#4CB97A',
-    width: 40,
-    height: 40,
   },
   divider: {
     flex: 1,
