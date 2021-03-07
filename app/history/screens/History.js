@@ -11,16 +11,15 @@ import {
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
+import CategoryChooser from '../../shared/components/CategoryChooser';
 
 const HistoryHealthEntries = ({ navigation }) => {
-  state = {
+  const state = {
     seen: false
   };
 
-  togglePop = () => {
-    this.setState({
-      seen: !this.state.seen
-    });
+  const togglePop = () => {
+    state.seen = !state.seen;
   };
 
   return (
@@ -41,7 +40,7 @@ const HistoryHealthEntries = ({ navigation }) => {
         <View style={styles.divider} />
       </View>
       <View>
-        <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('CategoryChooser')}>
+        <TouchableOpacity style={styles.buttons} onPress={togglePop}>
           <View style={styles.inlineRow}>
             <Text style={styles.textReg}>Categories</Text>
             <View>
@@ -49,7 +48,7 @@ const HistoryHealthEntries = ({ navigation }) => {
             </View>
           </View>
         </TouchableOpacity>
-        
+        {state.seen ? <CategoryChooser toggle={togglePop} /> : null}
         { /* replace w/ custom component in future */ }
         <Button title='History' />
       </View>
