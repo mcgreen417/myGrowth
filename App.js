@@ -19,7 +19,6 @@ import { Goals } from './app/goals/screens/Goals';
 import { HealthEntry1 } from './app/healthentry/screens/HealthEntry';
 import { ToDoList } from './app/todolist/screens/ToDoList';
 import { HistoryHealthEntries } from './app/history/screens/History';
-import CategoryChooser from './app/history/screens/History';
 import AccountPanel from './app/account/screens/AccountPanel';
 import UserSettings from './app/account/screens/UserSettings';
 import GenerateReport from './app/account/screens/GenerateReport';
@@ -124,11 +123,6 @@ function App() {
         <Stack.Screen
           name='HistoryHealthEntries'
           component={HistoryHealthEntries}
-          options={{ header: () => null }}
-        />
-        <Stack.Screen 
-          name='CategoryChooser'
-          component={CategoryChooser}
           options={{ header: () => null }}
         />
         <Stack.Screen
