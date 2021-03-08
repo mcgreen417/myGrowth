@@ -12,12 +12,14 @@ import {
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
+import { nav } from '@aws-amplify/ui';
 
 const HistoryHealthEntries = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <SafeAreaView style={styles.container}>
+      { /* Modal */}
       <View>
         <Modal
           animationType="none"
@@ -28,6 +30,7 @@ const HistoryHealthEntries = ({ navigation }) => {
           }}
         >
           <View style={styles.centeredView}>
+            {/* Dismiss Bar */}
             <View style={styles.inlineRowBackgrd}>
                 {/* add category chooser modal here */}
                 { /* image asset */ }
@@ -44,84 +47,139 @@ const HistoryHealthEntries = ({ navigation }) => {
                     </View>
                 </TouchableOpacity>
             </View>
+
+            {/* Body of modal */}
             <View style={{backgroundColor: '#F6EFED', width: 300, height: 350,}}>
+              {/* Buttons on modal */}
               <View style={styles.inlineRowModal}>
                   { /* health entries */ }
                   <View>
-                      <TouchableOpacity onPress={() => navigation.navigate.HistoryHealthEntries}>
+                      <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
                           <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Health Entries</Text>
                       </TouchableOpacity>
                   </View>
+
                   { /* mood */ }
                   <View>
-                      <TouchableOpacity onPress={() => navigation.navigate.HistoryMood}>
+                      <TouchableOpacity onPress={() => {
+                          navigation.navigate('HistoryMood');
+                          setModalVisible(!modalVisible);
+                      }}>
                           <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Mood</Text>
                       </TouchableOpacity>
                   </View>
+
                   { /* stress */ }
                   <View>
-                      <TouchableOpacity onPress={() => navigation.navigate.HistoryStress}>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryStress');
+                        setModalVisible(!modalVisible);
+                      }}>
                           <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Stress</Text>
                       </TouchableOpacity>
                   </View>
+
                   { /* daily activities */ }
                   <View>
-                      <TouchableOpacity onPress={() => navigation.navigate.HistoryDailyActivities1}>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryDailyActivities1');
+                        setModalVisible(!modalVisible);
+                      }}>
                           <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Daily Activities</Text>
                       </TouchableOpacity>
                   </View>
               </View>
+
               <View style={styles.inlineRowModal}>
                   { /* period tracking */ }
                   <View>
-                      <TouchableOpacity onPress={() => navigation.navigate.HistoryPeriodTracking}>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryPeriodTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
                           <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Period Tracking</Text>
                       </TouchableOpacity>
                   </View>
+
                   { /* weight */ }
                   <View>
-                      <TouchableOpacity onPress={() => navigation.navigate.HistoryWeight}>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryWeight');
+                        setModalVisible(!modalVisible);
+                      }}>
                           <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Weight</Text>
                       </TouchableOpacity>
                   </View>
+
                   { /* gen health */ }
                   <View>
-                      <TouchableOpacity onPress={() => navigation.navigate.HistoryGeneralHealth1}>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryGeneralHealth1');
+                        setModalVisible(!modalVisible);
+                      }}>
                           <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>General Health</Text>
                       </TouchableOpacity>
                   </View>
+
                   { /* medicine */ }
                   <View>
-                      <TouchableOpacity onPress={() => navigation.navigate.HistoryMedication}>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMedication');
+                        setModalVisible(!modalVisible);
+                      }}>
                           <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Medicine</Text>
                       </TouchableOpacity>
                   </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
+                { /* sleep */ }
+                <View>  
+                    <TouchableOpacity onPress={() => {
+                      navigation.navigate('HistorySleep1');
+                      setModalVisible(!modalVisible);
+                    }}>
+                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Sleep</Text>
+                    </TouchableOpacity>
                 </View>
-                <View style={styles.inlineRowModal}>
-                  { /* sleep */ }
-                  <View>  
-                      <TouchableOpacity onPress={() => navigation.navigate.HistorySleep1}>
-                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                      </TouchableOpacity>
-                  </View>
-                  { /* meal tracking */ }
-                  <View>
-                      <TouchableOpacity onPress={() => navigation.navigate.HistoryMealTracking}>
-                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                      </TouchableOpacity>
-                  </View>
-                  { /* fitness */ }
-                  <View>
-                      <TouchableOpacity onPress={() => navigation.navigate.HistoryFitness1}>
-                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                      </TouchableOpacity>
-                  </View>
+
+                { /* meal tracking */ }
+                <View>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMealTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
+                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Meal Tracking</Text>
+                    </TouchableOpacity>
+                </View>
+
+                { /* fitness */ }
+                <View>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryFitness1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Fitness</Text>
+                    </TouchableOpacity>
+                </View>
               </View>
             </View>
           </View>
         </Modal>
       </View>
 
+      {/* Actual Screen */}
       <View>
         <Text>
           View an easily digestable summary of your health entry history! View
@@ -138,6 +196,8 @@ const HistoryHealthEntries = ({ navigation }) => {
         <View style={styles.divider} />
       </View>
       <View>
+        { /* replace w/ custom component in future */ }
+        <Button title='History' />
         <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
           <View style={styles.inlineRow}>
             <Text style={styles.textReg}>Categories</Text>
@@ -146,14 +206,6 @@ const HistoryHealthEntries = ({ navigation }) => {
             </View>
           </View>
         </TouchableOpacity>
-        { /* replace w/ custom component in future */ }
-        <Button title='History' />
-      </View>
-      <View>
-        <Image
-          source={require('../../shared/assets/icon.png')}
-          style={styles.avatar}
-        />
       </View>
       <View style={styles.dividerView}>
         <View style={styles.divider} />
@@ -178,8 +230,11 @@ const HistoryHealthEntries = ({ navigation }) => {
 const HistoryMood = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
+  const [timePeriod, setTimePeriod] = useState('unselected');
+
   return (
     <SafeAreaView>
+      { /* Modal */}
       <View>
         <Modal
           animationType="none"
@@ -189,93 +244,153 @@ const HistoryMood = ({ navigation }) => {
             setModalVisible(!modalVisible);
           }}
         >
-          <View>
+          <View style={styles.centeredView}>
+            {/* Dismiss Bar */}
             <View style={styles.inlineRowBackgrd}>
                 {/* add category chooser modal here */}
+                { /* image asset */ }
+                <View>
+                    <Image style={{width: 20, height: 20}} source={require('../../shared/assets/icon.png')}/>
+                </View>
+                <View>
+                    <Text style={{color: 'white'}}>Select a Category</Text>
+                </View>
                 <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                    { /* image asset */ }
-                    <View>
-                        <Image source={require('../../shared/assets/Path.png')}/>
-                    </View>
-                    <View>
-                        <Text>|</Text>
-                    </View>
-                    <View>
-                        <Text>Select a Category</Text>
-                    </View>
                     { /* X asset */ }
                     <View>
                         <Image source={require('../../shared/assets/close.png')}/>
                     </View>
                 </TouchableOpacity>
             </View>
-            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350}}>
-                { /* health entries */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryHealthEntries}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* mood */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMood}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* stress */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryStress}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* daily activities */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryDailyActivities1}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* period tracking */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryPeriodTracking}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* weight */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryWeight}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* gen health */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryGeneralHealth1}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* medicine */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMedication}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
+
+            {/* Body of modal */}
+            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350,}}>
+              {/* Buttons on modal */}
+              <View style={styles.inlineRowModal}>
+                  { /* health entries */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryHealthEntries');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Health Entries</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* mood */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                          setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Mood</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* stress */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryStress');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Stress</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* daily activities */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryDailyActivities1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Daily Activities</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
+                  { /* period tracking */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryPeriodTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Period Tracking</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* weight */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryWeight');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Weight</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* gen health */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryGeneralHealth1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>General Health</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* medicine */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMedication');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Medicine</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
                 { /* sleep */ }
                 <View>  
-                    <TouchableOpacity onPress={() => navigation.navigate.HistorySleep1}>
+                    <TouchableOpacity onPress={() => {
+                      navigation.navigate('HistorySleep1');
+                      setModalVisible(!modalVisible);
+                    }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Sleep</Text>
                     </TouchableOpacity>
                 </View>
+
                 { /* meal tracking */ }
                 <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMealTracking}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMealTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Meal Tracking</Text>
                     </TouchableOpacity>
                 </View>
+
                 { /* fitness */ }
                 <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryFitness1}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryFitness1');
+                        setModalVisible(!modalVisible);
+                      }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Fitness</Text>
                     </TouchableOpacity>
                 </View>
+              </View>
             </View>
           </View>
         </Modal>
@@ -286,7 +401,10 @@ const HistoryMood = ({ navigation }) => {
           View your mood history and easily visualize changes in your mood over
           time, alongside potential causes for these changes.
         </Text>
-        <Image source={require('../../shared/assets/icon.png')} />
+        <Image 
+          source={require('../../shared/assets/icon.png')} 
+          style={styles.avatar}
+        />
       </View>
       <View>
         <Button title='History' />
@@ -299,9 +417,6 @@ const HistoryMood = ({ navigation }) => {
             </View>
           </View>
         </TouchableOpacity>
-      </View>
-      <View>
-        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Text>TIME PERIOD</Text>
@@ -321,14 +436,14 @@ const HistoryMood = ({ navigation }) => {
           Based on our analysis, the following activities may help to increase
           your mood...
         </Text>
-        <IncreaseMoodAnalysis />
+        {/* <IncreaseMoodAnalysis /> */}
       </View>
       <View>
         <Text>
           Likewise, if you're felling unhappy, you should avoid the following
           activities if possible...
         </Text>
-        <AvoidMoodAnalysis />
+        {/*<AvoidMoodAnalysis />*/}
       </View>
     </SafeAreaView>
   );
@@ -337,8 +452,11 @@ const HistoryMood = ({ navigation }) => {
 const HistoryStress = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
+  const [timePeriod, setTimePeriod] = useState('unselected');
+
   return (
     <SafeAreaView>
+      { /* Modal */}
       <View>
         <Modal
           animationType="none"
@@ -348,93 +466,153 @@ const HistoryStress = ({ navigation }) => {
             setModalVisible(!modalVisible);
           }}
         >
-          <View>
+          <View style={styles.centeredView}>
+            {/* Dismiss Bar */}
             <View style={styles.inlineRowBackgrd}>
                 {/* add category chooser modal here */}
+                { /* image asset */ }
+                <View>
+                    <Image style={{width: 20, height: 20}} source={require('../../shared/assets/icon.png')}/>
+                </View>
+                <View>
+                    <Text style={{color: 'white'}}>Select a Category</Text>
+                </View>
                 <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                    { /* image asset */ }
-                    <View>
-                        <Image source={require('../../shared/assets/Path.png')}/>
-                    </View>
-                    <View>
-                        <Text>|</Text>
-                    </View>
-                    <View>
-                        <Text>Select a Category</Text>
-                    </View>
                     { /* X asset */ }
                     <View>
                         <Image source={require('../../shared/assets/close.png')}/>
                     </View>
                 </TouchableOpacity>
             </View>
-            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350}}>
-                { /* health entries */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryHealthEntries}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* mood */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMood}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* stress */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryStress}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* daily activities */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryDailyActivities1}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* period tracking */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryPeriodTracking}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* weight */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryWeight}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* gen health */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryGeneralHealth1}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* medicine */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMedication}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
+
+            {/* Body of modal */}
+            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350,}}>
+              {/* Buttons on modal */}
+              <View style={styles.inlineRowModal}>
+                  { /* health entries */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryHealthEntries');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Health Entries</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* mood */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                          navigation.navigate('HistoryMood');
+                          setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Mood</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* stress */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Stress</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* daily activities */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryDailyActivities1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Daily Activities</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
+                  { /* period tracking */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryPeriodTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Period Tracking</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* weight */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryWeight');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Weight</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* gen health */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryGeneralHealth1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>General Health</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* medicine */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMedication');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Medicine</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
                 { /* sleep */ }
                 <View>  
-                    <TouchableOpacity onPress={() => navigation.navigate.HistorySleep1}>
+                    <TouchableOpacity onPress={() => {
+                      navigation.navigate('HistorySleep1');
+                      setModalVisible(!modalVisible);
+                    }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Sleep</Text>
                     </TouchableOpacity>
                 </View>
+
                 { /* meal tracking */ }
                 <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMealTracking}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMealTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Meal Tracking</Text>
                     </TouchableOpacity>
                 </View>
+
                 { /* fitness */ }
                 <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryFitness1}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryFitness1');
+                        setModalVisible(!modalVisible);
+                      }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Fitness</Text>
                     </TouchableOpacity>
                 </View>
+              </View>
             </View>
           </View>
         </Modal>
@@ -445,7 +623,10 @@ const HistoryStress = ({ navigation }) => {
           View your stress level history and easily visualize changes in your
           stress levels over time, alongside potential causes for these changes.
         </Text>
-        <Image source={require('../../shared/assets/icon.png')} />
+        <Image 
+          source={require('../../shared/assets/icon.png')} 
+          style={styles.avatar}
+        />
       </View>
       <View>
         <Button title='History' />
@@ -458,9 +639,6 @@ const HistoryStress = ({ navigation }) => {
             </View>
           </View>
         </TouchableOpacity>
-      </View>
-      <View>
-        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Text>TIME PERIOD</Text>
@@ -480,14 +658,14 @@ const HistoryStress = ({ navigation }) => {
           Based on our analysis, the following activities may help to reduce
           your stress...
         </Text>
-        <ReduceStressAnalysis />
+        {/*<ReduceStressAnalysis />*/}
       </View>
       <View>
         <Text>
           Likewise, if you're felling stressed, you should avoid the following
           activities if possible...
         </Text>
-        <AvoidStressAnalysis />
+        {/*<AvoidStressAnalysis />*/}
       </View>
     </SafeAreaView>
   );
@@ -496,8 +674,11 @@ const HistoryStress = ({ navigation }) => {
 const HistoryDailyActivities1 = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
+  const [timePeriod, setTimePeriod] = useState('unselected');
+
   return (
     <SafeAreaView>
+      { /* Modal */}
       <View>
         <Modal
           animationType="none"
@@ -507,93 +688,153 @@ const HistoryDailyActivities1 = ({ navigation }) => {
             setModalVisible(!modalVisible);
           }}
         >
-          <View>
+          <View style={styles.centeredView}>
+            {/* Dismiss Bar */}
             <View style={styles.inlineRowBackgrd}>
                 {/* add category chooser modal here */}
+                { /* image asset */ }
+                <View>
+                    <Image style={{width: 20, height: 20}} source={require('../../shared/assets/icon.png')}/>
+                </View>
+                <View>
+                    <Text style={{color: 'white'}}>Select a Category</Text>
+                </View>
                 <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                    { /* image asset */ }
-                    <View>
-                        <Image source={require('../../shared/assets/Path.png')}/>
-                    </View>
-                    <View>
-                        <Text>|</Text>
-                    </View>
-                    <View>
-                        <Text>Select a Category</Text>
-                    </View>
                     { /* X asset */ }
                     <View>
                         <Image source={require('../../shared/assets/close.png')}/>
                     </View>
                 </TouchableOpacity>
             </View>
-            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350}}>
-                { /* health entries */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryHealthEntries}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* mood */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMood}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* stress */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryStress}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* daily activities */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryDailyActivities1}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* period tracking */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryPeriodTracking}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* weight */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryWeight}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* gen health */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryGeneralHealth1}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* medicine */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMedication}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
+
+            {/* Body of modal */}
+            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350,}}>
+              {/* Buttons on modal */}
+              <View style={styles.inlineRowModal}>
+                  { /* health entries */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryHealthEntries');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Health Entries</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* mood */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                          navigation.navigate('HistoryMood');
+                          setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Mood</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* stress */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryStress');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Stress</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* daily activities */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Daily Activities</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
+                  { /* period tracking */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryPeriodTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Period Tracking</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* weight */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryWeight');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Weight</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* gen health */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryGeneralHealth1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>General Health</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* medicine */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMedication');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Medicine</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
                 { /* sleep */ }
                 <View>  
-                    <TouchableOpacity onPress={() => navigation.navigate.HistorySleep1}>
+                    <TouchableOpacity onPress={() => {
+                      navigation.navigate('HistorySleep1');
+                      setModalVisible(!modalVisible);
+                    }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Sleep</Text>
                     </TouchableOpacity>
                 </View>
+
                 { /* meal tracking */ }
                 <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMealTracking}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMealTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Meal Tracking</Text>
                     </TouchableOpacity>
                 </View>
+
                 { /* fitness */ }
                 <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryFitness1}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryFitness1');
+                        setModalVisible(!modalVisible);
+                      }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Fitness</Text>
                     </TouchableOpacity>
                 </View>
+              </View>
             </View>
           </View>
         </Modal>
@@ -601,15 +842,18 @@ const HistoryDailyActivities1 = ({ navigation }) => {
 
       <View>
         <Text>
-          View your stress level history and easily visualize changes in your
-          stress levels over time, alongside potential causes for these changes.
+          View an easily digestable summary of your past daily activities 
+          and check out the periods where you were the most active! 
         </Text>
-        <Image source={require('../../shared/assets/icon.png')} />
+        <Image 
+          source={require('../../shared/assets/icon.png')} 
+          style={styles.avatar}
+        />
       </View>
       <View>
         <Button title='History' />
+        <Button title='Activity View' onPress={() => navigation.navigate('HistoryDailyActivities2')}/>
         <Button title='Correlations' />
-        <Button title='Activity View' />
         <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
           <View style={styles.inlineRow}>
             <Text style={styles.textReg}>Categories</Text>
@@ -618,9 +862,6 @@ const HistoryDailyActivities1 = ({ navigation }) => {
             </View>
           </View>
         </TouchableOpacity>
-      </View>
-      <View>
-        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Text>TIME PERIOD</Text>
@@ -640,8 +881,197 @@ const HistoryDailyActivities1 = ({ navigation }) => {
 };
 
 const HistoryDailyActivities2 = ({ navigation }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const [selectactivity, setActivity] = useState('unselected');
+
   return (
     <SafeAreaView>
+      {/* Modal */}
+      <View>
+        <Modal
+          animationType="none"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            {/* Dismiss Bar */}
+            <View style={styles.inlineRowBackgrd}>
+                {/* add category chooser modal here */}
+                { /* image asset */ }
+                <View>
+                    <Image style={{width: 20, height: 20}} source={require('../../shared/assets/icon.png')}/>
+                </View>
+                <View>
+                    <Text style={{color: 'white'}}>Select a Category</Text>
+                </View>
+                <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                    { /* X asset */ }
+                    <View>
+                        <Image source={require('../../shared/assets/close.png')}/>
+                    </View>
+                </TouchableOpacity>
+            </View>
+
+            {/* Body of modal */}
+            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350,}}>
+              {/* Buttons on modal */}
+              <View style={styles.inlineRowModal}>
+                  { /* health entries */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryHealthEntries');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Health Entries</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* mood */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                          navigation.navigate('HistoryMood');
+                          setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Mood</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* stress */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryStress');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Stress</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* daily activities */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Daily Activities</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
+                  { /* period tracking */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryPeriodTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Period Tracking</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* weight */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryWeight');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Weight</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* gen health */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryGeneralHealth1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>General Health</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* medicine */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMedication');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Medicine</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
+                { /* sleep */ }
+                <View>  
+                    <TouchableOpacity onPress={() => {
+                      navigation.navigate('HistorySleep1');
+                      setModalVisible(!modalVisible);
+                    }}>
+                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Sleep</Text>
+                    </TouchableOpacity>
+                </View>
+
+                { /* meal tracking */ }
+                <View>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMealTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
+                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Meal Tracking</Text>
+                    </TouchableOpacity>
+                </View>
+
+                { /* fitness */ }
+                <View>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryFitness1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Fitness</Text>
+                    </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </View>
+
+      <View>
+        <Text>
+          View an easily digestable summary of your past daily activities 
+          and check out the periods where you were the most active! 
+        </Text>
+        <Image 
+          source={require('../../shared/assets/icon.png')} 
+          style={styles.avatar}
+        />
+      </View>
+      <View>
+        <Button title='History' onPress={() => navigation.navigate('HistoryDailyActivities1')}/>
+        <Button title='Activity View' />
+        <Button title='Correlations' onPress={() => navigation.navigate('HistoryDailyActivities1')}/>
+        <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
+          <View style={styles.inlineRow}>
+            <Text style={styles.textReg}>Categories</Text>
+            <View>
+            <Image source={require('../../shared/assets/transit_enterexit.png')} />
+            </View>
+          </View>
+        </TouchableOpacity>
+      </View>
       <View>
         <Text>SELECT ACTIVITY</Text>
         <Picker
@@ -667,6 +1097,7 @@ const HistoryPeriodTracking = ({ navigation }) => {
 
   return (
     <SafeAreaView>
+      {/* Modal */}
       <View>
         <Modal
           animationType="none"
@@ -676,93 +1107,153 @@ const HistoryPeriodTracking = ({ navigation }) => {
             setModalVisible(!modalVisible);
           }}
         >
-          <View>
+          <View style={styles.centeredView}>
+            {/* Dismiss Bar */}
             <View style={styles.inlineRowBackgrd}>
                 {/* add category chooser modal here */}
+                { /* image asset */ }
+                <View>
+                    <Image style={{width: 20, height: 20}} source={require('../../shared/assets/icon.png')}/>
+                </View>
+                <View>
+                    <Text style={{color: 'white'}}>Select a Category</Text>
+                </View>
                 <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                    { /* image asset */ }
-                    <View>
-                        <Image source={require('../../shared/assets/Path.png')}/>
-                    </View>
-                    <View>
-                        <Text>|</Text>
-                    </View>
-                    <View>
-                        <Text>Select a Category</Text>
-                    </View>
                     { /* X asset */ }
                     <View>
                         <Image source={require('../../shared/assets/close.png')}/>
                     </View>
                 </TouchableOpacity>
             </View>
-            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350}}>
-                { /* health entries */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryHealthEntries}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* mood */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMood}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* stress */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryStress}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* daily activities */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryDailyActivities1}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* period tracking */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryPeriodTracking}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* weight */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryWeight}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* gen health */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryGeneralHealth1}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* medicine */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMedication}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
+
+            {/* Body of modal */}
+            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350,}}>
+              {/* Buttons on modal */}
+              <View style={styles.inlineRowModal}>
+                  { /* health entries */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryHealthEntries');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Health Entries</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* mood */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                          navigation.navigate('HistoryMood');
+                          setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Mood</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* stress */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryStress');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Stress</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* daily activities */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryDailyActivities1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Daily Activities</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
+                  { /* period tracking */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Period Tracking</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* weight */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryWeight');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Weight</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* gen health */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryGeneralHealth1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>General Health</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* medicine */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMedication');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Medicine</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
                 { /* sleep */ }
                 <View>  
-                    <TouchableOpacity onPress={() => navigation.navigate.HistorySleep1}>
+                    <TouchableOpacity onPress={() => {
+                      navigation.navigate('HistorySleep1');
+                      setModalVisible(!modalVisible);
+                    }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Sleep</Text>
                     </TouchableOpacity>
                 </View>
+
                 { /* meal tracking */ }
                 <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMealTracking}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMealTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Meal Tracking</Text>
                     </TouchableOpacity>
                 </View>
+
                 { /* fitness */ }
                 <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryFitness1}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryFitness1');
+                        setModalVisible(!modalVisible);
+                      }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Fitness</Text>
                     </TouchableOpacity>
                 </View>
+              </View>
             </View>
           </View>
         </Modal>
@@ -773,7 +1264,10 @@ const HistoryPeriodTracking = ({ navigation }) => {
           View your period history and our predictions for your upcoming period.
           Predictions based on info from your health entries.
         </Text>
-        <Image source={require('../../shared/assets/icon.png')} />
+        <Image 
+          source={require('../../shared/assets/icon.png')} 
+          style={styles.avatar}
+        />
       </View>
       <View>
         <Button title='History' />
@@ -788,17 +1282,14 @@ const HistoryPeriodTracking = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <View>
-        <Image source={require('../../shared/assets/icon.png')} />
-      </View>
-      <View>
-        <PeriodPrediction />
+        {/*<PeriodPrediction />*/}
       </View>
       <View>
         <Text>
           Based on this point in your cycle, some symptoms you may expect to
           encounter today are...
         </Text>
-        <PeriodSymptoms />
+        {/*<PeriodSymptoms />*/}
       </View>
     </SafeAreaView>
   );
@@ -807,8 +1298,11 @@ const HistoryPeriodTracking = ({ navigation }) => {
 const HistoryWeight = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
+  const [timePeriod, setTimePeriod] = useState('unselected');
+
   return (
     <SafeAreaView>
+      {/* Modal */}
       <View>
         <Modal
           animationType="none"
@@ -818,93 +1312,153 @@ const HistoryWeight = ({ navigation }) => {
             setModalVisible(!modalVisible);
           }}
         >
-          <View>
+          <View style={styles.centeredView}>
+            {/* Dismiss Bar */}
             <View style={styles.inlineRowBackgrd}>
                 {/* add category chooser modal here */}
+                { /* image asset */ }
+                <View>
+                    <Image style={{width: 20, height: 20}} source={require('../../shared/assets/icon.png')}/>
+                </View>
+                <View>
+                    <Text style={{color: 'white'}}>Select a Category</Text>
+                </View>
                 <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                    { /* image asset */ }
-                    <View>
-                        <Image source={require('../../shared/assets/Path.png')}/>
-                    </View>
-                    <View>
-                        <Text>|</Text>
-                    </View>
-                    <View>
-                        <Text>Select a Category</Text>
-                    </View>
                     { /* X asset */ }
                     <View>
                         <Image source={require('../../shared/assets/close.png')}/>
                     </View>
                 </TouchableOpacity>
             </View>
-            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350}}>
-                { /* health entries */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryHealthEntries}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* mood */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMood}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* stress */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryStress}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* daily activities */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryDailyActivities1}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* period tracking */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryPeriodTracking}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* weight */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryWeight}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* gen health */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryGeneralHealth1}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* medicine */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMedication}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
+
+            {/* Body of modal */}
+            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350,}}>
+              {/* Buttons on modal */}
+              <View style={styles.inlineRowModal}>
+                  { /* health entries */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryHealthEntries');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Health Entries</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* mood */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                          navigation.navigate('HistoryMood');
+                          setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Mood</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* stress */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryStress');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Stress</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* daily activities */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryDailyActivities1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Daily Activities</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
+                  { /* period tracking */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryPeriodTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Period Tracking</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* weight */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Weight</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* gen health */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryGeneralHealth1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>General Health</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* medicine */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMedication');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Medicine</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
                 { /* sleep */ }
                 <View>  
-                    <TouchableOpacity onPress={() => navigation.navigate.HistorySleep1}>
+                    <TouchableOpacity onPress={() => {
+                      navigation.navigate('HistorySleep1');
+                      setModalVisible(!modalVisible);
+                    }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Sleep</Text>
                     </TouchableOpacity>
                 </View>
+
                 { /* meal tracking */ }
                 <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMealTracking}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMealTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Meal Tracking</Text>
                     </TouchableOpacity>
                 </View>
+
                 { /* fitness */ }
                 <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryFitness1}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryFitness1');
+                        setModalVisible(!modalVisible);
+                      }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Fitness</Text>
                     </TouchableOpacity>
                 </View>
+              </View>
             </View>
           </View>
         </Modal>
@@ -915,7 +1469,10 @@ const HistoryWeight = ({ navigation }) => {
           View a history of your changes in weight over time and receive calorie
           and exercise recommendations.
         </Text>
-        <Image source={require('../../shared/assets/icon.png')} />
+        <Image 
+          source={require('../../shared/assets/icon.png')} 
+          style={styles.avatar}
+        />
       </View>
       <View>
         <Button title='History' />
@@ -928,9 +1485,6 @@ const HistoryWeight = ({ navigation }) => {
             </View>
           </View>
         </TouchableOpacity>
-      </View>
-      <View>
-        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Text>TIME PERIOD</Text>
@@ -946,14 +1500,14 @@ const HistoryWeight = ({ navigation }) => {
         </Picker>
       </View>
       <View>
-        <RecommendedCalories />
+        {/* <RecommendedCalories /> */}
       </View>
       <View>
         <Text>
           Exercise is a great way to stay in shape and manage your weight! The
           following exercise regimens are recommended for you.
         </Text>
-        <RecommendedExercire />
+        {/* <RecommendedExercire /> */}
       </View>
     </SafeAreaView>
   );
@@ -962,8 +1516,11 @@ const HistoryWeight = ({ navigation }) => {
 const HistoryGeneralHealth1 = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
+  const [timePeriod, setTimePeriod] = useState('unselected');
+
   return (
     <SafeAreaView>
+      {/* Modal */}
       <View>
         <Modal
           animationType="none"
@@ -973,93 +1530,153 @@ const HistoryGeneralHealth1 = ({ navigation }) => {
             setModalVisible(!modalVisible);
           }}
         >
-          <View>
+          <View style={styles.centeredView}>
+            {/* Dismiss Bar */}
             <View style={styles.inlineRowBackgrd}>
                 {/* add category chooser modal here */}
+                { /* image asset */ }
+                <View>
+                    <Image style={{width: 20, height: 20}} source={require('../../shared/assets/icon.png')}/>
+                </View>
+                <View>
+                    <Text style={{color: 'white'}}>Select a Category</Text>
+                </View>
                 <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                    { /* image asset */ }
-                    <View>
-                        <Image source={require('../../shared/assets/Path.png')}/>
-                    </View>
-                    <View>
-                        <Text>|</Text>
-                    </View>
-                    <View>
-                        <Text>Select a Category</Text>
-                    </View>
                     { /* X asset */ }
                     <View>
                         <Image source={require('../../shared/assets/close.png')}/>
                     </View>
                 </TouchableOpacity>
             </View>
-            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350}}>
-                { /* health entries */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryHealthEntries}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* mood */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMood}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* stress */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryStress}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* daily activities */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryDailyActivities1}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* period tracking */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryPeriodTracking}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* weight */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryWeight}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* gen health */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryGeneralHealth1}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* medicine */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMedication}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
+
+            {/* Body of modal */}
+            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350,}}>
+              {/* Buttons on modal */}
+              <View style={styles.inlineRowModal}>
+                  { /* health entries */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryHealthEntries');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Health Entries</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* mood */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                          navigation.navigate('HistoryMood');
+                          setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Mood</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* stress */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryStress');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Stress</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* daily activities */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryDailyActivities1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Daily Activities</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
+                  { /* period tracking */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryPeriodTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Period Tracking</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* weight */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryWeight');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Weight</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* gen health */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>General Health</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* medicine */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMedication');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Medicine</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
                 { /* sleep */ }
                 <View>  
-                    <TouchableOpacity onPress={() => navigation.navigate.HistorySleep1}>
+                    <TouchableOpacity onPress={() => {
+                      navigation.navigate('HistorySleep1');
+                      setModalVisible(!modalVisible);
+                    }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Sleep</Text>
                     </TouchableOpacity>
                 </View>
+
                 { /* meal tracking */ }
                 <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMealTracking}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMealTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Meal Tracking</Text>
                     </TouchableOpacity>
                 </View>
+
                 { /* fitness */ }
                 <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryFitness1}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryFitness1');
+                        setModalVisible(!modalVisible);
+                      }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Fitness</Text>
                     </TouchableOpacity>
                 </View>
+              </View>
             </View>
           </View>
         </Modal>
@@ -1070,12 +1687,15 @@ const HistoryGeneralHealth1 = ({ navigation }) => {
           View an easily digestable summary of your physical and mental health
           history!
         </Text>
-        <Image source={require('../../shared/assets/icon.png')} />
+        <Image 
+          source={require('../../shared/assets/icon.png')} 
+          style={styles.avatar}
+        />
       </View>
       <View>
         <Button title='History' />
+        <Button title='Intensity' onPress={() => navigation.navigate('HistoryGeneralHealth2')}/>
         <Button title='Correlations' />
-        <Button title='Intensity' />
         <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
           <View style={styles.inlineRow}>
             <Text style={styles.textReg}>Categories</Text>
@@ -1084,9 +1704,6 @@ const HistoryGeneralHealth1 = ({ navigation }) => {
             </View>
           </View>
         </TouchableOpacity>
-      </View>
-      <View>
-        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <Text>TIME PERIOD</Text>
@@ -1106,8 +1723,199 @@ const HistoryGeneralHealth1 = ({ navigation }) => {
 };
 
 const HistoryGeneralHealth2 = ({ navigation }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  
+  const [timePeriod, setTimePeriod] = useState('unselected');
+
+  const [selectsymptom, setSymptom] = useState('unselected');
+
   return (
     <SafeAreaView>
+      {/* Modal */}
+      <View>
+        <Modal
+          animationType="none"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            {/* Dismiss Bar */}
+            <View style={styles.inlineRowBackgrd}>
+                {/* add category chooser modal here */}
+                { /* image asset */ }
+                <View>
+                    <Image style={{width: 20, height: 20}} source={require('../../shared/assets/icon.png')}/>
+                </View>
+                <View>
+                    <Text style={{color: 'white'}}>Select a Category</Text>
+                </View>
+                <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                    { /* X asset */ }
+                    <View>
+                        <Image source={require('../../shared/assets/close.png')}/>
+                    </View>
+                </TouchableOpacity>
+            </View>
+
+            {/* Body of modal */}
+            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350,}}>
+              {/* Buttons on modal */}
+              <View style={styles.inlineRowModal}>
+                  { /* health entries */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryHealthEntries');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Health Entries</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* mood */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                          navigation.navigate('HistoryMood');
+                          setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Mood</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* stress */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryStress');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Stress</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* daily activities */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryDailyActivities1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Daily Activities</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
+                  { /* period tracking */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryPeriodTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Period Tracking</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* weight */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryWeight');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Weight</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* gen health */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>General Health</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* medicine */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMedication');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Medicine</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
+                { /* sleep */ }
+                <View>  
+                    <TouchableOpacity onPress={() => {
+                      navigation.navigate('HistorySleep1');
+                      setModalVisible(!modalVisible);
+                    }}>
+                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Sleep</Text>
+                    </TouchableOpacity>
+                </View>
+
+                { /* meal tracking */ }
+                <View>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMealTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
+                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Meal Tracking</Text>
+                    </TouchableOpacity>
+                </View>
+
+                { /* fitness */ }
+                <View>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryFitness1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Fitness</Text>
+                    </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </View>
+
+      <View>
+        <Text>
+          View an easily digestable summary of your physical and mental health
+          history!
+        </Text>
+        <Image 
+          source={require('../../shared/assets/icon.png')} 
+          style={styles.avatar}
+        />
+      </View>
+      <View>
+        <Button title='History' onPress={() => navigation.navigate('HistoryGeneralHealth1')}/>
+        <Button title='Intensity' />
+        <Button title='Correlations' onPress={() => navigation.navigate('HistoryGeneralHealth1')}/>
+        <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
+          <View style={styles.inlineRow}>
+            <Text style={styles.textReg}>Categories</Text>
+            <View>
+            <Image source={require('../../shared/assets/transit_enterexit.png')} />
+            </View>
+          </View>
+        </TouchableOpacity>
+      </View>
       <View>
         <Text>TIME PERIOD</Text>
         <Picker
@@ -1144,8 +1952,11 @@ const HistoryGeneralHealth2 = ({ navigation }) => {
 const HistoryMedication = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
+  const [selectmedication, setMedication] = useState('unselected');
+
   return (
     <SafeAreaView>
+      {/* Modal */}
       <View>
         <Modal
           animationType="none"
@@ -1155,93 +1966,153 @@ const HistoryMedication = ({ navigation }) => {
             setModalVisible(!modalVisible);
           }}
         >
-          <View>
+          <View style={styles.centeredView}>
+            {/* Dismiss Bar */}
             <View style={styles.inlineRowBackgrd}>
                 {/* add category chooser modal here */}
+                { /* image asset */ }
+                <View>
+                    <Image style={{width: 20, height: 20}} source={require('../../shared/assets/icon.png')}/>
+                </View>
+                <View>
+                    <Text style={{color: 'white'}}>Select a Category</Text>
+                </View>
                 <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                    { /* image asset */ }
-                    <View>
-                        <Image source={require('../../shared/assets/Path.png')}/>
-                    </View>
-                    <View>
-                        <Text>|</Text>
-                    </View>
-                    <View>
-                        <Text>Select a Category</Text>
-                    </View>
                     { /* X asset */ }
                     <View>
                         <Image source={require('../../shared/assets/close.png')}/>
                     </View>
                 </TouchableOpacity>
             </View>
-            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350}}>
-                { /* health entries */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryHealthEntries}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* mood */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMood}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* stress */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryStress}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* daily activities */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryDailyActivities1}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* period tracking */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryPeriodTracking}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* weight */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryWeight}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* gen health */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryGeneralHealth1}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* medicine */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMedication}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
+
+            {/* Body of modal */}
+            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350,}}>
+              {/* Buttons on modal */}
+              <View style={styles.inlineRowModal}>
+                  { /* health entries */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryHealthEntries');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Health Entries</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* mood */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                          navigation.navigate('HistoryMood');
+                          setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Mood</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* stress */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryStress');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Stress</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* daily activities */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryDailyActivities1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Daily Activities</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
+                  { /* period tracking */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryPeriodTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Period Tracking</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* weight */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryWeight');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Weight</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* gen health */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryGeneralHealth1')
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>General Health</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* medicine */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Medicine</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
                 { /* sleep */ }
                 <View>  
-                    <TouchableOpacity onPress={() => navigation.navigate.HistorySleep1}>
+                    <TouchableOpacity onPress={() => {
+                      navigation.navigate('HistorySleep1');
+                      setModalVisible(!modalVisible);
+                    }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Sleep</Text>
                     </TouchableOpacity>
                 </View>
+
                 { /* meal tracking */ }
                 <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMealTracking}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMealTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Meal Tracking</Text>
                     </TouchableOpacity>
                 </View>
+
                 { /* fitness */ }
                 <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryFitness1}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryFitness1');
+                        setModalVisible(!modalVisible);
+                      }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Fitness</Text>
                     </TouchableOpacity>
                 </View>
+              </View>
             </View>
           </View>
         </Modal>
@@ -1252,7 +2123,10 @@ const HistoryMedication = ({ navigation }) => {
           View your medication history and our predictions for potential effects
           stemming from your medication.
         </Text>
-        <Image source={require('../../shared/assets/icon.png')} />
+        <Image 
+          source={require('../../shared/assets/icon.png')} 
+          style={styles.avatar}
+        />
       </View>
       <View>
         <Button title='History' />
@@ -1267,14 +2141,11 @@ const HistoryMedication = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <View>
-        <Image source={require('../../shared/assets/icon.png')} />
-      </View>
-      <View>
         <Text>SELECT MEDICATION</Text>
         <Picker
           selectedValue={selectmedication}
           style={{ height: 50, width: 200 }}
-          onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+          onValueChange={(itemValue, itemIndex) => setMedication(itemValue)}
         >
           <Picker.Item label='Select one...' value='unselected' />
           <Picker.Item label='(Medicine 1)' value='medicine_1' />
@@ -1290,14 +2161,14 @@ const HistoryMedication = ({ navigation }) => {
           Based on our analysis, on days when you don't take your prescribed
           medication, you often report experiencing the following...
         </Text>
-        <NotTakeMedicationAnalysis />
+        {/* <NotTakeMedicationAnalysis /> */}
       </View>
       <View>
         <Text>
           Based on our analysis, on days when you take your prescribed
           medication late, you often report experiencing the following...
         </Text>
-        <TakeLateMedicationAnalysis />
+        {/* <TakeLateMedicationAnalysis /> */}
       </View>
     </SafeAreaView>
   );
@@ -1306,8 +2177,17 @@ const HistoryMedication = ({ navigation }) => {
 const HistorySleep1 = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
+  const [timePeriod, setTimePeriod] = useState('unselected');
+
+  const [selectDisplay, setDisplay] = useState('unselected');
+
+  const [useReccSleep, setUseReccSleep] = useState(false);
+  const toggleReccSleep = () =>
+    setUseReccSleep((previousState) => !previousState);
+
   return (
     <SafeAreaView>
+      {/* Modal */}
       <View>
         <Modal
           animationType="none"
@@ -1317,93 +2197,153 @@ const HistorySleep1 = ({ navigation }) => {
             setModalVisible(!modalVisible);
           }}
         >
-          <View>
+          <View style={styles.centeredView}>
+            {/* Dismiss Bar */}
             <View style={styles.inlineRowBackgrd}>
                 {/* add category chooser modal here */}
+                { /* image asset */ }
+                <View>
+                    <Image style={{width: 20, height: 20}} source={require('../../shared/assets/icon.png')}/>
+                </View>
+                <View>
+                    <Text style={{color: 'white'}}>Select a Category</Text>
+                </View>
                 <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                    { /* image asset */ }
-                    <View>
-                        <Image source={require('../../shared/assets/Path.png')}/>
-                    </View>
-                    <View>
-                        <Text>|</Text>
-                    </View>
-                    <View>
-                        <Text>Select a Category</Text>
-                    </View>
                     { /* X asset */ }
                     <View>
                         <Image source={require('../../shared/assets/close.png')}/>
                     </View>
                 </TouchableOpacity>
             </View>
-            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350}}>
-                { /* health entries */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryHealthEntries}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* mood */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMood}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* stress */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryStress}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* daily activities */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryDailyActivities1}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* period tracking */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryPeriodTracking}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* weight */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryWeight}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* gen health */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryGeneralHealth1}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* medicine */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMedication}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
+
+            {/* Body of modal */}
+            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350,}}>
+              {/* Buttons on modal */}
+              <View style={styles.inlineRowModal}>
+                  { /* health entries */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryHealthEntries');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Health Entries</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* mood */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                          navigation.navigate('HistoryMood');
+                          setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Mood</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* stress */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryStress');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Stress</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* daily activities */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryDailyActivities1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Daily Activities</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
+                  { /* period tracking */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryPeriodTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Period Tracking</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* weight */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryWeight');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Weight</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* gen health */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryGeneralHealth1')
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>General Health</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* medicine */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMedication');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Medicine</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
                 { /* sleep */ }
                 <View>  
-                    <TouchableOpacity onPress={() => navigation.navigate.HistorySleep1}>
+                    <TouchableOpacity onPress={() => {
+                      setModalVisible(!modalVisible);
+                    }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Sleep</Text>
                     </TouchableOpacity>
                 </View>
+
                 { /* meal tracking */ }
                 <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMealTracking}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMealTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Meal Tracking</Text>
                     </TouchableOpacity>
                 </View>
+
                 { /* fitness */ }
                 <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryFitness1}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryFitness1');
+                        setModalVisible(!modalVisible);
+                      }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Fitness</Text>
                     </TouchableOpacity>
                 </View>
+              </View>
             </View>
           </View>
         </Modal>
@@ -1414,12 +2354,15 @@ const HistorySleep1 = ({ navigation }) => {
           View your sleep history and our analysis of activities that may have a
           measurable effect on your duration or quality of sleep.
         </Text>
-        <Image source={require('../../shared/assets/icon.png')} />
+        <Image 
+          source={require('../../shared/assets/icon.png')} 
+          style={styles.avatar}
+        />
       </View>
       <View>
         <Button title='History' />
+        <Button title='Quality' onPress={() => navigation.navigate('HistorySleep2')}/>
         <Button title='Correlations' />
-        <Button title='Quality' />
         <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
           <View style={styles.inlineRow}>
             <Text style={styles.textReg}>Categories</Text>
@@ -1428,9 +2371,6 @@ const HistorySleep1 = ({ navigation }) => {
             </View>
           </View>
         </TouchableOpacity>
-      </View>
-      <View>
-        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <View>
@@ -1463,10 +2403,10 @@ const HistorySleep1 = ({ navigation }) => {
         <Text>Display recommended sleep amount</Text>
         <Switch
           trackColor={{ false: '#767577', true: '#9AD2AF' }}
-          thumbColor={useStressLevels ? '#4CB97A' : '#f4f3f4'}
+          thumbColor={useReccSleep ? '#4CB97A' : '#f4f3f4'}
           ios_backgroundColor='#3e3e3e'
-          onValueChange={toggleStressLevels}
-          value={useStressLevels}
+          onValueChange={toggleReccSleep}
+          value={useReccSleep}
         />
       </View>
       <View>
@@ -1474,39 +2414,40 @@ const HistorySleep1 = ({ navigation }) => {
           Based on our analysis, on days that you reported sleeping for a proper
           amount of time, you also reported...
         </Text>
-        <ProperSleepAnalysis />
+        {/*<ProperSleepAnalysis />*/}
       </View>
       <View>
         <Text>
           Based on our analysis, on days that you didn't sleep enough, you also
           reported...
         </Text>
-        <NotEnoughSleepAnalysis />
+        {/*<NotEnoughSleepAnalysis />*/}
       </View>
       <View>
         <Text>
           Based on our analysis, on days that you overslept, you also
           reported...
         </Text>
-        <OversleptSleepAnalysis />
+        {/*<OversleptSleepAnalysis />*/}
       </View>
     </SafeAreaView>
   );
 };
 
 const HistorySleep2 = ({ navigation }) => {
-  return (
-    <SafeAreaView>
-      <Text>{/* add sleep quality page */}</Text>
-    </SafeAreaView>
-  );
-};
-
-const HistoryMealTracking = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
+  const [timePeriod, setTimePeriod] = useState('unselected');
+
+  const [selectDisplay, setDisplay] = useState('unselected');
+
+  const [useReccSleep, setUseReccSleep] = useState(false);
+  const toggleReccSleep = () =>
+    setUseReccSleep((previousState) => !previousState);
+
   return (
     <SafeAreaView>
+      {/* Modal */}
       <View>
         <Modal
           animationType="none"
@@ -1516,93 +2457,410 @@ const HistoryMealTracking = ({ navigation }) => {
             setModalVisible(!modalVisible);
           }}
         >
-          <View>
+          <View style={styles.centeredView}>
+            {/* Dismiss Bar */}
             <View style={styles.inlineRowBackgrd}>
                 {/* add category chooser modal here */}
+                { /* image asset */ }
+                <View>
+                    <Image style={{width: 20, height: 20}} source={require('../../shared/assets/icon.png')}/>
+                </View>
+                <View>
+                    <Text style={{color: 'white'}}>Select a Category</Text>
+                </View>
                 <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                    { /* image asset */ }
-                    <View>
-                        <Image source={require('../../shared/assets/Path.png')}/>
-                    </View>
-                    <View>
-                        <Text>|</Text>
-                    </View>
-                    <View>
-                        <Text>Select a Category</Text>
-                    </View>
                     { /* X asset */ }
                     <View>
                         <Image source={require('../../shared/assets/close.png')}/>
                     </View>
                 </TouchableOpacity>
             </View>
-            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350}}>
-                { /* health entries */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryHealthEntries}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* mood */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMood}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* stress */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryStress}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* daily activities */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryDailyActivities1}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* period tracking */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryPeriodTracking}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* weight */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryWeight}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* gen health */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryGeneralHealth1}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
-                { /* medicine */ }
-                <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMedication}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                    </TouchableOpacity>
-                </View>
+
+            {/* Body of modal */}
+            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350,}}>
+              {/* Buttons on modal */}
+              <View style={styles.inlineRowModal}>
+                  { /* health entries */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryHealthEntries');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Health Entries</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* mood */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                          navigation.navigate('HistoryMood');
+                          setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Mood</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* stress */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryStress');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Stress</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* daily activities */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryDailyActivities1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Daily Activities</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
+                  { /* period tracking */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryPeriodTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Period Tracking</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* weight */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryWeight');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Weight</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* gen health */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryGeneralHealth1')
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>General Health</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* medicine */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMedication');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Medicine</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
                 { /* sleep */ }
                 <View>  
-                    <TouchableOpacity onPress={() => navigation.navigate.HistorySleep1}>
+                    <TouchableOpacity onPress={() => {
+                      setModalVisible(!modalVisible);
+                    }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Sleep</Text>
                     </TouchableOpacity>
                 </View>
+
                 { /* meal tracking */ }
                 <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryMealTracking}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMealTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Meal Tracking</Text>
                     </TouchableOpacity>
                 </View>
+
                 { /* fitness */ }
                 <View>
-                    <TouchableOpacity onPress={() => navigation.navigate.HistoryFitness1}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryFitness1');
+                        setModalVisible(!modalVisible);
+                      }}>
                         <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Fitness</Text>
                     </TouchableOpacity>
                 </View>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </View>
+
+      <View>
+        <Text>
+          View your sleep history and our analysis of activities that may have a
+          measurable effect on your duration or quality of sleep.
+        </Text>
+        <Image 
+          source={require('../../shared/assets/icon.png')} 
+          style={styles.avatar}
+        />
+      </View>
+      <View>
+        <Button title='History' onPress={() => navigation.navigate('HistorySleep1')}/>
+        <Button title='Quality' />
+        <Button title='Correlations' onPress={() => navigation.navigate('HistorySleep1')}/>
+        <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
+          <View style={styles.inlineRow}>
+            <Text style={styles.textReg}>Categories</Text>
+            <View>
+            <Image source={require('../../shared/assets/transit_enterexit.png')} />
+            </View>
+          </View>
+        </TouchableOpacity>
+      </View>
+      <View>
+        <View>
+          <Text>TIME PERIOD</Text>
+          <Picker
+            selectedValue={timePeriod}
+            style={{ height: 50, width: 200 }}
+            onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+          >
+            <Picker.Item label='Select one...' value='unselected' />
+            <Picker.Item label='Past week' value='past_week' />
+            <Picker.Item label='Past month' value='past_month' />
+            <Picker.Item label='Past year' value='past_year' />
+          </Picker>
+        </View>
+        <View>
+          <Text>SELECT DISPLAY</Text>
+          <Picker
+            selectedValue={selectDisplay}
+            style={{ height: 50, width: 200 }}
+            onValueChange={(itemValue, itemIndex) => setDisplay(itemValue)}
+          >
+            <Picker.Item label='Select one...' value='unselected' />
+            <Picker.Item label='Sleep Only' value='sleep_only' />
+            <Picker.Item label='Naps Only' value='naps_only' />
+          </Picker>
+        </View>
+      </View>
+      <View>
+        <Text>Display recommended sleep amount</Text>
+        <Switch
+          trackColor={{ false: '#767577', true: '#9AD2AF' }}
+          thumbColor={useReccSleep ? '#4CB97A' : '#f4f3f4'}
+          ios_backgroundColor='#3e3e3e'
+          onValueChange={toggleReccSleep}
+          value={useReccSleep}
+        />
+      </View>
+      <View>
+        <Text>
+          ADD APPROPRIATE TEXT HERE
+        </Text>
+        {/*<ProperSleepAnalysis />*/}
+      </View>
+      <View>
+        <Text>
+          ADD APPROPRIATE TEXT HERE
+        </Text>
+        {/*<NotEnoughSleepAnalysis />*/}
+      </View>
+      <View>
+        <Text>
+          ADD APPROPRIATE TEXT HERE
+        </Text>
+        {/*<OversleptSleepAnalysis />*/}
+      </View>
+    </SafeAreaView>
+  );
+};
+
+const HistoryMealTracking = ({ navigation }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const [timePeriod, setTimePeriod] = useState('unselected');
+
+  const [selectNutrients, setNutrients] = useState('unselected');
+
+  const [useReccNutrition, setUseReccNutrition] = useState(false);
+  const toggleReccNutrition = () =>
+    setUseReccNutrition((previousState) => !previousState);
+
+  return (
+    <SafeAreaView>
+      {/* Modal */}
+      <View>
+        <Modal
+          animationType="none"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            {/* Dismiss Bar */}
+            <View style={styles.inlineRowBackgrd}>
+                {/* add category chooser modal here */}
+                { /* image asset */ }
+                <View>
+                    <Image style={{width: 20, height: 20}} source={require('../../shared/assets/icon.png')}/>
+                </View>
+                <View>
+                    <Text style={{color: 'white'}}>Select a Category</Text>
+                </View>
+                <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                    { /* X asset */ }
+                    <View>
+                        <Image source={require('../../shared/assets/close.png')}/>
+                    </View>
+                </TouchableOpacity>
+            </View>
+
+            {/* Body of modal */}
+            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350,}}>
+              {/* Buttons on modal */}
+              <View style={styles.inlineRowModal}>
+                  { /* health entries */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryHealthEntries');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Health Entries</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* mood */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                          navigation.navigate('HistoryMood');
+                          setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Mood</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* stress */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryStress');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Stress</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* daily activities */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryDailyActivities1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Daily Activities</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
+                  { /* period tracking */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryPeriodTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Period Tracking</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* weight */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryWeight');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Weight</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* gen health */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryGeneralHealth1')
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>General Health</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* medicine */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMedication');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Medicine</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
+                { /* sleep */ }
+                <View>  
+                    <TouchableOpacity onPress={() => {
+                      navigation.navigate('HistorySleep1')
+                      setModalVisible(!modalVisible);
+                    }}>
+                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Sleep</Text>
+                    </TouchableOpacity>
+                </View>
+
+                { /* meal tracking */ }
+                <View>
+                    <TouchableOpacity onPress={() => {
+                        setModalVisible(!modalVisible);
+                      }}>
+                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Meal Tracking</Text>
+                    </TouchableOpacity>
+                </View>
+
+                { /* fitness */ }
+                <View>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryFitness1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Fitness</Text>
+                    </TouchableOpacity>
+                </View>
+              </View>
             </View>
           </View>
         </Modal>
@@ -1613,7 +2871,10 @@ const HistoryMealTracking = ({ navigation }) => {
           View your meal history and our analysis of the potential effects of
           your eating havits. Check how much you've been eating recently!
         </Text>
-        <Image source={require('../../shared/assets/icon.png')} />
+        <Image 
+          source={require('../../shared/assets/icon.png')} 
+          style={styles.avatar}
+        />
       </View>
       <View>
         <Button title='History' />
@@ -1626,9 +2887,6 @@ const HistoryMealTracking = ({ navigation }) => {
             </View>
           </View>
         </TouchableOpacity>
-      </View>
-      <View>
-        <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
         <View>
@@ -1665,10 +2923,10 @@ const HistoryMealTracking = ({ navigation }) => {
         <Text>Display recommended nutritional values</Text>
         <Switch
           trackColor={{ false: '#767577', true: '#9AD2AF' }}
-          thumbColor={useStressLevels ? '#4CB97A' : '#f4f3f4'}
+          thumbColor={useReccNutrition ? '#4CB97A' : '#f4f3f4'}
           ios_backgroundColor='#3e3e3e'
-          onValueChange={toggleStressLevels}
-          value={useStressLevels}
+          onValueChange={toggleReccNutrition}
+          value={useReccNutrition}
         />
       </View>
       <View>
@@ -1676,31 +2934,529 @@ const HistoryMealTracking = ({ navigation }) => {
           Based on our analysis, on days that you met your nutritional
           requirements, you often reported...
         </Text>
-        <MetNutritionAnalysis />
+        {/*<MetNutritionAnalysis />*/}
       </View>
       <View>
         <Text>
           Based on our analysis, on days that you didn't meet your nutritional
           requirements, you often reported...
         </Text>
-        <NotMetNutritionAnalysis />
+        {/*<NotMetNutritionAnalysis />*/}
       </View>
     </SafeAreaView>
   );
 };
 
 const HistoryFitness1 = ({ navigation }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const [timePeriod, setTimePeriod] = useState('unselected');
+
+  const [selectDisplay, setDisplay] = useState('unselected');
+
+  const [useReccActivity, setUseReccActivity] = useState(false);
+  const toggleReccActivity = () =>
+    setUseReccActivity((previousState) => !previousState);
+
   return (
     <SafeAreaView>
-      <Text></Text>
+      {/* Modal */}
+      <View>
+        <Modal
+          animationType="none"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            {/* Dismiss Bar */}
+            <View style={styles.inlineRowBackgrd}>
+                {/* add category chooser modal here */}
+                { /* image asset */ }
+                <View>
+                    <Image style={{width: 20, height: 20}} source={require('../../shared/assets/icon.png')}/>
+                </View>
+                <View>
+                    <Text style={{color: 'white'}}>Select a Category</Text>
+                </View>
+                <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                    { /* X asset */ }
+                    <View>
+                        <Image source={require('../../shared/assets/close.png')}/>
+                    </View>
+                </TouchableOpacity>
+            </View>
+
+            {/* Body of modal */}
+            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350,}}>
+              {/* Buttons on modal */}
+              <View style={styles.inlineRowModal}>
+                  { /* health entries */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryHealthEntries');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Health Entries</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* mood */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                          navigation.navigate('HistoryMood');
+                          setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Mood</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* stress */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryStress');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Stress</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* daily activities */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryDailyActivities1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Daily Activities</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
+                  { /* period tracking */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryPeriodTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Period Tracking</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* weight */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryWeight');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Weight</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* gen health */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryGeneralHealth1')
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>General Health</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* medicine */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMedication');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Medicine</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
+                { /* sleep */ }
+                <View>  
+                    <TouchableOpacity onPress={() => {
+                      navigation.navigate('HistorySleep1')
+                      setModalVisible(!modalVisible);
+                    }}>
+                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Sleep</Text>
+                    </TouchableOpacity>
+                </View>
+
+                { /* meal tracking */ }
+                <View>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMealTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
+                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Meal Tracking</Text>
+                    </TouchableOpacity>
+                </View>
+
+                { /* fitness */ }
+                <View>
+                    <TouchableOpacity onPress={() => {
+                        setModalVisible(!modalVisible);
+                      }}>
+                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Fitness</Text>
+                    </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </View>
+
+      <View>
+        <Text>
+          View your fitness history and our analysis of positive health effects that 
+          may be attributed to your current workout routine.
+        </Text>
+        <Image 
+          source={require('../../shared/assets/icon.png')} 
+          style={styles.avatar}
+        />
+      </View>
+      <View>
+        <Button title='History' />
+        <Button title='Exercises' onPress={() => navigation.navigate('HistoryFitness2')}/>
+        <Button title='Correlations' />
+        <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
+          <View style={styles.inlineRow}>
+            <Text style={styles.textReg}>Categories</Text>
+            <View>
+            <Image source={require('../../shared/assets/transit_enterexit.png')} />
+            </View>
+          </View>
+        </TouchableOpacity>
+      </View>
+      <View>
+        <View>
+          <Text>TIME PERIOD</Text>
+          <Picker
+            selectedValue={timePeriod}
+            style={{ height: 50, width: 200 }}
+            onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+          >
+            <Picker.Item label='Select one...' value='unselected' />
+            <Picker.Item label='Past week' value='past_week' />
+            <Picker.Item label='Past month' value='past_month' />
+            <Picker.Item label='Past year' value='past_year' />
+          </Picker>
+        </View>
+        <View>
+          <Text>SELECT DISPLAY</Text>
+          <Picker
+            selectedValue={selectDisplay}
+            style={{ height: 50, width: 200 }}
+            onValueChange={(itemValue, itemIndex) => setDisplay(itemValue)}
+          >
+            <Picker.Item label='Select one...' value='unselected' />
+            <Picker.Item label='PLACEHOLDER' value='temp' />
+            <Picker.Item label='PLACEHOLDER2' value='temp2' />
+          </Picker>
+        </View>
+      </View>
+      <View>
+        <Text>Display recommended activity levels</Text>
+        <Switch
+          trackColor={{ false: '#767577', true: '#9AD2AF' }}
+          thumbColor={useReccActivity ? '#4CB97A' : '#f4f3f4'}
+          ios_backgroundColor='#3e3e3e'
+          onValueChange={toggleReccActivity}
+          value={useReccActivity}
+        />
+      </View>
+      <View>
+        <Text>
+          ADD APPROPRIATE TEXT HERE
+        </Text>
+        {/*<ProperSleepAnalysis />*/}
+      </View>
+      <View>
+        <Text>
+          ADD APPROPRIATE TEXT HERE
+        </Text>
+        {/*<NotEnoughSleepAnalysis />*/}
+      </View>
+      <View>
+        <Text>
+          ADD APPROPRIATE TEXT HERE
+        </Text>
+        {/*<OversleptSleepAnalysis />*/}
+      </View>
     </SafeAreaView>
   );
 };
 
 const HistoryFitness2 = ({ navigation }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const [timePeriod, setTimePeriod] = useState('unselected');
+
+  const [selectDisplay, setDisplay] = useState('unselected');
+
+  const [useReccActivity, setUseReccActivity] = useState(false);
+  const toggleReccActivity = () =>
+    setUseReccActivity((previousState) => !previousState);
+
   return (
     <SafeAreaView>
-      <Text></Text>
+      {/* Modal */}
+      <View>
+        <Modal
+          animationType="none"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            {/* Dismiss Bar */}
+            <View style={styles.inlineRowBackgrd}>
+                {/* add category chooser modal here */}
+                { /* image asset */ }
+                <View>
+                    <Image style={{width: 20, height: 20}} source={require('../../shared/assets/icon.png')}/>
+                </View>
+                <View>
+                    <Text style={{color: 'white'}}>Select a Category</Text>
+                </View>
+                <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                    { /* X asset */ }
+                    <View>
+                        <Image source={require('../../shared/assets/close.png')}/>
+                    </View>
+                </TouchableOpacity>
+            </View>
+
+            {/* Body of modal */}
+            <View style={{backgroundColor: '#F6EFED', width: 300, height: 350,}}>
+              {/* Buttons on modal */}
+              <View style={styles.inlineRowModal}>
+                  { /* health entries */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryHealthEntries');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Health Entries</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* mood */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                          navigation.navigate('HistoryMood');
+                          setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Mood</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* stress */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryStress');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Stress</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* daily activities */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryDailyActivities1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Daily Activities</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
+                  { /* period tracking */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryPeriodTracking');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Period Tracking</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* weight */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryWeight');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Weight</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* gen health */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryGeneralHealth1')
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>General Health</Text>
+                      </TouchableOpacity>
+                  </View>
+
+                  { /* medicine */ }
+                  <View>
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryMedication');
+                        setModalVisible(!modalVisible);
+                      }}>
+                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text>Medicine</Text>
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+              <View style={styles.inlineRowModal}>
+                { /* sleep */ }
+                <View>  
+                    <TouchableOpacity onPress={() => {
+                      navigation.navigate('HistorySleep1')
+                      setModalVisible(!modalVisible);
+                    }}>
+                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Sleep</Text>
+                    </TouchableOpacity>
+                </View>
+
+                { /* meal tracking */ }
+                <View>
+                    <TouchableOpacity onPress={() => {
+                        setModalVisible(!modalVisible);
+                      }}>
+                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Meal Tracking</Text>
+                    </TouchableOpacity>
+                </View>
+
+                { /* fitness */ }
+                <View>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('HistoryFitness1');
+                        setModalVisible(!modalVisible);
+                      }}>
+                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text>Fitness</Text>
+                    </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </View>
+
+      <View>
+        <Text>
+          View your fitness history and our analysis of positive health effects that 
+          may be attributed to your current workout routine.
+        </Text>
+        <Image 
+          source={require('../../shared/assets/icon.png')} 
+          style={styles.avatar}
+        />
+      </View>
+      <View>
+        <Button title='History' onPress={() => navigation.navigate('HistoryFitness1')}/>
+        <Button title='Quality' />
+        <Button title='Correlations' onPress={() => navigation.navigate('HistoryFitness1')}/>
+        <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
+          <View style={styles.inlineRow}>
+            <Text style={styles.textReg}>Categories</Text>
+            <View>
+            <Image source={require('../../shared/assets/transit_enterexit.png')} />
+            </View>
+          </View>
+        </TouchableOpacity>
+      </View>
+      <View>
+        <View>
+          <Text>TIME PERIOD</Text>
+          <Picker
+            selectedValue={timePeriod}
+            style={{ height: 50, width: 200 }}
+            onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+          >
+            <Picker.Item label='Select one...' value='unselected' />
+            <Picker.Item label='Past week' value='past_week' />
+            <Picker.Item label='Past month' value='past_month' />
+            <Picker.Item label='Past year' value='past_year' />
+          </Picker>
+        </View>
+        <View>
+          <Text>SELECT EXERCISE</Text>
+          <Picker
+            selectedValue={selectDisplay}
+            style={{ height: 50, width: 200 }}
+            onValueChange={(itemValue, itemIndex) => setDisplay(itemValue)}
+          >
+            <Picker.Item label='Select one...' value='unselected' />
+            <Picker.Item label='PLACEHOLDER' value='temp' />
+            <Picker.Item label='PLACEHOLDER2' value='temp' />
+          </Picker>
+        </View>
+      </View>
+      <View>
+        <Text>Display recommended activity levels</Text>
+        <Switch
+          trackColor={{ false: '#767577', true: '#9AD2AF' }}
+          thumbColor={useReccActivity ? '#4CB97A' : '#f4f3f4'}
+          ios_backgroundColor='#3e3e3e'
+          onValueChange={toggleReccActivity}
+          value={useReccActivity}
+        />
+      </View>
+      <View>
+        <Text>
+          ADD APPROPRIATE TEXT HERE
+        </Text>
+        {/*<ProperSleepAnalysis />*/}
+      </View>
+      <View>
+        <Text>
+          ADD APPROPRIATE TEXT HERE
+        </Text>
+        {/*<NotEnoughSleepAnalysis />*/}
+      </View>
+      <View>
+        <Text>
+          ADD APPROPRIATE TEXT HERE
+        </Text>
+        {/*<OversleptSleepAnalysis />*/}
+      </View>
     </SafeAreaView>
   );
 };
