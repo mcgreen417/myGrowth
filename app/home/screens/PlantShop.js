@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,34 +6,178 @@ import {
   SafeAreaView,
   Image,
   Button,
+  FlatList,
+  Pressable,
 } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import NavBar from '../../shared/components/NavBar';
+import { Icon } from 'react-native-elements';
+
+const plantItemList = new Array(
+  require('../../shared/assets/plant_sprites/1_0.png'),
+  require('../../shared/assets/plant_sprites/2_0.png'),
+  require('../../shared/assets/plant_sprites/3_0.png'),
+  require('../../shared/assets/plant_sprites/4_0.png'),
+  require('../../shared/assets/plant_sprites/5_0.png'),
+  require('../../shared/assets/plant_sprites/6_0.png'),
+  require('../../shared/assets/plant_sprites/9_0.png'),
+  require('../../shared/assets/plant_sprites/8_0.png'),
+  require('../../shared/assets/plant_sprites/7_0.png'),
+  require('../../shared/assets/plant_sprites/10_0.png'),
+  require('../../shared/assets/plant_sprites/11_0.png'),
+  require('../../shared/assets/plant_sprites/12_0.png'),
+  require('../../shared/assets/plant_sprites/13_0.png'),
+  require('../../shared/assets/plant_sprites/14_0.png'),
+  require('../../shared/assets/plant_sprites/15_0.png'),
+  require('../../shared/assets/plant_sprites/16_0.png'),
+  require('../../shared/assets/plant_sprites/19_0.png'),
+  require('../../shared/assets/plant_sprites/18_0.png'),
+  require('../../shared/assets/plant_sprites/17_0.png'),
+  require('../../shared/assets/plant_sprites/20_0.png')
+);
 
 function PlantShop({ navigation }) {
+  const [plant, setPlant] = useState(
+    require('../../shared/assets/plant_sprites/4_0.png')
+  );
+
+  const [plantItem, setPlantItem] = useState(plantItemList);
+
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <Text>Select an item and check out how it looks!</Text>
-        <Image
-          source={require('../../shared/assets/icon.png')}
-          style={styles.avatar}
-        />
-      </View>
-      <View>
-        <Image
-          source={require('../../shared/assets/icon.png')}
-          style={styles.avatar}
-        />
-      </View>
-      <View></View>
-      <View>
-        <Button title='Clear changes' />
-        <Button title='Purchase all shown' />
-      </View>
-      <View>
-        <Text>Need more stars? </Text>
-        <Button title='Create a new goal ->' />
-      </View>
+      <ScrollView>
+        <View style={styles.avatarView}>
+          <Text style={styles.pageDescription}>
+            Select an item and check how it looks!
+          </Text>
+          <Image
+            style={styles.avatar}
+            source={require('../../shared/assets/gardener-avatar.png')}
+          />
+        </View>
+
+        {/* Plant Section */}
+        <View style={styles.plantSection}>
+          <View style={styles.plantImage}>
+            <Image source={plant} style={styles.plant} />
+          </View>
+        </View>
+
+        <View style={styles.dividerView}>
+          <View style={styles.divider}></View>
+        </View>
+
+        {/* Plant Selection */}
+        <View
+          style={{
+            marginLeft: 30,
+            flex: 5,
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            flexGrow: 5,
+          }}>
+          {plantItem.map((item) => (
+            <View style={({ flex: 1 }, styles.plantItemSelect)}>
+              <Pressable
+                style={({ pressed }) => [
+                  {
+                    backgroundColor: pressed ? 'gray' : '#E5E5E5',
+                  },
+                  styles.plantItemPress,
+                ]}
+                onPress={() => setPlant(item)}>
+                <Image source={item} style={styles.plantItem} />
+              </Pressable>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'flex-end',
+                }}>
+                <Text>900</Text>
+                <Icon name='star-outline' type='ionicon' color='#938E8D' />
+              </View>
+            </View>
+          ))}
+        </View>
+
+        <View style={styles.dividerViewLow}>
+          <View style={styles.divider}></View>
+        </View>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}>
+          <View>
+            <Pressable
+              style={{
+                backgroundColor: '#E5E5E5',
+                margin: 10,
+                borderRadius: 10,
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.23,
+                shadowRadius: 2.62,
+
+                elevation: 4,
+              }}>
+              <View>
+                <Text style={{ fontSize: 16, fontWeight: 'bold', margin: 20 }}>
+                  Clear changes
+                </Text>
+              </View>
+            </Pressable>
+          </View>
+          <View>
+            <Pressable
+              style={{
+                backgroundColor: '#E5E5E5',
+                margin: 10,
+                borderRadius: 10,
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.23,
+                shadowRadius: 2.62,
+
+                elevation: 4,
+              }}>
+              <View>
+                <Text style={{ fontSize: 16, fontWeight: 'bold', margin: 20 }}>
+                  Purchase all shown
+                </Text>
+              </View>
+            </Pressable>
+          </View>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Icon
+            name='information-circle-outline'
+            type='ionicon'
+            color='#938E8D'
+          />
+          <Text>Want more options? </Text>
+          <Pressable>
+            <Text style={{ textDecorationLine: 'underline' }}>
+              Create a new goal
+            </Text>
+          </Pressable>
+        </View>
+        <View style={{ height: 200 }}></View>
+      </ScrollView>
+
       <NavBar navigation={navigation} />
     </SafeAreaView>
   );
@@ -71,7 +215,7 @@ const styles = StyleSheet.create({
   },
   pageDescription: {
     color: '#000',
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: 'bold',
     marginLeft: 30,
     flex: 1,
@@ -118,19 +262,33 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 1,
     backgroundColor: '#816868',
-    // marginLeft: 130,
-    marginRight: 0,
+    marginLeft: 30,
+    marginRight: 30,
   },
   dividerView: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 40,
-    marginBottom: 20,
+    marginTop: 20,
+    marginBottom: 10,
   },
   dividerViewLow: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 20,
+  },
+  plantItem: { margin: 10 },
+  plantItemSelect: { margin: 10 },
+  plantItemPress: {
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+
+    elevation: 4,
   },
 });

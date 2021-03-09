@@ -44,7 +44,9 @@ function CustomizePlant({ navigation }) {
     <SafeAreaView style={styles.container}>
       {/* Avatar Section */}
       <View style={styles.avatarView}>
-        <Text style={styles.pageDescription}>Good Morning, Firstname!</Text>
+        <Text style={styles.pageDescription}>
+          Select and item to change your plant's appearance!
+        </Text>
         <Image
           style={styles.avatar}
           source={require('../../shared/assets/gardener-avatar.png')}
@@ -187,7 +189,7 @@ const styles = StyleSheet.create({
   },
   pageDescription: {
     color: '#000',
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: 'bold',
     marginLeft: 30,
     flex: 1,

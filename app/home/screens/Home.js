@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
   },
   pageDescription: {
     color: '#000',
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: 'bold',
     marginLeft: 30,
     flex: 1,
