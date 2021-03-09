@@ -13,7 +13,7 @@ import {
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
 
-const HistorySleep2 = ({ navigation }) => {
+function HistorySleep2({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
   
     const [timePeriod, setTimePeriod] = useState('unselected');

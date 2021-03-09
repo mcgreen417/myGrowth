@@ -12,7 +12,7 @@ import {
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
 
-const HistoryStress = ({ navigation }) => {
+function HistoryStress({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
   
     const [timePeriod, setTimePeriod] = useState('unselected');
