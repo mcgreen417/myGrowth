@@ -12,7 +12,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
 
-const HomePage = ({ navigation }) => {
+function HomePage({ navigation }) {
   let plant = 4;
   let stage = 0;
   return (
@@ -190,7 +190,7 @@ const HomePage = ({ navigation }) => {
       <NavBar home={true} navigation={navigation} />
     </SafeAreaView>
   );
-};
+}
 
 export default HomePage;
 

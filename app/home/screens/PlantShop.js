@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import NavBar from '../../shared/components/NavBar';
 
-const PlantShop = ({ navigation }) => {
+function PlantShop({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -37,7 +37,7 @@ const PlantShop = ({ navigation }) => {
       <NavBar navigation={navigation} />
     </SafeAreaView>
   );
-};
+}
 
 export default PlantShop;
 
