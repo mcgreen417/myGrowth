@@ -25,7 +25,7 @@ import {
             <View>
                 {/* History */}
                 <Pressable>
-
+                    {/* display image */}
                 </Pressable>
             </View>
 
@@ -33,11 +33,11 @@ import {
             <View>
                 {/* History */}
                 <Pressable>
-
+                    {/* display image */}
                 </Pressable>
                 {/* Correlation */}
                 <Pressable>
-
+                    {/* display image */}
                 </Pressable>
             </View>
 
@@ -45,15 +45,15 @@ import {
             <View>
                 {/* history */}
                 <Pressable>
-
+                    {/* display image */}
                 </Pressable>
                 {/* activity view */}
                 <Pressable>
-
+                    {/* display image */}
                 </Pressable>
                 {/* correlation */}
                 <Pressable>
-
+                    {/* display image */}
                 </Pressable>
             </View>
 
@@ -61,15 +61,15 @@ import {
             <View>
                 {/* history */}
                 <Pressable>
-
+                    {/* display image */}
                 </Pressable>
                 {/* intensity */}
                 <Pressable>
-
+                    {/* display image */}
                 </Pressable>
                 {/* correlation */}
                 <Pressable>
-
+                    {/* display image */}
                 </Pressable>
             </View>
 
@@ -77,11 +77,11 @@ import {
             <View>
                 {/* prescription */}
                 <Pressable>
-
+                    {/* display image */}
                 </Pressable>
                 {/* correlation */}
                 <Pressable>
-
+                    {/* display image */}
                 </Pressable>
             </View>
 
@@ -89,15 +89,15 @@ import {
             <View>
                 {/* time asleep */}
                 <Pressable>
-
+                    {/* display image */}
                 </Pressable>
                 {/* quality */}
                 <Pressable>
-
+                    {/* display image */}
                 </Pressable>
                 {/* correlation */}
                 <Pressable>
-
+                    {/* display image */}
                 </Pressable>
             </View>
 
@@ -105,15 +105,15 @@ import {
             <View>
                 {/* history */}
                 <Pressable>
-
+                    {/* display image */}
                 </Pressable>
                 {/* exercises */}
                 <Pressable>
-
+                    {/* display image */}
                 </Pressable>
                 {/* correlation */}
                 <Pressable>
-                    
+                    {/* display image */}
                 </Pressable>
             </View>
         </View>
