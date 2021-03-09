@@ -118,4 +118,10 @@ import {
             </View>
         </View>
     );
-  };
+};
+
+//export default TabBarandContent;
+
+const styles = StyleSheet.create({
+
+});
