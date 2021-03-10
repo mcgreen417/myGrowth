@@ -4,17 +4,33 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import './global.js';
 
-import StartPage from './app/screens/StartPage';
-import SignUpPage from './app/screens/SignUpPage';
-import LoginPage from './app/screens/LoginPage';
-import ForgotPasswordPage from './app/screens/ForgotPasswordPage';
-import PasswordResetVerificationPage from './app/screens/PasswordResetVerificationPage';
-import ResetPasswordPage from './app/screens/ResetPasswordPage';
-import UserInitializationPage from './app/screens/UserInitializationPage';
+import StartPage from './app/login/screens/StartPage';
+import SignUpPage from './app/login/screens/SignUpPage';
+
+import LoginPage from './app/login/screens/LoginPage';
+import ForgotPasswordPage from './app/login/screens/ForgotPasswordPage';
+import PasswordResetVerificationPage from './app/login/screens/PasswordResetVerificationPage';
+import ResetPasswordPage from './app/login/screens/ResetPasswordPage';
+import UserInitializationPage1 from './app/userinit/screens/UserInitializationPage1';
+import UserInitializationPage2 from './app/userinit/screens/UserInitializationPage2';
+import UserInitializationPage3 from './app/userinit/screens/UserInitializationPage3';
+import HomePage from './app/home/screens/Home';
+import PlantShop from './app/home/screens/PlantShop';
+import CustomizePlant from './app/home/screens/CustomizePlant';
+import { Journal } from './app/journal/screens/Journal';
+import { Goals } from './app/goals/screens/Goals';
+import { HealthEntry1 } from './app/healthentry/screens/HealthEntry';
+import { ToDoList } from './app/todolist/screens/ToDoList';
+import { HistoryHealthEntries } from './app/history/screens/History';
+import AccountPanel from './app/account/screens/AccountPanel';
+import UserSettings from './app/account/screens/UserSettings';
+import GenerateReport from './app/account/screens/GenerateReport';
+import VerificationCodePage from './app/login/screens/VerificationCode';
 
 import Amplify, { Auth } from 'aws-amplify';
-import awsconfig from './aws-exports';
+import awsconfig from './app/shared/config/aws-exports';
 import { Authenticator } from 'aws-amplify-react-native/dist/Auth';
+
 Amplify.configure(awsconfig);
 
 const Stack = createStackNavigator();
@@ -23,13 +39,111 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='StartPage'>
-        <Stack.Screen name='StartPage' component={StartPage} options={{ headerShown: false }}/>
-        <Stack.Screen name='SignUpPage' component={SignUpPage} options={{ headerShown: false }} />
-        <Stack.Screen name='LoginPage' component={LoginPage} options={{ headerShown: false }} />
-        <Stack.Screen name='ForgotPasswordPage' component={ForgotPasswordPage} options={{ headerShown: false }} />
-        <Stack.Screen name='PasswordResetVerificationPage' component={PasswordResetVerificationPage} options={{ headerShown: false }} />
-        <Stack.Screen name='ResetPasswordPage' component={ResetPasswordPage} options={{ headerShown: false }} />
-        <Stack.Screen name='UserInitializationPage' component={UserInitializationPage} options={{ headerShown: false }} />
+        <Stack.Screen
+          name='StartPage'
+          component={StartPage}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='SignUpPage'
+          component={SignUpPage}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='VerificationCodePage'
+          component={VerificationCodePage}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='LoginPage'
+          component={LoginPage}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='ForgotPasswordPage'
+          component={ForgotPasswordPage}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='PasswordResetVerificationPage'
+          component={PasswordResetVerificationPage}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='ResetPasswordPage'
+          component={ResetPasswordPage}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='UserInitializationPage1'
+          component={UserInitializationPage1}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='UserInitializationPage2'
+          component={UserInitializationPage2}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='UserInitializationPage3'
+          component={UserInitializationPage3}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='HomePage'
+          component={HomePage}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='PlantShop'
+          component={PlantShop}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='CustomizePlant'
+          component={CustomizePlant}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='Journal'
+          component={Journal}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='GoalsPage'
+          component={Goals}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='HealthEntry1'
+          component={HealthEntry1}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='ToDoList'
+          component={ToDoList}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='HistoryHealthEntries'
+          component={HistoryHealthEntries}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='AccountPanel'
+          component={AccountPanel}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='UserSettings'
+          component={UserSettings}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='GenerateReport'
+          component={GenerateReport}
+          options={{ header: () => null }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
