@@ -21,7 +21,23 @@ import { Journal } from './app/journal/screens/Journal';
 import { Goals } from './app/goals/screens/Goals';
 import { HealthEntry1 } from './app/healthentry/screens/HealthEntry';
 import { ToDoList } from './app/todolist/screens/ToDoList';
-import { HistoryHealthEntries } from './app/history/screens/History';
+import { HistoryHealthEntries,
+          HistoryCorrelations,
+} from './app/history/screens/History';
+import HistoryDailyActivities1 from './app/history/screens/HistoryDailyActivities1';
+import HistoryDailyActivities2 from './app/history/screens/HistoryDailyActivities2';
+import HistoryFitness1 from './app/history/screens/HistoryFitness1';
+import HistoryFitness2 from './app/history/screens/HistoryFitness2';
+import HistoryGeneralHealth1 from './app/history/screens/HistoryGeneralHealth1';
+import HistoryGeneralHealth2 from './app/history/screens/HistoryGeneralHealth2';
+import HistoryMealTracking from './app/history/screens/HistoryMealTracking';
+import HistoryMedication from './app/history/screens/HistoryMedication';
+import HistoryMood from './app/history/screens/HistoryMood';
+import HistoryPeriodTracking from './app/history/screens/HistoryPeriodTracking';
+import HistorySleep1 from './app/history/screens/HistorySleep1';
+import HistorySleep2 from './app/history/screens/HistorySleep2';
+import HistoryStress from './app/history/screens/HistoryStress';
+import HistoryWeight from './app/history/screens/HistoryWeight';
 import AccountPanel from './app/account/screens/AccountPanel';
 import UserSettings from './app/account/screens/UserSettings';
 import GenerateReport from './app/account/screens/GenerateReport';
@@ -127,6 +143,81 @@ function App() {
         <Stack.Screen
           name='HistoryHealthEntries'
           component={HistoryHealthEntries}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen 
+          name='HistoryMood'
+          component={HistoryMood}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen 
+          name='HistoryStress'
+          component={HistoryStress}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen 
+          name='HistoryDailyActivities1'
+          component={HistoryDailyActivities1}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen 
+          name='HistoryDailyActivities2'
+          component={HistoryDailyActivities2}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen 
+          name='HistoryPeriodTracking'
+          component={HistoryPeriodTracking}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen 
+          name='HistoryWeight'
+          component={HistoryWeight}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen 
+          name='HistoryGeneralHealth1'
+          component={HistoryGeneralHealth1}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='HistoryGeneralHealth2'
+          component={HistoryGeneralHealth2}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='HistoryMedication'
+          component={HistoryMedication}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='HistorySleep1'
+          component={HistorySleep1}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='HistorySleep2'
+          component={HistorySleep2}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='HistoryMealTracking'
+          component={HistoryMealTracking}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='HistoryCorrelations'
+          component={HistoryCorrelations}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='HistoryFitness1'
+          component={HistoryFitness1}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='HistoryFitness2'
+          component={HistoryFitness2}
           options={{ header: () => null }}
         />
         <Stack.Screen
