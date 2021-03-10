@@ -86,7 +86,7 @@ function PlantShop({ navigation }) {
                   styles.plantItemPress,
                 ]}
                 onPress={() => setPlant(item)}>
-                <Image source={item} style={styles.plantItem} />
+                <Image key={item} source={item} style={styles.plantItem} />
               </Pressable>
               <View
                 style={{

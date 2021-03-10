@@ -1,9 +1,12 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import './global.js';
+
 import StartPage from './app/login/screens/StartPage';
 import SignUpPage from './app/login/screens/SignUpPage';
-import { createStackNavigator } from '@react-navigation/stack';
+
 import LoginPage from './app/login/screens/LoginPage';
 import ForgotPasswordPage from './app/login/screens/ForgotPasswordPage';
 import PasswordResetVerificationPage from './app/login/screens/PasswordResetVerificationPage';
@@ -22,11 +25,12 @@ import { HistoryHealthEntries } from './app/history/screens/History';
 import AccountPanel from './app/account/screens/AccountPanel';
 import UserSettings from './app/account/screens/UserSettings';
 import GenerateReport from './app/account/screens/GenerateReport';
+import VerificationCodePage from './app/login/screens/VerificationCode';
 
 import Amplify, { Auth } from 'aws-amplify';
 import awsconfig from './app/shared/config/aws-exports';
 import { Authenticator } from 'aws-amplify-react-native/dist/Auth';
-import VerificationCodePage from './app/login/screens/VerificationCode';
+
 Amplify.configure(awsconfig);
 
 const Stack = createStackNavigator();
