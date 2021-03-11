@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import NavBar from '../../shared/components/NavBar';
 
 function UserSettings({ navigation }) {
   const [useStressLevels, setUseStressLevels] = useState(false);
@@ -304,6 +305,7 @@ function UserSettings({ navigation }) {
           <View style={styles.pageEnd} />
         </View>
       </ScrollView>
+      <NavBar account={true} navigation={navigation} />
     </SafeAreaView>
   );
 }
@@ -394,7 +396,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   pageEnd: {
-    marginBottom: 30,
+    marginBottom: 100,
   },
   pageSetup: {
     justifyContent: 'center',
