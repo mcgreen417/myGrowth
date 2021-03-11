@@ -196,8 +196,9 @@ function HistoryMood({ navigation }) {
           <View style={styles.divider} />
         </View>
         <View>
-          <Button title='History' />
-          <Button title='Correlations' />
+          {/* tab component */}
+          <TabBarandContent historyGenComp = {true} />
+
           <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
             <View style={styles.inlineRow}>
               <Text style={styles.textReg}>Categories</Text>
@@ -207,6 +208,7 @@ function HistoryMood({ navigation }) {
             </View>
           </TouchableOpacity>
         </View>
+        
         {/* Middle Divider */}
         <View style={styles.dividerView}>
           <View style={styles.divider} />

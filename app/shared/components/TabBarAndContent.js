@@ -60,18 +60,22 @@ import {
     /* Gen comp version: mood, stress, period, meal */
     if(historyGenComp)
         return(
-            <View>
-                <View style={{flexDirection: 'row'}}>
+            <View style={{paddingLeft: 22, paddingRight: 22, paddingBottom: 10}}>
+                <View style={{height: 30, width: 220, flexDirection: 'row'}}>
                     {/* History */}
                     <Pressable
                         onPress = {() => {imgSource = historyImg;}}
-                        style = {({pressed}) => [
+                        style = {({ pressed }) => [
                             {
+                                width: 75,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingRight: 2,
                                 backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                     ]}>
                         {/* text */}
-                        <Text>History</Text>
+                        <Text style={styles.tabText}>History</Text>
                     </Pressable>
 
                     {/* Correlation */}
@@ -79,35 +83,45 @@ import {
                         onPress = {() => {imgSource = correlationImg;}}
                         style = {({pressed}) => [
                             {
+                                width: 75,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingRight: 2,
                                 backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                     ]}>
                         {/* text */}
-                        <Text>Correlations</Text>
+                        <Text style={styles.tabText}>Correlations</Text>
                     </Pressable>
                 </View>
                 {/* colored bar */}
-                <View style = {styles.coloredBar}/>
+                <View style={styles.coloredBarView}>
+                    <View style={styles.coloredBar} />
+                </View>
                 {/* render image */}
-                <Image source = {imgSource}/>
+                <Image style={styles.images} source = {imgSource}/>
             </View>
         );
 
     /* daily activities */
     if(dailyActivities)
         return(
-            <View>
-                <View style={{flexDirection: 'row'}}>
+            <View style={{paddingLeft: 22, paddingRight: 22, paddingBottom: 10}}>
+                <View style={{height: 30, width: 220, flexDirection: 'row'}}>
                     {/* history */}
                     <Pressable
                         onPress = {() => {imgSource = historyImg;}}
                         style = {({pressed}) => [
                             {
+                                width: 75,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingRight: 2,
                                 backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                     ]}>
                         {/* text */}
-                        <Text>History</Text>
+                        <Text style={styles.tabText}>History</Text>
                     </Pressable>
 
                     {/* activity view */}
@@ -115,11 +129,15 @@ import {
                         onPress = {() => {imgSource = activityImg;}}
                         style = {({pressed}) => [
                             {
+                                width: 75,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingRight: 2,
                                 backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                     ]}>
                         {/* text */}
-                        <Text>Activity View</Text>
+                        <Text style={styles.tabText}>Activity View</Text>
                     </Pressable>
 
                     {/* correlation */}
@@ -127,35 +145,46 @@ import {
                         onPress = {() => {imgSource = correlationImg;}}
                         style = {({pressed}) => [
                             {
+                                width: 75,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingRight: 2,
                                 backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                     ]}>
                         {/* text */}
-                        <Text>Correlations</Text>
+                        <Text style={styles.tabText}>Correlations</Text>
                     </Pressable>
                 </View>
                 {/* colored bar */}
-                <View style = {styles.coloredBar}/>
+                <View style={styles.coloredBarView} >
+                    <View style={styles.coloredBar} />
+                </View>
+
                 {/* render image */}
-                <Image source = {imgSource}/>
+                <Image style={styles.images} source = {imgSource}/>
             </View>
         );
 
     /* general health */
     if(generalHealth)
         return(
-            <View>
-                <View style={{flexDirection: 'row'}}>
+            <View style={{paddingLeft: 22, paddingRight: 22, paddingBottom: 10}}>
+                <View style={{height: 30, width: 220, flexDirection: 'row'}}>
                     {/* history */}
                     <Pressable
                         onPress = {() => {imgSource = historyImg;}}
                         style = {({pressed}) => [
                             {
+                                width: 75,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingRight: 2,
                                 backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                     ]}>
                         {/* text */}
-                        <Text>History</Text>
+                        <Text style={styles.tabText}>History</Text>
                     </Pressable>
 
                     {/* intensity */}
@@ -163,11 +192,15 @@ import {
                         onPress = {() => {imgSource = intensityImg;}}
                         style = {({pressed}) => [
                             {
+                                width: 75,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingRight: 2,
                                 backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                     ]}>
                         {/* text */}
-                        <Text>Intensity</Text>
+                        <Text style={styles.tabText}>Intensity</Text>
                     </Pressable>
 
                     {/* correlation */}
@@ -175,35 +208,45 @@ import {
                         onPress = {() => {imgSource = correlationImg;}}
                         style = {({pressed}) => [
                             {
+                                width: 75,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingRight: 2,
                                 backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                     ]}>
                         {/* text */}
-                        <Text>Correlations</Text>
+                        <Text  style={styles.tabText}>Correlations</Text>
                     </Pressable>
                 </View>
                 {/* colored bar */}
-                <View style = {styles.coloredBar}/>
+                <View style={styles.coloredBarView}>
+                    <View style={styles.coloredBar} />
+                </View>
                 {/* render image */}
-                <Image source = {imgSource}/>
+                <Image style={styles.images} source = {imgSource}/>
             </View>
         );
 
     /* medication */
     if(medication)
         return(
-            <View style={{height: 221}}>
-                <View style={{flexDirection: 'row'}}>
+            <View style={{paddingLeft: 22, paddingRight: 22, paddingBottom: 10}}>
+                <View style={{height: 30, width: 220, flexDirection: 'row'}}>
                     {/* prescription */}
                     <Pressable
                         onPress = {() => {imgSource = prescriptionImg;}}
                         style = {({pressed}) => [
                             {
+                                width: 75,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingRight: 2,
                                 backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                     ]}>
                         {/* text */}
-                        <Text>Prescription</Text>
+                        <Text style={styles.tabText}>Prescription</Text>
                     </Pressable>
 
                     {/* correlation */}
@@ -211,35 +254,45 @@ import {
                         onPress = {() => {imgSource = correlationImg;}}
                         style = {({pressed}) => [
                             {
+                                width: 75,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingRight: 2,
                                 backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                     ]}>
                         {/* text */}
-                        <Text>Correlations</Text>
+                        <Text style={styles.tabText}>Correlations</Text>
                     </Pressable>
                 </View>
                 {/* colored bar */}
-                <View style = {styles.coloredBar}/>
+                <View style={styles.coloredBarView}>
+                    <View style={styles.coloredBar} />
+                </View>
                 {/* render image */}
-                <Image source = {imgSource}/>
+                <Image style={styles.images} source = {imgSource}/>
             </View>
         );
 
     /* sleep */
     if(sleep)
         return(
-            <View style={styles.container}>
-                <View>
+            <View style={{paddingLeft: 22, paddingRight: 22, paddingBottom: 10}}>
+                <View style={{height: 30, width: 220, flexDirection: 'row'}}>
                     {/* time asleep */}
                     <Pressable
                         onPress = {() => {imgSource = timeSleepImg;}}
                         style = {({pressed}) => [
                             {
+                                width: 75,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingRight: 2,
                                 backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                         ]}>
                         {/* text */}
-                        <Text>Time Asleep</Text>
+                        <Text style={styles.tabText}>Time Asleep</Text>
                     </Pressable>
 
                     {/* quality */}
@@ -247,11 +300,15 @@ import {
                         onPress = {() => {imgSource = qualityImg;}}
                         style = {({pressed}) => [
                             {
+                                width: 75,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingRight: 2,
                                 backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                         ]}>
                         {/* text */}
-                        <Text>Quality</Text>
+                        <Text style={styles.tabText}>Quality</Text>
                     </Pressable>
 
                     {/* correlation */}
@@ -259,35 +316,45 @@ import {
                         onPress = {() => {imgSource = correlationImg;}}
                         style = {({pressed}) => [
                             {
+                                width: 75,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingRight: 2,
                                 backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                         ]}>
                         {/* text */}
-                        <Text>Correlations</Text>
+                        <Text style={styles.tabText}>Correlations</Text>
                     </Pressable>
                 </View>
                 {/* colored bar */}
-                <View style = {styles.coloredBar}/>
+                <View style={styles.coloredBarView}>
+                    <View style={styles.coloredBar} />
+                </View>
                 {/* render image */}
-                <Image source = {imgSource}/>
+                <Image style={styles.images} source = {imgSource}/>
             </View>
         );
 
     /* fitness */
     if(fitness)
         return(
-            <View>
-                <View style={{flexDirection: 'row'}}>
+            <View style={{paddingLeft: 22, paddingRight: 22, paddingBottom: 10}}>
+                <View style={{height: 30, width: 220, flexDirection: 'row'}}>
                     {/* history */}
                     <Pressable
                         onPress = {() => {imgSource = historyImg;}}
                         style = {({pressed}) => [
                             {
+                                width: 75,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingRight: 2,
                                 backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                         ]}>
                         {/* text */}
-                        <Text>History</Text>
+                        <Text style={styles.tabText}>History</Text>
                     </Pressable>
 
                     {/* exercises */}
@@ -295,11 +362,15 @@ import {
                         onPress = {() => {imgSource = exerciseImg;}}
                         style = {({pressed}) => [
                             {
+                                width: 75,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingRight: 2,
                                 backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                         ]}>
                         {/* text */}
-                        <Text>Exercises</Text>
+                        <Text style={styles.tabText}>Exercises</Text>
                     </Pressable>
 
                     {/* correlation */}
@@ -307,17 +378,23 @@ import {
                         onPress = {() => {imgSource = correlationImg;}}
                         style = {({pressed}) => [
                             {
+                                width: 75,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingRight: 2,
                                 backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                         ]}>
                         {/* text */}
-                        <Text>Correlations</Text>
+                        <Text style={styles.tabText}>Correlations</Text>
                     </Pressable>
                 </View>
                 {/* colored bar */}
-                <View style = {styles.coloredBar}/>
+                <View style={styles.coloredBarView}>
+                    <View style={styles.coloredBar} />
+                </View>
                 {/* render image */}
-                <Image source = {imgSource}/>
+                <Image style={styles.images} source = {imgSource}/>
             </View>
         );
 

@@ -195,8 +195,9 @@ function HistoryPeriodTracking({ navigation }) {
           <View style={styles.divider} />
         </View>
         <View>
-          <Button title='History' />
-          <Button title='Correlations' />
+          
+          <TabBarandContent historyGenComp = {true} />
+
           <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
             <View style={styles.inlineRow}>
               <Text style={styles.textReg}>Categories</Text>

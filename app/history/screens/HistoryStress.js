@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
+import TabBarandContent from '../../shared/components/TabBarAndContent';
 
 function HistoryStress({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
@@ -196,8 +197,10 @@ function HistoryStress({ navigation }) {
           <View style={styles.divider} />
         </View>
         <View>
-          <Button title='History' />
-          <Button title='Correlations' />
+          {/* tab component */}
+          <TabBarandContent historyGenComp = {true} />
+
+          {/* category modal */}
           <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
             <View style={styles.inlineRow}>
               <Text style={styles.textReg}>Categories</Text>
