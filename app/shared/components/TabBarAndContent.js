@@ -7,14 +7,14 @@ import {
     Button,
     Pressable,
   } from 'react-native';
-  import historyImg from '../../shared/assets/rectangle.png';
-  import correlationImg from '../../shared/assets/icon.png';
-  import activityImg from '../../shared/assets/icon.png';
-  import intensityImg from '../../shared/assets/icon.png';
-  import prescriptionImg from '../../shared/assets/icon.png';
-  import timeSleepImg from '../../shared/assets/icon.png';
-  import qualityImg from '../../shared/assets/icon.png';
-  import exerciseImg from '../../shared/assets/icon.png';
+  import historyImg from '../../shared/assets/Rectangle.png';
+  import correlationImg from '../../shared/assets/Rectangle.png';
+  import activityImg from '../../shared/assets/Rectangle.png';
+  import intensityImg from '../../shared/assets/Rectangle.png';
+  import prescriptionImg from '../../shared/assets/Rectangle.png';
+  import timeSleepImg from '../../shared/assets/Rectangle.png';
+  import qualityImg from '../../shared/assets/Rectangle.png';
+  import exerciseImg from '../../shared/assets/Rectangle.png';
 
   const TabBarandContent = ({
       history = false,
@@ -35,9 +35,9 @@ import {
                     {/* History */}
                     <Pressable
                         onPress = {() => {imgSource = historyImg;}}
-                        style = {({pressed}) => [
+                        style = {({ pressed }) => [
                             {
-                                backgroundColor: press ? '#A5DFB2' : '#4CB97A',
+                                backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                     ]}>
                         {/* text */}
@@ -61,7 +61,7 @@ import {
                         onPress = {() => {imgSource = historyImg;}}
                         style = {({pressed}) => [
                             {
-                                backgroundColor: press ? '#A5DFB2' : '#4CB97A',
+                                backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                     ]}>
                         {/* text */}
@@ -73,7 +73,7 @@ import {
                         onPress = {() => {imgSource = correlationImg;}}
                         style = {({pressed}) => [
                             {
-                                backgroundColor: press ? '#A5DFB2' : '#4CB97A',
+                                backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                     ]}>
                         {/* text */}
@@ -97,7 +97,7 @@ import {
                         onPress = {() => {imgSource = historyImg;}}
                         style = {({pressed}) => [
                             {
-                                backgroundColor: press ? '#A5DFB2' : '#4CB97A',
+                                backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                     ]}>
                         {/* text */}
@@ -109,7 +109,7 @@ import {
                         onPress = {() => {imgSource = activityImg;}}
                         style = {({pressed}) => [
                             {
-                                backgroundColor: press ? '#A5DFB2' : '#4CB97A',
+                                backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                     ]}>
                         {/* text */}
@@ -121,7 +121,7 @@ import {
                         onPress = {() => {imgSource = correlationImg;}}
                         style = {({pressed}) => [
                             {
-                                backgroundColor: press ? '#A5DFB2' : '#4CB97A',
+                                backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                     ]}>
                         {/* text */}
@@ -145,7 +145,7 @@ import {
                         onPress = {() => {imgSource = historyImg;}}
                         style = {({pressed}) => [
                             {
-                                backgroundColor: press ? '#A5DFB2' : '#4CB97A',
+                                backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                     ]}>
                         {/* text */}
@@ -157,7 +157,7 @@ import {
                         onPress = {() => {imgSource = intensityImg;}}
                         style = {({pressed}) => [
                             {
-                                backgroundColor: press ? '#A5DFB2' : '#4CB97A',
+                                backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                     ]}>
                         {/* text */}
@@ -169,7 +169,7 @@ import {
                         onPress = {() => {imgSource = correlationImg;}}
                         style = {({pressed}) => [
                             {
-                                backgroundColor: press ? '#A5DFB2' : '#4CB97A',
+                                backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                     ]}>
                         {/* text */}
@@ -193,7 +193,7 @@ import {
                         onPress = {() => {imgSource = prescriptionImg;}}
                         style = {({pressed}) => [
                             {
-                                backgroundColor: press ? '#A5DFB2' : '#4CB97A',
+                                backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                     ]}>
                         {/* text */}
@@ -205,7 +205,7 @@ import {
                         onPress = {() => {imgSource = correlationImg;}}
                         style = {({pressed}) => [
                             {
-                                backgroundColor: press ? '#A5DFB2' : '#4CB97A',
+                                backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                     ]}>
                         {/* text */}
@@ -229,7 +229,7 @@ import {
                         onPress = {() => {imgSource = timeSleepImg;}}
                         style = {({pressed}) => [
                             {
-                                backgroundColor: press ? '#A5DFB2' : '#4CB97A',
+                                backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                         ]}>
                         {/* text */}
@@ -241,7 +241,7 @@ import {
                         onPress = {() => {imgSource = qualityImg;}}
                         style = {({pressed}) => [
                             {
-                                backgroundColor: press ? '#A5DFB2' : '#4CB97A',
+                                backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                         ]}>
                         {/* text */}
@@ -253,7 +253,7 @@ import {
                         onPress = {() => {imgSource = correlationImg;}}
                         style = {({pressed}) => [
                             {
-                                backgroundColor: press ? '#A5DFB2' : '#4CB97A',
+                                backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                         ]}>
                         {/* text */}
@@ -277,7 +277,7 @@ import {
                         onPress = {() => {imgSource = historyImg;}}
                         style = {({pressed}) => [
                             {
-                                backgroundColor: press ? '#A5DFB2' : '#4CB97A',
+                                backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                         ]}>
                         {/* text */}
@@ -289,7 +289,7 @@ import {
                         onPress = {() => {imgSource = exerciseImg;}}
                         style = {({pressed}) => [
                             {
-                                backgroundColor: press ? '#A5DFB2' : '#4CB97A',
+                                backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                         ]}>
                         {/* text */}
@@ -301,7 +301,7 @@ import {
                         onPress = {() => {imgSource = correlationImg;}}
                         style = {({pressed}) => [
                             {
-                                backgroundColor: press ? '#A5DFB2' : '#4CB97A',
+                                backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                         ]}>
                         {/* text */}
@@ -318,7 +318,7 @@ import {
     return null;
 };
 
-//export default TabBarandContent;
+export default TabBarandContent;
 
 const styles = StyleSheet.create({
     container: {

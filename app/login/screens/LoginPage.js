@@ -80,7 +80,7 @@ function LoginPage({ navigation }) {
         {/* Login/signup page switch + forgot password button */}
         <View style={{ flexDirection: 'row' }}>
           <Text style={styles().textReg}>Don't have an account? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('SignUpPage')}>
+          <TouchableOpacity onPress={() => navigation.navigate('HistoryHealthEntries')}>
             <Text style={styles().textLink}>Sign up here.</Text>
           </TouchableOpacity>
         </View>
