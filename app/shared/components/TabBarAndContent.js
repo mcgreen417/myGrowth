@@ -30,24 +30,30 @@ import {
     /* History Comp version */
     if(history)
         return(
-            <View>
-                <View style={{flexDirection: 'row'}}>
+            <View style={{paddingLeft: 22, paddingRight: 22, paddingBottom: 10}}>
+                <View style={{height: 30, width: 220, flexDirection: 'row'}}>
                     {/* History */}
                     <Pressable
                         onPress = {() => {imgSource = historyImg;}}
                         style = {({ pressed }) => [
                             {
+                                width: 75,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                paddingRight: 2,
                                 backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
                             },
                     ]}>
                         {/* text */}
-                        <Text>History</Text>
+                        <Text style={styles.tabText}>History</Text>
                     </Pressable>
                 </View>
                 {/* colored bar */}
-                <View style = {styles.coloredBar}/>
+                <View style={styles.coloredBarView}>
+                    <View style={styles.coloredBar} />
+                </View>
                 {/* render image */}
-                <Image source = {imgSource}/>
+                <Image style={styles.images} source = {imgSource}/>
             </View>
         );
 
@@ -186,7 +192,7 @@ import {
     /* medication */
     if(medication)
         return(
-            <View>
+            <View style={{height: 221}}>
                 <View style={{flexDirection: 'row'}}>
                     {/* prescription */}
                     <Pressable
@@ -222,8 +228,8 @@ import {
     /* sleep */
     if(sleep)
         return(
-            <View>
-                <View style={{flexDirection: 'row'}}>
+            <View style={styles.container}>
+                <View>
                     {/* time asleep */}
                     <Pressable
                         onPress = {() => {imgSource = timeSleepImg;}}
@@ -323,17 +329,26 @@ export default TabBarandContent;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        width: 220,
-        height: 220,
+        width: 345,
+        height: 230,
     },
     coloredBar: {
         flex: 1,
-        height: 1,
-        width: 220,
+        height: 3,
+        width: 350,
         backgroundColor: '#4CB97A',
     },
+    coloredBarView: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
     images: {
-        width: 220,
+        width: 350,
         height: 220,
     },
+    tabText: {
+        color: 'white',
+        fontSize: 17,
+        paddingTop: 3,
+    }
 });
