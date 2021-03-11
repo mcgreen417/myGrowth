@@ -9,6 +9,8 @@ import {
   Switch,
   TouchableOpacity,
 } from 'react-native';
+
+import { Icon } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import NavBar from '../../shared/components/NavBar';
 
@@ -92,7 +94,12 @@ function UserSettings({ navigation }) {
               <View style={styles.inlineRow}>
                 <Text style={styles.textReg}>Set User PIN</Text>
                 <View style={styles.iconView}>
-                  <Image source={require('../../shared/assets/chevron.png')} />
+                  <Icon
+                    name='chevron-forward'
+                    type='ionicon'
+                    color='#816868'
+                    style={{ marginRight: -6 }}
+                  />
                 </View>
               </View>
             </TouchableOpacity>
@@ -105,7 +112,12 @@ function UserSettings({ navigation }) {
               <View style={styles.inlineRow}>
                 <Text style={styles.textReg}>Change Password</Text>
                 <View style={styles.iconView}>
-                  <Image source={require('../../shared/assets/chevron.png')} />
+                  <Icon
+                    name='chevron-forward'
+                    type='ionicon'
+                    color='#816868'
+                    style={{ marginRight: -6 }}
+                  />
                 </View>
               </View>
             </TouchableOpacity>
@@ -118,7 +130,12 @@ function UserSettings({ navigation }) {
               <View style={styles.inlineRow}>
                 <Text style={styles.textReg}>Change Email</Text>
                 <View style={styles.iconView}>
-                  <Image source={require('../../shared/assets/chevron.png')} />
+                  <Icon
+                    name='chevron-forward'
+                    type='ionicon'
+                    color='#816868'
+                    style={{ marginRight: -6 }}
+                  />
                 </View>
               </View>
             </TouchableOpacity>
@@ -131,7 +148,12 @@ function UserSettings({ navigation }) {
               <View style={styles.inlineRow}>
                 <Text style={styles.textReg}>Link Your Account</Text>
                 <View style={styles.iconView}>
-                  <Image source={require('../../shared/assets/chevron.png')} />
+                  <Icon
+                    name='chevron-forward'
+                    type='ionicon'
+                    color='#816868'
+                    style={{ marginRight: -6 }}
+                  />
                 </View>
               </View>
             </TouchableOpacity>
@@ -149,7 +171,12 @@ function UserSettings({ navigation }) {
               <View style={styles.inlineRow}>
                 <Text style={styles.textReg}>Personal Profile</Text>
                 <View style={styles.iconView}>
-                  <Image source={require('../../shared/assets/chevron.png')} />
+                  <Icon
+                    name='chevron-forward'
+                    type='ionicon'
+                    color='#816868'
+                    style={{ marginRight: -6 }}
+                  />
                 </View>
               </View>
             </TouchableOpacity>
@@ -162,7 +189,12 @@ function UserSettings({ navigation }) {
               <View style={styles.inlineRow}>
                 <Text style={styles.textReg}>Change Gardener Avatar</Text>
                 <View style={styles.iconView}>
-                  <Image source={require('../../shared/assets/chevron.png')} />
+                  <Icon
+                    name='chevron-forward'
+                    type='ionicon'
+                    color='#816868'
+                    style={{ marginRight: -6 }}
+                  />
                 </View>
               </View>
             </TouchableOpacity>
@@ -348,7 +380,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   heading: {
-    color: 'black',
+    color: '#4CB97A',
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'left',
@@ -394,6 +426,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     flex: 1,
     flexWrap: 'wrap',
+    fontWeight: 'bold',
   },
   pageEnd: {
     marginBottom: 100,

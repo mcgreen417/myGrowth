@@ -9,6 +9,8 @@ import {
   Switch,
   Button,
 } from 'react-native';
+
+import { Icon } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
 import { ScrollView } from 'react-native-gesture-handler';
 import NavBar from '../../shared/components/NavBar';
@@ -70,7 +72,7 @@ function GenerateReport({ navigation }) {
             <Image style={styles.avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
             <Text style={styles.pageDescription}>
               Generate a report of your health entry history for your personal records. 
-              Select the time period and sections you'd like to be included in your report.
+              Select the time period and sections you'd like to include.
             </Text>
           </View>
           {/* Top page divider */}
@@ -308,11 +310,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F6EFED',
   },
-  inlineRow: {
-    flexDirection: 'row',
-    width: '90%',
-    alignItems: 'center',
-  },
   avatar: {
     width: 75,
     height: 75,
@@ -344,12 +341,17 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   heading: {
-    color: 'black',
+    color: '#4CB97A',
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'left',
     marginBottom: 10,
     width: '90%',
+  },
+  inlineRow: {
+    flexDirection: 'row',
+    width: '90%',
+    alignItems: 'center',
   },
   line: {
     borderColor: '#816868',
@@ -379,6 +381,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     flex: 1,
     flexWrap: 'wrap',
+    fontWeight: 'bold',
   },
   pageEnd: {
     marginBottom: 100,

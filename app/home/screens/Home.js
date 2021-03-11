@@ -8,6 +8,7 @@ import {
   Button,
   Pressable,
 } from 'react-native';
+
 import { ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
@@ -18,173 +19,154 @@ function HomePage({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        {/* Avatar Section */}
-        <View style={styles.avatarView}>
-          <Text style={styles.pageDescription}>Good Morning, Firstname!</Text>
-          <Image
-            style={styles.avatar}
-            source={require('../../shared/assets/gardener-avatar.png')}
-          />
-        </View>
+        <View style={styles.pageSetup}>
 
-        {/* Plant Section */}
-        <View style={styles.plantSection}>
-          <View style={styles.plantImage}>
-            <Image
-              source={require('../../shared/assets/plant_sprites/' +
-                plant +
-                '_' +
-                stage +
-                '.png')}
-              style={styles.plant}
-            />
+          {/* Gardener avatar + page blurb */}
+          <View style={styles.avatarView}>
+            <Text style={styles.pageDescription}>Good Morning, {'\n'}(First name)!</Text>
+            <Image style={styles.avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
           </View>
-        </View>
 
-        {/* Plant Buttons */}
-        <View style={styles.plantButtons}>
-          <Pressable
-            style={{ flexDirection: 'row', alignItems: 'center' }}
-            onPress={() => navigation.navigate('CustomizePlant')}>
-            <Icon name='arrow-left' style={{ marginRight: 10 }} />
-            <View>
-              <Text>Customize plant</Text>
+          {/* Plant section */}
+          <View style={styles.plantSection}>
+            <View style={styles.plantImage}>
+              <Image
+                source={require('../../shared/assets/plant_sprites/' + plant + '_' + stage + '.png')}
+                style={styles.plant}
+              />
             </View>
-          </Pressable>
-          <View
-            style={{
-              marginLeft: 50,
-              marginRight: 50,
-              height: '100%',
-              width: 2,
-              backgroundColor: '#909090',
-            }}></View>
-          <Pressable
-            style={{ flexDirection: 'row', alignItems: 'center' }}
-            onPress={() => navigation.navigate('PlantShop')}>
-            <View>
-              <Text>Enter plant shop</Text>
-            </View>
-            <Icon name='arrow-right' style={{ marginLeft: 10 }} />
-          </Pressable>
-        </View>
+          </View>
 
-        {/* Make New Entry */}
-        <View style={styles.dividerView}>
-          <View style={styles.dividerLeft} />
-          <View>
-            <Pressable>
-              <View
-                style={{
-                  borderRadius: 10,
-                  width: 280,
-                  height: 100,
-                  backgroundColor: '#E5E5E5',
-                  shadowColor: '#000',
-                  shadowOffset: {
-                    width: 0,
-                    height: 2,
-                  },
-                  shadowOpacity: 0.23,
-                  shadowRadius: 2.62,
-
-                  elevation: 4,
-                }}>
-                <Text style={{ margin: 10, fontSize: 20, fontWeight: 'bold' }}>
-                  Write a new entry! You wrote your last entry on (date) at
-                  (time)
-                </Text>
+          {/* Plant buttons */}
+          <View style={styles.plantButtons}>
+            <Pressable
+              style={styles.inlineRow}
+              onPress={() => navigation.navigate('CustomizePlant')}>
+              <Icon name='arrow-left' color='#816868' />
+              <View>
+                <Text style={styles.plantLinks}>Customize Plant</Text>
               </View>
             </Pressable>
+            <View style={styles.line2} />
+            <Pressable
+              style={styles.inlineRow}
+              onPress={() => navigation.navigate('PlantShop')}>
+              <View>
+                <Text style={styles.plantLinks}>Enter Plant Shop</Text>
+              </View>
+              <Icon name='arrow-right' color='#816868' />
+            </Pressable>
           </View>
-          <View style={styles.dividerRight} />
-        </View>
 
-        {/* View past entries */}
-        <View
-          style={{
-            marginTop: -20,
-            alignItems: 'flex-end',
-            marginRight: 20,
-          }}>
-          <Pressable>
+          {/* Write a new entry button */}
+          <View style={styles.dividerView}>
+            <View style={styles.dividerLeft} />
             <View>
-              <Text
-                style={{
-                  color: '#A5DFB2',
-                  textDecorationLine: 'underline',
-                  fontSize: 16,
-                }}>
-                View past entries
-              </Text>
+              <Pressable>
+                <View style={styles.entryButton}>
+                  <View style={{ marginTop: 4, marginBottom: 4, marginLeft: 8, marginRight: 8 }}>
+                    <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#A5DFB2' }}>
+                      Write a new entry!
+                    </Text>
+                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#F6EFED', marginTop: -4 }}>
+                      You wrote your last entry on (date) at (time).
+                    </Text>
+                  </View>
+                </View>
+              </Pressable>
             </View>
-          </Pressable>
-        </View>
+            <View style={styles.dividerRight} />
+          </View>
 
-        {/* Avatar Section */}
-        <View style={styles.avatarView}>
-          <Image
-            style={{ width: 75, height: 75, marginLeft: 24 }}
-            source={require('../../shared/assets/gardener-avatar.png')}
-          />
-          <Text
-            style={{
-              color: '#000',
-              fontSize: 20,
-              fontWeight: 'bold',
-              marginLeft: 30,
-              marginRight: 50,
-              flex: 1,
-              flexWrap: 'wrap',
-            }}>
-            Why don't you try doing one of these?
-          </Text>
-        </View>
+          {/* View past entries */}
+          <View style={{ marginTop: -20, width: '90%' }}>
+            <Pressable
+              style={styles.inlineRowEnd}
+              onPress={() => navigation.navigate('')}>
+              <View style={{ alignSelf: 'flex-end' }}>
+                <Text style={styles.plantLinks}>View Past Entries</Text>
+              </View>
+              <Icon name='arrow-right' color='#816868' />
+            </Pressable>
+          </View>
 
-        <View style={{ marginLeft: 130, marginRight: 80, height: 300 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ fontSize: 16 }}>Write a journal entry</Text>
-            <Icon
-              name='checkmark-circle-outline'
-              type='ionicon'
-              color='#4CB97A'
-              style={{ marginLeft: 10 }}
+          {/* Avatar Section */}
+          <View style={styles.avatarView}>
+            <Image
+              style={styles.avatar}
+              source={require('../../shared/assets/gardener-avatar.png')}
             />
+            <Text style={styles.activityView}>
+              Why don't you try doing one of these activities?
+            </Text>
           </View>
 
-          <View style={styles.dividerViewLow}>
-            <View style={styles.divider}></View>
-          </View>
+          <View style={{ marginLeft: '24%', width: '64%' }}>
+            <Pressable 
+              style={styles.inlineRow}
+              onPress={() => navigation.navigate('Journal')}>
+              <Text style={{ fontSize: 16 }}>Write a journal entry</Text>
+              <Icon
+                name='checkmark-circle-outline'
+                type='ionicon'
+                color='#4CB97A'
+                style={{ marginLeft: 10 }}
+              />
+            </Pressable>
 
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ fontSize: 16 }}>Create a new goal</Text>
-          </View>
+            <View style={styles.dividerViewLow}>
+              <View style={styles.line}/>
+            </View>
 
-          <View style={styles.dividerViewLow}>
-            <View style={styles.divider}></View>
-          </View>
+            <Pressable 
+              style={styles.inlineRow}
+              onPress={() => navigation.navigate('GoalsPage')}>
+              <Text style={{ fontSize: 16 }}>Create a new goal</Text>
+              <Icon
+                name='checkmark-circle-outline'
+                type='ionicon'
+                color='#4CB97A'
+                style={{ marginLeft: 10 }}
+              />
+            </Pressable>
 
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ fontSize: 16 }}>Complete a goal</Text>
-            <Icon
-              name='checkmark-circle-outline'
-              type='ionicon'
-              color='#4CB97A'
-              style={{ marginLeft: 10 }}
-            />
-          </View>
+            <View style={styles.dividerViewLow}>
+              <View style={styles.line}/>
+            </View>
 
-          <View style={styles.dividerViewLow}>
-            <View style={styles.divider}></View>
-          </View>
+            <Pressable 
+              style={styles.inlineRow}
+              onPress={() => navigation.navigate('GoalsPage')}>
+              <Text style={{ fontSize: 16 }}>Complete a goal</Text>
+              <Icon
+                name='checkmark-circle-outline'
+                type='ionicon'
+                color='#4CB97A'
+                style={{ marginLeft: 10 }}
+              />
+            </Pressable>
 
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ fontSize: 16 }}>View your history</Text>
-          </View>
+            <View style={styles.dividerViewLow}>
+              <View style={styles.line}/>
+            </View>
 
-          <View style={styles.dividerViewLow}>
-            <View style={styles.divider}></View>
+            <Pressable 
+              style={styles.inlineRow}
+              onPress={() => navigation.navigate('ToDoList')}>
+              <Text style={{ fontSize: 16 }}>Check your to-do list</Text>
+              <Icon
+                name='checkmark-circle-outline'
+                type='ionicon'
+                color='#4CB97A'
+                style={{ marginLeft: 10 }}
+              />
+            </Pressable>
+
+            <View style={styles.dividerViewLow}>
+              <View style={styles.line}/>
+            </View>
           </View>
+          <View style={styles.pageEnd}/>
         </View>
       </ScrollView>
       <NavBar home={true} navigation={navigation} />
@@ -199,22 +181,24 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F6EFED',
   },
+  activityView: {
+    color: '#816868',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginLeft: 30,
+    flex: 1,
+    flexWrap: 'wrap',
+  },
   avatar: {
     width: 75,
     height: 75,
-    marginRight: 24,
   },
   avatarView: {
     flexDirection: 'row',
     marginTop: 20,
-    marginBottom: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    width: '96%',
-  },
-  avatarSelectView: {
-    height: '68%',
-    marginBottom: 20,
+    width: '90%'
   },
   buttons: {
     marginTop: 10,
@@ -222,30 +206,90 @@ const styles = StyleSheet.create({
     width: 100,
     height: 50,
   },
+  divider: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#816868',
+    marginLeft: 20,
+    marginRight: 20,
+  },
+  dividerLeft: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#816868',
+    marginLeft: 20,
+  },
+  dividerRight: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#816868',
+    marginRight: 20,
+  },
+  dividerView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 30,
+    marginBottom: 20,
+  },
+  dividerViewLow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 8,
+    marginBottom: 8,
+  },
+  entryButton: {
+    borderRadius: 10,
+    width: 280,
+    height: 90,
+    backgroundColor: '#816868',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+  },
+  inlineRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  inlineRowEnd: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+  },
+  line: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#816868',
+  },
+  line2: {
+    backgroundColor: '#816868',
+    marginLeft: 40,
+    marginRight: 40,
+    height: '100%',
+    width: 2,
+  },
   pageDescription: {
-    color: '#000',
-    fontSize: 25,
+    color: '#816868',
+    fontSize: 24,
     fontWeight: 'bold',
-    marginLeft: 30,
     flex: 1,
     flexWrap: 'wrap',
   },
-  plantSection: {
+  pageSetup: {
     justifyContent: 'center',
     alignItems: 'center',
+    height: '100%',
   },
-  plantImage: {
-    width: 300,
-    height: 300,
-    overflow: 'hidden',
-    backgroundColor: '#E5E5E5',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
+  pageEnd: {
+    marginBottom: 100,
   },
   plant: {
-    width: 270,
-    height: 270,
+    width: '60%',
+    height: '90%',
   },
   plantButtons: {
     flex: 1,
@@ -253,37 +297,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 5,
   },
-  dividerLeft: {
-    flex: 1,
-    height: 1,
-    backgroundColor: '#816868',
-    marginLeft: 20,
-    marginRight: 0,
-  },
-  dividerRight: {
-    flex: 1,
-    height: 1,
-    backgroundColor: '#816868',
-    marginLeft: 0,
-    marginRight: 20,
-  },
-  divider: {
-    flex: 1,
-    height: 1,
-    backgroundColor: '#816868',
-    // marginLeft: 130,
-    marginRight: 0,
-  },
-  dividerView: {
-    flexDirection: 'row',
+  plantSection: {
+    justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 40,
-    marginBottom: 20,
+    marginTop: 20,
+    width: '90%',
   },
-  dividerViewLow: {
-    flexDirection: 'row',
+  plantImage: {
+    width: '100%',
+    height: 260,
+    overflow: 'hidden',
+    backgroundColor: '#E5E5E5',
+    justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 10,
+    borderRadius: 10,
+    borderWidth: 6,
+    borderColor: '#816868'
+  },
+  plantLinks: {
+    color: '#4CB97A',
+    textDecorationLine: 'underline',
+    fontSize: 16,
+  },
+  text: {
+    fontSize: 16,
+    color: '#816868',
   },
 });

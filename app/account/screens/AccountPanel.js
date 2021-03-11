@@ -8,6 +8,8 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
+
+import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
 
 function AccountPanel({ navigation }) {
@@ -33,13 +35,18 @@ function AccountPanel({ navigation }) {
         <Text style={styles.heading}>ACCOUNT SETTINGS</Text>
         <View style={styles.line} />
 
-        {/* Settings */}
+        {/* User settings */}
         <View style={styles.inlineRow}>
           <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('UserSettings')}>
             <View style={styles.inlineRow}>
               <Text style={styles.textReg}>User Settings</Text>
               <View style={styles.iconView}>
-                <Image source={require('../../shared/assets/chevron.png')} />
+                <Icon
+                  name='chevron-forward'
+                  type='ionicon'
+                  color='#816868'
+                  style={{ marginRight: -6 }}
+                />
               </View>
             </View>
           </TouchableOpacity>
@@ -55,7 +62,12 @@ function AccountPanel({ navigation }) {
             <View style={styles.inlineRow}>
               <Text style={styles.textReg}>Generate Report</Text>
               <View style={styles.iconView}>
-                <Image source={require('../../shared/assets/chevron.png')} />
+                <Icon
+                  name='chevron-forward'
+                  type='ionicon'
+                  color='#816868'
+                  style={{ marginRight: -6 }}
+                />
               </View>
             </View>
           </TouchableOpacity>
@@ -66,12 +78,17 @@ function AccountPanel({ navigation }) {
         <View style={styles.inlineRow}>
           <TouchableOpacity
             style={styles.buttons}
-            onPress={() => navigation.navigate('LinkAccount')}
+            onPress={() => navigation.navigate('')}
           >
             <View style={styles.inlineRow}>
               <Text style={styles.textReg}>Link Account</Text>
               <View style={styles.iconView}>
-                <Image source={require('../../shared/assets/chevron.png')} />
+                <Icon
+                  name='chevron-forward'
+                  type='ionicon'
+                  color='#816868'
+                  style={{ marginRight: -6 }}
+                />
               </View>
             </View>
           </TouchableOpacity>
@@ -80,11 +97,16 @@ function AccountPanel({ navigation }) {
 
         {/* Report a problem */}
         <View style={styles.inlineRow}>
-          <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('ReportProblemPage')}>
+          <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('e')}>
             <View style={styles.inlineRow}>
               <Text style={styles.textReg}>Report a Problem</Text>
               <View style={styles.iconView}>
-                <Image source={require('../../shared/assets/chevron.png')} />
+                <Icon
+                  name='chevron-forward'
+                  type='ionicon'
+                  color='#816868'
+                  style={{ marginRight: -6 }}
+                />
               </View>
             </View>
           </TouchableOpacity>
@@ -95,12 +117,17 @@ function AccountPanel({ navigation }) {
         <View style={styles.inlineRow}>
           <TouchableOpacity
             style={styles.buttons}
-            onPress={() => navigation.navigate('LeaveReviewPage')}
+            onPress={() => navigation.navigate('')}
           >
             <View style={styles.inlineRow}>
               <Text style={styles.textReg}>Leave a Review</Text>
               <View style={styles.iconView}>
-                <Image source={require('../../shared/assets/chevron.png')} />
+                <Icon
+                  name='chevron-forward'
+                  type='ionicon'
+                  color='#816868'
+                  style={{ marginRight: -6 }}
+                />
               </View>
             </View>
           </TouchableOpacity>
@@ -111,12 +138,38 @@ function AccountPanel({ navigation }) {
         <View style={styles.inlineRow}>
           <TouchableOpacity
             style={styles.buttons}
-            onPress={() => navigation.navigate('AboutPage')}
+            onPress={() => navigation.navigate('')}
           >
             <View style={styles.inlineRow}>
               <Text style={styles.textReg}>About</Text>
               <View style={styles.iconView}>
-                <Image source={require('../../shared/assets/chevron.png')} />
+                <Icon
+                  name='chevron-forward'
+                  type='ionicon'
+                  color='#816868'
+                  style={{ marginRight: -6 }}
+                />
+              </View>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.line} />
+
+        {/* Log out */}
+        <View style={styles.inlineRow}>
+          <TouchableOpacity
+            style={styles.buttons}
+            onPress={() => navigation.navigate('')}
+          >
+            <View style={styles.inlineRow}>
+              <Text style={styles.textReg}>Log out</Text>
+              <View style={styles.iconView}>
+                <Icon
+                  name='chevron-forward'
+                  type='ionicon'
+                  color='#816868'
+                  style={{ marginRight: -6 }}
+                />
               </View>
             </View>
           </TouchableOpacity>
@@ -170,7 +223,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   heading: {
-    color: 'black',
+    color: '#4CB97A',
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'left',
@@ -211,6 +264,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     flex: 1,
     flexWrap: 'wrap',
+    fontWeight: 'bold',
   },
   pageEnd: {
     marginBottom: 30,

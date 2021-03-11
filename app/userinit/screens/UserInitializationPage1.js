@@ -14,6 +14,7 @@ import {
   Switch,
 } from 'react-native';
 
+import { Icon } from 'react-native-elements';
 import { ToggleButton } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -61,6 +62,7 @@ function UserInitializationPage1({ navigation }) {
         barStyle='light-content'
       />
       <ScrollView>
+
         <View style={styles().pageSetup}>
           {/* Gardener avatar + page blurb */}
           <View style={styles().avatarView}>
@@ -79,22 +81,37 @@ function UserInitializationPage1({ navigation }) {
           </View>
 
           {/* First name user input entry */}
-          <Text style={styles().heading}>FIRST NAME</Text>
+          <View style={styles().inlineRow2}>
+            <Text style={styles().heading}>FIRST NAME   </Text>
+            <Icon
+              name='information-circle-outline'
+              type='ionicon'
+              color='#816868'
+            />
+          </View>
           <View style={styles().userPrompt}>
             <TextInput style={styles().textInput} placeholder='First name' />
           </View>
 
           {/* Date of birth calendar pop-up */}
-          <Text style={styles().heading}>DATE OF BIRTH</Text>
+          <View style={styles().inlineRow2}>
+            <Text style={styles().heading}>DATE OF BIRTH   </Text>
+            <Icon
+              name='information-circle-outline'
+              type='ionicon'
+              color='#816868'
+            />
+          </View>
           <View style={styles().datePicker}>
             <TouchableOpacity onPress={showDatepicker}>
               <View style={styles().inlineRow}>
-                <View style={styles().iconView}>
-                  <Image
-                    source={require('../../shared/assets/baseline_event_black_18dp.png')}
-                  />
-                </View>
-                <Text> MM/DD/YYYY</Text>
+                <Icon
+                  name='calendar-sharp'
+                  type='ionicon'
+                  color='#816868'
+                />
+                <Text>   </Text>
+                <Text style={{ textDecorationLine: 'underline', color: '#4CB97A' }}>MM/DD/YYYY</Text>
               </View>
             </TouchableOpacity>
             {show && (
@@ -110,7 +127,14 @@ function UserInitializationPage1({ navigation }) {
           </View>
 
           {/* Gender drop-down */}
-          <Text style={styles().heading}>GENDER</Text>
+          <View style={styles().inlineRow2}>
+            <Text style={styles().heading}>GENDER   </Text>
+            <Icon
+              name='information-circle-outline'
+              type='ionicon'
+              color='#816868'
+            />
+          </View>
           <View style={{ width: '90%' }}>
             <View style={styles().pickerView}>
               <Picker
@@ -128,7 +152,14 @@ function UserInitializationPage1({ navigation }) {
           </View>
 
           {/* Biological sex drop-down */}
-          <Text style={styles().heading}>BIOLOGICAL SEX</Text>
+          <View style={styles().inlineRow2}>
+            <Text style={styles().heading}>BIOLOGICAL SEX   </Text>
+            <Icon
+              name='information-circle-outline'
+              type='ionicon'
+              color='#816868'
+            />
+          </View>
           <View style={{ width: '90%' }}>
             <View style={styles().pickerView}>
               <Picker
@@ -138,15 +169,24 @@ function UserInitializationPage1({ navigation }) {
                 <Picker.Item label='Select one...' value='unselected' />
                 <Picker.Item label='Male' value='male' />
                 <Picker.Item label='Female' value='female' />
+                <Picker.Item label='Assigned Male' value='amab' />
+                <Picker.Item label='Assigned Female' value='afab' />
               </Picker>
             </View>
           </View>
 
           {/* Height user input entry + cm switch button */}
-          <Text style={styles().heading}>HEIGHT</Text>
+          <View style={styles().inlineRow2}>
+            <Text style={styles().heading}>HEIGHT   </Text>
+            <Icon
+              name='information-circle-outline'
+              type='ionicon'
+              color='#816868'
+            />
+          </View>
           <View style={styles().userPrompt}>
             <TextInput style={styles().textInput2} placeholder='#' />
-            <Text> IN</Text>
+            <Text>   IN</Text>
             <ToggleButton
               icon={
                 useHeightMeasurement
@@ -161,35 +201,44 @@ function UserInitializationPage1({ navigation }) {
           </View>
 
           {/* Weight user input entry + kgs switch button */}
-          <Text style={styles().heading}>WEIGHT</Text>
-          <View style={styles().userPrompt}>
-            <TextInput style={styles().textInput2} placeholder='#' />
-            <Text> LB</Text>
-            <ToggleButton
-              icon={
-                useWeightMeasurement
-                  ? require('../../shared/assets/toggle_on.png')
-                  : require('../../shared/assets/toggle_off.png')
-              }
-              value='weightMeasurement'
-              status={useWeightMeasurement ? 'checked' : 'unchecked'}
-              onPress={toggleWeightMeasurement}
-            />
-            <Text>KG</Text>
-          </View>
+          <View style={styles().inlineRow2}>
+            <View style={{ width: '50%' }}>
+              <View style={styles().inlineRow2}>
+                <Text style={styles().heading}>WEIGHT   </Text>
+                <Icon
+                  name='information-circle-outline'
+                  type='ionicon'
+                  color='#816868'
+                />
+              </View>
+              <View style={styles().userPrompt}>
+                <TextInput style={styles().textInput3} placeholder='#' />
+                <Text>   LB</Text>
+                <ToggleButton
+                  icon={
+                    useWeightMeasurement
+                      ? require('../../shared/assets/toggle_on.png')
+                      : require('../../shared/assets/toggle_off.png')
+                  }
+                  value='weightMeasurement'
+                  status={useWeightMeasurement ? 'checked' : 'unchecked'}
+                  onPress={toggleWeightMeasurement}
+                />
+                <Text>KG</Text>
+              </View>
+            </View>
 
-          {/* Next button */}
-          <View style={styles().buttonsContainer}>
-            <View style={styles().buttons}>
-              <Button
-                title='NEXT'
-                color='#A5DFB2'
-                onPress={() => navigation.navigate('UserInitializationPage2')}
-              />
+            {/* Next button */}
+            <View style={{ width: '50%', marginTop: 40 }}>
+              <View style={styles().buttonsContainer}>
+                <Button
+                  title='NEXT'
+                  color='#A5DFB2'
+                  onPress={() => navigation.navigate('UserInitializationPage2')}
+                />
+              </View>
             </View>
           </View>
-
-          <View style={styles().pageEnd} />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -222,19 +271,13 @@ const styles = () =>
       height: '68%',
       marginBottom: 20,
     },
-    buttons: {
-      marginBottom: 10,
-      width: '20%',
-    },
     buttonsContainer: {
       flexDirection: 'row',
       alignItems: 'flex-end',
       justifyContent: 'flex-end',
-      width: '90%',
     },
     datePicker: {
-      marginTop: 10,
-      marginBottom: 30,
+      marginBottom: 20,
       flexDirection: 'row',
       width: '90%',
     },
@@ -257,14 +300,16 @@ const styles = () =>
       color: '#816868',
       fontSize: 16,
       fontWeight: 'bold',
-      textAlign: 'left',
-      marginBottom: 10,
-      width: '90%',
+      marginBottom: 8,
     },
     inlineRow: {
       flexDirection: 'row',
       width: '90%',
       alignItems: 'center',
+    },
+    inlineRow2: {
+      flexDirection: 'row', 
+      width: '90%',
     },
     line: {
       width: '90%',
@@ -274,7 +319,7 @@ const styles = () =>
     },
     line2: {
       borderColor: '#816868',
-      borderRightWidth: 1,
+      borderWidth: 1,
       minHeight: 28,
       marginTop: 4,
       marginBottom: 4,
@@ -283,10 +328,6 @@ const styles = () =>
       justifyContent: 'center',
       alignItems: 'flex-end',
       marginRight: 20,
-    },
-    textReg: {
-      color: 'black',
-      textAlign: 'left',
     },
     pageDescription: {
       color: global.colorblindMode ? global.cb_textColor : global.textColor,
@@ -314,6 +355,12 @@ const styles = () =>
       width: '70%',
       backgroundColor: '#f4f3f4',
     },
+    switchView: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
     textInput: {
       height: 40,
       borderColor: 'black',
@@ -325,12 +372,6 @@ const styles = () =>
       paddingLeft: 10,
       fontSize: 16,
     },
-    switchView: {
-      flex: 1,
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
     textInput2: {
       height: 36,
       borderColor: 'black',
@@ -341,6 +382,21 @@ const styles = () =>
       width: '12%',
       textAlign: 'center',
       fontSize: 16,
+    },
+    textInput3: {
+      height: 36,
+      borderColor: 'black',
+      borderWidth: 1,
+      borderRadius: 4,
+      backgroundColor: '#f4f3f4',
+      color: '#000000',
+      width: '27%',
+      textAlign: 'center',
+      fontSize: 16,
+    },
+    textReg: {
+      color: 'black',
+      textAlign: 'left',
     },
     userPrompt: {
       marginBottom: 20,
