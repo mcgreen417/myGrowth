@@ -42,7 +42,7 @@ function LoginPage({ navigation }) {
             placeholderTextColor={
               global.colorblindMode
                 ? global.cb_placeHolderTextColor
-                : global.placeholderTextColor
+                : global.placeHolderTextColor
             }
             value={email}
             onChangeText={(email) => {
