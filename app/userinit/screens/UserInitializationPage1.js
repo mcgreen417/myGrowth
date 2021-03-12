@@ -81,7 +81,15 @@ function UserInitializationPage1({ navigation }) {
           {/* First name user input entry */}
           <Text style={styles().heading}>FIRST NAME</Text>
           <View style={styles().userPrompt}>
-            <TextInput style={styles().textInput} placeholder='First name' />
+            <TextInput 
+              style={styles().textInput}
+              placeholder='First name' 
+              placeholderTextColor={
+                global.colorblindMode
+                  ? global.cb_placeHolderTextColor
+                  : global.placeHolderTextColor
+              }
+            />
           </View>
 
           {/* Date of birth calendar pop-up */}
@@ -145,7 +153,15 @@ function UserInitializationPage1({ navigation }) {
           {/* Height user input entry + cm switch button */}
           <Text style={styles().heading}>HEIGHT</Text>
           <View style={styles().userPrompt}>
-            <TextInput style={styles().textInput2} placeholder='#' />
+            <TextInput
+              style={styles().textInput2}
+              placeholder='#'
+              placeholderTextColor={
+                global.colorblindMode
+                  ? global.cb_placeHolderTextColor
+                  : global.placeHolderTextColor
+              }
+            />
             <Text> IN</Text>
             <ToggleButton
               icon={
@@ -163,7 +179,15 @@ function UserInitializationPage1({ navigation }) {
           {/* Weight user input entry + kgs switch button */}
           <Text style={styles().heading}>WEIGHT</Text>
           <View style={styles().userPrompt}>
-            <TextInput style={styles().textInput2} placeholder='#' />
+            <TextInput
+              style={styles().textInput2}
+              placeholder='#'
+              placeholderTextColor={
+                global.colorblindMode
+                  ? global.cb_placeHolderTextColor
+                  : global.placeHolderTextColor
+              }
+            />
             <Text> LB</Text>
             <ToggleButton
               icon={
@@ -183,7 +207,11 @@ function UserInitializationPage1({ navigation }) {
             <View style={styles().buttons}>
               <Button
                 title='NEXT'
-                color='#A5DFB2'
+                color={
+                  global.colorblindMode
+                    ? global.cb_optionButtonsColor
+                    : global.optionButtonsColor
+                }
                 onPress={() => navigation.navigate('UserInitializationPage2')}
               />
             </View>
@@ -254,7 +282,9 @@ const styles = () =>
       marginBottom: 20,
     },
     heading: {
-      color: '#816868',
+      color: global.colorblindMode
+        ? global.cb_textColor
+        : global.textColor,
       fontSize: 16,
       fontWeight: 'bold',
       textAlign: 'left',
@@ -268,12 +298,16 @@ const styles = () =>
     },
     line: {
       width: '90%',
-      borderColor: '#816868',
+      borderColor: global.colorblindMode
+        ? global.cb_lineColor
+        : global.lineColor,
       borderBottomWidth: 1,
       minHeight: 1,
     },
     line2: {
-      borderColor: '#816868',
+      borderColor: global.colorblindMode
+        ? global.cb_lineColor
+        : global.lineColor,
       borderRightWidth: 1,
       minHeight: 28,
       marginTop: 4,
@@ -285,11 +319,15 @@ const styles = () =>
       marginRight: 20,
     },
     textReg: {
-      color: 'black',
+      color: global.colorblindMode
+        ? global.cb_textColor
+        : global.textColor,
       textAlign: 'left',
     },
     pageDescription: {
-      color: global.colorblindMode ? global.cb_textColor : global.textColor,
+      color: global.colorblindMode
+        ? global.cb_textColor
+        : global.textColor,
       fontSize: 16,
       flex: 1,
       flexWrap: 'wrap',
@@ -312,15 +350,23 @@ const styles = () =>
       justifyContent: 'flex-start',
       alignItems: 'flex-start',
       width: '70%',
-      backgroundColor: '#f4f3f4',
+      backgroundColor: global.colorblindMode
+        ? global.cb_textInputFillColor
+        : global.textInputFillColor,
     },
     textInput: {
       height: 40,
-      borderColor: 'black',
+      borderColor: global.colorblindMode
+        ? global.cb_textInputBlackBorderColor
+        : global.textInputBlackBorderColor,
       borderWidth: 1,
       borderRadius: 4,
-      backgroundColor: '#f4f3f4',
-      color: '#000000',
+      backgroundColor: global.colorblindMode
+        ? global.cb_textInputFillColor
+        : global.textInputFillColor,
+      color: global.colorblindMode
+        ? global.cb_textInputColor
+        : global.textInputColor,
       width: '70%',
       paddingLeft: 10,
       fontSize: 16,
@@ -336,8 +382,12 @@ const styles = () =>
       borderColor: 'black',
       borderWidth: 1,
       borderRadius: 4,
-      backgroundColor: '#f4f3f4',
-      color: '#000000',
+      backgroundColor: global.colorblindMode
+        ? global.cb_textInputFillColor
+        : global.textInputFillColor,
+      color: global.colorblindMode
+        ? global.cb_textInputColor
+        : global.textInputColor,
       width: '12%',
       textAlign: 'center',
       fontSize: 16,
