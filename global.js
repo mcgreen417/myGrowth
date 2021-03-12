@@ -27,11 +27,12 @@ global.cbSwitchIosBackgroundColor = cb_blackColor;
 global.statusBarColor = lightGreenColor;
 global.pageBackgroundColor = creamColor;
 global.contentDividerColor = brownColor;
+global.lineColor = brownColor;
 
 global.cb_statusBarColor = cb_lightGreenColor;
 global.cb_pageBackgroundColor = cb_creamColor;
 global.cb_contentDividerColor = cb_brownColor;
-
+global.cb_lineColor = cb_brownColor;
 
 // Specific to buttons - not sure if the button outline is actually viewable.
 // I think this is overwritten by textInputBorderColor.
