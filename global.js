@@ -44,10 +44,12 @@ global.cb_optionButtonsColor = cb_lightGreenColor;
 
 // Text input options.
 global.textInputBorderColor = lightGreenColor;
+global.textInputBlackBorderColor = blackColor;
 global.textInputFillColor = whiteColor;
 global.textInputColor = blackColor;
 
 global.cb_textInputBorderColor = cb_lightGreenColor;
+global.cb_textInputBlackBorderColor = cb_blackColor;
 global.cb_textInputFillColor = cb_whiteColor;
 global.cb_textInputColor = cb_blackColor;
 
