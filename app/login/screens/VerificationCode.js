@@ -16,40 +16,59 @@ function VerificationCodePage({ route, navigation }) {
   const [verificationCode, setVerificationCode] = useState('');
   const { username } = route.params;
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
-      <View style={styles.pageSetup}>
+    <SafeAreaView style={styles().container}>
+      <StatusBar
+        backgroundColor={
+          global.colorblindMode
+            ? global.cb_statusBarColor
+            : global.statusBarColor
+        }
+        barStyle='light-content' 
+      />
+      <View style={styles().pageSetup}>
 
         {/* Logo + title + page instructions */}
-        <Image style={styles.logo} source={require('../../shared/assets/icon.png')}/>
-        <Text style={styles.textTitle}>myGrowth</Text>
-        <Text style={styles.textTitle}>Your General Wellness Tracker</Text>
-        <Text style={styles.textInstructions}>
+        <Image style={styles().logo} source={require('../../shared/assets/icon.png')}/>
+        <Text style={styles().textTitle}>myGrowth</Text>
+        <Text style={styles().textSubtitle}>Your General Wellness Tracker</Text>
+        <Text style={styles().textInstructions}>
           A verification code has been sent to your e-mail.{'\n'}
           Enter the verification code you received below.
         </Text>
 
         {/* verification code text entry + verify button */}
-        <View style={styles.buttons}>
+        <View style={styles().buttons}>
           <TextInput
-            style={styles.textInput}
+            style={styles().textInput}
             placeholder='Verification Code'
+            placeholderTextColor={global.colorblindMode
+              ? global.cb_placeHolderTextColor
+              : global.cb_placeHolderTextColor
+            }
             value={verificationCode}
             onChangeText={(verificationCode) => {
               setVerificationCode(verificationCode);
             }}
           />
           <View style={{ marginVertical: 8 }} />
-          <Button title='VERIFY' color='#A5DFB2' onPress={() => verify(username, verificationCode, navigation)}/>
+          <Button 
+            title='VERIFY'
+            color={
+              global.colorblindMode
+                ? global.cb_optionButtonsColor
+                : global.optionButtonsColor
+            }
+            onPress={() => verify(username, verificationCode, navigation)}
+          />
           <View style={{ marginVertical: 8 }} />
         </View>
 
         {/* Resend verification code */}
         <View>
           <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.textReg}>Didn't receive a verification code?{' '}</Text>
+            <Text style={styles().textReg}>Didn't receive a verification code?{' '}</Text>
             <TouchableOpacity onPress={() => resend(username)}>
-              <Text style={styles.textLink}>Resend e-mail.</Text>
+              <Text style={styles().textLink}>Resend e-mail.</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -57,7 +76,7 @@ function VerificationCodePage({ route, navigation }) {
         {/* Login page redirect */}
         <View style={{ flexDirection: 'row', marginTop: 8 }}>
           <TouchableOpacity onPress={() => navigation.navigate('LoginPage')}>
-            <Text style={styles.textLink}>Return to login.</Text>
+            <Text style={styles().textLink}>Return to login.</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -84,10 +103,12 @@ async function resend(username) {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = () => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6EFED',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
   },
   logo: {
     height: 100,
@@ -97,7 +118,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     width: '70%',
-    borderColor: 'black',
+    borderColor: global.colorblindMode
+      ? global.cb_optionButtonsBorderColor
+      : global.optionButtonsBorderColor,
   },
   pageSetup:{
     height: '100%', 
@@ -106,32 +129,46 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: 40,
-    borderColor: '#A5DFB2',
+    borderColor: global.colorblindMode
+      ? global.cb_textInputBorderColor
+      : global.textInputBorderColor,
     borderWidth: 2,
     borderRadius: 10,
-    backgroundColor: '#f4f3f4',
+    backgroundColor: global.colorblindMode
+      ? global.cb_textInputFillColor
+      : global.textInputFillColor,
     textAlign: 'center',
   },
   textInstructions: {
-    color: '#816868', 
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor, 
     marginBottom: 12, 
     textAlign: 'center'
   },
   textLink: {
-    color: '#A5DFB2', 
+    color: global.colorblindMode
+      ? global.cb_hyperlinkedTextColor
+      : global.hyperlinkedTextColor,
     textDecorationLine: 'underline',
   },
   textReg: {
-    color: '#816868',
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
   },
   textSubtitle: {
-    color: '#816868',
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
     fontWeight: 'bold',
     fontSize: 20,
     marginBottom: 20,
   },
   textTitle: {
-    color: '#816868',
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
     fontWeight: 'bold',
     fontSize: 44,
   },

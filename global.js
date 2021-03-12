@@ -53,7 +53,7 @@ global.cb_textInputColor = cb_blackColor;
 
 
 // Any sort of text being used.
-global.cb_placeHolderTextColor = lightGreyColor
+global.placeHolderTextColor = lightGreyColor
 global.textColor = brownColor;
 global.hyperlinkedTextColor = lightGreenColor;
 
