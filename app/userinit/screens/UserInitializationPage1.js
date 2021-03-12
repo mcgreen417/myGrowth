@@ -379,7 +379,9 @@ const styles = () =>
     },
     textInput2: {
       height: 36,
-      borderColor: 'black',
+      borderColor: global.colorblindMode
+        ? global.cb_textInputBlackBorderColor
+        : global.textInputBlackBorderColor,
       borderWidth: 1,
       borderRadius: 4,
       backgroundColor: global.colorblindMode
