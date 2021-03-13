@@ -47,14 +47,17 @@ function PlantShop({ navigation }) {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.pageSetup}>
-        
           {/* Gardener avatar + page blurb */}
           <View style={styles.avatarView}>
-              <Text style={styles.pageDescription}>
-                Select an item from your inventory to change your plant's appearance!
-              </Text>
-              <Image style={styles.avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
-            </View>
+            <Text style={styles.pageDescription}>
+              Select an item from your inventory to change your plant's
+              appearance!
+            </Text>
+            <Image
+              style={styles.avatar}
+              source={require('../../shared/assets/gardener-avatar.png')}
+            />
+          </View>
 
           {/* Plant section */}
           <View style={styles.plantSection}>
@@ -89,10 +92,9 @@ function PlantShop({ navigation }) {
           </View>
 
           {/* Plant selection */}
-          <View
-            style={styles.plantSelectView}>
-            {plantItem.map((item) => (
-              <View style={styles.plantItemSelect}>
+          <View style={styles.plantSelectView}>
+            {plantItem.map((item, index) => (
+              <View style={styles.plantItemSelect} key={index}>
                 <Pressable
                   style={({ pressed }) => [
                     {
@@ -112,17 +114,26 @@ function PlantShop({ navigation }) {
           </View>
 
           {/* Clear changes & purchase all shown buttons */}
-          <View style={{ flexDirection: 'row', marginTop: 10, marginBottom: 16 }}>
+          <View
+            style={{ flexDirection: 'row', marginTop: 10, marginBottom: 16 }}>
             <View style={{ width: '42.5%' }}>
-              <Button title='Clear Changes' color='#A5DFB2' onPress={() => onPress()}/>
+              <Button
+                title='Clear Changes'
+                color='#A5DFB2'
+                onPress={() => onPress()}
+              />
             </View>
             <View style={{ width: '5%' }} />
             <View style={{ width: '42.5%' }}>
-              <Button title='Confirm Changes' color='#A5DFB2' onPress={() => onPress()}/>
+              <Button
+                title='Confirm Changes'
+                color='#A5DFB2'
+                onPress={() => onPress()}
+              />
             </View>
           </View>
 
-          <View style={styles.pageEnd}/>
+          <View style={styles.pageEnd} />
         </View>
       </ScrollView>
 
@@ -249,10 +260,10 @@ const styles = StyleSheet.create({
     borderWidth: 6,
     borderColor: '#816868',
   },
-  plantItem: { 
+  plantItem: {
     margin: 10,
   },
-  plantItemSelect: { 
+  plantItemSelect: {
     marginLeft: 12,
     marginRight: 12,
     marginTop: 8,
