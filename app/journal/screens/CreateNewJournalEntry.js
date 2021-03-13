@@ -11,98 +11,44 @@ import {
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
 
-const InputSearchBar = () => {
-  return <View></View>;
-};
-
-const Journal = ({ navigation }) => {
+const CreateNewJournalEntry = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.pageSetup}>
-        {/* Gardener avatar + page blurb */}
-        <View style={styles.avatarView}>
-          <Text style={styles.pageDescription}>
-            Select an item from your inventory to change your plant's
-            appearance!
-          </Text>
-          <Image
-            style={styles.avatar}
-            source={require('../../shared/assets/gardener-avatar.png')}
-          />
-        </View>
-
-        <View>
-          <Image
-            source={require('../../shared/assets/icon.png')}
-            style={styles.avatar}
-          />
-        </View>
-
-        {/* Clear changes & purchase all shown buttons */}
-        <View style={{ flexDirection: 'row', marginTop: 10, marginBottom: 16 }}>
-          <View style={{ width: '42.5%' }}>
-            <Button
-              title='Write new entry'
-              color='#A5DFB2'
-              onPress={() => navigation.navigate('CreateNewJournalEntry')}
-            />
-          </View>
-          <View style={{ width: '5%' }} />
-          <View style={{ width: '42.5%' }}>
-            <Button
-              title='View past entries'
-              color='#A5DFB2'
-              onPress={() => navigation.navigate('JournalHistory')}
-            />
-          </View>
-        </View>
-        <View style={styles.dividerView}>
-          <View style={styles.divider}></View>
-        </View>
-        <View
-          style={{
-            margin: 28,
-            alignContent: 'center',
-            justifyContent: 'center',
-          }}>
-          <Text style={{ textAlign: 'center', fontSize: 16 }}>
-            Or search through past hournal entries by entering a specific world
-            or phrase...
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignContent: 'center',
-              justifyContent: 'center',
-              height: 40,
-              margin: 12,
-              borderWidth: 1,
-              borderColor: '#A6A1A0',
-            }}>
-            <TextInput
-              style={{
-                height: 20,
-                margin: 10,
-                justifyContent: 'flex-start',
-                flex: 1,
-              }}
-            />
-            <Icon
-              style={{ height: 20, margin: 10 }}
-              name='search-outline'
-              type='ionicon'
-              color='#A6A1A0'
-            />
-          </View>
-        </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignContent: 'space-between',
+          justifyContent: 'space-between',
+          marginLeft: 20,
+          marginRight: 20,
+          marginTop: 10,
+          marginBottom: 5,
+        }}>
+        <Icon
+          name='arrow-back-outline'
+          type='ionicon'
+          onPress={() => navigation.navigate('Journal')}
+        />
+        <Text>Save</Text>
+        <Icon name='event' type='material' />
+        <Icon name='schedule' type='material' />
+        <Icon name='format-bold' type='material' />
+        <Icon name='format-italic' type='material' />
+        <Icon name='format-underline' type='material' />
+        <Icon name='format-list-numbered' type='material' />
+        <Icon name='format-list-bulleted' type='material' />
       </View>
-      <View style={styles.pageEnd} />
-      <NavBar journal={true} navigation={navigation} />
+      <View style={styles.dividerView}>
+        <View style={styles.divider}></View>
+      </View>
+      <View style={styles.input}>
+        <TextInput multiline />
+      </View>
     </SafeAreaView>
   );
 };
 
-export default Journal;
+export default CreateNewJournalEntry;
 
 const styles = StyleSheet.create({
   container: {
@@ -153,7 +99,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 4,
-    marginBottom: 16,
+    marginBottom: 0,
   },
   dividerViewLow: {
     flexDirection: 'row',
@@ -259,10 +205,10 @@ const styles = StyleSheet.create({
     color: '#816868',
   },
   input: {
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#A6A1A0',
-    margin: 30,
+    height: '100%',
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 10,
     borderRadius: 2,
   },
 });

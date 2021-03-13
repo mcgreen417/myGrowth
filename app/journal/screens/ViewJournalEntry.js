@@ -11,98 +11,32 @@ import {
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
 
-const InputSearchBar = () => {
-  return <View></View>;
-};
-
-const Journal = ({ navigation }) => {
+const ViewJournalEntry = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.pageSetup}>
-        {/* Gardener avatar + page blurb */}
-        <View style={styles.avatarView}>
-          <Text style={styles.pageDescription}>
-            Select an item from your inventory to change your plant's
-            appearance!
-          </Text>
-          <Image
-            style={styles.avatar}
-            source={require('../../shared/assets/gardener-avatar.png')}
-          />
-        </View>
-
-        <View>
-          <Image
-            source={require('../../shared/assets/icon.png')}
-            style={styles.avatar}
-          />
-        </View>
-
-        {/* Clear changes & purchase all shown buttons */}
-        <View style={{ flexDirection: 'row', marginTop: 10, marginBottom: 16 }}>
-          <View style={{ width: '42.5%' }}>
-            <Button
-              title='Write new entry'
-              color='#A5DFB2'
-              onPress={() => navigation.navigate('CreateNewJournalEntry')}
-            />
-          </View>
-          <View style={{ width: '5%' }} />
-          <View style={{ width: '42.5%' }}>
-            <Button
-              title='View past entries'
-              color='#A5DFB2'
-              onPress={() => navigation.navigate('JournalHistory')}
-            />
-          </View>
-        </View>
-        <View style={styles.dividerView}>
-          <View style={styles.divider}></View>
-        </View>
-        <View
-          style={{
-            margin: 28,
-            alignContent: 'center',
-            justifyContent: 'center',
-          }}>
-          <Text style={{ textAlign: 'center', fontSize: 16 }}>
-            Or search through past hournal entries by entering a specific world
-            or phrase...
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignContent: 'center',
-              justifyContent: 'center',
-              height: 40,
-              margin: 12,
-              borderWidth: 1,
-              borderColor: '#A6A1A0',
-            }}>
-            <TextInput
-              style={{
-                height: 20,
-                margin: 10,
-                justifyContent: 'flex-start',
-                flex: 1,
-              }}
-            />
-            <Icon
-              style={{ height: 20, margin: 10 }}
-              name='search-outline'
-              type='ionicon'
-              color='#A6A1A0'
-            />
-          </View>
-        </View>
+    <SafeAreaView>
+      <View>
+        <Button title='<-' />
+        <Button title='Word Cloud View' />
       </View>
-      <View style={styles.pageEnd} />
-      <NavBar journal={true} navigation={navigation} />
+      <View>
+        <Button title='<' />
+        <Text>Date</Text>
+        <Button title='>' />
+      </View>
+      <View>
+        <Text>Entry Created</Text>
+        <Text>Last Edited</Text>
+        <Text>Journal entry</Text>
+      </View>
+      <View>
+        <Button title='Edit Entry' />
+        <Button title='Delete Entry' />
+      </View>
     </SafeAreaView>
   );
 };
 
-export default Journal;
+export default ViewJournalEntry;
 
 const styles = StyleSheet.create({
   container: {
