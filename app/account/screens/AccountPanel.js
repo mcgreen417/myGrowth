@@ -74,27 +74,6 @@ function AccountPanel({ navigation }) {
         </View>
         <View style={styles.line} />
 
-        {/* Link account */}
-        <View style={styles.inlineRow}>
-          <TouchableOpacity
-            style={styles.buttons}
-            onPress={() => navigation.navigate('')}
-          >
-            <View style={styles.inlineRow}>
-              <Text style={styles.textReg}>Link Account</Text>
-              <View style={styles.iconView}>
-                <Icon
-                  name='chevron-forward'
-                  type='ionicon'
-                  color='#816868'
-                  style={{ marginRight: -6 }}
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.line} />
-
         {/* Report a problem */}
         <View style={styles.inlineRow}>
           <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('e')}>
