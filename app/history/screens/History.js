@@ -195,10 +195,6 @@ function HistoryHealthEntries({ navigation }) {
         <View style={styles.divider} />
       </View>
       <View>
-        
-        { /* custom component */ }
-        <TabBarandContent history={true} />
-
         <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
           <View style={styles.inlineRow}>
             <Text style={styles.textReg}>Categories</Text>
@@ -207,6 +203,9 @@ function HistoryHealthEntries({ navigation }) {
             </View>
           </View>
         </TouchableOpacity>
+        
+        { /* custom component */ }
+        <TabBarandContent history={true} navigation ={navigation} />
       </View>
       {/* Middle Divider */}
       <View style={styles.dividerView}>

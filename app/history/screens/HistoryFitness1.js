@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
+import TabBarandContent from '../../shared/components/TabBarAndContent';
 
 function HistoryFitness1({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
@@ -203,9 +204,6 @@ function HistoryFitness1({ navigation }) {
           <View style={styles.divider} />
         </View>
         <View>
-          <Button title='History' />
-          <Button title='Exercises' onPress={() => navigation.navigate('HistoryFitness2')}/>
-          <Button title='Correlations' />
           <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
             <View style={styles.inlineRow}>
               <Text style={styles.textReg}>Categories</Text>
@@ -214,6 +212,8 @@ function HistoryFitness1({ navigation }) {
               </View>
             </View>
           </TouchableOpacity>
+
+          <TabBarandContent fitness = {true} navigation = {navigation} />
         </View>
         <View>
           <View>

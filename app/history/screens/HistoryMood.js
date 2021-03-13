@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
+import TabBarandContent from '../../shared/components/TabBarAndContent';
 
 function HistoryMood({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
@@ -196,9 +197,6 @@ function HistoryMood({ navigation }) {
           <View style={styles.divider} />
         </View>
         <View>
-          {/* tab component */}
-          <TabBarandContent historyGenComp = {true} />
-
           <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
             <View style={styles.inlineRow}>
               <Text style={styles.textReg}>Categories</Text>
@@ -207,6 +205,9 @@ function HistoryMood({ navigation }) {
               </View>
             </View>
           </TouchableOpacity>
+          
+          {/* tab component */}
+          <TabBarandContent historyGenComp = {true} navigation = {navigation} />
         </View>
         
         {/* Middle Divider */}

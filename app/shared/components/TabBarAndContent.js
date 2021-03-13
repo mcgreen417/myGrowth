@@ -4,17 +4,16 @@ import {
     Text,
     View,
     Image,
-    Button,
     Pressable,
   } from 'react-native';
   import historyImg from '../../shared/assets/Rectangle.png';
-  import correlationImg from '../../shared/assets/Rectangle.png';
-  import activityImg from '../../shared/assets/Rectangle.png';
-  import intensityImg from '../../shared/assets/Rectangle.png';
-  import prescriptionImg from '../../shared/assets/Rectangle.png';
+  import correlationImg from '../../shared/assets/close.png';
+  import activityImg from '../../shared/assets/gardener-avatar.png';
+  import intensityImg from '../../shared/assets/SettingsGirlReading.png';
+  import prescriptionImg from '../../shared/assets/splash.png';
   import timeSleepImg from '../../shared/assets/Rectangle.png';
-  import qualityImg from '../../shared/assets/Rectangle.png';
-  import exerciseImg from '../../shared/assets/Rectangle.png';
+  import qualityImg from '../../shared/assets/splash.png';
+  import exerciseImg from '../../shared/assets/splash.png';
 
   const TabBarandContent = ({
       history = false,
@@ -24,7 +23,9 @@ import {
       medication = false,
       sleep = false,
       fitness = false,
+      navigation,
   }) => {
+
     var imgSource = historyImg;
 
     /* History Comp version */
@@ -34,10 +35,13 @@ import {
                 <View style={{height: 30, width: 220, flexDirection: 'row'}}>
                     {/* History */}
                     <Pressable
-                        onPress = {() => {imgSource = historyImg;}}
+                        onPress = {() => {
+                            imgSource = historyImg;
+                            navigation.navigate('HistoryPage');
+                        }}
                         style = {({ pressed }) => [
                             {
-                                width: 75,
+                                width: 55,
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 paddingRight: 2,
@@ -57,17 +61,19 @@ import {
             </View>
         );
 
-    /* Gen comp version: mood, stress, period, meal */
+    /* Gen comp version: mood, stress, period, meal, weight */
     if(historyGenComp)
         return(
             <View style={{paddingLeft: 22, paddingRight: 22, paddingBottom: 10}}>
                 <View style={{height: 30, width: 220, flexDirection: 'row'}}>
                     {/* History */}
                     <Pressable
-                        onPress = {() => {imgSource = historyImg;}}
+                        onPress = {() => {
+                            imgSource = historyImg;
+                        }}
                         style = {({ pressed }) => [
                             {
-                                width: 75,
+                                width: 55,
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 paddingRight: 2,
@@ -83,7 +89,7 @@ import {
                         onPress = {() => {imgSource = correlationImg;}}
                         style = {({pressed}) => [
                             {
-                                width: 75,
+                                width: 90,
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 paddingRight: 2,
@@ -103,17 +109,20 @@ import {
             </View>
         );
 
-    /* daily activities */
+    /* daily activities <- nav */
     if(dailyActivities)
         return(
             <View style={{paddingLeft: 22, paddingRight: 22, paddingBottom: 10}}>
                 <View style={{height: 30, width: 220, flexDirection: 'row'}}>
-                    {/* history */}
+                    {/* history - 1 */}
                     <Pressable
-                        onPress = {() => {imgSource = historyImg;}}
+                        onPress = {() => {
+                            imgSource = historyImg;
+                            navigation.navigate('HistoryDailyActivities1');
+                        }}
                         style = {({pressed}) => [
                             {
-                                width: 75,
+                                width: 55,
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 paddingRight: 2,
@@ -124,12 +133,15 @@ import {
                         <Text style={styles.tabText}>History</Text>
                     </Pressable>
 
-                    {/* activity view */}
+                    {/* activity view - 2 */}
                     <Pressable
-                        onPress = {() => {imgSource = activityImg;}}
+                        onPress = {() => {
+                            imgSource = activityImg;
+                            navigation.navigate('HistoryDailyActivities2');
+                        }}
                         style = {({pressed}) => [
                             {
-                                width: 75,
+                                width: 90,
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 paddingRight: 2,
@@ -140,12 +152,15 @@ import {
                         <Text style={styles.tabText}>Activity View</Text>
                     </Pressable>
 
-                    {/* correlation */}
+                    {/* correlation - 1 */}
                     <Pressable
-                        onPress = {() => {imgSource = correlationImg;}}
+                        onPress = {() => {
+                            imgSource = correlationImg;
+                            navigation.navigate('HistoryDailyActivities1');
+                        }}
                         style = {({pressed}) => [
                             {
-                                width: 75,
+                                width: 90,
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 paddingRight: 2,
@@ -166,17 +181,20 @@ import {
             </View>
         );
 
-    /* general health */
+    /* general health <- nav */
     if(generalHealth)
         return(
             <View style={{paddingLeft: 22, paddingRight: 22, paddingBottom: 10}}>
                 <View style={{height: 30, width: 220, flexDirection: 'row'}}>
-                    {/* history */}
+                    {/* history - 1 */}
                     <Pressable
-                        onPress = {() => {imgSource = historyImg;}}
+                        onPress = {() => {
+                            imgSource = historyImg;
+                            navigation.navigate('HistoryGeneralHealth1');
+                        }}
                         style = {({pressed}) => [
                             {
-                                width: 75,
+                                width: 55,
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 paddingRight: 2,
@@ -187,12 +205,15 @@ import {
                         <Text style={styles.tabText}>History</Text>
                     </Pressable>
 
-                    {/* intensity */}
+                    {/* intensity - 2 */}
                     <Pressable
-                        onPress = {() => {imgSource = intensityImg;}}
+                        onPress = {() => {
+                            imgSource = intensityImg;
+                            navigation.navigate('HistoryGeneralHealth2');
+                        }}
                         style = {({pressed}) => [
                             {
-                                width: 75,
+                                width: 65,
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 paddingRight: 2,
@@ -203,12 +224,15 @@ import {
                         <Text style={styles.tabText}>Intensity</Text>
                     </Pressable>
 
-                    {/* correlation */}
+                    {/* correlation - 1 */}
                     <Pressable
-                        onPress = {() => {imgSource = correlationImg;}}
+                        onPress = {() => {
+                            imgSource = correlationImg;
+                            navigation.navigate('HistoryGeneralHealth1');
+                        }}
                         style = {({pressed}) => [
                             {
-                                width: 75,
+                                width: 90,
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 paddingRight: 2,
@@ -238,7 +262,7 @@ import {
                         onPress = {() => {imgSource = prescriptionImg;}}
                         style = {({pressed}) => [
                             {
-                                width: 75,
+                                width: 90,
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 paddingRight: 2,
@@ -254,7 +278,7 @@ import {
                         onPress = {() => {imgSource = correlationImg;}}
                         style = {({pressed}) => [
                             {
-                                width: 75,
+                                width: 90,
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 paddingRight: 2,
@@ -274,17 +298,20 @@ import {
             </View>
         );
 
-    /* sleep */
+    /* sleep <- nav */
     if(sleep)
         return(
             <View style={{paddingLeft: 22, paddingRight: 22, paddingBottom: 10}}>
                 <View style={{height: 30, width: 220, flexDirection: 'row'}}>
-                    {/* time asleep */}
+                    {/* time asleep - 1 */}
                     <Pressable
-                        onPress = {() => {imgSource = timeSleepImg;}}
+                        onPress = {() => {
+                            imgSource = timeSleepImg;
+                            navigation.navigate('HistorySleep1');
+                        }}
                         style = {({pressed}) => [
                             {
-                                width: 75,
+                                width: 90,
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 paddingRight: 2,
@@ -295,12 +322,15 @@ import {
                         <Text style={styles.tabText}>Time Asleep</Text>
                     </Pressable>
 
-                    {/* quality */}
+                    {/* quality - 2 */}
                     <Pressable
-                        onPress = {() => {imgSource = qualityImg;}}
+                        onPress = {() => {
+                            imgSource = qualityImg;
+                            navigation.navigate('HistorySleep2');
+                        }}
                         style = {({pressed}) => [
                             {
-                                width: 75,
+                                width: 55,
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 paddingRight: 2,
@@ -311,12 +341,15 @@ import {
                         <Text style={styles.tabText}>Quality</Text>
                     </Pressable>
 
-                    {/* correlation */}
+                    {/* correlation - 1 */}
                     <Pressable
-                        onPress = {() => {imgSource = correlationImg;}}
+                        onPress = {() => {
+                            imgSource = correlationImg;
+                            navigation.navigate('HistorySleep1');
+                        }}
                         style = {({pressed}) => [
                             {
-                                width: 75,
+                                width: 90,
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 paddingRight: 2,
@@ -336,17 +369,20 @@ import {
             </View>
         );
 
-    /* fitness */
+    /* fitness <- nav */
     if(fitness)
         return(
             <View style={{paddingLeft: 22, paddingRight: 22, paddingBottom: 10}}>
                 <View style={{height: 30, width: 220, flexDirection: 'row'}}>
-                    {/* history */}
+                    {/* history - 1 */}
                     <Pressable
-                        onPress = {() => {imgSource = historyImg;}}
+                        onPress = {() => {
+                            navigation.navigate('HistoryFitness1');
+                            imgSource = historyImg;
+                        }}
                         style = {({pressed}) => [
                             {
-                                width: 75,
+                                width: 55,
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 paddingRight: 2,
@@ -357,12 +393,15 @@ import {
                         <Text style={styles.tabText}>History</Text>
                     </Pressable>
 
-                    {/* exercises */}
+                    {/* exercises - 2 */}
                     <Pressable
-                        onPress = {() => {imgSource = exerciseImg;}}
+                        onPress = {() => {
+                            navigation.navigate('HistoryFitness2');
+                            imgSource = exerciseImg;
+                        }}
                         style = {({pressed}) => [
                             {
-                                width: 75,
+                                width: 72,
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 paddingRight: 2,
@@ -373,12 +412,15 @@ import {
                         <Text style={styles.tabText}>Exercises</Text>
                     </Pressable>
 
-                    {/* correlation */}
+                    {/* correlation - 1 */}
                     <Pressable
-                        onPress = {() => {imgSource = correlationImg;}}
+                        onPress = {() => {
+                            navigation.navigate('HistoryFitness1');
+                            imgSource = correlationImg;
+                        }}
                         style = {({pressed}) => [
                             {
-                                width: 75,
+                                width: 90,
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 paddingRight: 2,
@@ -425,7 +467,7 @@ const styles = StyleSheet.create({
     },
     tabText: {
         color: 'white',
-        fontSize: 17,
+        fontSize: 14,
         paddingTop: 3,
     }
 });

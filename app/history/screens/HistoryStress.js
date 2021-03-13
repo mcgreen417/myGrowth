@@ -197,9 +197,6 @@ function HistoryStress({ navigation }) {
           <View style={styles.divider} />
         </View>
         <View>
-          {/* tab component */}
-          <TabBarandContent historyGenComp = {true} />
-
           {/* category modal */}
           <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
             <View style={styles.inlineRow}>
@@ -209,6 +206,9 @@ function HistoryStress({ navigation }) {
               </View>
             </View>
           </TouchableOpacity>
+          
+          {/* tab component */}
+          <TabBarandContent historyGenComp = {true} navigation = {navigation} />
         </View>
         {/* Middle Divider */}
         <View style={styles.dividerView}>

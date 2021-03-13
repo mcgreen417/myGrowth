@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
+import TabBarandContent from '../../shared/components/TabBarAndContent';
 
 function HistorySleep2({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
@@ -204,9 +205,6 @@ function HistorySleep2({ navigation }) {
           <View style={styles.divider} />
         </View>
         <View>
-          <Button title='History' onPress={() => navigation.navigate('HistorySleep1')}/>
-          <Button title='Quality' />
-          <Button title='Correlations' onPress={() => navigation.navigate('HistorySleep1')}/>
           <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
             <View style={styles.inlineRow}>
               <Text style={styles.textReg}>Categories</Text>
@@ -215,6 +213,8 @@ function HistorySleep2({ navigation }) {
               </View>
             </View>
           </TouchableOpacity>
+
+          <TabBarandContent sleep = {true} navigation = {navigation} />
         </View>
         <View>
           <View>
