@@ -223,6 +223,7 @@ function HistoryMealTracking({ navigation }) {
               selectedValue={timePeriod}
               style={{ height: 50, width: 200 }}
               onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+              mode={'dropdown'}
             >
               <Picker.Item label='Select one...' value='unselected' />
               <Picker.Item label='Past week' value='past_week' />
@@ -236,6 +237,7 @@ function HistoryMealTracking({ navigation }) {
               selectedValue={selectNutrients}
               style={{ height: 50, width: 200 }}
               onValueChange={(itemValue, itemIndex) => setNutrients(itemValue)}
+              mode={'dropdown'}
             >
               <Picker.Item label='Select one...' value='unselected' />
               <Picker.Item label='Calories' value='calories' />

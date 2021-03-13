@@ -215,6 +215,7 @@ function HistoryMedication({ navigation }) {
             selectedValue={selectmedication}
             style={{ height: 50, width: 200 }}
             onValueChange={(itemValue, itemIndex) => setMedication(itemValue)}
+            mode={'dropdown'}
           >
             <Picker.Item label='Select one...' value='unselected' />
             <Picker.Item label='(Medicine 1)' value='medicine_1' />

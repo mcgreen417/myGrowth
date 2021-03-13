@@ -216,6 +216,7 @@ function HistoryWeight({ navigation }) {
             selectedValue={timePeriod}
             style={{ height: 50, width: 200 }}
             onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+            mode={'dropdown'}
           >
             <Picker.Item label='Select one...' value='unselected' />
             <Picker.Item label='Past week' value='past_week' />

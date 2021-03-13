@@ -217,6 +217,7 @@ function HistoryGeneralHealth2({ navigation }) {
             selectedValue={timePeriod}
             style={{ height: 50, width: 200 }}
             onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+            mode={'dropdown'}
           >
             <Picker.Item label='Select one...' value='unselected' />
             <Picker.Item label='Past week' value='past_week' />
@@ -230,6 +231,7 @@ function HistoryGeneralHealth2({ navigation }) {
             selectedValue={selectsymptom}
             style={{ height: 50, width: 200 }}
             onValueChange={(itemValue, itemIndex) => setSymptom(itemValue)}
+            mode={'dropdown'}
           >
             <Picker.Item label='Select one...' value='unselected' />
             <Picker.Item label='All symptoms' value='all_symptoms' />

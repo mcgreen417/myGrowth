@@ -62,7 +62,9 @@ function GenerateReport({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.pageSetup}>
 
           {/* Gardener avatar + page blurb */}
@@ -86,6 +88,7 @@ function GenerateReport({ navigation }) {
                 selectedValue={time}
                 style={styles.picker}
                 onValueChange={(itemValue, itemIndex) => setTime(itemValue)}
+                mode={'dropdown'}
               >
                 <Picker.Item label='Select one...' value='unselected' />
                 <Picker.Item label='One week' value='oneWeek' />

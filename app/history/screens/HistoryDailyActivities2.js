@@ -215,6 +215,7 @@ function HistoryDailyActivities2({ navigation }) {
             selectedValue={selectactivity}
             style={{ height: 50, width: 200 }}
             onValueChange={(itemValue, itemIndex) => setActivity(itemValue)}
+            mode={'dropdown'}
           >
             <Picker.Item label='Select one...' value='unselected' />
             <Picker.Item label='Played games' value='played_games' />

@@ -45,7 +45,9 @@ function PlantShop({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.avatarView}>
           <Text style={styles.pageDescription}>
             Select an item and check how it looks!

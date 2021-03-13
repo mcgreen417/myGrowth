@@ -60,7 +60,9 @@ function UserInitializationPage1({ navigation }) {
         }
         barStyle='light-content'
       />
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles().pageSetup}>
           {/* Gardener avatar + page blurb */}
           <View style={styles().avatarView}>
@@ -116,7 +118,9 @@ function UserInitializationPage1({ navigation }) {
               <Picker
                 selectedValue={gender}
                 style={styles().picker}
-                onValueChange={(itemValue, itemIndex) => setGender(itemValue)}>
+                onValueChange={(itemValue, itemIndex) => setGender(itemValue)}
+                mode={'dropdown'}
+              >
                 <Picker.Item label='Select one...' value='unselected' />
                 <Picker.Item label='Male' value='male' />
                 <Picker.Item label='Female' value='female' />
@@ -134,7 +138,9 @@ function UserInitializationPage1({ navigation }) {
               <Picker
                 selectedValue={bioSex}
                 style={styles().picker}
-                onValueChange={(itemValue, itemIndex) => setBioSex(itemValue)}>
+                onValueChange={(itemValue, itemIndex) => setBioSex(itemValue)}
+                mode={'dropdown'}
+              >
                 <Picker.Item label='Select one...' value='unselected' />
                 <Picker.Item label='Male' value='male' />
                 <Picker.Item label='Female' value='female' />

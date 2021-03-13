@@ -17,7 +17,9 @@ function HomePage({ navigation }) {
   let stage = 0;
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+      >
         {/* Avatar Section */}
         <View style={styles.avatarView}>
           <Text style={styles.pageDescription}>Good Morning, Firstname!</Text>

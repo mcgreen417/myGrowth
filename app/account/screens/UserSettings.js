@@ -51,7 +51,9 @@ function UserSettings({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.pageSetup}>
 
           {/* Gardener avatar + page blurb */}
