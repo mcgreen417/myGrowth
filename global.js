@@ -6,6 +6,10 @@ var brownColor = "#816868";
 var blackColor = "#000000";
 var whiteColor = "#FFFFFF";
 var lightGreyColor = "#D3D3D3";
+var switchTrackColorTrue = "#9AD2AF";
+var switchTrackColorFalse = "#E5E5E5";
+var switchThumbColorTrue = "#4CB97A";
+var switchThumbColorFalse = "#F4F3F4";
 
 var cb_lightGreenColor = "#1D572A";
 var cb_creamColor = "#F6EFED";
@@ -15,12 +19,18 @@ var cb_whiteColor = "#FFFFFF";
 var cb_lightGreyColor = "#000000";
 
 
-// Colorblind switch, landing page on application.
-global.cbSwitchTrackColorTrue = lightGreenColor;
-global.cbSwitchTrackColorFalse = cb_lightGreenColor;
-global.cbSwitchThumbColorTrue = cb_lightGreenColor;
-global.cbSwitchThumbColorFalse = lightGreenColor;
-global.cbSwitchIosBackgroundColor = cb_blackColor;
+// Colorblind switch, located on the landing page on application.
+global.cb_switchTrackColorTrue = lightGreenColor;
+global.cb_switchTrackColorFalse = cb_lightGreenColor;
+global.cb_switchThumbColorTrue = cb_lightGreenColor;
+global.cb_switchThumbColorFalse = lightGreenColor;
+global.cb_switchIosBackgroundColor = cb_blackColor;
+
+// Switch appearances throughout the app
+global.switchTrackColorTrue = switchTrackColorTrue;
+global.switchTrackColorFalse = switchTrackColorFalse;
+global.switchThumbColorTrue = switchThumbColorTrue;
+global.switchThumbColorFalse = switchThumbColorFalse;
 
 
 // Screen properties.
