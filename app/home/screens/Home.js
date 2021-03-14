@@ -16,39 +16,39 @@ function HomePage({ navigation }) {
   let plant = 4;
   let stage = 0;
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles().container}>
       <ScrollView>
         {/* Avatar Section */}
-        <View style={styles.avatarView}>
-          <Text style={styles.pageDescription}>Good Morning, Firstname!</Text>
+        <View style={styles().avatarView}>
+          <Text style={styles().pageDescription}>Good Morning, Firstname!</Text>
           <Image
-            style={styles.avatar}
+            style={styles().avatar}
             source={require('../../shared/assets/gardener-avatar.png')}
           />
         </View>
 
         {/* Plant Section */}
-        <View style={styles.plantSection}>
-          <View style={styles.plantImage}>
+        <View style={styles().plantSection}>
+          <View style={styles().plantImage}>
             <Image
               source={require('../../shared/assets/plant_sprites/' +
                 plant +
                 '_' +
                 stage +
                 '.png')}
-              style={styles.plant}
+              style={styles().plant}
             />
           </View>
         </View>
 
         {/* Plant Buttons */}
-        <View style={styles.plantButtons}>
+        <View style={styles().plantButtons}>
           <Pressable
             style={{ flexDirection: 'row', alignItems: 'center' }}
             onPress={() => navigation.navigate('CustomizePlant')}>
             <Icon name='arrow-left' style={{ marginRight: 10 }} />
             <View>
-              <Text style={styles.text}>Customize plant</Text>
+              <Text style={styles().text}>Customize plant</Text>
             </View>
           </Pressable>
           <View
@@ -66,15 +66,15 @@ function HomePage({ navigation }) {
             style={{ flexDirection: 'row', alignItems: 'center' }}
             onPress={() => navigation.navigate('PlantShop')}>
             <View>
-              <Text style={styles.text}>Enter plant shop</Text>
+              <Text style={styles().text}>Enter plant shop</Text>
             </View>
             <Icon name='arrow-right' style={{ marginLeft: 10 }} />
           </Pressable>
         </View>
 
         {/* Make New Entry */}
-        <View style={styles.dividerView}>
-          <View style={styles.dividerLeft} />
+        <View style={styles().dividerView}>
+          <View style={styles().dividerLeft} />
           <View>
             <Pressable>
               <View
@@ -107,7 +107,7 @@ function HomePage({ navigation }) {
               </View>
             </Pressable>
           </View>
-          <View style={styles.dividerRight} />
+          <View style={styles().dividerRight} />
         </View>
 
         {/* View past entries */}
@@ -134,7 +134,7 @@ function HomePage({ navigation }) {
         </View>
 
         {/* Avatar Section */}
-        <View style={styles.avatarView}>
+        <View style={styles().avatarView}>
           <Image
             style={{ width: 75, height: 75, marginLeft: 24 }}
             source={require('../../shared/assets/gardener-avatar.png')}
@@ -157,7 +157,7 @@ function HomePage({ navigation }) {
 
         <View style={{ marginLeft: 130, marginRight: 80, height: 300 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={styles.text}>Write a journal entry</Text>
+            <Text style={styles().text}>Write a journal entry</Text>
             <Icon
               name='checkmark-circle-outline'
               type='ionicon'
@@ -170,20 +170,20 @@ function HomePage({ navigation }) {
             />
           </View>
 
-          <View style={styles.dividerViewLow}>
-            <View style={styles.divider}></View>
+          <View style={styles().dividerViewLow}>
+            <View style={styles().divider}></View>
           </View>
 
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={styles.text}>Create a new goal</Text>
+            <Text style={styles().text}>Create a new goal</Text>
           </View>
 
-          <View style={styles.dividerViewLow}>
-            <View style={styles.divider}></View>
+          <View style={styles().dividerViewLow}>
+            <View style={styles().divider}></View>
           </View>
 
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={styles.text}>Complete a goal</Text>
+            <Text style={styles().text}>Complete a goal</Text>
             <Icon
               name='checkmark-circle-outline'
               type='ionicon'
@@ -196,16 +196,16 @@ function HomePage({ navigation }) {
             />
           </View>
 
-          <View style={styles.dividerViewLow}>
-            <View style={styles.divider}></View>
+          <View style={styles().dividerViewLow}>
+            <View style={styles().divider}></View>
           </View>
 
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={styles.text}>View your history</Text>
+            <Text style={styles().text}>View your history</Text>
           </View>
 
-          <View style={styles.dividerViewLow}>
-            <View style={styles.divider}></View>
+          <View style={styles().dividerViewLow}>
+            <View style={styles().divider}></View>
           </View>
         </View>
       </ScrollView>
@@ -216,7 +216,7 @@ function HomePage({ navigation }) {
 
 export default HomePage;
 
-const styles = StyleSheet.create({
+const styles = () => StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: global.colorblindMode
