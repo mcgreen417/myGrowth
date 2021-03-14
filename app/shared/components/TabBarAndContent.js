@@ -37,7 +37,7 @@ import {
                     <Pressable
                         onPress = {() => {
                             imgSource = historyImg;
-                            navigation.navigate('HistoryPage');
+                            navigation.navigate('History');
                         }}
                         style = {({ pressed }) => [
                             {

@@ -129,7 +129,7 @@ function UserSettings({ navigation }) {
 
           {/* Link your acct */}
           <View style={styles.inlineRow}>
-            <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('LinkAccountPage')}>
+            <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('LinkAccount')}>
               <View style={styles.inlineRow}>
                 <Text style={styles.textReg}>Link Your Account</Text>
                 <View style={styles.iconView}>
@@ -147,7 +147,7 @@ function UserSettings({ navigation }) {
 
           {/* Personal profile */}
           <View style={styles.inlineRow}>
-            <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('ProfilePage')}>
+            <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('Profile')}>
               <View style={styles.inlineRow}>
                 <Text style={styles.textReg}>Personal Profile</Text>
                 <View style={styles.iconView}>
@@ -160,7 +160,7 @@ function UserSettings({ navigation }) {
 
           {/* Change gardener avatar */}
           <View style={styles.inlineRow}>
-            <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('AvatarSelectPage')}>
+            <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('AvatarSelect')}>
               <View style={styles.inlineRow}>
                 <Text style={styles.textReg}>Change Gardener Avatar</Text>
                 <View style={styles.iconView}>

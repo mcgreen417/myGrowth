@@ -85,7 +85,7 @@ function PasswordResetVerification({ navigation }) {
                 ? global.cb_optionButtonsColor
                 : global.optionButtonsColor
             }
-            onPress={() => navigation.navigate('ResetPasswordPage')}
+            onPress={() => navigation.navigate('ResetPassword')}
           />
           <View style={{ marginVertical: 8 }} />
         </View>
