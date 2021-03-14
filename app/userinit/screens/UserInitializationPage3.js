@@ -93,7 +93,7 @@ function UserInitializationPage3({ navigation }) {
                     ? global.cb_switchThumbColorFalse
                     : global.switchThumbColorFalse)
               }
-              ios_backgroundColor={global.cb_blackColor}
+              ios_backgroundColor={global.cb_switchIosBackgroundColor}
               onValueChange={toggleStressLevels}
               value={useStressLevels}
             />
@@ -124,7 +124,7 @@ function UserInitializationPage3({ navigation }) {
                     ? global.cb_switchThumbColorFalse
                     : global.switchThumbColorFalse)
               }
-              ios_backgroundColor={global.cb_blackColor}
+              ios_backgroundColor={global.cb_switchIosBackgroundColor}
               onValueChange={toggleDailyActivities}
               value={useDailyActivities}
             />
@@ -155,7 +155,7 @@ function UserInitializationPage3({ navigation }) {
                     ? global.cb_switchThumbColorFalse
                     : global.switchThumbColorFalse)
               }
-              ios_backgroundColor={global.cb_blackColor}
+              ios_backgroundColor={global.cb_switchIosBackgroundColor}
               onValueChange={toggleWeightTracking}
               value={useWeightTracking}
             />
@@ -186,7 +186,7 @@ function UserInitializationPage3({ navigation }) {
                     ? global.cb_switchThumbColorFalse
                     : global.switchThumbColorFalse)
               }
-              ios_backgroundColor={global.cb_blackColor}
+              ios_backgroundColor={global.cb_switchIosBackgroundColor}
               onValueChange={togglePeriodTracking}
               value={usePeriodTracking}
             />
@@ -217,7 +217,7 @@ function UserInitializationPage3({ navigation }) {
                     ? global.cb_switchThumbColorFalse
                     : global.switchThumbColorFalse)
               }
-              ios_backgroundColor={global.cb_blackColor}
+              ios_backgroundColor={global.cb_switchIosBackgroundColor}
               onValueChange={toggleMedicationTracking}
               value={useMedicationTracking}
             />
@@ -248,7 +248,7 @@ function UserInitializationPage3({ navigation }) {
                     ? global.cb_switchThumbColorFalse
                     : global.switchThumbColorFalse)
               }
-              ios_backgroundColor={global.cb_blackColor}
+              ios_backgroundColor={global.cb_switchIosBackgroundColor}
               onValueChange={toggleSleepTracking}
               value={useSleepTracking}
             />
@@ -279,7 +279,7 @@ function UserInitializationPage3({ navigation }) {
                     ? global.cb_switchThumbColorFalse
                     : global.switchThumbColorFalse)
               }
-              ios_backgroundColor={global.cb_blackColor}
+              ios_backgroundColor={global.cb_switchIosBackgroundColor}
               onValueChange={toggleMealTracking}
               value={useMealTracking}
             />
@@ -310,7 +310,7 @@ function UserInitializationPage3({ navigation }) {
                     ? global.cb_switchThumbColorFalse
                     : global.switchThumbColorFalse)
               }
-              ios_backgroundColor={global.cb_blackColor}
+              ios_backgroundColor={global.cb_switchIosBackgroundColor}
               onValueChange={toggleFitnessTracking}
               value={useFitnessTracking}
             />
