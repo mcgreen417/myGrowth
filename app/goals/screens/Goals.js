@@ -21,7 +21,7 @@ const Goal = ({ title, description, type }) => {
   );
 };
 
-const Goals = ({ navigation }) => {
+function Goals ({ navigation }) {
   var time = new Date();
   return (
     <SafeAreaView style={styles.container}>

@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-function ResetPasswordPage({ navigation }) {
+function ResetPassword({ navigation }) {
   return (
     <SafeAreaView style={styles().container}>
       <StatusBar
@@ -96,14 +96,14 @@ function ResetPasswordPage({ navigation }) {
                 ? global.cb_optionButtonsColor
                 : global.optionButtonsColor
             }
-            onPress={() => navigation.navigate('LoginPage')}
+            onPress={() => navigation.navigate('Login')}
           />
           <View style={{ marginVertical: 8 }} />
         </View>
 
         {/* Login page redirect */}
         <View style={{ flexDirection: 'row' }}>
-          <TouchableOpacity onPress={() => navigation.navigate('LoginPage')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
             <Text
               style={{
                 color: global.colorblindMode
@@ -185,4 +185,4 @@ const styles = () =>
     },
   });
 
-export default ResetPasswordPage;
+export default ResetPassword;

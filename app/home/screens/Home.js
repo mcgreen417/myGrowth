@@ -12,7 +12,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
 
-function HomePage({ navigation }) {
+function Home({ navigation }) {
   let plant = 4;
   let stage = 0;
   return (
@@ -194,7 +194,7 @@ function HomePage({ navigation }) {
   );
 }
 
-export default HomePage;
+export default Home;
 
 const styles = StyleSheet.create({
   container: {

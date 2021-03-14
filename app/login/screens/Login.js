@@ -12,11 +12,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-function SignUpPage({ navigation }) {
+function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   return (
     <SafeAreaView style={styles().container}>
       <StatusBar
@@ -36,22 +34,8 @@ function SignUpPage({ navigation }) {
         <Text style={styles().textTitle}>myGrowth</Text>
         <Text style={styles().textSubtitle}>Your General Wellness Tracker</Text>
 
-        {/* Username, e-mail address, password, confirm password entry boxes + signup button */}
+        {/* E-mail address + password entry boxes, login button */}
         <View style={styles().buttons}>
-          <TextInput
-            style={styles().textInput}
-            placeholder='Username'
-            placeholderTextColor={
-              global.colorblindMode
-                ? global.cb_placeHolderTextColor
-                : global.placeholderTextColor
-            }
-            value={username}
-            onChangeText={(username) => {
-              setUsername(username);
-            }}
-          />
-          <View style={{ marginVertical: 8 }} />
           <TextInput
             style={styles().textInput}
             placeholder='E-mail Address'
@@ -81,40 +65,29 @@ function SignUpPage({ navigation }) {
             }}
           />
           <View style={{ marginVertical: 8 }} />
-          <TextInput
-            style={styles().textInput}
-            placeholder='Confirm Password'
-            placeholderTextColor={
-              global.colorblindMode
-                ? global.cb_placeHolderTextColor
-                : global.placeholderTextColor
-            }
-            secureTextEntry={true}
-            value={confirmPassword}
-            onChangeText={(confirmPassword) => {
-              setConfirmPassword(confirmPassword);
-            }}
-          />
-          <View style={{ marginVertical: 8 }} />
           <Button
-            title='SIGN UP'
+            title='LOG IN'
             color={
               global.colorblindMode
                 ? global.cb_optionButtonsColor
                 : global.optionButtonsColor
             }
-            onPress={() =>
-              signUp(username, email, password, confirmPassword, navigation)
-            }
+            onPress={() => signIn(email, password, navigation)}
           />
           <View style={{ marginVertical: 8 }} />
         </View>
 
-        {/* Login/signup page switch */}
+        {/* Login/signup page switch + forgot password button */}
         <View style={{ flexDirection: 'row' }}>
-          <Text style={styles().textReg}>Already have an account? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('LoginPage')}>
-            <Text style={styles().textLink}>Log in here.</Text>
+          <Text style={styles().textReg}>Don't have an account? </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('GenerateReport')}>
+            <Text style={styles().textLink}>Sign up here.</Text>
+          </TouchableOpacity>
+        </View>
+        <View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ForgotPassword')}>
+            <Text style={styles().textLink}>Forgot your password?</Text>
           </TouchableOpacity>
         </View>
 
@@ -126,7 +99,7 @@ function SignUpPage({ navigation }) {
           </Text>
           <View style={{ flexDirection: 'row' }}>
             <TouchableOpacity>
-              <Text style={styles().textLink}>Terms of Service </Text>
+              <Text style={styles().textLink}>Terms of Service</Text>
             </TouchableOpacity>
             <Text style={styles().textReg}> and </Text>
             <TouchableOpacity>
@@ -139,23 +112,46 @@ function SignUpPage({ navigation }) {
   );
 }
 
-async function signUp(username, email, password, confirmPassword, navigation) {
+async function signIn(username, pw, navigation) {
   try {
-    if (password != confirmPassword) {
-      throw 'Password and Confirm Password are not the same';
-    }
-    const { user } = await Auth.signUp({
-      username,
-      password,
-      attributes: {
-        email,
-      },
-    });
+    await signOut(); // This is to clear any tokens saved when debugging
+    // console.log(username);
+    // console.log(pw);
+    const user = await Auth.signIn(username, pw);
     // console.log(user);
-    navigation.navigate('VerificationCodePage', { username: username });
+    // await testQuery(user.username);
+    navigation.navigate('UserInitialization1');
   } catch (error) {
-    console.log('error signing up', error);
+    console.log('error signing in', error);
   }
+}
+
+async function signOut() {
+  try {
+    await Auth.signOut();
+  } catch (error) {
+    console.log('error signing out: ', error);
+  }
+}
+
+async function testQuery(username) {
+  const query = `
+  query test($username: ID!) {
+    getTodos(userID: $username) {
+      toDos {
+        Completed
+        Timestamp
+        Title
+      }
+    }
+  }
+  `;
+  const res = await API.graphql({
+    query,
+    variables: { username: username },
+    authMode: 'AMAZON_COGNITO_USER_POOLS',
+  });
+  console.log(res);
 }
 
 const styles = () =>
@@ -173,7 +169,7 @@ const styles = () =>
     buttons: {
       marginTop: 10,
       marginBottom: 10,
-      width: '70%',
+      width: 300,
       borderColor: global.colorblindMode
         ? global.cb_optionButtonsBorderColor
         : global.optionButtonsBorderColor,
@@ -198,6 +194,11 @@ const styles = () =>
         : global.textInputColor,
       textAlign: 'center',
     },
+    textInstructions: {
+      color: '#816868',
+      marginBottom: 12,
+      textAlign: 'center',
+    },
     textLink: {
       color: global.colorblindMode
         ? global.cb_hyperlinkedTextColor
@@ -220,4 +221,4 @@ const styles = () =>
     },
   });
 
-export default SignUpPage;
+export default Login;

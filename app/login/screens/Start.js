@@ -10,7 +10,7 @@ import {
   Button,
 } from 'react-native';
 
-function StartPage({ navigation }) {
+function Start({ navigation }) {
   // Colorblind mode switch initialization
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => {
@@ -96,7 +96,7 @@ function StartPage({ navigation }) {
                 ? global.cb_optionButtonsColor
                 : global.optionButtonsColor
             }
-            onPress={() => navigation.navigate('SignUpPage')}
+            onPress={() => navigation.navigate('SignUp')}
           />
           <View style={{ marginVertical: 8 }} />
           <Button
@@ -106,7 +106,7 @@ function StartPage({ navigation }) {
                 ? global.cb_optionButtonsColor
                 : global.optionButtonsColor
             }
-            onPress={() => navigation.navigate('LoginPage')}
+            onPress={() => navigation.navigate('Login')}
           />
         </View>
       </View>
@@ -137,4 +137,4 @@ const styles = () => {
   });
 };
 
-export default StartPage;
+export default Start;

@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-function ForgotPasswordPage({ navigation }) {
+function PasswordResetVerification({ navigation }) {
   return (
     <SafeAreaView style={styles().container}>
       <StatusBar
@@ -62,25 +62,15 @@ function ForgotPasswordPage({ navigation }) {
             marginBottom: 12,
             textAlign: 'center',
           }}>
-          To reset your password, please enter the username{'\n'}
-          and e-mail address associated with your account.
+          A password reset code has been sent to your e-mail.{'\n'}
+          Enter the password reset code you received below.
         </Text>
 
-        {/* Username + e-mail address entry boxes, submit button */}
+        {/* Reset code text entry + verify button */}
         <View style={styles().buttons}>
           <TextInput
             style={styles().textInput}
-            placeholder='Username'
-            placeholderTextColor={
-              global.colorblindMode
-                ? global.cb_placeHolderTextColor
-                : global.placeholderTextColor
-            }
-          />
-          <View style={{ marginVertical: 8 }} />
-          <TextInput
-            style={styles().textInput}
-            placeholder='E-mail Address'
+            placeholder='Reset Code'
             placeholderTextColor={
               global.colorblindMode
                 ? global.cb_placeHolderTextColor
@@ -89,20 +79,45 @@ function ForgotPasswordPage({ navigation }) {
           />
           <View style={{ marginVertical: 8 }} />
           <Button
-            title='SUBMIT'
+            title='VERIFY'
             color={
               global.colorblindMode
                 ? global.cb_optionButtonsColor
                 : global.optionButtonsColor
             }
-            onPress={() => navigation.navigate('PasswordResetVerificationPage')}
+            onPress={() => navigation.navigate('ResetPasswordPage')}
           />
           <View style={{ marginVertical: 8 }} />
         </View>
 
+        {/* Resend password reset code */}
+        <View>
+          <View style={{ flexDirection: 'row' }}>
+            <Text
+              style={{
+                color: global.colorblindMode
+                  ? global.cb_textColor
+                  : global.textColor,
+              }}>
+              Didn't receive a reset code?{' '}
+            </Text>
+            <TouchableOpacity>
+              <Text
+                style={{
+                  color: global.colorblindMode
+                    ? global.cb_hyperlinkedTextColor
+                    : global.hyperLinkedTextColor,
+                  textDecorationLine: 'underline',
+                }}>
+                Resend e-mail.
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
         {/* Login page redirect */}
-        <View style={{ flexDirection: 'row' }}>
-          <TouchableOpacity onPress={() => navigation.navigate('LoginPage')}>
+        <View style={{ flexDirection: 'row', marginTop: 8 }}>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
             <Text
               style={{
                 color: global.colorblindMode
@@ -155,7 +170,7 @@ const styles = () =>
         ? global.cb_textInputFillColor
         : global.textInputFillColor,
       color: global.colorblindMode
-        ? global.cb_textInputcolor
+        ? global.cb_textInputColor
         : global.textInputColor,
       textAlign: 'center',
     },
@@ -184,4 +199,4 @@ const styles = () =>
     },
   });
 
-export default ForgotPasswordPage;
+export default PasswordResetVerification;

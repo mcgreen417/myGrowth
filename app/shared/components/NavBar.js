@@ -33,7 +33,7 @@ const NavBar = ({
         width: '100%',
       }}>
       <Pressable
-        onPress={() => navigation.navigate('HomePage')}
+        onPress={() => navigation.navigate('Home')}
         style={({ pressed }) => [
           {
             padding: 5,

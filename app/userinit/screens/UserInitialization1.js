@@ -19,7 +19,7 @@ import { Picker } from '@react-native-picker/picker';
 import { ScrollView } from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-function UserInitializationPage1({ navigation }) {
+function UserInitialization1({ navigation }) {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
@@ -190,7 +190,7 @@ function UserInitializationPage1({ navigation }) {
               <Button
                 title='NEXT'
                 color='#A5DFB2'
-                onPress={() => navigation.navigate('UserInitializationPage2')}
+                onPress={() => navigation.navigate('UserInitialization2')}
               />
             </View>
           </View>
@@ -202,7 +202,7 @@ function UserInitializationPage1({ navigation }) {
   );
 }
 
-export default UserInitializationPage1;
+export default UserInitialization1;
 
 const styles = () =>
   StyleSheet.create({

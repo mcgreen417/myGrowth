@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-function VerificationCodePage({ route, navigation }) {
+function VerificationCode({ route, navigation }) {
   const [verificationCode, setVerificationCode] = useState('');
   const { username } = route.params;
   return (
@@ -56,7 +56,7 @@ function VerificationCodePage({ route, navigation }) {
 
         {/* Login page redirect */}
         <View style={{ flexDirection: 'row', marginTop: 8 }}>
-          <TouchableOpacity onPress={() => navigation.navigate('LoginPage')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
             <Text style={styles.textLink}>Return to login.</Text>
           </TouchableOpacity>
         </View>
@@ -69,7 +69,7 @@ async function verify(username, code, navigation) {
   try {
     await Auth.confirmSignUp(username, code);
     // console.log('confirm signup successfully');
-    navigation.navigate('LoginPage');
+    navigation.navigate('Login');
   } catch (error) {
     console.log('error signing up', error);
   }
@@ -137,4 +137,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default VerificationCodePage;
+export default VerificationCode;
