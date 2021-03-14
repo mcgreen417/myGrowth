@@ -48,7 +48,7 @@ function HomePage({ navigation }) {
             onPress={() => navigation.navigate('CustomizePlant')}>
             <Icon name='arrow-left' style={{ marginRight: 10 }} />
             <View>
-              <Text>Customize plant</Text>
+              <Text style={styles.text}>Customize plant</Text>
             </View>
           </Pressable>
           <View
@@ -66,7 +66,7 @@ function HomePage({ navigation }) {
             style={{ flexDirection: 'row', alignItems: 'center' }}
             onPress={() => navigation.navigate('PlantShop')}>
             <View>
-              <Text>Enter plant shop</Text>
+              <Text style={styles.text}>Enter plant shop</Text>
             </View>
             <Icon name='arrow-right' style={{ marginLeft: 10 }} />
           </Pressable>
@@ -93,7 +93,14 @@ function HomePage({ navigation }) {
 
                   elevation: 4,
                 }}>
-                <Text style={{ margin: 10, fontSize: 20, fontWeight: 'bold' }}>
+                <Text style={{
+                  margin: 10,
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                  color: global.colorblindMode
+                    ? global.cb_textColor
+                    : global.textColor,
+                }}>
                   Write a new entry! You wrote your last entry on (date) at
                   (time)
                 </Text>
@@ -150,7 +157,7 @@ function HomePage({ navigation }) {
 
         <View style={{ marginLeft: 130, marginRight: 80, height: 300 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ fontSize: 16 }}>Write a journal entry</Text>
+            <Text style={styles.text}>Write a journal entry</Text>
             <Icon
               name='checkmark-circle-outline'
               type='ionicon'
@@ -168,7 +175,7 @@ function HomePage({ navigation }) {
           </View>
 
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ fontSize: 16 }}>Create a new goal</Text>
+            <Text style={styles.text}>Create a new goal</Text>
           </View>
 
           <View style={styles.dividerViewLow}>
@@ -176,7 +183,7 @@ function HomePage({ navigation }) {
           </View>
 
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ fontSize: 16 }}>Complete a goal</Text>
+            <Text style={styles.text}>Complete a goal</Text>
             <Icon
               name='checkmark-circle-outline'
               type='ionicon'
@@ -194,7 +201,7 @@ function HomePage({ navigation }) {
           </View>
 
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ fontSize: 16 }}>View your history</Text>
+            <Text style={styles.text}>View your history</Text>
           </View>
 
           <View style={styles.dividerViewLow}>
@@ -310,4 +317,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
+  text: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+    fontSize: 16
+  }
 });
