@@ -87,11 +87,11 @@ function UserInitializationPage3({ navigation }) {
               thumbColor={
                 useStressLevels
                   ? (global.colorblindMode 
-                      ? global.cb_switchThumbColorTrue
-                      : global.switchThumbColorTrue)
+                    ? global.cb_switchThumbColorTrue
+                    : global.switchThumbColorTrue)
                   : (global.colorblindMode
-                      ? global.cb_switchThumbColorFalse
-                      : global.switchThumbColorFalse)
+                    ? global.cb_switchThumbColorFalse
+                    : global.switchThumbColorFalse)
               }
               ios_backgroundColor={global.cb_blackColor}
               onValueChange={toggleStressLevels}
@@ -118,11 +118,11 @@ function UserInitializationPage3({ navigation }) {
               thumbColor={
                 useDailyActivities
                   ? (global.colorblindMode 
-                      ? global.cb_switchThumbColorTrue
-                      : global.switchThumbColorTrue)
+                    ? global.cb_switchThumbColorTrue
+                    : global.switchThumbColorTrue)
                   : (global.colorblindMode
-                      ? global.cb_switchThumbColorFalse
-                      : global.switchThumbColorFalse)
+                    ? global.cb_switchThumbColorFalse
+                    : global.switchThumbColorFalse)
               }
               ios_backgroundColor={global.cb_blackColor}
               onValueChange={toggleDailyActivities}
@@ -149,11 +149,11 @@ function UserInitializationPage3({ navigation }) {
               thumbColor={
                 useWeightTracking
                   ? (global.colorblindMode 
-                      ? global.cb_switchThumbColorTrue
-                      : global.switchThumbColorTrue)
+                    ? global.cb_switchThumbColorTrue
+                    : global.switchThumbColorTrue)
                   : (global.colorblindMode
-                      ? global.cb_switchThumbColorFalse
-                      : global.switchThumbColorFalse)
+                    ? global.cb_switchThumbColorFalse
+                    : global.switchThumbColorFalse)
               }
               ios_backgroundColor={global.cb_blackColor}
               onValueChange={toggleWeightTracking}
@@ -180,11 +180,11 @@ function UserInitializationPage3({ navigation }) {
               thumbColor={
                 usePeriodTracking
                   ? (global.colorblindMode 
-                      ? global.cb_switchThumbColorTrue
-                      : global.switchThumbColorTrue)
+                    ? global.cb_switchThumbColorTrue
+                    : global.switchThumbColorTrue)
                   : (global.colorblindMode
-                      ? global.cb_switchThumbColorFalse
-                      : global.switchThumbColorFalse)
+                    ? global.cb_switchThumbColorFalse
+                    : global.switchThumbColorFalse)
               }
               ios_backgroundColor={global.cb_blackColor}
               onValueChange={togglePeriodTracking}
@@ -211,11 +211,11 @@ function UserInitializationPage3({ navigation }) {
               thumbColor={
                 useMedicationTracking
                   ? (global.colorblindMode 
-                      ? global.cb_switchThumbColorTrue
-                      : global.switchThumbColorTrue)
+                    ? global.cb_switchThumbColorTrue
+                    : global.switchThumbColorTrue)
                   : (global.colorblindMode
-                      ? global.cb_switchThumbColorFalse
-                      : global.switchThumbColorFalse)
+                    ? global.cb_switchThumbColorFalse
+                    : global.switchThumbColorFalse)
               }
               ios_backgroundColor={global.cb_blackColor}
               onValueChange={toggleMedicationTracking}
@@ -242,11 +242,11 @@ function UserInitializationPage3({ navigation }) {
               thumbColor={
                 useSleepTracking
                   ? (global.colorblindMode 
-                      ? global.cb_switchThumbColorTrue
-                      : global.switchThumbColorTrue)
+                    ? global.cb_switchThumbColorTrue
+                    : global.switchThumbColorTrue)
                   : (global.colorblindMode
-                      ? global.cb_switchThumbColorFalse
-                      : global.switchThumbColorFalse)
+                    ? global.cb_switchThumbColorFalse
+                    : global.switchThumbColorFalse)
               }
               ios_backgroundColor={global.cb_blackColor}
               onValueChange={toggleSleepTracking}
@@ -273,11 +273,11 @@ function UserInitializationPage3({ navigation }) {
               thumbColor={
                 useMealTracking
                   ? (global.colorblindMode 
-                      ? global.cb_switchThumbColorTrue
-                      : global.switchThumbColorTrue)
+                    ? global.cb_switchThumbColorTrue
+                    : global.switchThumbColorTrue)
                   : (global.colorblindMode
-                      ? global.cb_switchThumbColorFalse
-                      : global.switchThumbColorFalse)
+                    ? global.cb_switchThumbColorFalse
+                    : global.switchThumbColorFalse)
               }
               ios_backgroundColor={global.cb_blackColor}
               onValueChange={toggleMealTracking}
@@ -304,11 +304,11 @@ function UserInitializationPage3({ navigation }) {
               thumbColor={
                 useFitnessTracking
                   ? (global.colorblindMode 
-                      ? global.cb_switchThumbColorTrue
-                      : global.switchThumbColorTrue)
+                    ? global.cb_switchThumbColorTrue
+                    : global.switchThumbColorTrue)
                   : (global.colorblindMode
-                      ? global.cb_switchThumbColorFalse
-                      : global.switchThumbColorFalse)
+                    ? global.cb_switchThumbColorFalse
+                    : global.switchThumbColorFalse)
               }
               ios_backgroundColor={global.cb_blackColor}
               onValueChange={toggleFitnessTracking}
