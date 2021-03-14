@@ -12,7 +12,7 @@ import NavBar from '../../shared/components/NavBar';
 
 function AccountPanel({ navigation }) {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles().container}>
       <StatusBar
         backgroundColor={
           global.colorblindMode
@@ -21,122 +21,122 @@ function AccountPanel({ navigation }) {
         }
         barStyle='light-content'
       />
-      <View style={styles.pageSetup}>
+      <View style={styles().pageSetup}>
 
         {/* Gardener avatar + page blurb */}
-        <View style={styles.avatarView}>
-          <Image style={styles.avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
-          <Text style={styles.pageDescription}>
+        <View style={styles().avatarView}>
+          <Image style={styles().avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
+          <Text style={styles().pageDescription}>
             You can edit your account settings on this page. Please select one of the options below.
           </Text>
         </View>
 
         {/* Top page divider */}
-        <View style={styles.dividerView}>
-          <View style={styles.divider} />
+        <View style={styles().dividerView}>
+          <View style={styles().divider} />
         </View>
 
         {/* Account Settings */}
-        <Text style={styles.heading}>ACCOUNT SETTINGS</Text>
-        <View style={styles.line} />
+        <Text style={styles().heading}>ACCOUNT SETTINGS</Text>
+        <View style={styles().line} />
 
         {/* Settings */}
-        <View style={styles.inlineRow}>
-          <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('UserSettings')}>
-            <View style={styles.inlineRow}>
-              <Text style={styles.textReg}>User Settings</Text>
-              <View style={styles.iconView}>
+        <View style={styles().inlineRow}>
+          <TouchableOpacity style={styles().buttons} onPress={() => navigation.navigate('UserSettings')}>
+            <View style={styles().inlineRow}>
+              <Text style={styles().textReg}>User Settings</Text>
+              <View style={styles().iconView}>
                 <Image source={require('../../shared/assets/chevron.png')} />
               </View>
             </View>
           </TouchableOpacity>
         </View>
-        <View style={styles.line} />
+        <View style={styles().line} />
 
         {/* Generate report */}
-        <View style={styles.inlineRow}>
+        <View style={styles().inlineRow}>
           <TouchableOpacity
-            style={styles.buttons}
+            style={styles().buttons}
             onPress={() => navigation.navigate('GenerateReport')}
           >
-            <View style={styles.inlineRow}>
-              <Text style={styles.textReg}>Generate Report</Text>
-              <View style={styles.iconView}>
+            <View style={styles().inlineRow}>
+              <Text style={styles().textReg}>Generate Report</Text>
+              <View style={styles().iconView}>
                 <Image source={require('../../shared/assets/chevron.png')} />
               </View>
             </View>
           </TouchableOpacity>
         </View>
-        <View style={styles.line} />
+        <View style={styles().line} />
 
         {/* Link account */}
-        <View style={styles.inlineRow}>
+        <View style={styles().inlineRow}>
           <TouchableOpacity
-            style={styles.buttons}
+            style={styles().buttons}
             onPress={() => navigation.navigate('LinkAccount')}
           >
-            <View style={styles.inlineRow}>
-              <Text style={styles.textReg}>Link Account</Text>
-              <View style={styles.iconView}>
+            <View style={styles().inlineRow}>
+              <Text style={styles().textReg}>Link Account</Text>
+              <View style={styles().iconView}>
                 <Image source={require('../../shared/assets/chevron.png')} />
               </View>
             </View>
           </TouchableOpacity>
         </View>
-        <View style={styles.line} />
+        <View style={styles().line} />
 
         {/* Report a problem */}
-        <View style={styles.inlineRow}>
-          <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('ReportProblemPage')}>
-            <View style={styles.inlineRow}>
-              <Text style={styles.textReg}>Report a Problem</Text>
-              <View style={styles.iconView}>
+        <View style={styles().inlineRow}>
+          <TouchableOpacity style={styles().buttons} onPress={() => navigation.navigate('ReportProblemPage')}>
+            <View style={styles().inlineRow}>
+              <Text style={styles().textReg}>Report a Problem</Text>
+              <View style={styles().iconView}>
                 <Image source={require('../../shared/assets/chevron.png')} />
               </View>
             </View>
           </TouchableOpacity>
         </View>
-        <View style={styles.line} />
+        <View style={styles().line} />
 
         {/* Leave a review */}
-        <View style={styles.inlineRow}>
+        <View style={styles().inlineRow}>
           <TouchableOpacity
-            style={styles.buttons}
+            style={styles().buttons}
             onPress={() => navigation.navigate('LeaveReviewPage')}
           >
-            <View style={styles.inlineRow}>
-              <Text style={styles.textReg}>Leave a Review</Text>
-              <View style={styles.iconView}>
+            <View style={styles().inlineRow}>
+              <Text style={styles().textReg}>Leave a Review</Text>
+              <View style={styles().iconView}>
                 <Image source={require('../../shared/assets/chevron.png')} />
               </View>
             </View>
           </TouchableOpacity>
         </View>
-        <View style={styles.line} />
+        <View style={styles().line} />
 
         {/* About */}
-        <View style={styles.inlineRow}>
+        <View style={styles().inlineRow}>
           <TouchableOpacity
-            style={styles.buttons}
+            style={styles().buttons}
             onPress={() => navigation.navigate('AboutPage')}
           >
-            <View style={styles.inlineRow}>
-              <Text style={styles.textReg}>About</Text>
-              <View style={styles.iconView}>
+            <View style={styles().inlineRow}>
+              <Text style={styles().textReg}>About</Text>
+              <View style={styles().iconView}>
                 <Image source={require('../../shared/assets/chevron.png')} />
               </View>
             </View>
           </TouchableOpacity>
         </View>
 
-        <View style={styles.line} />
+        <View style={styles().line} />
       </View>
       <NavBar account={true} navigation={navigation} />
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
+const styles = () => StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: global.colorblindMode
