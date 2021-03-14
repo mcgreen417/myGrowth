@@ -54,15 +54,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  buttons: {
-    marginTop: 7,
-    marginBottom: 7,
-    width: '110%',
-  },
-  fillerImage: {
-    height: 400,
-    width: 360,
-  },
   heading: {
     color: '#4CB97A',
     fontSize: 20,
@@ -70,8 +61,6 @@ const styles = StyleSheet.create({
   },
   iconView: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'flex-end',
   },
   inlineRow: {

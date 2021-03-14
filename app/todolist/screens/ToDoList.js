@@ -6,33 +6,74 @@ import {
   Text,
   View,
   Image,
+  Pressable,
 } from 'react-native';
+
+import { Icon } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import NavBar from '../../shared/components/NavBar';
 
 const ToDoList = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <Text>
-          Use this to-do list to keep track of upcoming tasks. Let's do our best
-          to have another productive day!
+      {/* Gardener avatar + page blurb */}
+      <View style={styles.avatarView}>
+        <Text style={styles.pageDescription}>
+          Use this to-do list to keep track of upcoming tasks. Let's have another productive day!
         </Text>
-        <Image
-          source={require('../../shared/assets/icon.png')}
-          style={styles.avatar}
-        />
+        <Image style={styles.avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
       </View>
+      <View style={styles.divider} />
 
       {/* Category listing */}
-      <View>
-        <Button title='<' />
-        <Button title='Categories' />
-        <Button title='>' />
+      <View style={styles.inlineRow}>
+        <Icon
+          name='chevron-back'
+          type='ionicon'
+          color='#816868'
+        />
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ width: '82%' }}>
+            <View style={styles.categoryView}>
+              <Text style={styles.categoryText}>School</Text>
+            </View>
+            <View style={styles.categoryView}>
+              <Text style={styles.categoryText}>Work</Text>
+            </View>
+            <View style={styles.categoryView}>
+              <Text style={styles.categoryText}>Chores</Text>
+            </View>
+            <View style={styles.categoryView}>
+              <Text style={styles.categoryText}>Games</Text>
+            </View>
+            <View style={styles.categoryView}>
+              <Text style={{ 
+                marginVertical: 6, 
+                marginLeft: 16,
+                marginRight: 6, 
+                color: '#F5F5F5', 
+                fontSize: 16, 
+              }}>Add Tab</Text>
+              <Icon
+                name='plus-circle'
+                type='feather'
+                color='#F5F5F5'
+                style={{ marginRight: 12 }}
+              />
+            </View>
+          </ScrollView>
+        <View style={styles.iconView}>
+          <View style={{ flexDirection: 'row' }}>
+            <Icon
+              name='chevron-forward'
+              type='ionicon'
+              color='#816868'
+            />
+          </View>
+        </View>
       </View>
 
       {/* Task listing */}
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 20 }}>
         <View>
           <Button title='task1' />
           <Button title='task2' />
@@ -51,6 +92,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F6EFED',
+    justifyContent: 'center',
+    alignSelf: 'center'
   },
   avatar: {
     width: 75,
@@ -59,36 +102,18 @@ const styles = StyleSheet.create({
   avatarView: {
     flexDirection: 'row',
     marginTop: 20,
-    alignItems: 'center',
+    alignSelf: 'center',
     justifyContent: 'center',
     width: '90%'
   },
-  buttons: {
-    marginTop: 7,
-    marginBottom: 7,
-    width: '110%',
-  },
   divider: {
-    flex: 1,
     height: 1,
     backgroundColor: '#816868',
-    marginLeft: 20,
-    marginRight: 20,
-  },
-  dividerView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  fillerImage: {
-    width: 340,
-    height: 240,
-    marginTop: -20,
+    marginVertical: 20,
   },
   categoryText: { 
-    marginVertical: 8, 
-    marginHorizontal: 12, 
+    marginVertical: 6,
+    marginHorizontal: 16, 
     color: '#F5F5F5', 
     fontSize: 16,
   },
@@ -105,6 +130,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 4,
+    marginHorizontal: 2,
   },
   heading: {
     color: '#4CB97A',
@@ -121,34 +147,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '90%',
     alignItems: 'center',
-  },
-  inlineRow2: {
-    flexDirection: 'row',
-    width: '90%',
-    alignItems: 'flex-end',
-  },
-  inlineRow3: {
-    flexDirection: 'row',
-    width: '90%',
-    alignItems: 'flex-start',
-  },
-  line: {
-    borderColor: '#816868',
-    borderBottomWidth: 1,
-    minHeight: 1,
-    width: '90%',
-  },
-  line2: {
-    borderColor: '#816868',
-    borderRightWidth: 1,
-    minHeight: 28,
-    marginTop: 4,
-    marginBottom: 4,
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    marginRight: 20,
   },
   text: {
     color: '#816868',

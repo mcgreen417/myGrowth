@@ -22,7 +22,7 @@ function AccountPanel({ navigation }) {
         <View style={styles.avatarView}>
           <Image style={styles.avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
           <Text style={styles.pageDescription}>
-            You can edit your account settings on this page. Please select one of the options below.
+            Select one of the options below to customize your account settings.
           </Text>
         </View>
         {/* Top page divider */}
@@ -234,26 +234,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     minHeight: 1,
   },
-  line2: {
-    borderColor: '#816868',
-    borderRightWidth: 1,
-    minHeight: 28,
-    marginTop: 4,
-    marginBottom: 4,
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    marginRight: 20,
-  },
   text: {
-    color: 'black',
-    textDecorationLine: 'none',
-    textAlign: 'left',
+    color: '#816868',
+    fontSize: 16,
   },
   pageDescription: {
     color: '#816868',
-    fontSize: 16,
+    fontSize: 20,
     flex: 1,
     flexWrap: 'wrap',
     fontWeight: 'bold',

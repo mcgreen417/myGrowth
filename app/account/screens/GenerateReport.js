@@ -72,7 +72,6 @@ function GenerateReport({ navigation }) {
             <Image style={styles.avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
             <Text style={styles.pageDescription}>
               Generate a report of your health entry history for your personal records. 
-              Select the time period and sections you'd like to include.
             </Text>
           </View>
           {/* Top page divider */}
@@ -372,13 +371,12 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   text: {
-    color: 'black',
-    textDecorationLine: 'none',
-    textAlign: 'left',
+    color: '#816868',
+    fontSize: 16,
   },
   pageDescription: {
     color: '#816868',
-    fontSize: 16,
+    fontSize: 20,
     flex: 1,
     flexWrap: 'wrap',
     fontWeight: 'bold',

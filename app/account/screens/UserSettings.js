@@ -60,7 +60,7 @@ function UserSettings({ navigation }) {
           <View style={styles.avatarView}>
             <Image style={styles.avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
             <Text style={styles.pageDescription}>
-              Edit your user settings below. These user settings may be changed at any time by returning to this page.
+              Edit your user settings below. You may return to this page at any time.
             </Text>
           </View>
           {/* Top page divider */}
@@ -417,13 +417,12 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   text: {
-    color: 'black',
-    textDecorationLine: 'none',
-    textAlign: 'left',
+    color: '#816868',
+    fontSize: 16,
   },
   pageDescription: {
     color: '#816868',
-    fontSize: 16,
+    fontSize: 20,
     flex: 1,
     flexWrap: 'wrap',
     fontWeight: 'bold',
