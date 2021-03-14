@@ -41,7 +41,7 @@ function HomePage({ navigation }) {
           <View style={styles.plantButtons}>
             <Pressable
               style={styles.inlineRow}
-              onPress={() => navigation.navigate('GoalComplete')}>
+              onPress={() => navigation.navigate('CustomizePlant')}>
               <Icon name='arrow-left' color='#816868' />
               <View>
                 <Text style={styles.plantLinks}>Customize Plant</Text>
