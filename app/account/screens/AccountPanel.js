@@ -13,7 +13,14 @@ import NavBar from '../../shared/components/NavBar';
 function AccountPanel({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
+      <StatusBar
+        backgroundColor={
+          global.colorblindMode
+            ? global.cb_statusBarColor
+            : global.statusBarColor
+        }
+        barStyle='light-content'
+      />
       <View style={styles.pageSetup}>
 
         {/* Gardener avatar + page blurb */}
@@ -132,7 +139,9 @@ function AccountPanel({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6EFED',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
   },
   inlineRow: {
     flexDirection: 'row',
@@ -159,7 +168,9 @@ const styles = StyleSheet.create({
   divider: {
     flex: 1,
     height: 1,
-    backgroundColor: '#816868',
+    backgroundColor: global.colorblindMode
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
     marginLeft: 20,
     marginRight: 20,
   },
@@ -170,7 +181,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   heading: {
-    color: 'black',
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'left',
@@ -185,12 +198,16 @@ const styles = StyleSheet.create({
   },
   line: {
     width: '90%',
-    borderColor: '#816868',
+      borderColor: global.colorblindMode
+        ? global.cb_lineColor
+        : global.lineColor,
     borderBottomWidth: 1,
     minHeight: 1,
   },
   line2: {
-    borderColor: '#816868',
+    borderColor: global.colorblindMode
+      ? global.cb_lineColor
+      : global.lineColor,
     borderRightWidth: 1,
     minHeight: 28,
     marginTop: 4,
@@ -202,12 +219,16 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   textReg: {
-    color: 'black',
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
     textDecorationLine: 'none',
     textAlign: 'left',
   },
   pageDescription: {
-    color: '#816868',
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
     fontSize: 16,
     flex: 1,
     flexWrap: 'wrap',
