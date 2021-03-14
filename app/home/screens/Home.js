@@ -57,7 +57,10 @@ function HomePage({ navigation }) {
               marginRight: 50,
               height: '100%',
               width: 2,
-              backgroundColor: '#909090',
+              backgroundColor: global.colorblindMode
+                ? global.cb_contentDividerColor
+                : global.contentDividerColor
+              ,
             }}></View>
           <Pressable
             style={{ flexDirection: 'row', alignItems: 'center' }}
@@ -111,7 +114,9 @@ function HomePage({ navigation }) {
             <View>
               <Text
                 style={{
-                  color: '#A5DFB2',
+                  color: global.colorblindMode
+                    ? global.cb_hyperlinkedTextColor
+                    : global.hyperlinkedTextColor,
                   textDecorationLine: 'underline',
                   fontSize: 16,
                 }}>
@@ -129,7 +134,9 @@ function HomePage({ navigation }) {
           />
           <Text
             style={{
-              color: '#000',
+              color: global.colorblindMode
+                ? global.cb_textColor
+                : global.textColor,
               fontSize: 20,
               fontWeight: 'bold',
               marginLeft: 30,
@@ -147,7 +154,11 @@ function HomePage({ navigation }) {
             <Icon
               name='checkmark-circle-outline'
               type='ionicon'
-              color='#4CB97A'
+              color={
+                global.colorblindMode
+                  ? global.cb_switchThumbColorTrue
+                  : global.switchThumbColorTrue
+              }
               style={{ marginLeft: 10 }}
             />
           </View>
@@ -169,7 +180,11 @@ function HomePage({ navigation }) {
             <Icon
               name='checkmark-circle-outline'
               type='ionicon'
-              color='#4CB97A'
+              color={
+                global.colorblindMode
+                  ? global.cb_switchThumbColorTrue
+                  : global.switchThumbColorTrue
+              }
               style={{ marginLeft: 10 }}
             />
           </View>
@@ -197,7 +212,9 @@ export default HomePage;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6EFED',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
   },
   avatar: {
     width: 75,
@@ -223,7 +240,9 @@ const styles = StyleSheet.create({
     height: 50,
   },
   pageDescription: {
-    color: '#000',
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
     fontSize: 25,
     fontWeight: 'bold',
     marginLeft: 30,
@@ -256,22 +275,27 @@ const styles = StyleSheet.create({
   dividerLeft: {
     flex: 1,
     height: 1,
-    backgroundColor: '#816868',
+    backgroundColor: global.colorblindMode
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
     marginLeft: 20,
     marginRight: 0,
   },
   dividerRight: {
     flex: 1,
     height: 1,
-    backgroundColor: '#816868',
+    backgroundColor: global.colorblindMode
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
     marginLeft: 0,
     marginRight: 20,
   },
   divider: {
     flex: 1,
     height: 1,
-    backgroundColor: '#816868',
-    // marginLeft: 130,
+    backgroundColor: global.colorblindMode
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
     marginRight: 0,
   },
   dividerView: {
