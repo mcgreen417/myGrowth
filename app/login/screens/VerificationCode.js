@@ -47,7 +47,7 @@ function VerificationCodePage({ route, navigation }) {
         {/* Resend verification code */}
         <View>
           <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.textReg}>Didn't receive a verification code?{' '}</Text>
+            <Text style={styles.text}>Didn't receive a verification code?{' '}</Text>
             <TouchableOpacity onPress={() => resend(username)}>
               <Text style={styles.textLink}>Resend e-mail.</Text>
             </TouchableOpacity>
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     color: '#A5DFB2', 
     textDecorationLine: 'underline',
   },
-  textReg: {
+  text: {
     color: '#816868',
   },
   textSubtitle: {

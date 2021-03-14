@@ -18,7 +18,7 @@ function HomePage({ navigation }) {
   let stage = 0;
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.pageSetup}>
 
           {/* Gardener avatar + page blurb */}
@@ -41,7 +41,7 @@ function HomePage({ navigation }) {
           <View style={styles.plantButtons}>
             <Pressable
               style={styles.inlineRow}
-              onPress={() => navigation.navigate('CustomizePlant')}>
+              onPress={() => navigation.navigate('GoalComplete')}>
               <Icon name='arrow-left' color='#816868' />
               <View>
                 <Text style={styles.plantLinks}>Customize Plant</Text>

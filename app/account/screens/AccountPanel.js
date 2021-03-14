@@ -25,7 +25,6 @@ function AccountPanel({ navigation }) {
             You can edit your account settings on this page. Please select one of the options below.
           </Text>
         </View>
-
         {/* Top page divider */}
         <View style={styles.dividerView}>
           <View style={styles.divider} />
@@ -37,9 +36,12 @@ function AccountPanel({ navigation }) {
 
         {/* User settings */}
         <View style={styles.inlineRow}>
-          <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('UserSettings')}>
+          <TouchableOpacity 
+            style={styles.buttons} 
+            onPress={() => navigation.navigate('UserSettings')}
+          >
             <View style={styles.inlineRow}>
-              <Text style={styles.textReg}>User Settings</Text>
+              <Text style={styles.text}>User Settings</Text>
               <View style={styles.iconView}>
                 <Icon
                   name='chevron-forward'
@@ -60,7 +62,7 @@ function AccountPanel({ navigation }) {
             onPress={() => navigation.navigate('GenerateReport')}
           >
             <View style={styles.inlineRow}>
-              <Text style={styles.textReg}>Generate Report</Text>
+              <Text style={styles.text}>Generate Report</Text>
               <View style={styles.iconView}>
                 <Icon
                   name='chevron-forward'
@@ -76,9 +78,12 @@ function AccountPanel({ navigation }) {
 
         {/* Report a problem */}
         <View style={styles.inlineRow}>
-          <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('e')}>
+          <TouchableOpacity 
+            style={styles.buttons} 
+            onPress={() => navigation.navigate('')}
+          >
             <View style={styles.inlineRow}>
-              <Text style={styles.textReg}>Report a Problem</Text>
+              <Text style={styles.text}>Report a Problem</Text>
               <View style={styles.iconView}>
                 <Icon
                   name='chevron-forward'
@@ -99,7 +104,7 @@ function AccountPanel({ navigation }) {
             onPress={() => navigation.navigate('')}
           >
             <View style={styles.inlineRow}>
-              <Text style={styles.textReg}>Leave a Review</Text>
+              <Text style={styles.text}>Leave a Review</Text>
               <View style={styles.iconView}>
                 <Icon
                   name='chevron-forward'
@@ -120,7 +125,7 @@ function AccountPanel({ navigation }) {
             onPress={() => navigation.navigate('')}
           >
             <View style={styles.inlineRow}>
-              <Text style={styles.textReg}>About</Text>
+              <Text style={styles.text}>About</Text>
               <View style={styles.iconView}>
                 <Icon
                   name='chevron-forward'
@@ -141,7 +146,7 @@ function AccountPanel({ navigation }) {
             onPress={() => navigation.navigate('')}
           >
             <View style={styles.inlineRow}>
-              <Text style={styles.textReg}>Log out</Text>
+              <Text style={styles.text}>Log out</Text>
               <View style={styles.iconView}>
                 <Icon
                   name='chevron-forward'
@@ -153,8 +158,11 @@ function AccountPanel({ navigation }) {
             </View>
           </TouchableOpacity>
         </View>
-
         <View style={styles.line} />
+
+        {/* Filler image */}
+        <Image style={styles.fillerImage} source={require('../../shared/assets/SettingsPlantShelf.png')} />
+
       </View>
       <NavBar account={true} navigation={navigation} />
     </SafeAreaView>
@@ -201,6 +209,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 20,
   },
+  fillerImage: {
+    width: 420,
+    height: 170,
+    marginLeft: '-6%',
+  },  
   heading: {
     color: '#4CB97A',
     fontSize: 16,
@@ -233,7 +246,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     marginRight: 20,
   },
-  textReg: {
+  text: {
     color: 'black',
     textDecorationLine: 'none',
     textAlign: 'left',

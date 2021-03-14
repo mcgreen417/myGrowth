@@ -64,7 +64,7 @@ function GenerateReport({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.pageSetup}>
 
           {/* Gardener avatar + page blurb */}
@@ -110,7 +110,7 @@ function GenerateReport({ navigation }) {
 
           {/* mood & feels */}
           <View style={styles.inlineRow}>
-            <Text style={styles.textReg}>Mood & Feelings</Text>
+            <Text style={styles.text}>Mood & Feelings</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -126,7 +126,7 @@ function GenerateReport({ navigation }) {
 
           {/* Stress levels */}
           <View style={styles.inlineRow}>
-            <Text style={styles.textReg}>Stress Levels</Text>
+            <Text style={styles.text}>Stress Levels</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -142,7 +142,7 @@ function GenerateReport({ navigation }) {
 
           {/* daily activities */}
           <View style={styles.inlineRow}>
-            <Text style={styles.textReg}>Daily Activities</Text>
+            <Text style={styles.text}>Daily Activities</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -158,7 +158,7 @@ function GenerateReport({ navigation }) {
 
           {/* Mental/phys health */}
           <View style={styles.inlineRow}>
-            <Text style={styles.textReg}>Physical/Mental Health Symptoms</Text>
+            <Text style={styles.text}>Physical/Mental Health Symptoms</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -174,7 +174,7 @@ function GenerateReport({ navigation }) {
 
           {/* Weight tracking */}
           <View style={styles.inlineRow}>
-            <Text style={styles.textReg}>Weight Tracking</Text>
+            <Text style={styles.text}>Weight Tracking</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -190,7 +190,7 @@ function GenerateReport({ navigation }) {
 
           {/* Period tracking */}
           <View style={styles.inlineRow}>
-            <Text style={styles.textReg}>Period Tracking</Text>
+            <Text style={styles.text}>Period Tracking</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -206,7 +206,7 @@ function GenerateReport({ navigation }) {
 
           {/* Medication tracking */}
           <View style={styles.inlineRow}>
-            <Text style={styles.textReg}>Medication Tracking</Text>
+            <Text style={styles.text}>Medication Tracking</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -222,7 +222,7 @@ function GenerateReport({ navigation }) {
 
           {/* Sleep tracking */}
           <View style={styles.inlineRow}>
-            <Text style={styles.textReg}>Sleep Tracking</Text>
+            <Text style={styles.text}>Sleep Tracking</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -238,7 +238,7 @@ function GenerateReport({ navigation }) {
 
           {/* Meal tracking */}
           <View style={styles.inlineRow}>
-            <Text style={styles.textReg}>Meal Tracking</Text>
+            <Text style={styles.text}>Meal Tracking</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -254,7 +254,7 @@ function GenerateReport({ navigation }) {
 
           {/* Fitness tracking */}
           <View style={styles.inlineRow}>
-            <Text style={styles.textReg}>Fitness Tracking</Text>
+            <Text style={styles.text}>Fitness Tracking</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -270,7 +270,7 @@ function GenerateReport({ navigation }) {
 
           {/* Journal entries */}
           <View style={styles.inlineRow}>
-            <Text style={styles.textReg}>Journal Entries</Text>
+            <Text style={styles.text}>Journal Entries</Text>
             <View style={styles.switchView}>
               <View style={styles.line2} />
               <Switch
@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     marginRight: 20,
   },
-  textReg: {
+  text: {
     color: 'black',
     textDecorationLine: 'none',
     textAlign: 'left',

@@ -45,7 +45,7 @@ function PlantShop({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.pageSetup}>
         
           {/* Gardener avatar + page blurb */}
