@@ -17,7 +17,7 @@ function HistoryHealthEntries({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles().container}>
       { /* Modal */}
       <View>
         <Modal
@@ -28,9 +28,9 @@ function HistoryHealthEntries({ navigation }) {
             setModalVisible(!modalVisible);
           }}
         >
-          <View style={styles.centeredView}>
+          <View style={styles().centeredView}>
             {/* Dismiss Bar */}
-            <View style={styles.inlineRowBackgrd}>
+            <View style={styles().inlineRowBackgrd}>
                 {/* add category chooser modal here */}
                 { /* image asset */ }
                 <View>
@@ -50,12 +50,12 @@ function HistoryHealthEntries({ navigation }) {
             {/* Body of modal */}
             <View style={{backgroundColor: '#F6EFED', width: 300, height: 350,}}>
               {/* Buttons on modal */}
-              <View style={styles.inlineRowModal}>
+              <View style={styles().inlineRowModal}>
                   { /* health entries */ }
                   <View>
                       <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                          <Text>Health Entries</Text>
+                          <Image style={styles().chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text style={styles().bodyText}>Health Entries</Text>
                       </TouchableOpacity>
                   </View>
 
@@ -65,8 +65,8 @@ function HistoryHealthEntries({ navigation }) {
                           navigation.navigate('HistoryMood');
                           setModalVisible(!modalVisible);
                       }}>
-                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                          <Text>Mood</Text>
+                          <Image style={styles().chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text style={styles().bodyText}>Mood</Text>
                       </TouchableOpacity>
                   </View>
 
@@ -76,8 +76,8 @@ function HistoryHealthEntries({ navigation }) {
                         navigation.navigate('HistoryStress');
                         setModalVisible(!modalVisible);
                       }}>
-                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                          <Text>Stress</Text>
+                          <Image style={styles().chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text style={styles().bodyText}>Stress</Text>
                       </TouchableOpacity>
                   </View>
 
@@ -87,21 +87,21 @@ function HistoryHealthEntries({ navigation }) {
                         navigation.navigate('HistoryDailyActivities1');
                         setModalVisible(!modalVisible);
                       }}>
-                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                          <Text>Daily Activities</Text>
+                          <Image style={styles().chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text style={styles().bodyText}>Daily Activities</Text>
                       </TouchableOpacity>
                   </View>
               </View>
 
-              <View style={styles.inlineRowModal}>
+              <View style={styles().inlineRowModal}>
                   { /* period tracking */ }
                   <View>
                       <TouchableOpacity onPress={() => {
                         navigation.navigate('HistoryPeriodTracking');
                         setModalVisible(!modalVisible);
                       }}>
-                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                          <Text>Period Tracking</Text>
+                          <Image style={styles().chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text style={styles().bodyText}>Period Tracking</Text>
                       </TouchableOpacity>
                   </View>
 
@@ -111,8 +111,8 @@ function HistoryHealthEntries({ navigation }) {
                         navigation.navigate('HistoryWeight');
                         setModalVisible(!modalVisible);
                       }}>
-                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                          <Text>Weight</Text>
+                          <Image style={styles().chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text style={styles().bodyText}>Weight</Text>
                       </TouchableOpacity>
                   </View>
 
@@ -122,8 +122,8 @@ function HistoryHealthEntries({ navigation }) {
                         navigation.navigate('HistoryGeneralHealth1');
                         setModalVisible(!modalVisible);
                       }}>
-                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                          <Text>General Health</Text>
+                          <Image style={styles().chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text style={styles().bodyText}>General Health</Text>
                       </TouchableOpacity>
                   </View>
 
@@ -133,21 +133,21 @@ function HistoryHealthEntries({ navigation }) {
                         navigation.navigate('HistoryMedication');
                         setModalVisible(!modalVisible);
                       }}>
-                          <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                          <Text>Medicine</Text>
+                          <Image style={styles().chooserImg} source={require('../../shared/assets/icon.png')}/>
+                          <Text style={styles().bodyText}>Medicine</Text>
                       </TouchableOpacity>
                   </View>
               </View>
 
-              <View style={styles.inlineRowModal}>
+              <View style={styles().inlineRowModal}>
                 { /* sleep */ }
                 <View>  
                     <TouchableOpacity onPress={() => {
                       navigation.navigate('HistorySleep1');
                       setModalVisible(!modalVisible);
                     }}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                        <Text>Sleep</Text>
+                        <Image style={styles().chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text style={styles().bodyText}>Sleep</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -157,8 +157,8 @@ function HistoryHealthEntries({ navigation }) {
                         navigation.navigate('HistoryMealTracking');
                         setModalVisible(!modalVisible);
                       }}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                        <Text>Meal Tracking</Text>
+                        <Image style={styles().chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text style={styles().bodyText}>Meal Tracking</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -168,8 +168,8 @@ function HistoryHealthEntries({ navigation }) {
                         navigation.navigate('HistoryFitness1');
                         setModalVisible(!modalVisible);
                       }}>
-                        <Image style={styles.chooserImg} source={require('../../shared/assets/icon.png')}/>
-                        <Text>Fitness</Text>
+                        <Image style={styles().chooserImg} source={require('../../shared/assets/icon.png')}/>
+                        <Text style={styles().bodyText}>Fitness</Text>
                     </TouchableOpacity>
                 </View>
               </View>
@@ -180,26 +180,33 @@ function HistoryHealthEntries({ navigation }) {
 
       {/* Actual Screen */}
       <View>
-        <Text>
+        <Text style={styles().bodyText}>
           View an easily digestable summary of your health entry history! View
           your individual health entries below or select a category to get
           started!
         </Text>
         <Image
           source={require('../../shared/assets/icon.png')}
-          style={styles.avatar}
+          style={styles().avatar}
         />
       </View>
       {/* Top page divider */}
-      <View style={styles.dividerView}>
-        <View style={styles.divider} />
+      <View style={styles().dividerView}>
+        <View style={styles().divider} />
       </View>
       <View>
         { /* replace w/ custom component in future */ }
-        <Button title='History' />
-        <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
-          <View style={styles.inlineRow}>
-            <Text style={styles.textReg}>Categories</Text>
+        <Button
+          title='History'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <TouchableOpacity style={styles().buttons} onPress={() => setModalVisible(true)}>
+          <View style={styles().inlineRow}>
+            <Text style={styles().textReg}>Categories</Text>
             <View>
             <Image source={require('../../shared/assets/transit_enterexit.png')} />
             </View>
@@ -207,18 +214,18 @@ function HistoryHealthEntries({ navigation }) {
         </TouchableOpacity>
       </View>
       {/* Middle Divider */}
-      <View style={styles.dividerView}>
-        <View style={styles.divider} />
+      <View style={styles().dividerView}>
+        <View style={styles().divider} />
       </View>
       <View>
-        <Text>
+        <Text style={styles().bodyText}>
           Did you know? You can also overlay graphs from different categories to
           easily search for correlations between your physical and mental
           health. Click below to get started!
         </Text>
-        <TouchableOpacity style={styles.buttonsCorr} onPress={() => navigation.navigate('HistoryHealthEntries')}>
-          <View style={styles.inlineRow}>
-            <Text style={styles.textCorr}>Search for Correlations</Text>
+        <TouchableOpacity style={styles().buttonsCorr} onPress={() => navigation.navigate('HistoryHealthEntries')}>
+          <View style={styles().inlineRow}>
+            <Text style={styles().textCorr}>Search for Correlations</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -240,10 +247,12 @@ export {
   HistoryCorrelations,
 };
 
-const styles = StyleSheet.create({
+const styles = () => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6EFED',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
   },
   avatar: {
     width: 75,
@@ -255,7 +264,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     width: 80,
     height: 25,
-    backgroundColor: '#4CB97A',
+    backgroundColor: global.colorblindMode
+      ? global.cb_optionButtonsColor
+      : global.optionButtonsColor,
   },
   buttonsCorr: {
     marginTop: 10,
@@ -277,14 +288,18 @@ const styles = StyleSheet.create({
   },
   chooserImg: {
     borderWidth: 1,
-    borderColor: '#4CB97A',
+    borderColor: global.colorblindMode
+      ? global.cb_textInputBorderColor
+      : global.textInputBorderColor,
     width: 40,
     height: 40,
   },
   divider: {
     flex: 1,
     height: 1,
-    backgroundColor: '#816868',
+    backgroundColor: global.colorblindMode
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
     marginLeft: 20,
     marginRight: 20,
   },
@@ -300,7 +315,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   inlineRowBackgrd: {
-    backgroundColor: '#A5DFB2', 
+    backgroundColor:  global.colorblindMode
+      ? global.cb_optionButtonsColor
+      : global.optionButtonsColor, 
     width: 300, 
     height: 30,
     flexDirection: 'row',
@@ -322,4 +339,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 12,
   },
+  bodyText: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+  }
 });
