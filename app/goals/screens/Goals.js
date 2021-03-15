@@ -24,7 +24,7 @@ const Goal = ({ title, description, type }) => {
 const Goals = ({ navigation }) => {
   var time = new Date();
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles().container}>
       {/* <Modal>
         <Text>Add Create New Goals Here</Text>
       </Modal> */}
@@ -109,7 +109,7 @@ const GoalsCompletion = () => {
 
 export { Goals, GoalsCompletion };
 
-const styles = StyleSheet.create({
+const styles = () => StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: global.colorblindMode
