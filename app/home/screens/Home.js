@@ -48,7 +48,7 @@ function HomePage({ navigation }) {
             onPress={() => navigation.navigate('CustomizePlant')}>
             <Icon name='arrow-left' style={{ marginRight: 10 }} />
             <View>
-              <Text style={styles().text}>Customize plant</Text>
+              <Text style={styles().textReg}>Customize plant</Text>
             </View>
           </Pressable>
           <View
