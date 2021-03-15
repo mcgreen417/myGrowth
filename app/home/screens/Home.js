@@ -66,7 +66,7 @@ function HomePage({ navigation }) {
             style={{ flexDirection: 'row', alignItems: 'center' }}
             onPress={() => navigation.navigate('PlantShop')}>
             <View>
-              <Text style={styles().text}>Enter plant shop</Text>
+              <Text style={styles().textReg}>Enter plant shop</Text>
             </View>
             <Icon name='arrow-right' style={{ marginLeft: 10 }} />
           </Pressable>
@@ -157,7 +157,7 @@ function HomePage({ navigation }) {
 
         <View style={{ marginLeft: 130, marginRight: 80, height: 300 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={styles().text}>Write a journal entry</Text>
+            <Text style={styles().textReg}>Write a journal entry</Text>
             <Icon
               name='checkmark-circle-outline'
               type='ionicon'
@@ -175,7 +175,7 @@ function HomePage({ navigation }) {
           </View>
 
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={styles().text}>Create a new goal</Text>
+            <Text style={styles().textReg}>Create a new goal</Text>
           </View>
 
           <View style={styles().dividerViewLow}>
@@ -183,7 +183,7 @@ function HomePage({ navigation }) {
           </View>
 
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={styles().text}>Complete a goal</Text>
+            <Text style={styles().textReg}>Complete a goal</Text>
             <Icon
               name='checkmark-circle-outline'
               type='ionicon'
@@ -201,7 +201,7 @@ function HomePage({ navigation }) {
           </View>
 
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={styles().text}>View your history</Text>
+            <Text style={styles().textReg}>View your history</Text>
           </View>
 
           <View style={styles().dividerViewLow}>
@@ -317,7 +317,7 @@ const styles = () => StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
-  text: {
+  textReg: {
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
