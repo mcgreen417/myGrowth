@@ -22,10 +22,9 @@ function AccountPanel({ navigation }) {
         <View style={styles.avatarView}>
           <Image style={styles.avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
           <Text style={styles.pageDescription}>
-            You can edit your account settings on this page. Please select one of the options below.
+            Select one of the options below to customize your account settings.
           </Text>
         </View>
-
         {/* Top page divider */}
         <View style={styles.dividerView}>
           <View style={styles.divider} />
@@ -37,9 +36,12 @@ function AccountPanel({ navigation }) {
 
         {/* User settings */}
         <View style={styles.inlineRow}>
-          <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('UserSettings')}>
+          <TouchableOpacity 
+            style={styles.buttons} 
+            onPress={() => navigation.navigate('UserSettings')}
+          >
             <View style={styles.inlineRow}>
-              <Text style={styles.textReg}>User Settings</Text>
+              <Text style={styles.text}>User Settings</Text>
               <View style={styles.iconView}>
                 <Icon
                   name='chevron-forward'
@@ -60,28 +62,7 @@ function AccountPanel({ navigation }) {
             onPress={() => navigation.navigate('GenerateReport')}
           >
             <View style={styles.inlineRow}>
-              <Text style={styles.textReg}>Generate Report</Text>
-              <View style={styles.iconView}>
-                <Icon
-                  name='chevron-forward'
-                  type='ionicon'
-                  color='#816868'
-                  style={{ marginRight: -6 }}
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.line} />
-
-        {/* Link account */}
-        <View style={styles.inlineRow}>
-          <TouchableOpacity
-            style={styles.buttons}
-            onPress={() => navigation.navigate('')}
-          >
-            <View style={styles.inlineRow}>
-              <Text style={styles.textReg}>Link Account</Text>
+              <Text style={styles.text}>Generate Report</Text>
               <View style={styles.iconView}>
                 <Icon
                   name='chevron-forward'
@@ -97,9 +78,12 @@ function AccountPanel({ navigation }) {
 
         {/* Report a problem */}
         <View style={styles.inlineRow}>
-          <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('e')}>
+          <TouchableOpacity 
+            style={styles.buttons} 
+            onPress={() => navigation.navigate('')}
+          >
             <View style={styles.inlineRow}>
-              <Text style={styles.textReg}>Report a Problem</Text>
+              <Text style={styles.text}>Report a Problem</Text>
               <View style={styles.iconView}>
                 <Icon
                   name='chevron-forward'
@@ -120,7 +104,7 @@ function AccountPanel({ navigation }) {
             onPress={() => navigation.navigate('')}
           >
             <View style={styles.inlineRow}>
-              <Text style={styles.textReg}>Leave a Review</Text>
+              <Text style={styles.text}>Leave a Review</Text>
               <View style={styles.iconView}>
                 <Icon
                   name='chevron-forward'
@@ -141,7 +125,7 @@ function AccountPanel({ navigation }) {
             onPress={() => navigation.navigate('')}
           >
             <View style={styles.inlineRow}>
-              <Text style={styles.textReg}>About</Text>
+              <Text style={styles.text}>About</Text>
               <View style={styles.iconView}>
                 <Icon
                   name='chevron-forward'
@@ -162,7 +146,7 @@ function AccountPanel({ navigation }) {
             onPress={() => navigation.navigate('')}
           >
             <View style={styles.inlineRow}>
-              <Text style={styles.textReg}>Log out</Text>
+              <Text style={styles.text}>Log out</Text>
               <View style={styles.iconView}>
                 <Icon
                   name='chevron-forward'
@@ -174,8 +158,11 @@ function AccountPanel({ navigation }) {
             </View>
           </TouchableOpacity>
         </View>
-
         <View style={styles.line} />
+
+        {/* Filler image */}
+        <Image style={styles.fillerImage} source={require('../../shared/assets/SettingsPlantShelf.png')} />
+
       </View>
       <NavBar account={true} navigation={navigation} />
     </SafeAreaView>
@@ -222,6 +209,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 20,
   },
+  fillerImage: {
+    width: 420,
+    height: 170,
+    marginLeft: '-6%',
+  },  
   heading: {
     color: '#4CB97A',
     fontSize: 16,
@@ -242,26 +234,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     minHeight: 1,
   },
-  line2: {
-    borderColor: '#816868',
-    borderRightWidth: 1,
-    minHeight: 28,
-    marginTop: 4,
-    marginBottom: 4,
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    marginRight: 20,
-  },
-  textReg: {
-    color: 'black',
-    textDecorationLine: 'none',
-    textAlign: 'left',
+  text: {
+    color: '#816868',
+    fontSize: 16,
   },
   pageDescription: {
     color: '#816868',
-    fontSize: 16,
+    fontSize: 20,
     flex: 1,
     flexWrap: 'wrap',
     fontWeight: 'bold',

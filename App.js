@@ -6,7 +6,6 @@ import './global.js';
 
 import StartPage from './app/login/screens/StartPage';
 import SignUpPage from './app/login/screens/SignUpPage';
-
 import LoginPage from './app/login/screens/LoginPage';
 import ForgotPasswordPage from './app/login/screens/ForgotPasswordPage';
 import PasswordResetVerificationPage from './app/login/screens/PasswordResetVerificationPage';
@@ -24,6 +23,7 @@ import JournalHistory from './app/journal/screens/JournalHistory';
 import ViewJournalEntry from './app/journal/screens/ViewJournalEntry';
 import WordCloudDisplay from './app/journal/screens/WordCloudDisplay';
 import { Goals } from './app/goals/screens/Goals';
+import { GoalComplete } from './app/goals/screens/GoalComplete';
 import { HealthEntry1 } from './app/healthentry/screens/HealthEntry';
 import { ToDoList } from './app/todolist/screens/ToDoList';
 import {
@@ -159,6 +159,11 @@ function App() {
         <Stack.Screen
           name='GoalsPage'
           component={Goals}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='GoalComplete'
+          component={GoalComplete}
           options={{ header: () => null }}
         />
         <Stack.Screen

@@ -50,6 +50,7 @@ function UserInitializationPage3({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.pageSetup}>
+
         {/* Gardener avatar + page blurb */}
         <View style={styles.avatarView}>
           <Image
@@ -235,7 +236,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    width: '90%',
+    width: '90%'
   },
   avatarSelectView: {
     height: '68%',
@@ -271,7 +272,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   heading: {
-    color: '#816868',
+    color: '#4CB97A',
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'left',
@@ -310,6 +311,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     flex: 1,
     flexWrap: 'wrap',
+    fontWeight: 'bold',
   },
   pageEnd: {
     marginBottom: 10,

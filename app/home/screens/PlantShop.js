@@ -45,121 +45,123 @@ function PlantShop({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View style={styles.pageSetup}>
-          {/* Gardener avatar + page blurb */}
-          <View style={styles.avatarView}>
-            <Text style={styles.pageDescription}>
-              Purchase plant accessories using stars earned from completing
-              goals!
-            </Text>
-            <Image
-              style={styles.avatar}
-              source={require('../../shared/assets/gardener-avatar.png')}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Gardener avatar + page blurb */}
+        <View style={styles.avatarView}>
+          <Text style={styles.pageDescription}>
+            Purchase accessories for your plant using stars earned from
+            completing goals!
+          </Text>
+          <Image
+            style={styles.avatar}
+            source={require('../../shared/assets/gardener-avatar.png')}
+          />
+        </View>
+
+        {/* Plant section */}
+        <View style={styles.plantSection}>
+          <View style={styles.plantImage}>
+            <Image source={plant} style={styles.plant} />
+          </View>
+        </View>
+
+        {/* Plant buttons */}
+        <View style={styles.plantButtons}>
+          <Pressable
+            style={styles.inlineRow}
+            onPress={() => navigation.navigate('HomePage')}>
+            <Icon name='arrow-left' color='#816868' />
+            <View>
+              <Text style={styles.plantLinks}>Return to Home</Text>
+            </View>
+          </Pressable>
+          <View style={styles.line2} />
+          <Pressable
+            style={styles.inlineRow}
+            onPress={() => navigation.navigate('CustomizePlant')}>
+            <View>
+              <Text style={styles.plantLinks}>Customize Plant</Text>
+            </View>
+            <Icon name='arrow-right' color='#816868' />
+          </Pressable>
+        </View>
+
+        <View style={styles.dividerView}>
+          <View style={styles.divider}></View>
+        </View>
+
+        {/* Plant selection */}
+        <View style={styles.plantSelectView}>
+          {plantItem.map((item) => (
+            <View style={styles.plantItemSelect}>
+              <Pressable
+                style={({ pressed }) => [
+                  {
+                    backgroundColor: pressed ? 'gray' : '#E5E5E5',
+                  },
+                  styles.plantItemPress,
+                ]}
+                onPress={() => setPlant(item)}>
+                <Image key={item} source={item} style={styles.plantItem} />
+              </Pressable>
+              <View style={styles.inlineRow2}>
+                <Text style={styles.text}>900</Text>
+                <Icon
+                  name='star'
+                  type='MaterialCommunityIcons'
+                  color='#816868'
+                />
+              </View>
+            </View>
+          ))}
+        </View>
+
+        <View style={styles.dividerViewLow}>
+          <View style={styles.divider}></View>
+        </View>
+
+        {/* Clear Changes & Purchase All Shown buttons */}
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: 10,
+            marginBottom: 16,
+            justifyContent: 'center',
+          }}>
+          <View style={{ width: '42.5%' }}>
+            <Button
+              title='Clear Changes'
+              color='#A5DFB2'
+              onPress={() => onPress()}
             />
           </View>
-
-          {/* Plant section */}
-          <View style={styles.plantSection}>
-            <View style={styles.plantImage}>
-              <Image source={plant} style={styles.plant} />
-            </View>
+          <View style={{ width: '5%' }} />
+          <View style={{ width: '42.5%' }}>
+            <Button
+              title='Purchase Shown'
+              color='#A5DFB2'
+              onPress={() => onPress()}
+            />
           </View>
-
-          {/* Plant buttons */}
-          <View style={styles.plantButtons}>
-            <Pressable
-              style={styles.inlineRow}
-              onPress={() => navigation.navigate('HomePage')}>
-              <Icon name='arrow-left' color='#816868' />
-              <View>
-                <Text style={styles.plantLinks}>Return to Home</Text>
-              </View>
-            </Pressable>
-            <View style={styles.line2} />
-            <Pressable
-              style={styles.inlineRow}
-              onPress={() => navigation.navigate('CustomizePlant')}>
-              <View>
-                <Text style={styles.plantLinks}>Customize Plant</Text>
-              </View>
-              <Icon name='arrow-right' color='#816868' />
-            </Pressable>
-          </View>
-
-          <View style={styles.dividerView}>
-            <View style={styles.divider}></View>
-          </View>
-
-          {/* Plant selection */}
-          <View style={styles.plantSelectView}>
-            {plantItem.map((item, index) => (
-              <View style={styles.plantItemSelect} key={index}>
-                <Pressable
-                  style={({ pressed }) => [
-                    {
-                      backgroundColor: pressed ? 'gray' : '#E5E5E5',
-                    },
-                    styles.plantItemPress,
-                  ]}
-                  onPress={() => setPlant(item)}>
-                  <Image key={item} source={item} style={styles.plantItem} />
-                </Pressable>
-                <View style={styles.inlineRow2}>
-                  <Text style={styles.text}>900</Text>
-                  <Icon
-                    name='star'
-                    type='MaterialCommunityIcons'
-                    color='#816868'
-                  />
-                </View>
-              </View>
-            ))}
-          </View>
-
-          <View style={styles.dividerViewLow}>
-            <View style={styles.divider}></View>
-          </View>
-
-          {/* Clear changes & purchase all shown buttons */}
-          <View
-            style={{ flexDirection: 'row', marginTop: 10, marginBottom: 16 }}>
-            <View style={{ width: '42.5%' }}>
-              <Button
-                title='Clear Changes'
-                color='#A5DFB2'
-                onPress={() => onPress()}
-              />
-            </View>
-            <View style={{ width: '5%' }} />
-            <View style={{ width: '42.5%' }}>
-              <Button
-                title='Purchase Shown'
-                color='#A5DFB2'
-                onPress={() => onPress()}
-              />
-            </View>
-          </View>
-
-          {/* Goals redirect */}
-          <View style={{ width: '90%' }}>
-            <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
-              <Icon
-                name='information-circle-outline'
-                type='ionicon'
-                color='#816868'
-              />
-              <Text style={styles.text}> Want more stars? </Text>
-              <Pressable>
-                <Text style={styles.plantLinks}>Complete a new goal.</Text>
-              </Pressable>
-            </View>
-          </View>
-
-          <View style={styles.pageEnd} />
         </View>
-      </ScrollView>
 
+        {/* Goals redirect */}
+        <View style={{ marginRight: '5%', justifyContent: 'center' }}>
+          <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
+            <Icon
+              name='information-circle-outline'
+              type='ionicon'
+              color='#816868'
+            />
+            <Text style={styles.text}> Want more stars? </Text>
+            <Pressable>
+              <Text style={styles.plantLinks}>Complete a new goal.</Text>
+            </Pressable>
+          </View>
+        </View>
+
+        <View style={styles.pageEnd} />
+      </ScrollView>
       <NavBar navigation={navigation} />
     </SafeAreaView>
   );
@@ -171,6 +173,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F6EFED',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   avatar: {
     width: 75,
@@ -179,37 +183,18 @@ const styles = StyleSheet.create({
   avatarView: {
     flexDirection: 'row',
     marginTop: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignSelf: 'center',
     width: '90%',
   },
   avatarSelectView: {
     height: '68%',
     marginBottom: 20,
   },
-  buttons: {
-    marginTop: 10,
-    marginBottom: 10,
-    width: 100,
-    height: 50,
-  },
   divider: {
     flex: 1,
     height: 1,
     backgroundColor: '#816868',
     marginLeft: 20,
-    marginRight: 20,
-  },
-  dividerLeft: {
-    flex: 1,
-    height: 1,
-    backgroundColor: '#816868',
-    marginLeft: 20,
-  },
-  dividerRight: {
-    flex: 1,
-    height: 1,
-    backgroundColor: '#816868',
     marginRight: 20,
   },
   dividerView: {
@@ -251,11 +236,6 @@ const styles = StyleSheet.create({
   pageEnd: {
     marginBottom: 100,
   },
-  pageSetup: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100%',
-  },
   plant: {
     width: '60%',
     height: '90%',
@@ -270,10 +250,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,
-    width: '90%',
   },
   plantImage: {
-    width: '100%',
+    width: '90%',
     height: 260,
     overflow: 'hidden',
     backgroundColor: '#E5E5E5',

@@ -23,50 +23,51 @@ const Journal = ({ navigation }) => {
         <View style={styles.avatarView}>
           <Text style={styles.pageDescription}>
             Let's get to writing! Put your feelings on paper and let the stress
-            melt away
+            melt away!
           </Text>
           <Image
             style={styles.avatar}
             source={require('../../shared/assets/gardener-avatar.png')}
           />
         </View>
-
-        <View>
-          <Image
-            source={require('../../shared/assets/icon.png')}
-            style={styles.avatar}
-          />
+        {/* Top page divider */}
+        <View style={styles.dividerView}>
+          <View style={styles.divider} />
         </View>
 
-        {/* Clear changes & purchase all shown buttons */}
-        <View style={{ flexDirection: 'row', marginTop: 10, marginBottom: 16 }}>
+        <Image
+          style={styles.fillerImage}
+          source={require('../../shared/assets/Journal.png')}
+        />
+
+        {/* Write new entry + view past entries buttons */}
+        <View style={{ flexDirection: 'row', marginTop: 30 }}>
           <View style={{ width: '42.5%' }}>
             <Button
-              title='Write new entry'
+              title='Write New Entry'
               color='#A5DFB2'
-              onPress={() => navigation.navigate('CreateNewJournalEntry')}
+              onPress={() => onPress()}
             />
           </View>
           <View style={{ width: '5%' }} />
           <View style={{ width: '42.5%' }}>
             <Button
-              title='View past entries'
+              title='View Past Entries'
               color='#A5DFB2'
-              onPress={() => navigation.navigate('JournalHistory')}
+              onPress={() => onPress()}
             />
           </View>
         </View>
+
+        {/* Page divider */}
         <View style={styles.dividerView}>
-          <View style={styles.divider}></View>
+          <View style={styles.divider} />
         </View>
-        <View
-          style={{
-            margin: 28,
-            alignContent: 'center',
-            justifyContent: 'center',
-          }}>
-          <Text style={{ textAlign: 'center', fontSize: 16 }}>
-            Or search through past hournal entries by entering a specific world
+
+        {/* Word search bar */}
+        <View style={{ width: '90%' }}>
+          <Text style={styles.text}>
+            Or search through past journal entries by entering a specific world
             or phrase...
           </Text>
           <View
@@ -96,7 +97,6 @@ const Journal = ({ navigation }) => {
           </View>
         </View>
       </View>
-      <View style={styles.pageEnd} />
       <NavBar journal={true} navigation={navigation} />
     </SafeAreaView>
   );
@@ -120,15 +120,49 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '90%',
   },
-  avatarSelectView: {
-    height: '68%',
+  buttons: {
+    marginTop: 7,
+    marginBottom: 7,
+    width: '110%',
+  },
+  divider: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#816868',
+    marginLeft: 20,
+    marginRight: 20,
+  },
+  dividerView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20,
     marginBottom: 20,
   },
-  buttons: {
-    marginTop: 10,
-    marginBottom: 10,
-    width: 100,
-    height: 50,
+  fillerImage: {
+    width: 340,
+    height: 240,
+    marginTop: -20,
+  },
+  text: {
+    color: '#816868',
+    fontSize: 16,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  pageDescription: {
+    color: '#816868',
+    fontSize: 20,
+    flex: 1,
+    flexWrap: 'wrap',
+    fontWeight: 'bold',
+    marginRight: 50,
+  },
+  pageEnd: {
+    marginBottom: 100,
+  },
+  pageSetup: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   divider: {
     flex: 1,

@@ -183,7 +183,7 @@ const styles = () =>
       color: '#A5DFB2',
       textDecorationLine: 'underline',
     },
-    textReg: {
+    text: {
       color: '#816868',
     },
     textSubtitle: {

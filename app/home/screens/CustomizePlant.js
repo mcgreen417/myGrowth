@@ -6,7 +6,6 @@ import {
   SafeAreaView,
   Image,
   Button,
-  FlatList,
   Pressable,
 } from 'react-native';
 
@@ -45,96 +44,99 @@ function PlantShop({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View style={styles.pageSetup}>
-          {/* Gardener avatar + page blurb */}
-          <View style={styles.avatarView}>
-            <Text style={styles.pageDescription}>
-              Select an item from your inventory to change your plant's
-              appearance!
-            </Text>
-            <Image
-              style={styles.avatar}
-              source={require('../../shared/assets/gardener-avatar.png')}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Gardener avatar + page blurb */}
+        <View style={styles.avatarView}>
+          <Text style={styles.pageDescription}>
+            Select an item from your inventory to change your plant's
+            appearance!
+          </Text>
+          <Image
+            style={styles.avatar}
+            source={require('../../shared/assets/gardener-avatar.png')}
+          />
+        </View>
+
+        {/* Plant section */}
+        <View style={styles.plantSection}>
+          <View style={styles.plantImage}>
+            <Image source={plant} style={styles.plant} />
+          </View>
+        </View>
+
+        {/* Plant buttons */}
+        <View style={styles.plantButtons}>
+          <Pressable
+            style={styles.inlineRow}
+            onPress={() => navigation.navigate('HomePage')}>
+            <Icon name='arrow-left' color='#816868' />
+            <View>
+              <Text style={styles.plantLinks}>Return to Home</Text>
+            </View>
+          </Pressable>
+          <View style={styles.line2} />
+          <Pressable
+            style={styles.inlineRow}
+            onPress={() => navigation.navigate('PlantShop')}>
+            <View>
+              <Text style={styles.plantLinks}>Enter Plant Shop</Text>
+            </View>
+            <Icon name='arrow-right' color='#816868' />
+          </Pressable>
+        </View>
+
+        <View style={styles.dividerView}>
+          <View style={styles.divider}></View>
+        </View>
+
+        {/* Plant selection */}
+        <View style={styles.plantSelectView}>
+          {plantItem.map((item) => (
+            <View style={styles.plantItemSelect}>
+              <Pressable
+                style={({ pressed }) => [
+                  {
+                    backgroundColor: pressed ? 'gray' : '#E5E5E5',
+                  },
+                  styles.plantItemPress,
+                ]}
+                onPress={() => setPlant(item)}>
+                <Image key={item} source={item} style={styles.plantItem} />
+              </Pressable>
+            </View>
+          ))}
+        </View>
+
+        <View style={styles.dividerViewLow}>
+          <View style={styles.divider}></View>
+        </View>
+
+        {/* Clear changes & purchase all shown buttons */}
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: 10,
+            marginBottom: 16,
+            alignSelf: 'center',
+          }}>
+          <View style={{ width: '42.5%' }}>
+            <Button
+              title='Clear Changes'
+              color='#A5DFB2'
+              onPress={() => onPress()}
             />
           </View>
-
-          {/* Plant section */}
-          <View style={styles.plantSection}>
-            <View style={styles.plantImage}>
-              <Image source={plant} style={styles.plant} />
-            </View>
+          <View style={{ width: '5%' }} />
+          <View style={{ width: '42.5%' }}>
+            <Button
+              title='Confirm Changes'
+              color='#A5DFB2'
+              onPress={() => onPress()}
+            />
           </View>
-
-          {/* Plant buttons */}
-          <View style={styles.plantButtons}>
-            <Pressable
-              style={styles.inlineRow}
-              onPress={() => navigation.navigate('HomePage')}>
-              <Icon name='arrow-left' color='#816868' />
-              <View>
-                <Text style={styles.plantLinks}>Return to Home</Text>
-              </View>
-            </Pressable>
-            <View style={styles.line2} />
-            <Pressable
-              style={styles.inlineRow}
-              onPress={() => navigation.navigate('PlantShop')}>
-              <View>
-                <Text style={styles.plantLinks}>Enter Plant Shop</Text>
-              </View>
-              <Icon name='arrow-right' color='#816868' />
-            </Pressable>
-          </View>
-
-          <View style={styles.dividerView}>
-            <View style={styles.divider}></View>
-          </View>
-
-          {/* Plant selection */}
-          <View style={styles.plantSelectView}>
-            {plantItem.map((item, index) => (
-              <View style={styles.plantItemSelect} key={index}>
-                <Pressable
-                  style={({ pressed }) => [
-                    {
-                      backgroundColor: pressed ? 'gray' : '#E5E5E5',
-                    },
-                    styles.plantItemPress,
-                  ]}
-                  onPress={() => setPlant(item)}>
-                  <Image key={item} source={item} style={styles.plantItem} />
-                </Pressable>
-              </View>
-            ))}
-          </View>
-
-          <View style={styles.dividerViewLow}>
-            <View style={styles.divider}></View>
-          </View>
-
-          {/* Clear changes & purchase all shown buttons */}
-          <View
-            style={{ flexDirection: 'row', marginTop: 10, marginBottom: 16 }}>
-            <View style={{ width: '42.5%' }}>
-              <Button
-                title='Clear Changes'
-                color='#A5DFB2'
-                onPress={() => onPress()}
-              />
-            </View>
-            <View style={{ width: '5%' }} />
-            <View style={{ width: '42.5%' }}>
-              <Button
-                title='Confirm Changes'
-                color='#A5DFB2'
-                onPress={() => onPress()}
-              />
-            </View>
-          </View>
-
-          <View style={styles.pageEnd} />
         </View>
+
+        <View style={styles.pageEnd} />
       </ScrollView>
 
       <NavBar navigation={navigation} />
@@ -156,37 +158,14 @@ const styles = StyleSheet.create({
   avatarView: {
     flexDirection: 'row',
     marginTop: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
     width: '90%',
-  },
-  avatarSelectView: {
-    height: '68%',
-    marginBottom: 20,
-  },
-  buttons: {
-    marginTop: 10,
-    marginBottom: 10,
-    width: 100,
-    height: 50,
+    alignSelf: 'center',
   },
   divider: {
     flex: 1,
     height: 1,
     backgroundColor: '#816868',
     marginLeft: 20,
-    marginRight: 20,
-  },
-  dividerLeft: {
-    flex: 1,
-    height: 1,
-    backgroundColor: '#816868',
-    marginLeft: 20,
-  },
-  dividerRight: {
-    flex: 1,
-    height: 1,
-    backgroundColor: '#816868',
     marginRight: 20,
   },
   dividerView: {
@@ -204,11 +183,6 @@ const styles = StyleSheet.create({
   inlineRow: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  inlineRow2: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
   },
   line2: {
     backgroundColor: '#816868',
@@ -228,11 +202,6 @@ const styles = StyleSheet.create({
   pageEnd: {
     marginBottom: 100,
   },
-  pageSetup: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100%',
-  },
   plant: {
     width: '60%',
     height: '90%',
@@ -248,6 +217,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
     width: '90%',
+    alignSelf: 'center',
   },
   plantImage: {
     width: '100%',
@@ -293,9 +263,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     flexGrow: 5,
-  },
-  text: {
-    fontSize: 16,
-    color: '#816868',
   },
 });

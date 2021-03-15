@@ -334,6 +334,7 @@ const styles = () =>
       fontSize: 16,
       flex: 1,
       flexWrap: 'wrap',
+      fontWeight: 'bold',
     },
     pageEnd: {
       marginBottom: 10,

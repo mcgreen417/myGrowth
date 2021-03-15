@@ -79,7 +79,7 @@ function LoginPage({ navigation }) {
 
         {/* Login/signup page switch + forgot password button */}
         <View style={{ flexDirection: 'row' }}>
-          <Text style={styles().textReg}>Don't have an account? </Text>
+          <Text style={styles().text}>Don't have an account? </Text>
           <TouchableOpacity onPress={() => navigation.navigate('SignUpPage')}>
             <Text style={styles().textLink}>Sign up here.</Text>
           </TouchableOpacity>
@@ -94,14 +94,14 @@ function LoginPage({ navigation }) {
         {/* TOS + privacy policy agreement */}
         <View style={{ marginVertical: 8 }} />
         <View>
-          <Text style={styles().textReg}>
+          <Text style={styles().text}>
             By continuing, you're accepting our{' '}
           </Text>
           <View style={{ flexDirection: 'row' }}>
             <TouchableOpacity>
               <Text style={styles().textLink}>Terms of Service</Text>
             </TouchableOpacity>
-            <Text style={styles().textReg}> and </Text>
+            <Text style={styles().text}> and </Text>
             <TouchableOpacity>
               <Text style={styles().textLink}>Privacy Policy.</Text>
             </TouchableOpacity>
@@ -205,7 +205,7 @@ const styles = () =>
         : global.hyperlinkedTextColor,
       textDecorationLine: 'underline',
     },
-    textReg: {
+    text: {
       color: global.colorblindMode ? global.cb_textColor : global.textColor,
     },
     textSubtitle: {
