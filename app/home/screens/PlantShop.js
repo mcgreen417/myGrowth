@@ -44,27 +44,27 @@ function PlantShop({ navigation }) {
   const [plantItem, setPlantItem] = useState(plantItemList);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles().container}>
       <ScrollView>
-        <View style={styles.avatarView}>
-          <Text style={styles.pageDescription}>
+        <View style={styles().avatarView}>
+          <Text style={styles().pageDescription}>
             Select an item and check how it looks!
           </Text>
           <Image
-            style={styles.avatar}
+            style={styles().avatar}
             source={require('../../shared/assets/gardener-avatar.png')}
           />
         </View>
 
         {/* Plant Section */}
-        <View style={styles.plantSection}>
-          <View style={styles.plantImage}>
-            <Image source={plant} style={styles.plant} />
+        <View style={styles().plantSection}>
+          <View style={styles().plantImage}>
+            <Image source={plant} style={styles().plant} />
           </View>
         </View>
 
-        <View style={styles.dividerView}>
-          <View style={styles.divider}></View>
+        <View style={styles().dividerView}>
+          <View style={styles().divider}></View>
         </View>
 
         {/* Plant Selection */}
@@ -77,16 +77,16 @@ function PlantShop({ navigation }) {
             flexGrow: 5,
           }}>
           {plantItem.map((item) => (
-            <View style={({ flex: 1 }, styles.plantItemSelect)}>
+            <View style={({ flex: 1 }, styles().plantItemSelect)}>
               <Pressable
                 style={({ pressed }) => [
                   {
                     backgroundColor: pressed ? 'gray' : '#E5E5E5',
                   },
-                  styles.plantItemPress,
+                  styles().plantItemPress,
                 ]}
                 onPress={() => setPlant(item)}>
-                <Image key={item} source={item} style={styles.plantItem} />
+                <Image key={item} source={item} style={styles().plantItem} />
               </Pressable>
               <View
                 style={{
@@ -94,15 +94,15 @@ function PlantShop({ navigation }) {
                   alignItems: 'center',
                   justifyContent: 'flex-end',
                 }}>
-                <Text>900</Text>
-                <Icon name='star-outline' type='ionicon' color='#938E8D' />
+                <Text style={styles().textReg}>900</Text>
+                <Icon name='star-outline' type='ionicon' color='black' />
               </View>
             </View>
           ))}
         </View>
 
-        <View style={styles.dividerViewLow}>
-          <View style={styles.divider}></View>
+        <View style={styles().dividerViewLow}>
+          <View style={styles().divider}></View>
         </View>
 
         <View
@@ -123,11 +123,18 @@ function PlantShop({ navigation }) {
                 },
                 shadowOpacity: 0.23,
                 shadowRadius: 2.62,
-
                 elevation: 4,
               }}>
               <View>
-                <Text style={{ fontSize: 16, fontWeight: 'bold', margin: 20 }}>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                    margin: 20,
+                    color: global.colorblindMode
+                      ? global.cb_textColor
+                      : global.textColor,
+                  }}>
                   Clear changes
                 </Text>
               </View>
@@ -146,11 +153,18 @@ function PlantShop({ navigation }) {
                 },
                 shadowOpacity: 0.23,
                 shadowRadius: 2.62,
-
                 elevation: 4,
               }}>
               <View>
-                <Text style={{ fontSize: 16, fontWeight: 'bold', margin: 20 }}>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                    margin: 20,
+                    color: global.colorblindMode
+                      ? global.cb_textColor
+                      : global.textColor,
+                  }}>
                   Purchase all shown
                 </Text>
               </View>
@@ -166,11 +180,17 @@ function PlantShop({ navigation }) {
           <Icon
             name='information-circle-outline'
             type='ionicon'
-            color='#938E8D'
+            color='black'
           />
-          <Text>Want more options? </Text>
+          <Text style={styles().textReg}>Want more options? </Text>
           <Pressable>
-            <Text style={{ textDecorationLine: 'underline' }}>
+            <Text
+              style={{
+                color: global.colorblindMode
+                ? global.cb_hyperlinkedTextColor
+                : global.hyperlinkedTextColor,
+                textDecorationLine: 'underline' 
+             }}>
               Create a new goal
             </Text>
           </Pressable>
@@ -185,10 +205,12 @@ function PlantShop({ navigation }) {
 
 export default PlantShop;
 
-const styles = StyleSheet.create({
+const styles = () => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6EFED',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
   },
   avatar: {
     width: 75,
@@ -214,7 +236,9 @@ const styles = StyleSheet.create({
     height: 50,
   },
   pageDescription: {
-    color: '#000',
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
     fontSize: 25,
     fontWeight: 'bold',
     marginLeft: 30,
@@ -247,21 +271,27 @@ const styles = StyleSheet.create({
   dividerLeft: {
     flex: 1,
     height: 1,
-    backgroundColor: '#816868',
+    backgroundColor: global.colorblindMode
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
     marginLeft: 20,
     marginRight: 0,
   },
   dividerRight: {
     flex: 1,
     height: 1,
-    backgroundColor: '#816868',
+    backgroundColor: global.colorblindMode
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
     marginLeft: 0,
     marginRight: 20,
   },
   divider: {
     flex: 1,
     height: 1,
-    backgroundColor: '#816868',
+    backgroundColor: global.colorblindMode
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
     marginLeft: 30,
     marginRight: 30,
   },
@@ -287,8 +317,13 @@ const styles = StyleSheet.create({
       height: 2,
     },
     shadowOpacity: 0.23,
-    shadowRadius: 2.62,
-
+    shadowRadius: 2.62, 
     elevation: 4,
+  },
+  textReg: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+    textAlign: 'left',
   },
 });
