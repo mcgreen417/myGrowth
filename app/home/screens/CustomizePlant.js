@@ -41,27 +41,27 @@ function CustomizePlant({ navigation }) {
   const [plantItem, setPlantItem] = useState(plantItemList);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles().container}>
       {/* Avatar Section */}
-      <View style={styles.avatarView}>
-        <Text style={styles.pageDescription}>
-          Select and item to change your plant's appearance!
+      <View style={styles().avatarView}>
+        <Text style={styles().pageDescription}>
+          Select an item to change your plant's appearance!
         </Text>
         <Image
-          style={styles.avatar}
+          style={styles().avatar}
           source={require('../../shared/assets/gardener-avatar.png')}
         />
       </View>
 
       {/* Plant Section */}
-      <View style={styles.plantSection}>
-        <View style={styles.plantImage}>
-          <Image source={plant} style={styles.plant} />
+      <View style={styles().plantSection}>
+        <View style={styles().plantImage}>
+          <Image source={plant} style={styles().plant} />
         </View>
       </View>
 
-      <View style={styles.dividerViewLow}>
-        <View style={styles.divider}></View>
+      <View style={styles().dividerViewLow}>
+        <View style={styles().divider}></View>
       </View>
 
       {/* Plant Selection */}
@@ -70,16 +70,16 @@ function CustomizePlant({ navigation }) {
           horizontal
           data={plantItem}
           renderItem={({ item, index }) => (
-            <View style={styles.plantItemSelect}>
+            <View style={styles().plantItemSelect}>
               <Pressable
                 style={({ pressed }) => [
                   {
                     backgroundColor: pressed ? 'gray' : '#E5E5E5',
                   },
-                  styles.plantItemPress,
+                  styles().plantItemPress,
                 ]}
                 onPress={() => setPlant(item)}>
-                <Image source={item} style={styles.plantItem} />
+                <Image source={item} style={styles().plantItem} />
               </Pressable>
             </View>
           )}
@@ -87,8 +87,8 @@ function CustomizePlant({ navigation }) {
         />
       </View>
 
-      <View style={styles.dividerViewLow}>
-        <View style={styles.divider}></View>
+      <View style={styles().dividerViewLow}>
+        <View style={styles().divider}></View>
       </View>
 
       <View
@@ -159,10 +159,12 @@ function CustomizePlant({ navigation }) {
 
 export default CustomizePlant;
 
-const styles = StyleSheet.create({
+const styles = () => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6EFED',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
   },
   avatar: {
     width: 75,
@@ -188,7 +190,9 @@ const styles = StyleSheet.create({
     height: 50,
   },
   pageDescription: {
-    color: '#000',
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
     fontSize: 25,
     fontWeight: 'bold',
     marginLeft: 30,
@@ -221,22 +225,27 @@ const styles = StyleSheet.create({
   dividerLeft: {
     flex: 1,
     height: 1,
-    backgroundColor: '#816868',
+    backgroundColor: global.colorblindMode
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
     marginLeft: 20,
     marginRight: 0,
   },
   dividerRight: {
     flex: 1,
     height: 1,
-    backgroundColor: '#816868',
+    backgroundColor: global.colorblindMode
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
     marginLeft: 0,
     marginRight: 20,
   },
   divider: {
     flex: 1,
     height: 1,
-    backgroundColor: '#816868',
-    // marginLeft: 130,
+    backgroundColor: global.colorblindMode
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
     marginRight: 0,
   },
   dividerView: {
