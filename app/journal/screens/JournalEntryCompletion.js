@@ -15,10 +15,16 @@ const JournalEntryCompletion = () => {
   return (
     <SafeAreaView>
       <View>
-        <Image source={require('../../shared/assets/icon.png')} />
+        <Image
+          style={styles.avatar}
+          source={require('../../shared/assets/icon.png')}
+        />
       </View>
       <View>
-        <Image source={require('../../shared/assets/icon.png')} />
+        <Image
+          style={styles.avatar}
+          source={require('../../shared/assets/icon.png')}
+        />
         <Text>You have completed a journal entry!</Text>
       </View>
       <View>

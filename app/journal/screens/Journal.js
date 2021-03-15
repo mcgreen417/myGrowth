@@ -22,8 +22,8 @@ const Journal = ({ navigation }) => {
         {/* Gardener avatar + page blurb */}
         <View style={styles.avatarView}>
           <Text style={styles.pageDescription}>
-            Select an item from your inventory to change your plant's
-            appearance!
+            Let's get to writing! Put your feelings on paper and let the stress
+            melt away
           </Text>
           <Image
             style={styles.avatar}

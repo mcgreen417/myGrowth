@@ -29,7 +29,9 @@ const CreateNewJournalEntry = ({ navigation }) => {
           type='ionicon'
           onPress={() => navigation.navigate('Journal')}
         />
-        <Text>Save</Text>
+        <Text onPress={() => navigation.navigate('JournalEntryCompletion')}>
+          Save
+        </Text>
         <Icon name='event' type='material' />
         <Icon name='schedule' type='material' />
         <Icon name='format-bold' type='material' />

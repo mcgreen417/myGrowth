@@ -14,24 +14,27 @@ import NavBar from '../../shared/components/NavBar';
 const JournalHistory = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <Text>
-          Select ajournal entry to view below. Change the month by using the
-          arrows.
-        </Text>
-        <Image
-          style={styles.avatar}
-          source={require('../../shared/assets/icon.png')}
-        />
-      </View>
-      <View>
-        <Button title='Date' />
-        <Button title='<' />
-        <Button title='>' />
-      </View>
-      <View>
-        <Button title='Entry 1' />
-        <Button title='Entry 2' />
+      <View style={styles.pageSetup}>
+        {/* Gardener avatar + page blurb */}
+        <View style={styles.avatarView}>
+          <Text style={styles.pageDescription}>
+            Select a journal entry to view below. Change the month by using the
+            arrows.
+          </Text>
+          <Image
+            style={styles.avatar}
+            source={require('../../shared/assets/gardener-avatar.png')}
+          />
+        </View>
+        <View>
+          <Button title='Date' />
+          <Button title='<' />
+          <Button title='>' />
+        </View>
+        <View>
+          <Button title='Entry 1' />
+          <Button title='Entry 2' />
+        </View>
       </View>
       <NavBar navigation={navigation} journal={true} />
     </SafeAreaView>
