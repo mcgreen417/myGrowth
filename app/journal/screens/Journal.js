@@ -16,30 +16,44 @@ const InputSearchBar = () => {
 
 const Journal = ({ navigation }) => {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles().container}>
       <View>
-        <Text>
+        <Text style={styles().textReg}>
           Let's get to writing! Put your feelings on paper and let the stress
           melt away.
         </Text>
         <Image
           source={require('../../shared/assets/icon.png')}
-          style={styles.avatar}
+          style={styles().avatar}
         />
       </View>
       <View>
         <Image
           source={require('../../shared/assets/icon.png')}
-          style={styles.avatar}
+          style={styles().avatar}
         />
       </View>
       <View>
-        <Button title='Write new entry' />
-        <Button title='View past entries' />
+        <Button
+          title='Write new entry'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }      
+        />
+        <Button
+          title='View past entries'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
       </View>
       <View>
-        <Text>
-          Or search through past hournal entries by entering a specific world or
+        <Text style={styles().textReg}>
+          Or search through past journal entries by entering a specific word or
           phrase...
         </Text>
         <InputSearchBar />
@@ -53,15 +67,78 @@ const CreateNewJournalEntry = () => {
   return (
     <SafeAreaView>
       <View>
-        <Button title='<-' />
-        <Button title='Save' />
-        <Button title='Calendar' />
-        <Button title='Clock' />
-        <Button title='Bold' />
-        <Button title='Italic' />
-        <Button title='Underline' />
-        <Button title='Number List' />
-        <Button title='Bullet List' />
+        <Button
+          title='<-'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Button
+          title='Save'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Button
+          title='Calendar'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Button
+          title='Clock'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Button
+          title='Bold'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Button
+          title='Italic'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Button
+          title='Underline'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Button
+          title='Number List'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Button
+          title='Bullet List'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
       </View>
       <View>
         <TextInput />
@@ -78,11 +155,25 @@ const JournalEntryCompletion = () => {
       </View>
       <View>
         <Image source={require('../../shared/assets/icon.png')} />
-        <Text>You have completed a journal entry!</Text>
+        <Text style={styles().textReg}>You have completed a journal entry!</Text>
       </View>
       <View>
-        <Button title='View Entry' />
-        <Button title='Return to Home' />
+        <Button
+          title='View Entry'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Button
+          title='Return to Home'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
       </View>
     </SafeAreaView>
   );
@@ -92,20 +183,55 @@ const JournalHistory = () => {
   return (
     <SafeAreaView>
       <View>
-        <Text>
+        <Text style={styles().textReg}>
           Select ajournal entry to view below. Change the month by using the
           arrows.
         </Text>
         <Image source={require('../../shared/assets/icon.png')} />
       </View>
       <View>
-        <Button title='Date' />
-        <Button title='<' />
-        <Button title='>' />
+        <Button
+          title='Date'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Button
+          title='<'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Button 
+          title='>'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
       </View>
       <View>
-        <Button title='Entry 1' />
-        <Button title='Entry 2' />
+        <Button
+          title='Entry 1'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Button
+          title='Entry 2'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
       </View>
     </SafeAreaView>
   );
@@ -115,22 +241,64 @@ const ViewJournalEntry = () => {
   return (
     <SafeAreaView>
       <View>
-        <Button title='<-' />
-        <Button title='Word Cloud View' />
+        <Button
+          title='<-'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Button
+          title='Word Cloud View'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
       </View>
       <View>
-        <Button title='<' />
-        <Text>Date</Text>
-        <Button title='>' />
+        <Button
+          title='<'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Text style={styles().textReg}>Date</Text>
+        <Button
+          title='>'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }  
+        />
       </View>
       <View>
-        <Text>Entry Created</Text>
-        <Text>Last Edited</Text>
-        <Text>Journal entry</Text>
+        <Text style={styles().textReg}>Entry Created</Text>
+        <Text style={styles().textReg}>Last Edited</Text>
+        <Text style={styles().textReg}>Journal entry</Text>
       </View>
       <View>
-        <Button title='Edit Entry' />
-        <Button title='Delete Entry' />
+        <Button
+          title='Edit Entry'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Button
+          title='Delete Entry'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
       </View>
     </SafeAreaView>
   );
@@ -140,13 +308,41 @@ const WordCloudDisplay = () => {
   return (
     <SafeAreaView>
       <View>
-        <Button title='<-' />
-        <Button title='Journal Entry View' />
+        <Button
+          title='<-'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Button
+          title='Journal Entry View'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
       </View>
       <View>
-        <Button title='<' />
-        <Text>Date</Text>
-        <Button title='>' />
+        <Button
+          title='<'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Text style={styles().textReg}>Date</Text>
+        <Button
+          title='>'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
       </View>
       <View>
         <Image source={require('../../shared/assets/icon.png')} />
@@ -164,10 +360,12 @@ export {
   WordCloudDisplay,
 };
 
-const styles = StyleSheet.create({
+const styles = () => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6EFED',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
   },
   avatar: {
     width: 75,
@@ -180,4 +378,10 @@ const styles = StyleSheet.create({
     width: 100,
     height: 50,
   },
+  textReg: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+    fontSize: 16
+  }
 });
