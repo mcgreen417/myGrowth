@@ -34,7 +34,7 @@ const JournalEntryCompletion = ({ navigation }) => {
           <Button
             title='View Entry'
             color='#A5DFB2'
-            onPress={() => navigation.navigate('CreateNewJournalEntry')}
+            onPress={() => navigation.navigate('ViewJournalEntry')}
           />
         </View>
         <View style={{ width: '5%' }} />

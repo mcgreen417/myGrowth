@@ -11,9 +11,9 @@ import {
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
 
-const ViewJournalEntry = () => {
+const ViewJournalEntry = ({ navigation }) => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <View>
         <Button title='<-' />
         <Button title='Word Cloud View' />
@@ -32,6 +32,7 @@ const ViewJournalEntry = () => {
         <Button title='Edit Entry' />
         <Button title='Delete Entry' />
       </View>
+      <NavBar journal={true} navigation={navigation} />
     </SafeAreaView>
   );
 };

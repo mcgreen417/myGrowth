@@ -6,10 +6,61 @@ import {
   View,
   SafeAreaView,
   Image,
+  ScrollView,
   TextInput,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
+
+const monthNames = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+let d = new Date();
+
+const journalEntries = new Array(
+  {
+    date: '2021-03-02T12:00:00Z',
+    entry:
+      'I think this is enough entries just to show that this screen scrolls appropriately for the month of November, yeah! Just one...',
+  },
+  {
+    date: '2021-03-04T12:00:00Z',
+    entry:
+      'I just want to be done writing these fake journal entries because I haven’t had a friend named Lauren since high school....',
+  },
+  {
+    date: '2021-03-05T12:00:00Z',
+    entry:
+      'Okay I’m just gonna write a few more because I’m running out of ideas to babble about for the rest of these LOL...',
+  },
+  {
+    date: '2021-03-10T12:00:00Z',
+    entry:
+      'Weeeellllllllll it went well I guess, okay at best, I don’t want to see my grade to be honest, but maybe it was good enough?...',
+  },
+  {
+    date: '2021-03-14T12:00:00Z',
+    entry:
+      'Just one more day until my math exam!! T_T I’ve been studying all day today and I just want to quit, but my grade is really...',
+  },
+  {
+    date: '2021-03-15T12:00:00Z',
+    entry:
+      'Today was pretty alright. I went out to the movies with Lauren, but I had to sit through math homework for the rest of...',
+  }
+);
 
 const JournalHistory = ({ navigation }) => {
   return (
@@ -26,15 +77,55 @@ const JournalHistory = ({ navigation }) => {
             source={require('../../shared/assets/gardener-avatar.png')}
           />
         </View>
-        <View>
-          <Button title='Date' />
-          <Button title='<' />
-          <Button title='>' />
+        {/* Top page divider */}
+        <View style={styles.dividerView}>
+          <View style={styles.divider} />
         </View>
-        <View>
-          <Button title='Entry 1' />
-          <Button title='Entry 2' />
+        <View
+          style={{
+            width: '90%',
+            margin: 10,
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+          }}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'flex-start',
+              flexDirection: 'row',
+            }}>
+            <Text style={{ fontSize: 16, textDecorationLine: 'underline' }}>
+              {monthNames[d.getMonth()] + ' ' + d.getFullYear()}
+            </Text>
+            <Icon name='arrow-drop-down' type='material' />
+          </View>
+
+          <View style={{ flexDirection: 'row' }}>
+            <Icon name='arrow-left' />
+            <Icon name='arrow-right' />
+          </View>
         </View>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ marginBottom: 60, marginLeft: 20, marginRight: 20 }}>
+          {journalEntries.map((item, index) => (
+            <View style={styles.journalItemSelect} key={index}>
+              <View>
+                <Text>{monthNames[new Date(item.date).getMonth()]}</Text>
+                <Text>{new Date(item.date).getDate()}</Text>
+                <Text>{new Date(item.date).getFullYear()}</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  flexShrink: 1,
+                  backgroundColor: 'red',
+                }}>
+                <Text style={{ flex: 1 }}>{item.entry}</Text>
+              </View>
+            </View>
+          ))}
+        </ScrollView>
       </View>
       <NavBar navigation={navigation} journal={true} />
     </SafeAreaView>
@@ -91,8 +182,8 @@ const styles = StyleSheet.create({
   dividerView: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 4,
-    marginBottom: 16,
+    marginTop: 16,
+    marginBottom: 8,
   },
   dividerViewLow: {
     flexDirection: 'row',
@@ -162,11 +253,14 @@ const styles = StyleSheet.create({
   plantItem: {
     margin: 10,
   },
-  plantItemSelect: {
-    marginLeft: 12,
-    marginRight: 12,
+  journalItemSelect: {
+    // marginLeft: 12,
+    // marginRight: 12,
     marginTop: 8,
     marginBottom: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    // justifyContent: 'center',
   },
   plantItemPress: {
     borderRadius: 10,
