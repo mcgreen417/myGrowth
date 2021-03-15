@@ -91,8 +91,8 @@ function PlantShop({ navigation }) {
 
         {/* Plant selection */}
         <View style={styles.plantSelectView}>
-          {plantItem.map((item) => (
-            <View style={styles.plantItemSelect}>
+          {plantItem.map((item, index) => (
+            <View style={styles.plantItemSelect} key={index}>
               <Pressable
                 style={({ pressed }) => [
                   {
@@ -101,7 +101,7 @@ function PlantShop({ navigation }) {
                   styles.plantItemPress,
                 ]}
                 onPress={() => setPlant(item)}>
-                <Image key={item} source={item} style={styles.plantItem} />
+                <Image source={item} style={styles.plantItem} />
               </Pressable>
             </View>
           ))}

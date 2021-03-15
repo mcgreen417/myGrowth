@@ -11,10 +11,6 @@ import {
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
 
-const InputSearchBar = () => {
-  return <View></View>;
-};
-
 const Journal = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
@@ -46,7 +42,7 @@ const Journal = ({ navigation }) => {
             <Button
               title='Write New Entry'
               color='#A5DFB2'
-              onPress={() => onPress()}
+              onPress={() => navigation.navigate('CreateNewJournalEntry')}
             />
           </View>
           <View style={{ width: '5%' }} />
@@ -54,7 +50,7 @@ const Journal = ({ navigation }) => {
             <Button
               title='View Past Entries'
               color='#A5DFB2'
-              onPress={() => onPress()}
+              onPress={() => navigation.navigate('JournalHistory')}
             />
           </View>
         </View>
