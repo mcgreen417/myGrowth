@@ -46,13 +46,16 @@ function PlantShop({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        
         {/* Gardener avatar + page blurb */}
         <View style={styles.avatarView}>
           <Text style={styles.pageDescription}>
-            Purchase accessories for your plant using stars earned from completing goals!
+            Purchase accessories for your plant using stars earned from
+            completing goals!
           </Text>
-          <Image style={styles.avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
+          <Image
+            style={styles.avatar}
+            source={require('../../shared/assets/gardener-avatar.png')}
+          />
         </View>
 
         {/* Plant section */}
@@ -88,10 +91,9 @@ function PlantShop({ navigation }) {
         </View>
 
         {/* Plant selection */}
-        <View
-          style={styles.plantSelectView}>
-          {plantItem.map((item) => (
-            <View style={styles.plantItemSelect}>
+        <View style={styles.plantSelectView}>
+          {plantItem.map((item, index) => (
+            <View style={styles.plantItemSelect} key={index}>
               <Pressable
                 style={({ pressed }) => [
                   {
@@ -100,15 +102,14 @@ function PlantShop({ navigation }) {
                   styles.plantItemPress,
                 ]}
                 onPress={() => setPlant(item)}>
-                <Image key={item} source={item} style={styles.plantItem} />
+                <Image source={item} style={styles.plantItem} />
               </Pressable>
-              <View
-                style={styles.inlineRow2}>
+              <View style={styles.inlineRow2}>
                 <Text style={styles.text}>900</Text>
-                <Icon 
-                  name='star' 
-                  type='MaterialCommunityIcons' 
-                  color='#816868' 
+                <Icon
+                  name='star'
+                  type='MaterialCommunityIcons'
+                  color='#816868'
                 />
               </View>
             </View>
@@ -120,19 +121,33 @@ function PlantShop({ navigation }) {
         </View>
 
         {/* Clear Changes & Purchase All Shown buttons */}
-        <View style={{ flexDirection: 'row', marginTop: 10, marginBottom: 16, justifyContent: 'center' }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: 10,
+            marginBottom: 16,
+            justifyContent: 'center',
+          }}>
           <View style={{ width: '42.5%' }}>
-            <Button title='Clear Changes' color='#A5DFB2' onPress={() => onPress()}/>
+            <Button
+              title='Clear Changes'
+              color='#A5DFB2'
+              onPress={() => onPress()}
+            />
           </View>
           <View style={{ width: '5%' }} />
           <View style={{ width: '42.5%' }}>
-            <Button title='Purchase Shown' color='#A5DFB2' onPress={() => onPress()}/>
+            <Button
+              title='Purchase Shown'
+              color='#A5DFB2'
+              onPress={() => onPress()}
+            />
           </View>
         </View>
 
         {/* Goals redirect */}
         <View style={{ marginRight: '5%', justifyContent: 'center' }}>
-          <View style={{ flexDirection: 'row', alignSelf: 'flex-end', }}>
+          <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
             <Icon
               name='information-circle-outline'
               type='ionicon'
@@ -145,8 +160,7 @@ function PlantShop({ navigation }) {
           </View>
         </View>
 
-        <View style={styles.pageEnd}/>
-
+        <View style={styles.pageEnd} />
       </ScrollView>
       <NavBar navigation={navigation} />
     </SafeAreaView>
@@ -248,10 +262,10 @@ const styles = StyleSheet.create({
     borderWidth: 6,
     borderColor: '#816868',
   },
-  plantItem: { 
+  plantItem: {
     margin: 10,
   },
-  plantItemSelect: { 
+  plantItemSelect: {
     marginLeft: 12,
     marginRight: 12,
     marginTop: 4,

@@ -11,86 +11,86 @@ import {
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
 
-const Journal = ({ navigation }) => {
+const monthNames = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+const ViewJournalEntry = ({ route, navigation }) => {
+  const { journal_date, journal_entry } = route.params;
+  const d = new Date(journal_date);
+  const date =
+    monthNames[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  const time =
+    (d.getHours() % 12) +
+    1 +
+    ':' +
+    (d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes()) +
+    (d.getHours() > 12 ? 'pm' : 'am');
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.pageSetup}>
-        {/* Gardener avatar + page blurb */}
-        <View style={styles.avatarView}>
-          <Text style={styles.pageDescription}>
-            Let's get to writing! Put your feelings on paper and let the stress
-            melt away!
-          </Text>
-          <Image
-            style={styles.avatar}
-            source={require('../../shared/assets/gardener-avatar.png')}
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-around',
+          alignContent: 'center',
+        }}>
+        <Icon name='arrow-left' />
+        <Text>Word Cloud View</Text>
+        <Icon
+          name='cloud'
+          onPress={() =>
+            navigation.navigate('WordCloudDisplay', {
+              journal_date: journal_date,
+              journal_entry: journal_entry,
+            })
+          }
+        />
+      </View>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+        <Icon name='arrow-left' />
+        <Text>{date}</Text>
+        <Icon name='arrow-right' />
+      </View>
+      <View style={styles.dividerView}>
+        <View style={styles.divider} />
+      </View>
+      <View style={{ marginRight: 20, marginLeft: 20 }}>
+        <Text>{'Entry Created ' + time}</Text>
+        <Text>{'Last Edited ' + date + ' at ' + time}</Text>
+        <Text style={{ marginBottom: 8, marginTop: 8 }}>{journal_entry}</Text>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          marginTop: 10,
+          marginBottom: 16,
+          alignSelf: 'center',
+        }}>
+        <View style={{ width: '42.5%' }}>
+          <Button
+            title='Edit Entry'
+            color='#A5DFB2'
+            onPress={() => navigation.navigate('CreateNewJournalEntry')}
           />
         </View>
-        {/* Top page divider */}
-        <View style={styles.dividerView}>
-          <View style={styles.divider} />
-        </View>
-
-        <Image
-          style={styles.fillerImage}
-          source={require('../../shared/assets/Journal.png')}
-        />
-
-        {/* Write new entry + view past entries buttons */}
-        <View style={{ flexDirection: 'row', marginTop: 30 }}>
-          <View style={{ width: '42.5%' }}>
-            <Button
-              title='Write New Entry'
-              color='#A5DFB2'
-              onPress={() => navigation.navigate('CreateNewJournalEntry')}
-            />
-          </View>
-          <View style={{ width: '5%' }} />
-          <View style={{ width: '42.5%' }}>
-            <Button
-              title='View Past Entries'
-              color='#A5DFB2'
-              onPress={() => navigation.navigate('JournalHistory')}
-            />
-          </View>
-        </View>
-
-        {/* Page divider */}
-        <View style={styles.dividerView}>
-          <View style={styles.divider} />
-        </View>
-
-        {/* Word search bar */}
-        <View style={{ width: '90%' }}>
-          <Text style={styles.text}>
-            Or search through past journal entries by entering a specific world
-            or phrase...
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignContent: 'center',
-              justifyContent: 'center',
-              height: 40,
-              margin: 12,
-              borderWidth: 1,
-              borderColor: '#A6A1A0',
-            }}>
-            <TextInput
-              style={{
-                height: 20,
-                margin: 10,
-                justifyContent: 'flex-start',
-                flex: 1,
-              }}
-            />
-            <Icon
-              style={{ height: 20, margin: 10 }}
-              name='search-outline'
-              type='ionicon'
-              color='#A6A1A0'
-            />
-          </View>
+        <View style={{ width: '5%' }} />
+        <View style={{ width: '42.5%' }}>
+          <Button
+            title='Delete Entry'
+            color='#A5DFB2'
+            onPress={() => onPress()}
+          />
         </View>
       </View>
       <NavBar journal={true} navigation={navigation} />
@@ -98,7 +98,7 @@ const Journal = ({ navigation }) => {
   );
 };
 
-export default Journal;
+export default ViewJournalEntry;
 
 const styles = StyleSheet.create({
   container: {
@@ -116,49 +116,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '90%',
   },
-  buttons: {
-    marginTop: 7,
-    marginBottom: 7,
-    width: '110%',
-  },
-  divider: {
-    flex: 1,
-    height: 1,
-    backgroundColor: '#816868',
-    marginLeft: 20,
-    marginRight: 20,
-  },
-  dividerView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 20,
+  avatarSelectView: {
+    height: '68%',
     marginBottom: 20,
   },
-  fillerImage: {
-    width: 340,
-    height: 240,
-    marginTop: -20,
-  },
-  text: {
-    color: '#816868',
-    fontSize: 16,
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-  pageDescription: {
-    color: '#816868',
-    fontSize: 20,
-    flex: 1,
-    flexWrap: 'wrap',
-    fontWeight: 'bold',
-    marginRight: 50,
-  },
-  pageEnd: {
-    marginBottom: 100,
-  },
-  pageSetup: {
-    justifyContent: 'center',
-    alignItems: 'center',
+  buttons: {
+    marginTop: 10,
+    marginBottom: 10,
+    width: 100,
+    height: 50,
   },
   divider: {
     flex: 1,

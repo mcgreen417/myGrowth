@@ -16,13 +16,19 @@ import UserInitializationPage3 from './app/userinit/screens/UserInitializationPa
 import HomePage from './app/home/screens/Home';
 import PlantShop from './app/home/screens/PlantShop';
 import CustomizePlant from './app/home/screens/CustomizePlant';
-import { Journal } from './app/journal/screens/Journal';
+import Journal from './app/journal/screens/Journal';
+import CreateNewJournalEntry from './app/journal/screens/CreateNewJournalEntry';
+import JournalEntryCompletion from './app/journal/screens/JournalEntryCompletion';
+import JournalHistory from './app/journal/screens/JournalHistory';
+import ViewJournalEntry from './app/journal/screens/ViewJournalEntry';
+import WordCloudDisplay from './app/journal/screens/WordCloudDisplay';
 import { Goals } from './app/goals/screens/Goals';
 import { GoalComplete } from './app/goals/screens/GoalComplete';
 import { HealthEntry1 } from './app/healthentry/screens/HealthEntry';
 import { ToDoList } from './app/todolist/screens/ToDoList';
-import { HistoryHealthEntries,
-          HistoryCorrelations,
+import {
+  HistoryHealthEntries,
+  HistoryCorrelations,
 } from './app/history/screens/History';
 import HistoryDailyActivities1 from './app/history/screens/HistoryDailyActivities1';
 import HistoryDailyActivities2 from './app/history/screens/HistoryDailyActivities2';
@@ -126,6 +132,31 @@ function App() {
           options={{ header: () => null }}
         />
         <Stack.Screen
+          name='CreateNewJournalEntry'
+          component={CreateNewJournalEntry}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='JournalEntryCompletion'
+          component={JournalEntryCompletion}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='JournalHistory'
+          component={JournalHistory}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='ViewJournalEntry'
+          component={ViewJournalEntry}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='WordCloudDisplay'
+          component={WordCloudDisplay}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
           name='GoalsPage'
           component={Goals}
           options={{ header: () => null }}
@@ -150,37 +181,37 @@ function App() {
           component={HistoryHealthEntries}
           options={{ header: () => null }}
         />
-        <Stack.Screen 
+        <Stack.Screen
           name='HistoryMood'
           component={HistoryMood}
           options={{ header: () => null }}
         />
-        <Stack.Screen 
+        <Stack.Screen
           name='HistoryStress'
           component={HistoryStress}
           options={{ header: () => null }}
         />
-        <Stack.Screen 
+        <Stack.Screen
           name='HistoryDailyActivities1'
           component={HistoryDailyActivities1}
           options={{ header: () => null }}
         />
-        <Stack.Screen 
+        <Stack.Screen
           name='HistoryDailyActivities2'
           component={HistoryDailyActivities2}
           options={{ header: () => null }}
         />
-        <Stack.Screen 
+        <Stack.Screen
           name='HistoryPeriodTracking'
           component={HistoryPeriodTracking}
           options={{ header: () => null }}
         />
-        <Stack.Screen 
+        <Stack.Screen
           name='HistoryWeight'
           component={HistoryWeight}
           options={{ header: () => null }}
         />
-        <Stack.Screen 
+        <Stack.Screen
           name='HistoryGeneralHealth1'
           component={HistoryGeneralHealth1}
           options={{ header: () => null }}
