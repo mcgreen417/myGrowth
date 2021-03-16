@@ -234,7 +234,7 @@ function UserInitialization1({ navigation }) {
                 <Button
                   title='NEXT'
                   color='#A5DFB2'
-                  onPress={() => navigation.navigate('UserInitializationPage2')}
+                  onPress={() => navigation.navigate('UserInitialization2')}
                 />
               </View>
             </View>

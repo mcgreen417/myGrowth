@@ -143,7 +143,7 @@ function Home({ navigation }) {
 
           <Pressable
             style={styles.inlineRow}
-            onPress={() => navigation.navigate('GoalsPage')}>
+            onPress={() => navigation.navigate('Goals')}>
             <Text style={styles.text}>Create a new goal</Text>
             <Icon
               name='checkmark-circle-outline'
@@ -159,7 +159,7 @@ function Home({ navigation }) {
 
           <Pressable
             style={styles.inlineRow}
-            onPress={() => navigation.navigate('GoalsPage')}>
+            onPress={() => navigation.navigate('Goals')}>
             <Text style={styles.text}>Complete a goal</Text>
             <Icon
               name='checkmark-circle-outline'

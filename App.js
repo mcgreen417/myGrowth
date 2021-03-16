@@ -4,16 +4,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import './global.js';
 
-import StartPage from './app/login/screens/StartPage';
-import SignUpPage from './app/login/screens/SignUpPage';
-import LoginPage from './app/login/screens/LoginPage';
-import ForgotPasswordPage from './app/login/screens/ForgotPasswordPage';
-import PasswordResetVerificationPage from './app/login/screens/PasswordResetVerificationPage';
-import ResetPasswordPage from './app/login/screens/ResetPasswordPage';
-import UserInitializationPage1 from './app/userinit/screens/UserInitializationPage1';
-import UserInitializationPage2 from './app/userinit/screens/UserInitializationPage2';
-import UserInitializationPage3 from './app/userinit/screens/UserInitializationPage3';
-import HomePage from './app/home/screens/Home';
+import Start from './app/login/screens/Start';
+import SignUp from './app/login/screens/SignUp';
+import Login from './app/login/screens/Login';
+import ForgotPassword from './app/login/screens/ForgotPassword';
+import PasswordResetVerification from './app/login/screens/PasswordResetVerification';
+import ResetPassword from './app/login/screens/ResetPassword';
+import UserInitialization1 from './app/userinit/screens/UserInitialization1';
+import UserInitialization2 from './app/userinit/screens/UserInitialization2';
+import UserInitialization3 from './app/userinit/screens/UserInitialization3';
+import Home from './app/home/screens/Home';
 import PlantShop from './app/home/screens/PlantShop';
 import CustomizePlant from './app/home/screens/CustomizePlant';
 import Journal from './app/journal/screens/Journal';
@@ -157,7 +157,7 @@ function App() {
           options={{ header: () => null }}
         />
         <Stack.Screen
-          name='GoalsPage'
+          name='Goals'
           component={Goals}
           options={{ header: () => null }}
         />
