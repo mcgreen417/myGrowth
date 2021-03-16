@@ -48,7 +48,7 @@ const JournalEntryCompletion = ({ navigation }) => {
           <Button
             title='Return to Home'
             color='#A5DFB2'
-            onPress={() => navigation.navigate('HomePage')}
+            onPress={() => navigation.navigate('Home')}
           />
         </View>
       </View>

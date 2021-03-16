@@ -68,7 +68,7 @@ function PlantShop({ navigation }) {
         <View style={styles.plantButtons}>
           <Pressable
             style={styles.inlineRow}
-            onPress={() => navigation.navigate('HomePage')}>
+            onPress={() => navigation.navigate('Home')}>
             <Icon name='arrow-left' color='#816868' />
             <View>
               <Text style={styles.plantLinks}>Return to Home</Text>

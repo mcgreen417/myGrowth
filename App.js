@@ -4,16 +4,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import './global.js';
 
-import StartPage from './app/login/screens/StartPage';
-import SignUpPage from './app/login/screens/SignUpPage';
-import LoginPage from './app/login/screens/LoginPage';
-import ForgotPasswordPage from './app/login/screens/ForgotPasswordPage';
-import PasswordResetVerificationPage from './app/login/screens/PasswordResetVerificationPage';
-import ResetPasswordPage from './app/login/screens/ResetPasswordPage';
-import UserInitializationPage1 from './app/userinit/screens/UserInitializationPage1';
-import UserInitializationPage2 from './app/userinit/screens/UserInitializationPage2';
-import UserInitializationPage3 from './app/userinit/screens/UserInitializationPage3';
-import HomePage from './app/home/screens/Home';
+import Start from './app/login/screens/Start';
+import SignUp from './app/login/screens/SignUp';
+import Login from './app/login/screens/Login';
+import ForgotPassword from './app/login/screens/ForgotPassword';
+import PasswordResetVerification from './app/login/screens/PasswordResetVerification';
+import ResetPassword from './app/login/screens/ResetPassword';
+import UserInitialization1 from './app/userinit/screens/UserInitialization1';
+import UserInitialization2 from './app/userinit/screens/UserInitialization2';
+import UserInitialization3 from './app/userinit/screens/UserInitialization3';
+import Home from './app/home/screens/Home';
 import PlantShop from './app/home/screens/PlantShop';
 import CustomizePlant from './app/home/screens/CustomizePlant';
 import Journal from './app/journal/screens/Journal';
@@ -47,7 +47,7 @@ import HistoryWeight from './app/history/screens/HistoryWeight';
 import AccountPanel from './app/account/screens/AccountPanel';
 import UserSettings from './app/account/screens/UserSettings';
 import GenerateReport from './app/account/screens/GenerateReport';
-import VerificationCodePage from './app/login/screens/VerificationCode';
+import VerificationCode from './app/login/screens/VerificationCode';
 
 import Amplify, { Auth } from 'aws-amplify';
 import awsconfig from './app/shared/config/aws-exports';
@@ -60,60 +60,60 @@ const Stack = createStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='StartPage'>
+      <Stack.Navigator initialRouteName='Start'>
         <Stack.Screen
-          name='StartPage'
-          component={StartPage}
+          name='Start'
+          component={Start}
           options={{ header: () => null }}
         />
         <Stack.Screen
-          name='SignUpPage'
-          component={SignUpPage}
+          name='SignUp'
+          component={SignUp}
           options={{ header: () => null }}
         />
         <Stack.Screen
-          name='VerificationCodePage'
-          component={VerificationCodePage}
+          name='VerificationCode'
+          component={VerificationCode}
           options={{ header: () => null }}
         />
         <Stack.Screen
-          name='LoginPage'
-          component={LoginPage}
+          name='Login'
+          component={Login}
           options={{ header: () => null }}
         />
         <Stack.Screen
-          name='ForgotPasswordPage'
-          component={ForgotPasswordPage}
+          name='ForgotPassword'
+          component={ForgotPassword}
           options={{ header: () => null }}
         />
         <Stack.Screen
-          name='PasswordResetVerificationPage'
-          component={PasswordResetVerificationPage}
+          name='PasswordResetVerification'
+          component={PasswordResetVerification}
           options={{ header: () => null }}
         />
         <Stack.Screen
-          name='ResetPasswordPage'
-          component={ResetPasswordPage}
+          name='ResetPassword'
+          component={ResetPassword}
           options={{ header: () => null }}
         />
         <Stack.Screen
-          name='UserInitializationPage1'
-          component={UserInitializationPage1}
+          name='UserInitialization1'
+          component={UserInitialization1}
           options={{ header: () => null }}
         />
         <Stack.Screen
-          name='UserInitializationPage2'
-          component={UserInitializationPage2}
+          name='UserInitialization2'
+          component={UserInitialization2}
           options={{ header: () => null }}
         />
         <Stack.Screen
-          name='UserInitializationPage3'
-          component={UserInitializationPage3}
+          name='UserInitialization3'
+          component={UserInitialization3}
           options={{ header: () => null }}
         />
         <Stack.Screen
-          name='HomePage'
-          component={HomePage}
+          name='Home'
+          component={Home}
           options={{ header: () => null }}
         />
         <Stack.Screen
@@ -157,7 +157,7 @@ function App() {
           options={{ header: () => null }}
         />
         <Stack.Screen
-          name='GoalsPage'
+          name='Goals'
           component={Goals}
           options={{ header: () => null }}
         />

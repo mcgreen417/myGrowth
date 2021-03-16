@@ -49,18 +49,21 @@ function UserSettings({ navigation }) {
   const [useFitnessTracking, setUseFitnessTracking] = useState(false);
   const toggleFitnessTracking = () =>
     setUseFitnessTracking((previousState) => !previousState);
-    
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.pageSetup}>
-
           {/* Gardener avatar + page blurb */}
           <View style={styles.avatarView}>
-            <Image style={styles.avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
+            <Image
+              style={styles.avatar}
+              source={require('../../shared/assets/gardener-avatar.png')}
+            />
             <Text style={styles.pageDescription}>
-              Edit your user settings below. You may return to this page at any time.
+              Edit your user settings below. You may return to this page at any
+              time.
             </Text>
           </View>
           {/* Top page divider */}
@@ -90,7 +93,9 @@ function UserSettings({ navigation }) {
 
           {/* Set user pin */}
           <View style={styles.inlineRow}>
-            <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('UserSettings')}>
+            <TouchableOpacity
+              style={styles.buttons}
+              onPress={() => navigation.navigate('UserSettings')}>
               <View style={styles.inlineRow}>
                 <Text style={styles.text}>Set User PIN</Text>
                 <View style={styles.iconView}>
@@ -108,7 +113,9 @@ function UserSettings({ navigation }) {
 
           {/* Change password */}
           <View style={styles.inlineRow}>
-            <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('UserSettings')}>
+            <TouchableOpacity
+              style={styles.buttons}
+              onPress={() => navigation.navigate('UserSettings')}>
               <View style={styles.inlineRow}>
                 <Text style={styles.text}>Change Password</Text>
                 <View style={styles.iconView}>
@@ -126,7 +133,9 @@ function UserSettings({ navigation }) {
 
           {/* Change email */}
           <View style={styles.inlineRow}>
-            <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('UserSettings')}>
+            <TouchableOpacity
+              style={styles.buttons}
+              onPress={() => navigation.navigate('UserSettings')}>
               <View style={styles.inlineRow}>
                 <Text style={styles.text}>Change Email</Text>
                 <View style={styles.iconView}>
@@ -144,7 +153,9 @@ function UserSettings({ navigation }) {
 
           {/* Link your acct */}
           <View style={styles.inlineRow}>
-            <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('LinkAccountPage')}>
+            <TouchableOpacity
+              style={styles.buttons}
+              onPress={() => navigation.navigate('LinkAccount')}>
               <View style={styles.inlineRow}>
                 <Text style={styles.text}>Link Your Account</Text>
                 <View style={styles.iconView}>
@@ -167,7 +178,9 @@ function UserSettings({ navigation }) {
 
           {/* Personal profile */}
           <View style={styles.inlineRow}>
-            <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('ProfilePage')}>
+            <TouchableOpacity
+              style={styles.buttons}
+              onPress={() => navigation.navigate('Profile')}>
               <View style={styles.inlineRow}>
                 <Text style={styles.text}>Personal Profile</Text>
                 <View style={styles.iconView}>
@@ -185,7 +198,9 @@ function UserSettings({ navigation }) {
 
           {/* Change gardener avatar */}
           <View style={styles.inlineRow}>
-            <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('AvatarSelectPage')}>
+            <TouchableOpacity
+              style={styles.buttons}
+              onPress={() => navigation.navigate('AvatarSelect')}>
               <View style={styles.inlineRow}>
                 <Text style={styles.text}>Change Gardener Avatar</Text>
                 <View style={styles.iconView}>
@@ -333,7 +348,7 @@ function UserSettings({ navigation }) {
             </View>
           </View>
           <View style={styles.line} />
-          
+
           <View style={styles.pageEnd} />
         </View>
       </ScrollView>
@@ -359,7 +374,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    width: '90%'
+    width: '90%',
   },
   buttons: {
     marginTop: 7,

@@ -14,7 +14,7 @@ import {
   Switch,
 } from 'react-native';
 
-function UserInitializationPage3({ navigation }) {
+function UserInitialization3({ navigation }) {
   const [useStressLevels, setUseStressLevels] = useState(false);
   const toggleStressLevels = () =>
     setUseStressLevels((previousState) => !previousState);
@@ -205,13 +205,13 @@ function UserInitializationPage3({ navigation }) {
           <Button
             title='Back'
             color='#A5DFB2'
-            onPress={() => navigation.navigate('UserInitializationPage2')}
+            onPress={() => navigation.navigate('UserInitialization2')}
           />
           <View style={{ width: '70%' }}></View>
           <Button
             title='Finish'
             color='#A5DFB2'
-            onPress={() => navigation.navigate('HomePage')}
+            onPress={() => navigation.navigate('Home')}
           />
         </View>
       </View>
@@ -219,7 +219,7 @@ function UserInitializationPage3({ navigation }) {
   );
 }
 
-export default UserInitializationPage3;
+export default UserInitialization3;
 
 const styles = StyleSheet.create({
   container: {

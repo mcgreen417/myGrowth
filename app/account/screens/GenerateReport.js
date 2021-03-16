@@ -66,12 +66,15 @@ function GenerateReport({ navigation }) {
       <StatusBar backgroundColor='#A5DFB2' barStyle='light-content' />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.pageSetup}>
-
           {/* Gardener avatar + page blurb */}
           <View style={styles.avatarView}>
-            <Image style={styles.avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
+            <Image
+              style={styles.avatar}
+              source={require('../../shared/assets/gardener-avatar.png')}
+            />
             <Text style={styles.pageDescription}>
-              Generate a report of your health entry history for your personal records. 
+              Generate a report of your health entry history for your personal
+              records.
             </Text>
           </View>
           {/* Top page divider */}
@@ -87,7 +90,7 @@ function GenerateReport({ navigation }) {
                 selectedValue={time}
                 style={styles.picker}
                 onValueChange={(itemValue, itemIndex) => setTime(itemValue)}
-              >
+                mode={'dropdown'}>
                 <Picker.Item label='Select one...' value='unselected' />
                 <Picker.Item label='One week' value='oneWeek' />
                 <Picker.Item label='Two weeks' value='twoWeeks' />
@@ -286,11 +289,19 @@ function GenerateReport({ navigation }) {
           {/* PDF/Google Drive export buttons */}
           <View style={{ flexDirection: 'row', marginTop: 30 }}>
             <View style={{ width: '42.5%' }}>
-              <Button title='Download as PDF' color='#A5DFB2' onPress={() => onPress()}/>
+              <Button
+                title='Download as PDF'
+                color='#A5DFB2'
+                onPress={() => onPress()}
+              />
             </View>
             <View style={{ width: '5%' }} />
             <View style={{ width: '42.5%' }}>
-              <Button title='Save to Google Drive' color='#A5DFB2' onPress={() => onPress()}/>
+              <Button
+                title='Save to Google Drive'
+                color='#A5DFB2'
+                onPress={() => onPress()}
+              />
             </View>
           </View>
 
@@ -300,7 +311,7 @@ function GenerateReport({ navigation }) {
       <NavBar account={true} navigation={navigation} />
     </SafeAreaView>
   );
-};
+}
 
 export default GenerateReport;
 
@@ -319,7 +330,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    width: '90%'
+    width: '90%',
   },
   buttons: {
     marginTop: 7,

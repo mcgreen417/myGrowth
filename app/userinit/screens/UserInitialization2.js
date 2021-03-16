@@ -16,7 +16,7 @@ import {
 
 const avatars = new Array(48).fill('http://placeimg.com/100/100/any');
 
-function UserInitializationPage2({ navigation }) {
+function UserInitialization2({ navigation }) {
   const [avatar, setAvatar] = useState(avatars);
 
   return (
@@ -60,13 +60,13 @@ function UserInitializationPage2({ navigation }) {
           <Button
             title='Back'
             color='#A5DFB2'
-            onPress={() => navigation.navigate('UserInitializationPage1')}
+            onPress={() => navigation.navigate('UserInitialization1')}
           />
           <View style={{ width: '72%' }}></View>
           <Button
             title='Next'
             color='#A5DFB2'
-            onPress={() => navigation.navigate('UserInitializationPage3')}
+            onPress={() => navigation.navigate('UserInitialization3')}
           />
         </View>
       </View>
@@ -74,7 +74,7 @@ function UserInitializationPage2({ navigation }) {
   );
 }
 
-export default UserInitializationPage2;
+export default UserInitialization2;
 
 const styles = StyleSheet.create({
   container: {
