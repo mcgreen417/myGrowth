@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
+import TabBarandContent from '../../shared/components/TabBarAndContent';
 
 function HistoryFitness2({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
@@ -203,9 +204,6 @@ function HistoryFitness2({ navigation }) {
           <View style={styles.divider} />
         </View>
         <View>
-          <Button title='History' onPress={() => navigation.navigate('HistoryFitness1')}/>
-          <Button title='Exercises' />
-          <Button title='Correlations' onPress={() => navigation.navigate('HistoryFitness1')}/>
           <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
             <View style={styles.inlineRow}>
               <Text style={styles.textReg}>Categories</Text>
@@ -214,6 +212,8 @@ function HistoryFitness2({ navigation }) {
               </View>
             </View>
           </TouchableOpacity>
+
+          <TabBarandContent fitness = {true} navigation = {navigation} />
         </View>
         <View>
           <View>
@@ -222,6 +222,7 @@ function HistoryFitness2({ navigation }) {
               selectedValue={timePeriod}
               style={{ height: 50, width: 200 }}
               onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+              mode={'dropdown'}
             >
               <Picker.Item label='Select one...' value='unselected' />
               <Picker.Item label='Past week' value='past_week' />
@@ -235,6 +236,7 @@ function HistoryFitness2({ navigation }) {
               selectedValue={selectDisplay}
               style={{ height: 50, width: 200 }}
               onValueChange={(itemValue, itemIndex) => setDisplay(itemValue)}
+              mode={'dropdown'}
             >
               <Picker.Item label='Select one...' value='unselected' />
               <Picker.Item label='PLACEHOLDER' value='temp' />

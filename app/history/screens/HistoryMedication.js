@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
+import TabBarandContent from '../../shared/components/TabBarAndContent';
 
 function HistoryMedication({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
@@ -197,8 +198,6 @@ function HistoryMedication({ navigation }) {
           <View style={styles.divider} />
         </View>
         <View>
-          <Button title='History' />
-          <Button title='Correlations' />
           <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
             <View style={styles.inlineRow}>
               <Text style={styles.textReg}>Categories</Text>
@@ -207,6 +206,8 @@ function HistoryMedication({ navigation }) {
               </View>
             </View>
           </TouchableOpacity>
+
+          <TabBarandContent medication = {true} navigation = {navigation} />
         </View>
         <View>
           <Text>SELECT MEDICATION</Text>
@@ -214,6 +215,7 @@ function HistoryMedication({ navigation }) {
             selectedValue={selectmedication}
             style={{ height: 50, width: 200 }}
             onValueChange={(itemValue, itemIndex) => setMedication(itemValue)}
+            mode={'dropdown'}
           >
             <Picker.Item label='Select one...' value='unselected' />
             <Picker.Item label='(Medicine 1)' value='medicine_1' />

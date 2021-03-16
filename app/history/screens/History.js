@@ -6,12 +6,12 @@ import {
   View,
   Button,
   Image,
-  Switch,
   TouchableOpacity,
   Modal,
 } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+
 import NavBar from '../../shared/components/NavBar';
+import TabBarandContent from '../../shared/components/TabBarAndContent';
 
 function HistoryHealthEntries({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -195,8 +195,6 @@ function HistoryHealthEntries({ navigation }) {
         <View style={styles.divider} />
       </View>
       <View>
-        { /* replace w/ custom component in future */ }
-        <Button title='History' />
         <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
           <View style={styles.inlineRow}>
             <Text style={styles.textReg}>Categories</Text>
@@ -205,6 +203,9 @@ function HistoryHealthEntries({ navigation }) {
             </View>
           </View>
         </TouchableOpacity>
+        
+        { /* custom component */ }
+        <TabBarandContent history={true} navigation ={navigation} />
       </View>
       {/* Middle Divider */}
       <View style={styles.dividerView}>

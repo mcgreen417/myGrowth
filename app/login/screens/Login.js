@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-function LoginPage({ navigation }) {
+function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   return (
@@ -86,7 +86,7 @@ function LoginPage({ navigation }) {
         </View>
         <View>
           <TouchableOpacity
-            onPress={() => navigation.navigate('ForgotPasswordPage')}>
+            onPress={() => navigation.navigate('ForgotPassword')}>
             <Text style={styles().textLink}>Forgot your password?</Text>
           </TouchableOpacity>
         </View>
@@ -120,7 +120,7 @@ async function signIn(username, pw, navigation) {
     const user = await Auth.signIn(username, pw);
     // console.log(user);
     // await testQuery(user.username);
-    navigation.navigate('UserInitializationPage1');
+    navigation.navigate('UserInitialization1');
   } catch (error) {
     console.log('error signing in', error);
   }
@@ -221,4 +221,4 @@ const styles = () =>
     },
   });
 
-export default LoginPage;
+export default Login;

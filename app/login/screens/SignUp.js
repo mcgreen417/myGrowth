@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-function SignUpPage({ navigation }) {
+function SignUp({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
@@ -113,7 +113,7 @@ function SignUpPage({ navigation }) {
         {/* Login/signup page switch */}
         <View style={{ flexDirection: 'row' }}>
           <Text style={styles().text}>Already have an account? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('LoginPage')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
             <Text style={styles().textLink}>Log in here.</Text>
           </TouchableOpacity>
         </View>
@@ -152,7 +152,7 @@ async function signUp(username, email, password, confirmPassword, navigation) {
       },
     });
     // console.log(user);
-    navigation.navigate('VerificationCodePage', { username: username });
+    navigation.navigate('VerificationCode', { username: username });
   } catch (error) {
     console.log('error signing up', error);
   }
@@ -220,4 +220,4 @@ const styles = () =>
     },
   });
 
-export default SignUpPage;
+export default SignUp;

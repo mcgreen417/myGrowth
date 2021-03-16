@@ -20,7 +20,7 @@ import { Picker } from '@react-native-picker/picker';
 import { ScrollView } from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-function UserInitializationPage1({ navigation }) {
+function UserInitialization1({ navigation }) {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
@@ -61,8 +61,7 @@ function UserInitializationPage1({ navigation }) {
         }
         barStyle='light-content'
       />
-      <ScrollView>
-
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles().pageSetup}>
           {/* Gardener avatar + page blurb */}
           <View style={styles().avatarView}>
@@ -82,7 +81,7 @@ function UserInitializationPage1({ navigation }) {
 
           {/* First name user input entry */}
           <View style={styles().inlineRow2}>
-            <Text style={styles().heading}>FIRST NAME   </Text>
+            <Text style={styles().heading}>FIRST NAME </Text>
             <Icon
               name='information-circle-outline'
               type='ionicon'
@@ -95,7 +94,7 @@ function UserInitializationPage1({ navigation }) {
 
           {/* Date of birth calendar pop-up */}
           <View style={styles().inlineRow2}>
-            <Text style={styles().heading}>DATE OF BIRTH   </Text>
+            <Text style={styles().heading}>DATE OF BIRTH </Text>
             <Icon
               name='information-circle-outline'
               type='ionicon'
@@ -105,13 +104,12 @@ function UserInitializationPage1({ navigation }) {
           <View style={styles().datePicker}>
             <TouchableOpacity onPress={showDatepicker}>
               <View style={styles().inlineRow}>
-                <Icon
-                  name='calendar-sharp'
-                  type='ionicon'
-                  color='#816868'
-                />
-                <Text>   </Text>
-                <Text style={{ textDecorationLine: 'underline', color: '#4CB97A' }}>MM/DD/YYYY</Text>
+                <Icon name='calendar-sharp' type='ionicon' color='#816868' />
+                <Text> </Text>
+                <Text
+                  style={{ textDecorationLine: 'underline', color: '#4CB97A' }}>
+                  MM/DD/YYYY
+                </Text>
               </View>
             </TouchableOpacity>
             {show && (
@@ -128,7 +126,7 @@ function UserInitializationPage1({ navigation }) {
 
           {/* Gender drop-down */}
           <View style={styles().inlineRow2}>
-            <Text style={styles().heading}>GENDER   </Text>
+            <Text style={styles().heading}>GENDER </Text>
             <Icon
               name='information-circle-outline'
               type='ionicon'
@@ -140,7 +138,8 @@ function UserInitializationPage1({ navigation }) {
               <Picker
                 selectedValue={gender}
                 style={styles().picker}
-                onValueChange={(itemValue, itemIndex) => setGender(itemValue)}>
+                onValueChange={(itemValue, itemIndex) => setGender(itemValue)}
+                mode={'dropdown'}>
                 <Picker.Item label='Select one...' value='unselected' />
                 <Picker.Item label='Male' value='male' />
                 <Picker.Item label='Female' value='female' />
@@ -153,7 +152,7 @@ function UserInitializationPage1({ navigation }) {
 
           {/* Biological sex drop-down */}
           <View style={styles().inlineRow2}>
-            <Text style={styles().heading}>BIOLOGICAL SEX   </Text>
+            <Text style={styles().heading}>BIOLOGICAL SEX </Text>
             <Icon
               name='information-circle-outline'
               type='ionicon'
@@ -165,7 +164,8 @@ function UserInitializationPage1({ navigation }) {
               <Picker
                 selectedValue={bioSex}
                 style={styles().picker}
-                onValueChange={(itemValue, itemIndex) => setBioSex(itemValue)}>
+                onValueChange={(itemValue, itemIndex) => setBioSex(itemValue)}
+                mode={'dropdown'}>
                 <Picker.Item label='Select one...' value='unselected' />
                 <Picker.Item label='Male' value='male' />
                 <Picker.Item label='Female' value='female' />
@@ -177,7 +177,7 @@ function UserInitializationPage1({ navigation }) {
 
           {/* Height user input entry + cm switch button */}
           <View style={styles().inlineRow2}>
-            <Text style={styles().heading}>HEIGHT   </Text>
+            <Text style={styles().heading}>HEIGHT </Text>
             <Icon
               name='information-circle-outline'
               type='ionicon'
@@ -186,7 +186,7 @@ function UserInitializationPage1({ navigation }) {
           </View>
           <View style={styles().userPrompt}>
             <TextInput style={styles().textInput2} placeholder='#' />
-            <Text>   IN</Text>
+            <Text> IN</Text>
             <ToggleButton
               icon={
                 useHeightMeasurement
@@ -204,7 +204,7 @@ function UserInitializationPage1({ navigation }) {
           <View style={styles().inlineRow2}>
             <View style={{ width: '50%' }}>
               <View style={styles().inlineRow2}>
-                <Text style={styles().heading}>WEIGHT   </Text>
+                <Text style={styles().heading}>WEIGHT </Text>
                 <Icon
                   name='information-circle-outline'
                   type='ionicon'
@@ -213,7 +213,7 @@ function UserInitializationPage1({ navigation }) {
               </View>
               <View style={styles().userPrompt}>
                 <TextInput style={styles().textInput3} placeholder='#' />
-                <Text>   LB</Text>
+                <Text> LB</Text>
                 <ToggleButton
                   icon={
                     useWeightMeasurement
@@ -245,7 +245,7 @@ function UserInitializationPage1({ navigation }) {
   );
 }
 
-export default UserInitializationPage1;
+export default UserInitialization1;
 
 const styles = () =>
   StyleSheet.create({
@@ -308,7 +308,7 @@ const styles = () =>
       alignItems: 'center',
     },
     inlineRow2: {
-      flexDirection: 'row', 
+      flexDirection: 'row',
       width: '90%',
     },
     line: {

@@ -12,24 +12,32 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
 
-function HomePage({ navigation }) {
+function Home({ navigation }) {
   let plant = 4;
   let stage = 0;
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-
         {/* Gardener avatar + page blurb */}
         <View style={styles.avatarView}>
-          <Text style={styles.pageDescription}>Good Morning, {'\n'}(First name)!</Text>
-          <Image style={styles.avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
+          <Text style={styles.pageDescription}>
+            Good Morning, {'\n'}(First name)!
+          </Text>
+          <Image
+            style={styles.avatar}
+            source={require('../../shared/assets/gardener-avatar.png')}
+          />
         </View>
 
         {/* Plant section */}
         <View style={styles.plantSection}>
           <View style={styles.plantImage}>
             <Image
-              source={require('../../shared/assets/plant_sprites/' + plant + '_' + stage + '.png')}
+              source={require('../../shared/assets/plant_sprites/' +
+                plant +
+                '_' +
+                stage +
+                '.png')}
               style={styles.plant}
             />
           </View>
@@ -62,11 +70,28 @@ function HomePage({ navigation }) {
           <View>
             <Pressable>
               <View style={styles.entryButton}>
-                <View style={{ marginTop: 4, marginBottom: 4, marginLeft: 8, marginRight: 8 }}>
-                  <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#A5DFB2' }}>
+                <View
+                  style={{
+                    marginTop: 4,
+                    marginBottom: 4,
+                    marginLeft: 8,
+                    marginRight: 8,
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 24,
+                      fontWeight: 'bold',
+                      color: '#A5DFB2',
+                    }}>
                     Write a new entry!
                   </Text>
-                  <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#F6EFED', marginTop: -4 }}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: 'bold',
+                      color: '#F6EFED',
+                      marginTop: -4,
+                    }}>
                     You wrote your last entry on (date) at (time).
                   </Text>
                 </View>
@@ -99,8 +124,8 @@ function HomePage({ navigation }) {
           </Text>
         </View>
 
-        <View style={{ marginLeft: '29%', }}>
-          <Pressable 
+        <View style={{ marginLeft: '29%' }}>
+          <Pressable
             style={styles.inlineRow}
             onPress={() => navigation.navigate('Journal')}>
             <Text style={styles.text}>Write a journal entry</Text>
@@ -113,10 +138,10 @@ function HomePage({ navigation }) {
           </Pressable>
 
           <View style={styles.dividerViewLow}>
-            <View style={styles.line}/>
+            <View style={styles.line} />
           </View>
 
-          <Pressable 
+          <Pressable
             style={styles.inlineRow}
             onPress={() => navigation.navigate('GoalsPage')}>
             <Text style={styles.text}>Create a new goal</Text>
@@ -129,10 +154,10 @@ function HomePage({ navigation }) {
           </Pressable>
 
           <View style={styles.dividerViewLow}>
-            <View style={styles.line}/>
+            <View style={styles.line} />
           </View>
 
-          <Pressable 
+          <Pressable
             style={styles.inlineRow}
             onPress={() => navigation.navigate('GoalsPage')}>
             <Text style={styles.text}>Complete a goal</Text>
@@ -145,10 +170,10 @@ function HomePage({ navigation }) {
           </Pressable>
 
           <View style={styles.dividerViewLow}>
-            <View style={styles.line}/>
+            <View style={styles.line} />
           </View>
 
-          <Pressable 
+          <Pressable
             style={styles.inlineRow}
             onPress={() => navigation.navigate('ToDoList')}>
             <Text style={styles.text}>Check your to-do list</Text>
@@ -161,17 +186,17 @@ function HomePage({ navigation }) {
           </Pressable>
 
           <View style={styles.dividerViewLow}>
-            <View style={styles.line}/>
+            <View style={styles.line} />
           </View>
         </View>
-        <View style={styles.pageEnd}/>
+        <View style={styles.pageEnd} />
       </ScrollView>
       <NavBar home={true} navigation={navigation} />
     </SafeAreaView>
   );
 }
 
-export default HomePage;
+export default Home;
 
 const styles = StyleSheet.create({
   container: {
@@ -288,7 +313,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
     borderWidth: 6,
-    borderColor: '#816868'
+    borderColor: '#816868',
   },
   plantLinks: {
     color: '#4CB97A',

@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
+import TabBarandContent from '../../shared/components/TabBarAndContent';
 
 function HistoryDailyActivities2({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
@@ -197,9 +198,6 @@ function HistoryDailyActivities2({ navigation }) {
           <View style={styles.divider} />
         </View>
         <View>
-          <Button title='History' onPress={() => navigation.navigate('HistoryDailyActivities1')}/>
-          <Button title='Activity View' />
-          <Button title='Correlations' onPress={() => navigation.navigate('HistoryDailyActivities1')}/>
           <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
             <View style={styles.inlineRow}>
               <Text style={styles.textReg}>Categories</Text>
@@ -208,6 +206,8 @@ function HistoryDailyActivities2({ navigation }) {
               </View>
             </View>
           </TouchableOpacity>
+
+          <TabBarandContent dailyActivities = {true} navigation={navigation} />
         </View>
         <View>
           <Text>SELECT ACTIVITY</Text>
@@ -215,6 +215,7 @@ function HistoryDailyActivities2({ navigation }) {
             selectedValue={selectactivity}
             style={{ height: 50, width: 200 }}
             onValueChange={(itemValue, itemIndex) => setActivity(itemValue)}
+            mode={'dropdown'}
           >
             <Picker.Item label='Select one...' value='unselected' />
             <Picker.Item label='Played games' value='played_games' />

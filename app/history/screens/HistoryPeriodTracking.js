@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
+import TabBarandContent from '../../shared/components/TabBarAndContent';
 
 function HistoryPeriodTracking({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
@@ -195,8 +196,6 @@ function HistoryPeriodTracking({ navigation }) {
           <View style={styles.divider} />
         </View>
         <View>
-          <Button title='History' />
-          <Button title='Correlations' />
           <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
             <View style={styles.inlineRow}>
               <Text style={styles.textReg}>Categories</Text>
@@ -205,6 +204,8 @@ function HistoryPeriodTracking({ navigation }) {
               </View>
             </View>
           </TouchableOpacity>
+          
+          <TabBarandContent historyGenComp = {true} navigation = {navigation} />
         </View>
 
         {/* page divider */}

@@ -16,9 +16,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 import NavBar from '../../shared/components/NavBar';
 
 const Goal = ({ title, description, type, navigation }) => {
-
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
-  
+
   return (
     <View style={styles.inlineRow2}>
       {/* This icon should change to check-box when the user clicks on it (and retain that until daily reset) */}
@@ -34,18 +33,10 @@ const Goal = ({ title, description, type, navigation }) => {
       <View style={styles.iconView}>
         <View style={{ flexDirection: 'row' }}>
           <Pressable>
-            <Icon
-              name='pencil'
-              type='material-community'
-              color='#816868'
-            />
+            <Icon name='pencil' type='material-community' color='#816868' />
           </Pressable>
           <Pressable>
-            <Icon
-              name='close'
-              type='ionicon'
-              color='#816868'
-            />
+            <Icon name='close' type='ionicon' color='#816868' />
           </Pressable>
         </View>
       </View>
@@ -54,19 +45,21 @@ const Goal = ({ title, description, type, navigation }) => {
 };
 
 function Goals({ navigation }) {
-
   var time = new Date();
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        
         {/* Gardener avatar + page blurb */}
         <View style={styles.avatarView}>
           <Text style={styles.pageDescription}>
-            Set healthy goals and do your best to accomplish them! Let's do our best today too!
+            Set healthy goals and do your best to accomplish them! Let's do our
+            best today too!
           </Text>
-          <Image style={styles.avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
+          <Image
+            style={styles.avatar}
+            source={require('../../shared/assets/gardener-avatar.png')}
+          />
         </View>
         <View style={styles.divider} />
 
@@ -131,22 +124,22 @@ function Goals({ navigation }) {
             type='weekly'
             navigation={navigation}
           />
-          <Goal 
-            title='Read for 1h' 
-            description='description 2' 
-            type='weekly' 
+          <Goal
+            title='Read for 1h'
+            description='description 2'
+            type='weekly'
             navigation={navigation}
           />
-          <Goal 
-            title='Go to class' 
-            description='description 3' 
-            type='weekly' 
+          <Goal
+            title='Go to class'
+            description='description 3'
+            type='weekly'
             navigation={navigation}
           />
-          <Goal 
-            title='Go to work' 
-            description='description 4' 
-            type='weekly' 
+          <Goal
+            title='Go to work'
+            description='description 4'
+            type='weekly'
             navigation={navigation}
           />
           <Goal
@@ -223,12 +216,11 @@ function Goals({ navigation }) {
         </View>
 
         <View style={styles.pageEnd} />
-
       </ScrollView>
       <NavBar goals={true} navigation={navigation} />
     </SafeAreaView>
   );
-};
+}
 
 export { Goals };
 
@@ -257,16 +249,16 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     marginHorizontal: '5%',
   },
-  goalButtonText: { 
-    marginVertical: 8, 
-    marginLeft: 12, 
-    color: '#F5F5F5', 
+  goalButtonText: {
+    marginVertical: 8,
+    marginLeft: 12,
+    color: '#F5F5F5',
     fontSize: 16,
   },
-  goalButtonView: { 
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    backgroundColor: '#4CB97A', 
+  goalButtonView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#4CB97A',
     borderRadius: 20,
     shadowColor: '#000',
     shadowOffset: {

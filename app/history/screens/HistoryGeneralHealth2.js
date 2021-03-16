@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
+import TabBarandContent from '../../shared/components/TabBarAndContent';
 
 function HistoryGeneralHealth2({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
@@ -199,9 +200,6 @@ function HistoryGeneralHealth2({ navigation }) {
           <View style={styles.divider} />
         </View>
         <View>
-          <Button title='History' onPress={() => navigation.navigate('HistoryGeneralHealth1')}/>
-          <Button title='Intensity' />
-          <Button title='Correlations' onPress={() => navigation.navigate('HistoryGeneralHealth1')}/>
           <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
             <View style={styles.inlineRow}>
               <Text style={styles.textReg}>Categories</Text>
@@ -210,6 +208,8 @@ function HistoryGeneralHealth2({ navigation }) {
               </View>
             </View>
           </TouchableOpacity>
+          
+          <TabBarandContent generalHealth = {true} navigation ={navigation} />
         </View>
         <View>
           <Text>TIME PERIOD</Text>
@@ -217,6 +217,7 @@ function HistoryGeneralHealth2({ navigation }) {
             selectedValue={timePeriod}
             style={{ height: 50, width: 200 }}
             onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+            mode={'dropdown'}
           >
             <Picker.Item label='Select one...' value='unselected' />
             <Picker.Item label='Past week' value='past_week' />
@@ -230,6 +231,7 @@ function HistoryGeneralHealth2({ navigation }) {
             selectedValue={selectsymptom}
             style={{ height: 50, width: 200 }}
             onValueChange={(itemValue, itemIndex) => setSymptom(itemValue)}
+            mode={'dropdown'}
           >
             <Picker.Item label='Select one...' value='unselected' />
             <Picker.Item label='All symptoms' value='all_symptoms' />

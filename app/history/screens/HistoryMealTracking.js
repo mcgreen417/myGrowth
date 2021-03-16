@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
+import TabBarandContent from '../../shared/components/TabBarAndContent';
 
 function HistoryMealTracking({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
@@ -198,13 +199,12 @@ function HistoryMealTracking({ navigation }) {
             style={styles.avatar}
           />
         </View>
+        
         {/* page divider */}
         <View style={styles.dividerView}>
           <View style={styles.divider} />
         </View>
         <View>
-          <Button title='History' />
-          <Button title='Correlations' />
           <TouchableOpacity style={styles.buttons} onPress={() => setModalVisible(true)}>
             <View style={styles.inlineRow}>
               <Text style={styles.textReg}>Categories</Text>
@@ -213,6 +213,8 @@ function HistoryMealTracking({ navigation }) {
               </View>
             </View>
           </TouchableOpacity>
+          
+          <TabBarandContent historyGenComp = {true} navigation = {navigation} />
         </View>
         <View>
           <View>
@@ -221,6 +223,7 @@ function HistoryMealTracking({ navigation }) {
               selectedValue={timePeriod}
               style={{ height: 50, width: 200 }}
               onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+              mode={'dropdown'}
             >
               <Picker.Item label='Select one...' value='unselected' />
               <Picker.Item label='Past week' value='past_week' />
@@ -234,6 +237,7 @@ function HistoryMealTracking({ navigation }) {
               selectedValue={selectNutrients}
               style={{ height: 50, width: 200 }}
               onValueChange={(itemValue, itemIndex) => setNutrients(itemValue)}
+              mode={'dropdown'}
             >
               <Picker.Item label='Select one...' value='unselected' />
               <Picker.Item label='Calories' value='calories' />
