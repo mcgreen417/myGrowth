@@ -23,6 +23,8 @@ const TabBarAndContent = ({
 }) => {
   const [imgSource, setImageSource] = useState(images.historyImg);
 
+  var keepPress = '#4CB97A';
+
   /* History Comp version */
   if (history)
     return (
@@ -33,6 +35,7 @@ const TabBarAndContent = ({
             onPress={() => {
               setImageSource(images.historyImg);
               navigation.navigate('HistoryHealthEntries');
+              keepPress = '#A5DFB2';
             }}
             style={({ pressed }) => [
               {
@@ -40,7 +43,7 @@ const TabBarAndContent = ({
                 justifyContent: 'center',
                 alignItems: 'center',
                 paddingRight: 2,
-                backgroundColor: pressed ? '#A5DFB2' : '#4CB97A',
+                backgroundColor: pressed ? '#A5DFB2' : keepPress,
               },
             ]}>
             {/* text */}
