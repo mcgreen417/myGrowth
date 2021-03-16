@@ -31,7 +31,7 @@ function HistoryHealthEntries({ navigation }) {
           <View style={styles().centeredView}>
             {/* Dismiss Bar */}
             <View style={styles().inlineRowBackgrd}>
-                {/* add category chooser modal here */}
+              {/* add category chooser modal here */}
                 { /* image asset */ }
                 <View>
                     <Image style={{width: 20, height: 20}} source={require('../../shared/assets/icon.png')}/>
