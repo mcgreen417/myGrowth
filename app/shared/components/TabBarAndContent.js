@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
-import historyImg from '../../shared/assets/Rectangle.png';
-import correlationImg from '../../shared/assets/close.png';
-import activityImg from '../../shared/assets/gardener-avatar.png';
-import intensityImg from '../../shared/assets/SettingsGirlReading.png';
-import prescriptionImg from '../../shared/assets/splash.png';
-import timeSleepImg from '../../shared/assets/Rectangle.png';
-import qualityImg from '../../shared/assets/splash.png';
-import exerciseImg from '../../shared/assets/splash.png';
+const images = {
+  historyImg: require('../../shared/assets/Rectangle.png'),
+  correlationImg: require('../../shared/assets/close.png'),
+  activityImg: require('../../shared/assets/gardener-avatar.png'),
+  intensityImg: require('../../shared/assets/SettingsGirlReading.png'),
+  prescriptionImg: require('../../shared/assets/splash.png'),
+  timeSleepImg: require('../../shared/assets/Rectangle.png'),
+  qualityImg: require('../../shared/assets/splash.png'),
+  exerciseImg: require('../../shared/assets/splash.png'),
+};
 
 const TabBarAndContent = ({
   history = false,
@@ -19,7 +21,7 @@ const TabBarAndContent = ({
   fitness = false,
   navigation,
 }) => {
-  var imgSource = historyImg;
+  const [imgSource, setImageSource] = useState(images.historyImg);
 
   /* History Comp version */
   if (history)
@@ -29,7 +31,7 @@ const TabBarAndContent = ({
           {/* History */}
           <Pressable
             onPress={() => {
-              imgSource = historyImg;
+              setImageSource(images.historyImg);
               navigation.navigate('HistoryHealthEntries');
             }}
             style={({ pressed }) => [
@@ -62,7 +64,7 @@ const TabBarAndContent = ({
           {/* History */}
           <Pressable
             onPress={() => {
-              imgSource = historyImg;
+              setImageSource(images.historyImg);
             }}
             style={({ pressed }) => [
               {
@@ -80,7 +82,7 @@ const TabBarAndContent = ({
           {/* Correlation */}
           <Pressable
             onPress={() => {
-              imgSource = correlationImg;
+              setImageSource(images.correlationImg);
             }}
             style={({ pressed }) => [
               {
@@ -112,7 +114,7 @@ const TabBarAndContent = ({
           {/* history - 1 */}
           <Pressable
             onPress={() => {
-              imgSource = historyImg;
+              setImageSource(images.historyImg);
               navigation.navigate('HistoryDailyActivities1');
             }}
             style={({ pressed }) => [
@@ -131,7 +133,7 @@ const TabBarAndContent = ({
           {/* activity view - 2 */}
           <Pressable
             onPress={() => {
-              imgSource = activityImg;
+              setImageSource(images.activityImg);
               navigation.navigate('HistoryDailyActivities2');
             }}
             style={({ pressed }) => [
@@ -150,7 +152,7 @@ const TabBarAndContent = ({
           {/* correlation - 1 */}
           <Pressable
             onPress={() => {
-              imgSource = correlationImg;
+              setImageSource(images.correlationImg);
               navigation.navigate('HistoryDailyActivities1');
             }}
             style={({ pressed }) => [
@@ -184,7 +186,7 @@ const TabBarAndContent = ({
           {/* history - 1 */}
           <Pressable
             onPress={() => {
-              imgSource = historyImg;
+              setImageSourceS(images.historyImg);
               navigation.navigate('HistoryGeneralHealth1');
             }}
             style={({ pressed }) => [
@@ -203,7 +205,7 @@ const TabBarAndContent = ({
           {/* intensity - 2 */}
           <Pressable
             onPress={() => {
-              imgSource = intensityImg;
+              setImageSource(images.intensityImg);
               navigation.navigate('HistoryGeneralHealth2');
             }}
             style={({ pressed }) => [
@@ -222,7 +224,7 @@ const TabBarAndContent = ({
           {/* correlation - 1 */}
           <Pressable
             onPress={() => {
-              imgSource = correlationImg;
+              setImageSource(images.correlationImg);
               navigation.navigate('HistoryGeneralHealth1');
             }}
             style={({ pressed }) => [
@@ -255,7 +257,7 @@ const TabBarAndContent = ({
           {/* prescription */}
           <Pressable
             onPress={() => {
-              imgSource = prescriptionImg;
+              setImageSource(images.prescriptionImg);
             }}
             style={({ pressed }) => [
               {
@@ -273,7 +275,7 @@ const TabBarAndContent = ({
           {/* correlation */}
           <Pressable
             onPress={() => {
-              imgSource = correlationImg;
+              setImageSource(images.correlationImg);
             }}
             style={({ pressed }) => [
               {
@@ -305,7 +307,7 @@ const TabBarAndContent = ({
           {/* time asleep - 1 */}
           <Pressable
             onPress={() => {
-              imgSource = timeSleepImg;
+              setImageSource(images.timeSleepImg);
               navigation.navigate('HistorySleep1');
             }}
             style={({ pressed }) => [
@@ -324,7 +326,7 @@ const TabBarAndContent = ({
           {/* quality - 2 */}
           <Pressable
             onPress={() => {
-              imgSource = qualityImg;
+              setImageSource(images.qualityImg);
               navigation.navigate('HistorySleep2');
             }}
             style={({ pressed }) => [
@@ -343,7 +345,7 @@ const TabBarAndContent = ({
           {/* correlation - 1 */}
           <Pressable
             onPress={() => {
-              imgSource = correlationImg;
+              setImageSource(images.correlationImg);
               navigation.navigate('HistorySleep1');
             }}
             style={({ pressed }) => [
@@ -377,7 +379,7 @@ const TabBarAndContent = ({
           <Pressable
             onPress={() => {
               navigation.navigate('HistoryFitness1');
-              imgSource = historyImg;
+              setImageSource(images.historyImg);
             }}
             style={({ pressed }) => [
               {
@@ -396,7 +398,7 @@ const TabBarAndContent = ({
           <Pressable
             onPress={() => {
               navigation.navigate('HistoryFitness2');
-              imgSource = exerciseImg;
+              setImageSource(images.exerciseImg);
             }}
             style={({ pressed }) => [
               {
@@ -415,7 +417,7 @@ const TabBarAndContent = ({
           <Pressable
             onPress={() => {
               navigation.navigate('HistoryFitness1');
-              imgSource = correlationImg;
+              setImageSource(images.correlationImg);
             }}
             style={({ pressed }) => [
               {
