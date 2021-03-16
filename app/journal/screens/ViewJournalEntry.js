@@ -11,26 +11,87 @@ import {
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
 
-const ViewJournalEntry = ({ navigation }) => {
+const monthNames = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+const ViewJournalEntry = ({ route, navigation }) => {
+  const { journal_date, journal_entry } = route.params;
+  const d = new Date(journal_date);
+  const date =
+    monthNames[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  const time =
+    (d.getHours() % 12) +
+    1 +
+    ':' +
+    (d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes()) +
+    (d.getHours() > 12 ? 'pm' : 'am');
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <Button title='<-' />
-        <Button title='Word Cloud View' />
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-around',
+          alignContent: 'center',
+        }}>
+        <Icon name='arrow-left' />
+        <Text>Word Cloud View</Text>
+        <Icon
+          name='cloud'
+          onPress={() =>
+            navigation.navigate('WordCloudDisplay', {
+              journal_date: journal_date,
+              journal_entry: journal_entry,
+            })
+          }
+        />
       </View>
-      <View>
-        <Button title='<' />
-        <Text>Date</Text>
-        <Button title='>' />
+      <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+        <Icon name='arrow-left' />
+        <Text>{date}</Text>
+        <Icon name='arrow-right' />
       </View>
-      <View>
-        <Text>Entry Created</Text>
-        <Text>Last Edited</Text>
-        <Text>Journal entry</Text>
+      <View style={styles.dividerView}>
+        <View style={styles.divider} />
       </View>
-      <View>
-        <Button title='Edit Entry' />
-        <Button title='Delete Entry' />
+      <View style={{ marginRight: 20, marginLeft: 20 }}>
+        <Text>{'Entry Created ' + time}</Text>
+        <Text>{'Last Edited ' + date + ' at ' + time}</Text>
+        <Text style={{ marginBottom: 8, marginTop: 8 }}>{journal_entry}</Text>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          marginTop: 10,
+          marginBottom: 16,
+          alignSelf: 'center',
+        }}>
+        <View style={{ width: '42.5%' }}>
+          <Button
+            title='Edit Entry'
+            color='#A5DFB2'
+            onPress={() => navigation.navigate('CreateNewJournalEntry')}
+          />
+        </View>
+        <View style={{ width: '5%' }} />
+        <View style={{ width: '42.5%' }}>
+          <Button
+            title='Delete Entry'
+            color='#A5DFB2'
+            onPress={() => onPress()}
+          />
+        </View>
       </View>
       <NavBar journal={true} navigation={navigation} />
     </SafeAreaView>

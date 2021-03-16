@@ -1,4 +1,5 @@
 import React from 'react';
+import { Pressable } from 'react-native';
 import {
   Button,
   StyleSheet,
@@ -107,23 +108,41 @@ const JournalHistory = ({ navigation }) => {
         </View>
         <ScrollView
           showsVerticalScrollIndicator={false}
-          style={{ marginBottom: 60, marginLeft: 20, marginRight: 20 }}>
+          style={{
+            marginBottom: 60,
+            marginLeft: 20,
+            marginRight: 20,
+          }}>
           {journalEntries.map((item, index) => (
-            <View style={styles.journalItemSelect} key={index}>
-              <View>
-                <Text>{monthNames[new Date(item.date).getMonth()]}</Text>
-                <Text>{new Date(item.date).getDate()}</Text>
-                <Text>{new Date(item.date).getFullYear()}</Text>
+            <Pressable
+              key={index}
+              onPress={() =>
+                navigation.navigate('ViewJournalEntry', {
+                  journal_date: item.date,
+                  journal_entry: item.entry,
+                })
+              }>
+              <View style={styles.journalItemSelect}>
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignContent: 'center',
+                    marginRight: 20,
+                  }}>
+                  <Text>{monthNames[new Date(item.date).getMonth()]}</Text>
+                  <Text>{new Date(item.date).getDate()}</Text>
+                  <Text>{new Date(item.date).getFullYear()}</Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'column',
+                    flexShrink: 1,
+                    alignContent: 'center',
+                  }}>
+                  <Text style={{ flex: 1 }}>{item.entry}</Text>
+                </View>
               </View>
-              <View
-                style={{
-                  flexDirection: 'column',
-                  flexShrink: 1,
-                  backgroundColor: 'red',
-                }}>
-                <Text style={{ flex: 1 }}>{item.entry}</Text>
-              </View>
-            </View>
+            </Pressable>
           ))}
         </ScrollView>
       </View>
@@ -258,9 +277,23 @@ const styles = StyleSheet.create({
     // marginRight: 12,
     marginTop: 8,
     marginBottom: 8,
+    marginLeft: 5,
     flexDirection: 'row',
     alignItems: 'center',
+    padding: 8,
+    width: '90%',
     // justifyContent: 'center',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+    borderWidth: 3,
+    borderColor: '#816868',
   },
   plantItemPress: {
     borderRadius: 10,

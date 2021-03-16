@@ -34,7 +34,13 @@ const JournalEntryCompletion = ({ navigation }) => {
           <Button
             title='View Entry'
             color='#A5DFB2'
-            onPress={() => navigation.navigate('ViewJournalEntry')}
+            onPress={() =>
+              navigation.navigate('ViewJournalEntry', {
+                journal_date: '2021-09-02T09:34:59Z',
+                journal_entry:
+                  'I think this is enough entries just to show that this screen scrolls appropriately for the month of November, yeah! Just one...',
+              })
+            }
           />
         </View>
         <View style={{ width: '5%' }} />

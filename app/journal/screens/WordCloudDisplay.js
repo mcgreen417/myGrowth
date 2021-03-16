@@ -11,21 +11,84 @@ import {
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
 
-const WordCloudDisplay = () => {
+const monthNames = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+const WordCloudDisplay = ({ route, navigation }) => {
+  const { journal_date, journal_entry } = route.params;
+  const d = new Date(journal_date);
+  const date =
+    monthNames[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  const time =
+    (d.getHours() % 12) +
+    1 +
+    ':' +
+    (d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes()) +
+    (d.getHours() > 12 ? 'pm' : 'am');
+
+  const strp_entry = journal_entry.replace(/[\W_]+/g, ' ');
+  const split_entry = strp_entry.split(' ');
+
+  const counts = Object.create(null);
+  split_entry.forEach((entry) => {
+    counts[entry] = counts[entry] ? counts[entry] + 1 : 1;
+  });
+
+  delete counts[''];
+
+  // console.log(counts);
+
   return (
-    <SafeAreaView>
-      <View>
-        <Button title='<-' />
-        <Button title='Journal Entry View' />
+    <SafeAreaView style={styles.container}>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-around',
+          alignContent: 'center',
+        }}>
+        <Icon name='arrow-left' />
+        <Text>Journal Entry View</Text>
+        <Icon
+          name='bookmark'
+          onPress={() =>
+            navigation.navigate('ViewJournalEntry', {
+              journal_date: journal_date,
+              journal_entry: journal_entry,
+            })
+          }
+        />
+      </View>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+        <Icon name='arrow-left' />
+        <Text>{date}</Text>
+        <Icon name='arrow-right' />
+      </View>
+      <View style={styles.dividerView}>
+        <View style={styles.divider} />
       </View>
       <View>
-        <Button title='<' />
-        <Text>Date</Text>
-        <Button title='>' />
+        {Object.keys(counts).map(function (key, index) {
+          return (
+            <View key={key} style={{ flexDirection: 'row' }}>
+              <Text>{'"' + key + '": '}</Text>
+              <Text>{counts[key]}</Text>
+            </View>
+          );
+        })}
       </View>
-      <View>
-        <Image source={require('../../shared/assets/icon.png')} />
-      </View>
+      <NavBar journal={true} navigation={navigation} />
     </SafeAreaView>
   );
 };
