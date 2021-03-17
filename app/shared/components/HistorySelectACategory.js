@@ -14,7 +14,7 @@ import SelectACategoryIcon from './SelectACategoryIcon';
 
 const screensInfo = [
   {
-    category : "Entries",
+    category : "Health Entries",
     imageSrc : require("../assets/icon.png"),
     navigateTo : "HistoryHealthEntries"
   },
@@ -109,10 +109,18 @@ const HistorySelectACategory = ({setModalView, showModalView, navigation, ...res
           {/* Body of modal */}
           <View style={{backgroundColor: '#F6EFED', width: 300, height: 350,}}>
             {/* Buttons on modal */}
-            <View style={styles().inlineRowModal}>
-              
-              <SelectACategoryIcon screens={screensInfo} navigation={navigation} setModalVisible={setModalView} modalVisible={showModalView} />
-
+            <View
+              style={{
+                marginLeft: 30,
+                flex: 5,
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                flexGrow: 5,
+              }}>
+                
+                {screensInfo.map((screen) => (
+                  <SelectACategoryIcon screens={screen} navigation={navigation} setModalVisible={setModalView} modalVisible={showModalView} />
+                ))}
             </View>
           </View>
 

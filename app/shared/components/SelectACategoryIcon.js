@@ -11,11 +11,11 @@ const SelectACategoryIcon = ({screens, navigation, setModalVisible, modalVisible
   return (
     <View>
       <TouchableOpacity onPress={() => {
-        navigation.navigate(screens[0].navigateTo);
+        navigation.navigate(screens.navigateTo);
         setModalVisible(!modalVisible);
       }}>
-        <Image style={styles().chooserImg} source={screens[0].imageSrc} />
-        <Text style={styles().textReg}>{screens[0].category}</Text>
+        <Image style={styles().chooserImg} source={screens.imageSrc} />
+        <Text style={styles().textReg}>{screens.category}</Text>
   
       </TouchableOpacity>
     </View>
