@@ -49,7 +49,7 @@ function getTime(d) {
   );
 }
 
-const tasks = [
+const preTasks = [
   { taskName: 'Task 1', taskDate: '2021-03-05T12:00:00Z' },
   { taskName: 'Task 2', taskDate: '2021-03-05T12:00:00Z' },
   { taskName: 'Task 3', taskDate: '2021-03-05T12:00:00Z' },
@@ -58,6 +58,116 @@ const tasks = [
   { taskName: 'Task 6', taskDate: '2021-03-05T12:00:00Z' },
 ];
 
+const AddTask = ({
+  modalVisible,
+  setModalVisible,
+  currentItem,
+  setCurrentItem,
+  selectReminder,
+  setSelectReminder,
+  onModal,
+  hideView,
+}) => {
+  return (
+    <Pressable>
+      <View style={styles.modalView}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignContent: 'center',
+            justifyContent: 'center',
+            width: 300,
+            marginBottom: 10,
+          }}>
+          <Icon name='star-outline' style={{ height: 50 }} />
+          <TextInput
+            placeholder={currentItem.taskName}
+            style={{
+              borderColor: '#938F8E',
+              backgroundColor: 'white',
+              borderWidth: 1,
+              borderRadius: 10,
+              width: '90%',
+              // height: 50,
+            }}
+          />
+        </View>
+        <View style={{ flexDirection: 'row', width: 300 }}>
+          <Icon name='notes' />
+          <Text>NOTES</Text>
+        </View>
+        <View style={{ width: 300 }}>
+          <TextInput
+            multiline
+            numberOfLines={4}
+            style={{
+              borderColor: '#938F8E',
+              backgroundColor: 'white',
+              borderWidth: 1,
+              borderRadius: 10,
+              width: '100%',
+              // height: 50,
+            }}
+            placeholder='Add an optional task description...'
+          />
+        </View>
+        <View style={{ width: 300 }}>
+          <Text>Due Date</Text>
+          <View style={{ flexDirection: 'row' }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignContent: 'center',
+              }}>
+              <Icon name='event' />
+              <Text>{getDate(new Date(currentItem.taskDate))}</Text>
+              <Icon name='arrow-drop-down' type='material' />
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignContent: 'center',
+              }}>
+              <Icon name='schedule' />
+              <Text>{getTime(new Date(currentItem.taskDate))}</Text>
+              <Icon name='arrow-drop-down' type='material' />
+            </View>
+          </View>
+        </View>
+        <View style={{ width: 300 }}>
+          <Text>REMINDER</Text>
+        </View>
+        <View style={{ flexDirection: 'row', width: 300 }}>
+          <View style={styles.pickerView}>
+            <Picker
+              style={styles.picker}
+              selectedValue={selectReminder}
+              onValueChange={(itemValue, itemIndex) =>
+                setSelectReminder(itemValue)
+              }
+              mode={'dropdown'}>
+              <Picker.Item label='1 hour' value='1_hour' />
+              <Picker.Item label='6 hours' value='6_hours' />
+              <Picker.Item label='12 hours' value='12_hours' />
+              <Picker.Item label='1 day' value='1_day' />
+              <Picker.Item label='3 days' value='3_days' />
+              <Picker.Item label='1 week' value='1_week' />
+            </Picker>
+          </View>
+          <View style={{ width: 10 }} />
+          <View style={{ flexDirection: 'row' }}>
+            <Text onPress={() => hideView(false)}>{onModal}</Text>
+            <View style={{ width: 10 }} />
+            <Text>SAVE</Text>
+          </View>
+        </View>
+      </View>
+    </Pressable>
+  );
+};
+
 const ToDoList = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [currentItem, setCurrentItem] = useState({
@@ -65,6 +175,9 @@ const ToDoList = ({ navigation }) => {
     taskDate: '2021-03-05T12:00:00Z',
   });
   const [selectReminder, setSelectReminder] = useState();
+
+  const [tasks, setTasks] = useState(preTasks);
+  const [showAddTask, setShowAddTask] = useState(false);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -83,102 +196,16 @@ const ToDoList = ({ navigation }) => {
             alignContent: 'center',
             backgroundColor: '#00000050',
           }}>
-          <Pressable>
-            <View style={styles.modalView}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignContent: 'center',
-                  justifyContent: 'center',
-                  width: 300,
-                  marginBottom: 10,
-                }}>
-                <Icon name='star-outline' style={{ height: 50 }} />
-                <TextInput
-                  placeholder='Task name'
-                  style={{
-                    borderColor: '#938F8E',
-                    backgroundColor: 'white',
-                    borderWidth: 1,
-                    borderRadius: 10,
-                    width: '90%',
-                    // height: 50,
-                  }}
-                />
-              </View>
-              <View style={{ flexDirection: 'row', width: 300 }}>
-                <Icon name='notes' />
-                <Text>NOTES</Text>
-              </View>
-              <View style={{ width: 300 }}>
-                <TextInput
-                  multiline
-                  numberOfLines={4}
-                  style={{
-                    borderColor: '#938F8E',
-                    backgroundColor: 'white',
-                    borderWidth: 1,
-                    borderRadius: 10,
-                    width: '100%',
-                    // height: 50,
-                  }}
-                  placeholder='Add an optional task description...'
-                />
-              </View>
-              <View style={{ width: 300 }}>
-                <Text>Due Date</Text>
-                <View style={{ flexDirection: 'row' }}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      alignContent: 'center',
-                    }}>
-                    <Icon name='event' />
-                    <Text>{getDate(new Date(currentItem.taskDate))}</Text>
-                    <Icon name='arrow-drop-down' type='material' />
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      alignContent: 'center',
-                    }}>
-                    <Icon name='schedule' />
-                    <Text>{getTime(new Date(currentItem.taskDate))}</Text>
-                    <Icon name='arrow-drop-down' type='material' />
-                  </View>
-                </View>
-              </View>
-              <View style={{ width: 300 }}>
-                <Text>REMINDER</Text>
-              </View>
-              <View style={{ flexDirection: 'row', width: 300 }}>
-                <View style={styles.pickerView}>
-                  <Picker
-                    style={styles.picker}
-                    selectedValue={selectReminder}
-                    onValueChange={(itemValue, itemIndex) =>
-                      setSelectReminder(itemValue)
-                    }
-                    mode={'dropdown'}>
-                    <Picker.Item label='1 hour' value='1_hour' />
-                    <Picker.Item label='6 hours' value='6_hours' />
-                    <Picker.Item label='12 hours' value='12_hours' />
-                    <Picker.Item label='1 day' value='1_day' />
-                    <Picker.Item label='3 days' value='3_days' />
-                    <Picker.Item label='1 week' value='1_week' />
-                  </Picker>
-                </View>
-                <View style={{ width: 10 }} />
-                <View style={{ flexDirection: 'row' }}>
-                  <Text>DELETE</Text>
-                  <View style={{ width: 10 }} />
-                  <Text>SAVE</Text>
-                </View>
-              </View>
-            </View>
-          </Pressable>
+          <AddTask
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            currentItem={currentItem}
+            setCurrentItem={setCurrentItem}
+            selectReminder={selectReminder}
+            setSelectReminder={setSelectReminder}
+            onModal='DELETE'
+            hideView={setModalVisible}
+          />
         </Pressable>
       </Modal>
       {/* Gardener avatar + page blurb */}
@@ -306,8 +333,25 @@ const ToDoList = ({ navigation }) => {
               </Pressable>
             );
           })}
-          <View style={{ height: 30 }} />
         </View>
+        <View style={{ marginLeft: 30, marginRight: 30 }}>
+          {!showAddTask && (
+            <Text onPress={() => setShowAddTask(true)}>+ Add new task</Text>
+          )}
+        </View>
+        {showAddTask && (
+          <AddTask
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            currentItem={currentItem}
+            setCurrentItem={setCurrentItem}
+            selectReminder={selectReminder}
+            setSelectReminder={setSelectReminder}
+            onModal='CLOSE'
+            hideView={setShowAddTask}
+          />
+        )}
+        <View style={{ height: 30 }} />
       </ScrollView>
       <NavBar todo={true} navigation={navigation} />
     </SafeAreaView>
@@ -403,6 +447,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#E5E5E5',
     borderRadius: 10,
     padding: 35,
+    paddingBottom: -10,
+    paddingTop: 15,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
