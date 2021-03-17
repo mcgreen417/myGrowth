@@ -31,7 +31,7 @@ const screensInfo = [
   {
     category : "Daily Activities",
     imageSrc : require("../assets/icon.png"),
-    navigateTo : "DailyActivities"
+    navigateTo : "HistoryDailyActivities1"
   },
   {
     category : "Period Tracking",
@@ -74,14 +74,12 @@ const HistorySelectACategory = ({setModalView, showModalView, navigation, ...res
 
   return (
     <View>
-      
-
       <Modal animationType="none"
         transparent={true}
         visible={showModalView}
         onRequestClose={() => setModalView(!showModalView)}
       >
-
+        
         {/* Entire modal */}
         <View style={styles().centeredView}>
 
@@ -124,8 +122,6 @@ const HistorySelectACategory = ({setModalView, showModalView, navigation, ...res
             </View>
           </View>
 
-
-
         </View>
       </Modal>
     </View>
@@ -145,9 +141,9 @@ const styles = () => StyleSheet.create({
     color: global.colorblindMode
       ? global.cb_optionButtonsColor
       : global.optionButtonsColor,
-    flexDirection: 'row',
-    alignItems: 'center',
     width: 300, 
     height: 30,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });
