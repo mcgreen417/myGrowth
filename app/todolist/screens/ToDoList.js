@@ -12,8 +12,13 @@ import {
 } from 'react-native';
 
 import { Icon } from 'react-native-elements';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import {
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native-gesture-handler';
 import NavBar from '../../shared/components/NavBar';
+import { Picker } from '@react-native-picker/picker';
 
 const monthNames = [
   'January',
@@ -59,6 +64,7 @@ const ToDoList = ({ navigation }) => {
     taskName: 'No Task',
     taskDate: '2021-03-05T12:00:00Z',
   });
+  const [selectReminder, setSelectReminder] = useState();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -75,12 +81,102 @@ const ToDoList = ({ navigation }) => {
             height: Dimensions.get('window').height,
             justifyContent: 'center',
             alignContent: 'center',
+            backgroundColor: '#00000050',
           }}>
           <Pressable>
             <View style={styles.modalView}>
-              <Text>{currentItem.taskName}</Text>
-              <Text>{getDate(new Date(currentItem.taskDate))}</Text>
-              <Text>{getTime(new Date(currentItem.taskDate))}</Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignContent: 'center',
+                  justifyContent: 'center',
+                  width: 300,
+                  marginBottom: 10,
+                }}>
+                <Icon name='star-outline' style={{ height: 50 }} />
+                <TextInput
+                  placeholder='Task name'
+                  style={{
+                    borderColor: '#938F8E',
+                    backgroundColor: 'white',
+                    borderWidth: 1,
+                    borderRadius: 10,
+                    width: '90%',
+                    // height: 50,
+                  }}
+                />
+              </View>
+              <View style={{ flexDirection: 'row', width: 300 }}>
+                <Icon name='notes' />
+                <Text>NOTES</Text>
+              </View>
+              <View style={{ width: 300 }}>
+                <TextInput
+                  multiline
+                  numberOfLines={4}
+                  style={{
+                    borderColor: '#938F8E',
+                    backgroundColor: 'white',
+                    borderWidth: 1,
+                    borderRadius: 10,
+                    width: '100%',
+                    // height: 50,
+                  }}
+                  placeholder='Add an optional task description...'
+                />
+              </View>
+              <View style={{ width: 300 }}>
+                <Text>Due Date</Text>
+                <View style={{ flexDirection: 'row' }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                      alignContent: 'center',
+                    }}>
+                    <Icon name='event' />
+                    <Text>{getDate(new Date(currentItem.taskDate))}</Text>
+                    <Icon name='arrow-drop-down' type='material' />
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                      alignContent: 'center',
+                    }}>
+                    <Icon name='schedule' />
+                    <Text>{getTime(new Date(currentItem.taskDate))}</Text>
+                    <Icon name='arrow-drop-down' type='material' />
+                  </View>
+                </View>
+              </View>
+              <View style={{ width: 300 }}>
+                <Text>REMINDER</Text>
+              </View>
+              <View style={{ flexDirection: 'row', width: 300 }}>
+                <View style={styles.pickerView}>
+                  <Picker
+                    style={styles.picker}
+                    selectedValue={selectReminder}
+                    onValueChange={(itemValue, itemIndex) =>
+                      setSelectReminder(itemValue)
+                    }
+                    mode={'dropdown'}>
+                    <Picker.Item label='1 hour' value='1_hour' />
+                    <Picker.Item label='6 hours' value='6_hours' />
+                    <Picker.Item label='12 hours' value='12_hours' />
+                    <Picker.Item label='1 day' value='1_day' />
+                    <Picker.Item label='3 days' value='3_days' />
+                    <Picker.Item label='1 week' value='1_week' />
+                  </Picker>
+                </View>
+                <View style={{ width: 10 }} />
+                <View style={{ flexDirection: 'row' }}>
+                  <Text>DELETE</Text>
+                  <View style={{ width: 10 }} />
+                  <Text>SAVE</Text>
+                </View>
+              </View>
             </View>
           </Pressable>
         </Pressable>
@@ -304,8 +400,8 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
+    backgroundColor: '#E5E5E5',
+    borderRadius: 10,
     padding: 35,
     alignItems: 'center',
     shadowColor: '#000',
@@ -313,8 +409,21 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.5,
     shadowRadius: 4,
-    elevation: 5,
+    elevation: 7,
+  },
+  picker: {
+    height: 32,
+    width: '100%',
+  },
+  pickerView: {
+    borderWidth: 1,
+    marginBottom: 20,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    width: '70%',
+    backgroundColor: '#f4f3f4',
   },
 });
