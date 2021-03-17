@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Dimensions } from 'react-native';
+import { Modal } from 'react-native';
 import {
   Button,
   SafeAreaView,
@@ -11,7 +12,7 @@ import {
 } from 'react-native';
 
 import { Icon } from 'react-native-elements';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import NavBar from '../../shared/components/NavBar';
 
 const monthNames = [
@@ -53,8 +54,37 @@ const tasks = [
 ];
 
 const ToDoList = ({ navigation }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [currentItem, setCurrentItem] = useState({
+    taskName: 'No Task',
+    taskDate: '2021-03-05T12:00:00Z',
+  });
+
   return (
     <SafeAreaView style={styles.container}>
+      <Modal
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <Pressable
+          onPressOut={() => setModalVisible(false)}
+          style={{
+            width: Dimensions.get('window').width,
+            height: Dimensions.get('window').height,
+            justifyContent: 'center',
+            alignContent: 'center',
+          }}>
+          <Pressable>
+            <View style={styles.modalView}>
+              <Text>{currentItem.taskName}</Text>
+              <Text>{getDate(new Date(currentItem.taskDate))}</Text>
+              <Text>{getTime(new Date(currentItem.taskDate))}</Text>
+            </View>
+          </Pressable>
+        </Pressable>
+      </Modal>
       {/* Gardener avatar + page blurb */}
       <View style={styles.avatarView}>
         <Text style={styles.pageDescription}>
@@ -123,55 +153,61 @@ const ToDoList = ({ navigation }) => {
         <View>
           {tasks.map((item, index) => {
             return (
-              <View
-                style={{
-                  marginLeft: 20,
-                  marginRight: 20,
-                  marginBottom: 20,
-                  backgroundColor: '#E5E5E5',
-                  padding: 10,
-                  borderRadius: 10,
-                  shadowColor: '#000',
-                  shadowOffset: {
-                    width: 0,
-                    height: 3,
-                  },
-                  shadowOpacity: 1,
-                  shadowRadius: 4.65,
+              <Pressable
+                key={index}
+                onPress={() => {
+                  setModalVisible(true);
+                  setCurrentItem(item);
+                }}>
+                <View
+                  style={{
+                    marginLeft: 20,
+                    marginRight: 20,
+                    marginBottom: 20,
+                    backgroundColor: '#E5E5E5',
+                    padding: 10,
+                    borderRadius: 10,
+                    shadowColor: '#000',
+                    shadowOffset: {
+                      width: 0,
+                      height: 3,
+                    },
+                    shadowOpacity: 1,
+                    shadowRadius: 4.65,
 
-                  elevation: 7,
-                }}
-                key={index}>
-                <View style={{ flexDirection: 'row' }}>
-                  <Icon name='star-outline' />
-                  <Text>{item.taskName}</Text>
-                </View>
-                <View>
-                  <Text>Due Date</Text>
+                    elevation: 7,
+                  }}>
                   <View style={{ flexDirection: 'row' }}>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignContent: 'center',
-                      }}>
-                      <Icon name='event' />
-                      <Text>{getDate(new Date(item.taskDate))}</Text>
-                      <Icon name='arrow-drop-down' type='material' />
-                    </View>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignContent: 'center',
-                      }}>
-                      <Icon name='schedule' />
-                      <Text>{getTime(new Date(item.taskDate))}</Text>
-                      <Icon name='arrow-drop-down' type='material' />
+                    <Icon name='star-outline' />
+                    <Text>{item.taskName}</Text>
+                  </View>
+                  <View>
+                    <Text>Due Date</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'center',
+                          alignContent: 'center',
+                        }}>
+                        <Icon name='event' />
+                        <Text>{getDate(new Date(item.taskDate))}</Text>
+                        <Icon name='arrow-drop-down' type='material' />
+                      </View>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'center',
+                          alignContent: 'center',
+                        }}>
+                        <Icon name='schedule' />
+                        <Text>{getTime(new Date(item.taskDate))}</Text>
+                        <Icon name='arrow-drop-down' type='material' />
+                      </View>
                     </View>
                   </View>
                 </View>
-              </View>
+              </Pressable>
             );
           })}
           <View style={{ height: 30 }} />
@@ -265,5 +301,20 @@ const styles = StyleSheet.create({
   pageSetup: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });
