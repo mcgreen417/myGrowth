@@ -16,7 +16,6 @@ const SelectACategoryIcon = ({screens, navigation, setModalVisible, modalVisible
       }}>
         <Image style={styles().chooserImg} source={screens.imageSrc} />
         <Text style={styles().textReg}>{screens.category}</Text>
-  
       </TouchableOpacity>
     </View>
   );

@@ -116,6 +116,7 @@ const HistorySelectACategory = ({setModalView, showModalView, navigation, ...res
                 flexGrow: 5,
               }}>
                 
+                {/* Will create each of the icons for all pages */}
                 {screensInfo.map((screen) => (
                   <SelectACategoryIcon screens={screen} navigation={navigation} setModalVisible={setModalView} modalVisible={showModalView} />
                 ))}

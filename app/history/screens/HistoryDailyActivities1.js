@@ -19,11 +19,10 @@ function HistoryDailyActivities1({ navigation }) {
     const [timePeriod, setTimePeriod] = useState('unselected');
   
     return (
-
-
       <SafeAreaView style={styles().container}>
         { /* Modal */}
 
+        {/* Modal + each of the navigable history pages */}
         <HistorySelectACategory setModalView={setModalVisible} showModalView={modalVisible} navigation={navigation}/>
 
         <View>
@@ -96,82 +95,82 @@ function HistoryDailyActivities1({ navigation }) {
 export default HistoryDailyActivities1;
 
 const styles = () => StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: global.colorblindMode
-        ? global.cb_pageBackgroundColor
-        : global.pageBackgroundColor,
-    },
-    avatar: {
-      width: 75,
-      height: 75,
-      marginRight: 24,
-    },
-    buttons: {
-      marginTop: 10,
-      marginBottom: 10,
-      width: 80,
-      height: 25,
-      backgroundColor: global.colorblindMode
-        ? global.cb_optionButtonsColor
-        : global.optionButtonsColor,
-    },
-    centeredView: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      marginTop: 8,
-    },
-    chooserImg: {
-      borderWidth: 1,
-      borderColor: global.colorblindMode
-        ? global.cb_optionButtonsColor
-        : global.optionButtonsColor,
-      width: 40,
-      height: 40,
-    },
-    divider: {
-      flex: 1,
-      height: 1,
-      backgroundColor: global.colorblindMode
-        ? global.cb_contentDividerColor
-        : global.contentDividerColor,
-      marginLeft: 20,
-      marginRight: 20,
-    },
-    dividerView: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginTop: 20,
-      marginBottom: 20,
-    },
-    inlineRow: {
-      flexDirection: 'row',
-      width: '90%',
-      alignItems: 'center',
-    },
-    inlineRowBackgrd: {
-      backgroundColor: global.colorblindMode
-        ? global.cb_optionButtonsColor
-        : global.optionButtonsColor, 
-      width: 300, 
-      height: 30,
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    inlineRowModal: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    textReg: {
-      color: 'white',
-      textDecorationLine: 'none',
-      textAlign: 'center',
-      fontSize: 12,
-    },
-    bodyText: {
-      color: global.colorblindMode
-      ? global.cb_textColor
-      : global.textColor,
-    },
-  });
+  container: {
+    flex: 1,
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
+  },
+  avatar: {
+    width: 75,
+    height: 75,
+    marginRight: 24,
+  },
+  buttons: {
+    marginTop: 10,
+    marginBottom: 10,
+    width: 80,
+    height: 25,
+    backgroundColor: global.colorblindMode
+      ? global.cb_optionButtonsColor
+      : global.optionButtonsColor,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 8,
+  },
+  chooserImg: {
+    borderWidth: 1,
+    borderColor: global.colorblindMode
+      ? global.cb_optionButtonsColor
+      : global.optionButtonsColor,
+    width: 40,
+    height: 40,
+  },
+  divider: {
+    flex: 1,
+    height: 1,
+    backgroundColor: global.colorblindMode
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
+    marginLeft: 20,
+    marginRight: 20,
+  },
+  dividerView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  inlineRow: {
+    flexDirection: 'row',
+    width: '90%',
+    alignItems: 'center',
+  },
+  inlineRowBackgrd: {
+    backgroundColor: global.colorblindMode
+      ? global.cb_optionButtonsColor
+      : global.optionButtonsColor, 
+    width: 300, 
+    height: 30,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  inlineRowModal: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  textReg: {
+    color: 'white',
+    textDecorationLine: 'none',
+    textAlign: 'center',
+    fontSize: 12,
+  },
+  bodyText: {
+    color: global.colorblindMode
+    ? global.cb_textColor
+    : global.textColor,
+  },
+});
