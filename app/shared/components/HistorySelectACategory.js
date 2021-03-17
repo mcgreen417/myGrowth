@@ -31,7 +31,7 @@ const screensInfo = [
   {
     category : "Daily Activities",
     imageSrc : require("../assets/icon.png"),
-    navigateTo : ""
+    navigateTo : "DailyActivities"
   },
   {
     category : "Period Tracking",
@@ -141,8 +141,13 @@ const styles = () => StyleSheet.create({
     alignItems: "center",
     marginTop: 8,
   },
-  inlineRowModal: {
+  inlineRowBackgrd: {
+    color: global.colorblindMode
+      ? global.cb_optionButtonsColor
+      : global.optionButtonsColor,
     flexDirection: 'row',
     alignItems: 'center',
+    width: 300, 
+    height: 30,
   },
 });
