@@ -56,6 +56,8 @@ const TabBarAndContent = ({
                 alignItems: 'center',
                 paddingRight: 2,
                 backgroundColor: historyButtonColor,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
               }
             }>
             {/* text */}
@@ -90,6 +92,8 @@ const TabBarAndContent = ({
                 alignItems: 'center',
                 paddingRight: 2,
                 backgroundColor: historyButtonColor,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
               }
             }>
             {/* text */}
@@ -109,6 +113,8 @@ const TabBarAndContent = ({
                 alignItems: 'center',
                 paddingRight: 2,
                 backgroundColor: corrButtonColor,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
               }}>
             {/* text */}
             <Text style={styles.tabText}>Correlations</Text>
@@ -143,6 +149,8 @@ const TabBarAndContent = ({
                 alignItems: 'center',
                 paddingRight: 2,
                 backgroundColor: historyButtonColor,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
               }}>
             {/* text */}
             <Text style={styles.tabText}>History</Text>
@@ -163,6 +171,8 @@ const TabBarAndContent = ({
                 alignItems: 'center',
                 paddingRight: 2,
                 backgroundColor: activityButtonColor,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
               }}>
             {/* text */}
             <Text style={styles.tabText}>Activity View</Text>
@@ -183,6 +193,8 @@ const TabBarAndContent = ({
                 alignItems: 'center',
                 paddingRight: 2,
                 backgroundColor: corrButtonColor,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
               }}>
             {/* text */}
             <Text style={styles.tabText}>Correlations</Text>
@@ -218,6 +230,8 @@ const TabBarAndContent = ({
                 alignItems: 'center',
                 paddingRight: 2,
                 backgroundColor: historyButtonColor,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
               }}>
             {/* text */}
             <Text style={styles.tabText}>History</Text>
@@ -238,6 +252,8 @@ const TabBarAndContent = ({
                 alignItems: 'center',
                 paddingRight: 2,
                 backgroundColor: intensityButtonColor,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
               }}>
             {/* text */}
             <Text style={styles.tabText}>Intensity</Text>
@@ -258,6 +274,8 @@ const TabBarAndContent = ({
                 alignItems: 'center',
                 paddingRight: 2,
                 backgroundColor: corrButtonColor,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
               }}>
             {/* text */}
             <Text style={styles.tabText}>Correlations</Text>
@@ -290,6 +308,8 @@ const TabBarAndContent = ({
                 alignItems: 'center',
                 paddingRight: 2,
                 backgroundColor: scriptButtonColor,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
               }}>
             {/* text */}
             <Text style={styles.tabText}>Prescription</Text>
@@ -308,6 +328,8 @@ const TabBarAndContent = ({
                 alignItems: 'center',
                 paddingRight: 2,
                 backgroundColor: corrButtonColor,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
               }}>
             {/* text */}
             <Text style={styles.tabText}>Correlations</Text>
@@ -342,6 +364,8 @@ const TabBarAndContent = ({
                 alignItems: 'center',
                 paddingRight: 2,
                 backgroundColor: sleepButtonColor,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
               }}>
             {/* text */}
             <Text style={styles.tabText}>Time Asleep</Text>
@@ -362,6 +386,8 @@ const TabBarAndContent = ({
                 alignItems: 'center',
                 paddingRight: 2,
                 backgroundColor: qualityButtonColor,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
               }}>
             {/* text */}
             <Text style={styles.tabText}>Quality</Text>
@@ -382,6 +408,8 @@ const TabBarAndContent = ({
                 alignItems: 'center',
                 paddingRight: 2,
                 backgroundColor: corrButtonColor,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
               }}>
             {/* text */}
             <Text style={styles.tabText}>Correlations</Text>
@@ -416,6 +444,8 @@ const TabBarAndContent = ({
                 alignItems: 'center',
                 paddingRight: 2,
                 backgroundColor: historyButtonColor,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
               }}>
             {/* text */}
             <Text style={styles.tabText}>History</Text>
@@ -436,6 +466,8 @@ const TabBarAndContent = ({
                 alignItems: 'center',
                 paddingRight: 2,
                 backgroundColor: exerciseButtonColor,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
               }}>
             {/* text */}
             <Text style={styles.tabText}>Exercises</Text>
@@ -456,6 +488,8 @@ const TabBarAndContent = ({
                 alignItems: 'center',
                 paddingRight: 2,
                 backgroundColor: corrButtonColor,
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
               }}>
             {/* text */}
             <Text style={styles.tabText}>Correlations</Text>
@@ -490,6 +524,7 @@ const styles = StyleSheet.create({
   coloredBarView: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: -1,
   },
   images: {
     width: 350,
