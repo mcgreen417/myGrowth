@@ -1,4 +1,5 @@
 import React from 'react';
+import { Dimensions } from 'react-native';
 import {
   Button,
   SafeAreaView,
@@ -12,6 +13,44 @@ import {
 import { Icon } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import NavBar from '../../shared/components/NavBar';
+
+const monthNames = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+function getDate(d) {
+  return monthNames[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+}
+
+function getTime(d) {
+  return (
+    (d.getHours() % 12) +
+    1 +
+    ':' +
+    (d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes()) +
+    (d.getHours() > 12 ? 'pm' : 'am')
+  );
+}
+
+const tasks = [
+  { taskName: 'Task 1', taskDate: '2021-03-05T12:00:00Z' },
+  { taskName: 'Task 2', taskDate: '2021-03-05T12:00:00Z' },
+  { taskName: 'Task 3', taskDate: '2021-03-05T12:00:00Z' },
+  { taskName: 'Task 4', taskDate: '2021-03-05T12:00:00Z' },
+  { taskName: 'Task 5', taskDate: '2021-03-05T12:00:00Z' },
+  { taskName: 'Task 6', taskDate: '2021-03-05T12:00:00Z' },
+];
 
 const ToDoList = ({ navigation }) => {
   return (
@@ -77,12 +116,65 @@ const ToDoList = ({ navigation }) => {
       {/* Task listing */}
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{ marginTop: 20 }}>
+        style={{
+          marginTop: 20,
+          marginBottom: 50,
+        }}>
         <View>
-          <Button title='task1' />
-          <Button title='task2' />
-          <Button title='task3' />
-          <Button title='task4' />
+          {tasks.map((item, index) => {
+            return (
+              <View
+                style={{
+                  marginLeft: 20,
+                  marginRight: 20,
+                  marginBottom: 20,
+                  backgroundColor: '#E5E5E5',
+                  padding: 10,
+                  borderRadius: 10,
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 3,
+                  },
+                  shadowOpacity: 1,
+                  shadowRadius: 4.65,
+
+                  elevation: 7,
+                }}
+                key={index}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Icon name='star-outline' />
+                  <Text>{item.taskName}</Text>
+                </View>
+                <View>
+                  <Text>Due Date</Text>
+                  <View style={{ flexDirection: 'row' }}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignContent: 'center',
+                      }}>
+                      <Icon name='event' />
+                      <Text>{getDate(new Date(item.taskDate))}</Text>
+                      <Icon name='arrow-drop-down' type='material' />
+                    </View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignContent: 'center',
+                      }}>
+                      <Icon name='schedule' />
+                      <Text>{getTime(new Date(item.taskDate))}</Text>
+                      <Icon name='arrow-drop-down' type='material' />
+                    </View>
+                  </View>
+                </View>
+              </View>
+            );
+          })}
+          <View style={{ height: 30 }} />
         </View>
       </ScrollView>
       <NavBar todo={true} navigation={navigation} />
