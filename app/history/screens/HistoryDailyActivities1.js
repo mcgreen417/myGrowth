@@ -24,7 +24,7 @@ function HistoryDailyActivities1({ navigation }) {
       <SafeAreaView style={styles().container}>
         { /* Modal */}
 
-        <HistorySelectACategory setModalView={setModalVisible} showModalView={modalVisible} />
+        <HistorySelectACategory setModalView={setModalVisible} showModalView={modalVisible} navigation={navigation}/>
 
         <View>
           <Text style={styles().bodyText}>

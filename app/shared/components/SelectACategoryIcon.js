@@ -7,11 +7,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-const SelectACategoryIcon = ({screens, setModalVisible, modalVisible, ...rest}) => {
+const SelectACategoryIcon = ({screens, navigation, setModalVisible, modalVisible, ...rest}) => {
   return (
     <View>
       <TouchableOpacity onPress={() => {
-        // navigation.navigate(screens[0].navigateTo);
+        navigation.navigate(screens[0].navigateTo);
         setModalVisible(!modalVisible);
       }}>
         <Image style={styles().chooserImg} source={screens[0].imageSrc} />

@@ -70,7 +70,7 @@ const screensInfo = [
   },
 ];
 
-const HistorySelectACategory = ({setModalView, showModalView, ...rest}) => {
+const HistorySelectACategory = ({setModalView, showModalView, navigation, ...rest}) => {
 
   return (
     <View>
@@ -111,7 +111,7 @@ const HistorySelectACategory = ({setModalView, showModalView, ...rest}) => {
             {/* Buttons on modal */}
             <View style={styles().inlineRowModal}>
               
-              <SelectACategoryIcon screens={screensInfo} setModalVisible={setModalView} modalVisible={showModalView}/>
+              <SelectACategoryIcon screens={screensInfo} navigation={navigation} setModalVisible={setModalView} modalVisible={showModalView} />
 
             </View>
           </View>
