@@ -14,118 +14,154 @@ import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
 
-function HistoryFitness1({ navigation }) {  
-    const [timePeriod, setTimePeriod] = useState('unselected');
-  
-    const [selectDisplay, setDisplay] = useState('unselected');
-  
-    const [useReccActivity, setUseReccActivity] = useState(false);
+function HistoryFitness1({ navigation }) {
+  const [modalVisible, setModalVisible] = useState(false); 
+  const [timePeriod, setTimePeriod] = useState('unselected');
+  const [selectDisplay, setDisplay] = useState('unselected');
+  const [useReccActivity, setUseReccActivity] = useState(false);
 
-    const toggleReccActivity = () =>
-      setUseReccActivity((previousState) => !previousState);
+  const toggleReccActivity = () =>
+    setUseReccActivity((previousState) => !previousState);
   
-    return (
-      <SafeAreaView style={styles().container}>
-        {/* Modal */}
-        <HistorySelectACategory
-          setModalView={setModalVisible}
-          showModalView={modalVisible}
-          navigation={navigation}
+  return (
+    <SafeAreaView style={styles().container}>
+      {/* Modal */}
+      <HistorySelectACategory
+        setModalView={setModalVisible}
+        showModalView={modalVisible}
+        navigation={navigation}
+      />
+
+      <View>
+        <Text style={styles().bodyText}>
+          View your fitness history and our analysis of positive health effects that 
+          may be attributed to your current workout routine.
+        </Text>
+        <Image 
+          source={require('../../shared/assets/icon.png')} 
+          style={styles().avatar}
         />
-        
-        <View>
-          <Text style={styles().bodyText}>
-            View your fitness history and our analysis of positive health effects that 
-            may be attributed to your current workout routine.
-          </Text>
-          <Image 
-            source={require('../../shared/assets/icon.png')} 
-            style={styles().avatar}
-          />
-        </View>
-        {/* page divider */}
-        <View style={styles().dividerView}>
-          <View style={styles().divider} />
-        </View>
-        <View>
-          <Button title='History' />
-          <Button title='Exercises' onPress={() => navigation.navigate('HistoryFitness2')} />
-          <Button title='Correlations' />
-          <TouchableOpacity style={styles().buttons} onPress={() => setModalVisible(true)}>
-            <View style={styles().inlineRow}>
-              <Text style={styles().textReg}>Categories</Text>
-              <View>
-              <Image source={require('../../shared/assets/transit_enterexit.png')} />
-              </View>
+      </View>
+      {/* page divider */}
+      <View style={styles().dividerView}>
+        <View style={styles().divider} />
+      </View>
+      <View>
+        <Button 
+          title='History'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Button
+          title='Exercises'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+          onPress={() => navigation.navigate('HistoryFitness2')}
+        />
+        <Button
+          title='Correlations'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <TouchableOpacity style={styles().buttons} onPress={() => setModalVisible(true)}>
+          <View style={styles().inlineRow}>
+            <Text style={styles().textReg}>Categories</Text>
+            <View>
+            <Image source={require('../../shared/assets/transit_enterexit.png')} />
             </View>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <View>
-            <Text>TIME PERIOD</Text>
-            <Picker
-              selectedValue={timePeriod}
-              style={{ height: 50, width: 200 }}
-              onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
-            >
-              <Picker.Item label='Select one...' value='unselected' />
-              <Picker.Item label='Past week' value='past_week' />
-              <Picker.Item label='Past month' value='past_month' />
-              <Picker.Item label='Past year' value='past_year' />
-            </Picker>
           </View>
-          <View>
-            <Text>SELECT DISPLAY</Text>
-            <Picker
-              selectedValue={selectDisplay}
-              style={{ height: 50, width: 200 }}
-              onValueChange={(itemValue, itemIndex) => setDisplay(itemValue)}
-            >
-              <Picker.Item label='Select one...' value='unselected' />
-              <Picker.Item label='PLACEHOLDER' value='temp' />
-              <Picker.Item label='PLACEHOLDER2' value='temp2' />
-            </Picker>
-          </View>
-        </View>
-        {/* page divider */}
-        <View style={styles().dividerView}>
-          <View style={styles().divider} />
+        </TouchableOpacity>
+      </View>
+      <View>
+        <View>
+          <Text style={styles().bodyText}>TIME PERIOD</Text>
+          <Picker
+            selectedValue={timePeriod}
+            style={{ height: 50, width: 200 }}
+            onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+          >
+            <Picker.Item label='Select one...' value='unselected' />
+            <Picker.Item label='Past week' value='past_week' />
+            <Picker.Item label='Past month' value='past_month' />
+            <Picker.Item label='Past year' value='past_year' />
+          </Picker>
         </View>
         <View>
-          <Text>Display recommended activity levels</Text>
-          <Switch
-            trackColor={{ false: '#767577', true: '#9AD2AF' }}
-            thumbColor={useReccActivity ? '#4CB97A' : '#f4f3f4'}
-            ios_backgroundColor='#3e3e3e'
-            onValueChange={toggleReccActivity}
-            value={useReccActivity}
-          />
+          <Text style={styles().bodyText}>SELECT DISPLAY</Text>
+          <Picker
+            selectedValue={selectDisplay}
+            style={{ height: 50, width: 200 }}
+            onValueChange={(itemValue, itemIndex) => setDisplay(itemValue)}
+          >
+            <Picker.Item label='Select one...' value='unselected' />
+            <Picker.Item label='PLACEHOLDER' value='temp' />
+            <Picker.Item label='PLACEHOLDER2' value='temp2' />
+          </Picker>
         </View>
-        {/* page divider */}
-        <View style={styles().dividerView}>
-          <View style={styles().divider} />
-        </View>
-        <View>
-          <Text>
-            ADD APPROPRIATE TEXT HERE
-          </Text>
-          {/*<ProperSleepAnalysis />*/}
-        </View>
-        <View>
-          <Text>
-            ADD APPROPRIATE TEXT HERE
-          </Text>
-          {/*<NotEnoughSleepAnalysis />*/}
-        </View>
-        <View>
-          <Text>
-            ADD APPROPRIATE TEXT HERE
-          </Text>
-          {/*<OversleptSleepAnalysis />*/}
-        </View>
-        <NavBar history={true} navigation={navigation} />
-      </SafeAreaView>
-    );
+      </View>
+      {/* page divider */}
+      <View style={styles().dividerView}>
+        <View style={styles().divider} />
+      </View>
+      <View>
+        <Text style={styles().bodyText}>Display recommended activity levels</Text>
+        <Switch
+          trackColor={{ 
+            false: global.colorblindMode 
+              ? global.cb_switchTrackColorFalse
+              : global.switchTrackColorFalse,
+            true: global.colorblindMode
+              ? global.cb_switchTrackColorTrue 
+              : global.switchTrackColorTrue
+          }}
+          thumbColor={
+            useReccActivity
+              ? (global.colorblindMode 
+                ? global.cb_switchThumbColorTrue
+                : global.switchThumbColorTrue)
+              : (global.colorblindMode
+                ? global.cb_switchThumbColorFalse
+                : global.switchThumbColorFalse)
+          }
+          ios_backgroundColor={global.cb_switchIosBackgroundColor}
+          onValueChange={toggleReccActivity}
+          value={useReccActivity}
+        />
+      </View>
+      {/* page divider */}
+      <View style={styles().dividerView}>
+        <View style={styles().divider} />
+      </View>
+      <View>
+        <Text style={styles().bodyText}>
+          ADD APPROPRIATE TEXT HERE
+        </Text>
+        {/*<ProperSleepAnalysis />*/}
+      </View>
+      <View>
+        <Text style={styles().bodyText}>
+          ADD APPROPRIATE TEXT HERE
+        </Text>
+        {/*<NotEnoughSleepAnalysis />*/}
+      </View>
+      <View>
+        <Text style={styles().bodyText}>
+          ADD APPROPRIATE TEXT HERE
+        </Text>
+        {/*<OversleptSleepAnalysis />*/}
+      </View>
+      <NavBar history={true} navigation={navigation} />
+    </SafeAreaView>
+  );
 };
 
 export default HistoryFitness1;
