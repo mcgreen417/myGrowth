@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
+import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
 
 function HistoryDailyActivities2({ navigation }) {  
   const [selectactivity, setActivity] = useState('unselected');
