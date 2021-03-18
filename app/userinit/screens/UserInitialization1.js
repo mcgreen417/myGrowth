@@ -26,6 +26,7 @@ function UserInitialization1({ navigation }) {
   const [show, setShow] = useState(false);
   const [gender, setGender] = useState('unselected');
   const [bioSex, setBioSex] = useState('unselected');
+  const [firstName, setFirstName] = useState('');
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -89,7 +90,12 @@ function UserInitialization1({ navigation }) {
             />
           </View>
           <View style={styles().userPrompt}>
-            <TextInput style={styles().textInput} placeholder='First name' />
+            <TextInput style={styles().textInput} placeholder='First name' 
+              value = {firstName}
+              onChangeText = {(firstName) => {
+                setFirstName(firstName);
+              }}
+            />
           </View>
 
           {/* Date of birth calendar pop-up */}
