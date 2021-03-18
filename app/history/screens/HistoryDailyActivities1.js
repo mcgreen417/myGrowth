@@ -23,7 +23,7 @@ function HistoryDailyActivities1({ navigation }) {
         { /* Modal */}
 
         {/* Modal + each of the navigable history pages */}
-        <HistorySelectACategory setModalView={setModalVisible} showModalView={modalVisible} navigation={navigation}/>
+        <HistorySelectACategory setModalView={setModalVisible} showModalView={modalVisible} navigation={navigation} />
 
         <View>
           <Text style={styles().bodyText}>

@@ -88,10 +88,10 @@ const HistorySelectACategory = ({setModalView, showModalView, navigation, ...res
             {/* add category chooser modal here */}
             { /* image asset */ }
             <View>
-              <Image style={{width: 20, height: 20}} source={require('../../shared/assets/icon.png')}/>
+              <Image style={{width: 20, height: 20}} source={require('../../shared/assets/icon.png')} />
             </View>
 
-            <View>
+            <View style={styles().modalHeaderBar}>
               <Text style={{color: 'white'}}>Select a Category</Text>
             </View>
 
@@ -147,4 +147,11 @@ const styles = () => StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  modalHeaderBar: {
+    backgroundColor: global.colorblindMode
+      ? global.cb_optionButtonsColor
+      : global.optionButtonsColor,
+    width: 260,
+    height: 30,
+  }
 });
