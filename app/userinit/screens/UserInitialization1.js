@@ -81,11 +81,12 @@ function UserInitialization1({ navigation }) {
 
           {/* First name user input entry */}
           <View style={styles().inlineRow2}>
-            <Text style={styles().heading}>FIRST NAME </Text>
+            <Text style={styles().heading}>FIRST NAME</Text>
             <Icon
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
+              style={{ marginLeft: 6 }}
             />
           </View>
           <View style={styles().userPrompt}>
@@ -94,22 +95,29 @@ function UserInitialization1({ navigation }) {
 
           {/* Date of birth calendar pop-up */}
           <View style={styles().inlineRow2}>
-            <Text style={styles().heading}>DATE OF BIRTH </Text>
+            <Text style={styles().heading}>DATE OF BIRTH</Text>
             <Icon
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
+              style={{ marginLeft: 6 }}
             />
           </View>
           <View style={styles().datePicker}>
             <TouchableOpacity onPress={showDatepicker}>
               <View style={styles().inlineRow}>
-                <Icon name='calendar-sharp' type='ionicon' color='#816868' />
-                <Text> </Text>
-                <Text
-                  style={{ textDecorationLine: 'underline', color: '#4CB97A' }}>
-                  MM/DD/YYYY
-                </Text>
+                <Icon 
+                  name='calendar-sharp' 
+                  type='ionicon' 
+                  color='#816868' 
+                  style={{ marginRight: 6, }}
+                />
+                <Text style={styles().textLink}>MM/DD/YYYY</Text>
+                <Icon 
+                  name='arrow-drop-down' 
+                  type='material' 
+                  color='#816868' 
+                />
               </View>
             </TouchableOpacity>
             {show && (
@@ -126,11 +134,12 @@ function UserInitialization1({ navigation }) {
 
           {/* Gender drop-down */}
           <View style={styles().inlineRow2}>
-            <Text style={styles().heading}>GENDER </Text>
+            <Text style={styles().heading}>GENDER</Text>
             <Icon
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
+              style={{ marginLeft: 6 }}
             />
           </View>
           <View style={{ width: '90%' }}>
@@ -152,11 +161,12 @@ function UserInitialization1({ navigation }) {
 
           {/* Biological sex drop-down */}
           <View style={styles().inlineRow2}>
-            <Text style={styles().heading}>BIOLOGICAL SEX </Text>
+            <Text style={styles().heading}>BIOLOGICAL SEX</Text>
             <Icon
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
+              style={{ marginLeft: 6 }}
             />
           </View>
           <View style={{ width: '90%' }}>
@@ -177,11 +187,12 @@ function UserInitialization1({ navigation }) {
 
           {/* Height user input entry + cm switch button */}
           <View style={styles().inlineRow2}>
-            <Text style={styles().heading}>HEIGHT </Text>
+            <Text style={styles().heading}>HEIGHT</Text>
             <Icon
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
+              style={{ marginLeft: 6 }}
             />
           </View>
           <View style={styles().userPrompt}>
@@ -204,16 +215,17 @@ function UserInitialization1({ navigation }) {
           <View style={styles().inlineRow2}>
             <View style={{ width: '50%' }}>
               <View style={styles().inlineRow2}>
-                <Text style={styles().heading}>WEIGHT </Text>
+                <Text style={styles().heading}>WEIGHT</Text>
                 <Icon
                   name='information-circle-outline'
                   type='ionicon'
                   color='#816868'
+                  style={{ marginLeft: 6 }}
                 />
               </View>
               <View style={styles().userPrompt}>
                 <TextInput style={styles().textInput3} placeholder='#' />
-                <Text> LB</Text>
+                <Text>LB</Text>
                 <ToggleButton
                   icon={
                     useWeightMeasurement
@@ -224,7 +236,7 @@ function UserInitialization1({ navigation }) {
                   status={useWeightMeasurement ? 'checked' : 'unchecked'}
                   onPress={toggleWeightMeasurement}
                 />
-                <Text>KG</Text>
+                <Text style={styles().text}>KG</Text>
               </View>
             </View>
 
@@ -383,6 +395,7 @@ const styles = () =>
       width: '12%',
       textAlign: 'center',
       fontSize: 16,
+      marginRight: 8,
     },
     textInput3: {
       height: 36,
@@ -394,10 +407,16 @@ const styles = () =>
       width: '27%',
       textAlign: 'center',
       fontSize: 16,
+      marginRight: 12,
     },
-    textReg: {
+    text: {
       color: 'black',
-      textAlign: 'left',
+      fontSize: 16,
+    },
+    textLink: {
+      textDecorationLine: 'underline', 
+      color: '#4CB97A',
+      fontSize: 16,
     },
     userPrompt: {
       marginBottom: 20,
