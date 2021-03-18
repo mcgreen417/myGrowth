@@ -14,14 +14,19 @@ import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
 
-function HistoryDailyActivities2({ navigation }) {  
+function HistoryDailyActivities2({ navigation }) { 
+  const [modalVisible, setModalVisible] = useState(false);  
   const [selectactivity, setActivity] = useState('unselected');
   
   return (
     <SafeAreaView style={styles().container}>
       { /* Modal */}
-      <HistorySelectACategory setModalView={setModalVisible} showModalView={modalVisible} navigation={navigation} />
-      
+      <HistorySelectACategory
+        setModalView={setModalVisible}
+        showModalView={modalVisible}
+        navigation={navigation}
+      />
+            
       <View>
         <Text style={styles().bodyText}>
           View an easily digestable summary of your past daily activities 

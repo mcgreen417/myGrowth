@@ -20,8 +20,12 @@ function HistoryHealthEntries({ navigation }) {
   return (
     <SafeAreaView style={styles().container}>
       { /* Modal */}
-      <HistorySelectACategory setModalView={setModalVisible} showModalView={modalVisible} navigation={navigation} />
-
+      <HistorySelectACategory
+        setModalView={setModalVisible}
+        showModalView={modalVisible}
+        navigation={navigation}
+      />
+      
       {/* Actual Screen */}
       <View>
         <Text style={styles().bodyText}>

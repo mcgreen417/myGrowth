@@ -16,80 +16,84 @@ import HistorySelectACategory from '../../shared/components/HistorySelectACatego
 
 function HistoryDailyActivities1({ navigation }) { 
   const [modalVisible, setModalVisible] = useState(false); 
-    const [timePeriod, setTimePeriod] = useState('unselected');
+  const [timePeriod, setTimePeriod] = useState('unselected');
   
-    return (
-      <SafeAreaView style={styles().container}>
-        { /* Modal */}
+  return (
+    <SafeAreaView style={styles().container}>
+      { /* Modal */}
 
-        {/* Modal + each of the navigable history pages */}
-        <HistorySelectACategory setModalView={setModalVisible} showModalView={modalVisible} navigation={navigation} />
+      {/* Modal + each of the navigable history pages */}
+      <HistorySelectACategory
+        setModalView={setModalVisible}
+        showModalView={modalVisible}
+        navigation={navigation}
+      />
 
-        <View>
-          <Text style={styles().bodyText}>
-            View an easily digestable summary of your past daily activities 
-            and check out the periods where you were the most active! 
-          </Text>
-          <Image 
-            source={require('../../shared/assets/icon.png')} 
-            style={styles().avatar}
-          />
-        </View>
-        {/* Top page divider */}
-        <View style={styles().dividerView}>
-          <View style={styles().divider} />
-        </View>
-        <View>
-          <Button
-            title='History'
-            color={
-              global.colorblindMode
-                ? global.cb_optionButtonsColor
-                : global.optionButtonsColor
-            }
-          />
-          <Button
-            title='Activity View'
-            color={
-              global.colorblindMode
-                ? global.cb_optionButtonsColor
-                : global.optionButtonsColor
-            }
-            onPress={() => navigation.navigate('HistoryDailyActivities2')}
-          />
-          <Button
-            title='Correlations'
-            color={
-              global.colorblindMode
-                ? global.cb_optionButtonsColor
-                : global.optionButtonsColor
-            }
-          />
-          <TouchableOpacity style={styles().buttons} onPress={() => setModalVisible(true)}>
-            <View style={styles().inlineRow}>
-              <Text style={styles().textReg}>Categories</Text>
-              <View>
-              <Image source={require('../../shared/assets/transit_enterexit.png')} />
-              </View>
+      <View>
+        <Text style={styles().bodyText}>
+          View an easily digestable summary of your past daily activities 
+          and check out the periods where you were the most active! 
+        </Text>
+        <Image 
+          source={require('../../shared/assets/icon.png')} 
+          style={styles().avatar}
+        />
+      </View>
+      {/* Top page divider */}
+      <View style={styles().dividerView}>
+        <View style={styles().divider} />
+      </View>
+      <View>
+        <Button
+          title='History'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Button
+          title='Activity View'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+          onPress={() => navigation.navigate('HistoryDailyActivities2')}
+        />
+        <Button
+          title='Correlations'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <TouchableOpacity style={styles().buttons} onPress={() => setModalVisible(true)}>
+          <View style={styles().inlineRow}>
+            <Text style={styles().textReg}>Categories</Text>
+            <View>
+            <Image source={require('../../shared/assets/transit_enterexit.png')} />
             </View>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <Text style={styles().bodyText}>TIME PERIOD</Text>
-          <Picker
-            selectedValue={timePeriod}
-            style={{ height: 50, width: 200 }}
-            onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
-          >
-            <Picker.Item label='Select one...' value='unselected' />
-            <Picker.Item label='Past week' value='past_week' />
-            <Picker.Item label='Past month' value='past_month' />
-            <Picker.Item label='Past year' value='past_year' />
-          </Picker>
-        </View>
-        <NavBar history={true} navigation={navigation} />
-      </SafeAreaView>
-    );
+          </View>
+        </TouchableOpacity>
+      </View>
+      <View>
+        <Text style={styles().bodyText}>TIME PERIOD</Text>
+        <Picker
+          selectedValue={timePeriod}
+          style={{ height: 50, width: 200 }}
+          onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+        >
+          <Picker.Item label='Select one...' value='unselected' />
+          <Picker.Item label='Past week' value='past_week' />
+          <Picker.Item label='Past month' value='past_month' />
+          <Picker.Item label='Past year' value='past_year' />
+        </Picker>
+      </View>
+      <NavBar history={true} navigation={navigation} />
+    </SafeAreaView>
+  );
 };
 
 export default HistoryDailyActivities1;
