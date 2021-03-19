@@ -167,7 +167,8 @@ const styles = () => StyleSheet.create({
     textDecorationLine: 'none',
     textAlign: 'center',
     fontSize: 12,
-  }, bodyText: {
+  },
+  bodyText: {
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
