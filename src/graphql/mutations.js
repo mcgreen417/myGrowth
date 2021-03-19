@@ -155,17 +155,6 @@ export const addSetting = /* GraphQL */ `
     }
   }
 `;
-export const addWeightHeight = /* GraphQL */ `
-  mutation AddWeightHeight($UserID: ID) {
-    addWeightHeight(UserID: $UserID) {
-      UserID
-      Options {
-        userHeight
-        userWeight
-      }
-    }
-  }
-`;
 export const updateSetting = /* GraphQL */ `
   mutation UpdateSetting($UserID: ID, $options: OptionInput!) {
     updateSetting(UserID: $UserID, options: $options) {

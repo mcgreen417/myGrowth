@@ -277,8 +277,7 @@ function UserInitialization1({ navigation }) {
                   color='#A5DFB2'
                   onPress={() => {
                     updateUser(firstName, date, gender, bioSex);
-                    weightHeightQuery(weight, height);
-                    navigation.navigate('UserInitialization2');
+                    navigation.navigate('UserInitialization2', { height: height, weight: weight});
                   }}
                 />
               </View>
@@ -300,16 +299,15 @@ async function updateUser(firstName, date, gender, bioSex) {
   });
 }
 
-async function weightHeightQuery(weight, height) {
-  const weightHeightOptions = {
+async function settingQuery(weight, height) {
+  const settingOptions = {
     userHeight: height,
     userWeight: weight
   };
 
   const res = await API.graphql({
-    query: mutations.addWeightHeight,
-    variables: {Options: weightHeightOptions},
-    authMode: 'AMAZON_COGNITO_USER_POOLS',
+    query: mutations.addSetting,
+    variables: {Options: weightHeightOptions}
   });
 
   console.log('result of mutation: ', res);
