@@ -174,7 +174,7 @@ const styles = () => StyleSheet.create({
   },
   bodyText: {
     color: global.colorblindMode
-    ? global.cb_textColor
-    : global.textColor,
+      ? global.cb_textColor
+      : global.textColor,
   },
 });
