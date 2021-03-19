@@ -77,7 +77,7 @@ function HistoryFitness2({ navigation }) {
           <View style={styles().inlineRow}>
             <Text style={styles().textReg}>Categories</Text>
             <View>
-            <Image source={require('../../shared/assets/transit_enterexit.png')} />
+              <Image source={require('../../shared/assets/transit_enterexit.png')} />
             </View>
           </View>
         </TouchableOpacity>
