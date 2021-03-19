@@ -42,9 +42,32 @@ function HistoryDailyActivities2({ navigation }) {
         <View style={styles().divider} />
       </View>
       <View>
-        <Button title='History' onPress={() => navigation.navigate('HistoryDailyActivities1')} />
-        <Button title='Activity View' />
-        <Button title='Correlations' onPress={() => navigation.navigate('HistoryDailyActivities1')} />
+        <Button
+          title='History'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          } 
+          onPress={() => navigation.navigate('HistoryDailyActivities1')}
+        />
+        <Button
+          title='Activity View'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Button
+          title='Correlations'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+          onPress={() => navigation.navigate('HistoryDailyActivities1')}
+        />
         <TouchableOpacity style={styles().buttons} onPress={() => setModalVisible(true)}>
           <View style={styles().inlineRow}>
             <Text style={styles().textReg}>Categories</Text>
@@ -155,5 +178,5 @@ const styles = () => StyleSheet.create({
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
-  }
+  },
 });
