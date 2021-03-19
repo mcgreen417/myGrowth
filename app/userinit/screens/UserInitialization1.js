@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Auth, API } from 'aws-amplify';
 import {
   Button,
   Image,
@@ -14,6 +15,7 @@ import {
   Switch,
 } from 'react-native';
 
+import * as mutations from '../../../src/graphql/mutations';
 import { Icon } from 'react-native-elements';
 import { ToggleButton } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
@@ -27,12 +29,29 @@ function UserInitialization1({ navigation }) {
   const [gender, setGender] = useState('unselected');
   const [bioSex, setBioSex] = useState('unselected');
   const [firstName, setFirstName] = useState('');
+  const [dateDisplayText, setDateDisplayText] = useState('MM/DD/YYYY');
+  const [height, setHeight] = useState('');
+  const [weight, setWeight] = useState('');
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    console.log(currentDate);
+    //console.log(currentDate);
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
+
+    const zero = "0";
+    var month = selectedDate.getMonth() + 1;
+    var dateofmonth = selectedDate.getDate();
+    const year = selectedDate.getFullYear();
+    var fullStr = "";
+
+    fullStr = fullStr.concat(month);
+    fullStr = fullStr.concat("/");
+    fullStr = fullStr.concat(dateofmonth);
+    fullStr = fullStr.concat("/");
+    fullStr = fullStr.concat(year);
+
+    setDateDisplayText(fullStr);
   };
 
   const showMode = (currentMode) => {
@@ -89,6 +108,8 @@ function UserInitialization1({ navigation }) {
               color='#816868'
             />
           </View>
+
+          {/* user's name in firstname var */}
           <View style={styles().userPrompt}>
             <TextInput style={styles().textInput} placeholder='First name' 
               value = {firstName}
@@ -107,14 +128,16 @@ function UserInitialization1({ navigation }) {
               color='#816868'
             />
           </View>
+
+          {/* stores the date in date var */}
           <View style={styles().datePicker}>
             <TouchableOpacity onPress={showDatepicker}>
               <View style={styles().inlineRow}>
                 <Icon name='calendar-sharp' type='ionicon' color='#816868' />
-                <Text> </Text>
                 <Text
-                  style={{ textDecorationLine: 'underline', color: '#4CB97A' }}>
-                  MM/DD/YYYY
+                  style={{ textDecorationLine: 'underline', color: '#4CB97A' }}
+                >
+                  {dateDisplayText}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -139,6 +162,8 @@ function UserInitialization1({ navigation }) {
               color='#816868'
             />
           </View>
+
+          {/* gender stored in gender */}
           <View style={{ width: '90%' }}>
             <View style={styles().pickerView}>
               <Picker
@@ -165,6 +190,8 @@ function UserInitialization1({ navigation }) {
               color='#816868'
             />
           </View>
+
+          {/* stored in bioSex */}
           <View style={{ width: '90%' }}>
             <View style={styles().pickerView}>
               <Picker
@@ -191,7 +218,11 @@ function UserInitialization1({ navigation }) {
             />
           </View>
           <View style={styles().userPrompt}>
-            <TextInput style={styles().textInput2} placeholder='#' />
+            <TextInput style={
+              styles().textInput2} 
+              onChangeText = {(height) => setHeight(height)} 
+              placeholder='#' 
+            />
             <Text> IN</Text>
             <ToggleButton
               icon={
@@ -218,7 +249,11 @@ function UserInitialization1({ navigation }) {
                 />
               </View>
               <View style={styles().userPrompt}>
-                <TextInput style={styles().textInput3} placeholder='#' />
+                <TextInput 
+                  style={styles().textInput3} 
+                  onChangeText = {(weight) => setWeight(weight)}
+                  placeholder='#' 
+                />
                 <Text> LB</Text>
                 <ToggleButton
                   icon={
@@ -240,7 +275,11 @@ function UserInitialization1({ navigation }) {
                 <Button
                   title='NEXT'
                   color='#A5DFB2'
-                  onPress={() => navigation.navigate('UserInitialization2')}
+                  onPress={() => {
+                    updateUser(firstName, date, gender, bioSex);
+                    weightHeightQuery(weight, height);
+                    navigation.navigate('UserInitialization2');
+                  }}
                 />
               </View>
             </View>
@@ -251,7 +290,30 @@ function UserInitialization1({ navigation }) {
   );
 }
 
-export default UserInitialization1;
+async function updateUser(firstName, date, gender, bioSex) {
+  const user = await Auth.currentAuthenticatedUser();
+  await Auth.updateUserAttributes(user, {
+    'name': firstName,
+    'birthdate': date,
+    'gender': gender,
+    'custom:biological_sex': bioSex
+  });
+}
+
+async function weightHeightQuery(weight, height) {
+  const weightHeightOptions = {
+    userHeight: height,
+    userWeight: weight
+  };
+
+  const res = await API.graphql({
+    query: mutations.addWeightHeight,
+    variables: {Options: weightHeightOptions},
+    authMode: 'AMAZON_COGNITO_USER_POOLS',
+  });
+
+  console.log('result of mutation: ', res);
+}
 
 const styles = () =>
   StyleSheet.create({
@@ -412,3 +474,5 @@ const styles = () =>
       alignItems: 'center',
     },
   });
+
+export default UserInitialization1;
