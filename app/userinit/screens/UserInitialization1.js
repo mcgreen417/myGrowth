@@ -15,14 +15,13 @@ import {
   Switch,
 } from 'react-native';
 
-import * as mutations from '../../../src/graphql/mutations';
 import { Icon } from 'react-native-elements';
 import { ToggleButton } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
 import { ScrollView } from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-function UserInitialization1({ navigation }) {
+function UserInitialization1({ route, navigation }) {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
@@ -30,6 +29,7 @@ function UserInitialization1({ navigation }) {
   const [bioSex, setBioSex] = useState('unselected');
   const [firstName, setFirstName] = useState('');
   const [dateDisplayText, setDateDisplayText] = useState('MM/DD/YYYY');
+  const [dob, setDob] = useState('0000-00-00');
   const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
 
@@ -52,6 +52,7 @@ function UserInitialization1({ navigation }) {
     fullStr = fullStr.concat(year);
 
     setDateDisplayText(fullStr);
+    setDob(selectedDate.toISOString().slice(0, 10));
   };
 
   const showMode = (currentMode) => {
@@ -63,13 +64,13 @@ function UserInitialization1({ navigation }) {
     showMode('date');
   };
 
-  const [useHeightMeasurement, setUseHeightMeasurement] = useState(false);
+  const [useHeightMeasurement, setToggleHeightMeasurement] = useState(false);
   const toggleHeightMeasurement = () =>
-    setUseHeightMeasurement((previousState) => !previousState);
+    setToggleHeightMeasurement((previousState) => !previousState);
 
-  const [useWeightMeasurement, setUseWeightMeasurement] = useState(false);
+  const [useWeightMeasurement, setToggleWeightMeasurement] = useState(false);
   const toggleWeightMeasurement = () =>
-    setUseWeightMeasurement((previousState) => !previousState);
+    setToggleWeightMeasurement((previousState) => !previousState);
 
   return (
     <SafeAreaView style={styles().container}>
@@ -276,8 +277,13 @@ function UserInitialization1({ navigation }) {
                   title='NEXT'
                   color='#A5DFB2'
                   onPress={() => {
-                    updateUser(firstName, date, gender, bioSex);
-                    navigation.navigate('UserInitialization2', { height: height, weight: weight});
+                    updateUser(firstName, dob, gender, bioSex);
+                    navigation.navigate('UserInitialization2', { 
+                      height: height, 
+                      weight: weight, 
+                      heightMeasurement: useHeightMeasurement, 
+                      weightMeasurement: useWeightMeasurement,
+                    });
                   }}
                 />
               </View>
@@ -289,28 +295,14 @@ function UserInitialization1({ navigation }) {
   );
 }
 
-async function updateUser(firstName, date, gender, bioSex) {
+async function updateUser(firstName, dob, gender, bioSex) {
   const user = await Auth.currentAuthenticatedUser();
   await Auth.updateUserAttributes(user, {
     'name': firstName,
-    'birthdate': date,
+    'birthdate': dob,
     'gender': gender,
     'custom:biological_sex': bioSex
   });
-}
-
-async function settingQuery(weight, height) {
-  const settingOptions = {
-    userHeight: height,
-    userWeight: weight
-  };
-
-  const res = await API.graphql({
-    query: mutations.addSetting,
-    variables: {Options: weightHeightOptions}
-  });
-
-  console.log('result of mutation: ', res);
 }
 
 const styles = () =>

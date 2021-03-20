@@ -133,8 +133,8 @@ export const deleteMilestone = /* GraphQL */ `
   }
 `;
 export const addSetting = /* GraphQL */ `
-  mutation AddSetting($UserID: ID) {
-    addSetting(UserID: $UserID) {
+  mutation AddSetting($UserID: ID, $options: OptionInput!) {
+    addSetting(UserID: $UserID, options: $options) {
       UserID
       Options {
         stress
@@ -147,6 +147,7 @@ export const addSetting = /* GraphQL */ `
         fitness
         userHeight
         userWeight
+        metric
       }
       Medications {
         name
@@ -170,6 +171,7 @@ export const updateSetting = /* GraphQL */ `
         fitness
         userHeight
         userWeight
+        metric
       }
       Medications {
         name
@@ -193,6 +195,7 @@ export const deleteSetting = /* GraphQL */ `
         fitness
         userHeight
         userWeight
+        metric
       }
       Medications {
         name
@@ -216,6 +219,7 @@ export const addMedication = /* GraphQL */ `
         fitness
         userHeight
         userWeight
+        metric
       }
       Medications {
         name
@@ -243,6 +247,7 @@ export const updateMedication = /* GraphQL */ `
         fitness
         userHeight
         userWeight
+        metric
       }
       Medications {
         name
@@ -266,6 +271,7 @@ export const removeMedication = /* GraphQL */ `
         fitness
         userHeight
         userWeight
+        metric
       }
       Medications {
         name
@@ -322,10 +328,22 @@ export const addDailyEntry = /* GraphQL */ `
         Start
         End
         Quality
+        Naps {
+          Start
+          End
+          Quality
+        }
       }
       Meals {
         Ate
         TotalCalories
+        MealList {
+          Food
+          Calories
+          Proteins
+          Carbs
+          Fats
+        }
         TotalProteins
         TotalCarbs
         TotalFats
@@ -335,10 +353,24 @@ export const addDailyEntry = /* GraphQL */ `
         Duration
         CaloriesBurned
         Steps
+        Exercises {
+          Name
+          Sets
+          Reps
+          Duration
+          Weight
+          CaloriesBurned
+        }
       }
       MedCheck {
         Name
         Taken
+      }
+      Activities {
+        Activities {
+          Name
+          Duration
+        }
       }
     }
   }
@@ -393,10 +425,22 @@ export const updateDailyEntry = /* GraphQL */ `
         Start
         End
         Quality
+        Naps {
+          Start
+          End
+          Quality
+        }
       }
       Meals {
         Ate
         TotalCalories
+        MealList {
+          Food
+          Calories
+          Proteins
+          Carbs
+          Fats
+        }
         TotalProteins
         TotalCarbs
         TotalFats
@@ -406,10 +450,24 @@ export const updateDailyEntry = /* GraphQL */ `
         Duration
         CaloriesBurned
         Steps
+        Exercises {
+          Name
+          Sets
+          Reps
+          Duration
+          Weight
+          CaloriesBurned
+        }
       }
       MedCheck {
         Name
         Taken
+      }
+      Activities {
+        Activities {
+          Name
+          Duration
+        }
       }
     }
   }
@@ -440,10 +498,22 @@ export const deleteDailyEntry = /* GraphQL */ `
         Start
         End
         Quality
+        Naps {
+          Start
+          End
+          Quality
+        }
       }
       Meals {
         Ate
         TotalCalories
+        MealList {
+          Food
+          Calories
+          Proteins
+          Carbs
+          Fats
+        }
         TotalProteins
         TotalCarbs
         TotalFats
@@ -453,10 +523,24 @@ export const deleteDailyEntry = /* GraphQL */ `
         Duration
         CaloriesBurned
         Steps
+        Exercises {
+          Name
+          Sets
+          Reps
+          Duration
+          Weight
+          CaloriesBurned
+        }
       }
       MedCheck {
         Name
         Taken
+      }
+      Activities {
+        Activities {
+          Name
+          Duration
+        }
       }
     }
   }

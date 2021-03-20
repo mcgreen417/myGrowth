@@ -82,6 +82,7 @@ export const getSetting = /* GraphQL */ `
         fitness
         userHeight
         userWeight
+        metric
       }
       Medications {
         name
@@ -116,10 +117,22 @@ export const getDailyEntry = /* GraphQL */ `
         Start
         End
         Quality
+        Naps {
+          Start
+          End
+          Quality
+        }
       }
       Meals {
         Ate
         TotalCalories
+        MealList {
+          Food
+          Calories
+          Proteins
+          Carbs
+          Fats
+        }
         TotalProteins
         TotalCarbs
         TotalFats
@@ -129,10 +142,24 @@ export const getDailyEntry = /* GraphQL */ `
         Duration
         CaloriesBurned
         Steps
+        Exercises {
+          Name
+          Sets
+          Reps
+          Duration
+          Weight
+          CaloriesBurned
+        }
       }
       MedCheck {
         Name
         Taken
+      }
+      Activities {
+        Activities {
+          Name
+          Duration
+        }
       }
     }
   }
@@ -143,6 +170,71 @@ export const getDailyEntries = /* GraphQL */ `
       dailyEntries {
         UserID
         Timestamp
+        Health {
+          Period
+          Weight
+        }
+        Symptoms {
+          Title
+          Severity
+        }
+        Stress {
+          Severity
+          Stressors
+        }
+        Mood {
+          Mood
+          Feelings
+        }
+        Sleep {
+          Slept
+          Start
+          End
+          Quality
+          Naps {
+            Start
+            End
+            Quality
+          }
+        }
+        Meals {
+          Ate
+          TotalCalories
+          MealList {
+            Food
+            Calories
+            Proteins
+            Carbs
+            Fats
+          }
+          TotalProteins
+          TotalCarbs
+          TotalFats
+        }
+        Fitness {
+          Exercised
+          Duration
+          CaloriesBurned
+          Steps
+          Exercises {
+            Name
+            Sets
+            Reps
+            Duration
+            Weight
+            CaloriesBurned
+          }
+        }
+        MedCheck {
+          Name
+          Taken
+        }
+        Activities {
+          Activities {
+            Name
+            Duration
+          }
+        }
       }
       nextToken
     }
@@ -179,6 +271,10 @@ export const getJournalEntries = /* GraphQL */ `
       journalEntries {
         Entry
         Timestamp
+        FreqWords {
+          word
+          count
+        }
       }
       nextToken
     }

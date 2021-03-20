@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Auth, API } from 'aws-amplify';
 import {
   Button,
   Image,
@@ -13,8 +14,11 @@ import {
   FlatList,
   Switch,
 } from 'react-native';
+import * as mutations from '../../../src/graphql/mutations';
 
-function UserInitialization3({ navigation }) {
+function UserInitialization3({ route, navigation }) {
+  const { height, weight, heightMeasurement, weightMeasurement } = route.params;
+
   const [useStressLevels, setUseStressLevels] = useState(false);
   const toggleStressLevels = () =>
     setUseStressLevels((previousState) => !previousState);
@@ -205,18 +209,75 @@ function UserInitialization3({ navigation }) {
           <Button
             title='Back'
             color='#A5DFB2'
-            onPress={() => navigation.navigate('UserInitialization2')}
+            onPress={() => navigation.navigate('UserInitialization2', { 
+              height: height, 
+              weight: weight, 
+              heightMeasurement: heightMeasurement, 
+              weightMeasurement: weightMeasurement,
+            })}
           />
           <View style={{ width: '70%' }}></View>
           <Button
             title='Finish'
             color='#A5DFB2'
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => {
+              settingQuery(
+                weight, 
+                height, 
+                useStressLevels, 
+                useDailyActivities, 
+                useWeightTracking, 
+                usePeriodTracking, 
+                useMedicationTracking, 
+                useSleepTracking, 
+                useMealTracking,
+                useFitnessTracking,
+                heightMeasurement
+              );
+              navigation.navigate('Home');
+            }}
           />
         </View>
       </View>
     </SafeAreaView>
   );
+}
+
+async function settingQuery(
+  weight, 
+  height, 
+  useStressLevels, 
+  useDailyActivities, 
+  useWeightTracking, 
+  usePeriodTracking, 
+  useMedicationTracking, 
+  useSleepTracking,
+  useMealTracking, 
+  useFitnessTracking,
+  heightMeasurement
+) {
+  const user = Auth.currentUserInfo();
+  const metricMeasure = heightMeasurement ? 'metric' : 'imperial';
+  const settingOptions = {
+    stress: useStressLevels,
+    dailyActivities: useDailyActivities,
+    weight: useWeightTracking,
+    period: usePeriodTracking,
+    medication: useMedicationTracking,
+    sleep: useSleepTracking,
+    meal: useMealTracking,
+    fitness: useFitnessTracking,
+    userHeight: height,
+    userWeight: weight,
+    metric: metricMeasure
+  };
+
+  const res = await API.graphql({
+    query: mutations.addSetting,
+    variables: {UserID: user.username, options: settingOptions}
+  });
+
+  console.log('result of mutation: ', res);
 }
 
 export default UserInitialization3;
