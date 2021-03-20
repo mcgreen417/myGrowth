@@ -301,7 +301,8 @@ async function updateUser(firstName, dob, gender, bioSex) {
     'name': firstName,
     'birthdate': dob,
     'gender': gender,
-    'custom:biological_sex': bioSex
+    'custom:biological_sex': bioSex,
+    'custom:intialized': 'true'
   });
 }
 

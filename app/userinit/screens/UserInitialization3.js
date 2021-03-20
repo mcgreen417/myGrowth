@@ -257,7 +257,6 @@ async function settingQuery(
   heightMeasurement
 ) {
   const user = Auth.currentUserInfo();
-  const metricMeasure = heightMeasurement ? 'metric' : 'imperial';
   const settingOptions = {
     stress: useStressLevels,
     dailyActivities: useDailyActivities,
@@ -269,7 +268,7 @@ async function settingQuery(
     fitness: useFitnessTracking,
     userHeight: height,
     userWeight: weight,
-    metric: metricMeasure
+    metric: heightMeasurement
   };
 
   const res = await API.graphql({

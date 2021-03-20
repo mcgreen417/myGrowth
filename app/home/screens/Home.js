@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Auth, API } from 'aws-amplify';
 import {
   StyleSheet,
   Text,
@@ -13,15 +14,22 @@ import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
 
 function Home({ navigation }) {
+  const [displayName, setDisplayName] = useState('(FirstName)');
   let plant = 4;
   let stage = 0;
+
+  useEffect(() => {
+    const user = getUser();
+    setDisplayName(user.attributes.name);
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Gardener avatar + page blurb */}
         <View style={styles.avatarView}>
           <Text style={styles.pageDescription}>
-            Good Morning, {'\n'}(First name)!
+            Good Morning, {'\n'}{displayName}!
           </Text>
           <Image
             style={styles.avatar}
@@ -194,6 +202,14 @@ function Home({ navigation }) {
       <NavBar home={true} navigation={navigation} />
     </SafeAreaView>
   );
+}
+
+async function getUser(){
+  const user = await Auth.currentUserInfo();
+
+  console.log(user.attributes);
+
+  return user;
 }
 
 export default Home;
