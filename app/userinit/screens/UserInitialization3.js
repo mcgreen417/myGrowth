@@ -275,8 +275,6 @@ async function settingQuery(
     query: mutations.addSetting,
     variables: {UserID: user.username, options: settingOptions}
   });
-
-  console.log('result of mutation: ', res);
 }
 
 export default UserInitialization3;

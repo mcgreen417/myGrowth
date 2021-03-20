@@ -8,19 +8,40 @@ import {
   Image,
   Pressable,
 } from 'react-native';
+import * as queries from '../../../src/graphql/queries';
 
 import { ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
 
 function Home({ navigation }) {
-  const [displayName, setDisplayName] = useState('(FirstName)');
   let plant = 4;
   let stage = 0;
 
+  const [displayName, setDisplayName] = useState('(FirstName)');
+  const [mostRecentEntryString, setMostRecentEntryString] = useState('You wrote your last entry on (date) at (time).');
+
   useEffect(() => {
-    const user = getUser();
-    setDisplayName(user.attributes.name);
+    async function setName() {
+      const user = await Auth.currentAuthenticatedUser();
+
+      setDisplayName(user.attributes.name);
+    }
+
+    async function setRecentEntryString() {
+      var setString = 'You haven\'t written an entry yet, write your very first entry now!';
+      const user = await Auth.currentAuthenticatedUser();
+
+      //put query here
+
+      //find most recent query (if any)
+        //set new string
+
+      setMostRecentEntryString(setString);
+    }
+
+    setName();
+    setRecentEntryString();
   });
 
   return (
@@ -72,7 +93,7 @@ function Home({ navigation }) {
           </Pressable>
         </View>
 
-        {/* Write a new entry button */}
+        {/* Write a new entry button - make it navigate - MAKE STRING DYNAMIC */}
         <View style={styles.dividerView}>
           <View style={styles.dividerLeft} />
           <View>
@@ -100,7 +121,7 @@ function Home({ navigation }) {
                       color: '#F6EFED',
                       marginTop: -4,
                     }}>
-                    You wrote your last entry on (date) at (time).
+                    {mostRecentEntryString}
                   </Text>
                 </View>
               </View>
@@ -202,14 +223,6 @@ function Home({ navigation }) {
       <NavBar home={true} navigation={navigation} />
     </SafeAreaView>
   );
-}
-
-async function getUser(){
-  const user = await Auth.currentUserInfo();
-
-  console.log(user.attributes);
-
-  return user;
 }
 
 export default Home;
