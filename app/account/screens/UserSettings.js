@@ -258,6 +258,16 @@ function UserSettings({ navigation }) {
                 thumbColor={useStressLevels ? '#4CB97A' : '#f4f3f4'}
                 ios_backgroundColor='#3e3e3e'
                 onValueChange={toggleStressLevels}
+                onChange={() => {updateUserSetting(
+                  useStressLevels, 
+                  useDailyActivities, 
+                  useWeightTracking, 
+                  usePeriodTracking, 
+                  useMedicationTracking, 
+                  useSleepTracking, 
+                  useMealTracking, 
+                  useFitnessTracking
+                );}}
                 value={useStressLevels}
               />
             </View>
@@ -274,6 +284,16 @@ function UserSettings({ navigation }) {
                 thumbColor={useDailyActivities ? '#4CB97A' : '#f4f3f4'}
                 ios_backgroundColor='#3e3e3e'
                 onValueChange={toggleDailyActivities}
+                onChange={() => {updateUserSetting(
+                  useStressLevels, 
+                  useDailyActivities, 
+                  useWeightTracking, 
+                  usePeriodTracking, 
+                  useMedicationTracking, 
+                  useSleepTracking, 
+                  useMealTracking, 
+                  useFitnessTracking
+                );}}
                 value={useDailyActivities}
               />
             </View>
@@ -290,6 +310,16 @@ function UserSettings({ navigation }) {
                 thumbColor={useWeightTracking ? '#4CB97A' : '#f4f3f4'}
                 ios_backgroundColor='#3e3e3e'
                 onValueChange={toggleWeightTracking}
+                onChange={() => {updateUserSetting(
+                  useStressLevels, 
+                  useDailyActivities, 
+                  useWeightTracking, 
+                  usePeriodTracking, 
+                  useMedicationTracking, 
+                  useSleepTracking, 
+                  useMealTracking, 
+                  useFitnessTracking
+                );}}
                 value={useWeightTracking}
               />
             </View>
@@ -306,6 +336,16 @@ function UserSettings({ navigation }) {
                 thumbColor={usePeriodTracking ? '#4CB97A' : '#f4f3f4'}
                 ios_backgroundColor='#3e3e3e'
                 onValueChange={togglePeriodTracking}
+                onChange={() => {updateUserSetting(
+                  useStressLevels, 
+                  useDailyActivities, 
+                  useWeightTracking, 
+                  usePeriodTracking, 
+                  useMedicationTracking, 
+                  useSleepTracking, 
+                  useMealTracking, 
+                  useFitnessTracking
+                );}}
                 value={usePeriodTracking}
               />
             </View>
@@ -322,6 +362,16 @@ function UserSettings({ navigation }) {
                 thumbColor={useMedicationTracking ? '#4CB97A' : '#f4f3f4'}
                 ios_backgroundColor='#3e3e3e'
                 onValueChange={toggleMedicationTracking}
+                onChange={() => {updateUserSetting(
+                  useStressLevels, 
+                  useDailyActivities, 
+                  useWeightTracking, 
+                  usePeriodTracking, 
+                  useMedicationTracking, 
+                  useSleepTracking, 
+                  useMealTracking, 
+                  useFitnessTracking
+                );}}
                 value={useMedicationTracking}
               />
             </View>
@@ -338,6 +388,16 @@ function UserSettings({ navigation }) {
                 thumbColor={useSleepTracking ? '#4CB97A' : '#f4f3f4'}
                 ios_backgroundColor='#3e3e3e'
                 onValueChange={toggleSleepTracking}
+                onChange={() => {updateUserSetting(
+                  useStressLevels, 
+                  useDailyActivities, 
+                  useWeightTracking, 
+                  usePeriodTracking, 
+                  useMedicationTracking, 
+                  useSleepTracking, 
+                  useMealTracking, 
+                  useFitnessTracking
+                );}}
                 value={useSleepTracking}
               />
             </View>
@@ -354,6 +414,16 @@ function UserSettings({ navigation }) {
                 thumbColor={useMealTracking ? '#4CB97A' : '#f4f3f4'}
                 ios_backgroundColor='#3e3e3e'
                 onValueChange={toggleMealTracking}
+                onChange={() => {updateUserSetting(
+                  useStressLevels, 
+                  useDailyActivities, 
+                  useWeightTracking, 
+                  usePeriodTracking, 
+                  useMedicationTracking, 
+                  useSleepTracking, 
+                  useMealTracking, 
+                  useFitnessTracking
+                );}}
                 value={useMealTracking}
               />
             </View>
@@ -370,6 +440,16 @@ function UserSettings({ navigation }) {
                 thumbColor={useFitnessTracking ? '#4CB97A' : '#f4f3f4'}
                 ios_backgroundColor='#3e3e3e'
                 onValueChange={toggleFitnessTracking}
+                onChange={() => {updateUserSetting(
+                  useStressLevels, 
+                  useDailyActivities, 
+                  useWeightTracking, 
+                  usePeriodTracking, 
+                  useMedicationTracking, 
+                  useSleepTracking, 
+                  useMealTracking, 
+                  useFitnessTracking
+                );}}
                 value={useFitnessTracking}
               />
             </View>
