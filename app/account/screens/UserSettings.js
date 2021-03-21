@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Auth, API } from 'aws-amplify';
 import {
   StyleSheet,
   Text,
@@ -9,11 +10,14 @@ import {
   Switch,
   TouchableOpacity,
 } from 'react-native';
+import * as queries from '../../../src/graphql/queries';
+import * as mutations from '../../../src/graphql/mutations';
 
 import { Icon } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import NavBar from '../../shared/components/NavBar';
 
+//MISSING BACKEND HOOKUP FOR: PIN
 function UserSettings({ navigation }) {
   const [useStressLevels, setUseStressLevels] = useState(false);
   const toggleStressLevels = () =>
@@ -49,6 +53,29 @@ function UserSettings({ navigation }) {
   const [useFitnessTracking, setUseFitnessTracking] = useState(false);
   const toggleFitnessTracking = () =>
     setUseFitnessTracking((previousState) => !previousState);
+
+  useEffect(() => {
+    //ADD HANDLING FOR PIN WHEN IMPLEMENTED
+    async function setSettings() {
+      const user = Auth.currentAuthenticatedUser();
+
+      const res = await API.graphql({
+        query: queries.getSetting,
+        variables: {UserID: user.username}
+      });
+
+      setUseStressLevels(res.data.getSetting.Options.stress);
+      setUseDailyActivities(res.data.getSetting.Options.dailyActivities);
+      setUseWeightTracking(res.data.getSetting.Options.weight);
+      setUsePeriodTracking(res.data.getSetting.Options.period);
+      setUseMedicationTracking(res.data.getSetting.Options.medication);
+      setUseSleepTracking(res.data.getSetting.Options.sleep);
+      setUseMealTracking(res.data.getSetting.Options.meal);
+      setUseFitnessTracking(res.data.getSetting.Options.fitness);
+    }
+
+    setSettings();
+  });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -355,6 +382,49 @@ function UserSettings({ navigation }) {
       <NavBar account={true} navigation={navigation} />
     </SafeAreaView>
   );
+}
+
+//ADD HANDLING FOR PIN WHEN IMPLEMENTED
+async function updateUserSetting(
+  useStressLevels, 
+  useDailyActivities, 
+  useWeightTracking, 
+  usePeriodTracking, 
+  useMedicationTracking, 
+  useSleepTracking, 
+  useMealTracking, 
+  useFitnessTracking
+) {
+  const user = Auth.currentAuthenticatedUser();
+
+  const res1 = await API.graphql({
+    query: queries.getSetting,
+    variables: {UserID: user.username}
+  });
+
+  //query settings to get these values first
+  const weight = res1.data.getSetting.Options.userWeight;
+  const height = res1.data.getSetting.Options.userHeight;
+  const metric = res1.data.getSetting.Options.metric;
+
+  const settingOptions = {
+    stress: useStressLevels,
+    dailyActivities: useDailyActivities,
+    weight: useWeightTracking,
+    period: usePeriodTracking,
+    medication: useMedicationTracking,
+    sleep: useSleepTracking,
+    meal: useMealTracking,
+    fitness: useFitnessTracking,
+    userHeight: height,
+    userWeight: weight,
+    metric: metric
+  }
+
+  const res = await API.graphql({
+    query: mutations.updateSetting,
+    variables: {UserID: user.username, options: settingOptions}
+  });
 }
 
 export default UserSettings;
