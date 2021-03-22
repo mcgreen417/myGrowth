@@ -1,11 +1,14 @@
 // Colors used by the application.
 // Colorblind mode colors are prefixed with "cb_"
 var lightGreenColor = '#A5DFB2';
+var darkGreenColor = "#4CB97A";
 var creamColor = "#F6EFED";
 var brownColor = "#816868"; 
 var blackColor = "#000000";
 var whiteColor = "#FFFFFF";
+var offWhiteColor = "#F5F5F5";
 var lightGreyColor = "#D3D3D3";
+
 var switchTrackColorTrue = "#9AD2AF";
 var switchTrackColorFalse = "#E5E5E5";
 var switchThumbColorTrue = "#4CB97A";
@@ -16,6 +19,7 @@ var cb_creamColor = "#F6EFED";
 var cb_brownColor = "#812800";
 var cb_blackColor = "#000000";
 var cb_whiteColor = "#FFFFFF";
+var cb_offWhiteColor = "#F5F5F5";
 var cb_lightGreyColor = "#000000";
 
 
@@ -43,6 +47,21 @@ global.cb_statusBarColor = cb_lightGreenColor;
 global.cb_pageBackgroundColor = cb_creamColor;
 global.cb_contentDividerColor = cb_brownColor;
 global.cb_lineColor = cb_brownColor;
+
+
+// Nav Bar properties.
+global.navBarOnPressColor = whiteColor;
+global.navBarBackgroundColor = lightGreenColor;
+global.navBarIconColor = offWhiteColor;
+global.navBarCurrentIconColor = darkGreenColor; 
+global.navBarCurrentIconBackgroundColor = lightGreenColor; 
+
+global.cb_navBarOnPressColor = cb_whiteColor;
+global.cb_navBarBackgroundColor = cb_lightGreenColor;
+global.cb_navBarIconColor = cb_offWhiteColor;
+global.cb_navBarCurrentIconColor = cb_lightGreenColor; 
+global.cb_navBarCurrentIconBackgroundColor = cb_whiteColor;
+
 
 // Specific to buttons - not sure if the button outline is actually viewable.
 // I think this is overwritten by textInputBorderColor.
