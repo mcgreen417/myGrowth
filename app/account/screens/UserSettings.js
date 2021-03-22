@@ -32,9 +32,8 @@ function UserSettings({ navigation }) {
 
   const [useWeightTracking, setUseWeightTracking] = useState(false);
   const toggleWeightTracking = () => {
-    console.log(useWeightTracking);
-    setUseWeightTracking((previousState) => !previousState);
-    console.log(useWeightTracking);
+    setUseWeightTracking((previousState) => {
+      !previousState;});
   }
 
   const [usePeriodTracking, setUsePeriodTracking] = useState(false);
@@ -260,16 +259,18 @@ function UserSettings({ navigation }) {
                 trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
                 thumbColor={useStressLevels ? '#4CB97A' : '#f4f3f4'}
                 ios_backgroundColor='#3e3e3e'
-                onValueChange={toggleStressLevels}
-                onChange={() => {updateUserSetting(
-                  useStressLevels, 
-                  useDailyActivities, 
-                  useWeightTracking, 
-                  usePeriodTracking, 
-                  useMedicationTracking, 
-                  useSleepTracking, 
-                  useMealTracking, 
-                  useFitnessTracking
+                //onValueChange={toggleStressLevels}
+                onChange={() => {
+                  setUseStressLevels(!useStressLevels);
+                  updateUserSetting(
+                    useStressLevels, 
+                    useDailyActivities, 
+                    useWeightTracking, 
+                    usePeriodTracking, 
+                    useMedicationTracking, 
+                    useSleepTracking, 
+                    useMealTracking, 
+                    useFitnessTracking
                 );}}
                 value={useStressLevels}
               />
