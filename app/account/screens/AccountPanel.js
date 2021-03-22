@@ -1,4 +1,5 @@
 import React from 'react';
+import { Auth, API } from 'aws-amplify';
 import {
   StyleSheet,
   Text,
@@ -8,6 +9,7 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
+import * as queries from '../../../src/graphql/queries';
 
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
@@ -38,7 +40,7 @@ function AccountPanel({ navigation }) {
         <View style={styles.inlineRow}>
           <TouchableOpacity 
             style={styles.buttons} 
-            onPress={() => navigation.navigate('UserSettings')}
+            onPress={() => getUserSettings(navigation)}
           >
             <View style={styles.inlineRow}>
               <Text style={styles.text}>User Settings</Text>
@@ -143,7 +145,7 @@ function AccountPanel({ navigation }) {
         <View style={styles.inlineRow}>
           <TouchableOpacity
             style={styles.buttons}
-            onPress={() => navigation.navigate('')}
+            onPress={() => signOut(navigation)}
           >
             <View style={styles.inlineRow}>
               <Text style={styles.text}>Log out</Text>
@@ -167,6 +169,38 @@ function AccountPanel({ navigation }) {
       <NavBar account={true} navigation={navigation} />
     </SafeAreaView>
   );
+}
+
+async function signOut(navigation) {
+  try {
+    await Auth.signOut();
+    navigation.navigate('Start');
+  } catch(error) {
+    console.log('error signing out: ', error);
+  }
+}
+
+async function getUserSettings(navigation) {
+  const user = Auth.currentAuthenticatedUser();
+
+  const res = await API.graphql({
+    query: queries.getSetting,
+    variables: {UserID: user.username}
+  });
+
+  navigation.navigate('UserSettings', { 
+    stress: res.data.getSetting.Options.stress, 
+    weight: res.data.getSetting.Options.weight, 
+    fitness: res.data.getSetting.Options.fitness, 
+    meal: res.data.getSetting.Options.meal,
+    dailyActivities: res.data.getSetting.Options.dailyActivities,
+    medication: res.data.getSetting.Options.medication,
+    period: res.data.getSetting.Options.period,
+    sleep: res.data.getSetting.Options.sleep,
+    userHeight: res.data.getSetting.Options.userHeight,
+    userWeight: res.data.getSetting.Options.userWeight,
+    metric: res.data.getSetting.Options.metric
+  })
 }
 
 const styles = StyleSheet.create({

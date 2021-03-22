@@ -9,8 +9,8 @@ import {
   StatusBar,
   Switch,
   TouchableOpacity,
+  Button
 } from 'react-native';
-import * as queries from '../../../src/graphql/queries';
 import * as mutations from '../../../src/graphql/mutations';
 
 import { Icon } from 'react-native-elements';
@@ -18,66 +18,44 @@ import { ScrollView } from 'react-native-gesture-handler';
 import NavBar from '../../shared/components/NavBar';
 
 //MISSING BACKEND HOOKUP FOR: PIN
-function UserSettings({ navigation }) {
-  const [useStressLevels, setUseStressLevels] = useState(false);
+function UserSettings({ navigation, route }) {
+  const { stress, weight, fitness, meal, dailyActivities, medication, period, sleep, userHeight, userWeight, metric } = route.params;
+  
+  const [useStressLevels, setUseStressLevels] = useState(stress);
   const toggleStressLevels = () =>
     setUseStressLevels((previousState) => !previousState);
 
-  const [useDailyActivities, setUseDailyActivities] = useState(false);
+  const [useDailyActivities, setUseDailyActivities] = useState(dailyActivities);
   const toggleDailyActivities = () =>
     setUseDailyActivities((previousState) => !previousState);
 
   const [usePinReq, setUsePinReq] = useState(false);
   const togglePinReq = () => setUsePinReq((previousState) => !previousState);
 
-  const [useWeightTracking, setUseWeightTracking] = useState(false);
+  const [useWeightTracking, setUseWeightTracking] = useState(weight);
   const toggleWeightTracking = () => {
-    setUseWeightTracking((previousState) => {
-      !previousState;});
+    setUseWeightTracking((previousState) => !previousState);
   }
 
-  const [usePeriodTracking, setUsePeriodTracking] = useState(false);
+  const [usePeriodTracking, setUsePeriodTracking] = useState(period);
   const togglePeriodTracking = () =>
     setUsePeriodTracking((previousState) => !previousState);
 
-  const [useMedicationTracking, setUseMedicationTracking] = useState(false);
+  const [useMedicationTracking, setUseMedicationTracking] = useState(medication);
   const toggleMedicationTracking = () =>
     setUseMedicationTracking((previousState) => !previousState);
 
-  const [useSleepTracking, setUseSleepTracking] = useState(false);
+  const [useSleepTracking, setUseSleepTracking] = useState(sleep);
   const toggleSleepTracking = () =>
     setUseSleepTracking((previousState) => !previousState);
 
-  const [useMealTracking, setUseMealTracking] = useState(false);
+  const [useMealTracking, setUseMealTracking] = useState(meal);
   const toggleMealTracking = () =>
     setUseMealTracking((previousState) => !previousState);
 
-  const [useFitnessTracking, setUseFitnessTracking] = useState(false);
+  const [useFitnessTracking, setUseFitnessTracking] = useState(fitness);
   const toggleFitnessTracking = () =>
     setUseFitnessTracking((previousState) => !previousState);
-
-  useEffect(() => {
-    //ADD HANDLING FOR PIN WHEN IMPLEMENTED
-    async function setSettings() {
-      const user = Auth.currentAuthenticatedUser();
-
-      const res = await API.graphql({
-        query: queries.getSetting,
-        variables: {UserID: user.username}
-      });
-
-      setUseStressLevels(res.data.getSetting.Options.stress);
-      setUseDailyActivities(res.data.getSetting.Options.dailyActivities);
-      setUseWeightTracking(res.data.getSetting.Options.weight);
-      setUsePeriodTracking(res.data.getSetting.Options.period);
-      setUseMedicationTracking(res.data.getSetting.Options.medication);
-      setUseSleepTracking(res.data.getSetting.Options.sleep);
-      setUseMealTracking(res.data.getSetting.Options.meal);
-      setUseFitnessTracking(res.data.getSetting.Options.fitness);
-    }
-
-    setSettings();
-  });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -259,19 +237,7 @@ function UserSettings({ navigation }) {
                 trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
                 thumbColor={useStressLevels ? '#4CB97A' : '#f4f3f4'}
                 ios_backgroundColor='#3e3e3e'
-                //onValueChange={toggleStressLevels}
-                onChange={() => {
-                  setUseStressLevels(!useStressLevels);
-                  updateUserSetting(
-                    useStressLevels, 
-                    useDailyActivities, 
-                    useWeightTracking, 
-                    usePeriodTracking, 
-                    useMedicationTracking, 
-                    useSleepTracking, 
-                    useMealTracking, 
-                    useFitnessTracking
-                );}}
+                onValueChange={toggleStressLevels}
                 value={useStressLevels}
               />
             </View>
@@ -288,16 +254,6 @@ function UserSettings({ navigation }) {
                 thumbColor={useDailyActivities ? '#4CB97A' : '#f4f3f4'}
                 ios_backgroundColor='#3e3e3e'
                 onValueChange={toggleDailyActivities}
-                onChange={() => {updateUserSetting(
-                  useStressLevels, 
-                  useDailyActivities, 
-                  useWeightTracking, 
-                  usePeriodTracking, 
-                  useMedicationTracking, 
-                  useSleepTracking, 
-                  useMealTracking, 
-                  useFitnessTracking
-                );}}
                 value={useDailyActivities}
               />
             </View>
@@ -314,17 +270,6 @@ function UserSettings({ navigation }) {
                 thumbColor={useWeightTracking ? '#4CB97A' : '#f4f3f4'}
                 ios_backgroundColor='#3e3e3e'
                 onValueChange={toggleWeightTracking}
-                onChange={() => {
-                  updateUserSetting(
-                    useStressLevels, 
-                    useDailyActivities, 
-                    useWeightTracking, 
-                    usePeriodTracking, 
-                    useMedicationTracking, 
-                    useSleepTracking, 
-                    useMealTracking, 
-                    useFitnessTracking
-                );}}
                 value={useWeightTracking}
               />
             </View>
@@ -340,18 +285,7 @@ function UserSettings({ navigation }) {
                 trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
                 thumbColor={usePeriodTracking ? '#4CB97A' : '#f4f3f4'}
                 ios_backgroundColor='#3e3e3e'
-                onChange={() => {
-                  togglePeriodTracking();
-                  updateUserSetting(
-                    useStressLevels, 
-                    useDailyActivities, 
-                    useWeightTracking, 
-                    usePeriodTracking, 
-                    useMedicationTracking, 
-                    useSleepTracking, 
-                    useMealTracking, 
-                    useFitnessTracking
-                );}}
+                onValueChange={togglePeriodTracking}
                 value={usePeriodTracking}
               />
             </View>
@@ -368,16 +302,6 @@ function UserSettings({ navigation }) {
                 thumbColor={useMedicationTracking ? '#4CB97A' : '#f4f3f4'}
                 ios_backgroundColor='#3e3e3e'
                 onValueChange={toggleMedicationTracking}
-                onChange={() => {updateUserSetting(
-                  useStressLevels, 
-                  useDailyActivities, 
-                  useWeightTracking, 
-                  usePeriodTracking, 
-                  useMedicationTracking, 
-                  useSleepTracking, 
-                  useMealTracking, 
-                  useFitnessTracking
-                );}}
                 value={useMedicationTracking}
               />
             </View>
@@ -394,16 +318,6 @@ function UserSettings({ navigation }) {
                 thumbColor={useSleepTracking ? '#4CB97A' : '#f4f3f4'}
                 ios_backgroundColor='#3e3e3e'
                 onValueChange={toggleSleepTracking}
-                onChange={() => {updateUserSetting(
-                  useStressLevels, 
-                  useDailyActivities, 
-                  useWeightTracking, 
-                  usePeriodTracking, 
-                  useMedicationTracking, 
-                  useSleepTracking, 
-                  useMealTracking, 
-                  useFitnessTracking
-                );}}
                 value={useSleepTracking}
               />
             </View>
@@ -420,16 +334,6 @@ function UserSettings({ navigation }) {
                 thumbColor={useMealTracking ? '#4CB97A' : '#f4f3f4'}
                 ios_backgroundColor='#3e3e3e'
                 onValueChange={toggleMealTracking}
-                onChange={() => {updateUserSetting(
-                  useStressLevels, 
-                  useDailyActivities, 
-                  useWeightTracking, 
-                  usePeriodTracking, 
-                  useMedicationTracking, 
-                  useSleepTracking, 
-                  useMealTracking, 
-                  useFitnessTracking
-                );}}
                 value={useMealTracking}
               />
             </View>
@@ -446,21 +350,32 @@ function UserSettings({ navigation }) {
                 thumbColor={useFitnessTracking ? '#4CB97A' : '#f4f3f4'}
                 ios_backgroundColor='#3e3e3e'
                 onValueChange={toggleFitnessTracking}
-                onChange={() => {updateUserSetting(
-                  useStressLevels, 
-                  useDailyActivities, 
-                  useWeightTracking, 
-                  usePeriodTracking, 
-                  useMedicationTracking, 
-                  useSleepTracking, 
-                  useMealTracking, 
-                  useFitnessTracking
-                );}}
                 value={useFitnessTracking}
               />
             </View>
           </View>
           <View style={styles.line} />
+
+          <View>
+            <TouchableOpacity
+              style={styles.update}
+              onPress={() => updateUserSetting(
+                useStressLevels, 
+                useDailyActivities, 
+                useWeightTracking, 
+                usePeriodTracking, 
+                useMedicationTracking, 
+                useSleepTracking, 
+                useMealTracking, 
+                useFitnessTracking,
+                userHeight,
+                userWeight,
+                metric
+              )}
+            >
+              <Text style={styles.updateText}>Update Settings</Text>
+            </TouchableOpacity>
+          </View>
 
           <View style={styles.pageEnd} />
         </View>
@@ -479,20 +394,12 @@ async function updateUserSetting(
   useMedicationTracking, 
   useSleepTracking, 
   useMealTracking, 
-  useFitnessTracking
+  useFitnessTracking,
+  userHeight,
+  userWeight,
+  metric
 ) {
   const user = Auth.currentAuthenticatedUser();
-
-  const res1 = await API.graphql({
-    query: queries.getSetting,
-    variables: {UserID: user.username}
-  });
-
-  //query settings to get these values first
-  const weight = res1.data.getSetting.Options.userWeight;
-  const height = res1.data.getSetting.Options.userHeight;
-  const metric = res1.data.getSetting.Options.metric;
-
   const settingOptions = {
     stress: useStressLevels,
     dailyActivities: useDailyActivities,
@@ -502,10 +409,10 @@ async function updateUserSetting(
     sleep: useSleepTracking,
     meal: useMealTracking,
     fitness: useFitnessTracking,
-    userHeight: height,
-    userWeight: weight,
+    userHeight: userHeight,
+    userWeight: userWeight,
     metric: metric
-  }
+  };
 
   const res = await API.graphql({
     query: mutations.updateSetting,
@@ -614,4 +521,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  update: {
+    marginTop: 15,
+    borderRadius: 10,
+    backgroundColor: '#4CB97A',
+    width: 150,
+    height: 35,
+  },
+  updateText: {
+    marginTop: 5,
+    fontSize: 16,
+    color: 'white',
+    textAlign: 'center'
+  }
 });
