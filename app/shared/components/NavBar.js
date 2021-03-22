@@ -212,8 +212,8 @@ const NavBar = ({
                 justifyContent: 'center',
                 backgroundColor: pressed 
                   ? (global.colorblindMode
-                    ? "white"
-                    : "white")
+                    ? global.cb_navBarOnPressColor
+                    : global.navBarOnPressColor)
                   : (global.colorblindMode
                     ? global.cb_optionButtonsColor
                     : global.optionButtonsColor),
@@ -228,7 +228,15 @@ const NavBar = ({
                 elevation: 6,
               },
             ]}>
-            <Icon name='plus' type='font-awesome' color='#F5F5F5' />
+            <Icon
+              name='plus'
+              type='font-awesome'
+              color={
+                global.colorblindMode
+                  ? global.cb_navBarIconColor 
+                  : global.navBarIconColor
+              }
+            />
           </Pressable>
         </View>
       </View>
