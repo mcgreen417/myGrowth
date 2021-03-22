@@ -31,8 +31,11 @@ function UserSettings({ navigation }) {
   const togglePinReq = () => setUsePinReq((previousState) => !previousState);
 
   const [useWeightTracking, setUseWeightTracking] = useState(false);
-  const toggleWeightTracking = () =>
+  const toggleWeightTracking = () => {
+    console.log(useWeightTracking);
     setUseWeightTracking((previousState) => !previousState);
+    console.log(useWeightTracking);
+  }
 
   const [usePeriodTracking, setUsePeriodTracking] = useState(false);
   const togglePeriodTracking = () =>
@@ -310,15 +313,16 @@ function UserSettings({ navigation }) {
                 thumbColor={useWeightTracking ? '#4CB97A' : '#f4f3f4'}
                 ios_backgroundColor='#3e3e3e'
                 onValueChange={toggleWeightTracking}
-                onChange={() => {updateUserSetting(
-                  useStressLevels, 
-                  useDailyActivities, 
-                  useWeightTracking, 
-                  usePeriodTracking, 
-                  useMedicationTracking, 
-                  useSleepTracking, 
-                  useMealTracking, 
-                  useFitnessTracking
+                onChange={() => {
+                  updateUserSetting(
+                    useStressLevels, 
+                    useDailyActivities, 
+                    useWeightTracking, 
+                    usePeriodTracking, 
+                    useMedicationTracking, 
+                    useSleepTracking, 
+                    useMealTracking, 
+                    useFitnessTracking
                 );}}
                 value={useWeightTracking}
               />
@@ -335,16 +339,17 @@ function UserSettings({ navigation }) {
                 trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
                 thumbColor={usePeriodTracking ? '#4CB97A' : '#f4f3f4'}
                 ios_backgroundColor='#3e3e3e'
-                onValueChange={togglePeriodTracking}
-                onChange={() => {updateUserSetting(
-                  useStressLevels, 
-                  useDailyActivities, 
-                  useWeightTracking, 
-                  usePeriodTracking, 
-                  useMedicationTracking, 
-                  useSleepTracking, 
-                  useMealTracking, 
-                  useFitnessTracking
+                onChange={() => {
+                  togglePeriodTracking();
+                  updateUserSetting(
+                    useStressLevels, 
+                    useDailyActivities, 
+                    useWeightTracking, 
+                    usePeriodTracking, 
+                    useMedicationTracking, 
+                    useSleepTracking, 
+                    useMealTracking, 
+                    useFitnessTracking
                 );}}
                 value={usePeriodTracking}
               />
@@ -505,6 +510,8 @@ async function updateUserSetting(
     query: mutations.updateSetting,
     variables: {UserID: user.username, options: settingOptions}
   });
+
+  console.log(res);
 }
 
 export default UserSettings;
