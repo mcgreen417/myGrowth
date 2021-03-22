@@ -15,8 +15,15 @@ const Goal = ({ title, description, type }) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   return (
     <View style={{ flexDirection: 'row' }}>
-      <Text>{title}</Text>
-      <Button title='X' />
+      <Text style={styles().bodyText}>{title}</Text>
+      <Button
+        title='X'
+        color={
+          global.colorblindMode
+            ? global.cb_optionButtonsColor
+            : global.optionButtonsColor
+        }
+      />
     </View>
   );
 };
@@ -30,8 +37,8 @@ const Goals = ({ navigation }) => {
       </Modal> */}
       <View>
         <View>
-          <Text>Daily Goals</Text>
-          <Text>{time.toLocaleString()} until reset</Text>
+          <Text style={styles().bodyText}>Daily Goals</Text>
+          <Text style={styles().bodyText}>{time.toLocaleString()} until reset</Text>
         </View>
         <View>
           <Goal
@@ -56,13 +63,20 @@ const Goals = ({ navigation }) => {
           />
         </View>
         <View>
-          <Button title='New Goal +' />
+          <Button
+            title='New Goal +'
+            color={
+              global.colorblindMode
+                ? global.cb_optionButtonsColor
+                : global.optionButtonsColor
+            }
+          />
         </View>
       </View>
       <View>
         <View>
-          <Text>Weekly Goals</Text>
-          <Text>{time.toLocaleString()} until reset</Text>
+          <Text style={styles().bodyText}>Weekly Goals</Text>
+          <Text style={styles().bodyText}>{time.toLocaleString()} until reset</Text>
         </View>
         <View>
           <Goal
@@ -80,7 +94,14 @@ const Goals = ({ navigation }) => {
           />
         </View>
         <View>
-          <Button title='New Goal +' />
+          <Button
+            title='New Goal +'
+            color={
+              global.colorblindMode
+                ? global.cb_optionButtonsColor
+                : global.optionButtonsColor
+            }
+          />
         </View>
       </View>
       <NavBar goals={true} navigation={navigation} />
@@ -96,8 +117,8 @@ const GoalsCompletion = () => {
       </View>
       <View>
         <Image source={require('../../shared/assets/icon.png')} />
-        <Text>You have completed a goal!</Text>
-        <Text>+30 stars</Text>
+        <Text style={styles().bodyText}>You have completed a goal!</Text>
+        <Text style={styles().bodyText}>+30 stars</Text>
       </View>
       <View>
         <Button title='Return to Goals' />
@@ -127,4 +148,9 @@ const styles = () => StyleSheet.create({
     width: 100,
     height: 50,
   },
+  bodyText: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+  }
 });
