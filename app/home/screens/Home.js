@@ -39,8 +39,6 @@ function Home({ navigation }) {
         variables: {UserID: user.username}
       });
 
-      console.log(res);
-
       //if res dailyentries is empty
       if(res.data.getDailyEntries.dailyEntries.length == 0)
         ;

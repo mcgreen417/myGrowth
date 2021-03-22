@@ -118,9 +118,11 @@ async function signIn(username, pw, navigation) {
     // console.log(username);
     // console.log(pw);
     const user = await Auth.signIn(username, pw);
-    // console.log(user);
     // await testQuery(user.username);
-    navigation.navigate('UserInitialization1');
+    if(user.attributes['custom:initialized'] == 0)
+      navigation.navigate('UserInitialization1');
+    if(user.attributes['custom:initialized'] == 1)
+      navigation.navigate('Home');
   } catch (error) {
     console.log('error signing in', error);
   }
