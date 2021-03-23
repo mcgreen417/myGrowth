@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Auth, API } from 'aws-amplify';
 import {
   StyleSheet,
   Text,
@@ -7,6 +8,7 @@ import {
   Image,
   Pressable,
 } from 'react-native';
+import * as queries from '../../../src/graphql/queries';
 
 import { ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
@@ -15,13 +17,55 @@ import NavBar from '../../shared/components/NavBar';
 function Home({ navigation }) {
   let plant = 4;
   let stage = 0;
+  const [displayName, setDisplayName] = useState('(FirstName)');
+  const [mostRecentEntryString, setMostRecentEntryString] = useState('You wrote your last entry on (date) at (time).');
+
+  useEffect(() => {
+    async function setName() {
+      const user = await Auth.currentAuthenticatedUser();
+
+      setDisplayName(user.attributes.name);
+    }
+
+    async function setRecentEntryString() {
+      var setString = 'You haven\'t written an entry yet, write your very first entry now!';
+      const user = await Auth.currentAuthenticatedUser();
+      var temp = null;
+
+      //put query here
+      const res = await API.graphql({
+        query: queries.getDailyEntries,
+        variables: {UserID: user.username}
+      });
+
+      //if res dailyentries is empty
+      if(res.data.getDailyEntries.dailyEntries.length == 0)
+        ;
+
+      else {
+        const lastInd = res.data.getDailyEntries.dailyEntries.length - 1;
+        var date = new Date(res.data.getDailyEntries.dailyEntries[lastInd].Timestamp);
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const year = date.getFullYear();
+        var realDate = ''.concat(month).concat('/').concat(day).concat('/').concat(year);
+        setString = 'You wrote your last entry on '.concat(realDate);
+      }
+
+      setMostRecentEntryString(setString);
+    }
+
+    setName();
+    setRecentEntryString();
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Gardener avatar + page blurb */}
         <View style={styles.avatarView}>
           <Text style={styles.pageDescription}>
-            Good Morning, {'\n'}(First name)!
+            Good Morning, {'\n'}{displayName}!
           </Text>
           <Image
             style={styles.avatar}
@@ -64,7 +108,7 @@ function Home({ navigation }) {
           </Pressable>
         </View>
 
-        {/* Write a new entry button */}
+        {/* Write a new entry button - make it navigate - MAKE STRING DYNAMIC */}
         <View style={styles.dividerView}>
           <View style={styles.dividerLeft} />
           <View>
@@ -76,6 +120,8 @@ function Home({ navigation }) {
                     marginBottom: 4,
                     marginLeft: 8,
                     marginRight: 8,
+                    paddingLeft: 8,
+                    paddingTop: 2,
                   }}>
                   <Text
                     style={{
@@ -92,7 +138,7 @@ function Home({ navigation }) {
                       color: '#F6EFED',
                       marginTop: -4,
                     }}>
-                    You wrote your last entry on (date) at (time).
+                    {mostRecentEntryString}
                   </Text>
                 </View>
               </View>

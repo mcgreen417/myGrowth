@@ -1,4 +1,5 @@
 import React from 'react';
+import { Auth, API } from 'aws-amplify';
 import {
   StyleSheet,
   Text,
@@ -8,6 +9,9 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
+import * as queries from '../../../src/graphql/queries';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Cache } from "react-native-cache";
 
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
@@ -38,7 +42,7 @@ function AccountPanel({ navigation }) {
         <View style={styles.inlineRow}>
           <TouchableOpacity 
             style={styles.buttons} 
-            onPress={() => navigation.navigate('UserSettings')}
+            onPress={() => getUserSettings(navigation)}
           >
             <View style={styles.inlineRow}>
               <Text style={styles.text}>User Settings</Text>
@@ -143,7 +147,7 @@ function AccountPanel({ navigation }) {
         <View style={styles.inlineRow}>
           <TouchableOpacity
             style={styles.buttons}
-            onPress={() => navigation.navigate('')}
+            onPress={() => signOut(navigation)}
           >
             <View style={styles.inlineRow}>
               <Text style={styles.text}>Log out</Text>
@@ -167,6 +171,39 @@ function AccountPanel({ navigation }) {
       <NavBar account={true} navigation={navigation} />
     </SafeAreaView>
   );
+}
+
+async function signOut(navigation) {
+  try {
+    const cache = new Cache({
+      namespace: "myapp",
+      policy: {
+        maxEntries: 50000
+      },
+      backend: AsyncStorage
+    });
+
+    await cache.clearAll();
+    
+    await Auth.signOut();
+    navigation.navigate('Start');
+  } catch(error) {
+    console.log('error signing out: ', error);
+  }
+}
+
+async function getUserSettings(navigation) {
+  const cache = new Cache({
+    namespace: "myapp",
+    policy: {
+      maxEntries: 50000
+    },
+    backend: AsyncStorage
+  });
+
+  const obj = await cache.peek("settings")
+
+  navigation.navigate('UserSettings', {obj});
 }
 
 const styles = StyleSheet.create({
