@@ -18,6 +18,7 @@ function Home({ route, navigation }) {
   let plant = 4;
   let stage = 0;
 
+  const cache = route.params;
   const [displayName, setDisplayName] = useState('(FirstName)');
   const [mostRecentEntryString, setMostRecentEntryString] = useState('You wrote your last entry on (date) at (time).');
 

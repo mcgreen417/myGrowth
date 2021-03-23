@@ -141,7 +141,6 @@ async function signIn(username, pw, navigation) {
         query: queries.getSetting,
         variables: {UserID: user.username}
       });
-    }
 
       //store settings from db
       await cache.set("settings", res.data.getSetting.Options);
@@ -159,6 +158,7 @@ async function signIn(username, pw, navigation) {
       console.log(obj);
 
       navigation.navigate('Home', {cache});
+    }
   } catch (error) {
     console.log('error signing in', error);
   }

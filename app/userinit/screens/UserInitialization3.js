@@ -17,7 +17,7 @@ import {
 import * as mutations from '../../../src/graphql/mutations';
 
 function UserInitialization3({ route, navigation }) {
-  const { height, weight, heightMeasurement, weightMeasurement } = route.params;
+  const { height, weight, heightMeasurement, weightMeasurement, cache } = route.params;
 
   const [useStressLevels, setUseStressLevels] = useState(false);
   const toggleStressLevels = () =>
@@ -234,7 +234,7 @@ function UserInitialization3({ route, navigation }) {
                 useFitnessTracking,
                 heightMeasurement
               );
-              navigation.navigate('Home');
+              navigation.navigate('Home', {cache});
             }}
           />
         </View>
@@ -275,6 +275,9 @@ async function settingQuery(
     query: mutations.addSetting,
     variables: {UserID: user.username, options: settingOptions}
   });
+
+  //set cache settings
+  await cache.set("settings", res.data.getSetting.Options);
 }
 
 export default UserInitialization3;

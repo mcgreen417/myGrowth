@@ -22,6 +22,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 function UserInitialization1({ route, navigation }) {
+  const cache = route.params;
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
@@ -283,6 +284,7 @@ function UserInitialization1({ route, navigation }) {
                       weight: weight, 
                       heightMeasurement: useHeightMeasurement, 
                       weightMeasurement: useWeightMeasurement,
+                      cache
                     });
                   }}
                 />
