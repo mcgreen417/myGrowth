@@ -14,10 +14,12 @@ import {
   FlatList,
   Switch,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Cache } from "react-native-cache";
 import * as mutations from '../../../src/graphql/mutations';
 
 function UserInitialization3({ route, navigation }) {
-  const { height, weight, heightMeasurement, weightMeasurement, cache } = route.params;
+  const { height, weight, heightMeasurement, weightMeasurement } = route.params;
 
   const [useStressLevels, setUseStressLevels] = useState(false);
   const toggleStressLevels = () =>
@@ -234,7 +236,7 @@ function UserInitialization3({ route, navigation }) {
                 useFitnessTracking,
                 heightMeasurement
               );
-              navigation.navigate('Home', {cache});
+              navigation.navigate('Home');
             }}
           />
         </View>
@@ -256,6 +258,13 @@ async function settingQuery(
   useFitnessTracking,
   heightMeasurement
 ) {
+  const cache = new Cache({
+    namespace: "myapp",
+    policy: {
+      maxEntries: 50000
+    },
+    backend: AsyncStorage
+  });
   const user = Auth.currentUserInfo();
   const settingOptions = {
     stress: useStressLevels,
@@ -277,7 +286,7 @@ async function settingQuery(
   });
 
   //set cache settings
-  await cache.set("settings", res.data.getSetting.Options);
+  await cache.set("settings", res.data.addSetting.Options);
 }
 
 export default UserInitialization3;

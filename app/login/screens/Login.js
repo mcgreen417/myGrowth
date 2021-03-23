@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Cache } from "react-native-cache";
 import * as queries from '../../../src/graphql/queries';
 //import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -133,7 +134,7 @@ async function signIn(username, pw, navigation) {
     
     //empty settings in db
     if(user.attributes['custom:initialized'] == 0)
-      navigation.navigate('UserInitialization1', {cache});
+      navigation.navigate('UserInitialization1');
 
     //non-empty settings in db
     if(user.attributes['custom:initialized'] == 1) {
@@ -144,20 +145,8 @@ async function signIn(username, pw, navigation) {
 
       //store settings from db
       await cache.set("settings", res.data.getSetting.Options);
-      /*await cache.set("settings:useFitness": res.data.getSetting.Options.dailyActivities);
-      await cache.set("settings:useMeal": );
-      await cache.set("settings:useMedication": );
-      await cache.set("settings:useMetric": );
-      await cache.set("settings:usePeriod": );
-      await cache.set("settings:useSleep": );
-      await cache.set("settings:useStress": );
-      await cache.set("settings:useWeight": );
-      await cache.set("settings:height": );
-      await cache.set("settings:weight": );*/
-      var obj = await cache.peek("settings");
-      console.log(obj);
 
-      navigation.navigate('Home', {cache});
+      navigation.navigate('Home');
     }
   } catch (error) {
     console.log('error signing in', error);

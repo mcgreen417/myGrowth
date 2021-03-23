@@ -12,6 +12,8 @@ import {
   Button
 } from 'react-native';
 import * as mutations from '../../../src/graphql/mutations';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Cache } from "react-native-cache"
 
 import { Icon } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -19,41 +21,41 @@ import NavBar from '../../shared/components/NavBar';
 
 //MISSING BACKEND HOOKUP FOR: PIN
 function UserSettings({ navigation, route }) {
-  const { stress, weight, fitness, meal, dailyActivities, medication, period, sleep, userHeight, userWeight, metric } = route.params;
-  
-  const [useStressLevels, setUseStressLevels] = useState(stress);
+  const settings = route.params;
+
+  const [useStressLevels, setUseStressLevels] = useState(settings.obj["stress"]);
   const toggleStressLevels = () =>
     setUseStressLevels((previousState) => !previousState);
 
-  const [useDailyActivities, setUseDailyActivities] = useState(dailyActivities);
+  const [useDailyActivities, setUseDailyActivities] = useState(settings.obj["dailyActivities"]);
   const toggleDailyActivities = () =>
     setUseDailyActivities((previousState) => !previousState);
 
   const [usePinReq, setUsePinReq] = useState(false);
   const togglePinReq = () => setUsePinReq((previousState) => !previousState);
 
-  const [useWeightTracking, setUseWeightTracking] = useState(weight);
+  const [useWeightTracking, setUseWeightTracking] = useState(settings.obj["weight"]);
   const toggleWeightTracking = () => {
     setUseWeightTracking((previousState) => !previousState);
   }
 
-  const [usePeriodTracking, setUsePeriodTracking] = useState(period);
+  const [usePeriodTracking, setUsePeriodTracking] = useState(settings.obj["period"]);
   const togglePeriodTracking = () =>
     setUsePeriodTracking((previousState) => !previousState);
 
-  const [useMedicationTracking, setUseMedicationTracking] = useState(medication);
+  const [useMedicationTracking, setUseMedicationTracking] = useState(settings.obj["medication"]);
   const toggleMedicationTracking = () =>
     setUseMedicationTracking((previousState) => !previousState);
 
-  const [useSleepTracking, setUseSleepTracking] = useState(sleep);
+  const [useSleepTracking, setUseSleepTracking] = useState(settings.obj["sleep"]);
   const toggleSleepTracking = () =>
     setUseSleepTracking((previousState) => !previousState);
 
-  const [useMealTracking, setUseMealTracking] = useState(meal);
+  const [useMealTracking, setUseMealTracking] = useState(settings.obj["meal"]);
   const toggleMealTracking = () =>
     setUseMealTracking((previousState) => !previousState);
 
-  const [useFitnessTracking, setUseFitnessTracking] = useState(fitness);
+  const [useFitnessTracking, setUseFitnessTracking] = useState(settings.obj["fitness"]);
   const toggleFitnessTracking = () =>
     setUseFitnessTracking((previousState) => !previousState);
 
@@ -368,9 +370,9 @@ function UserSettings({ navigation, route }) {
                 useSleepTracking, 
                 useMealTracking, 
                 useFitnessTracking,
-                userHeight,
-                userWeight,
-                metric
+                settings.obj["userHeight"],
+                settings.obj["userWeight"],
+                settings.obj["metric"]
               )}
             >
               <Text style={styles.updateText}>Update Settings</Text>
@@ -414,12 +416,20 @@ async function updateUserSetting(
     metric: metric
   };
 
+  const cache = new Cache({
+    namespace: "myapp",
+    policy: {
+      maxEntries: 50000
+    },
+    backend: AsyncStorage
+  });
+
   const res = await API.graphql({
     query: mutations.updateSetting,
     variables: {UserID: user.username, options: settingOptions}
   });
 
-  console.log(res);
+  await cache.set("settings", res.data.updateSetting.Options);
 }
 
 export default UserSettings;

@@ -10,6 +10,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import * as queries from '../../../src/graphql/queries';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Cache } from "react-native-cache";
 
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
@@ -173,6 +175,16 @@ function AccountPanel({ navigation }) {
 
 async function signOut(navigation) {
   try {
+    const cache = new Cache({
+      namespace: "myapp",
+      policy: {
+        maxEntries: 50000
+      },
+      backend: AsyncStorage
+    });
+
+    await cache.clearAll();
+    
     await Auth.signOut();
     navigation.navigate('Start');
   } catch(error) {
@@ -181,26 +193,17 @@ async function signOut(navigation) {
 }
 
 async function getUserSettings(navigation) {
-  const user = Auth.currentAuthenticatedUser();
-
-  const res = await API.graphql({
-    query: queries.getSetting,
-    variables: {UserID: user.username}
+  const cache = new Cache({
+    namespace: "myapp",
+    policy: {
+      maxEntries: 50000
+    },
+    backend: AsyncStorage
   });
 
-  navigation.navigate('UserSettings', { 
-    stress: res.data.getSetting.Options.stress, 
-    weight: res.data.getSetting.Options.weight, 
-    fitness: res.data.getSetting.Options.fitness, 
-    meal: res.data.getSetting.Options.meal,
-    dailyActivities: res.data.getSetting.Options.dailyActivities,
-    medication: res.data.getSetting.Options.medication,
-    period: res.data.getSetting.Options.period,
-    sleep: res.data.getSetting.Options.sleep,
-    userHeight: res.data.getSetting.Options.userHeight,
-    userWeight: res.data.getSetting.Options.userWeight,
-    metric: res.data.getSetting.Options.metric
-  })
+  const obj = await cache.peek("settings")
+
+  navigation.navigate('UserSettings', {obj});
 }
 
 const styles = StyleSheet.create({

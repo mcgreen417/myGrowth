@@ -18,7 +18,7 @@ const avatars = new Array(48).fill('http://placeimg.com/100/100/any');
 
 function UserInitialization2({ route, navigation }) {
   const [avatar, setAvatar] = useState(avatars);
-  const { height, weight, heightMeasurement, weightMeasurement, cache } = route.params;
+  const { height, weight, heightMeasurement, weightMeasurement } = route.params;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -71,8 +71,7 @@ function UserInitialization2({ route, navigation }) {
               height: height,
               weight: weight, 
               heightMeasurement: heightMeasurement, 
-              weightMeasurement: weightMeasurement,
-              cache
+              weightMeasurement: weightMeasurement
             })}
           />
         </View>

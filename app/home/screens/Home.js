@@ -14,11 +14,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
 
-function Home({ route, navigation }) {
+function Home({ navigation }) {
   let plant = 4;
   let stage = 0;
-
-  const cache = route.params;
   const [displayName, setDisplayName] = useState('(FirstName)');
   const [mostRecentEntryString, setMostRecentEntryString] = useState('You wrote your last entry on (date) at (time).');
 
