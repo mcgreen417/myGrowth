@@ -168,8 +168,8 @@ const HealthEntry = ({ navigation }) => {
             </View>
           </View>
         </View>
+        <View style={styles.pageEnd} />
       </ScrollView>
-
       <NavBar navigation={navigation} />
     </SafeAreaView>
   );
