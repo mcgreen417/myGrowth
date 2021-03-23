@@ -7,15 +7,15 @@ import {
   Text,
   View,
   Image,
+  TextInput,
 } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
 import NavBar from '../../shared/components/NavBar';
 
 const ViewEntry = () => {
   return (
-    <View>
-      <Text></Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <NavBar navigation={navigation} />
+    </SafeAreaView>
   );
 };
 

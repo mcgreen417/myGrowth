@@ -7,18 +7,24 @@ import {
   Text,
   View,
   Image,
+  TextInput,
 } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
 import NavBar from '../../shared/components/NavBar';
 
 const EntryCompletion = () => {
   return (
     <SafeAreaView>
       <View>
-        <Image source={require('../../shared/assets/icon.png')} />
+        <Image
+          style={styles.avatar}
+          source={require('../../shared/assets/icon.png')}
+        />
       </View>
       <View>
-        <Image source={require('../../shared/assets/icon.png')} />
+        <Image
+          style={styles.avatar}
+          source={require('../../shared/assets/icon.png')}
+        />
         <Text>You have watered (plant name) today!</Text>
         <Text>+5 growth points</Text>
       </View>

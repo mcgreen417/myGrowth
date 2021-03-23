@@ -25,6 +25,8 @@ import WordCloudDisplay from './app/journal/screens/WordCloudDisplay';
 import { Goals } from './app/goals/screens/Goals';
 import { GoalComplete } from './app/goals/screens/GoalComplete';
 import HealthEntry from './app/healthentry/screens/HealthEntry';
+import ReviewEntry from './app/healthentry/screens/ReviewEntry';
+import EntryCompletion from './app/healthentry/screens/EntryCompletion';
 import { ToDoList } from './app/todolist/screens/ToDoList';
 import {
   HistoryHealthEntries,
@@ -66,206 +68,259 @@ function App() {
           component={Start}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='SignUp'
           component={SignUp}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='VerificationCode'
           component={VerificationCode}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='Login'
           component={Login}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='ForgotPassword'
           component={ForgotPassword}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='PasswordResetVerification'
           component={PasswordResetVerification}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='ResetPassword'
           component={ResetPassword}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='UserInitialization1'
           component={UserInitialization1}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='UserInitialization2'
           component={UserInitialization2}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='UserInitialization3'
           component={UserInitialization3}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='Home'
           component={Home}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='PlantShop'
           component={PlantShop}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='CustomizePlant'
           component={CustomizePlant}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='Journal'
           component={Journal}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='CreateNewJournalEntry'
           component={CreateNewJournalEntry}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='JournalEntryCompletion'
           component={JournalEntryCompletion}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='JournalHistory'
           component={JournalHistory}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='ViewJournalEntry'
           component={ViewJournalEntry}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='WordCloudDisplay'
           component={WordCloudDisplay}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='Goals'
           component={Goals}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='GoalComplete'
           component={GoalComplete}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='HealthEntry1'
           component={HealthEntry}
           options={{ header: () => null }}
         />
+
+        <Stack.Screen
+          name='ReviewEntry'
+          component={ReviewEntry}
+          options={{ header: () => null }}
+        />
+
+        <Stack.Screen
+          name='EntryCompletion'
+          component={EntryCompletion}
+          options={{ header: () => null }}
+        />
+
         <Stack.Screen
           name='ToDoList'
           component={ToDoList}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='HistoryHealthEntries'
           component={HistoryHealthEntries}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='HistoryMood'
           component={HistoryMood}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='HistoryStress'
           component={HistoryStress}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='HistoryDailyActivities1'
           component={HistoryDailyActivities1}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='HistoryDailyActivities2'
           component={HistoryDailyActivities2}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='HistoryPeriodTracking'
           component={HistoryPeriodTracking}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='HistoryWeight'
           component={HistoryWeight}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='HistoryGeneralHealth1'
           component={HistoryGeneralHealth1}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='HistoryGeneralHealth2'
           component={HistoryGeneralHealth2}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='HistoryMedication'
           component={HistoryMedication}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='HistorySleep1'
           component={HistorySleep1}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='HistorySleep2'
           component={HistorySleep2}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='HistoryMealTracking'
           component={HistoryMealTracking}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='HistoryCorrelations'
           component={HistoryCorrelations}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='HistoryFitness1'
           component={HistoryFitness1}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='HistoryFitness2'
           component={HistoryFitness2}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='AccountPanel'
           component={AccountPanel}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='UserSettings'
           component={UserSettings}
           options={{ header: () => null }}
         />
+
         <Stack.Screen
           name='GenerateReport'
           component={GenerateReport}

@@ -7,15 +7,30 @@ import {
   Text,
   View,
   Image,
+  TextInput,
 } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
 import NavBar from '../../shared/components/NavBar';
 
-const ReviewEntry = () => {
+const ReviewEntry = ({ navigation }) => {
   return (
-    <View>
-      <Text></Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View
+        style={{
+          flexDirection: 'row',
+          marginTop: 10,
+          marginBottom: 16,
+          alignSelf: 'center',
+        }}>
+        <View style={{ width: '42.5%' }}>
+          <Button
+            title='Submit Entry'
+            color='#A5DFB2'
+            onPress={() => navigation.navigate('EntryCompletion')}
+          />
+        </View>
+      </View>
+      <NavBar navigation={navigation} />
+    </SafeAreaView>
   );
 };
 
