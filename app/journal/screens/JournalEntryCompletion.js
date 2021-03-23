@@ -14,12 +14,17 @@ import NavBar from '../../shared/components/NavBar';
 const JournalEntryCompletion = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <Image
+      {/* Congratulations banner + filler image */}
+      <Image 
         style={styles.bannerImage}
-        source={require('../../shared/assets/goals-banner.png')}
+        source={require('../../shared/assets/journal-banner.png')}/>
+      <Image
+        style={styles.fillerImage}
+        source={require('../../shared/assets/SettingsGirlReading2.png')}
       />
 
-      <View style={{ marginVertical: '10%', alignItems: 'center' }}>
+      {/* Success text */}
+      <View style={{ marginVertical: '10%', marginHorizontal: '5%', alignItems: 'center' }}>
         <Text style={styles.text}>You have completed a journal entry!</Text>
       </View>
 
@@ -65,6 +70,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  bannerImage: {
+    marginTop: '-6%',
+  },
+  fillerImage: {
+    flex: 1,
+    maxHeight: '50%',
+    maxWidth: '90%',
+    marginTop: '-4%',
+    marginBottom: '-12%',
+  },
   heading: {
     color: '#4CB97A',
     fontSize: 20,
@@ -81,7 +96,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#816868',
-    fontSize: 24,
+    fontSize: 22,
     textAlign: 'center',
     fontWeight: 'bold',
   },
