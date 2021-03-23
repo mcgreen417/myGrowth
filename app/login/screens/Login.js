@@ -12,6 +12,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import { Cache } from "react-native-cache";
+import * as queries from '../../../src/graphql/queries';
+//import AsyncStorage from '@react-native-async-storage/async-storage';
+
 function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -114,25 +118,49 @@ function Login({ navigation }) {
 
 async function signIn(username, pw, navigation) {
   try {
-    await signOut(); // This is to clear any tokens saved when debugging
-    // console.log(username);
-    // console.log(pw);
+    //await signOut(); // This is to clear any tokens saved when debugging
+    
+    //instantiate new cache
+    const cache = new Cache({
+      namespace: "myapp",
+      policy: {
+        maxEntries: 50000
+      },
+      backend: AsyncStorage
+    });
+
     const user = await Auth.signIn(username, pw);
-    // await testQuery(user.username);
+    
+    //empty settings in db
     if(user.attributes['custom:initialized'] == 0)
-      navigation.navigate('UserInitialization1');
-    if(user.attributes['custom:initialized'] == 1)
-      navigation.navigate('Home');
+      navigation.navigate('UserInitialization1', {cache});
+
+    //non-empty settings in db
+    if(user.attributes['custom:initialized'] == 1) {
+      const res = await API.graphql({
+        query: queries.getSetting,
+        variables: {UserID: user.username}
+      });
+    }
+
+      //store settings from db
+      await cache.set("settings", res.data.getSetting.Options);
+      /*await cache.set("settings:useFitness": res.data.getSetting.Options.dailyActivities);
+      await cache.set("settings:useMeal": );
+      await cache.set("settings:useMedication": );
+      await cache.set("settings:useMetric": );
+      await cache.set("settings:usePeriod": );
+      await cache.set("settings:useSleep": );
+      await cache.set("settings:useStress": );
+      await cache.set("settings:useWeight": );
+      await cache.set("settings:height": );
+      await cache.set("settings:weight": );*/
+      var obj = await cache.peek("settings");
+      console.log(obj);
+
+      navigation.navigate('Home', {cache});
   } catch (error) {
     console.log('error signing in', error);
-  }
-}
-
-async function signOut() {
-  try {
-    await Auth.signOut();
-  } catch (error) {
-    console.log('error signing out: ', error);
   }
 }
 

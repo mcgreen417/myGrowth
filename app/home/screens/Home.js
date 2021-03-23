@@ -14,7 +14,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
 
-function Home({ navigation }) {
+function Home({ route, navigation }) {
   let plant = 4;
   let stage = 0;
 
