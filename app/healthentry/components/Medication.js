@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Switch, Button } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { Switch } from 'react-native-gesture-handler';
 
 const medication = [
   { name: '(Medicine 1)', time: '2021-03-15T09:10:00Z' },
@@ -23,7 +22,7 @@ const Medication = () => {
   console.log(med);
 
   return (
-    <View>
+    <View style={{ width: '80%' }}>
       <Text>Medication</Text>
       <Text>Have you taken the following medications today?</Text>
       <View>
@@ -52,6 +51,9 @@ const Medication = () => {
             </View>
           );
         })}
+      </View>
+      <View style={{ width: '50%' }}>
+        <Button title='+ Add Symptoms' />
       </View>
     </View>
   );
