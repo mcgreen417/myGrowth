@@ -93,7 +93,7 @@ function ForgotPassword({ navigation }) {
                 ? global.cb_optionButtonsColor
                 : global.optionButtonsColor
             }
-            onPress={() => navigation.navigate('PasswordResetVerification')}
+            onPress={() => resetPassword(email, navigation)}
           />
           <View style={{ marginVertical: 8 }} />
         </View>
@@ -119,9 +119,8 @@ function ForgotPassword({ navigation }) {
 
 async function resetPassword(email, navigation) {
   try {
-    const res = await Auth.forgotPassword(email);
-    console.log(res);
-    navigation.navigate('PasswordResetVerification');
+    await Auth.forgotPassword(email);
+    navigation.navigate('PasswordResetVerification', {email});
   } catch(error) {
     console.log('error resetting pasword: ', error);
   }
