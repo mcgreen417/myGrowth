@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Auth, API } from 'aws-amplify';
 import {
   StyleSheet,
   Text,
@@ -8,45 +9,53 @@ import {
   StatusBar,
   Switch,
   TouchableOpacity,
+  Button
 } from 'react-native';
+import * as mutations from '../../../src/graphql/mutations';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Cache } from "react-native-cache"
 
 import { Icon } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import NavBar from '../../shared/components/NavBar';
 
-function UserSettings({ navigation }) {
-  const [useStressLevels, setUseStressLevels] = useState(false);
+//MISSING BACKEND HOOKUP FOR: PIN
+function UserSettings({ navigation, route }) {
+  const settings = route.params;
+
+  const [useStressLevels, setUseStressLevels] = useState(settings.obj["stress"]);
   const toggleStressLevels = () =>
     setUseStressLevels((previousState) => !previousState);
 
-  const [useDailyActivities, setUseDailyActivities] = useState(false);
+  const [useDailyActivities, setUseDailyActivities] = useState(settings.obj["dailyActivities"]);
   const toggleDailyActivities = () =>
     setUseDailyActivities((previousState) => !previousState);
 
   const [usePinReq, setUsePinReq] = useState(false);
   const togglePinReq = () => setUsePinReq((previousState) => !previousState);
 
-  const [useWeightTracking, setUseWeightTracking] = useState(false);
-  const toggleWeightTracking = () =>
+  const [useWeightTracking, setUseWeightTracking] = useState(settings.obj["weight"]);
+  const toggleWeightTracking = () => {
     setUseWeightTracking((previousState) => !previousState);
+  }
 
-  const [usePeriodTracking, setUsePeriodTracking] = useState(false);
+  const [usePeriodTracking, setUsePeriodTracking] = useState(settings.obj["period"]);
   const togglePeriodTracking = () =>
     setUsePeriodTracking((previousState) => !previousState);
 
-  const [useMedicationTracking, setUseMedicationTracking] = useState(false);
+  const [useMedicationTracking, setUseMedicationTracking] = useState(settings.obj["medication"]);
   const toggleMedicationTracking = () =>
     setUseMedicationTracking((previousState) => !previousState);
 
-  const [useSleepTracking, setUseSleepTracking] = useState(false);
+  const [useSleepTracking, setUseSleepTracking] = useState(settings.obj["sleep"]);
   const toggleSleepTracking = () =>
     setUseSleepTracking((previousState) => !previousState);
 
-  const [useMealTracking, setUseMealTracking] = useState(false);
+  const [useMealTracking, setUseMealTracking] = useState(settings.obj["meal"]);
   const toggleMealTracking = () =>
     setUseMealTracking((previousState) => !previousState);
 
-  const [useFitnessTracking, setUseFitnessTracking] = useState(false);
+  const [useFitnessTracking, setUseFitnessTracking] = useState(settings.obj["fitness"]);
   const toggleFitnessTracking = () =>
     setUseFitnessTracking((previousState) => !previousState);
 
@@ -446,13 +455,79 @@ function UserSettings({ navigation }) {
             </View>
           </View>
           <View style={styles().line} />
-          
+
+          <View>
+            <TouchableOpacity
+              style={styles().update}
+              onPress={() => updateUserSetting(
+                useStressLevels, 
+                useDailyActivities, 
+                useWeightTracking, 
+                usePeriodTracking, 
+                useMedicationTracking, 
+                useSleepTracking, 
+                useMealTracking, 
+                useFitnessTracking,
+                settings.obj["userHeight"],
+                settings.obj["userWeight"],
+                settings.obj["metric"]
+              )}
+            >
+              <Text style={styles().updateText}>Update Settings</Text>
+            </TouchableOpacity>
+          </View>
+
           <View style={styles().pageEnd} />
         </View>
       </ScrollView>
       <NavBar account={true} navigation={navigation} />
     </SafeAreaView>
   );
+}
+
+//ADD HANDLING FOR PIN WHEN IMPLEMENTED
+async function updateUserSetting(
+  useStressLevels, 
+  useDailyActivities, 
+  useWeightTracking, 
+  usePeriodTracking, 
+  useMedicationTracking, 
+  useSleepTracking, 
+  useMealTracking, 
+  useFitnessTracking,
+  userHeight,
+  userWeight,
+  metric
+) {
+  const user = Auth.currentAuthenticatedUser();
+  const settingOptions = {
+    stress: useStressLevels,
+    dailyActivities: useDailyActivities,
+    weight: useWeightTracking,
+    period: usePeriodTracking,
+    medication: useMedicationTracking,
+    sleep: useSleepTracking,
+    meal: useMealTracking,
+    fitness: useFitnessTracking,
+    userHeight: userHeight,
+    userWeight: userWeight,
+    metric: metric
+  };
+
+  const cache = new Cache({
+    namespace: "myapp",
+    policy: {
+      maxEntries: 50000
+    },
+    backend: AsyncStorage
+  });
+
+  const res = await API.graphql({
+    query: mutations.updateSetting,
+    variables: {UserID: user.username, options: settingOptions}
+  });
+
+  await cache.set("settings", res.data.updateSetting.Options);
 }
 
 export default UserSettings;
@@ -569,4 +644,17 @@ const styles = () => StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  update: {
+    marginTop: 15,
+    borderRadius: 10,
+    backgroundColor: '#4CB97A',
+    width: 150,
+    height: 35,
+  },
+  updateText: {
+    marginTop: 5,
+    fontSize: 16,
+    color: 'white',
+    textAlign: 'center'
+  }
 });

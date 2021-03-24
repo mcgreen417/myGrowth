@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Auth, API } from 'aws-amplify';
 import {
   Button,
   Image,
@@ -13,8 +14,13 @@ import {
   FlatList,
   Switch,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Cache } from "react-native-cache";
+import * as mutations from '../../../src/graphql/mutations';
 
-function UserInitialization3({ navigation }) {
+function UserInitialization3({ route, navigation }) {
+  const { height, weight, heightMeasurement, weightMeasurement } = route.params;
+
   const [useStressLevels, setUseStressLevels] = useState(false);
   const toggleStressLevels = () =>
     setUseStressLevels((previousState) => !previousState);
@@ -328,7 +334,12 @@ function UserInitialization3({ navigation }) {
                 ? global.cb_optionButtonsColor
                 : global.optionButtonsColor
             }
-            onPress={() => navigation.navigate('UserInitialization2')}
+            onPress={() => navigation.navigate('UserInitialization2', { 
+              height: height, 
+              weight: weight, 
+              heightMeasurement: heightMeasurement, 
+              weightMeasurement: weightMeasurement,
+            })}
           />
           <View style={{ width: '70%' }}></View>
           <Button
@@ -338,12 +349,71 @@ function UserInitialization3({ navigation }) {
                 ? global.cb_optionButtonsColor
                 : global.optionButtonsColor
             }
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => {
+              settingQuery(
+                weight, 
+                height, 
+                useStressLevels, 
+                useDailyActivities, 
+                useWeightTracking, 
+                usePeriodTracking, 
+                useMedicationTracking, 
+                useSleepTracking, 
+                useMealTracking,
+                useFitnessTracking,
+                heightMeasurement
+              );
+              navigation.navigate('Home');
+            }}
           />
         </View>
       </View>
     </SafeAreaView>
   );
+}
+
+async function settingQuery(
+  weight, 
+  height, 
+  useStressLevels, 
+  useDailyActivities, 
+  useWeightTracking, 
+  usePeriodTracking, 
+  useMedicationTracking, 
+  useSleepTracking,
+  useMealTracking, 
+  useFitnessTracking,
+  heightMeasurement
+) {
+  const cache = new Cache({
+    namespace: "myapp",
+    policy: {
+      maxEntries: 50000
+    },
+    backend: AsyncStorage
+  });
+  const user = Auth.currentUserInfo();
+  const settingOptions = {
+    stress: useStressLevels,
+    dailyActivities: useDailyActivities,
+    weight: useWeightTracking,
+    period: usePeriodTracking,
+    medication: useMedicationTracking,
+    sleep: useSleepTracking,
+    meal: useMealTracking,
+    fitness: useFitnessTracking,
+    userHeight: height,
+    userWeight: weight,
+    metric: heightMeasurement
+  };
+
+  const res = await API.graphql({
+    query: mutations.addSetting,
+    variables: {UserID: user.username, options: settingOptions}
+  });
+
+  //set cache settings
+  await cache.set("settings", res.data.addSetting.Options);
 }
 
 export default UserInitialization3;
