@@ -70,7 +70,7 @@ const AddTask = ({
 }) => {
   return (
     <Pressable>
-      <View style={styles.modalView}>
+      <View style={styles().modalView}>
         <View
           style={{
             flexDirection: 'row',
@@ -140,9 +140,9 @@ const AddTask = ({
           <Text>REMINDER</Text>
         </View>
         <View style={{ flexDirection: 'row', width: 300 }}>
-          <View style={styles.pickerView}>
+          <View style={styles().pickerView}>
             <Picker
-              style={styles.picker}
+              style={styles().picker}
               selectedValue={selectReminder}
               onValueChange={(itemValue, itemIndex) =>
                 setSelectReminder(itemValue)
@@ -180,7 +180,7 @@ const ToDoList = ({ navigation }) => {
   const [showAddTask, setShowAddTask] = useState(false);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles().container}>
       <Modal
         transparent={true}
         visible={modalVisible}
@@ -209,38 +209,38 @@ const ToDoList = ({ navigation }) => {
         </Pressable>
       </Modal>
       {/* Gardener avatar + page blurb */}
-      <View style={styles.avatarView}>
-        <Text style={styles.pageDescription}>
+      <View style={styles().avatarView}>
+        <Text style={styles().pageDescription}>
           Use this to-do list to keep track of upcoming tasks. Let's have
           another productive day!
         </Text>
         <Image
-          style={styles.avatar}
+          style={styles().avatar}
           source={require('../../shared/assets/gardener-avatar.png')}
         />
       </View>
-      <View style={styles.divider} />
+      <View style={styles().divider} />
 
       {/* Category listing */}
-      <View style={styles.inlineRow}>
+      <View style={styles().inlineRow}>
         <Icon name='chevron-back' type='ionicon' color='#816868' />
         <ScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           style={{ width: '82%' }}>
-          <View style={styles.categoryView}>
-            <Text style={styles.categoryText}>School</Text>
+          <View style={styles().categoryView}>
+            <Text style={styles().categoryText}>School</Text>
           </View>
-          <View style={styles.categoryView}>
-            <Text style={styles.categoryText}>Work</Text>
+          <View style={styles().categoryView}>
+            <Text style={styles().categoryText}>Work</Text>
           </View>
-          <View style={styles.categoryView}>
-            <Text style={styles.categoryText}>Chores</Text>
+          <View style={styles().categoryView}>
+            <Text style={styles().categoryText}>Chores</Text>
           </View>
-          <View style={styles.categoryView}>
-            <Text style={styles.categoryText}>Games</Text>
+          <View style={styles().categoryView}>
+            <Text style={styles().categoryText}>Games</Text>
           </View>
-          <View style={styles.categoryView}>
+          <View style={styles().categoryView}>
             <Text
               style={{
                 marginVertical: 6,
@@ -259,7 +259,7 @@ const ToDoList = ({ navigation }) => {
             />
           </View>
         </ScrollView>
-        <View style={styles.iconView}>
+        <View style={styles().iconView}>
           <View style={{ flexDirection: 'row' }}>
             <Icon name='chevron-forward' type='ionicon' color='#816868' />
           </View>
@@ -360,10 +360,12 @@ const ToDoList = ({ navigation }) => {
 
 export { ToDoList };
 
-const styles = StyleSheet.create({
+const styles = () => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6EFED',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
     justifyContent: 'center',
     alignSelf: 'center',
     width: '100%',
@@ -471,5 +473,12 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     width: '70%',
     backgroundColor: '#f4f3f4',
+  },
+  textReg: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+    textDecorationLine: 'none',
+    textAlign: 'left',
   },
 });

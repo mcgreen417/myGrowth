@@ -15,7 +15,7 @@ const Mood = ({ type }) => {
   return (
     <View>
       <Image />
-      <Text>{type}</Text>
+      <Text style={styles().textReg}>{type}</Text>
     </View>
   );
 };
@@ -43,35 +43,35 @@ const AddExercise = () => {
 const HealthEntry1 = ({ navigation }) => {
   var stress_level = 0;
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles().container}>
       {/* <Modal>
-        <Text>Add Feelings</Text>
+        <Text style={styles().textReg}>Add Feelings</Text>
       </Modal>
       <Modal>
-        <Text>Add Stressors</Text>
+        <Text style={styles().textReg}>Add Stressors</Text>
       </Modal>
       <Modal>
-        <Text>Add Activities</Text>
+        <Text style={styles().textReg}>Add Activities</Text>
       </Modal> */}
       <View>
         <Image
           source={require('../../shared/assets/icon.png')}
-          style={styles.avatar}
+          style={styles().avatar}
         />
         <View>
-          <Text>Time for a new health entry!</Text>
-          <Text>After you save your entry, you may edit it at any time.</Text>
+          <Text style={styles().textReg}>Time for a new health entry!</Text>
+          <Text style={styles().textReg}>After you save your entry, you may edit it at any time.</Text>
         </View>
       </View>
       <View>
-        <Text>SELECT DATE & TIME</Text>
+        <Text style={styles().textReg}>SELECT DATE & TIME</Text>
         <View>
-          <Text>Add date here</Text>
-          <Text>Add time here</Text>
+          <Text style={styles().textReg}>Add date here</Text>
+          <Text style={styles().textReg}>Add time here</Text>
         </View>
       </View>
       <View>
-        <Text>MOOD</Text>
+        <Text style={styles().textReg}>MOOD</Text>
         <View>
           <Mood type='awful' />
           <Mood type='bad' />
@@ -79,20 +79,48 @@ const HealthEntry1 = ({ navigation }) => {
           <Mood type='Good' />
           <Mood type='Great' />
         </View>
-        <Button title='+ Add Feelings' />
+        <Button
+          title='+ Add Feelings'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
       </View>
       <View>
-        <Text>STRESS</Text>
+        <Text style={styles().textReg}>STRESS</Text>
         <Stress level={stress_level} />
-        <Button title='+ Add Stressors' />
+        <Button
+          title='+ Add Stressors'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
       </View>
       <View>
-        <Text>DAILY ACTIVITIES</Text>
-        <Text>What activities did you participate in today?</Text>
-        <Button title='+ Add Activities' />
+        <Text style={styles().textReg}>DAILY ACTIVITIES</Text>
+        <Text style={styles().textReg}>What activities did you participate in today?</Text>
+        <Button
+          title='+ Add Activities'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
       </View>
       <View>
-        <Button title='Next >' />
+        <Button
+          title='Next >'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
       </View>
       <NavBar navigation={navigation} />
     </SafeAreaView>
@@ -103,41 +131,91 @@ const HealthEntry2 = () => {
   return (
     <SafeAreaView>
       <View>
-        <Text>PHYSICAL/MENTAL HEALTH</Text>
+        <Text style={styles().textReg}>PHYSICAL/MENTAL HEALTH</Text>
         <View>
-          <Text>Did you have your period today? </Text>
+          <Text style={styles().textReg}>Did you have your period today? </Text>
           <Switch
-            trackColor={{ false: '#767577', true: '#9AD2AF' }}
-            thumbColor={setPeriodToday ? '#4CB97A' : '#f4f3f4'}
-            ios_backgroundColor='#3e3e3e'
+            trackColor={{ 
+              false: global.colorblindMode 
+                ? global.cb_switchTrackColorFalse
+                : global.switchTrackColorFalse,
+              true: global.colorblindMode
+                ? global.cb_switchTrackColorTrue 
+                : global.switchTrackColorTrue
+            }}
+            thumbColor={
+              setPeriodToday
+                ? (global.colorblindMode 
+                  ? global.cb_switchThumbColorTrue
+                  : global.switchThumbColorTrue)
+                : (global.colorblindMode
+                  ? global.cb_switchThumbColorFalse
+                  : global.switchThumbColorFalse)
+            }
+            ios_backgroundColor={global.cb_switchIosBackgroundColor}
             onValueChange={togglePeriodToday}
             value={setPeriodToday}
           />
         </View>
-        <Text>
+        <Text style={styles().textReg}>
           If you have weighed yourself today, how much do you weigh? (Leave
           field blank if you are unsure.)
         </Text>
         <View>
-          <TextInput placeholder='#' />
-          <Text>lbs</Text>
+          <TextInput
+            placeholder='#'
+            placeholderTextColor={
+              global.colorblindMode
+                ? global.cb_placeHolderTextColor
+                : global.placeHolderTextColor
+            }
+          />
+          <Text style={styles().textReg}>lbs</Text>
         </View>
-        <Text>
+        <Text style={styles().textReg}>
           Have you experienced any unusual physical or mental health symptoms
           today?
         </Text>
-        <Button title='+ Add Symptoms' />
+        <Button
+          title='+ Add Symptoms'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
       </View>
       <View>
-        <Text>MEDICATION</Text>
-        <Text>Have you taken the following medication today?</Text>
+        <Text style={styles().textReg}>MEDICATION</Text>
+        <Text style={styles().textReg}>Have you taken the following medication today?</Text>
         <Medicine title='Medicine 1' time='7:30PM' interval='daily' />
         <Medicine title='Medicine 2' time='7:30PM' interval='daily' />
-        <Button title='+ Add Medicine' />
+        <Button
+          title='+ Add Medicine'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
       </View>
       <View>
-        <Button title='< Back' />
-        <Button title='Next >' />
+        <Button
+          title='< Back'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Button
+          title='Next >'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
       </View>
     </SafeAreaView>
   );
@@ -146,43 +224,79 @@ const HealthEntry2 = () => {
 const HealthEntry3 = () => {
   return (
     <SafeAreaView>
-      <Text>SLEEP</Text>
+      <Text style={styles().textReg}>SLEEP</Text>
       <View>
-        <Text>Did you sleep today?</Text>
+        <Text style={styles().textReg}>Did you sleep today?</Text>
         <Switch
-          trackColor={{ false: '#767577', true: '#9AD2AF' }}
-          thumbColor={setSleepToday ? '#4CB97A' : '#f4f3f4'}
-          ios_backgroundColor='#3e3e3e'
+          trackColor={{ 
+            false: global.colorblindMode 
+              ? global.cb_switchTrackColorFalse
+              : global.switchTrackColorFalse,
+            true: global.colorblindMode
+              ? global.cb_switchTrackColorTrue 
+              : global.switchTrackColorTrue
+          }}
+          thumbColor={
+            setSleepToday
+              ? (global.colorblindMode 
+                ? global.cb_switchThumbColorTrue
+                : global.switchThumbColorTrue)
+              : (global.colorblindMode
+                ? global.cb_switchThumbColorFalse
+                : global.switchThumbColorFalse)
+          }
+          ios_backgroundColor={global.cb_switchIosBackgroundColor}
           onValueChange={toggleSleepToday}
           value={setSleepToday}
         />
       </View>
-      <Text>When did you sleep last night?</Text>
+      <Text style={styles().textReg}>When did you sleep last night?</Text>
       <View>
-        <Text>Time1</Text>
-        <Text>to</Text>
-        <Text>Time2</Text>
+        <Text style={styles().textReg}>Time1</Text>
+        <Text style={styles().textReg}>to</Text>
+        <Text style={styles().textReg}>Time2</Text>
       </View>
-      <Text>How would you rate your quality of sleep last night?</Text>
+      <Text style={styles().textReg}>How would you rate your quality of sleep last night?</Text>
       <View>
         <SleepQuality type='alright' />
       </View>
-      <Text>When did you nap today?</Text>
+      <Text style={styles().textReg}>When did you nap today?</Text>
       <View>
-        <Text>Time1</Text>
-        <Text>to</Text>
-        <Text>Time2</Text>
+        <Text style={styles().textReg}>Time1</Text>
+        <Text style={styles().textReg}>to</Text>
+        <Text style={styles().textReg}>Time2</Text>
       </View>
-      <Text>How would you rate your quality of sleep during your nap?</Text>
+      <Text style={styles().textReg}>How would you rate your quality of sleep during your nap?</Text>
       <View>
         <SleepQuality type='alright' />
       </View>
       <View>
-        <Button title='+ Add Nap' />
+        <Button
+          title='+ Add Nap'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
       </View>
       <View>
-        <Button title='< Back' />
-        <Button title='Next >' />
+        <Button
+          title='< Back'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Button
+          title='Next >'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
       </View>
     </SafeAreaView>
   );
@@ -192,31 +306,74 @@ const HealthEntry4 = () => {
   return (
     <SafeAreaView>
       <View>
-        <Text>Have you eaten today? </Text>
+        <Text style={styles().textReg}>Have you eaten today? </Text>
         <Switch
-          trackColor={{ false: '#767577', true: '#9AD2AF' }}
-          thumbColor={setEatenToday ? '#4CB97A' : '#f4f3f4'}
-          ios_backgroundColor='#3e3e3e'
+          trackColor={{ 
+            false: global.colorblindMode 
+              ? global.cb_switchTrackColorFalse
+              : global.switchTrackColorFalse,
+            true: global.colorblindMode
+              ? global.cb_switchTrackColorTrue 
+              : global.switchTrackColorTrue
+          }}
+          thumbColor={
+            setEatenToday
+              ? (global.colorblindMode 
+                ? global.cb_switchThumbColorTrue
+                : global.switchThumbColorTrue)
+              : (global.colorblindMode
+                ? global.cb_switchThumbColorFalse
+                : global.switchThumbColorFalse)
+          }
+          ios_backgroundColor={global.cb_switchIosBackgroundColor}
           onValueChange={toggleEatenToday}
           value={setEatenToday}
         />
       </View>
-      <Text>
+      <Text style={styles().textReg}>
         If you kept track of your calories, how many calories did you consume?
         (Leave field blank if you are unsure.)
       </Text>
       <View>
-        <TextInput placeholder='#' />
-        <Text>cal</Text>
+        <TextInput
+          placeholder='#'
+          placeholderTextColor={
+            global.colorblindMode
+              ? global.cb_placeHolderTextColor
+              : global.placeHolderTextColor
+          }
+        />
+        <Text style={styles().textReg}>cal</Text>
       </View>
       <View>
-        <Text>ADVANCE MEAL TRACKING</Text>
+        <Text style={styles().textReg}>ADVANCE MEAL TRACKING</Text>
         <AddMeal />
-        <Button title='+ Add Meal' />
+        <Button
+          title='+ Add Meal'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
       </View>
       <View>
-        <Button title='< Back' />
-        <Button title='Next >' />
+        <Button
+          title='< Back'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Button
+          title='Next >'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
       </View>
     </SafeAreaView>
   );
@@ -225,41 +382,84 @@ const HealthEntry4 = () => {
 const HealthEntry5 = () => {
   return (
     <SafeAreaView>
-      <Text>FITNESS TRACKING</Text>
+      <Text style={styles().textReg}>FITNESS TRACKING</Text>
       <View>
-        <Text>Did you exercise today? </Text>
+        <Text style={styles().textReg}>Did you exercise today? </Text>
         <Switch
-          trackColor={{ false: '#767577', true: '#9AD2AF' }}
-          thumbColor={setExerciseToday ? '#4CB97A' : '#f4f3f4'}
-          ios_backgroundColor='#3e3e3e'
+          trackColor={{ 
+            false: global.colorblindMode 
+              ? global.cb_switchTrackColorFalse
+              : global.switchTrackColorFalse,
+            true: global.colorblindMode
+              ? global.cb_switchTrackColorTrue 
+              : global.switchTrackColorTrue
+          }}
+          thumbColor={
+            setExerciseToday
+              ? (global.colorblindMode 
+                ? global.cb_switchThumbColorTrue
+                : global.switchThumbColorTrue)
+              : (global.colorblindMode
+                ? global.cb_switchThumbColorFalse
+                : global.switchThumbColorFalse)
+          }
+          ios_backgroundColor={global.cb_switchIosBackgroundColor}
           onValueChange={toggleExerciseToday}
           value={setExerciseToday}
         />
       </View>
-      <Text>How long did you exercise for?</Text>
+      <Text style={styles().textReg}>How long did you exercise for?</Text>
       <View>
-        <TextInput placeholder='#' />
-        <Text>min</Text>
+        <TextInput
+          placeholder='#'
+          placeholderTextColor={
+            global.colorblindMode
+              ? global.cb_placeHolderTextColor
+              : global.placeHolderTextColor
+          }
+        />
+        <Text style={styles().textReg}>min</Text>
       </View>
-      <Text>
+      <Text style={styles().textReg}>
         If you kept track of your calories, how many calories did you burn?
         (Leave field blank if you are unsure.)
       </Text>
       <View>
-        <TextInput placeholder='#' />
-        <Text>cal</Text>
+        <TextInput
+          placeholder='#'
+          placeholderTextColor={
+            global.colorblindMode
+              ? global.cb_placeHolderTextColor
+              : global.placeHolderTextColor
+          }
+        />
+        <Text style={styles().textReg}>cal</Text>
       </View>
-      <Text>
+      <Text style={styles().textReg}>
         If you kept track of your steps, how many steps did you take? (Leave
         field blank if you are unsure.)
       </Text>
       <View>
-        <TextInput placeholder='#' />
-        <Text>steps</Text>
+        <TextInput
+          placeholder='#'
+          placeholderTextColor={
+            global.colorblindMode
+              ? global.cb_placeHolderTextColor
+              : global.placeHolderTextColor
+          }
+        />
+        <Text style={styles().textReg}>steps</Text>
       </View>
-      <Text>ADVANCED FITNESS TRACKING</Text>
+      <Text style={styles().textReg}>ADVANCED FITNESS TRACKING</Text>
       <AddExercise />
-      <Button title='+ Add Exercise' />
+      <Button
+        title='+ Add Exercise'
+        color={
+          global.colorblindMode
+            ? global.cb_optionButtonsColor
+            : global.optionButtonsColor
+        }
+      />
     </SafeAreaView>
   );
 };
@@ -267,7 +467,7 @@ const HealthEntry5 = () => {
 const ReviewEntry = () => {
   return (
     <View>
-      <Text></Text>
+      <Text style={styles().textReg}></Text>
     </View>
   );
 };
@@ -280,12 +480,26 @@ const EntryCompletion = () => {
       </View>
       <View>
         <Image source={require('../../shared/assets/icon.png')} />
-        <Text>You have watered (plant name) today!</Text>
-        <Text>+5 growth points</Text>
+        <Text style={styles().textReg}>You have watered (plant name) today!</Text>
+        <Text style={styles().textReg}>+5 growth points</Text>
       </View>
       <View>
-        <Button title='View Entry' />
-        <Button title='Return to Home' />
+        <Button
+          title='View Entry'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
+        <Button
+          title='Return to Home'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+        />
       </View>
     </SafeAreaView>
   );
@@ -294,7 +508,7 @@ const EntryCompletion = () => {
 const ViewEntry = () => {
   return (
     <View>
-      <Text></Text>
+      <Text style={styles().textReg}></Text>
     </View>
   );
 };
@@ -310,10 +524,12 @@ export {
   ViewEntry,
 };
 
-const styles = StyleSheet.create({
+const styles = () => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6EFED',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
   },
   avatar: {
     width: 75,
@@ -326,4 +542,11 @@ const styles = StyleSheet.create({
     width: 100,
     height: 50,
   },
+  textReg: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+    textDecorationLine: 'none',
+    textAlign: 'left',
+  }
 });

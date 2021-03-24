@@ -90,7 +90,15 @@ function UserInitialization1({ navigation }) {
             />
           </View>
           <View style={styles().userPrompt}>
-            <TextInput style={styles().textInput} placeholder='First name' />
+            <TextInput 
+              style={styles().textInput}
+              placeholder='First name' 
+              placeholderTextColor={
+                global.colorblindMode
+                  ? global.cb_placeHolderTextColor
+                  : global.placeHolderTextColor
+              }
+            />
           </View>
 
           {/* Date of birth calendar pop-up */}
@@ -196,7 +204,15 @@ function UserInitialization1({ navigation }) {
             />
           </View>
           <View style={styles().userPrompt}>
-            <TextInput style={styles().textInput2} placeholder='#' />
+            <TextInput
+              style={styles().textInput2}
+              placeholder='#'
+              placeholderTextColor={
+                global.colorblindMode
+                  ? global.cb_placeHolderTextColor
+                  : global.placeHolderTextColor
+              }
+            />
             <Text> IN</Text>
             <ToggleButton
               icon={
@@ -224,7 +240,15 @@ function UserInitialization1({ navigation }) {
                 />
               </View>
               <View style={styles().userPrompt}>
-                <TextInput style={styles().textInput3} placeholder='#' />
+                <TextInput
+                  style={styles().textInput3}
+                  placeholder='#'
+                  placeholderTextColor={
+                    global.colorblindMode
+                      ? global.cb_placeHolderTextColor
+                      : global.placeHolderTextColor
+                  }
+                />
                 <Text>LB</Text>
                 <ToggleButton
                   icon={
@@ -309,7 +333,9 @@ const styles = () =>
       marginBottom: 20,
     },
     heading: {
-      color: '#816868',
+      color: global.colorblindMode
+        ? global.cb_textColor
+        : global.textColor,
       fontSize: 16,
       fontWeight: 'bold',
       marginBottom: 8,
@@ -325,13 +351,17 @@ const styles = () =>
     },
     line: {
       width: '90%',
-      borderColor: '#816868',
+      borderColor: global.colorblindMode
+        ? global.cb_lineColor
+        : global.lineColor,
       borderBottomWidth: 1,
       minHeight: 1,
     },
     line2: {
-      borderColor: '#816868',
-      borderWidth: 1,
+      borderColor: global.colorblindMode
+        ? global.cb_lineColor
+        : global.lineColor,
+      borderRightWidth: 1,
       minHeight: 28,
       marginTop: 4,
       marginBottom: 4,
@@ -341,8 +371,16 @@ const styles = () =>
       alignItems: 'flex-end',
       marginRight: 20,
     },
+    textReg: {
+      color: global.colorblindMode
+        ? global.cb_textColor
+        : global.textColor,
+      textAlign: 'left',
+    },
     pageDescription: {
-      color: global.colorblindMode ? global.cb_textColor : global.textColor,
+      color: global.colorblindMode
+        ? global.cb_textColor
+        : global.textColor,
       fontSize: 16,
       flex: 1,
       flexWrap: 'wrap',
@@ -366,7 +404,9 @@ const styles = () =>
       justifyContent: 'flex-start',
       alignItems: 'flex-start',
       width: '70%',
-      backgroundColor: '#f4f3f4',
+      backgroundColor: global.colorblindMode
+        ? global.cb_textInputFillColor
+        : global.textInputFillColor,
     },
     switchView: {
       flex: 1,
@@ -376,22 +416,34 @@ const styles = () =>
     },
     textInput: {
       height: 40,
-      borderColor: 'black',
+      borderColor: global.colorblindMode
+        ? global.cb_textInputBlackBorderColor
+        : global.textInputBlackBorderColor,
       borderWidth: 1,
       borderRadius: 4,
-      backgroundColor: '#f4f3f4',
-      color: '#000000',
+      backgroundColor: global.colorblindMode
+        ? global.cb_textInputFillColor
+        : global.textInputFillColor,
+      color: global.colorblindMode
+        ? global.cb_textInputColor
+        : global.textInputColor,
       width: '70%',
       paddingLeft: 10,
       fontSize: 16,
     },
     textInput2: {
       height: 36,
-      borderColor: 'black',
+      borderColor: global.colorblindMode
+        ? global.cb_textInputBlackBorderColor
+        : global.textInputBlackBorderColor,
       borderWidth: 1,
       borderRadius: 4,
-      backgroundColor: '#f4f3f4',
-      color: '#000000',
+      backgroundColor: global.colorblindMode
+        ? global.cb_textInputFillColor
+        : global.textInputFillColor,
+      color: global.colorblindMode
+        ? global.cb_textInputColor
+        : global.textInputColor,
       width: '12%',
       textAlign: 'center',
       fontSize: 16,

@@ -40,13 +40,13 @@ function Start({ navigation }) {
         </Text>
         <Switch
           trackColor={{
-            false: global.cbSwitchTrackColorFalse,
-            true: global.cbSwitchTrackColorTrue,
+            false: global.cb_switchTrackColorFalse,
+            true: global.cb_switchTrackColorTrue,
           }}
           thumbColor={
             isEnabled
-              ? global.cbSwitchThumbColorTrue
-              : global.cbSwitchThumbColorFalse
+              ? global.cb_switchThumbColorTrue
+              : global.cb_switchThumbColorFalse
           }
           ios_backgroundColor={global.cb_blackColor}
           onValueChange={toggleSwitch}

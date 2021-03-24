@@ -19,7 +19,7 @@ const Goal = ({ title, description, type, navigation }) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
   return (
-    <View style={styles.inlineRow2}>
+    <View style={styles().inlineRow2}>
       {/* This icon should change to check-box when the user clicks on it (and retain that until daily reset) */}
       <Pressable onPress={() => navigation.navigate('GoalComplete')}>
         <Icon
@@ -29,8 +29,8 @@ const Goal = ({ title, description, type, navigation }) => {
           style={{ marginRight: 6 }}
         />
       </Pressable>
-      <Text style={styles.text}>{title}</Text>
-      <View style={styles.iconView}>
+      <Text style={styles().text}>{title}</Text>
+      <View style={styles().iconView}>
         <View style={{ flexDirection: 'row' }}>
           <Pressable>
             <Icon name='pencil' type='material-community' color='#816868' />
@@ -48,25 +48,25 @@ function Goals({ navigation }) {
   var time = new Date();
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles().container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Gardener avatar + page blurb */}
-        <View style={styles.avatarView}>
-          <Text style={styles.pageDescription}>
+        <View style={styles().avatarView}>
+          <Text style={styles().pageDescription}>
             Set healthy goals and do your best to accomplish them! Let's do our
             best today too!
           </Text>
           <Image
-            style={styles.avatar}
+            style={styles().avatar}
             source={require('../../shared/assets/gardener-avatar.png')}
           />
         </View>
-        <View style={styles.divider} />
+        <View style={styles().divider} />
 
         {/* Daily Goals section */}
-        <View style={styles.inlineRow}>
-          <Text style={styles.heading}>Daily Goals </Text>
-          <Text style={styles.text}>({time.toLocaleString()} until reset)</Text>
+        <View style={styles().inlineRow}>
+          <Text style={styles().heading}>Daily Goals</Text>
+          <Text style={styles().text}>{time.toLocaleString()} until reset</Text>
         </View>
         <View style={{ marginVertical: 10 }}>
           <Goal
@@ -98,8 +98,8 @@ function Goals({ navigation }) {
         <View style={{ width: '95%' }}>
           <View style={{ alignSelf: 'flex-end' }}>
             <Pressable>
-              <View style={styles.goalButtonView}>
-                <Text style={styles.goalButtonText}>New Goal</Text>
+              <View style={styles().goalButtonView}>
+                <Text style={styles().goalButtonText}>New Goal</Text>
                 <Icon
                   name='plus-circle'
                   type='feather'
@@ -110,12 +110,12 @@ function Goals({ navigation }) {
             </Pressable>
           </View>
         </View>
-        <View style={styles.divider} />
+        <View style={styles().divider} />
 
         {/* Weekly Goals section */}
-        <View style={styles.inlineRow}>
-          <Text style={styles.heading}>Weekly Goals </Text>
-          <Text style={styles.text}>({time.toLocaleString()} until reset)</Text>
+        <View style={styles().inlineRow}>
+          <Text style={styles().heading}>Weekly Goals </Text>
+          <Text style={styles().text}>({time.toLocaleString()} until reset)</Text>
         </View>
         <View style={{ marginVertical: 10 }}>
           <Goal
@@ -153,8 +153,8 @@ function Goals({ navigation }) {
         <View style={{ width: '95%' }}>
           <View style={{ alignSelf: 'flex-end' }}>
             <Pressable>
-              <View style={styles.goalButtonView}>
-                <Text style={styles.goalButtonText}>New Goal</Text>
+              <View style={styles().goalButtonView}>
+                <Text style={styles().goalButtonText}>New Goal</Text>
                 <Icon
                   name='plus-circle'
                   type='feather'
@@ -165,12 +165,12 @@ function Goals({ navigation }) {
             </Pressable>
           </View>
         </View>
-        <View style={styles.divider} />
+        <View style={styles().divider} />
 
         {/* Long-Term Goals section */}
-        <View style={styles.inlineRow}>
-          <Text style={styles.heading}>Long-Term Goals </Text>
-          <Text style={styles.text}>({time.toLocaleString()} until reset)</Text>
+        <View style={styles().inlineRow}>
+          <Text style={styles().heading}>Long-Term Goals </Text>
+          <Text style={styles().text}>({time.toLocaleString()} until reset)</Text>
         </View>
         <View style={{ marginVertical: 10 }}>
           <Goal
@@ -202,8 +202,8 @@ function Goals({ navigation }) {
         <View style={{ width: '95%' }}>
           <View style={{ alignSelf: 'flex-end' }}>
             <Pressable>
-              <View style={styles.goalButtonView}>
-                <Text style={styles.goalButtonText}>New Goal</Text>
+              <View style={styles().goalButtonView}>
+                <Text style={styles().goalButtonText}>New Goal</Text>
                 <Icon
                   name='plus-circle'
                   type='feather'
@@ -215,7 +215,7 @@ function Goals({ navigation }) {
           </View>
         </View>
 
-        <View style={styles.pageEnd} />
+        <View style={styles().pageEnd} />
       </ScrollView>
       <NavBar goals={true} navigation={navigation} />
     </SafeAreaView>
@@ -224,10 +224,12 @@ function Goals({ navigation }) {
 
 export { Goals };
 
-const styles = StyleSheet.create({
+const styles = () => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6EFED',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
     justifyContent: 'center',
     alignSelf: 'center',
   },
@@ -306,4 +308,9 @@ const styles = StyleSheet.create({
   pageEnd: {
     marginBottom: 100,
   },
+  bodyText: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+  }
 });

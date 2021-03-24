@@ -16,60 +16,60 @@ function Home({ navigation }) {
   let plant = 4;
   let stage = 0;
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles().container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Gardener avatar + page blurb */}
-        <View style={styles.avatarView}>
-          <Text style={styles.pageDescription}>
+        <View style={styles().avatarView}>
+          <Text style={styles().pageDescription}>
             Good Morning, {'\n'}(First name)!
           </Text>
           <Image
-            style={styles.avatar}
+            style={styles().avatar}
             source={require('../../shared/assets/gardener-avatar.png')}
           />
         </View>
 
-        {/* Plant section */}
-        <View style={styles.plantSection}>
-          <View style={styles.plantImage}>
+        {/* Plant Section */}
+        <View style={styles().plantSection}>
+          <View style={styles().plantImage}>
             <Image
               source={require('../../shared/assets/plant_sprites/' +
                 plant +
                 '_' +
                 stage +
                 '.png')}
-              style={styles.plant}
+              style={styles().plant}
             />
           </View>
         </View>
 
         {/* Plant buttons */}
-        <View style={styles.plantButtons}>
+        <View style={styles().plantButtons}>
           <Pressable
-            style={styles.inlineRow}
+            style={styles().inlineRow}
             onPress={() => navigation.navigate('CustomizePlant')}>
             <Icon name='arrow-left' color='#816868' />
             <View>
-              <Text style={styles.plantLinks}>Customize Plant</Text>
+              <Text style={styles().plantLinks}>Customize Plant</Text>
             </View>
           </Pressable>
-          <View style={styles.line2} />
+          <View style={styles().line2} />
           <Pressable
-            style={styles.inlineRow}
+            style={styles().inlineRow}
             onPress={() => navigation.navigate('PlantShop')}>
             <View>
-              <Text style={styles.plantLinks}>Enter Plant Shop</Text>
+              <Text style={styles().plantLinks}>Enter Plant Shop</Text>
             </View>
             <Icon name='arrow-right' color='#816868' />
           </Pressable>
         </View>
 
         {/* Write a new entry button */}
-        <View style={styles.dividerView}>
-          <View style={styles.dividerLeft} />
+        <View style={styles().dividerView}>
+          <View style={styles().dividerLeft} />
           <View>
             <Pressable>
-              <View style={styles.entryButton}>
+              <View style={styles().entryButton}>
                 <View
                   style={{
                     marginTop: 4,
@@ -98,53 +98,57 @@ function Home({ navigation }) {
               </View>
             </Pressable>
           </View>
-          <View style={styles.dividerRight} />
+          <View style={styles().dividerRight} />
         </View>
 
         {/* View past entries */}
         <View style={{ marginTop: -20 }}>
           <Pressable
-            style={styles.inlineRowEnd}
+            style={styles().inlineRowEnd}
             onPress={() => navigation.navigate('')}>
             <View style={{ alignSelf: 'flex-end' }}>
-              <Text style={styles.plantLinks}>View Past Entries</Text>
+              <Text style={styles().plantLinks}>View Past Entries</Text>
             </View>
             <Icon name='arrow-right' color='#816868' />
           </Pressable>
         </View>
 
-        {/* Activity suggestions */}
-        <View style={styles.avatarView}>
+        {/* Avatar Section */}
+        <View style={styles().avatarView}>
           <Image
-            style={styles.avatar}
+            style={styles().avatar}
             source={require('../../shared/assets/gardener-avatar.png')}
           />
-          <Text style={styles.activityView}>
+          <Text style={styles().activityView}>
             Why don't you try doing one of these activities?
           </Text>
         </View>
 
         <View style={{ marginLeft: '29%' }}>
           <Pressable
-            style={styles.inlineRow}
+            style={styles().inlineRow}
             onPress={() => navigation.navigate('Journal')}>
-            <Text style={styles.text}>Write a journal entry</Text>
+            <Text style={styles().text}>Write a journal entry</Text>
             <Icon
               name='checkmark-circle-outline'
               type='ionicon'
-              color='#4CB97A'
+              color={
+                global.colorblindMode
+                  ? global.cb_switchThumbColorTrue
+                  : global.switchThumbColorTrue
+              }
               style={{ marginLeft: 10 }}
             />
           </Pressable>
 
-          <View style={styles.dividerViewLow}>
-            <View style={styles.line} />
+          <View style={styles().dividerViewLow}>
+            <View style={styles().line} />
           </View>
 
           <Pressable
-            style={styles.inlineRow}
+            style={styles().inlineRow}
             onPress={() => navigation.navigate('Goals')}>
-            <Text style={styles.text}>Create a new goal</Text>
+            <Text style={styles().text}>Create a new goal</Text>
             <Icon
               name='checkmark-circle-outline'
               type='ionicon'
@@ -153,30 +157,34 @@ function Home({ navigation }) {
             />
           </Pressable>
 
-          <View style={styles.dividerViewLow}>
-            <View style={styles.line} />
+          <View style={styles().dividerViewLow}>
+            <View style={styles().line} />
           </View>
 
           <Pressable
-            style={styles.inlineRow}
+            style={styles().inlineRow}
             onPress={() => navigation.navigate('Goals')}>
-            <Text style={styles.text}>Complete a goal</Text>
+            <Text style={styles().text}>Complete a goal</Text>
             <Icon
               name='checkmark-circle-outline'
               type='ionicon'
-              color='#4CB97A'
+              color={
+                global.colorblindMode
+                  ? global.cb_switchThumbColorTrue
+                  : global.switchThumbColorTrue
+              }
               style={{ marginLeft: 10 }}
             />
           </Pressable>
 
-          <View style={styles.dividerViewLow}>
-            <View style={styles.line} />
+          <View style={styles().dividerViewLow}>
+            <View style={styles().line} />
           </View>
 
           <Pressable
-            style={styles.inlineRow}
+            style={styles().inlineRow}
             onPress={() => navigation.navigate('ToDoList')}>
-            <Text style={styles.text}>Check your to-do list</Text>
+            <Text style={styles().text}>Check your to-do list</Text>
             <Icon
               name='checkmark-circle-outline'
               type='ionicon'
@@ -185,11 +193,11 @@ function Home({ navigation }) {
             />
           </Pressable>
 
-          <View style={styles.dividerViewLow}>
-            <View style={styles.line} />
+          <View style={styles().dividerViewLow}>
+            <View style={styles().line} />
           </View>
         </View>
-        <View style={styles.pageEnd} />
+        <View style={styles().pageEnd} />
       </ScrollView>
       <NavBar home={true} navigation={navigation} />
     </SafeAreaView>
@@ -198,10 +206,12 @@ function Home({ navigation }) {
 
 export default Home;
 
-const styles = StyleSheet.create({
+const styles = () => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6EFED',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -270,17 +280,23 @@ const styles = StyleSheet.create({
   line: {
     flex: 1,
     height: 1,
-    backgroundColor: '#816868',
+    backgroundColor: global.colorblindMode
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
   },
   line2: {
-    backgroundColor: '#816868',
+    backgroundColor: global.colorblindMode
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
     marginLeft: 40,
     marginRight: 40,
     height: '100%',
     width: 2,
   },
   pageDescription: {
-    color: '#816868',
+    color: global.colorblindMode
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
     fontSize: 24,
     fontWeight: 'bold',
     flex: 1,
@@ -324,4 +340,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#816868',
   },
+  textReg: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+    fontSize: 16
+  }
 });
