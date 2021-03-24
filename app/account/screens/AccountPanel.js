@@ -9,7 +9,6 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
-import * as queries from '../../../src/graphql/queries';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Cache } from "react-native-cache";
 
@@ -184,7 +183,7 @@ async function signOut(navigation) {
     });
 
     await cache.clearAll();
-    
+
     await Auth.signOut();
     navigation.navigate('Start');
   } catch(error) {

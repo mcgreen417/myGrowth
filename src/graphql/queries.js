@@ -88,6 +88,13 @@ export const getSetting = /* GraphQL */ `
         name
         times
       }
+      PlantData {
+        plant
+        ownedPlants
+        customizations
+        ownedCustomizations
+      }
+      Points
     }
   }
 `;
@@ -165,8 +172,18 @@ export const getDailyEntry = /* GraphQL */ `
   }
 `;
 export const getDailyEntries = /* GraphQL */ `
-  query GetDailyEntries($UserID: ID, $count: Int, $nextToken: String) {
-    getDailyEntries(UserID: $UserID, count: $count, nextToken: $nextToken) {
+  query GetDailyEntries(
+    $UserID: ID
+    $count: Int
+    $nextToken: String
+    $timerange: String
+  ) {
+    getDailyEntries(
+      UserID: $UserID
+      count: $count
+      nextToken: $nextToken
+      timerange: $timerange
+    ) {
       dailyEntries {
         UserID
         Timestamp
@@ -266,8 +283,18 @@ export const getJournalEntry = /* GraphQL */ `
   }
 `;
 export const getJournalEntries = /* GraphQL */ `
-  query GetJournalEntries($UserID: ID, $count: Int, $nextToken: String) {
-    getJournalEntries(UserID: $UserID, count: $count, nextToken: $nextToken) {
+  query GetJournalEntries(
+    $UserID: ID
+    $count: Int
+    $nextToken: String
+    $timerange: String
+  ) {
+    getJournalEntries(
+      UserID: $UserID
+      count: $count
+      nextToken: $nextToken
+      timerange: $timerange
+    ) {
       journalEntries {
         Entry
         Timestamp
