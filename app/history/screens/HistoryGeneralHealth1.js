@@ -86,11 +86,8 @@ function HistoryGeneralHealth1({ navigation }) {
           selectedValue={timePeriod}
           style={{ height: 50, width: 200 }}
           onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
-<<<<<<< HEAD
-          mode={'dropdown'}>
-=======
+          mode={'dropdown'}
         >
->>>>>>> colorblind-mode-update
           <Picker.Item label='Select one...' value='unselected' />
           <Picker.Item label='Past week' value='past_week' />
           <Picker.Item label='Past month' value='past_month' />
