@@ -31,7 +31,12 @@ const PhysicalMentalHealth = () => {
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <TextInput
           placeholder='#'
-          style={{ borderBottomColor: '#C4BEBD', borderBottomWidth: 1 }}
+          style={{
+            borderBottomColor: '#C4BEBD',
+            borderBottomWidth: 1,
+            textAlign: 'center',
+          }}
+          keyboardType='number-pad'
         />
         <Text>lbs</Text>
       </View>

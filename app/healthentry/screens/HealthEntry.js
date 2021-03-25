@@ -1,4 +1,3 @@
-import { StorageClass } from '@aws-amplify/storage';
 import React from 'react';
 import {
   Button,

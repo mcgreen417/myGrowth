@@ -12,6 +12,7 @@ import {
   View,
   FlatList,
   Switch,
+  ScrollView,
 } from 'react-native';
 
 const avatars = new Array(48).fill('http://placeimg.com/100/100/any');
@@ -21,6 +22,7 @@ function UserInitialization2({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* <ScrollView> */}
       <View style={styles.pageSetup}>
         {/* Gardener avatar + page blurb */}
         <View style={styles.avatarView}>
@@ -70,6 +72,7 @@ function UserInitialization2({ navigation }) {
           />
         </View>
       </View>
+      {/* </ScrollView> */}
     </SafeAreaView>
   );
 }
