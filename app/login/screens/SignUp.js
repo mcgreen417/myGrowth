@@ -38,7 +38,7 @@ function SignUp({ navigation }) {
 
         {/* Username, e-mail address, password, confirm password entry boxes + signup button */}
         <View style={styles().buttons}>
-          <TextInput
+          {/*<TextInput
             style={styles().textInput}
             placeholder='Username'
             placeholderTextColor={
@@ -51,7 +51,7 @@ function SignUp({ navigation }) {
               setUsername(username);
             }}
           />
-          <View style={{ marginVertical: 8 }} />
+          <View style={{ marginVertical: 8 }} />*/}
           <TextInput
             style={styles().textInput}
             placeholder='E-mail Address'
@@ -104,7 +104,7 @@ function SignUp({ navigation }) {
                 : global.optionButtonsColor
             }
             onPress={() =>
-              signUp(username, email, password, confirmPassword, navigation)
+              signUp(email, password, confirmPassword, navigation)
             }
           />
           <View style={{ marginVertical: 8 }} />
@@ -139,7 +139,8 @@ function SignUp({ navigation }) {
   );
 }
 
-async function signUp(username, email, password, confirmPassword, navigation) {
+async function signUp(email, password, confirmPassword, navigation) {
+  const username = email;
   try {
     if (password != confirmPassword) {
       throw 'Password and Confirm Password are not the same';
@@ -149,6 +150,7 @@ async function signUp(username, email, password, confirmPassword, navigation) {
       password,
       attributes: {
         email,
+        'custom:initialized': '0'
       },
     });
     // console.log(user);

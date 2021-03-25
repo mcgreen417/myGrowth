@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Auth, API } from 'aws-amplify';
 import {
   Button,
   Image,
@@ -26,12 +27,32 @@ function UserInitialization1({ navigation }) {
   const [show, setShow] = useState(false);
   const [gender, setGender] = useState('unselected');
   const [bioSex, setBioSex] = useState('unselected');
+  const [firstName, setFirstName] = useState('');
+  const [dateDisplayText, setDateDisplayText] = useState('MM/DD/YYYY');
+  const [dob, setDob] = useState('0000-00-00');
+  const [height, setHeight] = useState('');
+  const [weight, setWeight] = useState('');
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    console.log(currentDate);
+    //console.log(currentDate);
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
+
+    const zero = "0";
+    var month = selectedDate.getMonth() + 1;
+    var dateofmonth = selectedDate.getDate();
+    const year = selectedDate.getFullYear();
+    var fullStr = "";
+
+    fullStr = fullStr.concat(month);
+    fullStr = fullStr.concat("/");
+    fullStr = fullStr.concat(dateofmonth);
+    fullStr = fullStr.concat("/");
+    fullStr = fullStr.concat(year);
+
+    setDateDisplayText(fullStr);
+    setDob(selectedDate.toISOString().slice(0, 10));
   };
 
   const showMode = (currentMode) => {
@@ -43,13 +64,13 @@ function UserInitialization1({ navigation }) {
     showMode('date');
   };
 
-  const [useHeightMeasurement, setUseHeightMeasurement] = useState(false);
+  const [useHeightMeasurement, setToggleHeightMeasurement] = useState(false);
   const toggleHeightMeasurement = () =>
-    setUseHeightMeasurement((previousState) => !previousState);
+    setToggleHeightMeasurement((previousState) => !previousState);
 
-  const [useWeightMeasurement, setUseWeightMeasurement] = useState(false);
+  const [useWeightMeasurement, setToggleWeightMeasurement] = useState(false);
   const toggleWeightMeasurement = () =>
-    setUseWeightMeasurement((previousState) => !previousState);
+    setToggleWeightMeasurement((previousState) => !previousState);
 
   return (
     <SafeAreaView style={styles().container}>
@@ -81,34 +102,45 @@ function UserInitialization1({ navigation }) {
 
           {/* First name user input entry */}
           <View style={styles().inlineRow2}>
-            <Text style={styles().heading}>FIRST NAME </Text>
+            <Text style={styles().heading}>FIRST NAME</Text>
             <Icon
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
+              style={{ marginLeft: 6 }}
             />
           </View>
+
+          {/* user's name in firstname var */}
           <View style={styles().userPrompt}>
-            <TextInput style={styles().textInput} placeholder='First name' />
+            <TextInput style={styles().textInput} placeholder='First name' 
+              value = {firstName}
+              onChangeText = {(firstName) => {
+                setFirstName(firstName);
+              }}
+            />
           </View>
 
           {/* Date of birth calendar pop-up */}
           <View style={styles().inlineRow2}>
-            <Text style={styles().heading}>DATE OF BIRTH </Text>
+            <Text style={styles().heading}>DATE OF BIRTH</Text>
             <Icon
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
+              style={{ marginLeft: 6 }}
             />
           </View>
+
+          {/* stores the date in date var */}
           <View style={styles().datePicker}>
             <TouchableOpacity onPress={showDatepicker}>
               <View style={styles().inlineRow}>
                 <Icon name='calendar-sharp' type='ionicon' color='#816868' />
-                <Text> </Text>
                 <Text
-                  style={{ textDecorationLine: 'underline', color: '#4CB97A' }}>
-                  MM/DD/YYYY
+                  style={{ textDecorationLine: 'underline', color: '#4CB97A' }}
+                >
+                  {dateDisplayText}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -126,13 +158,16 @@ function UserInitialization1({ navigation }) {
 
           {/* Gender drop-down */}
           <View style={styles().inlineRow2}>
-            <Text style={styles().heading}>GENDER </Text>
+            <Text style={styles().heading}>GENDER</Text>
             <Icon
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
+              style={{ marginLeft: 6 }}
             />
           </View>
+
+          {/* gender stored in gender */}
           <View style={{ width: '90%' }}>
             <View style={styles().pickerView}>
               <Picker
@@ -152,13 +187,16 @@ function UserInitialization1({ navigation }) {
 
           {/* Biological sex drop-down */}
           <View style={styles().inlineRow2}>
-            <Text style={styles().heading}>BIOLOGICAL SEX </Text>
+            <Text style={styles().heading}>BIOLOGICAL SEX</Text>
             <Icon
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
+              style={{ marginLeft: 6 }}
             />
           </View>
+
+          {/* stored in bioSex */}
           <View style={{ width: '90%' }}>
             <View style={styles().pickerView}>
               <Picker
@@ -177,15 +215,20 @@ function UserInitialization1({ navigation }) {
 
           {/* Height user input entry + cm switch button */}
           <View style={styles().inlineRow2}>
-            <Text style={styles().heading}>HEIGHT </Text>
+            <Text style={styles().heading}>HEIGHT</Text>
             <Icon
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
+              style={{ marginLeft: 6 }}
             />
           </View>
           <View style={styles().userPrompt}>
-            <TextInput style={styles().textInput2} placeholder='#' />
+            <TextInput style={
+              styles().textInput2} 
+              onChangeText = {(height) => setHeight(height)} 
+              placeholder='#' 
+            />
             <Text> IN</Text>
             <ToggleButton
               icon={
@@ -204,15 +247,20 @@ function UserInitialization1({ navigation }) {
           <View style={styles().inlineRow2}>
             <View style={{ width: '50%' }}>
               <View style={styles().inlineRow2}>
-                <Text style={styles().heading}>WEIGHT </Text>
+                <Text style={styles().heading}>WEIGHT</Text>
                 <Icon
                   name='information-circle-outline'
                   type='ionicon'
                   color='#816868'
+                  style={{ marginLeft: 6 }}
                 />
               </View>
               <View style={styles().userPrompt}>
-                <TextInput style={styles().textInput3} placeholder='#' />
+                <TextInput 
+                  style={styles().textInput3} 
+                  onChangeText = {(weight) => setWeight(weight)}
+                  placeholder='#' 
+                />
                 <Text> LB</Text>
                 <ToggleButton
                   icon={
@@ -224,7 +272,7 @@ function UserInitialization1({ navigation }) {
                   status={useWeightMeasurement ? 'checked' : 'unchecked'}
                   onPress={toggleWeightMeasurement}
                 />
-                <Text>KG</Text>
+                <Text style={styles().text}>KG</Text>
               </View>
             </View>
 
@@ -234,7 +282,15 @@ function UserInitialization1({ navigation }) {
                 <Button
                   title='NEXT'
                   color='#A5DFB2'
-                  onPress={() => navigation.navigate('UserInitialization2')}
+                  onPress={() => {
+                    updateUser(firstName, dob, gender, bioSex);
+                    navigation.navigate('UserInitialization2', { 
+                      height: height, 
+                      weight: weight, 
+                      heightMeasurement: useHeightMeasurement, 
+                      weightMeasurement: useWeightMeasurement
+                    });
+                  }}
                 />
               </View>
             </View>
@@ -245,7 +301,16 @@ function UserInitialization1({ navigation }) {
   );
 }
 
-export default UserInitialization1;
+async function updateUser(firstName, dob, gender, bioSex) {
+  const user = await Auth.currentAuthenticatedUser();
+  await Auth.updateUserAttributes(user, {
+    'name': firstName,
+    'birthdate': dob,
+    'gender': gender,
+    'custom:biological_sex': bioSex,
+    'custom:initialized': '1'
+  });
+}
 
 const styles = () =>
   StyleSheet.create({
@@ -383,6 +448,7 @@ const styles = () =>
       width: '12%',
       textAlign: 'center',
       fontSize: 16,
+      marginRight: 8,
     },
     textInput3: {
       height: 36,
@@ -394,10 +460,16 @@ const styles = () =>
       width: '27%',
       textAlign: 'center',
       fontSize: 16,
+      marginRight: 12,
     },
-    textReg: {
+    text: {
       color: 'black',
-      textAlign: 'left',
+      fontSize: 16,
+    },
+    textLink: {
+      textDecorationLine: 'underline', 
+      color: '#4CB97A',
+      fontSize: 16,
     },
     userPrompt: {
       marginBottom: 20,
@@ -406,3 +478,5 @@ const styles = () =>
       alignItems: 'center',
     },
   });
+
+export default UserInitialization1;

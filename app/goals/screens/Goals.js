@@ -251,9 +251,10 @@ const styles = StyleSheet.create({
   },
   goalButtonText: {
     marginVertical: 8,
-    marginLeft: 12,
+    marginLeft: 16,
     color: '#F5F5F5',
     fontSize: 16,
+    fontWeight: 'bold',
   },
   goalButtonView: {
     flexDirection: 'row',
