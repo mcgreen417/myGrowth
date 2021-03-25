@@ -44,68 +44,68 @@ function PlantShop({ navigation }) {
   const [plantItem, setPlantItem] = useState(plantItemList);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles().container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Gardener avatar + page blurb */}
-        <View style={styles.avatarView}>
-          <Text style={styles.pageDescription}>
+        <View style={styles().avatarView}>
+          <Text style={styles().pageDescription}>
             Purchase accessories for your plant using stars earned from
             completing goals!
           </Text>
           <Image
-            style={styles.avatar}
+            style={styles().avatar}
             source={require('../../shared/assets/gardener-avatar.png')}
           />
         </View>
 
         {/* Plant section */}
-        <View style={styles.plantSection}>
-          <View style={styles.plantImage}>
-            <Image source={plant} style={styles.plant} />
+        <View style={styles().plantSection}>
+          <View style={styles().plantImage}>
+            <Image source={plant} style={styles().plant} />
           </View>
         </View>
 
         {/* Plant buttons */}
-        <View style={styles.plantButtons}>
+        <View style={styles().plantButtons}>
           <Pressable
-            style={styles.inlineRow}
+            style={styles().inlineRow}
             onPress={() => navigation.navigate('Home')}>
             <Icon name='arrow-left' color='#816868' />
             <View>
-              <Text style={styles.plantLinks}>Return to Home</Text>
+              <Text style={styles().plantLinks}>Return to Home</Text>
             </View>
           </Pressable>
-          <View style={styles.line2} />
+          <View style={styles().line2} />
           <Pressable
-            style={styles.inlineRow}
+            style={styles().inlineRow}
             onPress={() => navigation.navigate('CustomizePlant')}>
             <View>
-              <Text style={styles.plantLinks}>Customize Plant</Text>
+              <Text style={styles().plantLinks}>Customize Plant</Text>
             </View>
             <Icon name='arrow-right' color='#816868' />
           </Pressable>
         </View>
 
-        <View style={styles.dividerView}>
-          <View style={styles.divider}></View>
+        <View style={styles().dividerView}>
+          <View style={styles().divider}></View>
         </View>
 
         {/* Plant selection */}
-        <View style={styles.plantSelectView}>
+        <View style={styles().plantSelectView}>
           {plantItem.map((item, index) => (
-            <View style={styles.plantItemSelect} key={index}>
+            <View style={styles().plantItemSelect} key={index}>
               <Pressable
                 style={({ pressed }) => [
                   {
                     backgroundColor: pressed ? 'gray' : '#E5E5E5',
                   },
-                  styles.plantItemPress,
+                  styles().plantItemPress,
                 ]}
                 onPress={() => setPlant(item)}>
-                <Image source={item} style={styles.plantItem} />
+                <Image source={item} style={styles().plantItem} />
               </Pressable>
-              <View style={styles.inlineRow2}>
-                <Text style={styles.text}>900</Text>
+              <View style={styles().inlineRow2}>
+                <Text style={styles().text}>900</Text>
                 <Icon
                   name='star'
                   type='MaterialCommunityIcons'
@@ -116,8 +116,8 @@ function PlantShop({ navigation }) {
           ))}
         </View>
 
-        <View style={styles.dividerViewLow}>
-          <View style={styles.divider}></View>
+        <View style={styles().dividerViewLow}>
+          <View style={styles().divider}></View>
         </View>
 
         {/* Clear Changes & Purchase All Shown buttons */}
@@ -153,14 +153,14 @@ function PlantShop({ navigation }) {
               type='ionicon'
               color='#816868'
             />
-            <Text style={styles.text}> Want more stars? </Text>
+            <Text style={styles().text}> Want more stars? </Text>
             <Pressable>
-              <Text style={styles.plantLinks}>Complete a new goal.</Text>
+              <Text style={styles().plantLinks}>Complete a new goal.</Text>
             </Pressable>
           </View>
         </View>
 
-        <View style={styles.pageEnd} />
+        <View style={styles().pageEnd} />
       </ScrollView>
       <NavBar navigation={navigation} />
     </SafeAreaView>
@@ -169,12 +169,12 @@ function PlantShop({ navigation }) {
 
 export default PlantShop;
 
-const styles = StyleSheet.create({
+const styles = () => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6EFED',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
   },
   avatar: {
     width: 75,
@@ -193,7 +193,9 @@ const styles = StyleSheet.create({
   divider: {
     flex: 1,
     height: 1,
-    backgroundColor: '#816868',
+    backgroundColor: global.colorblindMode
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
     marginLeft: 20,
     marginRight: 20,
   },
@@ -219,14 +221,18 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   line2: {
-    backgroundColor: '#816868',
+    backgroundColor: global.colorblindMode
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
     marginLeft: 40,
     marginRight: 40,
     height: '100%',
     width: 2,
   },
   pageDescription: {
-    color: '#816868',
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
     fontSize: 20,
     fontWeight: 'bold',
     flex: 1,
@@ -298,6 +304,14 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    color: '#816868',
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+  },
+  textReg: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+    textAlign: 'left',
   },
 });

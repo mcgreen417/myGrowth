@@ -43,72 +43,72 @@ function PlantShop({ navigation }) {
   const [plantItem, setPlantItem] = useState(plantItemList);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles().container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Gardener avatar + page blurb */}
-        <View style={styles.avatarView}>
-          <Text style={styles.pageDescription}>
+        <View style={styles().avatarView}>
+          <Text style={styles().pageDescription}>
             Select an item from your inventory to change your plant's
             appearance!
           </Text>
           <Image
-            style={styles.avatar}
+            style={styles().avatar}
             source={require('../../shared/assets/gardener-avatar.png')}
           />
         </View>
 
         {/* Plant section */}
-        <View style={styles.plantSection}>
-          <View style={styles.plantImage}>
-            <Image source={plant} style={styles.plant} />
+        <View style={styles().plantSection}>
+          <View style={styles().plantImage}>
+            <Image source={plant} style={styles().plant} />
           </View>
         </View>
 
         {/* Plant buttons */}
-        <View style={styles.plantButtons}>
+        <View style={styles().plantButtons}>
           <Pressable
-            style={styles.inlineRow}
+            style={styles().inlineRow}
             onPress={() => navigation.navigate('Home')}>
             <Icon name='arrow-left' color='#816868' />
             <View>
-              <Text style={styles.plantLinks}>Return to Home</Text>
+              <Text style={styles().plantLinks}>Return to Home</Text>
             </View>
           </Pressable>
-          <View style={styles.line2} />
+          <View style={styles().line2} />
           <Pressable
-            style={styles.inlineRow}
+            style={styles().inlineRow}
             onPress={() => navigation.navigate('PlantShop')}>
             <View>
-              <Text style={styles.plantLinks}>Enter Plant Shop</Text>
+              <Text style={styles().plantLinks}>Enter Plant Shop</Text>
             </View>
             <Icon name='arrow-right' color='#816868' />
           </Pressable>
         </View>
 
-        <View style={styles.dividerView}>
-          <View style={styles.divider}></View>
+        <View style={styles().dividerView}>
+          <View style={styles().divider}></View>
         </View>
 
         {/* Plant selection */}
-        <View style={styles.plantSelectView}>
+        <View style={styles().plantSelectView}>
           {plantItem.map((item, index) => (
-            <View style={styles.plantItemSelect} key={index}>
+            <View style={styles().plantItemSelect} key={index}>
               <Pressable
                 style={({ pressed }) => [
                   {
                     backgroundColor: pressed ? 'gray' : '#E5E5E5',
                   },
-                  styles.plantItemPress,
+                  styles().plantItemPress,
                 ]}
                 onPress={() => setPlant(item)}>
-                <Image source={item} style={styles.plantItem} />
+                <Image source={item} style={styles().plantItem} />
               </Pressable>
             </View>
           ))}
         </View>
 
-        <View style={styles.dividerViewLow}>
-          <View style={styles.divider}></View>
+        <View style={styles().dividerViewLow}>
+          <View style={styles().divider}></View>
         </View>
 
         {/* Clear changes & purchase all shown buttons */}
@@ -136,7 +136,7 @@ function PlantShop({ navigation }) {
           </View>
         </View>
 
-        <View style={styles.pageEnd} />
+        <View style={styles().pageEnd} />
       </ScrollView>
 
       <NavBar navigation={navigation} />
@@ -146,10 +146,12 @@ function PlantShop({ navigation }) {
 
 export default PlantShop;
 
-const styles = StyleSheet.create({
+const styles = () => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6EFED',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
   },
   avatar: {
     width: 75,
@@ -192,7 +194,9 @@ const styles = StyleSheet.create({
     width: 2,
   },
   pageDescription: {
-    color: '#816868',
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
     fontSize: 20,
     fontWeight: 'bold',
     flex: 1,

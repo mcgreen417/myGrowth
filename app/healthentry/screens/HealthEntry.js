@@ -176,10 +176,12 @@ const HealthEntry = ({ navigation }) => {
 
 export default HealthEntry;
 
-const styles = StyleSheet.create({
+const styles = () => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6EFED',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
   },
   avatar: {
     width: 75,
@@ -359,4 +361,11 @@ const styles = StyleSheet.create({
     margin: 30,
     borderRadius: 2,
   },
+  textReg: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+    textDecorationLine: 'none',
+    textAlign: 'left',
+  }
 });

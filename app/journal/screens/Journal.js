@@ -14,27 +14,27 @@ import NavBar from '../../shared/components/NavBar';
 
 const Journal = ({ navigation }) => {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles().container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.pageSetup}>
+        <View style={styles().pageSetup}>
           {/* Gardener avatar + page blurb */}
-          <View style={styles.avatarView}>
-            <Text style={styles.pageDescription}>
+          <View style={styles().avatarView}>
+            <Text style={styles().pageDescription}>
               Let's get to writing! Put your feelings on paper and let the stress
               melt away!
             </Text>
             <Image
-              style={styles.avatar}
+              style={styles().avatar}
               source={require('../../shared/assets/gardener-avatar.png')}
             />
           </View>
           {/* Top page divider */}
-          <View style={styles.dividerView}>
-            <View style={styles.divider} />
+          <View style={styles().dividerView}>
+            <View style={styles().divider} />
           </View>
 
           <Image
-            style={styles.fillerImage}
+            style={styles().fillerImage}
             source={require('../../shared/assets/Journal.png')}
           />
 
@@ -58,13 +58,13 @@ const Journal = ({ navigation }) => {
           </View>
 
           {/* Page divider */}
-          <View style={styles.dividerView}>
-            <View style={styles.divider} />
+          <View style={styles().dividerView}>
+            <View style={styles().divider} />
           </View>
 
           {/* Word search bar */}
           <View style={{ width: '90%' }}>
-            <Text style={styles.text}>
+            <Text style={styles().text}>
               Or search through past journal entries by entering a specific world
               or phrase...
             </Text>
@@ -103,10 +103,12 @@ const Journal = ({ navigation }) => {
 
 export default Journal;
 
-const styles = StyleSheet.create({
+const styles = () => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6EFED',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
   },
   avatar: {
     width: 75,
@@ -127,7 +129,9 @@ const styles = StyleSheet.create({
   divider: {
     flex: 1,
     height: 1,
-    backgroundColor: '#816868',
+    backgroundColor: global.colorblindMode
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
     marginHorizontal: '5%'
   },
   dividerView: {
@@ -150,7 +154,9 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   line2: {
-    backgroundColor: '#816868',
+    backgroundColor: global.colorblindMode
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
     marginLeft: 40,
     marginRight: 40,
     height: '100%',
@@ -164,7 +170,9 @@ const styles = StyleSheet.create({
     borderRadius: 2,
   },
   pageDescription: {
-    color: '#816868',
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
     fontSize: 20,
     fontWeight: 'bold',
     flex: 1,
@@ -240,9 +248,17 @@ const styles = StyleSheet.create({
     flexGrow: 5,
   },
   text: {
-    color: '#816868',
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
     fontSize: 16,
     textAlign: 'center',
     fontWeight: 'bold',
   },
+  textReg: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+    fontSize: 16
+  }
 });
