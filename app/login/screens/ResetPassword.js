@@ -139,8 +139,7 @@ async function passReset(email, code, password, confPass, navigation) {
       throw 'Password and Confirm Password are not the same';
     }
 
-    const res = Auth.forgotPasswordSubmit(email, code, password);
-    console.log(res);
+    await Auth.forgotPasswordSubmit(email.email, code, password);
     
     navigation.navigate('Login');
   } catch(error) {
