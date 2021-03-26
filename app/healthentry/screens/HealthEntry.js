@@ -62,7 +62,7 @@ async function submit(mood, feelings, navigation) {
   const moodIn = { Mood: mood, Feelings: feelings };
   const res = await API.graphql({
     query: mutations.updateDailyEntry,
-    variables: { Mood: { Mood: 10, Feelings: ['feeling', 'feeling 2'] } },
+    variables: { Mood: moodIn },
   });
 
   console.log(res);
