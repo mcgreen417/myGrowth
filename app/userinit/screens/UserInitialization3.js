@@ -15,7 +15,7 @@ import {
   Switch,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Cache } from "react-native-cache";
+import { Cache } from 'react-native-cache';
 import * as mutations from '../../../src/graphql/mutations';
 
 function UserInitialization3({ route, navigation }) {
@@ -351,14 +351,14 @@ function UserInitialization3({ route, navigation }) {
             }
             onPress={() => {
               settingQuery(
-                weight, 
-                height, 
-                useStressLevels, 
-                useDailyActivities, 
-                useWeightTracking, 
-                usePeriodTracking, 
-                useMedicationTracking, 
-                useSleepTracking, 
+                weight,
+                height,
+                useStressLevels,
+                useDailyActivities,
+                useWeightTracking,
+                usePeriodTracking,
+                useMedicationTracking,
+                useSleepTracking,
                 useMealTracking,
                 useFitnessTracking,
                 heightMeasurement
@@ -373,24 +373,24 @@ function UserInitialization3({ route, navigation }) {
 }
 
 async function settingQuery(
-  weight, 
-  height, 
-  useStressLevels, 
-  useDailyActivities, 
-  useWeightTracking, 
-  usePeriodTracking, 
-  useMedicationTracking, 
+  weight,
+  height,
+  useStressLevels,
+  useDailyActivities,
+  useWeightTracking,
+  usePeriodTracking,
+  useMedicationTracking,
   useSleepTracking,
-  useMealTracking, 
+  useMealTracking,
   useFitnessTracking,
   heightMeasurement
 ) {
   const cache = new Cache({
-    namespace: "myapp",
+    namespace: 'myapp',
     policy: {
-      maxEntries: 50000
+      maxEntries: 50000,
     },
-    backend: AsyncStorage
+    backend: AsyncStorage,
   });
   const user = Auth.currentUserInfo();
   const settingOptions = {
@@ -404,19 +404,20 @@ async function settingQuery(
     fitness: useFitnessTracking,
     userHeight: height,
     userWeight: weight,
-    metric: heightMeasurement
+    metric: heightMeasurement,
   };
 
   const res = await API.graphql({
     query: mutations.addSetting,
-    variables: {UserID: user.username, options: settingOptions}
+    variables: { UserID: user.username, options: settingOptions },
   });
 
   //set cache settings
-  await cache.set("settings", res.data.addSetting.Options);
+  await cache.set('settings', res.data.addSetting.Options);
 }
 
 export default UserInitialization3;
+
 
 const styles = () => StyleSheet.create({
   container: {
