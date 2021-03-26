@@ -5,8 +5,7 @@ import { Button } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-const Stress = () => {
-  const [stress, setStress] = useState(2);
+const Stress = ({ stress, setStress }) => {
   return (
     <View style={{ width: '80%' }}>
       <Text>Stress</Text>

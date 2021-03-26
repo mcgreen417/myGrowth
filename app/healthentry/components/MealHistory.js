@@ -319,9 +319,12 @@ const AdvanceMealTracking = () => {
   );
 };
 
-const MealHistory = () => {
-  const [eatenToday, setEatenToday] = useState(true);
-  const [showAdvanceMealTracking, setShowAdvanceMealTracking] = useState(false);
+const MealHistory = ({
+  eatenToday,
+  setEatenToday,
+  showAdvanceMealTracking,
+  setShowAdvanceMealTracking,
+}) => {
   return (
     <View style={{ width: '80%' }}>
       <Text>Meal History</Text>

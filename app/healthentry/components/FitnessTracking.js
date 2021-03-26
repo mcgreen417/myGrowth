@@ -104,11 +104,12 @@ const AdvanceFitnessTracking = () => {
   );
 };
 
-const FitnessTracking = () => {
-  const [exerciseToday, setExerciseToday] = useState(false);
-  const [showAdvanceFitnessTracking, setShowAdvanceFitnessTracking] = useState(
-    false
-  );
+const FitnessTracking = ({
+  exerciseToday,
+  setExerciseToday,
+  showAdvanceFitnessTracking,
+  setShowAdvanceFitnessTracking,
+}) => {
   return (
     <View style={{ width: '80%' }}>
       <Text>Fitness Tracking</Text>

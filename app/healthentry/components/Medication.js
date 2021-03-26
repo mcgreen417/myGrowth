@@ -17,10 +17,7 @@ function getTime(d) {
   );
 }
 
-const Medication = () => {
-  const [med, setMed] = useState(Array(medication.length).fill(false));
-  console.log(med);
-
+const Medication = ({ med, setMed }) => {
   return (
     <View style={{ width: '80%' }}>
       <Text>Medication</Text>

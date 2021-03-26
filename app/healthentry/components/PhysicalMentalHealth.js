@@ -8,9 +8,7 @@ import {
   TextInput,
 } from 'react-native';
 
-const PhysicalMentalHealth = () => {
-  const [hadPeriod, setHadPeriod] = useState(false);
-
+const PhysicalMentalHealth = ({ hadPeriod, setHadPeriod }) => {
   return (
     <View style={{ width: '80%' }}>
       <Text>Physical & Mental Health</Text>

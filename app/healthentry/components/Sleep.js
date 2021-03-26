@@ -39,11 +39,14 @@ function getTime(d) {
   );
 }
 
-const Sleep = () => {
-  const [hadSleep, setHadSleep] = useState(true);
-  const [qualityOfSleep, setQualityOfSleep] = useState(2);
-  const [qualityOfNap, setQualityOfNap] = useState(2);
-
+const Sleep = ({
+  hadSleep,
+  setHadSleep,
+  qualityOfSleep,
+  setQualityOfSleep,
+  qualityOfNap,
+  setQualityOfNap,
+}) => {
   return (
     <View style={{ width: '80%' }}>
       <Text>Sleep</Text>
