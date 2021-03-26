@@ -1,5 +1,4 @@
-import React from 'react';
-import {
+import React, { useState } from 'react';import {
   StyleSheet,
   Text,
   View,
@@ -7,8 +6,11 @@ import {
   TextInput,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import * as mutations from '../../../src/graphql/mutations';
 
 const CreateNewJournalEntry = ({ navigation }) => {
+  const [entry, setEntry] = useState('');
+
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -35,7 +37,7 @@ const CreateNewJournalEntry = ({ navigation }) => {
           />
           <Text 
             style={styles.heading}
-            onPress={() => navigation.navigate('JournalEntryCompletion')}
+            onPress={() => saveEntry(entry, navigation)}
           >
             SAVE
           </Text>
@@ -61,11 +63,21 @@ const CreateNewJournalEntry = ({ navigation }) => {
         <View style={styles.divider}></View>
       </View>
       <View style={styles.input}>
-        <TextInput multiline style={styles.text}/>
+        <TextInput 
+          multiline style={styles.text}
+          value={entry}
+          onChangeText={(entry) => setEntry(entry)}
+        />
       </View>
     </SafeAreaView>
   );
 };
+
+async function savEntry(entry, navigation) {
+
+
+  navigation.navigate(ViewJournalEntry);
+}
 
 export default CreateNewJournalEntry;
 
