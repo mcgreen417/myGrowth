@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Auth, API } from 'aws-amplify';
 import {
   Button,
   StyleSheet,
@@ -19,6 +20,14 @@ import Medication from '../components/Medication';
 import Sleep from '../components/Sleep';
 import MealHistory from '../components/MealHistory';
 import FitnessTracking from '../components/FitnessTracking';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Cache } from 'react-native-cache';
+import * as mutations from '../../../src/graphql/mutations';
+
+const medication = [
+  { name: '(Medicine 1)', time: '2021-03-15T09:10:00Z' },
+  { name: '(Medicine 2)', time: '2021-03-15T13:35:40Z' },
+];
 
 const monthNames = [
   'January',
@@ -49,7 +58,15 @@ function getTime(d) {
   );
 }
 
-function submit(navigation) {
+async function submit(mood, feelings, navigation) {
+  const moodIn = { Mood: mood, Feelings: feelings };
+  const res = await API.graphql({
+    query: mutations.updateDailyEntry,
+    variables: { Mood: { Mood: 10, Feelings: ['feeling', 'feeling 2'] } },
+  });
+
+  console.log(res);
+
   navigation.navigate('ReviewEntry');
 }
 
@@ -66,26 +83,28 @@ const HealthEntry = ({ navigation }) => {
   const [qualityOfSleep, setQualityOfSleep] = useState(2);
   const [qualityOfNap, setQualityOfNap] = useState(2);
   const [stress, setStress] = useState(2);
+  const [mood, setMood] = useState(0);
+  const [feels, setFeels] = useState([]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles().container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.pageSetup}>
+        <View style={styles().pageSetup}>
           {/* Gardener avatar + page blurb */}
-          <View style={styles.avatarView}>
+          <View style={styles().avatarView}>
             <Image
-              style={styles.avatar}
+              style={styles().avatar}
               source={require('../../shared/assets/gardener-avatar.png')}
             />
-            <Text style={styles.pageDescription}>
+            <Text style={styles().pageDescription}>
               Time for a new health entry! After you save your entry, you may
               edit it at any time.
             </Text>
           </View>
 
           {/* Top page divider */}
-          <View style={styles.dividerView}>
-            <View style={styles.divider} />
+          <View style={styles().dividerView}>
+            <View style={styles().divider} />
           </View>
 
           {/* Select Data and Time */}
@@ -115,26 +134,31 @@ const HealthEntry = ({ navigation }) => {
             </View>
           </View>
 
-          <View style={styles.dividerView}>
-            <View style={styles.divider} />
+          <View style={styles().dividerView}>
+            <View style={styles().divider} />
           </View>
 
           {/* Add Mood */}
-          <Mood />
-          <View style={styles.dividerView}>
-            <View style={styles.divider} />
+          <Mood
+            mood={mood}
+            setMood={setMood}
+            feels={feels}
+            setFeels={setFeels}
+          />
+          <View style={styles().dividerView}>
+            <View style={styles().divider} />
           </View>
 
           {/* Add Stress */}
           <Stress stress={stress} setStress={setStress} />
-          <View style={styles.dividerView}>
-            <View style={styles.divider} />
+          <View style={styles().dividerView}>
+            <View style={styles().divider} />
           </View>
 
           {/* Add Daily Activities */}
           <DailyActivities />
-          <View style={styles.dividerView}>
-            <View style={styles.divider} />
+          <View style={styles().dividerView}>
+            <View style={styles().divider} />
           </View>
 
           {/* Add Physical and Mental Health */}
@@ -142,14 +166,14 @@ const HealthEntry = ({ navigation }) => {
             hadPeriod={hadPeriod}
             setHadPeriod={setHadPeriod}
           />
-          <View style={styles.dividerView}>
-            <View style={styles.divider} />
+          <View style={styles().dividerView}>
+            <View style={styles().divider} />
           </View>
 
           {/* Add Medication */}
           <Medication med={med} setMed={setMed} />
-          <View style={styles.dividerView}>
-            <View style={styles.divider} />
+          <View style={styles().dividerView}>
+            <View style={styles().divider} />
           </View>
 
           {/* Add Sleep */}
@@ -161,8 +185,8 @@ const HealthEntry = ({ navigation }) => {
             qualityOfNap={qualityOfNap}
             setQualityOfNap={setQualityOfNap}
           />
-          <View style={styles.dividerView}>
-            <View style={styles.divider} />
+          <View style={styles().dividerView}>
+            <View style={styles().divider} />
           </View>
 
           {/* Add Meal History */}
@@ -172,8 +196,8 @@ const HealthEntry = ({ navigation }) => {
             showAdvanceMealTracking={showAdvanceMealTracking}
             setShowAdvanceMealTracking={setShowAdvanceMealTracking}
           />
-          <View style={styles.dividerView}>
-            <View style={styles.divider} />
+          <View style={styles().dividerView}>
+            <View style={styles().divider} />
           </View>
 
           {/* Add Fitness Tracking */}
@@ -183,8 +207,8 @@ const HealthEntry = ({ navigation }) => {
             showAdvanceFitnessTracking={showAdvanceFitnessTracking}
             setShowAdvanceFitnessTracking={setShowAdvanceFitnessTracking}
           />
-          <View style={styles.dividerView}>
-            <View style={styles.divider} />
+          <View style={styles().dividerView}>
+            <View style={styles().divider} />
           </View>
 
           {/* Save Entry */}
@@ -199,12 +223,12 @@ const HealthEntry = ({ navigation }) => {
               <Button
                 title='Save Entry'
                 color='#A5DFB2'
-                onPress={() => submit(navigation)}
+                onPress={() => submit(mood, feels, navigation)}
               />
             </View>
           </View>
         </View>
-        <View style={styles.pageEnd} />
+        <View style={styles().pageEnd} />
       </ScrollView>
       <NavBar navigation={navigation} />
     </SafeAreaView>
