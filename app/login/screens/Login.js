@@ -150,6 +150,16 @@ async function signIn(username, pw, navigation) {
     }
   } catch (error) {
     console.log('error signing in', error);
+    
+    // Error code handling
+    // Update with other different errors (incorrect pass, not a user, etc.)
+    switch(error.code) {
+      case "UserNotConfirmedException":
+        navigation.navigate('VerificationCode', { username: username });
+        break;
+      default:
+        // code block
+    }
   }
 }
 
