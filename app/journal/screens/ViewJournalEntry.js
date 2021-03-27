@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Pressable } from 'react-native';
 import {
   Button,
   StyleSheet,
+  Modal,
   Text,
   View,
   SafeAreaView,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
+import { Auth, API } from 'aws-amplify';
+import * as mutations from '../../../src/graphql/mutations';
+import * as queries from '../../../src/graphql/queries';
 
 const monthNames = [
   'January',
@@ -26,10 +30,10 @@ const monthNames = [
 ];
 
 const ViewJournalEntry = ({ route, navigation }) => {
-
   const journal_date  = route.params.date;
   const journal_entry = route.params.entry;
   const d = new Date(journal_date);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const date =
     monthNames[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
@@ -43,6 +47,38 @@ const ViewJournalEntry = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* delete entry modal */}
+      <View>
+        <Modal
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={{backgroundColor: 'white', width: '75%', height: '20%'}}>
+              <Text style={styles.textModal}>Are you sure you want to delete this entry?</Text>
+
+              <View style={styles.inlineRow}>
+                <Button 
+                  title='Yes'
+                  onPress={() => {
+                    deleteEntry(date, navigation);
+                    setModalVisible(!modalVisible);
+                  }}
+                />
+                <Button 
+                  title='No'
+                  onPress={() => {
+                    setModalVisible(!modalVisible);
+                  }}
+                />
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </View>
       
       <View style={{ flexDirection: 'row', justifyContent: 'center', marginHorizontal: '5%', marginTop: '2.5%' }}>
         {/* Back, edit entry, & delete entry buttons */}
@@ -61,7 +97,8 @@ const ViewJournalEntry = ({ route, navigation }) => {
           <Icon 
             name='close' 
             type='ionicon' 
-            color='#816868' 
+            color='#816868'
+            onPress={() => setModalVisible(!modalVisible)}
           />
         </View>
         {/* Word cloud view button */}
@@ -115,9 +152,35 @@ const ViewJournalEntry = ({ route, navigation }) => {
   );
 };
 
+async function deleteEntry(date, navigation) {
+  const datePass = new Date(date);
+  const dateRet = datePass.toISOString();
+
+  const res = await API.graphql({
+    query: mutations.removeJournalEntry,
+    variables: {Timestamp: datePass.toISOString().slice(0, 10)}
+  });
+
+  console.log(res);
+
+  const forRet = await API.graphql({
+    query: queries.getJournalEntries,
+    variables: {timerange: datePass.toISOString().slice(0, 7)}
+  });
+
+  const arr = forRet.data.getJournalEntries.journalEntries;
+  navigation.navigate('JournalHistory', {arr, dateRet});
+}
+
 export default ViewJournalEntry;
 
 const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 8,
+  },
   container: {
     flex: 1,
     backgroundColor: '#F6EFED',
@@ -139,6 +202,12 @@ const styles = StyleSheet.create({
     color: '#816868',
     fontWeight: 'bold',
   },
+  inlineRow: {
+    flexDirection: 'row',
+    width: '90%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   text: {
     fontSize: 16,
     color: '#816868',
@@ -152,5 +221,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#4CB97A',
     fontWeight: 'bold',
+  },
+  textModal: {
+    fontSize: 16,
+    color: '#816868',
+    fontWeight: 'bold',
+    justifyContent: 'center',
   }
 });

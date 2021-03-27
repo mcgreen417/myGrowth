@@ -44,18 +44,20 @@ const monthAbbreviations = [
   'Dec',
 ];
 
-var journalEntries = new Array();
-
-const JournalHistory = ({ navigation }) => {
+function JournalHistory({ route, navigation }) {
+  const arr = route.params.arr;
+  const datePass = route.params.datePass;
   const [show, setShow] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(new Date(datePass));
   const [mode, setMode] = useState('date');
+  const [journalEntries, setJournalEntries] = useState(arr);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     //console.log(currentDate);
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
+    getEntries(currentDate, navigation);
   };
 
   const showMode = (currentMode) => {
@@ -66,11 +68,6 @@ const JournalHistory = ({ navigation }) => {
   const showDatepicker = () => {
     showMode('date');
   };
-  
-  useEffect(() => {    
-    getEntries(date);
-    console.log(journalEntries);
-  });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -122,10 +119,20 @@ const JournalHistory = ({ navigation }) => {
 
           {/* Back/forward arrows (change month) */}
           <View style={{ flexDirection: 'row', justifyContent: 'flex-end', flex: 1 }}>
-            <Pressable>
+            <Pressable
+              onPress={() => {
+                date.setMonth(date.getMonth() - 1);
+                getEntries(date, navigation);
+              }}
+            >
               <Icon name='arrow-left' color='#816868' />
             </Pressable>
-            <Pressable>
+            <Pressable
+              onPress={() => {
+                date.setMonth(date.getMonth() + 1);
+                getEntries(date, navigation);
+              }}
+            >
               <Icon name='arrow-right' color='#816868' />
             </Pressable>
           </View>
@@ -140,10 +147,9 @@ const JournalHistory = ({ navigation }) => {
             <Pressable
               key={index}
               onPress={() => {
-                console.log(journalEntries);
                 navigation.navigate('ViewJournalEntry', {
-                  journal_date: item.Timestamp,
-                  journal_entry: item.Entry,
+                  date: item.Timestamp,
+                  entry: item.Entry,
                 })
               }}>
               <View style={styles.journalItemSelect}>
@@ -166,19 +172,18 @@ const JournalHistory = ({ navigation }) => {
       <NavBar navigation={navigation} journal={true} />
     </SafeAreaView>
   );
-};
+}
 
-async function getEntries(date) {
+async function getEntries(date, navigation) {
+  const datePass = date.toISOString();
   const res = await API.graphql({
     query: queries.getJournalEntries,
     variables: {timerange: date.toISOString().slice(0, 7)}
   });
 
-  var i;
-  for(i = 0; i < res.data.getJournalEntries.journalEntries.length; i++)
-    journalEntries.push(res.data.getJournalEntries.journalEntries[i]);
+  const arr = res.data.getJournalEntries.journalEntries;
 
-  //console.log(journalEntries);
+  navigation.push('JournalHistory', {arr, datePass});
 }
 
 export default JournalHistory;

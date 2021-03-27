@@ -13,6 +13,8 @@ import NavBar from '../../shared/components/NavBar';
 
 const JournalEntryCompletion = ({ route, navigation }) => {
   const {date, entry} = route.params;
+  console.log(date);
+  console.log(entry);
   return (
     <SafeAreaView style={styles.container}>
       {/* Congratulations banner + filler image */}

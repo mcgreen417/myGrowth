@@ -9,6 +9,8 @@ import {
   Pressable,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import * as queries from '../../../src/graphql/queries';
+import { Auth, API } from 'aws-amplify';
 
 const NavBar = ({
   home = false,
@@ -32,6 +34,7 @@ const NavBar = ({
         height: 60,
         width: '100%',
       }}>
+      {/* home */}
       <Pressable
         onPress={() => navigation.navigate('Home')}
         style={({ pressed }) => [
@@ -49,6 +52,8 @@ const NavBar = ({
           Home
         </Text>
       </Pressable>
+
+      {/* journal */}
       <Pressable
         onPress={() => navigation.navigate('Journal')}
         style={({ pressed }) => [
@@ -68,6 +73,8 @@ const NavBar = ({
           Journal
         </Text>
       </Pressable>
+
+      {/* goals */}
       <Pressable
         onPress={() => navigation.navigate('Goals')}
         style={({ pressed }) => [
@@ -88,6 +95,8 @@ const NavBar = ({
           Goals
         </Text>
       </Pressable>
+
+      {/* plus button */}
       <View
         style={{
           justifyContent: 'center',
@@ -129,8 +138,10 @@ const NavBar = ({
           </Pressable>
         </View>
       </View>
+
+      {/* to-do */}
       <Pressable
-        onPress={() => navigation.navigate('ToDoList')}
+        onPress={() => getTodos(navigation)}
         style={({ pressed }) => [
           {
             padding: 5,
@@ -166,6 +177,8 @@ const NavBar = ({
           History
         </Text>
       </Pressable>
+
+      {/* acct panel */}
       <Pressable
         onPress={() => navigation.navigate('AccountPanel')}
         style={({ pressed }) => [
@@ -188,5 +201,15 @@ const NavBar = ({
     </View>
   );
 };
+
+async function getTodos(navigation) {
+  const res = await API.graphql({
+    query: queries.getTodos
+  });
+
+  const todos = res.data.getTodos.toDos;
+
+  navigation.navigate('ToDoList', {todos});
+}
 
 export default NavBar;
