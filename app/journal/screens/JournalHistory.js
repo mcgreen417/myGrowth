@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Auth, API } from 'aws-amplify';
 import {
   StyleSheet,
   Text,
@@ -10,6 +11,8 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
+import * as queries from '../../../src/graphql/queries';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const monthNames = [
   'January',
@@ -41,43 +44,34 @@ const monthAbbreviations = [
   'Dec',
 ];
 
-let d = new Date();
-
-const journalEntries = new Array(
-  {
-    date: '2021-03-02T12:00:00Z',
-    entry:
-      'I think this is enough entries just to show that this screen scrolls appropriately for the month of November, yeah! Just one...',
-  },
-  {
-    date: '2021-03-04T12:00:00Z',
-    entry:
-      'I just want to be done writing these fake journal entries because I haven’t had a friend named Lauren since high school....',
-  },
-  {
-    date: '2021-03-05T12:00:00Z',
-    entry:
-      'Okay I’m just gonna write a few more because I’m running out of ideas to babble about for the rest of these LOL...',
-  },
-  {
-    date: '2021-03-10T12:00:00Z',
-    entry:
-      'Weeeellllllllll it went well I guess, okay at best, I don’t want to see my grade to be honest, but maybe it was good enough?...',
-  },
-  {
-    date: '2021-03-14T12:00:00Z',
-    entry:
-      'Just one more day until my math exam!! T_T I’ve been studying all day today and I just want to quit, but my grade is really...',
-  },
-  {
-    date: '2021-03-15T12:00:00Z',
-    entry:
-      'Today was pretty alright. I went out to the movies with Lauren, but I had to sit through math homework for the rest of...',
-  }
-);
+var journalEntries = new Array();
 
 const JournalHistory = ({ navigation }) => {
+  const [show, setShow] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('date');
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    //console.log(currentDate);
+    setShow(Platform.OS === 'ios');
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
   
+  useEffect(() => {    
+    getEntries(date);
+    console.log(journalEntries);
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.pageSetup}>
@@ -99,7 +93,7 @@ const JournalHistory = ({ navigation }) => {
 
         {/* Date display/selector */}
         <View style={{ width: '90%', margin: 10, flexDirection: 'row' }}>
-          <Pressable>
+          <Pressable onPress={showDatepicker}>
             <View style={{ flex: 1, justifyContent: 'flex-start', flexDirection: 'row' }}>
               <Icon 
                 name='calendar-sharp' 
@@ -107,7 +101,7 @@ const JournalHistory = ({ navigation }) => {
                 color='#816868' 
                 style={{ marginRight: 6 }}
               />
-              <Text style={styles.textLink}>{monthNames[d.getMonth()] + ' ' + d.getFullYear()}</Text>
+              <Text style={styles.textLink}>{monthNames[date.getMonth()] + ' ' + date.getFullYear()}</Text>
               <Icon 
                 name='arrow-drop-down' 
                 type='material' 
@@ -115,6 +109,16 @@ const JournalHistory = ({ navigation }) => {
               />
             </View>
           </Pressable>
+          {show && (
+              <DateTimePicker
+                testID='dateTimePicker'
+                value={date}
+                mode={mode}
+                is24Hour={true}
+                display='default'
+                onChange={onChange}
+              />
+            )}
 
           {/* Back/forward arrows (change month) */}
           <View style={{ flexDirection: 'row', justifyContent: 'flex-end', flex: 1 }}>
@@ -135,22 +139,23 @@ const JournalHistory = ({ navigation }) => {
           {journalEntries.map((item, index) => (
             <Pressable
               key={index}
-              onPress={() =>
+              onPress={() => {
+                console.log(journalEntries);
                 navigation.navigate('ViewJournalEntry', {
-                  journal_date: item.date,
-                  journal_entry: item.entry,
+                  journal_date: item.Timestamp,
+                  journal_entry: item.Entry,
                 })
-              }>
+              }}>
               <View style={styles.journalItemSelect}>
                 {/* Journal entry date */}
                 <View style={{ marginRight: 20, alignItems: 'center' }}>
-                  <Text style={styles.journalDate}>{monthAbbreviations[new Date(item.date).getMonth()]}</Text>
-                  <Text style={styles.journalDate}>{new Date(item.date).getDate()}</Text>
-                  <Text style={styles.journalDate}>{new Date(item.date).getFullYear()}</Text>
+                  <Text style={styles.journalDate}>{monthAbbreviations[new Date(item.Timestamp).getMonth()]}</Text>
+                  <Text style={styles.journalDate}>{new Date(item.Timestamp).getDate()}</Text>
+                  <Text style={styles.journalDate}>{new Date(item.Timestamp).getFullYear()}</Text>
                 </View>
                 {/* Journal entry text preview */}
                 <View style={{ flexShrink: 1 }}>
-                  <Text style={styles.journalText}>{item.entry}</Text>
+                  <Text style={styles.journalText}>{item.Entry}</Text>
                 </View>
               </View>
             </Pressable>
@@ -162,6 +167,19 @@ const JournalHistory = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
+async function getEntries(date) {
+  const res = await API.graphql({
+    query: queries.getJournalEntries,
+    variables: {timerange: date.toISOString().slice(0, 7)}
+  });
+
+  var i;
+  for(i = 0; i < res.data.getJournalEntries.journalEntries.length; i++)
+    journalEntries.push(res.data.getJournalEntries.journalEntries[i]);
+
+  //console.log(journalEntries);
+}
 
 export default JournalHistory;
 

@@ -387,6 +387,7 @@ export const updatePoints = /* GraphQL */ `
 export const addDailyEntry = /* GraphQL */ `
   mutation AddDailyEntry(
     $UserID: ID
+    $Timestamp: AWSDate
     $Health: HealthIn
     $Symptoms: [SymptomIn!]
     $Stress: StressIn
@@ -399,6 +400,7 @@ export const addDailyEntry = /* GraphQL */ `
   ) {
     addDailyEntry(
       UserID: $UserID
+      Timestamp: $Timestamp
       Health: $Health
       Symptoms: $Symptoms
       Stress: $Stress

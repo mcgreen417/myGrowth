@@ -11,7 +11,8 @@ import {
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
 
-const JournalEntryCompletion = ({ navigation }) => {
+const JournalEntryCompletion = ({ route, navigation }) => {
+  const {date, entry} = route.params;
   return (
     <SafeAreaView style={styles.container}>
       {/* Congratulations banner + filler image */}
@@ -41,9 +42,8 @@ const JournalEntryCompletion = ({ navigation }) => {
             color='#A5DFB2'
             onPress={() =>
               navigation.navigate('ViewJournalEntry', {
-                journal_date: '2021-09-02T09:34:59Z',
-                journal_entry:
-                  'I think this is enough entries just to show that this screen scrolls appropriately for the month of November, yeah! Just one...',
+                date,
+                entry
               })
             }
           />

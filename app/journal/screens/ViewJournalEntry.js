@@ -27,7 +27,8 @@ const monthNames = [
 
 const ViewJournalEntry = ({ route, navigation }) => {
 
-  const { journal_date, journal_entry } = route.params;
+  const journal_date  = route.params.date;
+  const journal_entry = route.params.entry;
   const d = new Date(journal_date);
 
   const date =
@@ -91,16 +92,17 @@ const ViewJournalEntry = ({ route, navigation }) => {
       {/* Journal entry body */}
       <View style={{ marginHorizontal: '5%' }}>
         {/* Entry creation time (date reflected in date selector) */}
-        <View style={{ flexDirection: 'row' }}>
+        {/*<View style={{ flexDirection: 'row' }}>
           <Text style={styles.textBold}>Entry created at </Text>
           <Text style={styles.textDateTime}>{time}</Text>
-        </View>
+        </View>*/}
+
         {/* Date/time of last entry edit */}
         <View style={{ flexDirection: 'row' }}>
           <Text style={styles.textBold}>Last edited on </Text>
           <Text style={styles.textDateTime}>{date}</Text>
-          <Text style={styles.textBold}> at </Text>
-          <Text style={styles.textDateTime}>{time}</Text>
+          {/*<Text style={styles.textBold}> at </Text>
+          <Text style={styles.textDateTime}>{time}</Text>*/}
         </View>
         {/* Entry text */}
         <View style={{ marginVertical: 8 }} >

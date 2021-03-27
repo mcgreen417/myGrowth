@@ -1,15 +1,40 @@
-import React, { useState } from 'react';import {
+import React, { useState } from 'react';
+import {
   StyleSheet,
   Text,
   View,
   SafeAreaView,
   TextInput,
+  TouchableOpacity
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import * as mutations from '../../../src/graphql/mutations';
+import { Auth, API } from 'aws-amplify';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const CreateNewJournalEntry = ({ navigation }) => {
   const [entry, setEntry] = useState('');
+  const [show, setShow] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [dateInsert, setDateInsert] = useState(date.toISOString().slice(0, 10));
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    //console.log(currentDate);
+    setShow(Platform.OS === 'ios');
+    setDate(currentDate);
+    setDateInsert(selectedDate.toISOString().slice(0, 10));
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -37,11 +62,23 @@ const CreateNewJournalEntry = ({ navigation }) => {
           />
           <Text 
             style={styles.heading}
-            onPress={() => saveEntry(entry, navigation)}
+            onPress={() => saveEntry(dateInsert, entry, navigation)}
           >
             SAVE
           </Text>
-          <Icon name='event' type='material' color='#816868' />
+          <TouchableOpacity onPress={showDatepicker}>  
+            <Icon name='event' type='material' color='#816868' />
+          </TouchableOpacity>
+          {show && (
+              <DateTimePicker
+                testID='dateTimePicker'
+                value={date}
+                mode={mode}
+                is24Hour={true}
+                display='default'
+                onChange={onChange}
+              />
+            )}
           <Icon name='schedule' type='material' color='#816868' />
         </View>
 
@@ -73,10 +110,13 @@ const CreateNewJournalEntry = ({ navigation }) => {
   );
 };
 
-async function savEntry(entry, navigation) {
+async function saveEntry(date, entry, navigation) {
+  const res = await API.graphql({
+    query: mutations.updateJournalEntry,
+    variables: {Timestamp: date, Entry: entry}
+  });
 
-
-  navigation.navigate(ViewJournalEntry);
+  navigation.navigate('JournalEntryCompletion', {date, entry});
 }
 
 export default CreateNewJournalEntry;
