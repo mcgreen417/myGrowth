@@ -44,11 +44,44 @@ const NavBar = ({
             zIndex: 2,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: pressed ? 'white' : '#A5DFB2',
+            backgroundColor: pressed 
+              ? (global.colorblindMode
+                ? global.cb_navBarOnPressColor
+                : global.navBarOnPressColor)
+              : home
+                ? (global.colorblindMode
+                  ? global.cb_navBarCurrentIconBackgroundColor
+                  : global.cb_navBarCurrentIconBackgroundColor)
+                : (global.colorblindMode
+                  ? global.cb_optionButtonsColor
+                  : global.optionButtonsColor),
           },
         ]}>
-        <Icon name='home' color={home ? '#4CB97A' : '#F5F5F5'} />
-        <Text numberOfLines={1} style={{ color: home ? '#4CB97A' : '#F5F5F5' }}>
+        <Icon
+          name='home'
+          color={
+            home 
+              ? (global.colorblindMode
+                ? global.cb_navBarCurrentIconColor
+                : global.navBarCurrentIconColor)
+              : (global.colorblindMode
+                ? global.cb_navBarIconColor
+                : global.navBarIconColor)
+          }
+        />
+        <Text
+          numberOfLines={1}
+          style={{
+            color:
+              home 
+                ? (global.colorblindMode
+                  ? global.cb_navBarCurrentIconColor
+                  : global.navBarCurrentIconColor)
+                : (global.colorblindMode
+                  ? global.cb_navBarIconColor
+                  : global.navBarIconColor)
+          }}
+        >
           Home
         </Text>
       </Pressable>
@@ -63,13 +96,44 @@ const NavBar = ({
             zIndex: 2,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: pressed ? 'white' : '#A5DFB2',
+            backgroundColor: pressed 
+              ? (global.colorblindMode
+                ? global.cb_navBarOnPressColor
+                : global.navBarOnPressColor)
+              : journal
+                ? (global.colorblindMode
+                  ? global.cb_navBarCurrentIconBackgroundColor
+                  : global.cb_navBarCurrentIconBackgroundColor)
+                : (global.colorblindMode
+                  ? global.cb_optionButtonsColor
+                  : global.optionButtonsColor),
           },
         ]}>
-        <Icon name='bookmark' color={journal ? '#4CB97A' : '#F5F5F5'} />
+        <Icon
+          name='bookmark'
+          color={
+            journal
+              ? (global.colorblindMode
+                ? global.cb_navBarCurrentIconColor
+                : global.navBarCurrentIconColor)
+              : (global.colorblindMode
+                ? global.cb_navBarIconColor
+                : global.navBarIconColor)
+          }
+        />
         <Text
           numberOfLines={1}
-          style={{ color: journal ? '#4CB97A' : '#F5F5F5' }}>
+          style={{
+            color:
+              journal
+                ? (global.colorblindMode
+                  ? global.cb_navBarCurrentIconColor
+                  : global.navBarCurrentIconColor)
+                : (global.colorblindMode
+                  ? global.cb_navBarIconColor
+                  : global.navBarIconColor)
+          }}
+        >
           Journal
         </Text>
       </Pressable>
@@ -84,14 +148,45 @@ const NavBar = ({
             zIndex: 2,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: pressed ? 'white' : '#A5DFB2',
+            backgroundColor: pressed 
+              ? (global.colorblindMode
+                ? global.cb_navBarOnPressColor
+                : global.navBarOnPressColor)
+              : goals
+                ? (global.colorblindMode
+                  ? global.cb_navBarCurrentIconBackgroundColor
+                  : global.cb_navBarCurrentIconBackgroundColor)
+                : (global.colorblindMode
+                  ? global.cb_optionButtonsColor
+                  : global.optionButtonsColor),
             borderTopRightRadius: 10,
           },
         ]}>
-        <Icon name='star' color={goals ? '#4CB97A' : '#F5F5F5'} />
+        <Icon
+          name='star'
+          color={
+            goals
+              ? (global.colorblindMode
+                ? global.cb_navBarCurrentIconColor
+                : global.navBarCurrentIconColor)
+              : (global.colorblindMode
+                ? global.cb_navBarIconColor
+                : global.navBarIconColor)
+          }
+        />
         <Text
           numberOfLines={1}
-          style={{ color: goals ? '#4CB97A' : '#F5F5F5' }}>
+          style={{
+            color:
+              goals
+                ? (global.colorblindMode
+                  ? global.cb_navBarCurrentIconColor
+                  : global.navBarCurrentIconColor)
+                : (global.colorblindMode
+                  ? global.cb_navBarIconColor
+                  : global.navBarIconColor)
+          }}
+        >
           Goals
         </Text>
       </Pressable>
@@ -101,7 +196,9 @@ const NavBar = ({
         style={{
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: '#A5DFB2',
+          backgroundColor: global.colorblindMode
+            ? global.cb_optionButtonsColor
+            : global.optionButtonsColor,
           zIndex: 3,
         }}>
         <View
@@ -122,7 +219,13 @@ const NavBar = ({
                 width: 56,
                 height: 56,
                 justifyContent: 'center',
-                backgroundColor: pressed ? 'white' : '#4CB97A',
+                backgroundColor: pressed 
+                  ? (global.colorblindMode
+                    ? global.cb_navBarOnPressColor
+                    : global.navBarOnPressColor)
+                  : (global.colorblindMode
+                    ? global.cb_optionButtonsColor
+                    : global.optionButtonsColor),
                 borderRadius: 56 / 2,
                 shadowColor: '#000',
                 shadowOffset: {
@@ -134,7 +237,15 @@ const NavBar = ({
                 elevation: 6,
               },
             ]}>
-            <Icon name='plus' type='font-awesome' color='#F5F5F5' />
+            <Icon
+              name='plus'
+              type='font-awesome'
+              color={
+                global.colorblindMode
+                  ? global.cb_navBarIconColor 
+                  : global.navBarIconColor
+              }
+            />
           </Pressable>
         </View>
       </View>
@@ -149,12 +260,45 @@ const NavBar = ({
             zIndex: 2,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: pressed ? 'white' : '#A5DFB2',
+            backgroundColor: pressed 
+              ? (global.colorblindMode
+                ? global.cb_navBarOnPressColor
+                : global.navBarOnPressColor)
+              : todo
+                ? (global.colorblindMode
+                  ? global.cb_navBarCurrentIconBackgroundColor
+                  : global.cb_navBarCurrentIconBackgroundColor)
+                : (global.colorblindMode
+                  ? global.cb_optionButtonsColor
+                  : global.optionButtonsColor),
             borderTopLeftRadius: 10,
           },
         ]}>
-        <Icon name='check' color={todo ? '#4CB97A' : '#F5F5F5'} />
-        <Text numberOfLines={1} style={{ color: todo ? '#4CB97A' : '#F5F5F5' }}>
+        <Icon
+          name='check'
+          color={
+            todo
+              ? (global.colorblindMode
+                ? global.cb_navBarCurrentIconColor
+                : global.navBarCurrentIconColor)
+              : (global.colorblindMode
+                ? global.cb_navBarIconColor
+                : global.navBarIconColor)
+          }
+        />
+        <Text
+          numberOfLines={1}
+          style={{
+            color:
+              todo
+                ? (global.colorblindMode
+                  ? global.cb_navBarCurrentIconColor
+                  : global.navBarCurrentIconColor)
+                : (global.colorblindMode
+                  ? global.cb_navBarIconColor
+                  : global.navBarIconColor)
+          }}
+        >
           To-Do
         </Text>
       </Pressable>
@@ -167,13 +311,44 @@ const NavBar = ({
             zIndex: 2,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: pressed ? 'white' : '#A5DFB2',
+            backgroundColor: pressed 
+              ? (global.colorblindMode
+                ? global.cb_navBarOnPressColor
+                : global.navBarOnPressColor)
+              : history
+                ? (global.colorblindMode
+                  ? global.cb_navBarCurrentIconBackgroundColor
+                  : global.cb_navBarCurrentIconBackgroundColor)
+                : (global.colorblindMode
+                  ? global.cb_optionButtonsColor
+                  : global.optionButtonsColor),
           },
         ]}>
-        <Icon name='history' color={history ? '#4CB97A' : '#F5F5F5'} />
+        <Icon
+          name='history'
+          color={
+            history
+              ? (global.colorblindMode
+                ? global.cb_navBarCurrentIconColor
+                : global.navBarCurrentIconColor)
+              : (global.colorblindMode
+                ? global.cb_navBarIconColor
+                : global.navBarIconColor)
+          }
+        />
         <Text
           numberOfLines={1}
-          style={{ color: history ? '#4CB97A' : '#F5F5F5' }}>
+          style={{
+            color:
+              history
+                ? (global.colorblindMode
+                  ? global.cb_navBarCurrentIconColor
+                  : global.navBarCurrentIconColor)
+                : (global.colorblindMode
+                  ? global.cb_navBarIconColor
+                  : global.navBarIconColor)
+          }}
+        >
           History
         </Text>
       </Pressable>
@@ -188,13 +363,44 @@ const NavBar = ({
             zIndex: 2,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: pressed ? 'white' : '#A5DFB2',
+            backgroundColor: pressed 
+              ? (global.colorblindMode
+                ? global.cb_navBarOnPressColor
+                : global.navBarOnPressColor)
+              : account
+                ? (global.colorblindMode
+                  ? global.cb_navBarCurrentIconBackgroundColor
+                  : global.cb_navBarCurrentIconBackgroundColor)
+                : (global.colorblindMode
+                  ? global.cb_optionButtonsColor
+                  : global.optionButtonsColor),
           },
         ]}>
-        <Icon name='menu' color={account ? '#4CB97A' : '#F5F5F5'} />
+        <Icon
+          name='menu'
+          color={
+            account
+              ? (global.colorblindMode
+                ? global.cb_navBarCurrentIconColor
+                : global.navBarCurrentIconColor)
+              : (global.colorblindMode
+                ? global.cb_navBarIconColor
+                : global.navBarIconColor)
+          }
+        />
         <Text
           numberOfLines={1}
-          style={{ color: account ? '#4CB97A' : '#F5F5F5' }}>
+          style={{
+            color:
+              account
+                ? (global.colorblindMode
+                  ? global.cb_navBarCurrentIconColor
+                  : global.navBarCurrentIconColor)
+                : (global.colorblindMode
+                  ? global.cb_navBarIconColor
+                  : global.navBarIconColor)
+          }}
+        >
           Account
         </Text>
       </Pressable>

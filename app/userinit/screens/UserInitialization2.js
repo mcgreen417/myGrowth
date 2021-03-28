@@ -12,6 +12,7 @@ import {
   View,
   FlatList,
   Switch,
+  ScrollView,
 } from 'react-native';
 
 const avatars = new Array(48).fill('http://placeimg.com/100/100/any');
@@ -21,27 +22,27 @@ function UserInitialization2({ route, navigation }) {
   const { height, weight, heightMeasurement, weightMeasurement } = route.params;
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.pageSetup}>
+    <SafeAreaView style={styles().container}>
+      <View style={styles().pageSetup}>
         {/* Gardener avatar + page blurb */}
-        <View style={styles.avatarView}>
+        <View style={styles().avatarView}>
           <Image
-            style={styles.avatar}
+            style={styles().avatar}
             source={require('../../shared/assets/gardener-avatar.png')}
           />
-          <Text style={styles.pageDescription}>
+          <Text style={styles().pageDescription}>
             As our next step, take some time to select and appearance for me!
             I'll be here to guide you through the app. Think of me as your new
             friend!
           </Text>
         </View>
         {/* Top page divider */}
-        <View style={styles.dividerView}>
-          <View style={styles.divider} />
+        <View style={styles().dividerView}>
+          <View style={styles().divider} />
         </View>
 
         {/* Gardener avatar select */}
-        <View style={styles.avatarSelectView}>
+        <View style={styles().avatarSelectView}>
           <FlatList
             data={avatar}
             renderItem={({ item, index }) => (
@@ -57,16 +58,24 @@ function UserInitialization2({ route, navigation }) {
         </View>
 
         {/* Back & next buttons */}
-        <View style={styles.buttonsContainer}>
+        <View style={styles().buttonsContainer}>
           <Button
             title='Back'
-            color='#A5DFB2'
+            color={
+              global.colorblindMode
+                ? global.cb_optionButtonsColor
+                : global.optionButtonsColor
+            }
             onPress={() => navigation.navigate('UserInitialization1')}
           />
           <View style={{ width: '72%' }}></View>
           <Button
             title='Next'
-            color='#A5DFB2'
+            color={
+              global.colorblindMode
+                ? global.cb_optionButtonsColor
+                : global.optionButtonsColor
+            }
             onPress={() => navigation.navigate('UserInitialization3',{ 
               height: height,
               weight: weight, 
@@ -76,16 +85,19 @@ function UserInitialization2({ route, navigation }) {
           />
         </View>
       </View>
+      {/* </ScrollView> */}
     </SafeAreaView>
   );
 }
 
 export default UserInitialization2;
 
-const styles = StyleSheet.create({
+const styles = () => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6EFED',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
   },
   avatar: {
     width: 75,
@@ -122,7 +134,9 @@ const styles = StyleSheet.create({
   divider: {
     flex: 1,
     height: 1,
-    backgroundColor: '#816868',
+    backgroundColor: global.colorblindMode
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
     marginLeft: 20,
     marginRight: 20,
   },
@@ -133,7 +147,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   heading: {
-    color: '#816868',
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'left',
@@ -147,12 +163,16 @@ const styles = StyleSheet.create({
   },
   line: {
     width: '90%',
-    borderColor: '#816868',
+    borderColor: global.colorblindMode
+      ? global.cb_lineColor
+      : global.lineColor,
     borderBottomWidth: 1,
     minHeight: 1,
   },
   line2: {
-    borderColor: '#816868',
+    borderColor: global.colorblindMode
+      ? global.cb_lineColor
+      : global.lineColor,
     borderRightWidth: 1,
     minHeight: 28,
     marginTop: 4,
@@ -164,11 +184,15 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   textReg: {
-    color: 'black',
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
     textAlign: 'left',
   },
   pageDescription: {
-    color: '#816868',
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
     fontSize: 16,
     flex: 1,
     flexWrap: 'wrap',
@@ -192,15 +216,22 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     width: '70%',
-    backgroundColor: '#f4f3f4',
+    backgroundColor: global.colorblindMode
+      ? global.cb_textInputFillColor
+      : global.textInputFillColor,
   },
   textInput: {
     height: 40,
-    borderColor: 'black',
-    borderWidth: 1,
+    borderColor: global.colorblindMode
+      ? global.cb_textInputBlackBorderColor
+      : global.textInputBlackBorderColor,    borderWidth: 1,
     borderRadius: 4,
-    backgroundColor: '#f4f3f4',
-    color: '#000000',
+    backgroundColor: global.colorblindMode
+      ? global.cb_textInputFillColor
+      : global.textInputFillColor,
+    color: global.colorblindMode
+      ? global.cb_textInputColor
+      : global.textInputColor,
     width: '70%',
     paddingLeft: 10,
     fontSize: 16,
@@ -213,11 +244,17 @@ const styles = StyleSheet.create({
   },
   textInput2: {
     height: 36,
-    borderColor: 'black',
+    borderColor: global.colorblindMode
+      ? global.cb_textInputBlackBorderColor
+      : global.textInputBlackBorderColor,
     borderWidth: 1,
     borderRadius: 4,
-    backgroundColor: '#f4f3f4',
-    color: '#000000',
+    backgroundColor: global.colorblindMode
+      ? global.cb_textInputFillColor
+      : global.textInputFillColor,
+    color: global.colorblindMode
+      ? global.cb_textInputColor
+      : global.textInputColor,
     width: '12%',
     textAlign: 'center',
     fontSize: 16,

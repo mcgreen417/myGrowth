@@ -47,7 +47,7 @@ function Login({ navigation }) {
             placeholderTextColor={
               global.colorblindMode
                 ? global.cb_placeHolderTextColor
-                : global.placeholderTextColor
+                : global.placeHolderTextColor
             }
             value={email}
             onChangeText={(email) => {
@@ -61,7 +61,7 @@ function Login({ navigation }) {
             placeholderTextColor={
               global.colorblindMode
                 ? global.cb_placeHolderTextColor
-                : global.placeholderTextColor
+                : global.placeHolderTextColor
             }
             secureTextEntry={true}
             value={password}
@@ -173,71 +173,78 @@ async function testQuery(username) {
   console.log(res);
 }
 
-const styles = () =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: global.colorblindMode
-        ? global.cb_pageBackgroundColor
-        : global.pageBackgroundColor,
-    },
-    logo: {
-      height: 100,
-      width: 100,
-    },
-    buttons: {
-      marginTop: 10,
-      marginBottom: 10,
-      width: 300,
-      borderColor: global.colorblindMode
-        ? global.cb_optionButtonsBorderColor
-        : global.optionButtonsBorderColor,
-    },
-    pageSetup: {
-      height: '100%',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    textInput: {
-      height: 40,
-      borderColor: global.colorblindMode
-        ? global.cb_textInputBorderColor
-        : global.textInputBorderColor,
-      borderWidth: 2,
-      borderRadius: 10,
-      backgroundColor: global.colorblindMode
-        ? global.cb_textInputFillColor
-        : global.textInputFillColor,
-      color: global.colorblindMode
-        ? global.cb_textInputColor
-        : global.textInputColor,
-      textAlign: 'center',
-    },
-    textInstructions: {
-      color: '#816868',
-      marginBottom: 12,
-      textAlign: 'center',
-    },
-    textLink: {
-      color: global.colorblindMode
-        ? global.cb_hyperlinkedTextColor
-        : global.hyperlinkedTextColor,
-      textDecorationLine: 'underline',
-    },
-    text: {
-      color: global.colorblindMode ? global.cb_textColor : global.textColor,
-    },
-    textSubtitle: {
-      color: global.colorblindMode ? global.cb_textColor : global.textColor,
-      fontWeight: 'bold',
-      fontSize: 20,
-      marginBottom: 20,
-    },
-    textTitle: {
-      color: global.colorblindMode ? global.cb_textColor : global.textColor,
-      fontWeight: 'bold',
-      fontSize: 44,
-    },
-  });
+const styles = () => StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
+  },
+  logo: {
+    height: 100,
+    width: 100,
+  },
+  buttons: {
+    marginTop: 10,
+    marginBottom: 10,
+    width: 300,
+    borderColor: global.colorblindMode
+      ? global.cb_optionButtonsBorderColor
+      : global.optionButtonsBorderColor,
+  },
+  pageSetup: {
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textInput: {
+    height: 40,
+    borderColor: global.colorblindMode
+      ? global.cb_textInputBorderColor
+      : global.textInputBorderColor,
+    borderWidth: 2,
+    borderRadius: 10,
+    backgroundColor: global.colorblindMode
+      ? global.cb_textInputFillColor
+      : global.textInputFillColor,
+    color: global.colorblindMode
+      ? global.cb_textInputColor
+      : global.textInputColor,
+    textAlign: 'center',
+  },
+  textInstructions: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+    marginBottom: 12,
+    textAlign: 'center',
+  },
+  textLink: {
+    color: global.colorblindMode
+      ? global.cb_hyperlinkedTextColor
+      : global.hyperlinkedTextColor,
+    textDecorationLine: 'underline',
+  },
+  text: {
+    color: global.colorblindMode
+    ? global.cb_textColor
+    : global.textColor,
+  },
+  textSubtitle: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginBottom: 20,
+  },
+  textTitle: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+    fontWeight: 'bold',
+    fontSize: 44,
+  },
+});
 
 export default Login;
