@@ -37,7 +37,7 @@ const CreateNewJournalEntry = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles().container}>
       <View
         style={{
           flexDirection: 'row',
@@ -96,8 +96,8 @@ const CreateNewJournalEntry = ({ navigation }) => {
           <Icon name='format-list-bulleted' type='material' color='#816868' />
         </View>
       </View>
-      <View style={styles.dividerView}>
-        <View style={styles.divider}></View>
+      <View style={styles().dividerView}>
+        <View style={styles().divider}></View>
       </View>
       <View style={styles.input}>
         <TextInput 
@@ -121,15 +121,19 @@ async function saveEntry(date, entry, navigation) {
 
 export default CreateNewJournalEntry;
 
-const styles = StyleSheet.create({
+const styles = () => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6EFED',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
   },
   divider: {
     flex: 1,
     height: 1,
-    backgroundColor: '#816868',
+    backgroundColor: global.colorblindMode
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
     marginHorizontal: '5%',
   },
   dividerView: {
@@ -138,7 +142,9 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   heading: {
-    color: '#816868',
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -147,7 +153,9 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    color: '#816868',
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
   },
   input: {
     height: '100%',
