@@ -17,6 +17,56 @@ function SignUp({ navigation }) {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+
+  const [signupProperties, setSignupProperties] = useState({
+    validEmail: false,
+    validPassword: false,
+    validConfirmPassword: false,
+    checkTextInputChange: false,
+  });
+
+  // Does not currently handle deleting a character properly - is one cycle behind.
+  // This is an issue if a user tries to enter an email address from a one-character domain.
+  //  (not sure if one-character domains are real).
+  // Ex. "test@test.c", it says "false".  However, delete the last 'c', it'll show true.
+  const emailTextInputChange = (val) => {
+    // Email syntax validation regex
+    const emailRegexPattern = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
+    setEmail(val);
+
+    if (val.match(emailRegexPattern)) {
+      // console.log("email correct");
+      setSignupProperties({
+        ...signupProperties,
+        checkTextInputChange: true,
+        validEmail: true,
+      });
+    } else {
+      // console.log("not a valid email");
+      setSignupProperties({
+        ...signupProperties,
+        checkTextInputChange: false,
+        validEmail: false,
+      });
+    }
+
+    // console.log(signupProperties.validEmail);
+  }
+
+  const handlePasswordChange = (val) => {
+    setSignupProperties({
+        ...signupProperties,
+        password: val
+    });
+  }
+
+  const handleConfirmPasswordChange = (val) => {
+    setSignupProperties({
+        ...signupProperties,
+        confirmPassword: val
+    });
+  }
+
   return (
     <SafeAreaView style={styles().container}>
       <StatusBar
@@ -62,7 +112,7 @@ function SignUp({ navigation }) {
             }
             value={email}
             onChangeText={(email) => {
-              setEmail(email);
+              emailTextInputChange(email);
             }}
           />
           <View style={{ marginVertical: 8 }} />
@@ -153,7 +203,6 @@ async function signUp(email, password, confirmPassword, navigation) {
         'custom:initialized': '0'
       },
     });
-    // console.log(user);
     navigation.navigate('VerificationCode', { username: username });
   } catch (error) {
     console.log('error signing up', error);
