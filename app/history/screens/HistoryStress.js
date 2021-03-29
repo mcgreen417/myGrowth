@@ -13,10 +13,15 @@ import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
+import { Auth, API } from 'aws-amplify';
+import * as queries from '../../../src/graphql/queries';
 
 function HistoryStress({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [timePeriod, setTimePeriod] = useState('unselected');
+  const [data, setData] = useState([]);
+
+  getBasicData(data, setData);
 
   return (
     <SafeAreaView style={styles().container}>
@@ -42,22 +47,6 @@ function HistoryStress({ navigation }) {
         <View style={styles().divider} />
       </View>
       <View>
-        <Button
-          title='History'
-          color={
-            global.colorblindMode
-              ? global.cb_optionButtonsColor
-              : global.optionButtonsColor
-          }
-        />
-        <Button
-          title='Correlations'
-          color={
-            global.colorblindMode
-              ? global.cb_optionButtonsColor
-              : global.optionButtonsColor
-          }
-        />
         <TouchableOpacity style={styles().buttons} onPress={() => setModalVisible(true)}>
           <View style={styles().inlineRow}>
             <Text style={styles().textReg}>Categories</Text>
@@ -67,7 +56,7 @@ function HistoryStress({ navigation }) {
           </View>
         </TouchableOpacity>
 
-        <TabBarAndContent historyGenComp={true} navigation={navigation} />
+        <TabBarAndContent historyGenComp={true} navigation={navigation} data={data} timePeriod={timePeriod} page={'stress'} />
 
       </View>
       {/* Middle Divider */}
@@ -106,6 +95,16 @@ function HistoryStress({ navigation }) {
     </SafeAreaView>
   );
 };
+
+async function getBasicData(data, setData) {
+  const res = await API.graphql({
+    query: queries.getChartData
+  })
+
+  const arr = res.data;
+
+  setData(arr.getChartData);
+}
 
 export default HistoryStress;
 

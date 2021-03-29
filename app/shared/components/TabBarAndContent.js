@@ -1,6 +1,15 @@
 import { button } from '@aws-amplify/ui';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart
+} from "react-native-chart-kit";
+
 const images = {
   historyImg: require('../../shared/assets/Rectangle.png'),
   correlationImg: require('../../shared/assets/close.png'),
@@ -11,6 +20,25 @@ const images = {
   qualityImg: require('../../shared/assets/splash.png'),
   exerciseImg: require('../../shared/assets/splash.png'),
 };
+
+const dayLabels = [
+  "Mon",
+  "Tues",
+  "Weds",
+  "Thurs",
+  "Fri",
+  "Sat",
+  "Sun"
+];
+
+const monthLabels = [
+  "Jan",
+  "Mar",
+  "May",
+  "July",
+  "Sept",
+  "Nov"
+];
 
 const buttonColors = {
   lightGreen: '#A5DFB2',
@@ -26,6 +54,9 @@ const TabBarAndContent = ({
   sleep = false,
   fitness = false,
   navigation,
+  data,
+  timePeriod, 
+  page
 }) => {
   const [imgSource, setImageSource] = useState(images.historyImg);
   const [historyButtonColor, setHistoryButtonColor] = useState(buttonColors.darkGreen);
@@ -36,6 +67,9 @@ const TabBarAndContent = ({
   const [sleepButtonColor, setSleepButtonColor] = useState(buttonColors.darkGreen);
   const [qualityButtonColor, setQualityButtonColor] = useState(buttonColors.lightGreen);
   const [exerciseButtonColor, setExerciseButtonColor] = useState(buttonColors.lightGreen);
+
+  const [timestamps, setTimestamps] = useState([]);
+  const [displayData, setDisplayData] = useState([0, 0, 0, 0, 0, 0, 0, 0]);
 
   /* History Comp version */
   if (history)
@@ -84,6 +118,8 @@ const TabBarAndContent = ({
               setImageSource(images.historyImg);
               setCorrButtonColor(buttonColors.lightGreen);
               setHistoryButtonColor(buttonColors.darkGreen);
+              getTimestamps(data, timestamps, setTimestamps, timePeriod);
+              getGenData(data, timePeriod, timestamps, setTimestamps, page, displayData, setDisplayData);
             }}
             style={
               {
@@ -125,7 +161,42 @@ const TabBarAndContent = ({
           <View style={styles.coloredBar} />
         </View>
         {/* render image */}
-        <Image style={styles.images} source={imgSource} />
+        { imgSource === images.correlationImg &&
+          <Image style={styles.images} source={imgSource} />}
+        {imgSource === images.historyImg && <LineChart 
+          data = {{
+            labels: timestamps,
+            datasets: [
+              {
+                data: displayData
+              }
+            ]
+          }}
+          width={349} // from react-native
+          height={250}
+          yAxisLabel=""
+          yAxisSuffix=""
+          yAxisInterval={1} // optional, defaults to 1
+          chartConfig={{
+            backgroundColor: "#4CB97A",
+            backgroundGradientFrom: "#4CB97A",
+            backgroundGradientTo: "#A5DFB2",
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#4CB97A"
+            }
+          }}
+          bezier
+          style={{
+          }}
+        />}
       </View>
     );
 
@@ -506,6 +577,90 @@ const TabBarAndContent = ({
 
   return null;
 };
+
+function getGenData(data, timePeriod, timestamps, setTimestamps, page, displayData, setDisplayData) {
+  var len = 0;
+  
+  //data.moodData
+  if(page === 'mood') {
+    len = data.moodData.length;
+
+    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+        setDisplayData(data.moodData.slice(len - 7, len));
+
+    else if(timePeriod === 'past_month')
+      setDisplayData(data.moodData.slice(len - 30, len));
+
+    else
+      setDisplayData(data.moodData.slice(len - 365, len));
+  }
+  // diff func ideally
+  //data.napSleepData
+  //data.nightSleepData
+  //else if(page === 'sleep') {
+    
+  //}
+  
+  //data.periodData
+  else if(page === 'period') {
+    len = data.periodData.length;
+
+    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+        setDisplayData(data.periodData.slice(len - 7, len));
+
+    else if(timePeriod === 'past_month')
+      setDisplayData(data.periodData.slice(len - 30, len));
+
+    else
+      setDisplayData(data.periodData.slice(len - 365, len));
+  }
+  //data.stressData
+  else if(page === 'stress') {
+    len = data.stressData.length;
+
+    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+        setDisplayData(data.stressData.slice(len - 7, len));
+
+    else if(timePeriod === 'past_month')
+      setDisplayData(data.stressData.slice(len - 30, len));
+
+    else
+      setDisplayData(data.stressData.slice(len - 365, len));
+  }
+  //data.weightData
+  else {
+    len = data.weightData.length;
+
+    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+        setDisplayData(data.weightData.slice(len - 7, len));
+
+    else if(timePeriod === 'past_month')
+      setDisplayData(data.weightData.slice(len - 30, len));
+
+    else
+      setDisplayData(data.weightData.slice(len - 365, len));
+  }
+}
+
+function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
+  var dates = [];
+  const latestDate = new Date(data.latestDate);
+
+  for(var i = 29; i >= 0; i--) {
+    var date = new Date(latestDate.getTime() - (i * 24 * 60 * 60 * 1000));
+    if(i % 4 == 0)
+      dates.push(date.toISOString().substring(5, 10));
+  }
+
+  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    setTimestamps(dayLabels);
+
+  else if(timePeriod === 'past_month')
+    setTimestamps(dates); 
+
+  else if(timePeriod === 'past_year')
+    setTimestamps(monthLabels);
+}
 
 export default TabBarAndContent;
 

@@ -42,15 +42,6 @@ function HistoryHealthEntries({ navigation }) {
         <View style={styles().divider} />
       </View>
       <View>
-        { /* replace w/ custom component in future */ }
-        <Button
-          title='History'
-          color={
-            global.colorblindMode
-              ? global.cb_optionButtonsColor
-              : global.optionButtonsColor
-          }
-        />
         <TouchableOpacity style={styles().buttons} onPress={() => setModalVisible(true)}>
           <View style={styles().inlineRow}>
             <Text style={styles().textReg}>Categories</Text>
