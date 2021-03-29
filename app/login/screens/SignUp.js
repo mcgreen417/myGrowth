@@ -15,7 +15,6 @@ import {
 function SignUp({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const [signupProperties, setSignupProperties] = useState({
@@ -23,6 +22,7 @@ function SignUp({ navigation }) {
     validPassword: false,
     validConfirmPassword: false,
     checkTextInputChange: false,
+    validSignUp: false,
   });
 
   // Does not currently handle deleting a character properly - is one cycle behind.
@@ -32,39 +32,74 @@ function SignUp({ navigation }) {
   const emailTextInputChange = (val) => {
     // Email syntax validation regex
     const emailRegexPattern = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
+    val = val.trim();
     setEmail(val);
 
     if (val.match(emailRegexPattern)) {
-      // console.log("email correct");
       setSignupProperties({
         ...signupProperties,
         checkTextInputChange: true,
         validEmail: true,
       });
     } else {
-      // console.log("not a valid email");
       setSignupProperties({
         ...signupProperties,
         checkTextInputChange: false,
         validEmail: false,
       });
     }
-
-    // console.log(signupProperties.validEmail);
   }
 
   const handlePasswordChange = (val) => {
-    setSignupProperties({
+    if (val.length >= 8) {
+      setSignupProperties({
         ...signupProperties,
-        password: val
-    });
+        validPassword: true,
+      });
+    } else {
+      setSignupProperties({
+        ...signupProperties,
+        validPassword: false,
+      });
+    }
+
+    setPassword(val);
   }
 
   const handleConfirmPasswordChange = (val) => {
-    setSignupProperties({
+    if ((val.length >= 8) && (val === password)) {
+      setSignupProperties({
         ...signupProperties,
-        confirmPassword: val
-    });
+        validConfirmPassword: true,
+      });
+    } else {
+      setSignupProperties({
+        ...signupProperties,
+        validConfirmPassword: false,
+      });
+    }
+
+    setConfirmPassword(val);
+  }
+
+  const checkRequiredFields = () => {
+    if (signupProperties.validEmail 
+      && signupProperties.validPassword
+      && signupProperties.validConfirmPassword) {
+        setSignupProperties({
+          ...signupProperties,
+          validSignUp: true,
+        });
+        signUp(email, password, confirmPassword, navigation);
+    } else {
+      setSignupProperties({
+        ...signupProperties,
+        validSignUp: false,
+      });
+    }
+    
+
+    return signupProperties.validSignUp;
   }
 
   return (
@@ -86,22 +121,8 @@ function SignUp({ navigation }) {
         <Text style={styles().textTitle}>myGrowth</Text>
         <Text style={styles().textSubtitle}>Your General Wellness Tracker</Text>
 
-        {/* Username, e-mail address, password, confirm password entry boxes + signup button */}
+        {/* E-mail address, password, confirm password entry boxes + signup button */}
         <View style={styles().buttons}>
-          {/*<TextInput
-            style={styles().textInput}
-            placeholder='Username'
-            placeholderTextColor={
-              global.colorblindMode
-                ? global.cb_placeHolderTextColor
-                : global.placeholderTextColor
-            }
-            value={username}
-            onChangeText={(username) => {
-              setUsername(username);
-            }}
-          />
-          <View style={{ marginVertical: 8 }} />*/}
           <TextInput
             style={styles().textInput}
             placeholder='E-mail Address'
@@ -127,7 +148,7 @@ function SignUp({ navigation }) {
             secureTextEntry={true}
             value={password}
             onChangeText={(password) => {
-              setPassword(password);
+              handlePasswordChange(password);
             }}
           />
           <View style={{ marginVertical: 8 }} />
@@ -142,7 +163,7 @@ function SignUp({ navigation }) {
             secureTextEntry={true}
             value={confirmPassword}
             onChangeText={(confirmPassword) => {
-              setConfirmPassword(confirmPassword);
+              handleConfirmPasswordChange(confirmPassword);
             }}
           />
           <View style={{ marginVertical: 8 }} />
@@ -153,9 +174,7 @@ function SignUp({ navigation }) {
                 ? global.cb_optionButtonsColor
                 : global.optionButtonsColor
             }
-            onPress={() =>
-              signUp(email, password, confirmPassword, navigation)
-            }
+            onPress={() => {checkRequiredFields();}}
           />
           <View style={{ marginVertical: 8 }} />
         </View>
