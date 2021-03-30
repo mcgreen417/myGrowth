@@ -58,12 +58,24 @@ function getTime(d) {
   );
 }
 
-async function submit(mood, feelings, stress, stressors, navigation) {
+async function submit(
+  mood,
+  feelings,
+  stress,
+  stressors,
+  activities,
+  navigation
+) {
+  console.log(activities);
+  const activitiesIn = activities;
   const stressIn = { Severity: stress, Stressors: stressors };
   const moodIn = { Mood: mood, Feelings: feelings };
+
+  const query = { Mood: moodIn, Stress: stressIn, Activities: activitiesIn };
+  console.log(query);
   const res = await API.graphql({
     query: mutations.updateDailyEntry,
-    variables: { Mood: moodIn, Stress: stressIn },
+    variables: query,
   });
 
   console.log(res);
@@ -87,6 +99,7 @@ const HealthEntry = ({ navigation }) => {
   const [stressors, setStressors] = useState([]);
   const [mood, setMood] = useState(0);
   const [feels, setFeels] = useState([]);
+  const [activities, setActivities] = useState([]);
 
   return (
     <SafeAreaView style={styles().container}>
@@ -165,7 +178,10 @@ const HealthEntry = ({ navigation }) => {
           </View>
 
           {/* Add Daily Activities */}
-          <DailyActivities />
+          <DailyActivities
+            activities={activities}
+            setActivities={setActivities}
+          />
           <View style={styles().dividerView}>
             <View style={styles().divider} />
           </View>
@@ -233,7 +249,7 @@ const HealthEntry = ({ navigation }) => {
                 title='Save Entry'
                 color='#A5DFB2'
                 onPress={() =>
-                  submit(mood, feels, stress, stressors, navigation)
+                  submit(mood, feels, stress, stressors, activities, navigation)
                 }
               />
             </View>
