@@ -86,6 +86,8 @@ const HistorySelectACategory = ({
           justifyContent: 'center',
           alignItems: 'center',
           marginTop: -100,
+          zIndex: 1,
+          backgroundColor: '#00000055',
         }}>
         <View style={styles().container}>
           {/* Modal structure properties, Dismiss Bar */}
@@ -131,7 +133,7 @@ const HistorySelectACategory = ({
               // flexGrow: 1,
               // height: '50%',
               width: '100%',
-              justifyContent: 'center',
+              // justifyContent: 'center',
               // borderWidth: 2,
               // borderColor: 'red',
               maxHeight: '60%',
