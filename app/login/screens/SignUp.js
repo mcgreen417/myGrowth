@@ -136,9 +136,6 @@ function SignUp({ navigation }) {
             onChangeText={(email) => {
               emailTextInputChange(email);
             }}
-            // onKeyPress={(email) => {
-            //   emailTextInputChange(email);
-            // }}
           />
           <View style={{ marginVertical: 8 }} />
           <TextInput
