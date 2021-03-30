@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { Auth, API } from 'aws-amplify';
 import {
   StyleSheet,
@@ -16,6 +17,9 @@ function SignUp({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [hidePassword, setHidePassword] = useState(true);
+  const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
+
 
   const [signupProperties, setSignupProperties] = useState({
     validEmail: false,
@@ -146,27 +150,47 @@ function SignUp({ navigation }) {
                 ? global.cb_placeHolderTextColor
                 : global.placeholderTextColor
             }
-            secureTextEntry={true}
+            secureTextEntry={hidePassword ? true : false}
             value={password}
             onChangeText={(password) => {
               handlePasswordChange(password);
             }}
           />
-          <View style={{ marginVertical: 8 }} />
-          <TextInput
-            style={styles().textInput}
-            placeholder='Confirm Password'
-            placeholderTextColor={
-              global.colorblindMode
-                ? global.cb_placeHolderTextColor
-                : global.placeholderTextColor
-            }
-            secureTextEntry={true}
-            value={confirmPassword}
-            onChangeText={(confirmPassword) => {
-              handleConfirmPasswordChange(confirmPassword);
-            }}
-          />
+          <TouchableOpacity>
+            <Icon
+              name={hidePassword ? 'eye-slash' : 'eye'}
+              size={25}
+              color="black"
+              onPress={() => setHidePassword(!hidePassword)}
+            />
+          </TouchableOpacity>
+
+          {/* <View style={{ flexDirection: 'row' }}> */}
+            <View style={{ marginVertical: 8 }} />
+            <TextInput
+              style={styles().textInput}
+              placeholder='Confirm Password'
+              placeholderTextColor={
+                global.colorblindMode
+                  ? global.cb_placeHolderTextColor
+                  : global.placeholderTextColor
+              }
+              secureTextEntry={hideConfirmPassword ? true : false}
+              value={confirmPassword}
+              onChangeText={(confirmPassword) => {
+                handleConfirmPasswordChange(confirmPassword);
+              }}
+            />
+            <TouchableOpacity>
+              <Icon
+                name={hideConfirmPassword ? 'eye-slash' : 'eye'}
+                size={25}
+                color="black"
+                onPress={() => setHideConfirmPassword(!hideConfirmPassword)}
+              />
+            </TouchableOpacity>
+          {/* </View> */}
+          
           <View style={{ marginVertical: 8 }} />
           <Button
             title='SIGN UP'
@@ -229,66 +253,69 @@ async function signUp(email, password, confirmPassword, navigation) {
   }
 }
 
-const styles = () =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: global.colorblindMode
-        ? global.cb_pageBackgroundColor
-        : global.pageBackgroundColor,
-    },
-    logo: {
-      height: 100,
-      width: 100,
-    },
-    buttons: {
-      marginTop: 10,
-      marginBottom: 10,
-      width: '70%',
-      borderColor: global.colorblindMode
-        ? global.cb_optionButtonsBorderColor
-        : global.optionButtonsBorderColor,
-    },
-    pageSetup: {
-      height: '100%',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    textInput: {
-      height: 40,
-      borderColor: global.colorblindMode
-        ? global.cb_textInputBorderColor
-        : global.textInputBorderColor,
-      borderWidth: 2,
-      borderRadius: 10,
-      backgroundColor: global.colorblindMode
-        ? global.cb_textInputFillColor
-        : global.textInputFillColor,
-      color: global.colorblindMode
-        ? global.cb_textInputColor
-        : global.textInputColor,
-      textAlign: 'center',
-    },
-    textLink: {
-      color: global.colorblindMode
-        ? global.cb_hyperlinkedTextColor
-        : global.hyperlinkedTextColor,
-      textDecorationLine: 'underline',
-    },
-    text: {
-      color: global.colorblindMode ? global.cb_textColor : global.textColor,
-    },
-    textSubtitle: {
-      color: global.colorblindMode ? global.cb_textColor : global.textColor,
-      fontWeight: 'bold',
-      fontSize: 20,
-      marginBottom: 20,
-    },
-    textTitle: {
-      color: global.colorblindMode ? global.cb_textColor : global.textColor,
-      fontWeight: 'bold',
-      fontSize: 44,
-    },
-  });
+const styles = () => StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
+  },
+  buttons: {
+    marginTop: 10,
+    marginBottom: 10,
+    width: '70%',
+    borderColor: global.colorblindMode
+      ? global.cb_optionButtonsBorderColor
+      : global.optionButtonsBorderColor,
+  },
+  hidePasswordIcon: {
+    marginLeft: 10,
+  },
+  logo: {
+    height: 100,
+    width: 100,
+  },
+  pageSetup: {
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    color: global.colorblindMode ? global.cb_textColor : global.textColor,
+  },
+  textInput: {
+    width: 290,
+    height: 40,
+    borderColor: global.colorblindMode
+      ? global.cb_textInputBorderColor
+      : global.textInputBorderColor,
+    borderWidth: 2,
+    borderRadius: 10,
+    backgroundColor: global.colorblindMode
+      ? global.cb_textInputFillColor
+      : global.textInputFillColor,
+    color: global.colorblindMode
+      ? global.cb_textInputColor
+      : global.textInputColor,
+    textAlign: 'center',
+  },
+  textLink: {
+    color: global.colorblindMode
+      ? global.cb_hyperlinkedTextColor
+      : global.hyperlinkedTextColor,
+    textDecorationLine: 'underline',
+  },
+  textSubtitle: {
+    color: global.colorblindMode ? global.cb_textColor : global.textColor,
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginBottom: 20,
+  },
+  textTitle: {
+    color: global.colorblindMode ? global.cb_textColor : global.textColor,
+    fontWeight: 'bold',
+    fontSize: 44,
+  },
+});
 
 export default SignUp;
