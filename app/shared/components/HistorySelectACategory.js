@@ -84,12 +84,18 @@ const HistorySelectACategory = ({
         <View>
           {/* Modal structure properties, Dismiss Bar */}
           <View style={styles().modalHeaderBar}>
-            <View style={{ flexDirection: 'row', flex: 2 }}>
+            <View 
+              style={{ 
+                flexDirection: 'row', 
+                flex: 2,
+                marginLeft: 4,
+                marginVertical: 4,
+              }}>
               <Icon
                 name='arrow-collapse-right'
                 type='material-community'
                 color='white'
-                style={{ marginLeft: 4, marginRight: 8, marginVertical: 4 }}
+                style={{ marginRight: 8, }}
               />
               <Text style={styles().textAlt}>Select a Category</Text>
             </View>
@@ -104,7 +110,6 @@ const HistorySelectACategory = ({
                 name='close'
                 type='ionicon'
                 color='white'
-                style={{ marginRight: 4, alignSelf: 'flex-end' }}
                 onPress={() => setModalView(!showModalView)}
               />
             </View>
