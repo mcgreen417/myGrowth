@@ -25,14 +25,14 @@ function SignUp({ navigation }) {
     validSignUp: false,
   });
 
-  // Does not currently handle deleting a character properly - is one cycle behind.
-  // This is an issue if a user tries to enter an email address from a one-character domain.
-  //  (not sure if one-character domains are real).
-  // Ex. "test@test.c", it says "false".  However, delete the last 'c', it'll show true.
   const emailTextInputChange = (val) => {
     // Email syntax validation regex
+    // Current issue: if a user double-taps space, a period is automatically entered.
+    //  Not sure how to fix - worst-case can leave up to users to properly check.
     const emailRegexPattern = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
-    val = val.trim();
+    const whitespaceRegexPattern = /\s/g;
+
+    val = val.replace(whitespaceRegexPattern, '');
     setEmail(val);
 
     if (val.match(emailRegexPattern)) {
@@ -131,10 +131,14 @@ function SignUp({ navigation }) {
                 ? global.cb_placeHolderTextColor
                 : global.placeholderTextColor
             }
+            keyboardType="email-address"
             value={email}
             onChangeText={(email) => {
               emailTextInputChange(email);
             }}
+            // onKeyPress={(email) => {
+            //   emailTextInputChange(email);
+            // }}
           />
           <View style={{ marginVertical: 8 }} />
           <TextInput
