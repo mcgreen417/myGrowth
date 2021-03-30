@@ -83,32 +83,30 @@ const HistorySelectACategory = ({
       <View style={styles().container}>
         <View>
           {/* Modal structure properties, Dismiss Bar */}
-          <View style={{ height: 30 }}>
-            <View style={styles().modalHeaderBar}>
-              <View style={{ flexDirection: 'row', flex: 2 }}>
-                <Icon
-                  name='arrow-collapse-right'
-                  type='material-community'
-                  color='white'
-                  style={{ marginLeft: 4, marginRight: 8, marginVertical: 4 }}
-                />
-                <Text style={styles().textAlt}>Select a Category</Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  flex: 1,
-                  justifyContent: 'flex-end',
-                  marginRight: 4,
-                }}>
-                <Icon
-                  name='close'
-                  type='ionicon'
-                  color='white'
-                  style={{ marginRight: 4, alignSelf: 'flex-end' }}
-                  onPress={() => setModalView(!showModalView)}
-                />
-              </View>
+          <View style={styles().modalHeaderBar}>
+            <View style={{ flexDirection: 'row', flex: 2 }}>
+              <Icon
+                name='arrow-collapse-right'
+                type='material-community'
+                color='white'
+                style={{ marginLeft: 4, marginRight: 8, marginVertical: 4 }}
+              />
+              <Text style={styles().textAlt}>Select a Category</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                flex: 1,
+                justifyContent: 'flex-end',
+                marginRight: 4,
+              }}>
+              <Icon
+                name='close'
+                type='ionicon'
+                color='white'
+                style={{ marginRight: 4, alignSelf: 'flex-end' }}
+                onPress={() => setModalView(!showModalView)}
+              />
             </View>
           </View>
 
@@ -166,8 +164,6 @@ const styles = () =>
         ? global.cb_optionButtonsColor
         : global.optionButtonsColor,
       flexDirection: 'row',
-      flex: 1,
-      justifyContent: 'space-around',
       alignItems: 'center',
     },
     textAlt: {
