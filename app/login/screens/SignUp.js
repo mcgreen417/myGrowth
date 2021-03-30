@@ -51,7 +51,12 @@ function SignUp({ navigation }) {
   }
 
   const handlePasswordChange = (val) => {
-    if (val.length >= 8) {
+    // Handles: at least 1 number, 1 lowercase character, 1 capital character,
+    //   1 special character (any character that isn't a number/character, including whitespace).
+    // Last argument checks length of the password - this requires 8 characters min with no max size.
+    const passwordRegexPattern = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/;
+
+    if (val.match(passwordRegexPattern)) {
       setSignupProperties({
         ...signupProperties,
         validPassword: true,
@@ -67,7 +72,7 @@ function SignUp({ navigation }) {
   }
 
   const handleConfirmPasswordChange = (val) => {
-    if ((val.length >= 8) && (val === password)) {
+    if ((signupProperties.validPassword === true) && (val === password)) {
       setSignupProperties({
         ...signupProperties,
         validConfirmPassword: true,
@@ -155,8 +160,15 @@ function SignUp({ navigation }) {
             }}
           />
 
-          {/* <View style={{ flexDirection: 'row' }}> */}
-            <View style={{ marginVertical: 8 }} />
+          <Text style={styles().passwordDetailsText}>
+            Passwords must be 8 or more characters, with:{'\n'}
+            {'   '}-1 lowercase character{'\n'}
+            {'   '}-1 capital character{'\n'}
+            {'   '}-1 special character (!, @, #, $, %, etc.){'\n'}
+            {'   '}-1 number{'\n'}
+          </Text>
+
+          <View style={{ marginVertical: 8 }} />
             <TextInput
               style={styles().textInput}
               placeholder='Confirm Password'
@@ -259,6 +271,12 @@ const styles = () => StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  passwordDetailsText: {
+    marginTop: 8,
+    width: 300,
+    color: global.colorblindMode ? global.cb_textColor : global.textColor,
+    alignItems: 'center'
   },
   text: {
     color: global.colorblindMode ? global.cb_textColor : global.textColor,
