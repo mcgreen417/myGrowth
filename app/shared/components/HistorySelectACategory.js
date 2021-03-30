@@ -99,6 +99,7 @@ const HistorySelectACategory = ({
                   flexDirection: 'row',
                   flex: 1,
                   justifyContent: 'flex-end',
+                  marginRight: 4,
                 }}>
                 <Icon
                   name='close'
