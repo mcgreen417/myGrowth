@@ -9,7 +9,9 @@ import {
   Switch,
   TouchableOpacity,
   Modal,
+  ScrollView,
 } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
@@ -21,83 +23,76 @@ function HistoryDailyActivities2({ navigation }) {
   
   return (
     <SafeAreaView style={styles().container}>
-      { /* Modal */}
+      
+      { /* Modal + each of the navigable history pages */}
       <HistorySelectACategory
         setModalView={setModalVisible}
         showModalView={modalVisible}
         navigation={navigation}
       />
+
+      {/* Actual screen */}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles().pageSetup}>
+          
+          {/* Gardener avatar + page blurb */}
+          <View style={styles().avatarView}>
+            <Text style={styles().pageDescription}>
+              View a summary of your past daily activities and check out 
+              the periods where you were the most active!
+            </Text>
+            <Image
+              style={styles().avatar}
+              source={require('../../shared/assets/gardener-avatar.png')}
+            />
+          </View>
+          {/* Top page divider */}
+          <View style={styles().dividerView}>
+            <View style={styles().divider} />
+          </View>
+
+          {/* Categories button */}
+          <TouchableOpacity 
+            style={styles().categoriesView} 
+            onPress={() => setModalVisible(true)}
+          >
+            <View 
+              style={styles().categories}>
+              <Text style={styles().textAlt}>Categories</Text>
+              <View>
+                <Icon
+                  name='arrow-top-right'
+                  type='material-community'
+                  color='white'
+                />
+              </View>
+            </View>
+          </TouchableOpacity>
             
-      <View>
-        <Text style={styles().bodyText}>
-          View an easily digestable summary of your past daily activities 
-          and check out the periods where you were the most active! 
-        </Text>
-        <Image 
-          source={require('../../shared/assets/icon.png')} 
-          style={styles().avatar}
-        />
-      </View>
-      {/* Top page divider */}
-      <View style={styles().dividerView}>
-        <View style={styles().divider} />
-      </View>
-      <View>
-        <Button
-          title='History'
-          color={
-            global.colorblindMode
-              ? global.cb_optionButtonsColor
-              : global.optionButtonsColor
-          } 
-          onPress={() => navigation.navigate('HistoryDailyActivities1')}
-        />
-        <Button
-          title='Activity View'
-          color={
-            global.colorblindMode
-              ? global.cb_optionButtonsColor
-              : global.optionButtonsColor
-          }
-        />
-        <Button
-          title='Correlations'
-          color={
-            global.colorblindMode
-              ? global.cb_optionButtonsColor
-              : global.optionButtonsColor
-          }
-          onPress={() => navigation.navigate('HistoryDailyActivities1')}
-        />
-        <TouchableOpacity style={styles().buttons} onPress={() => setModalVisible(true)}>
-          <View style={styles().inlineRow}>
-            <Text style={styles().textReg}>Categories</Text>
-            <View>
-              <Image source={require('../../shared/assets/transit_enterexit.png')} />
+          {/* Custom history component */}
+          <TabBarAndContent dailyActivities={true} navigation={navigation} />
+
+          <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, }}>
+            <Text style={styles().bodyText}>SELECT ACTIVITY</Text>
+            <View style={styles().pickerView}>
+              <Picker
+                selectedValue={selectactivity}
+                style={styles().picker}
+                onValueChange={(itemValue, itemIndex) => setActivity(itemValue)}
+                mode={'dropdown'}
+              >
+                <Picker.Item label='Select one...' value='unselected' />
+                <Picker.Item label='Played games' value='played_games' />
+                <Picker.Item label='Did homework' value='did_homework' />
+                <Picker.Item label='Cooked dinner' value='cooked_dinner' />
+                <Picker.Item label='Listened to music' value='listen_music' />
+                <Picker.Item label='Talked to friends' value='talk_friends' />
+                <Picker.Item label='Went to work' value='went_work' />
+              </Picker>
             </View>
           </View>
-        </TouchableOpacity>
-        
-        <TabBarAndContent dailyActivities={true} navigation={navigation} />
-
-      </View>
-      <View>
-        <Text style={styles().bodyText}>SELECT ACTIVITY</Text>
-        <Picker
-          selectedValue={selectactivity}
-          style={{ height: 50, width: 200 }}
-          onValueChange={(itemValue, itemIndex) => setActivity(itemValue)}
-          mode={'dropdown'}
-        >
-          <Picker.Item label='Select one...' value='unselected' />
-          <Picker.Item label='Played games' value='played_games' />
-          <Picker.Item label='Did homework' value='did_homework' />
-          <Picker.Item label='Cooked dinner' value='cooked_dinner' />
-          <Picker.Item label='Listened to music' value='listen_music' />
-          <Picker.Item label='Talked to friends' value='talk_friends' />
-          <Picker.Item label='Went to work' value='went_work' />
-        </Picker>
-      </View>
+        </View>
+      </ScrollView>
       <NavBar history={true} navigation={navigation} />
     </SafeAreaView>
   );
@@ -115,30 +110,29 @@ const styles = () => StyleSheet.create({
   avatar: {
     width: 75,
     height: 75,
-    marginRight: 24,
   },
-  buttons: {
-    marginTop: 10,
-    marginBottom: 10,
-    width: 80,
-    height: 25,
+  avatarView: {
+    flexDirection: 'row',
+    marginTop: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '90%',
+  },
+  categories: {
+    flexDirection: 'row', 
+    alignSelf: 'center', 
+    alignItems: 'center', 
+    marginVertical: 2, 
+    marginHorizontal: 8,
+  },
+  categoriesView: {
+    alignSelf: 'flex-end',
+    marginBottom: -16,
+    borderRadius: 8,
+    marginRight: '5%',
     backgroundColor: global.colorblindMode
-      ? global.cb_optionButtonsColor
-      : global.optionButtonsColor,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 8,
-  },
-  chooserImg: {
-    borderWidth: 1,
-    borderColor: global.colorblindMode
-      ? global.cb_optionButtonsColor
-      : global.optionButtonsColor,
-    width: 40,
-    height: 40,
+      ? global.cb_navBarCurrentIconColor
+      : global.navBarCurrentIconColor,
   },
   divider: {
     flex: 1,
@@ -155,33 +149,54 @@ const styles = () => StyleSheet.create({
     marginTop: 20,
     marginBottom: 20,
   },
-  inlineRow: {
-    flexDirection: 'row',
-    width: '90%',
-    alignItems: 'center',
-  },
-  inlineRowBackgrd: {
-    backgroundColor: global.colorblindMode
-      ? global.cb_optionButtonsColor
-      : global.optionButtonsColor,
-    width: 300, 
-    height: 30,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  inlineRowModal: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  textReg: {
-    color: 'white',
-    textDecorationLine: 'none',
-    textAlign: 'center',
-    fontSize: 12,
-  },
-  bodyText: {
+  heading: {
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  pageDescription: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+    fontSize: 16,
+    fontWeight: 'bold',
+    flex: 1,
+    flexWrap: 'wrap',
+    marginRight: 20,
+  },
+  pageSetup: {
+    alignItems: 'center',
+    height: '100%',
+  },
+  picker: {
+    flex: 1,
+    height: 32,
+  },
+  pickerView: {
+    borderWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    width: '40%',
+    backgroundColor: global.colorblindMode
+      ? global.cb_textInputFillColor
+      : global.textInputFillColor,
+  },
+  text: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  textAlt: {
+    color: 'white',
+    textDecorationLine: 'none',
+    textAlign: 'center',
+    fontSize: 16,
   },
 });

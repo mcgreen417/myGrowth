@@ -33,10 +33,18 @@ const Goal = ({ title, description, type, navigation }) => {
       <View style={styles().iconView}>
         <View style={{ flexDirection: 'row' }}>
           <Pressable>
-            <Icon name='pencil' type='material-community' color='#816868' />
+            <Icon 
+              name='pencil' 
+              type='material-community' 
+              color='#816868' 
+            />
           </Pressable>
           <Pressable>
-            <Icon name='close' type='ionicon' color='#816868' />
+            <Icon 
+              name='close' 
+              type='ionicon' 
+              color='#816868' 
+            />
           </Pressable>
         </View>
       </View>
@@ -66,7 +74,7 @@ function Goals({ navigation }) {
         {/* Daily Goals section */}
         <View style={styles().inlineRow}>
           <Text style={styles().heading}>Daily Goals</Text>
-          <Text style={styles().text}>{time.toLocaleString()} until reset</Text>
+          <Text style={styles().text}>  ({time.toLocaleString()} until reset)</Text>
         </View>
         <View style={{ marginVertical: 10 }}>
           <Goal
@@ -115,7 +123,7 @@ function Goals({ navigation }) {
         {/* Weekly Goals section */}
         <View style={styles().inlineRow}>
           <Text style={styles().heading}>Weekly Goals </Text>
-          <Text style={styles().text}>({time.toLocaleString()} until reset)</Text>
+          <Text style={styles().text}> ({time.toLocaleString()} until reset)</Text>
         </View>
         <View style={{ marginVertical: 10 }}>
           <Goal

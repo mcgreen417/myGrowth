@@ -9,15 +9,20 @@ import {
 
 const SelectACategoryIcon = ({screens, navigation, setModalVisible, modalVisible, ...rest}) => {
   return (
-    <View>
-      <TouchableOpacity onPress={() => {
+    <TouchableOpacity 
+      onPress={() => {
         navigation.navigate(screens.navigateTo);
         setModalVisible(!modalVisible);
-      }}>
-        <Image style={styles().chooserImg} source={screens.imageSrc} />
-        <Text style={styles().textReg}>{screens.category}</Text>
-      </TouchableOpacity>
-    </View>
+      }}
+      style= {{
+        alignItems: 'center',
+        width: '25%',
+        marginVertical: '5%',
+      }}
+    >
+      <Image style={styles().chooserImg} source={screens.imageSrc} />
+      <Text style={styles().text}>{screens.category}</Text>
+    </TouchableOpacity>
   );
 };
 
@@ -29,12 +34,15 @@ const styles = () => StyleSheet.create({
     borderColor: global.colorblindMode
       ? global.cb_optionButtonsColor
       : global.optionButtonsColor,
-    width: 40,
-    height: 40,
+    width: 50,
+    height: 50,
   },
-  textReg: {
+  text: {
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
+    flexWrap: 'wrap',
+    textAlign: 'center',
+    marginTop: 2,
   },
 });

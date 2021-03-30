@@ -48,7 +48,7 @@ const NavBar = ({
               : home
                 ? (global.colorblindMode
                   ? global.cb_navBarCurrentIconBackgroundColor
-                  : global.cb_navBarCurrentIconBackgroundColor)
+                  : global.navBarCurrentIconBackgroundColor)
                 : (global.colorblindMode
                   ? global.cb_optionButtonsColor
                   : global.optionButtonsColor),
@@ -98,7 +98,7 @@ const NavBar = ({
               : journal
                 ? (global.colorblindMode
                   ? global.cb_navBarCurrentIconBackgroundColor
-                  : global.cb_navBarCurrentIconBackgroundColor)
+                  : global.navBarCurrentIconBackgroundColor)
                 : (global.colorblindMode
                   ? global.cb_optionButtonsColor
                   : global.optionButtonsColor),
@@ -148,7 +148,7 @@ const NavBar = ({
               : goals
                 ? (global.colorblindMode
                   ? global.cb_navBarCurrentIconBackgroundColor
-                  : global.cb_navBarCurrentIconBackgroundColor)
+                  : global.navBarCurrentIconBackgroundColor)
                 : (global.colorblindMode
                   ? global.cb_optionButtonsColor
                   : global.optionButtonsColor),
@@ -212,11 +212,11 @@ const NavBar = ({
                 justifyContent: 'center',
                 backgroundColor: pressed 
                   ? (global.colorblindMode
-                    ? global.cb_navBarOnPressColor
-                    : global.navBarOnPressColor)
+                    ? global.cb_navBarCurrentIconColor
+                    : global.navBarCurrentIconColor)
                   : (global.colorblindMode
-                    ? global.cb_optionButtonsColor
-                    : global.optionButtonsColor),
+                    ? global.cb_navBarCurrentIconColor
+                    : global.navBarCurrentIconColor),
                 borderRadius: 56 / 2,
                 shadowColor: '#000',
                 shadowOffset: {
@@ -256,7 +256,7 @@ const NavBar = ({
               : todo
                 ? (global.colorblindMode
                   ? global.cb_navBarCurrentIconBackgroundColor
-                  : global.cb_navBarCurrentIconBackgroundColor)
+                  : global.navBarCurrentIconBackgroundColor)
                 : (global.colorblindMode
                   ? global.cb_optionButtonsColor
                   : global.optionButtonsColor),
@@ -307,7 +307,7 @@ const NavBar = ({
               : history
                 ? (global.colorblindMode
                   ? global.cb_navBarCurrentIconBackgroundColor
-                  : global.cb_navBarCurrentIconBackgroundColor)
+                  : global.navBarCurrentIconBackgroundColor)
                 : (global.colorblindMode
                   ? global.cb_optionButtonsColor
                   : global.optionButtonsColor),
@@ -357,7 +357,7 @@ const NavBar = ({
               : account
                 ? (global.colorblindMode
                   ? global.cb_navBarCurrentIconBackgroundColor
-                  : global.cb_navBarCurrentIconBackgroundColor)
+                  : global.navBarCurrentIconBackgroundColor)
                 : (global.colorblindMode
                   ? global.cb_optionButtonsColor
                   : global.optionButtonsColor),

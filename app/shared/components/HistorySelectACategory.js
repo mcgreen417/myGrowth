@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import {
   StyleSheet,
-  SafeAreaView,
   Text,
   View,
-  Button,
   Image,
-  Switch,
   TouchableOpacity,
   Modal,
 } from 'react-native';
+import { Icon } from 'react-native-elements';
 import SelectACategoryIcon from './SelectACategoryIcon';
 
 const screensInfo = [
@@ -73,91 +71,91 @@ const screensInfo = [
 const HistorySelectACategory = ({setModalView, showModalView, navigation, ...rest}) => {
 
   return (
-    <View>
-      <Modal
-        animationType="none"
-        transparent={true}
-        visible={showModalView}
-        onRequestClose={() => setModalView(!showModalView)}
-      >
-        
-        {/* Entire modal */}
-        <View style={styles().centeredView}>
+    <Modal
+      animationType="none"
+      transparent={true}
+      visible={showModalView}
+      onRequestClose={() => setModalView(!showModalView)}
+    >
+      <View style={styles().container}>
+        <View>
 
           {/* Modal structure properties, Dismiss Bar */}
-          <View style={styles().inlineRowBackgrd}>
-            {/* add category chooser modal here */}
-            { /* image asset */ }
-            <View>
-              <Image style={{width: 20, height: 20}} source={require('../../shared/assets/icon.png')} />
-            </View>
-
-            <View style={styles().modalHeaderBar}>
-              <Text style={{color: 'white'}}>Select a Category</Text>
-            </View>
-
-            <TouchableOpacity onPress={() => setModalView(!showModalView)}>
-              { /* X asset */ }
-              <View>
-                <Image source={require('../assets/close.png')}/>
-              </View>
-
-            </TouchableOpacity>
+          <View style={styles().modalHeaderBar}>
+            <Icon 
+              name='arrow-collapse-right' 
+              type='material-community' 
+              color='white'
+              style={{ marginLeft: 4, marginRight: 8, marginVertical: 4, }}
+            />
+            <Text style={styles().textAlt}>Select a Category</Text>
+            <Icon 
+              name='close' 
+              type='ionicon' 
+              color='white'
+              style={{ marginRight: 4, alignSelf: 'flex-end'}}
+              onPress={() => setModalView(!showModalView)}
+            />
           </View>
 
           {/* Body of modal */}
-          <View style={{backgroundColor: '#F6EFED', width: 300, height: 350,}}>
-            {/* Buttons on modal */}
-            <View
-              style={{
-                marginLeft: 30,
-                flex: 5,
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                flexGrow: 5,
-              }}>
-                
-                {/* Will create each of the icons for all pages */}
-                {screensInfo.map((screen) => (
-                  <SelectACategoryIcon
-                    screens={screen}
-                    navigation={navigation}
-                    setModalVisible={setModalView}
-                    modalVisible={showModalView}
-                  />
-                ))}
-            </View>
+          <View 
+            style={{
+              marginHorizontal: '5%',
+              flex: 5,
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              flexGrow: 1,
+              justifyContent: 'center',
+            }}
+          >
+              {/* Will create each of the icons for all pages */}
+              {screensInfo.map((screen) => (
+                <SelectACategoryIcon
+                  screens={screen}
+                  navigation={navigation}
+                  setModalVisible={setModalView}
+                  modalVisible={showModalView}
+                />
+              ))}
           </View>
-
         </View>
-      </Modal>
-    </View>
+      </View>
+    </Modal>
   );
 };
 
 export default HistorySelectACategory;
 
 const styles = () => StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 8,
-  },
-  inlineRowBackgrd: {
-    color: global.colorblindMode
-      ? global.cb_optionButtonsColor
-      : global.optionButtonsColor,
-    width: 300, 
-    height: 30,
-    flexDirection: 'row',
+  container: {
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
+    justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'center',
+    width: '70%', 
+    height: '60%',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
   },
   modalHeaderBar: {
     backgroundColor: global.colorblindMode
       ? global.cb_optionButtonsColor
       : global.optionButtonsColor,
-    width: 260,
-    height: 30,
+    flexDirection: 'row',
+  },
+  textAlt: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
   }
 });

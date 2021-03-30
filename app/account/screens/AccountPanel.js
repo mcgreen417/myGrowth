@@ -73,25 +73,14 @@ function AccountPanel({ navigation }) {
             onPress={() => navigation.navigate('GenerateReport')}
           >
             <View style={styles().inlineRow}>
-              <Text style={styles().textReg}>Generate Report</Text>
+              <Text style={styles().text}>Generate Report</Text>
               <View style={styles().iconView}>
-                <Image source={require('../../shared/assets/chevron.png')} />
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles().line} />
-
-        {/* Link account */}
-        <View style={styles().inlineRow}>
-          <TouchableOpacity
-            style={styles().buttons}
-            onPress={() => navigation.navigate('LinkAccount')}
-          >
-            <View style={styles().inlineRow}>
-              <Text style={styles().textReg}>Link Account</Text>
-              <View style={styles().iconView}>
-                <Image source={require('../../shared/assets/chevron.png')} />
+                <Icon
+                  name='chevron-forward'
+                  type='ionicon'
+                  color='#816868'
+                  style={{ marginRight: -6 }}
+                />
               </View>
             </View>
           </TouchableOpacity>
@@ -102,9 +91,14 @@ function AccountPanel({ navigation }) {
         <View style={styles().inlineRow}>
           <TouchableOpacity style={styles().buttons} onPress={() => navigation.navigate('ReportProblemPage')}>
             <View style={styles().inlineRow}>
-              <Text style={styles().textReg}>Report a Problem</Text>
+              <Text style={styles().text}>Report a Problem</Text>
               <View style={styles().iconView}>
-                <Image source={require('../../shared/assets/chevron.png')} />
+                <Icon
+                  name='chevron-forward'
+                  type='ionicon'
+                  color='#816868'
+                  style={{ marginRight: -6 }}
+                />
               </View>
             </View>
           </TouchableOpacity>
@@ -118,9 +112,14 @@ function AccountPanel({ navigation }) {
             onPress={() => navigation.navigate('LeaveReviewPage')}
           >
             <View style={styles().inlineRow}>
-              <Text style={styles().textReg}>Leave a Review</Text>
+              <Text style={styles().text}>Leave a Review</Text>
               <View style={styles().iconView}>
-                <Image source={require('../../shared/assets/chevron.png')} />
+                <Icon
+                  name='chevron-forward'
+                  type='ionicon'
+                  color='#816868'
+                  style={{ marginRight: -6 }}
+                />
               </View>
             </View>
           </TouchableOpacity>
@@ -134,9 +133,14 @@ function AccountPanel({ navigation }) {
             onPress={() => navigation.navigate('AboutPage')}
           >
             <View style={styles().inlineRow}>
-              <Text style={styles().textReg}>About</Text>
+              <Text style={styles().text}>About</Text>
               <View style={styles().iconView}>
-                <Image source={require('../../shared/assets/chevron.png')} />
+                <Icon
+                  name='chevron-forward'
+                  type='ionicon'
+                  color='#816868'
+                  style={{ marginRight: -6 }}
+                />
               </View>
             </View>
           </TouchableOpacity>
@@ -150,9 +154,14 @@ function AccountPanel({ navigation }) {
             onPress={() => signOut(navigation)}
           >
             <View style={styles().inlineRow}>
-              <Text style={styles().textReg}>Log Out</Text>
+              <Text style={styles().text}>Log Out</Text>
               <View style={styles().iconView}>
-                <Image source={require('../../shared/assets/chevron.png')} />
+                <Icon
+                  name='chevron-forward'
+                  type='ionicon'
+                  color='#816868'
+                  style={{ marginRight: -6 }}
+                />
               </View>
             </View>
           </TouchableOpacity>
@@ -209,11 +218,6 @@ const styles = () => StyleSheet.create({
       ? global.cb_pageBackgroundColor
       : global.pageBackgroundColor,
   },
-  inlineRow: {
-    flexDirection: 'row',
-    width: '90%',
-    alignItems: 'center',
-  },
   avatar: {
     width: 75,
     height: 75,
@@ -267,6 +271,11 @@ const styles = () => StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-end',
   },
+  inlineRow: {
+    flexDirection: 'row',
+    width: '90%',
+    alignItems: 'center',
+  },
   line: {
     width: '90%',
       borderColor: global.colorblindMode
@@ -289,7 +298,7 @@ const styles = () => StyleSheet.create({
     alignItems: 'flex-end',
     marginRight: 20,
   },
-  textReg: {
+  text: {
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
