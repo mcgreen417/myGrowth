@@ -85,7 +85,7 @@ const HistorySelectACategory = ({
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          marginTop: 22,
+          marginTop: -100,
         }}>
         <View style={styles().container}>
           {/* Modal structure properties, Dismiss Bar */}
@@ -132,8 +132,8 @@ const HistorySelectACategory = ({
               // height: '50%',
               width: '100%',
               justifyContent: 'center',
-              borderWidth: 2,
-              borderColor: 'red',
+              // borderWidth: 2,
+              // borderColor: 'red',
               maxHeight: '60%',
             }}>
             {/* Will create each of the icons for all pages */}
@@ -174,8 +174,8 @@ const styles = () =>
       shadowOpacity: 0.23,
       shadowRadius: 2.62,
       elevation: 4,
-      borderWidth: 2,
-      borderColor: 'blue',
+      // borderWidth: 2,
+      // borderColor: 'blue',
     },
     modalHeaderBar: {
       backgroundColor: global.colorblindMode
@@ -183,8 +183,8 @@ const styles = () =>
         : global.optionButtonsColor,
       flexDirection: 'row',
       alignItems: 'center',
-      borderWidth: 2,
-      borderColor: 'red',
+      // borderWidth: 2,
+      // borderColor: 'red',
     },
     textAlt: {
       color: 'white',
