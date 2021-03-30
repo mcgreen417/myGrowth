@@ -163,7 +163,7 @@ function SignUp({ navigation }) {
           <Text style={styles().passwordDetailsText}>
             Passwords must be 8 or more characters, with:{'\n'}
             {'   '}-1 lowercase character{'\n'}
-            {'   '}-1 capital character{'\n'}
+            {'   '}-1 uppercase character{'\n'}
             {'   '}-1 special character (!, @, #, $, %, etc.){'\n'}
             {'   '}-1 number{'\n'}
           </Text>
