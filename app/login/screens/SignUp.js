@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { Auth, API } from 'aws-amplify';
 import {
   StyleSheet,
@@ -17,9 +16,6 @@ function SignUp({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [hidePassword, setHidePassword] = useState(true);
-  const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
-
 
   const [signupProperties, setSignupProperties] = useState({
     validEmail: false,
@@ -87,21 +83,23 @@ function SignUp({ navigation }) {
   }
 
   const checkRequiredFields = () => {
-    if (signupProperties.validEmail 
-      && signupProperties.validPassword
-      && signupProperties.validConfirmPassword) {
-        setSignupProperties({
-          ...signupProperties,
-          validSignUp: true,
-        });
-        signUp(email, password, confirmPassword, navigation);
+    const ableToSignUp = (signupProperties.validEmail
+                          && signupProperties.validPassword
+                          && signupProperties.validConfirmPassword);
+
+    if (ableToSignUp) {
+      setSignupProperties({
+        ...signupProperties,
+        validSignUp: true,
+      });
+ 
+      signUp(email, password, confirmPassword, navigation);
     } else {
       setSignupProperties({
         ...signupProperties,
         validSignUp: false,
       });
-    }
-    
+    }    
 
     return signupProperties.validSignUp;
   }
@@ -135,7 +133,7 @@ function SignUp({ navigation }) {
                 ? global.cb_placeHolderTextColor
                 : global.placeholderTextColor
             }
-            keyboardType="email-address"
+            keyboardType='email-address'
             value={email}
             onChangeText={(email) => {
               emailTextInputChange(email);
@@ -150,20 +148,12 @@ function SignUp({ navigation }) {
                 ? global.cb_placeHolderTextColor
                 : global.placeholderTextColor
             }
-            secureTextEntry={hidePassword ? true : false}
+            secureTextEntry={true}
             value={password}
             onChangeText={(password) => {
               handlePasswordChange(password);
             }}
           />
-          <TouchableOpacity>
-            <Icon
-              name={hidePassword ? 'eye-slash' : 'eye'}
-              size={25}
-              color="black"
-              onPress={() => setHidePassword(!hidePassword)}
-            />
-          </TouchableOpacity>
 
           {/* <View style={{ flexDirection: 'row' }}> */}
             <View style={{ marginVertical: 8 }} />
@@ -175,20 +165,13 @@ function SignUp({ navigation }) {
                   ? global.cb_placeHolderTextColor
                   : global.placeholderTextColor
               }
-              secureTextEntry={hideConfirmPassword ? true : false}
+              secureTextEntry={true}
               value={confirmPassword}
               onChangeText={(confirmPassword) => {
                 handleConfirmPasswordChange(confirmPassword);
               }}
             />
-            <TouchableOpacity>
-              <Icon
-                name={hideConfirmPassword ? 'eye-slash' : 'eye'}
-                size={25}
-                color="black"
-                onPress={() => setHideConfirmPassword(!hideConfirmPassword)}
-              />
-            </TouchableOpacity>
+
           {/* </View> */}
           
           <View style={{ marginVertical: 8 }} />
@@ -267,9 +250,6 @@ const styles = () => StyleSheet.create({
     borderColor: global.colorblindMode
       ? global.cb_optionButtonsBorderColor
       : global.optionButtonsBorderColor,
-  },
-  hidePasswordIcon: {
-    marginLeft: 10,
   },
   logo: {
     height: 100,
