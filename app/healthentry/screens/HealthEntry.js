@@ -110,12 +110,13 @@ const HealthEntry = ({ navigation }) => {
           {/* Select Data and Time */}
           <View style={{ width: '80%' }}>
             <Text>SELECT DATE & TIME</Text>
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <View
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'center',
                   alignContent: 'center',
+                  alignItems: 'center',
                 }}>
                 <Icon name='event' />
                 <Text>{getDate(new Date())}</Text>
@@ -126,6 +127,7 @@ const HealthEntry = ({ navigation }) => {
                   flexDirection: 'row',
                   justifyContent: 'center',
                   alignContent: 'center',
+                  alignItems: 'center',
                 }}>
                 <Icon name='schedule' />
                 <Text>{getTime(new Date())}</Text>
