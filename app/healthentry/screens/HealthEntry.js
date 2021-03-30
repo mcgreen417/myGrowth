@@ -58,11 +58,12 @@ function getTime(d) {
   );
 }
 
-async function submit(mood, feelings, navigation) {
+async function submit(mood, feelings, stress, stressors, navigation) {
+  const stressIn = { Severity: stress, Stressors: stressors };
   const moodIn = { Mood: mood, Feelings: feelings };
   const res = await API.graphql({
     query: mutations.updateDailyEntry,
-    variables: { Mood: moodIn },
+    variables: { Mood: moodIn, Stress: stressIn },
   });
 
   console.log(res);
@@ -82,7 +83,8 @@ const HealthEntry = ({ navigation }) => {
   const [hadSleep, setHadSleep] = useState(true);
   const [qualityOfSleep, setQualityOfSleep] = useState(2);
   const [qualityOfNap, setQualityOfNap] = useState(2);
-  const [stress, setStress] = useState(2);
+  const [stress, setStress] = useState(-1);
+  const [stressors, setStressors] = useState([]);
   const [mood, setMood] = useState(0);
   const [feels, setFeels] = useState([]);
 
@@ -152,7 +154,12 @@ const HealthEntry = ({ navigation }) => {
           </View>
 
           {/* Add Stress */}
-          <Stress stress={stress} setStress={setStress} />
+          <Stress
+            stress={stress}
+            setStress={setStress}
+            stressors={stressors}
+            setStressors={setStressors}
+          />
           <View style={styles().dividerView}>
             <View style={styles().divider} />
           </View>
@@ -225,7 +232,9 @@ const HealthEntry = ({ navigation }) => {
               <Button
                 title='Save Entry'
                 color='#A5DFB2'
-                onPress={() => submit(mood, feels, navigation)}
+                onPress={() =>
+                  submit(mood, feels, stress, stressors, navigation)
+                }
               />
             </View>
           </View>
