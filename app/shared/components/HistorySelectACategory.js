@@ -80,13 +80,19 @@ const HistorySelectACategory = ({
       transparent={true}
       visible={showModalView}
       onRequestClose={() => setModalView(!showModalView)}>
-      <View style={styles().container}>
-        <View>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: 22,
+        }}>
+        <View style={styles().container}>
           {/* Modal structure properties, Dismiss Bar */}
           <View style={styles().modalHeaderBar}>
-            <View 
-              style={{ 
-                flexDirection: 'row', 
+            <View
+              style={{
+                flexDirection: 'row',
                 flex: 2,
                 marginLeft: 4,
                 marginVertical: 4,
@@ -95,7 +101,7 @@ const HistorySelectACategory = ({
                 name='arrow-collapse-right'
                 type='material-community'
                 color='white'
-                style={{ marginRight: 8, }}
+                style={{ marginRight: 8 }}
               />
               <Text style={styles().textAlt}>Select a Category</Text>
             </View>
@@ -119,11 +125,16 @@ const HistorySelectACategory = ({
           <View
             style={{
               marginHorizontal: '5%',
-              flex: 5,
               flexDirection: 'row',
+              // flex: 1,
               flexWrap: 'wrap',
-              flexGrow: 1,
+              // flexGrow: 1,
+              // height: '50%',
+              width: '100%',
               justifyContent: 'center',
+              borderWidth: 2,
+              borderColor: 'red',
+              maxHeight: '60%',
             }}>
             {/* Will create each of the icons for all pages */}
             {screensInfo.map((screen) => (
@@ -149,11 +160,11 @@ const styles = () =>
       backgroundColor: global.colorblindMode
         ? global.cb_pageBackgroundColor
         : global.pageBackgroundColor,
-      justifyContent: 'center',
+      // justifyContent: 'center',
       alignItems: 'center',
-      alignSelf: 'center',
+      // alignSelf: 'center',
       width: '70%',
-      height: '60%',
+      // height: '60%',
       borderRadius: 10,
       shadowColor: '#000',
       shadowOffset: {
@@ -163,6 +174,8 @@ const styles = () =>
       shadowOpacity: 0.23,
       shadowRadius: 2.62,
       elevation: 4,
+      borderWidth: 2,
+      borderColor: 'blue',
     },
     modalHeaderBar: {
       backgroundColor: global.colorblindMode
@@ -170,6 +183,8 @@ const styles = () =>
         : global.optionButtonsColor,
       flexDirection: 'row',
       alignItems: 'center',
+      borderWidth: 2,
+      borderColor: 'red',
     },
     textAlt: {
       color: 'white',
