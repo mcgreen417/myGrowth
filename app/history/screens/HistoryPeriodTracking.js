@@ -18,6 +18,7 @@ import * as queries from '../../../src/graphql/queries';
 
 function HistoryPeriodTracking({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
+  //const [timePeriod, setTimePeriod] = useState('unselected');
   const [data, setData] = useState([]);
 
   getBasicData(data, setData);

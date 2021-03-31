@@ -605,15 +605,9 @@ function getGenData(data, timePeriod, timestamps, setTimestamps, page, displayDa
   else if(page === 'period') {
     len = data.periodData.length;
 
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
-        setDisplayData(data.periodData.slice(len - 7, len));
-
-    else if(timePeriod === 'past_month')
-      setDisplayData(data.periodData.slice(len - 30, len));
-
-    else
-      setDisplayData(data.periodData.slice(len - 365, len));
+    setDisplayData(data.periodData.slice(len - 30, len));
   }
+
   //data.stressData
   else if(page === 'stress') {
     len = data.stressData.length;
