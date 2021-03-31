@@ -153,6 +153,13 @@ export const addSetting = /* GraphQL */ `
         name
         times
       }
+      PlantData {
+        plant
+        ownedPlants
+        customizations
+        ownedCustomizations
+      }
+      Points
     }
   }
 `;
@@ -177,6 +184,13 @@ export const updateSetting = /* GraphQL */ `
         name
         times
       }
+      PlantData {
+        plant
+        ownedPlants
+        customizations
+        ownedCustomizations
+      }
+      Points
     }
   }
 `;
@@ -201,6 +215,13 @@ export const deleteSetting = /* GraphQL */ `
         name
         times
       }
+      PlantData {
+        plant
+        ownedPlants
+        customizations
+        ownedCustomizations
+      }
+      Points
     }
   }
 `;
@@ -225,6 +246,13 @@ export const addMedication = /* GraphQL */ `
         name
         times
       }
+      PlantData {
+        plant
+        ownedPlants
+        customizations
+        ownedCustomizations
+      }
+      Points
     }
   }
 `;
@@ -253,6 +281,13 @@ export const updateMedication = /* GraphQL */ `
         name
         times
       }
+      PlantData {
+        plant
+        ownedPlants
+        customizations
+        ownedCustomizations
+      }
+      Points
     }
   }
 `;
@@ -277,12 +312,82 @@ export const removeMedication = /* GraphQL */ `
         name
         times
       }
+      PlantData {
+        plant
+        ownedPlants
+        customizations
+        ownedCustomizations
+      }
+      Points
+    }
+  }
+`;
+export const updatePlantData = /* GraphQL */ `
+  mutation UpdatePlantData($UserID: ID, $plantData: PlantDataIn!) {
+    updatePlantData(UserID: $UserID, plantData: $plantData) {
+      UserID
+      Options {
+        stress
+        dailyActivities
+        weight
+        period
+        medication
+        sleep
+        meal
+        fitness
+        userHeight
+        userWeight
+        metric
+      }
+      Medications {
+        name
+        times
+      }
+      PlantData {
+        plant
+        ownedPlants
+        customizations
+        ownedCustomizations
+      }
+      Points
+    }
+  }
+`;
+export const updatePoints = /* GraphQL */ `
+  mutation UpdatePoints($UserID: ID, $points: Int!) {
+    updatePoints(UserID: $UserID, points: $points) {
+      UserID
+      Options {
+        stress
+        dailyActivities
+        weight
+        period
+        medication
+        sleep
+        meal
+        fitness
+        userHeight
+        userWeight
+        metric
+      }
+      Medications {
+        name
+        times
+      }
+      PlantData {
+        plant
+        ownedPlants
+        customizations
+        ownedCustomizations
+      }
+      Points
     }
   }
 `;
 export const addDailyEntry = /* GraphQL */ `
   mutation AddDailyEntry(
     $UserID: ID
+    $Timestamp: AWSDate
     $Health: HealthIn
     $Symptoms: [SymptomIn!]
     $Stress: StressIn
@@ -295,6 +400,7 @@ export const addDailyEntry = /* GraphQL */ `
   ) {
     addDailyEntry(
       UserID: $UserID
+      Timestamp: $Timestamp
       Health: $Health
       Symptoms: $Symptoms
       Stress: $Stress

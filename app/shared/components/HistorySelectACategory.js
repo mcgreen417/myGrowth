@@ -114,12 +114,26 @@ const HistorySelectACategory = ({
                 justifyContent: 'flex-end',
                 marginRight: 4,
               }}>
+
+                
+                {/* Will create each of the icons for all pages */}
+                {/*{screensInfo.map((screen, index) => (
+                  <SelectACategoryIcon
+                    key={index}
+                    screens={screen}
+                    navigation={navigation}
+                    setModalVisible={setModalView}
+                    modalVisible={showModalView}
+                  />
+                ))}*/}
+
               <Icon
                 name='close'
                 type='ionicon'
                 color='white'
                 onPress={() => setModalView(!showModalView)}
               />
+
             </View>
           </View>
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,8 +10,11 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import { Auth, API } from 'aws-amplify';
 
 function ForgotPassword({ navigation }) {
+  const [email, setEmail] = useState('');
+
   return (
     <SafeAreaView style={styles().container}>
       <StatusBar
@@ -62,21 +65,12 @@ function ForgotPassword({ navigation }) {
             marginBottom: 12,
             textAlign: 'center',
           }}>
-          To reset your password, please enter the username{'\n'}
-          and e-mail address associated with your account.
+          To reset your password, please enter the e-mail{'\n'}
+          address associated with your account.
         </Text>
 
         {/* Username + e-mail address entry boxes, submit button */}
         <View style={styles().buttons}>
-          <TextInput
-            style={styles().textInput}
-            placeholder='Username'
-            placeholderTextColor={
-              global.colorblindMode
-                ? global.cb_placeHolderTextColor
-                : global.placeholderTextColor
-            }
-          />
           <View style={{ marginVertical: 8 }} />
           <TextInput
             style={styles().textInput}
@@ -86,6 +80,10 @@ function ForgotPassword({ navigation }) {
                 ? global.cb_placeHolderTextColor
                 : global.placeholderTextColor
             }
+            value={email}
+            onChangeText={(email) => {
+              setEmail(email);
+            }}
           />
           <View style={{ marginVertical: 8 }} />
           <Button
@@ -95,7 +93,7 @@ function ForgotPassword({ navigation }) {
                 ? global.cb_optionButtonsColor
                 : global.optionButtonsColor
             }
-            onPress={() => navigation.navigate('PasswordResetVerification')}
+            onPress={() => resetPassword(email, navigation)}
           />
           <View style={{ marginVertical: 8 }} />
         </View>
@@ -117,6 +115,15 @@ function ForgotPassword({ navigation }) {
       </View>
     </SafeAreaView>
   );
+}
+
+async function resetPassword(email, navigation) {
+  try {
+    await Auth.forgotPassword(email);
+    navigation.navigate('PasswordResetVerification', {email});
+  } catch(error) {
+    console.log('error resetting pasword: ', error);
+  }
 }
 
 const styles = () =>

@@ -228,9 +228,9 @@ function Home({ navigation }) {
           </View>
 
           <Pressable
-            style={styles().inlineRow}
-            onPress={() => navigation.navigate('ToDoList')}>
-            <Text style={styles().text}>Check your to-do list</Text>
+            style={styles.inlineRow}
+            onPress={() => getTodos(navigation)}>
+            <Text style={styles.text}>Check your to-do list</Text>
             <Icon
               name='checkmark-circle-outline'
               type='ionicon'
@@ -248,6 +248,16 @@ function Home({ navigation }) {
       <NavBar home={true} navigation={navigation} />
     </SafeAreaView>
   );
+}
+
+async function getTodos(navigation) {
+  const res = await API.graphql({
+    query: queries.getTodos
+  });
+
+  const todos = res.data.getTodos.toDos;
+
+  navigation.navigate('ToDoList', {todos});
 }
 
 export default Home;

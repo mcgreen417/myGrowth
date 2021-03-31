@@ -14,9 +14,15 @@ import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
+import { Auth, API } from 'aws-amplify';
+import * as queries from '../../../src/graphql/queries';
 
 function HistoryPeriodTracking({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
+  //const [timePeriod, setTimePeriod] = useState('unselected');
+  const [data, setData] = useState([]);
+
+  getBasicData(data, setData);
 
   return (
     <SafeAreaView style={styles().container}>
@@ -27,7 +33,7 @@ function HistoryPeriodTracking({ navigation }) {
         showModalView={modalVisible}
         navigation={navigation}
       />
-
+          
       {/* Actual screen */}
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles().pageSetup}>
@@ -66,13 +72,8 @@ function HistoryPeriodTracking({ navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent historyGenComp={true} navigation={navigation} />
-
-          {/* Middle divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
-
+          <TabBarAndContent historyGenComp={true} navigation={navigation} data={data} timePeriod={'past_month'} page={'period'} />
+            
           {/* Period prediction */}
           <View 
             style={{ 
@@ -187,6 +188,16 @@ function HistoryPeriodTracking({ navigation }) {
     </SafeAreaView>
   );
 };
+
+async function getBasicData(data, setData) {
+  const res = await API.graphql({
+    query: queries.getChartData
+  })
+
+  const arr = res.data;
+
+  setData(arr.getChartData);
+}
 
 export default HistoryPeriodTracking;
 

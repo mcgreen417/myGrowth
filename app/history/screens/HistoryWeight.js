@@ -14,10 +14,15 @@ import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
+import { Auth, API } from 'aws-amplify';
+import * as queries from '../../../src/graphql/queries';
 
 function HistoryWeight({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [timePeriod, setTimePeriod] = useState('unselected');
+  const [data, setData] = useState([]);
+
+  getBasicData(data, setData);
 
   return (
     <SafeAreaView style={styles().container}>
@@ -68,7 +73,7 @@ function HistoryWeight({ navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent historyGenComp={true} navigation={navigation} />
+          <TabBarAndContent historyGenComp={true} navigation={navigation} data={data} timePeriod={timePeriod} page={'mood'} />
 
           <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, }}>
             <Text style={styles().heading}>TIME PERIOD</Text>
@@ -168,6 +173,16 @@ function HistoryWeight({ navigation }) {
     </SafeAreaView>
   );
 };
+
+async function getBasicData(data, setData) {
+  const res = await API.graphql({
+    query: queries.getChartData
+  })
+
+  const arr = res.data;
+
+  setData(arr.getChartData);
+}
 
 export default HistoryWeight;
 
