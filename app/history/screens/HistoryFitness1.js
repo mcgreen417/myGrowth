@@ -4,7 +4,6 @@ import {
   SafeAreaView,
   Text,
   View,
-  Button,
   Image,
   Switch,
   TouchableOpacity,
