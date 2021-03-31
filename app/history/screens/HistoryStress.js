@@ -4,11 +4,12 @@ import {
   SafeAreaView,
   Text,
   View,
-  Button,
   Image,
   TouchableOpacity,
   Modal,
+  ScrollView,
 } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
@@ -25,72 +26,183 @@ function HistoryStress({ navigation }) {
 
   return (
     <SafeAreaView style={styles().container}>
-      {/* Modal + each of the navigable history pages */}
+      
+      {/* Modal */}
       <HistorySelectACategory
         setModalView={setModalVisible}
         showModalView={modalVisible}
         navigation={navigation}
       />
       
-      <View>
-        <Text style={styles().bodyText}>
-          View your stress level history and easily visualize changes in your
-          stress levels over time, alongside potential causes for these changes.
-        </Text>
-        <Image 
-          source={require('../../shared/assets/icon.png')} 
-          style={styles().avatar}
-        />
-      </View>
-      {/* Top page divider */}
-      <View style={styles().dividerView}>
-        <View style={styles().divider} />
-      </View>
-      <View>
-        <TouchableOpacity style={styles().buttons} onPress={() => setModalVisible(true)}>
-          <View style={styles().inlineRow}>
-            <Text style={styles().textReg}>Categories</Text>
-            <View>
-              <Image source={require('../../shared/assets/transit_enterexit.png')} />
+      {/* Actual screen */}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles().pageSetup}>
+
+          {/* Gardener avatar + page blurb */}
+          <View style={styles().avatarView}>
+            <Text style={styles().pageDescription}>
+              View your changes in stress levels over time and our analysis of some 
+              of the potential causes of these changes.
+            </Text>
+            <Image
+              style={styles().avatar}
+              source={require('../../shared/assets/gardener-avatar.png')}
+            />
+          </View>
+          {/* Top page divider */}
+          <View style={styles().dividerView}>
+            <View style={styles().divider} />
+          </View>
+
+          {/* Categories button */}
+          <TouchableOpacity 
+            style={styles().categoriesView} 
+            onPress={() => setModalVisible(true)}
+          >
+            <View 
+              style={styles().categories}>
+              <Text style={styles().textAlt}>Categories</Text>
+              <View>
+                <Icon
+                  name='arrow-top-right'
+                  type='material-community'
+                  color='white'
+                />
+              </View>
+            </View>
+          </TouchableOpacity>
+
+          {/* Custom history component */}
+          <TabBarAndContent historyGenComp={true} navigation={navigation} data={data} timePeriod={timePeriod} page={'stress'} />
+
+          {/* Time Period drop-down selection */}
+          <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, }}>
+            <Text style={styles().heading}>TIME PERIOD</Text>
+            <View style={styles().pickerView}>
+              <Picker
+                selectedValue={timePeriod}
+                style={styles().picker}
+                onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+                mode={'dropdown'}
+              >
+                <Picker.Item label='Select one...' value='unselected' />
+                <Picker.Item label='Past week' value='past_week' />
+                <Picker.Item label='Past month' value='past_month' />
+                <Picker.Item label='Past year' value='past_year' />
+              </Picker>
             </View>
           </View>
-        </TouchableOpacity>
 
-        <TabBarAndContent historyGenComp={true} navigation={navigation} data={data} timePeriod={timePeriod} page={'stress'} />
+          {/* Middle divider */}
+          <View style={styles().dividerView}>
+            <View style={styles().divider} />
+          </View>
 
-      </View>
-      {/* Middle Divider */}
-      <View style={styles().dividerView}>
-        <View style={styles().divider} />
-      </View>
-      <View>
-        <Text style={styles().bodyText}>TIME PERIOD</Text>
-        <Picker
-          selectedValue={timePeriod}
-          style={{ height: 50, width: 200 }}
-          onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
-          mode={'dropdown'}
-        >
-          <Picker.Item label='Select one...' value='unselected' />
-          <Picker.Item label='Past week' value='past_week' />
-          <Picker.Item label='Past month' value='past_month' />
-          <Picker.Item label='Past year' value='past_year' />
-        </Picker>
-      </View>
-      <View>
-        <Text style={styles().bodyText}>
-          Based on our analysis, the following activities may help to reduce
-          your stress...
-        </Text>
-        {/*<ReduceStressAnalysis />*/}
-      </View>
-      <View>
-        <Text style={styles().bodyText}>
-          Likewise, if you're felling stressed, you should avoid the following
-          activities if possible...
-        </Text>
-        {/*<AvoidStressAnalysis />*/}
-      </View>
+          {/* App suggestions */}
+          <View style={{ marginHorizontal: '5%', marginBottom: 20, }}>
+            {/* Stress-free activities recommendations */}
+            <Text style={styles().text}>
+              Based on our analysis, the following activities may help to reduce
+              your stress...
+            </Text>
+            <View style={styles().suggestionView}>
+               <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
+                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                  <View style={{ flexDirection: 'row', width: '50%', }}>
+                    <Icon 
+                      name='checkmark-sharp' 
+                      type='ionicon' 
+                      color='#A5DFB2'
+                    />
+                    <Text style={styles().textAlt}>(Suggestion #1)</Text>
+                  </View>
+                  <View style={{ flexDirection: 'row', width: '50%', }}>
+                    <Icon 
+                      name='checkmark-sharp' 
+                      type='ionicon' 
+                      color='#A5DFB2'
+                    />
+                    <Text style={styles().textAlt}>(Suggestion #3)</Text>
+                  </View>
+                </View>
+                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                  <View style={{ flexDirection: 'row', width: '50%', }}>
+                    <Icon 
+                      name='checkmark-sharp' 
+                      type='ionicon' 
+                      color='#A5DFB2'
+                    />
+                    <Text style={styles().textAlt}>(Suggestion #2)</Text>
+                  </View>
+                  <View style={{ flexDirection: 'row', width: '50%', }}>
+                    <Icon 
+                      name='checkmark-sharp' 
+                      type='ionicon' 
+                      color='#A5DFB2'
+                    />
+                    <Text style={styles().textAlt}>(Suggestion #4)</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+
+            {/* Stressful activities recommendations */}
+            <Text style={styles().text}>
+              Likewise, if you're felling stressed, you may want to consider 
+              avoiding the following activities...
+            </Text>
+            <View style={styles().suggestionView}>
+               <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
+                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                  <View style={{ flexDirection: 'row', width: '50%', }}>
+                    <Icon 
+                      name='close' 
+                      type='ionicon' 
+                      color='#A5DFB2'
+                    />
+                    <Text style={styles().textAlt}>(Suggestion #1)</Text>
+                  </View>
+                  <View style={{ flexDirection: 'row', width: '50%', }}>
+                    <Icon 
+                      name='close' 
+                      type='ionicon' 
+                      color='#A5DFB2'
+                    />
+                    <Text style={styles().textAlt}>(Suggestion #3)</Text>
+                  </View>
+                </View>
+                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                  <View style={{ flexDirection: 'row', width: '50%', }}>
+                    <Icon 
+                      name='close' 
+                      type='ionicon' 
+                      color='#A5DFB2'
+                    />
+                    <Text style={styles().textAlt}>(Suggestion #2)</Text>
+                  </View>
+                  <View style={{ flexDirection: 'row', width: '50%', }}>
+                    <Icon 
+                      name='close' 
+                      type='ionicon' 
+                      color='#A5DFB2'
+                    />
+                    <Text style={styles().textAlt}>(Suggestion #4)</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+
+            {/* Medical disclaimer */}
+            <Text style={styles().textLightSmall}>
+              ** As a reminder, these analyses indicate correlation, not causation, and thus 
+              may not indicate direct effects of your daily habits. You may wish to speak to 
+              a medical professional if you undergo extended periods of high stress without relief.
+            </Text>
+          </View>
+
+          <View style={styles().pageEnd} />
+        </View>
+      </ScrollView>          
       <NavBar history={true} navigation={navigation} />
     </SafeAreaView>
   );
@@ -118,30 +230,29 @@ const styles = () => StyleSheet.create({
   avatar: {
     width: 75,
     height: 75,
-    marginRight: 24,
   },
-  buttons: {
-    marginTop: 10,
-    marginBottom: 10,
-    width: 80,
-    height: 25,
+  avatarView: {
+    flexDirection: 'row',
+    marginTop: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '90%',
+  },
+  categories: {
+    flexDirection: 'row', 
+    alignSelf: 'center', 
+    alignItems: 'center', 
+    marginVertical: 2, 
+    marginHorizontal: 8,
+  },
+  categoriesView: {
+    alignSelf: 'flex-end',
+    marginBottom: -16,
+    borderRadius: 8,
+    marginRight: '5%',
     backgroundColor: global.colorblindMode
-      ? global.cb_optionButtonsColor
-      : global.optionButtonsColor,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 8,
-  },
-  chooserImg: {
-    borderWidth: 1,
-    borderColor: global.colorblindMode
-      ? global.cb_optionButtonsColor
-      : global.optionButtonsColor,
-    width: 40,
-    height: 40,
+      ? global.cb_navBarCurrentIconColor
+      : global.navBarCurrentIconColor,
   },
   divider: {
     flex: 1,
@@ -158,33 +269,78 @@ const styles = () => StyleSheet.create({
     marginTop: 20,
     marginBottom: 20,
   },
-  inlineRow: {
-    flexDirection: 'row',
-    width: '90%',
-    alignItems: 'center',
-  },
-  inlineRowBackgrd: {
-    backgroundColor: global.colorblindMode
-      ? global.cb_optionButtonsColor
-      : global.optionButtonsColor, 
-    width: 300, 
-    height: 30,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  inlineRowModal: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  textReg: {
-    color: 'white',
-    textDecorationLine: 'none',
-    textAlign: 'center',
-    fontSize: 12,
-  },
-  bodyText: {
+  heading: {
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  pageDescription: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+    fontSize: 16,
+    fontWeight: 'bold',
+    flex: 1,
+    flexWrap: 'wrap',
+    marginRight: 20,
+  },
+  pageEnd: {
+    marginBottom: 100,
+  },
+  pageSetup: {
+    alignItems: 'center',
+    height: '100%',
+  },
+  picker: {
+    flex: 1,
+    height: 32,
+  },
+  pickerView: {
+    borderWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    width: '40%',
+    backgroundColor: global.colorblindMode
+      ? global.cb_textInputFillColor
+      : global.textInputFillColor,
+  },
+  suggestionView: {
+    marginTop: 10,
+    marginBottom: 20,
+    backgroundColor: '#816868',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+  },
+  text: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  textAlt: {
+    color: 'white',
+    textDecorationLine: 'none',
+    textAlign: 'center',
+    fontSize: 16,
+  },
+  textLightSmall: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+    fontSize: 14,
+    textAlign: 'center',
   },
 });
