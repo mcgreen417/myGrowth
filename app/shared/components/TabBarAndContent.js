@@ -271,7 +271,7 @@ const TabBarAndContent = ({
               setScriptButtonColor(buttonColors.darkGreen);
             }}
           >
-            <Text style={styles.text}>Prescription</Text>
+            <Text style={styles.text}>History</Text>
           </Pressable>
 
           {/* Correlation */}

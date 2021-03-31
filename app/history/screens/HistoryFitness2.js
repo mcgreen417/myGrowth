@@ -9,7 +9,9 @@ import {
   Switch,
   TouchableOpacity,
   Modal,
+  ScrollView,
 } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
@@ -18,14 +20,11 @@ import HistorySelectACategory from '../../shared/components/HistorySelectACatego
 function HistoryFitness2({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [timePeriod, setTimePeriod] = useState('unselected');
-  const [selectDisplay, setDisplay] = useState('unselected');  
-  const [useReccActivity, setUseReccActivity] = useState(false);
-  
-  const toggleReccActivity = () =>
-    setUseReccActivity((previousState) => !previousState);
+  const [selectExercise, setExercise] = useState('unselected');  
 
   return (
     <SafeAreaView style={styles().container}>
+
       {/* Modal + each of the navigable history pages */}
       <HistorySelectACategory
         setModalView={setModalVisible}
@@ -33,139 +32,105 @@ function HistoryFitness2({ navigation }) {
         navigation={navigation}
       />
 
-      <View>
-        <Text style={styles().bodyText}>
-          View your fitness history and our analysis of positive health effects that 
-          may be attributed to your current workout routine.
-        </Text>
-        <Image 
-          source={require('../../shared/assets/icon.png')} 
-          style={styles().avatar}
-        />
-      </View>
-      {/* page divider */}
-      <View style={styles().dividerView}>
-        <View style={styles().divider} />
-      </View>
-      <View>
-        <Button
-          title='History'
-          color={
-            global.colorblindMode
-              ? global.cb_optionButtonsColor
-              : global.optionButtonsColor
-          }
-          onPress={() => navigation.navigate('HistoryFitness1')}
-        />
-        <Button
-          title='Exercises'
-          color={
-            global.colorblindMode
-              ? global.cb_optionButtonsColor
-              : global.optionButtonsColor
-          }
-        />
-        <Button
-          title='Correlations'
-          color={
-            global.colorblindMode
-              ? global.cb_optionButtonsColor
-              : global.optionButtonsColor
-          }
-          onPress={() => navigation.navigate('HistoryFitness1')}
-        />
-        <TouchableOpacity style={styles().buttons} onPress={() => setModalVisible(true)}>
-          <View style={styles().inlineRow}>
-            <Text style={styles().textReg}>Categories</Text>
-            <View>
-              <Image source={require('../../shared/assets/transit_enterexit.png')} />
+      {/* Actual screen */}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles().pageSetup}>
+
+          {/* Gardener avatar + page blurb */}
+          <View style={styles().avatarView}>
+            <Text style={styles().pageDescription}>
+              View your fitness history and our analysis of health effects that 
+              may be attributed to your current exercise routine.
+            </Text>
+            <Image
+              style={styles().avatar}
+              source={require('../../shared/assets/gardener-avatar.png')}
+            />
+          </View>
+          {/* Top page divider */}
+          <View style={styles().dividerView}>
+            <View style={styles().divider} />
+          </View>
+
+          {/* Categories button */}
+          <TouchableOpacity 
+            style={styles().categoriesView} 
+            onPress={() => setModalVisible(true)}
+          >
+            <View 
+              style={styles().categories}>
+              <Text style={styles().textAlt}>Categories</Text>
+              <View>
+                <Icon
+                  name='arrow-top-right'
+                  type='material-community'
+                  color='white'
+                />
+              </View>
+            </View>
+          </TouchableOpacity>
+
+          {/* Custom history component */}
+          <TabBarAndContent fitness={true} navigation={navigation} />
+
+          {/* Time Period and Select Exercise drop-down selection */}
+          <View 
+            style={{ 
+              width: '90%', 
+              justifyContent: 'flex-start', 
+              marginTop: 20, 
+              flexDirection: 'row',
+            }}>
+            <View style={{ width: '50%', }}>
+              <Text style={styles().heading}>TIME PERIOD</Text>
+              <View style={styles().pickerView}>
+                <Picker
+                  selectedValue={timePeriod}
+                  style={styles().picker}
+                  onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+                  mode={'dropdown'}
+                >
+                  <Picker.Item label='Select one...' value='unselected' />
+                  <Picker.Item label='Past week' value='past_week' />
+                  <Picker.Item label='Past month' value='past_month' />
+                  <Picker.Item label='Past year' value='past_year' />
+                </Picker>
+              </View>
+            </View>
+            <View style={{ width: '50%', }}>
+              <Text style={styles().heading}>SELECT EXERCISE</Text>
+              <View style={styles().pickerView}>
+                <Picker
+                  selectedValue={selectExercise}
+                  style={styles().picker}
+                  onValueChange={(itemValue, itemIndex) => setDisplay(itemValue)}
+                  mode={'dropdown'}
+                >
+                  <Picker.Item label='Select one...' value='unselected' />
+                  <Picker.Item label='Push-ups' value='push-ups' />
+                  <Picker.Item label='Sit-ups' value='situps' />
+                  <Picker.Item label='Squats' value='squats' />
+                </Picker>
+              </View>
             </View>
           </View>
-        </TouchableOpacity>
 
-        <TabBarAndContent fitness={true} navigation={navigation} />
+          {/* Middle divider */}
+          <View style={styles().dividerView}>
+            <View style={styles().divider} />
+          </View>
 
-      </View>
-      <View>
-        <View>
-          <Text style={styles().bodyText}>TIME PERIOD</Text>
-          <Picker
-            selectedValue={timePeriod}
-            style={{ height: 50, width: 200 }}
-            onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
-            mode={'dropdown'}
-          >
-            <Picker.Item label='Select one...' value='unselected' />
-            <Picker.Item label='Past week' value='past_week' />
-            <Picker.Item label='Past month' value='past_month' />
-            <Picker.Item label='Past year' value='past_year' />
-          </Picker>
+          {/* Recommended exercises (decide how we're going to add this in?) */}
+          <View style={{ marginHorizontal: '5%', marginBottom: 20, }}>
+            <Text style={styles().text}>
+              Exercise is a great way to stay in shape and manage your weight! The
+              following exercise regimens are recommended for you.
+            </Text>
+          </View>
+
+          <View style={styles.pageEnd}/>
         </View>
-        <View>
-          <Text style={styles().bodyText}>SELECT EXERCISE</Text>
-          <Picker
-            selectedValue={selectDisplay}
-            style={{ height: 50, width: 200 }}
-            onValueChange={(itemValue, itemIndex) => setDisplay(itemValue)}
-            mode={'dropdown'}
-          >
-            <Picker.Item label='Select one...' value='unselected' />
-            <Picker.Item label='PLACEHOLDER' value='temp' />
-            <Picker.Item label='PLACEHOLDER2' value='temp' />
-          </Picker>
-        </View>
-      </View>
-      {/* page divider */}
-      <View style={styles().dividerView}>
-        <View style={styles().divider} />
-      </View>
-      <View>
-        <Text style={styles().bodyText}>Display recommended activity levels</Text>
-        <Switch
-          trackColor={{ 
-            false: global.colorblindMode 
-              ? global.cb_switchTrackColorFalse
-              : global.switchTrackColorFalse,
-            true: global.colorblindMode
-              ? global.cb_switchTrackColorTrue 
-              : global.switchTrackColorTrue
-          }}
-          thumbColor={
-            useReccActivity
-              ? (global.colorblindMode 
-                ? global.cb_switchThumbColorTrue
-                : global.switchThumbColorTrue)
-              : (global.colorblindMode
-                ? global.cb_switchThumbColorFalse
-                : global.switchThumbColorFalse)
-          }
-          ios_backgroundColor={global.cb_switchIosBackgroundColor}
-          onValueChange={toggleReccActivity}
-          value={useReccActivity}
-        />
-      </View>
-      {/* page divider */}
-      <View style={styles().dividerView}>
-        <View style={styles().divider} />
-      </View>
-      <View>
-        <Text style={styles().bodyText}>
-          ADD APPROPRIATE TEXT HERE
-        </Text>
-        {/*<ProperSleepAnalysis />*/}
-      </View>
-      <View>
-        <Text style={styles().bodyText}>
-          ADD APPROPRIATE TEXT HERE
-        </Text>
-        {/*<NotEnoughSleepAnalysis />*/}
-      </View>
-      <View>
-        <Text style={styles().bodyText}>
-          ADD APPROPRIATE TEXT HERE
-        </Text>
-        {/*<OversleptSleepAnalysis />*/}
-      </View>
+      </ScrollView>
       <NavBar history={true} navigation={navigation} />
     </SafeAreaView>
   );
@@ -183,30 +148,29 @@ const styles = () => StyleSheet.create({
   avatar: {
     width: 75,
     height: 75,
-    marginRight: 24,
   },
-  buttons: {
-    marginTop: 10,
-    marginBottom: 10,
-    width: 80,
-    height: 25,
+  avatarView: {
+    flexDirection: 'row',
+    marginTop: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '90%',
+  },
+  categories: {
+    flexDirection: 'row', 
+    alignSelf: 'center', 
+    alignItems: 'center', 
+    marginVertical: 2, 
+    marginHorizontal: 4,
+  },
+  categoriesView: {
+    alignSelf: 'flex-end',
+    marginBottom: -16,
+    borderRadius: 8,
+    marginRight: '5%',
     backgroundColor: global.colorblindMode
-      ? global.cb_optionButtonsColor
-      : global.optionButtonsColor,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 8,
-  },
-  chooserImg: {
-    borderWidth: 1,
-    borderColor: global.colorblindMode
-      ? global.cb_optionButtonsColor
-      : global.optionButtonsColor,
-    width: 40,
-    height: 40,
+      ? global.cb_navBarCurrentIconColor
+      : global.navBarCurrentIconColor,
   },
   divider: {
     flex: 1,
@@ -223,33 +187,57 @@ const styles = () => StyleSheet.create({
     marginTop: 20,
     marginBottom: 20,
   },
-  inlineRow: {
-    flexDirection: 'row',
-    width: '90%',
-    alignItems: 'center',
-  },
-  inlineRowBackgrd: {
-    backgroundColor: global.colorblindMode
-      ? global.cb_optionButtonsColor
-      : global.optionButtonsColor, 
-    width: 300, 
-    height: 30,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  inlineRowModal: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  textReg: {
-    color: 'white',
-    textDecorationLine: 'none',
-    textAlign: 'center',
-    fontSize: 12,
-  },
-  bodyText: {
+  heading: {
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  pageDescription: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+    fontSize: 16,
+    fontWeight: 'bold',
+    flex: 1,
+    flexWrap: 'wrap',
+    marginRight: 20,
+  },
+  pageEnd: {
+    marginBottom: 100,
+  },
+  pageSetup: {
+    alignItems: 'center',
+    height: '100%',
+  },
+  picker: {
+    flex: 1,
+    height: 32,
+  },
+  pickerView: {
+    borderWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    width: '80%',
+    backgroundColor: global.colorblindMode
+      ? global.cb_textInputFillColor
+      : global.textInputFillColor,
+  },
+  text: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  textAlt: {
+    color: 'white',
+    textDecorationLine: 'none',
+    textAlign: 'center',
+    fontSize: 16,
   },
 });

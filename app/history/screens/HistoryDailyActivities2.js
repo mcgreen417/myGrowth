@@ -4,9 +4,7 @@ import {
   SafeAreaView,
   Text,
   View,
-  Button,
   Image,
-  Switch,
   TouchableOpacity,
   Modal,
   ScrollView,
@@ -72,8 +70,9 @@ function HistoryDailyActivities2({ navigation }) {
           {/* Custom history component */}
           <TabBarAndContent dailyActivities={true} navigation={navigation} />
 
+          {/* Select Activity drop-down selection */}
           <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, }}>
-            <Text style={styles().bodyText}>SELECT ACTIVITY</Text>
+            <Text style={styles().heading}>SELECT ACTIVITY</Text>
             <View style={styles().pickerView}>
               <Picker
                 selectedValue={selectactivity}

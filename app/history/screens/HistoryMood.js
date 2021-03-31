@@ -4,7 +4,6 @@ import {
   SafeAreaView,
   Text,
   View,
-  Button,
   Image,
   TouchableOpacity,
   Modal,
@@ -37,8 +36,8 @@ function HistoryMood({ navigation }) {
           {/* Gardener avatar + page blurb */}
           <View style={styles().avatarView}>
             <Text style={styles().pageDescription}>
-              View your mood history and easily visualize changes in your mood 
-              over time, alongside potential causes for these changes.
+              View your changes in mood over time and our analysis of some of the
+              potential causes of these changes.
             </Text>
             <Image
               style={styles().avatar}
@@ -71,7 +70,7 @@ function HistoryMood({ navigation }) {
           {/* Custom history component */}
           <TabBarAndContent historyGenComp={true} navigation={navigation} />
 
-          {/* Time period drop-down selection */}
+          {/* Time Period drop-down selection */}
           <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, }}>
             <Text style={styles().heading}>TIME PERIOD</Text>
             <View style={styles().pickerView}>
@@ -95,10 +94,10 @@ function HistoryMood({ navigation }) {
           </View>
 
           {/* App suggestions */}
-          <View style={{ marginHorizontal: '5%', }}>
+          <View style={{ marginHorizontal: '5%', marginBottom: 20, }}>
+            {/* Positive mood analysis */}
             <Text style={styles().text}>
-              Based on our analysis, the following activities may help to increase
-              your mood...
+              Based on our analysis, the following activities may help increase your mood...
             </Text>
             <View style={styles().suggestionView}>
                <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
@@ -141,6 +140,7 @@ function HistoryMood({ navigation }) {
               </View>
             </View>
 
+            {/* Negative mood analysis */}
             <Text style={styles().text}>
               Likewise, if you're felling unhappy, you may want to consider
               avoiding the following activities...
@@ -185,6 +185,14 @@ function HistoryMood({ navigation }) {
                 </View>
               </View>
             </View>
+
+            {/* Medical disclaimer */}
+            <Text style={styles().textLightSmall}>
+              ** As a reminder, these analyses indicate correlation, not causation, and thus 
+              may not indicate direct effects of your daily habits. You may wish to speak to 
+              a medical professional if you undergo frequent mood swings or extended periods 
+              of low mood without relief.
+            </Text>
           </View>
 
           <View style={styles().pageEnd} />
@@ -312,5 +320,12 @@ const styles = () => StyleSheet.create({
     textDecorationLine: 'none',
     textAlign: 'center',
     fontSize: 16,
+  },
+  textLightSmall: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+    fontSize: 14,
+    textAlign: 'center',
   },
 });

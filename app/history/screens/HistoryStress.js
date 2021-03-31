@@ -4,7 +4,6 @@ import {
   SafeAreaView,
   Text,
   View,
-  Button,
   Image,
   TouchableOpacity,
   Modal,
@@ -37,8 +36,8 @@ function HistoryStress({ navigation }) {
           {/* Gardener avatar + page blurb */}
           <View style={styles().avatarView}>
             <Text style={styles().pageDescription}>
-            View your history of stress and easily visualize changes in your 
-            stress levels over time, alonside potential causes for these changes.
+              View your changes in stress levels over time and our analysis of some 
+              of the potential causes of these changes.
             </Text>
             <Image
               style={styles().avatar}
@@ -71,7 +70,7 @@ function HistoryStress({ navigation }) {
           {/* Custom history component */}
           <TabBarAndContent historyGenComp={true} navigation={navigation} />
 
-          {/* Time period drop-down selection */}
+          {/* Time Period drop-down selection */}
           <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, }}>
             <Text style={styles().heading}>TIME PERIOD</Text>
             <View style={styles().pickerView}>
@@ -95,7 +94,8 @@ function HistoryStress({ navigation }) {
           </View>
 
           {/* App suggestions */}
-          <View style={{ marginHorizontal: '5%', }}>
+          <View style={{ marginHorizontal: '5%', marginBottom: 20, }}>
+            {/* Stress-free activities recommendations */}
             <Text style={styles().text}>
               Based on our analysis, the following activities may help to reduce
               your stress...
@@ -141,6 +141,7 @@ function HistoryStress({ navigation }) {
               </View>
             </View>
 
+            {/* Stressful activities recommendations */}
             <Text style={styles().text}>
               Likewise, if you're felling stressed, you may want to consider 
               avoiding the following activities...
@@ -185,6 +186,13 @@ function HistoryStress({ navigation }) {
                 </View>
               </View>
             </View>
+
+            {/* Medical disclaimer */}
+            <Text style={styles().textLightSmall}>
+              ** As a reminder, these analyses indicate correlation, not causation, and thus 
+              may not indicate direct effects of your daily habits. You may wish to speak to 
+              a medical professional if you undergo extended periods of high stress without relief.
+            </Text>
           </View>
 
           <View style={styles().pageEnd} />
@@ -312,5 +320,12 @@ const styles = () => StyleSheet.create({
     textDecorationLine: 'none',
     textAlign: 'center',
     fontSize: 16,
+  },
+  textLightSmall: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+    fontSize: 14,
+    textAlign: 'center',
   },
 });

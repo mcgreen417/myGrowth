@@ -4,9 +4,7 @@ import {
   SafeAreaView,
   Text,
   View,
-  Button,
   Image,
-  Switch,
   TouchableOpacity,
   Modal,
   ScrollView,
@@ -72,7 +70,7 @@ function HistoryDailyActivities1({ navigation }) {
           {/* Custom history component */}
           <TabBarAndContent dailyActivities={true} navigation={navigation} />
 
-          {/* Time period drop-down selection */}
+          {/* Time Period drop-down selection */}
           <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, }}>
             <Text style={styles().heading}>TIME PERIOD</Text>
             <View style={styles().pickerView}>

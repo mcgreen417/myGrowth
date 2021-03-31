@@ -126,16 +126,10 @@ const HistorySelectACategory = ({
           {/* Body of modal */}
           <View
             style={{
-              marginHorizontal: '5%',
               flexDirection: 'row',
-              // flex: 1,
               flexWrap: 'wrap',
-              // flexGrow: 1,
-              // height: '50%',
-              width: '100%',
-              // justifyContent: 'center',
-              // borderWidth: 2,
-              // borderColor: 'red',
+              width: '90%',
+              justifyContent: 'center',
               maxHeight: '60%',
             }}>
             {/* Will create each of the icons for all pages */}
@@ -162,11 +156,8 @@ const styles = () =>
       backgroundColor: global.colorblindMode
         ? global.cb_pageBackgroundColor
         : global.pageBackgroundColor,
-      // justifyContent: 'center',
       alignItems: 'center',
-      // alignSelf: 'center',
       width: '70%',
-      // height: '60%',
       borderRadius: 10,
       shadowColor: '#000',
       shadowOffset: {
@@ -176,8 +167,6 @@ const styles = () =>
       shadowOpacity: 0.23,
       shadowRadius: 2.62,
       elevation: 4,
-      // borderWidth: 2,
-      // borderColor: 'blue',
     },
     modalHeaderBar: {
       backgroundColor: global.colorblindMode
@@ -185,8 +174,8 @@ const styles = () =>
         : global.optionButtonsColor,
       flexDirection: 'row',
       alignItems: 'center',
-      // borderWidth: 2,
-      // borderColor: 'red',
+      borderTopLeftRadius: 10,
+      borderTopRightRadius: 10,
     },
     textAlt: {
       color: 'white',
