@@ -64,14 +64,27 @@ async function submit(
   stress,
   stressors,
   activities,
+  symptoms,
+  period,
+  weight,
   navigation
 ) {
-  console.log(activities);
+  console.log(symptoms);
+  console.log(period);
+  console.log(weight);
   const activitiesIn = activities;
   const stressIn = { Severity: stress, Stressors: stressors };
   const moodIn = { Mood: mood, Feelings: feelings };
+  const healthIn = { Period: period, Weight: weight };
+  const symptomIn = symptoms;
 
-  const query = { Mood: moodIn, Stress: stressIn, Activities: activitiesIn };
+  const query = {
+    Mood: moodIn,
+    Stress: stressIn,
+    Activities: activitiesIn,
+    Health: healthIn,
+    Symptoms: symptomIn,
+  };
   console.log(query);
   const res = await API.graphql({
     query: mutations.updateDailyEntry,
@@ -92,6 +105,8 @@ const HealthEntry = ({ navigation }) => {
   const [showAdvanceMealTracking, setShowAdvanceMealTracking] = useState(false);
   const [med, setMed] = useState(Array(medication.length).fill(false));
   const [hadPeriod, setHadPeriod] = useState(false);
+  const [weight, setWeight] = useState(0);
+  const [symptoms, setSymptoms] = useState([]);
   const [hadSleep, setHadSleep] = useState(true);
   const [qualityOfSleep, setQualityOfSleep] = useState(2);
   const [qualityOfNap, setQualityOfNap] = useState(2);
@@ -190,6 +205,10 @@ const HealthEntry = ({ navigation }) => {
           <PhysicalMentalHealth
             hadPeriod={hadPeriod}
             setHadPeriod={setHadPeriod}
+            weight={weight}
+            setWeight={setWeight}
+            symptoms={symptoms}
+            setSymptoms={setSymptoms}
           />
           <View style={styles().dividerView}>
             <View style={styles().divider} />
@@ -249,7 +268,17 @@ const HealthEntry = ({ navigation }) => {
                 title='Save Entry'
                 color='#A5DFB2'
                 onPress={() =>
-                  submit(mood, feels, stress, stressors, activities, navigation)
+                  submit(
+                    mood,
+                    feels,
+                    stress,
+                    stressors,
+                    activities,
+                    symptoms,
+                    hadPeriod,
+                    weight,
+                    navigation
+                  )
                 }
               />
             </View>

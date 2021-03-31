@@ -12,7 +12,7 @@ import {
 
 const AddActivitiesModal = ({ activities, setActivities }) => {
   const [activityName, setActivityName] = useState('');
-  const [activityDuration, setActivityDuration] = useState(0);
+  const [activityDuration, setActivityDuration] = useState('');
 
   return (
     <Pressable>
@@ -28,7 +28,7 @@ const AddActivitiesModal = ({ activities, setActivities }) => {
               textAlign: 'center',
               width: 50,
             }}
-            keyboardType='number-pad'
+            keyboardType='default'
             value={activityName}
             onChangeText={setActivityName}
           />
@@ -43,6 +43,7 @@ const AddActivitiesModal = ({ activities, setActivities }) => {
               textAlign: 'center',
               width: 50,
             }}
+            keyboardType='number-pad'
             value={activityDuration}
             onChangeText={setActivityDuration}
           />
