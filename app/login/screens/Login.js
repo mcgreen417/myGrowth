@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Auth, API } from 'aws-amplify';
 import {
+  Alert,
   StyleSheet,
   Text,
   View,
@@ -117,48 +118,68 @@ function Login({ navigation }) {
   );
 }
 
-async function signIn(username, pw, navigation) {
-  try {
-    //await signOut(); // This is to clear any tokens saved when debugging
-    
-    //instantiate new cache
-    const cache = new Cache({
-      namespace: "myapp",
-      policy: {
-        maxEntries: 50000
+const createAlert = (title, message) => {
+  Alert.alert(
+    title,
+    message,
+    [
+      {
+        text: 'Cancel',
+        style: 'cancel'
       },
-      backend: AsyncStorage
-    });
+      { text: 'OK', }
+    ]
+  );
+}
 
-    const user = await Auth.signIn(username, pw);
-    
-    //empty settings in db
-    if(user.attributes['custom:initialized'] == 0)
-      navigation.navigate('UserInitialization1');
-
-    //non-empty settings in db
-    if(user.attributes['custom:initialized'] == 1) {
-      const res = await API.graphql({
-        query: queries.getSetting,
-        variables: {UserID: user.username}
+async function signIn(username, pw, navigation) {
+  if (!username || !pw) {
+    createAlert('Oh no!', 'The email and/or password fields cannot be empty, please try again.');
+  } else {
+    try {
+      //await signOut(); // This is to clear any tokens saved when debugging
+      
+      //instantiate new cache
+      const cache = new Cache({
+        namespace: "myapp",
+        policy: {
+          maxEntries: 50000
+        },
+        backend: AsyncStorage
       });
 
-      //store settings from db
-      await cache.set("settings", res.data.getSetting.Options);
+      const user = await Auth.signIn(username, pw);
+      
+      //empty settings in db
+      if(user.attributes['custom:initialized'] == 0)
+        navigation.navigate('UserInitialization1');
 
-      navigation.navigate('Home');
-    }
-  } catch (error) {
-    console.log('error signing in', error);
-    
-    // Error code handling
-    // Update with other different errors (incorrect pass, not a user, etc.)
-    switch(error.code) {
-      case "UserNotConfirmedException":
-        navigation.navigate('VerificationCode', { username: username });
-        break;
-      default:
-        // code block
+      //non-empty settings in db
+      if(user.attributes['custom:initialized'] == 1) {
+        const res = await API.graphql({
+          query: queries.getSetting,
+          variables: {UserID: user.username}
+        });
+
+        //store settings from db
+        await cache.set("settings", res.data.getSetting.Options);
+
+        navigation.navigate('Home');
+      }
+    } catch (error) {
+      // console.log(error);
+
+      // Error code handling
+      // Update with other different errors (incorrect pass, not a user, etc.)
+      switch(error.code) {
+        case 'UserNotConfirmedException':
+          navigation.navigate('VerificationCode', { username: username });
+          break;
+        case 'NotAuthorizedException':
+          createAlert('Oh no!', 'Email and password combination not found, please check your information and try again.');
+        default:
+          createAlert('Error', 'Please try signing in again.');
+      }
     }
   }
 }
