@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Auth, API } from 'aws-amplify';
 import {
+  Alert,
   StyleSheet,
   Text,
   View,
@@ -90,24 +91,41 @@ function SignUp({ navigation }) {
     setConfirmPassword(val);
   }
 
-  const checkRequiredFields = () => {
+  const checkRequiredFields = (email, password, confirmPassword, navigation) => {
     const ableToSignUp = (signupProperties.validEmail
                           && signupProperties.validPassword
                           && signupProperties.validConfirmPassword);
+    const validEmail = signupProperties.validEmail;
+    const validPassword = signupProperties.validPassword;
+    const validConfirmPassword = signupProperties.validConfirmPassword;
+
 
     if (ableToSignUp) {
       setSignupProperties({
         ...signupProperties,
         validSignUp: true,
       });
-      
-      signUp(email, password, confirmPassword, navigation);
+
+      signUp(email, password, navigation);
 
     } else {
       setSignupProperties({
         ...signupProperties,
         validSignUp: false,
       });
+
+      // Check to make sure if caught all cases and probably convert to a switch statement.
+      if (!validEmail && !validPassword && !validConfirmPassword) {
+        createAlert('Oh no!', 'Please double-check your entered information in all fields and try again.');
+      } else if (!validEmail) {
+        createAlert('Oh no!', 'Your email was typed incorrectly!  Please re-enter it and try again.');
+      } else if (password !== confirmPassword) {
+        createAlert('Oh no!', 'Your password was entered differently in both boxes.  Please try again.');
+      } else if (!validPassword && !validConfirmPassword) {
+        createAlert('Oh no!', 'Your password is missing some important characters - please check the requirements and try again.');
+      } else {
+        createAlert('Error', 'Please check all fields and try again.');
+      }
     }    
 
     return signupProperties.validSignUp;
@@ -200,7 +218,7 @@ function SignUp({ navigation }) {
                 ? global.cb_optionButtonsColor
                 : global.optionButtonsColor
             }
-            onPress={() => {checkRequiredFields();}}
+            onPress={() => {checkRequiredFields(email, password, confirmPassword, navigation);}}
           />
           <View style={{ marginVertical: 8 }} />
         </View>
@@ -240,22 +258,18 @@ const createAlert = (title, message) => {
     message,
     [
       {
-        text: "Cancel",
-        style: "cancel"
+        text: 'Cancel',
+        style: 'cancel'
       },
-      { text: "OK", }
+      { text: 'OK', }
     ]
   );
 }
 
-async function signUp(email, password, confirmPassword, navigation) {
+async function signUp(email, password, signupProperties, navigation) {
   const username = email;
 
-
   try {
-    if (password != confirmPassword) {
-      throw 'Password and Confirm Password are not the same';
-    }
     const { user } = await Auth.signUp({
       username,
       password,
