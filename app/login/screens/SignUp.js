@@ -140,6 +140,7 @@ function SignUp({ navigation }) {
             }
             keyboardType='email-address'
             value={email}
+            maxLength={320}
             onChangeText={(email) => {
               emailTextInputChange(email);
             }}
@@ -155,6 +156,7 @@ function SignUp({ navigation }) {
             }
             secureTextEntry={true}
             value={password}
+            maxLength={99}
             onChangeText={(password) => {
               handlePasswordChange(password);
             }}
