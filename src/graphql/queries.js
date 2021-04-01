@@ -6,11 +6,6 @@ export const helloWorld = /* GraphQL */ `
     helloWorld(consumer_key: $consumer_key, consumer_secret: $consumer_secret)
   }
 `;
-export const function2 = /* GraphQL */ `
-  query Function2($consumer_key: String, $consumer_secret: String) {
-    function2(consumer_key: $consumer_key, consumer_secret: $consumer_secret)
-  }
-`;
 export const getMilestones = /* GraphQL */ `
   query GetMilestones($UserID: ID, $count: Int, $nextToken: String) {
     getMilestones(UserID: $UserID, count: $count, nextToken: $nextToken) {
