@@ -266,7 +266,7 @@ const createAlert = (title, message) => {
   );
 }
 
-async function signUp(email, password, signupProperties, navigation) {
+async function signUp(email, password, navigation) {
   const username = email;
 
   try {
@@ -280,7 +280,7 @@ async function signUp(email, password, signupProperties, navigation) {
     });
     navigation.navigate('VerificationCode', { username: username });
   } catch (error) {
-    console.log('error signing up', error);
+    createAlert('Error', 'Error signing up.  Please try again.');
   }
 }
 
