@@ -91,7 +91,7 @@ function SignUp({ navigation }) {
     setConfirmPassword(val);
   }
 
-  const checkRequiredFields = (email, password, confirmPassword, navigation) => {
+  const checkRequiredFields = (email, password, navigation) => {
     const ableToSignUp = (signupProperties.validEmail
                           && signupProperties.validPassword
                           && signupProperties.validConfirmPassword);
