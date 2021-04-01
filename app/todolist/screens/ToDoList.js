@@ -208,6 +208,7 @@ const ToDoList = ({ navigation }) => {
           />
         </Pressable>
       </Modal>
+      
       {/* Gardener avatar + page blurb */}
       <View style={styles().avatarView}>
         <Text style={styles().pageDescription}>
@@ -222,12 +223,12 @@ const ToDoList = ({ navigation }) => {
       <View style={styles().divider} />
 
       {/* Category listing */}
-      <View style={styles().inlineRow}>
+      <View style={{ flexDirection: 'row', marginHorizontal: '3%' }}>
         <Icon name='chevron-back' type='ionicon' color='#816868' />
         <ScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          style={{ width: '82%' }}>
+          style={{ width: '82%', }}>
           <View style={styles().categoryView}>
             <Text style={styles().categoryText}>School</Text>
           </View>
@@ -386,6 +387,7 @@ const styles = () => StyleSheet.create({
     height: 1,
     backgroundColor: '#816868',
     marginVertical: 20,
+    marginHorizontal: 20,
   },
   categoryText: {
     marginVertical: 6,

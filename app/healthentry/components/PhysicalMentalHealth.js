@@ -20,36 +20,41 @@ const AddSymptomsModal = ({ symptoms, setSymptoms }) => {
       {console.log(symptoms)}
       <View style={styles().modalView}>
         <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-          <Text>Symptom Title</Text>
+          <Text style={styles().text}>Symptom:</Text>
           <TextInput
-            placeholder='Symptom'
+            placeholder='Symptom Name'
             style={{
               borderBottomColor: '#C4BEBD',
               borderBottomWidth: 1,
               textAlign: 'center',
-              width: 50,
+              width: 150,
+              marginLeft: 10,
             }}
             keyboardType='default'
             value={symptomTitle}
             onChangeText={setSymptomTitle}
           />
         </View>
-        <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-          <Text>Symptom Severity</Text>
+        
+        <View style={{ alignItems: 'center', flexDirection: 'row', marginTop: 10, }}>
+          <Text style={styles().text}>Symptom Severity:</Text>
           <TextInput
-            placeholder='Symptom'
+            placeholder='#'
             style={{
               borderBottomColor: '#C4BEBD',
               borderBottomWidth: 1,
               textAlign: 'center',
               width: 50,
+              marginHorizontal: 10,
             }}
             keyboardType='number-pad'
             value={symptomSeverity}
             onChangeText={setSymptomSeverity}
           />
+          <Text style={styles().textLight}>(1-10)</Text>
         </View>
-        <View style={{ width: '50%' }}>
+
+        <View style={{ width: '50%', marginVertical: 20, }}>
           <Button
             title='Add Symptom'
             onPress={() => {
@@ -63,6 +68,11 @@ const AddSymptomsModal = ({ symptoms, setSymptoms }) => {
               console.log('symptoms', symptoms);
               console.log('symptoms', symptoms);
             }}
+            color={
+              global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+            }
           />
         </View>
       </View>
@@ -81,7 +91,7 @@ const PhysicalMentalHealth = ({
   const [showAddSymptom, setShowAddSymptom] = useState(false);
 
   return (
-    <View style={{ width: '80%' }}>
+    <View style={{ width: '90%' }}>
       <Modal
         transparent={true}
         visible={showAddSymptom}
@@ -100,43 +110,62 @@ const PhysicalMentalHealth = ({
           <AddSymptomsModal symptoms={symptoms} setSymptoms={setSymptoms} />
         </Pressable>
       </Modal>
-      <Text>Physical & Mental Health</Text>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text>Did you have your period today?</Text>
-        <Switch
-          trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
-          thumbColor={hadPeriod ? '#4CB97A' : '#f4f3f4'}
-          ios_backgroundColor='#3e3e3e'
-          onValueChange={() => setHadPeriod(!hadPeriod)}
-          value={hadPeriod}
-        />
+
+      <Text style={styles().heading}>PHYSICAL & MENTAL HEALTH</Text>
+
+      <View style={{ marginTop: 10, }}/>
+      <View style={styles().line}/>
+      <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+        <Text style={styles().textLight}>Did you have your period today?</Text>
+        <View style={styles().switchView}>
+          <View style={styles().line2}/>
+          <Switch
+            trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
+            thumbColor={hadPeriod ? '#4CB97A' : '#f4f3f4'}
+            ios_backgroundColor='#3e3e3e'
+            onValueChange={() => setHadPeriod(!hadPeriod)}
+            value={hadPeriod}
+            style={{ marginLeft: 8, }}
+          />
+        </View>
       </View>
-      <Text>
+      <View style={styles().line}/>
+      <View style={{ marginBottom: 20, }}/>
+
+      <Text style={styles().textLight}>
         If you have weighed yourself today, how much do you weigh? (Leave field
         blank if you are unsure.)
       </Text>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, marginBottom: 20, }}>
         <TextInput
           placeholder='#'
           style={{
             borderBottomColor: '#C4BEBD',
             borderBottomWidth: 1,
             textAlign: 'center',
+            width: 50,
           }}
           keyboardType='number-pad'
           value={weight.toString()}
           onChangeText={(val) => setWeight(parseInt(val))}
         />
-        <Text>lbs</Text>
+        <Text style={styles().textLight}> lbs</Text>
       </View>
-      <Text>
-        Have you experienced any unusual physical or mental health symptoms
-        today?
+
+      <Text style={styles().textLight}>
+        Have you experienced any unusual physical or mental health symptoms today?
       </Text>
-      <View style={{ width: '50%' }}>
+
+      <View style={{ width: '40%', marginTop: 20, }}>
         <Button
           title='+ Add Symptoms'
           onPress={() => setShowAddSymptom(true)}
+          color={
+            global.colorblindMode
+            ? global.cb_optionButtonsColor
+            : global.optionButtonsColor
+          }
         />
       </View>
     </View>
@@ -155,80 +184,34 @@ const styles = () =>
       justifyContent: 'center',
       alignSelf: 'center',
       width: '100%',
-      margin: 0,
-    },
-    avatar: {
-      width: 75,
-      height: 75,
-    },
-    avatarView: {
-      flexDirection: 'row',
-      marginTop: 20,
-      alignSelf: 'center',
-      justifyContent: 'center',
-      width: '90%',
-    },
-    divider: {
-      height: 1,
-      backgroundColor: '#816868',
-      marginVertical: 20,
-    },
-    categoryText: {
-      marginVertical: 6,
-      marginHorizontal: 16,
-      color: '#F5F5F5',
-      fontSize: 16,
-    },
-    categoryView: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: '#4CB97A',
-      borderRadius: 20,
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.23,
-      shadowRadius: 2.62,
-      elevation: 4,
-      marginHorizontal: 2,
     },
     heading: {
-      color: '#4CB97A',
-      fontSize: 20,
+      color: global.colorblindMode
+        ? global.cb_textColor
+        : global.textColor,
+      fontSize: 16,
       fontWeight: 'bold',
+      marginBottom: 10,
     },
-    iconView: {
+    line: {
+      borderColor: global.colorblindMode
+        ? global.cb_lineColor
+        : global.lineColor,
+      borderBottomWidth: 1,
+      minHeight: 1,
+    },
+    line2: {
+      borderColor: global.colorblindMode
+        ? global.cb_lineColor
+        : global.lineColor,
+      borderRightWidth: 1,
+      minHeight: 28,
+      marginTop: 4,
+      marginBottom: 4,
       flex: 1,
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'flex-end',
-    },
-    inlineRow: {
-      flexDirection: 'row',
-      width: '100%',
-      alignItems: 'center',
-    },
-    text: {
-      color: '#816868',
-      fontSize: 16,
-      textAlign: 'center',
-    },
-    pageDescription: {
-      color: '#816868',
-      fontSize: 20,
-      flex: 1,
-      flexWrap: 'wrap',
-      fontWeight: 'bold',
-      marginRight: 20,
-    },
-    pageEnd: {
-      marginBottom: 100,
-    },
-    pageSetup: {
-      justifyContent: 'center',
-      alignItems: 'center',
     },
     modalView: {
       margin: 20,
@@ -240,29 +223,30 @@ const styles = () =>
       alignItems: 'center',
       shadowColor: '#000',
       shadowOffset: {
-        width: 0,
         height: 2,
       },
       shadowOpacity: 0.5,
       shadowRadius: 4,
       elevation: 7,
     },
-    picker: {
-      height: 32,
-      width: '100%',
-    },
-    pickerView: {
-      borderWidth: 1,
-      marginBottom: 20,
+    switchView: {
+      flex: 1,
       flexDirection: 'row',
-      justifyContent: 'flex-start',
-      alignItems: 'flex-start',
-      width: '70%',
-      backgroundColor: '#f4f3f4',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
-    textReg: {
-      color: global.colorblindMode ? global.cb_textColor : global.textColor,
-      textDecorationLine: 'none',
-      textAlign: 'left',
+    text: {
+      color: global.colorblindMode 
+        ? global.cb_textColor 
+        : global.textColor,
+      fontSize: 16,
+      textAlign: 'center',
+      fontWeight: 'bold',
+    },
+    textLight: {
+      color: global.colorblindMode 
+        ? global.cb_textColor 
+        : global.textColor,
+      fontSize: 16,
     },
   });

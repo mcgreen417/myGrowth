@@ -11,29 +11,35 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 
+{/* Add Feelings pop-up */}
 const FeelingsModal = ({ feelings, setFeelings }) => {
   const [feel, setFeel] = useState();
+
   return (
     <Pressable>
       {console.log(feelings)}
       <View style={styles().modalView}>
-        <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-          <Text>Feelings</Text>
+        {/* Feeling user input box */}
+        <View style={{ alignItems: 'center', flexDirection: 'row', }}>
+          <Text style={styles().text}>Feeling:</Text>
           <TextInput
-            placeholder='Feelings'
+            placeholder='Feeling Name'
             style={{
               borderBottomColor: '#C4BEBD',
               borderBottomWidth: 1,
               textAlign: 'center',
-              width: 100,
+              width: 150,
+              marginLeft: 10,
             }}
             value={feel}
             onChangeText={setFeel}
           />
         </View>
-        <View style={{ width: '50%' }}>
+
+        {/* Add Feeling button */}
+        <View style={{ width: '50%', marginVertical: 20, }}>
           <Button
-            title='Add Feelings'
+            title='Add Feeling'
             onPress={() => {
               let temp = new Array(feel).concat(feelings);
               console.log('temp:', temp);
@@ -41,6 +47,11 @@ const FeelingsModal = ({ feelings, setFeelings }) => {
               console.log('feelings', feelings);
               console.log('feelings', feelings);
             }}
+            color={
+              global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+            }
           />
         </View>
       </View>
@@ -48,10 +59,13 @@ const FeelingsModal = ({ feelings, setFeelings }) => {
   );
 };
 
+{/* Mood selection */}
 const Mood = ({ mood, setMood, feels, setFeels }) => {
   const [showFeelings, setShowFeelings] = useState(false);
   return (
-    <View style={{ width: '80%' }}>
+
+    <View style={{ width: '90%' }}>
+      {/* Add Feelings modal */}
       <Modal
         transparent={true}
         visible={showFeelings}
@@ -70,86 +84,143 @@ const Mood = ({ mood, setMood, feels, setFeels }) => {
           <FeelingsModal feelings={feels} setFeelings={setFeels} />
         </Pressable>
       </Modal>
-      <View>
-        <Text>Mood</Text>
-      </View>
-      <View style={{ flexDirection: 'row', marginTop: 10, marginBottom: 10 }}>
-        <View style={{ alignItems: 'center' }}>
+      
+      {/* Mood heading */}
+      <Text style={styles().heading}>MOOD</Text>
+
+      <View style={{ flexDirection: 'row', marginVertical: 10, justifyContent: 'space-between', }}>
+        <View style={{ alignItems: 'center', }}>
+          {/* Awful face */}
           <Pressable
-            style={{ marginLeft: 5, marginRight: 5 }}
+            style={{ marginBottom: 4, }}
             onPress={() => setMood(1)}>
             <Icon
               type='fontisto'
               name='mad'
               size={(Dimensions.get('window').width * 0.8) / 5 - 10}
               onPress={() => setMood(1)}
-              color={mood == 1 ? '#4CB97A' : 'black'}
+              color={mood == 1 ? '#4CB97A' : '#816868'}
             />
           </Pressable>
-
-          <Text>Awful</Text>
+          <Text 
+            style={{
+              color: mood == 1 
+                ? '#4CB97A'
+                : (global.colorblindMode 
+                  ? global.cb_textColor 
+                  : global.textColor),
+              fontSize: 16,
+              textAlign: 'center',
+            }}>Awful</Text>
         </View>
+        
+        {/* Bad face */}
         <View style={{ alignItems: 'center' }}>
           <Pressable
-            style={{ marginLeft: 5, marginRight: 5 }}
+            style={{ marginBottom: 4, }}
             onPress={() => setMood(2)}>
             <Icon
               type='fontisto'
               name='frowning'
               size={(Dimensions.get('window').width * 0.8) / 5 - 10}
-              color={mood == 2 ? '#4CB97A' : 'black'}
+              color={mood == 2 ? '#4CB97A' : '#816868'}
             />
           </Pressable>
-
-          <Text>Bad</Text>
+          <Text 
+            style={{
+              color: mood == 2 
+                ? '#4CB97A'
+                : (global.colorblindMode 
+                  ? global.cb_textColor 
+                  : global.textColor),
+              fontSize: 16,
+              textAlign: 'center',
+            }}>Bad</Text>
         </View>
+        
+        {/* Okay face */}
         <View style={{ alignItems: 'center' }}>
           <Pressable
-            style={{ marginLeft: 5, marginRight: 5 }}
+            style={{ marginBottom: 4, }}
             onPress={() => setMood(3)}>
             <Icon
               type='fontisto'
               name='neutral'
               size={(Dimensions.get('window').width * 0.8) / 5 - 10}
-              color={mood == 3 ? '#4CB97A' : 'black'}
+              color={mood == 3 ? '#4CB97A' : '#816868'}
             />
           </Pressable>
-
-          <Text>Okay</Text>
+          <Text 
+            style={{
+              color: mood == 3 
+                ? '#4CB97A'
+                : (global.colorblindMode 
+                  ? global.cb_textColor 
+                  : global.textColor),
+              fontSize: 16,
+              textAlign: 'center',
+            }}>Okay</Text>
         </View>
+
+        {/* Good face */}
         <View style={{ alignItems: 'center' }}>
           <Pressable
-            style={{ marginLeft: 5, marginRight: 5 }}
+            style={{ marginBottom: 4, }}
             onPress={() => setMood(4)}>
             <Icon
               type='fontisto'
               name='smiling'
               size={(Dimensions.get('window').width * 0.8) / 5 - 10}
-              color={mood == 4 ? '#4CB97A' : 'black'}
+              color={mood == 4 ? '#4CB97A' : '#816868'}
             />
           </Pressable>
-
-          <Text>Good</Text>
+          <Text 
+            style={{
+              color: mood == 4 
+                ? '#4CB97A'
+                : (global.colorblindMode 
+                  ? global.cb_textColor 
+                  : global.textColor),
+              fontSize: 16,
+              textAlign: 'center',
+            }}>Good</Text>
         </View>
+
+        {/* Great face */}
         <View style={{ alignItems: 'center' }}>
           <Pressable
-            style={{ marginLeft: 5, marginRight: 5 }}
+            style={{ marginBottom: 4, }}
             onPress={() => setMood(5)}>
             <Icon
               type='fontisto'
               name='smiley'
               size={(Dimensions.get('window').width * 0.8) / 5 - 10}
-              color={mood == 5 ? '#4CB97A' : 'black'}
+              color={mood == 5 ? '#4CB97A' : '#816868'}
             />
           </Pressable>
-
-          <Text>Great</Text>
+          <Text 
+            style={{
+              color: mood == 5
+                ? '#4CB97A'
+                : (global.colorblindMode 
+                  ? global.cb_textColor 
+                  : global.textColor),
+              fontSize: 16,
+              textAlign: 'center',
+            }}>Great</Text>
         </View>
       </View>
-      <View style={{ width: '50%' }}>
+
+      {/* Add Feelings button */}
+      <View style={{ width: '40%', marginTop: 10, }}>
         <Button
           title='+ Add Feelings'
           onPress={() => setShowFeelings(!showFeelings)}
+          color={
+            global.colorblindMode
+            ? global.cb_optionButtonsColor
+            : global.optionButtonsColor
+          }
         />
       </View>
     </View>
@@ -168,80 +239,14 @@ const styles = () =>
       justifyContent: 'center',
       alignSelf: 'center',
       width: '100%',
-      margin: 0,
-    },
-    avatar: {
-      width: 75,
-      height: 75,
-    },
-    avatarView: {
-      flexDirection: 'row',
-      marginTop: 20,
-      alignSelf: 'center',
-      justifyContent: 'center',
-      width: '90%',
-    },
-    divider: {
-      height: 1,
-      backgroundColor: '#816868',
-      marginVertical: 20,
-    },
-    categoryText: {
-      marginVertical: 6,
-      marginHorizontal: 16,
-      color: '#F5F5F5',
-      fontSize: 16,
-    },
-    categoryView: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: '#4CB97A',
-      borderRadius: 20,
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.23,
-      shadowRadius: 2.62,
-      elevation: 4,
-      marginHorizontal: 2,
     },
     heading: {
-      color: '#4CB97A',
-      fontSize: 20,
-      fontWeight: 'bold',
-    },
-    iconView: {
-      flex: 1,
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'flex-end',
-    },
-    inlineRow: {
-      flexDirection: 'row',
-      width: '100%',
-      alignItems: 'center',
-    },
-    text: {
-      color: '#816868',
+      color: global.colorblindMode
+        ? global.cb_textColor
+        : global.textColor,
       fontSize: 16,
-      textAlign: 'center',
-    },
-    pageDescription: {
-      color: '#816868',
-      fontSize: 20,
-      flex: 1,
-      flexWrap: 'wrap',
       fontWeight: 'bold',
-      marginRight: 20,
-    },
-    pageEnd: {
-      marginBottom: 100,
-    },
-    pageSetup: {
-      justifyContent: 'center',
-      alignItems: 'center',
+      marginBottom: 10,
     },
     modalView: {
       margin: 20,
@@ -253,29 +258,10 @@ const styles = () =>
       alignItems: 'center',
       shadowColor: '#000',
       shadowOffset: {
-        width: 0,
         height: 2,
       },
       shadowOpacity: 0.5,
       shadowRadius: 4,
       elevation: 7,
-    },
-    picker: {
-      height: 32,
-      width: '100%',
-    },
-    pickerView: {
-      borderWidth: 1,
-      marginBottom: 20,
-      flexDirection: 'row',
-      justifyContent: 'flex-start',
-      alignItems: 'flex-start',
-      width: '70%',
-      backgroundColor: '#f4f3f4',
-    },
-    textReg: {
-      color: global.colorblindMode ? global.cb_textColor : global.textColor,
-      textDecorationLine: 'none',
-      textAlign: 'left',
     },
   });
