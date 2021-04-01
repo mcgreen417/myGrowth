@@ -218,7 +218,7 @@ function SignUp({ navigation }) {
                 ? global.cb_optionButtonsColor
                 : global.optionButtonsColor
             }
-            onPress={() => {checkRequiredFields(email, password, confirmPassword, navigation);}}
+            onPress={() => {checkRequiredFields(email, password, navigation);}}
           />
           <View style={{ marginVertical: 8 }} />
         </View>
