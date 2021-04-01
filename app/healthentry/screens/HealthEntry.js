@@ -67,6 +67,10 @@ async function submit(
   symptoms,
   period,
   weight,
+  slept,
+  sleepTime,
+  sleepQuality,
+  naps,
   navigation
 ) {
   console.log(symptoms);
@@ -108,8 +112,10 @@ const HealthEntry = ({ navigation }) => {
   const [weight, setWeight] = useState(0);
   const [symptoms, setSymptoms] = useState([]);
   const [hadSleep, setHadSleep] = useState(true);
-  const [qualityOfSleep, setQualityOfSleep] = useState(2);
-  const [qualityOfNap, setQualityOfNap] = useState(2);
+  const [qualityOfSleep, setQualityOfSleep] = useState(-1);
+  const [sleepTime, setSleepTime] = useState([]);
+  const [qualityOfNap, setQualityOfNap] = useState(-1);
+  const [naps, setNaps] = useState([]);
   const [stress, setStress] = useState(-1);
   const [stressors, setStressors] = useState([]);
   const [mood, setMood] = useState(0);
@@ -228,6 +234,10 @@ const HealthEntry = ({ navigation }) => {
             setQualityOfSleep={setQualityOfSleep}
             qualityOfNap={qualityOfNap}
             setQualityOfNap={setQualityOfNap}
+            naps={naps}
+            setNaps={setNaps}
+            sleepTime={sleepTime}
+            setSleepTime={setSleepTime}
           />
           <View style={styles().dividerView}>
             <View style={styles().divider} />
@@ -277,6 +287,10 @@ const HealthEntry = ({ navigation }) => {
                     symptoms,
                     hadPeriod,
                     weight,
+                    hadSleep,
+                    sleepTime,
+                    qualityOfSleep,
+                    naps,
                     navigation
                   )
                 }

@@ -50,7 +50,7 @@ const Medication = ({ med, setMed }) => {
         })}
       </View>
       <View style={{ width: '50%' }}>
-        <Button title='+ Add Symptoms' />
+        <Button title='+ Add Medication' />
       </View>
     </View>
   );
