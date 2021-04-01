@@ -76,91 +76,107 @@ const AddTask = ({
             flexDirection: 'row',
             alignContent: 'center',
             justifyContent: 'center',
-            width: 300,
-            marginBottom: 10,
+            marginBottom: 20,
           }}>
-          <Icon name='star-outline' style={{ height: 50 }} />
+          <Icon 
+            name='star-outline' 
+            color='#816868'
+            style={{ marginRight: 4, }} 
+          />
           <TextInput
             placeholder={currentItem.taskName}
+            placeholderTextColor='#816868'
+            color='#816868'
             style={{
-              borderColor: '#938F8E',
+              borderColor: '#816868',
               backgroundColor: 'white',
               borderWidth: 1,
-              borderRadius: 10,
+              borderRadius: 4,
               width: '90%',
-              // height: 50,
+              paddingLeft: 6,
             }}
           />
         </View>
-        <View style={{ flexDirection: 'row', width: 300 }}>
-          <Icon name='notes' />
-          <Text>NOTES</Text>
+        <View style={{ flexDirection: 'row', alignSelf: 'flex-start', marginBottom: 4, }}>
+          <Icon 
+            name='notes'
+            color='#816868'
+            style={{ marginRight: 4, }}  
+          />
+          <Text style={styles().heading}>NOTES</Text>
         </View>
-        <View style={{ width: 300 }}>
           <TextInput
             multiline
             numberOfLines={4}
             style={{
-              borderColor: '#938F8E',
+              borderColor: '#816868',
               backgroundColor: 'white',
               borderWidth: 1,
-              borderRadius: 10,
+              borderRadius: 4,
               width: '100%',
-              // height: 50,
+              paddingLeft: 6,
             }}
             placeholder='Add an optional task description...'
+            placeholderTextColor='#816868'
+            color='#816868'
           />
-        </View>
-        <View style={{ width: 300 }}>
-          <Text>Due Date</Text>
-          <View style={{ flexDirection: 'row' }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignContent: 'center',
-              }}>
-              <Icon name='event' />
-              <Text>{getDate(new Date(currentItem.taskDate))}</Text>
-              <Icon name='arrow-drop-down' type='material' />
+        <View style={{ alignSelf: 'flex-start', marginTop: 20, marginBottom: 10, }}>
+          <Text style={styles().heading}>DUE DATE</Text>
+          <View style={{ flexDirection: 'row', marginTop: 8, }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', width: '50%', }}>
+              <Icon 
+                name='event' 
+                color='#816868'
+                style={{ marginRight: 4, }} 
+              />
+              <Text style={styles().textLink}>{getDate(new Date(currentItem.taskDate))}</Text>
+              <Icon 
+                name='arrow-drop-down' 
+                type='material' 
+                color='#816868'
+              />
             </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignContent: 'center',
-              }}>
-              <Icon name='schedule' />
-              <Text>{getTime(new Date(currentItem.taskDate))}</Text>
-              <Icon name='arrow-drop-down' type='material' />
+            <View style={{ flexDirection: 'row', alignItems: 'center', width: '50%', }}>
+              <Icon 
+                name='schedule' 
+                color='#816868'
+                style={{ marginRight: 4, }} 
+              />
+              <Text style={styles().textLink}>{getTime(new Date(currentItem.taskDate))}</Text>
+              <Icon 
+                name='arrow-drop-down' 
+                type='material' color='#816868'
+              />
             </View>
           </View>
         </View>
-        <View style={{ width: 300 }}>
-          <Text>REMINDER</Text>
+        <View style={{ alignSelf: 'flex-start', marginVertical: 10, }}>
+          <Text style={styles().heading}>REMINDER</Text>
         </View>
-        <View style={{ flexDirection: 'row', width: 300 }}>
-          <View style={styles().pickerView}>
-            <Picker
-              style={styles().picker}
-              selectedValue={selectReminder}
-              onValueChange={(itemValue, itemIndex) =>
-                setSelectReminder(itemValue)
-              }
-              mode={'dropdown'}>
-              <Picker.Item label='1 hour' value='1_hour' />
-              <Picker.Item label='6 hours' value='6_hours' />
-              <Picker.Item label='12 hours' value='12_hours' />
-              <Picker.Item label='1 day' value='1_day' />
-              <Picker.Item label='3 days' value='3_days' />
-              <Picker.Item label='1 week' value='1_week' />
-            </Picker>
+        <View style={{ flexDirection: 'row', alignSelf: 'flex-start', }}>
+          <View style={{ flexDirection: 'row', width: '50%', }}>
+            <View style={styles().pickerView}>
+              <Picker
+                style={styles().picker}
+                selectedValue={selectReminder}
+                onValueChange={(itemValue, itemIndex) =>
+                  setSelectReminder(itemValue)
+                }
+                mode={'dropdown'}>
+                <Picker.Item label='1 hour' value='1_hour' />
+                <Picker.Item label='6 hours' value='6_hours' />
+                <Picker.Item label='12 hours' value='12_hours' />
+                <Picker.Item label='1 day' value='1_day' />
+                <Picker.Item label='3 days' value='3_days' />
+                <Picker.Item label='1 week' value='1_week' />
+              </Picker>
+            </View>
           </View>
-          <View style={{ width: 10 }} />
-          <View style={{ flexDirection: 'row' }}>
-            <Text onPress={() => hideView(false)}>{onModal}</Text>
-            <View style={{ width: 10 }} />
-            <Text>SAVE</Text>
+          <View style={{ flexDirection: 'row', }}>
+            <View style={{ width: '22%' }}/>
+            <Text style={styles().heading} onPress={() => hideView(false)}>{onModal}</Text>
+            <View style={{ width: '10%' }}/>
+            <Text style={styles().heading}>SAVE</Text>
           </View>
         </View>
       </View>
@@ -288,7 +304,7 @@ const ToDoList = ({ navigation }) => {
                     marginLeft: 20,
                     marginRight: 20,
                     marginBottom: 20,
-                    backgroundColor: '#E5E5E5',
+                    backgroundColor: '#816868',
                     padding: 10,
                     borderRadius: 10,
                     shadowColor: '#000',
@@ -301,22 +317,29 @@ const ToDoList = ({ navigation }) => {
 
                     elevation: 7,
                   }}>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Icon name='star-outline' />
-                    <Text>{item.taskName}</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8, }}>
+                    <Icon 
+                      name='star-outline' 
+                      color='#A5DFB2'
+                      style={{ marginRight: 4, }}
+                    />
+                    <Text style={styles().headingAlt}>{item.taskName}</Text>
                   </View>
                   <View>
-                    <Text>Due Date</Text>
-                    <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'row', }}>
                       <View
                         style={{
                           flexDirection: 'row',
                           justifyContent: 'center',
                           alignContent: 'center',
+                          marginRight: 8,
                         }}>
-                        <Icon name='event' />
-                        <Text>{getDate(new Date(item.taskDate))}</Text>
-                        <Icon name='arrow-drop-down' type='material' />
+                        <Icon 
+                          name='event'
+                          color='#A5DFB2'
+                          style={{ marginRight: 4, }} 
+                        />
+                        <Text style={styles().textAlt}>{getDate(new Date(item.taskDate))}</Text>
                       </View>
                       <View
                         style={{
@@ -324,9 +347,12 @@ const ToDoList = ({ navigation }) => {
                           justifyContent: 'center',
                           alignContent: 'center',
                         }}>
-                        <Icon name='schedule' />
-                        <Text>{getTime(new Date(item.taskDate))}</Text>
-                        <Icon name='arrow-drop-down' type='material' />
+                        <Icon 
+                          name='schedule' 
+                          color='#A5DFB2'
+                          style={{ marginRight: 4, }}
+                        />
+                        <Text style={styles().textAlt}>{getTime(new Date(item.taskDate))}</Text>
                       </View>
                     </View>
                   </View>
@@ -335,11 +361,18 @@ const ToDoList = ({ navigation }) => {
             );
           })}
         </View>
-        <View style={{ marginLeft: 30, marginRight: 30 }}>
+        <View style={{ marginLeft: 20, width: '40%', }}>
           {!showAddTask && (
-            <Text onPress={() => setShowAddTask(true)}>+ Add new task</Text>
+            <Button
+              title='+ Add New Task'
+              onPress={() => setShowAddTask(true)}
+              color={global.colorblindMode
+                ? global.cb_optionButtonsColor
+                : global.optionButtonsColor}
+            />
           )}
         </View>
+        
         {showAddTask && (
           <AddTask
             modalVisible={modalVisible}
@@ -352,7 +385,7 @@ const ToDoList = ({ navigation }) => {
             hideView={setShowAddTask}
           />
         )}
-        <View style={{ height: 30 }} />
+        <View style={{ marginBottom: 60, }} />
       </ScrollView>
       <NavBar todo={true} navigation={navigation} />
     </SafeAreaView>
@@ -411,8 +444,13 @@ const styles = () => StyleSheet.create({
     marginHorizontal: 2,
   },
   heading: {
-    color: '#4CB97A',
-    fontSize: 20,
+    color: '#816868',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  headingAlt: {
+    color: '#F5F5F5',
+    fontSize: 16,
     fontWeight: 'bold',
   },
   iconView: {
@@ -425,11 +463,6 @@ const styles = () => StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     alignItems: 'center',
-  },
-  text: {
-    color: '#816868',
-    fontSize: 16,
-    textAlign: 'center',
   },
   pageDescription: {
     color: '#816868',
@@ -448,9 +481,11 @@ const styles = () => StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: '#E5E5E5',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
     borderRadius: 10,
-    padding: 35,
+    padding: 10,
     paddingBottom: -10,
     paddingTop: 15,
     alignItems: 'center',
@@ -476,11 +511,17 @@ const styles = () => StyleSheet.create({
     width: '70%',
     backgroundColor: '#f4f3f4',
   },
-  textReg: {
-    color: global.colorblindMode
-      ? global.cb_textColor
-      : global.textColor,
-    textDecorationLine: 'none',
-    textAlign: 'left',
+  text: {
+    color: '#816868',
+    fontSize: 16,
+  },
+  textAlt: {
+    color: '#F5F5F5',
+    fontSize: 16,
+  },
+  textLink: {
+    color: '#4CB97A',
+    fontSize: 16,
+    textDecorationLine: 'underline'
   },
 });

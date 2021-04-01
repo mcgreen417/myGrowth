@@ -40,7 +40,7 @@ const AdvanceFitnessTracking = () => {
             <TextInput
               placeholder='Exercise name'
               color='#C4BEBD'
-                placeholderTextColor='#C4BEBD'
+              placeholderTextColor='#C4BEBD'
               style={{
                 borderBottomColor: '#C4BEBD',
                 borderBottomWidth: 1,

@@ -61,7 +61,7 @@ const CreateNewJournalEntry = ({ navigation }) => {
             onPress={() => navigation.navigate('Journal')}
           />
           <Text 
-            style={styles.heading}
+            style={styles().heading}
             onPress={() => saveEntry(dateInsert, entry, navigation)}
           >
             SAVE
@@ -99,7 +99,7 @@ const CreateNewJournalEntry = ({ navigation }) => {
       <View style={styles().dividerView}>
         <View style={styles().divider}></View>
       </View>
-      <View style={styles.input}>
+      <View style={styles().input}>
         <TextInput 
           multiline style={styles.text}
           value={entry}
