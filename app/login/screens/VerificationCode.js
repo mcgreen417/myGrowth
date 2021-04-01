@@ -120,14 +120,14 @@ const createAlert = (title, message) => {
 // Future: Store all possible error messages in an array and just pass in the index to keep this small.
 async function verify(username, code, validLengthVerificationCode, navigation) {
   if (!validLengthVerificationCode) {
-    createAlert("Invalid Length", "Verification codes must be 6 digits long");
+    createAlert("Invalid Length", "Verification codes must be 6 digits long.");
   } else {
     try {
       await Auth.confirmSignUp(username, code);
       // console.log('confirm signup successfully');
       navigation.navigate('Login');
     } catch (error) {
-      createAlert("Invalid Verification Code", "Invalid verification code entered")
+      createAlert("Invalid Verification Code", "Invalid verification code entered.")
     }
   }
 }
