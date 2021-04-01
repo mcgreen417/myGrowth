@@ -46,6 +46,7 @@ function SignUp({ navigation }) {
         ...signupProperties,
         checkTextInputChange: false,
         validEmail: false,
+        validSignUp: false,
       });
     }
   }
@@ -65,6 +66,7 @@ function SignUp({ navigation }) {
       setSignupProperties({
         ...signupProperties,
         validPassword: false,
+        validSignUp: false,
       });
     }
 
@@ -81,6 +83,7 @@ function SignUp({ navigation }) {
       setSignupProperties({
         ...signupProperties,
         validConfirmPassword: false,
+        validSignUp: false,
       });
     }
 
@@ -97,8 +100,9 @@ function SignUp({ navigation }) {
         ...signupProperties,
         validSignUp: true,
       });
- 
+      
       signUp(email, password, confirmPassword, navigation);
+
     } else {
       setSignupProperties({
         ...signupProperties,
@@ -230,8 +234,24 @@ function SignUp({ navigation }) {
   );
 }
 
+const createAlert = (title, message) => {
+  Alert.alert(
+    title,
+    message,
+    [
+      {
+        text: "Cancel",
+        style: "cancel"
+      },
+      { text: "OK", }
+    ]
+  );
+}
+
 async function signUp(email, password, confirmPassword, navigation) {
   const username = email;
+
+
   try {
     if (password != confirmPassword) {
       throw 'Password and Confirm Password are not the same';
