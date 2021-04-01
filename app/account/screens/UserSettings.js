@@ -124,9 +124,14 @@ function UserSettings({ navigation, route }) {
           <View style={styles().inlineRow}>
             <TouchableOpacity style={styles().buttons} onPress={() => navigation.navigate('UserSettings')}>
               <View style={styles().inlineRow}>
-                <Text style={styles().textReg}>Set User PIN</Text>
+                <Text style={styles().textReg}>Create/Edit User PIN</Text>
                 <View style={styles().iconView}>
-                  <Image source={require('../../shared/assets/chevron.png')} />
+                  <Icon
+                    name='chevron-forward'
+                    type='ionicon'
+                    color='#816868'
+                    style={{ marginRight: -6 }}
+                  />
                 </View>
               </View>
             </TouchableOpacity>
@@ -139,7 +144,12 @@ function UserSettings({ navigation, route }) {
               <View style={styles().inlineRow}>
                 <Text style={styles().textReg}>Change Password</Text>
                 <View style={styles().iconView}>
-                  <Image source={require('../../shared/assets/chevron.png')} />
+                  <Icon
+                    name='chevron-forward'
+                    type='ionicon'
+                    color='#816868'
+                    style={{ marginRight: -6 }}
+                  />
                 </View>
               </View>
             </TouchableOpacity>
@@ -152,7 +162,12 @@ function UserSettings({ navigation, route }) {
               <View style={styles().inlineRow}>
                 <Text style={styles().textReg}>Change Email</Text>
                 <View style={styles().iconView}>
-                  <Image source={require('../../shared/assets/chevron.png')} />
+                  <Icon
+                    name='chevron-forward'
+                    type='ionicon'
+                    color='#816868'
+                    style={{ marginRight: -6 }}
+                  />
                 </View>
               </View>
             </TouchableOpacity>
@@ -165,7 +180,12 @@ function UserSettings({ navigation, route }) {
               <View style={styles().inlineRow}>
                 <Text style={styles().textReg}>Link Your Account</Text>
                 <View style={styles().iconView}>
-                  <Image source={require('../../shared/assets/chevron.png')} />
+                  <Icon
+                    name='chevron-forward'
+                    type='ionicon'
+                    color='#816868'
+                    style={{ marginRight: -6 }}
+                  />
                 </View>
               </View>
             </TouchableOpacity>
@@ -183,7 +203,12 @@ function UserSettings({ navigation, route }) {
               <View style={styles().inlineRow}>
                 <Text style={styles().textReg}>Personal Profile</Text>
                 <View style={styles().iconView}>
-                  <Image source={require('../../shared/assets/chevron.png')} />
+                  <Icon
+                    name='chevron-forward'
+                    type='ionicon'
+                    color='#816868'
+                    style={{ marginRight: -6 }}
+                  />
                 </View>
               </View>
             </TouchableOpacity>
@@ -196,7 +221,12 @@ function UserSettings({ navigation, route }) {
               <View style={styles().inlineRow}>
                 <Text style={styles().textReg}>Change Gardener Avatar</Text>
                 <View style={styles().iconView}>
-                  <Image source={require('../../shared/assets/chevron.png')} />
+                  <Icon
+                    name='chevron-forward'
+                    type='ionicon'
+                    color='#816868'
+                    style={{ marginRight: -6 }}
+                  />
                 </View>
               </View>
             </TouchableOpacity>
@@ -456,9 +486,14 @@ function UserSettings({ navigation, route }) {
           </View>
           <View style={styles().line} />
 
-          <View>
-            <TouchableOpacity
-              style={styles().update}
+          <View style={{ marginVertical: 20, width: '40%',  }}>
+            <Button
+              title='UPDATE SETTINGS'
+              color={
+                global.colorblindMode
+                  ? global.cb_optionButtonsColor
+                  : global.optionButtonsColor
+              }
               onPress={() => updateUserSetting(
                 useStressLevels, 
                 useDailyActivities, 
@@ -474,7 +509,7 @@ function UserSettings({ navigation, route }) {
               )}
             >
               <Text style={styles().updateText}>Update Settings</Text>
-            </TouchableOpacity>
+            </Button>
           </View>
 
           <View style={styles().pageEnd} />

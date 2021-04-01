@@ -9,6 +9,8 @@ import {
   Pressable,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import * as queries from '../../../src/graphql/queries';
+import { Auth, API } from 'aws-amplify';
 
 const NavBar = ({
   home = false,
@@ -32,6 +34,7 @@ const NavBar = ({
         height: 60,
         width: '100%',
       }}>
+      {/* home */}
       <Pressable
         onPress={() => navigation.navigate('Home')}
         style={({ pressed }) => [
@@ -48,7 +51,7 @@ const NavBar = ({
               : home
                 ? (global.colorblindMode
                   ? global.cb_navBarCurrentIconBackgroundColor
-                  : global.cb_navBarCurrentIconBackgroundColor)
+                  : global.navBarCurrentIconBackgroundColor)
                 : (global.colorblindMode
                   ? global.cb_optionButtonsColor
                   : global.optionButtonsColor),
@@ -82,6 +85,8 @@ const NavBar = ({
           Home
         </Text>
       </Pressable>
+
+      {/* journal */}
       <Pressable
         onPress={() => navigation.navigate('Journal')}
         style={({ pressed }) => [
@@ -98,7 +103,7 @@ const NavBar = ({
               : journal
                 ? (global.colorblindMode
                   ? global.cb_navBarCurrentIconBackgroundColor
-                  : global.cb_navBarCurrentIconBackgroundColor)
+                  : global.navBarCurrentIconBackgroundColor)
                 : (global.colorblindMode
                   ? global.cb_optionButtonsColor
                   : global.optionButtonsColor),
@@ -132,6 +137,8 @@ const NavBar = ({
           Journal
         </Text>
       </Pressable>
+
+      {/* goals */}
       <Pressable
         onPress={() => navigation.navigate('Goals')}
         style={({ pressed }) => [
@@ -148,7 +155,7 @@ const NavBar = ({
               : goals
                 ? (global.colorblindMode
                   ? global.cb_navBarCurrentIconBackgroundColor
-                  : global.cb_navBarCurrentIconBackgroundColor)
+                  : global.navBarCurrentIconBackgroundColor)
                 : (global.colorblindMode
                   ? global.cb_optionButtonsColor
                   : global.optionButtonsColor),
@@ -183,6 +190,8 @@ const NavBar = ({
           Goals
         </Text>
       </Pressable>
+
+      {/* plus button */}
       <View
         style={{
           justifyContent: 'center',
@@ -212,11 +221,11 @@ const NavBar = ({
                 justifyContent: 'center',
                 backgroundColor: pressed 
                   ? (global.colorblindMode
-                    ? global.cb_navBarOnPressColor
-                    : global.navBarOnPressColor)
+                    ? global.cb_navBarCurrentIconColor
+                    : global.navBarCurrentIconColor)
                   : (global.colorblindMode
-                    ? global.cb_optionButtonsColor
-                    : global.optionButtonsColor),
+                    ? global.cb_navBarCurrentIconColor
+                    : global.navBarCurrentIconColor),
                 borderRadius: 56 / 2,
                 shadowColor: '#000',
                 shadowOffset: {
@@ -240,8 +249,10 @@ const NavBar = ({
           </Pressable>
         </View>
       </View>
+
+      {/* to-do */}
       <Pressable
-        onPress={() => navigation.navigate('ToDoList')}
+        onPress={() => getTodos(navigation)}
         style={({ pressed }) => [
           {
             padding: 5,
@@ -256,7 +267,7 @@ const NavBar = ({
               : todo
                 ? (global.colorblindMode
                   ? global.cb_navBarCurrentIconBackgroundColor
-                  : global.cb_navBarCurrentIconBackgroundColor)
+                  : global.navBarCurrentIconBackgroundColor)
                 : (global.colorblindMode
                   ? global.cb_optionButtonsColor
                   : global.optionButtonsColor),
@@ -307,7 +318,7 @@ const NavBar = ({
               : history
                 ? (global.colorblindMode
                   ? global.cb_navBarCurrentIconBackgroundColor
-                  : global.cb_navBarCurrentIconBackgroundColor)
+                  : global.navBarCurrentIconBackgroundColor)
                 : (global.colorblindMode
                   ? global.cb_optionButtonsColor
                   : global.optionButtonsColor),
@@ -341,6 +352,8 @@ const NavBar = ({
           History
         </Text>
       </Pressable>
+
+      {/* acct panel */}
       <Pressable
         onPress={() => navigation.navigate('AccountPanel')}
         style={({ pressed }) => [
@@ -357,7 +370,7 @@ const NavBar = ({
               : account
                 ? (global.colorblindMode
                   ? global.cb_navBarCurrentIconBackgroundColor
-                  : global.cb_navBarCurrentIconBackgroundColor)
+                  : global.navBarCurrentIconBackgroundColor)
                 : (global.colorblindMode
                   ? global.cb_optionButtonsColor
                   : global.optionButtonsColor),
@@ -394,5 +407,15 @@ const NavBar = ({
     </View>
   );
 };
+
+async function getTodos(navigation) {
+  const res = await API.graphql({
+    query: queries.getTodos
+  });
+
+  const todos = res.data.getTodos.toDos;
+
+  navigation.navigate('ToDoList', {todos});
+}
 
 export default NavBar;
