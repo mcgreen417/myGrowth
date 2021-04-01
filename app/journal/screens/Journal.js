@@ -1,4 +1,5 @@
 import React from 'react';
+import { Auth, API } from 'aws-amplify';
 import {
   Button,
   StyleSheet,
@@ -10,6 +11,7 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
+import * as queries from '../../../src/graphql/queries';
 import NavBar from '../../shared/components/NavBar';
 
 const Journal = ({ navigation }) => {
@@ -52,7 +54,7 @@ const Journal = ({ navigation }) => {
               <Button
                 title='View Past Entries'
                 color='#A5DFB2'
-                onPress={() => navigation.navigate('JournalHistory')}
+                onPress={() => getEntries(navigation)}
               />
             </View>
           </View>
@@ -100,6 +102,19 @@ const Journal = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
+async function getEntries(navigation) {
+  const date = new Date();
+  const datePass = date.toISOString();
+  const res = await API.graphql({
+    query: queries.getJournalEntries,
+    variables: {timerange: date.toISOString().slice(0, 7)}
+  });
+
+  const arr = res.data.getJournalEntries.journalEntries;
+
+  navigation.navigate('JournalHistory', {arr, datePass})
+}
 
 export default Journal;
 

@@ -1,163 +1,200 @@
 import React, { useState } from 'react';
 import {
   StyleSheet,
-  SafeAreaView,
   Text,
   View,
-  Button,
   Image,
-  Switch,
   TouchableOpacity,
   Modal,
 } from 'react-native';
+import { Icon } from 'react-native-elements';
 import SelectACategoryIcon from './SelectACategoryIcon';
 
 const screensInfo = [
   {
-    category : "Health Entries",
-    imageSrc : require("../assets/icon.png"),
-    navigateTo : "HistoryHealthEntries"
+    category: 'Health Entries',
+    imageSrc: require('../assets/icon.png'),
+    navigateTo: 'HistoryHealthEntries',
   },
   {
-    category : "Mood",
-    imageSrc : require("../assets/icon.png"),
-    navigateTo : "HistoryMood"
+    category: 'Mood',
+    imageSrc: require('../assets/icon.png'),
+    navigateTo: 'HistoryMood',
   },
   {
-    category : "Stress",
-    imageSrc : require("../assets/icon.png"),
-    navigateTo : "HistoryStress"
+    category: 'Stress',
+    imageSrc: require('../assets/icon.png'),
+    navigateTo: 'HistoryStress',
   },
   {
-    category : "Daily Activities",
-    imageSrc : require("../assets/icon.png"),
-    navigateTo : "HistoryDailyActivities1"
+    category: 'Daily Activities',
+    imageSrc: require('../assets/icon.png'),
+    navigateTo: 'HistoryDailyActivities1',
   },
   {
-    category : "Period Tracking",
-    imageSrc : require("../assets/icon.png"),
-    navigateTo : "HistoryPeriodTracking"
+    category: 'Period Tracking',
+    imageSrc: require('../assets/icon.png'),
+    navigateTo: 'HistoryPeriodTracking',
   },
   {
-    category : "Weight",
-    imageSrc : require("../assets/icon.png"),
-    navigateTo : "HistoryWeight"
+    category: 'Weight',
+    imageSrc: require('../assets/icon.png'),
+    navigateTo: 'HistoryWeight',
   },
   {
-    category : "General Health",
-    imageSrc : require("../assets/icon.png"),
-    navigateTo : "HistoryGeneralHealth1"
+    category: 'General Health',
+    imageSrc: require('../assets/icon.png'),
+    navigateTo: 'HistoryGeneralHealth1',
   },
   {
-    category : "Medicine",
-    imageSrc : require("../assets/icon.png"),
-    navigateTo : "HistoryMedication"
+    category: 'Medicine',
+    imageSrc: require('../assets/icon.png'),
+    navigateTo: 'HistoryMedication',
   },
   {
-    category : "Sleep",
-    imageSrc : require("../assets/icon.png"),
-    navigateTo : "HistorySleep1"
+    category: 'Sleep',
+    imageSrc: require('../assets/icon.png'),
+    navigateTo: 'HistorySleep1',
   },
   {
-    category : "Meal Tracking",
-    imageSrc : require("../assets/icon.png"),
-    navigateTo : "HistoryMealTracking"
+    category: 'Meal Tracking',
+    imageSrc: require('../assets/icon.png'),
+    navigateTo: 'HistoryMealTracking',
   },
   {
-    category : "Fitness",
-    imageSrc : require("../assets/icon.png"),
-    navigateTo : "HistoryFitness1"
+    category: 'Fitness',
+    imageSrc: require('../assets/icon.png'),
+    navigateTo: 'HistoryFitness1',
   },
 ];
 
-const HistorySelectACategory = ({setModalView, showModalView, navigation, ...rest}) => {
-
+const HistorySelectACategory = ({
+  setModalView,
+  showModalView,
+  navigation,
+  ...rest
+}) => {
   return (
-    <View>
-      <Modal
-        animationType="none"
-        transparent={true}
-        visible={showModalView}
-        onRequestClose={() => setModalView(!showModalView)}
-      >
-        
-        {/* Entire modal */}
-        <View style={styles().centeredView}>
-
+    <Modal
+      animationType='none'
+      transparent={true}
+      visible={showModalView}
+      onRequestClose={() => setModalView(!showModalView)}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: -100,
+          zIndex: 1,
+          backgroundColor: '#00000055',
+        }}>
+        <View style={styles().container}>
           {/* Modal structure properties, Dismiss Bar */}
-          <View style={styles().inlineRowBackgrd}>
-            {/* add category chooser modal here */}
-            { /* image asset */ }
-            <View>
-              <Image style={{width: 20, height: 20}} source={require('../../shared/assets/icon.png')} />
-            </View>
-
-            <View style={styles().modalHeaderBar}>
-              <Text style={{color: 'white'}}>Select a Category</Text>
-            </View>
-
-            <TouchableOpacity onPress={() => setModalView(!showModalView)}>
-              { /* X asset */ }
-              <View>
-                <Image source={require('../assets/close.png')}/>
-              </View>
-
-            </TouchableOpacity>
-          </View>
-
-          {/* Body of modal */}
-          <View style={{backgroundColor: '#F6EFED', width: 300, height: 350,}}>
-            {/* Buttons on modal */}
+          <View style={styles().modalHeaderBar}>
             <View
               style={{
-                marginLeft: 30,
-                flex: 5,
                 flexDirection: 'row',
-                flexWrap: 'wrap',
-                flexGrow: 5,
+                flex: 2,
+                marginLeft: 4,
+                marginVertical: 4,
               }}>
+              <Icon
+                name='arrow-collapse-right'
+                type='material-community'
+                color='white'
+                style={{ marginRight: 8 }}
+              />
+              <Text style={styles().textAlt}>Select a Category</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                flex: 1,
+                justifyContent: 'flex-end',
+                marginRight: 4,
+              }}>
+
                 
                 {/* Will create each of the icons for all pages */}
-                {screensInfo.map((screen) => (
+                {/*{screensInfo.map((screen, index) => (
                   <SelectACategoryIcon
+                    key={index}
                     screens={screen}
                     navigation={navigation}
                     setModalVisible={setModalView}
                     modalVisible={showModalView}
                   />
-                ))}
+                ))}*/}
+
+              <Icon
+                name='close'
+                type='ionicon'
+                color='white'
+                onPress={() => setModalView(!showModalView)}
+              />
+
             </View>
           </View>
 
+          {/* Body of modal */}
+          <View
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              width: '90%',
+              justifyContent: 'center',
+              maxHeight: '60%',
+            }}>
+            {/* Will create each of the icons for all pages */}
+            {screensInfo.map((screen, index) => (
+              <SelectACategoryIcon
+                key={index}
+                screens={screen}
+                navigation={navigation}
+                setModalVisible={setModalView}
+                modalVisible={showModalView}
+              />
+            ))}
+          </View>
         </View>
-      </Modal>
-    </View>
+      </View>
+    </Modal>
   );
 };
 
 export default HistorySelectACategory;
 
-const styles = () => StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 8,
-  },
-  inlineRowBackgrd: {
-    color: global.colorblindMode
-      ? global.cb_optionButtonsColor
-      : global.optionButtonsColor,
-    width: 300, 
-    height: 30,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  modalHeaderBar: {
-    backgroundColor: global.colorblindMode
-      ? global.cb_optionButtonsColor
-      : global.optionButtonsColor,
-    width: 260,
-    height: 30,
-  }
-});
+const styles = () =>
+  StyleSheet.create({
+    container: {
+      backgroundColor: global.colorblindMode
+        ? global.cb_pageBackgroundColor
+        : global.pageBackgroundColor,
+      alignItems: 'center',
+      width: '70%',
+      borderRadius: 10,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.23,
+      shadowRadius: 2.62,
+      elevation: 4,
+    },
+    modalHeaderBar: {
+      backgroundColor: global.colorblindMode
+        ? global.cb_optionButtonsColor
+        : global.optionButtonsColor,
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderTopLeftRadius: 10,
+      borderTopRightRadius: 10,
+    },
+    textAlt: {
+      color: 'white',
+      fontSize: 20,
+      fontWeight: 'bold',
+    },
+  });

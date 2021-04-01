@@ -1,14 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
   View,
   SafeAreaView,
   TextInput,
+  TouchableOpacity
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import * as mutations from '../../../src/graphql/mutations';
+import { Auth, API } from 'aws-amplify';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const CreateNewJournalEntry = ({ navigation }) => {
+  const [entry, setEntry] = useState('');
+  const [show, setShow] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [dateInsert, setDateInsert] = useState(date.toISOString().slice(0, 10));
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    //console.log(currentDate);
+    setShow(Platform.OS === 'ios');
+    setDate(currentDate);
+    setDateInsert(selectedDate.toISOString().slice(0, 10));
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
   return (
     <SafeAreaView style={styles().container}>
       <View
@@ -34,12 +61,24 @@ const CreateNewJournalEntry = ({ navigation }) => {
             onPress={() => navigation.navigate('Journal')}
           />
           <Text 
-            style={styles().heading}
-            onPress={() => navigation.navigate('JournalEntryCompletion')}
+            style={styles.heading}
+            onPress={() => saveEntry(dateInsert, entry, navigation)}
           >
             SAVE
           </Text>
-          <Icon name='event' type='material' color='#816868' />
+          <TouchableOpacity onPress={showDatepicker}>  
+            <Icon name='event' type='material' color='#816868' />
+          </TouchableOpacity>
+          {show && (
+              <DateTimePicker
+                testID='dateTimePicker'
+                value={date}
+                mode={mode}
+                is24Hour={true}
+                display='default'
+                onChange={onChange}
+              />
+            )}
           <Icon name='schedule' type='material' color='#816868' />
         </View>
 
@@ -60,12 +99,25 @@ const CreateNewJournalEntry = ({ navigation }) => {
       <View style={styles().dividerView}>
         <View style={styles().divider}></View>
       </View>
-      <View style={styles().input}>
-        <TextInput multiline style={styles().text}/>
+      <View style={styles.input}>
+        <TextInput 
+          multiline style={styles.text}
+          value={entry}
+          onChangeText={(entry) => setEntry(entry)}
+        />
       </View>
     </SafeAreaView>
   );
 };
+
+async function saveEntry(date, entry, navigation) {
+  const res = await API.graphql({
+    query: mutations.updateJournalEntry,
+    variables: {Timestamp: date, Entry: entry}
+  });
+
+  navigation.navigate('JournalEntryCompletion', {date, entry});
+}
 
 export default CreateNewJournalEntry;
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,7 +11,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-function PasswordResetVerification({ navigation }) {
+function PasswordResetVerification({ route, navigation }) {
+  const email = route.params;
+  const [code, setCode] = useState('');
+
   return (
     <SafeAreaView style={styles().container}>
       <StatusBar
@@ -76,6 +79,10 @@ function PasswordResetVerification({ navigation }) {
                 ? global.cb_placeHolderTextColor
                 : global.placeholderTextColor
             }
+            value={code}
+            onChangeText={(code) => {
+              setCode(code);
+            }}
           />
           <View style={{ marginVertical: 8 }} />
           <Button
@@ -85,7 +92,7 @@ function PasswordResetVerification({ navigation }) {
                 ? global.cb_optionButtonsColor
                 : global.optionButtonsColor
             }
-            onPress={() => navigation.navigate('ResetPassword')}
+            onPress={() => navigation.navigate('ResetPassword', {email, code})}
           />
           <View style={{ marginVertical: 8 }} />
         </View>

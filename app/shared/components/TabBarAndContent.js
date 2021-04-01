@@ -1,6 +1,15 @@
 import { button } from '@aws-amplify/ui';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart
+} from "react-native-chart-kit";
+
 const images = {
   historyImg: require('../../shared/assets/Rectangle.png'),
   correlationImg: require('../../shared/assets/close.png'),
@@ -11,6 +20,25 @@ const images = {
   qualityImg: require('../../shared/assets/splash.png'),
   exerciseImg: require('../../shared/assets/splash.png'),
 };
+
+const dayLabels = [
+  "Mon",
+  "Tues",
+  "Weds",
+  "Thurs",
+  "Fri",
+  "Sat",
+  "Sun"
+];
+
+const monthLabels = [
+  "Jan",
+  "Mar",
+  "May",
+  "July",
+  "Sept",
+  "Nov"
+];
 
 const buttonColors = {
   lightGreen: '#A5DFB2',
@@ -26,6 +54,9 @@ const TabBarAndContent = ({
   sleep = false,
   fitness = false,
   navigation,
+  data,
+  timePeriod, 
+  page
 }) => {
   const [imgSource, setImageSource] = useState(images.historyImg);
   const [historyButtonColor, setHistoryButtonColor] = useState(buttonColors.darkGreen);
@@ -37,105 +68,141 @@ const TabBarAndContent = ({
   const [qualityButtonColor, setQualityButtonColor] = useState(buttonColors.lightGreen);
   const [exerciseButtonColor, setExerciseButtonColor] = useState(buttonColors.lightGreen);
 
+  const [timestamps, setTimestamps] = useState([]);
+  const [displayData, setDisplayData] = useState([0, 0, 0, 0, 0, 0, 0, 0]);
+
   /* History Comp version */
   if (history)
     return (
-      <View style={{ paddingLeft: 22, paddingRight: 22, paddingBottom: 10 }}>
-        <View style={{ height: 30, width: 220, flexDirection: 'row' }}>
+      <View style={{ width: '90%', }}>
+        <View style={{ flexDirection: 'row', }}>
           {/* History */}
           <Pressable
+            style={{
+              backgroundColor: historyButtonColor,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
             onPress={() => {
               setImageSource(images.historyImg);
               setHistoryButtonColor(buttonColors.darkGreen);
               navigation.navigate('HistoryHealthEntries');
             }}
-            style={
-              {
-                width: 55,
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingRight: 2,
-                backgroundColor: historyButtonColor,
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-              }
-            }>
-            {/* text */}
-            <Text style={styles.tabText}>History</Text>
+          >
+            <Text style={styles.text}>History</Text>
           </Pressable>
         </View>
-        {/* colored bar */}
+
+        {/* Colored bar */}
         <View style={styles.coloredBarView}>
           <View style={styles.coloredBar} />
         </View>
-        {/* render image */}
+        {/* Render image */}
         <Image style={styles.images} source={imgSource} />
       </View>
     );
 
-  /* Gen comp version: mood, stress, period, meal, weight */
+  {/* Mood, Stress, Period, Meal, Weight */}
   if (historyGenComp)
     return (
-      <View style={{ paddingLeft: 22, paddingRight: 22, paddingBottom: 10 }}>
-        <View style={{ height: 30, width: 220, flexDirection: 'row' }}>
+      <View style={{ width: '90%', }}>
+        <View style={{ flexDirection: 'row', }}>
           {/* History */}
           <Pressable
+            style={{
+              backgroundColor: historyButtonColor,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
             onPress={() => {
               setImageSource(images.historyImg);
               setCorrButtonColor(buttonColors.lightGreen);
               setHistoryButtonColor(buttonColors.darkGreen);
+              getTimestamps(data, timestamps, setTimestamps, timePeriod);
+              getGenData(data, timePeriod, timestamps, setTimestamps, page, displayData, setDisplayData);
             }}
-            style={
-              {
-                width: 55,
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingRight: 2,
-                backgroundColor: historyButtonColor,
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-              }
-            }>
-            {/* text */}
-            <Text style={styles.tabText}>History</Text>
+          >
+            <Text style={styles.text}>History</Text>
           </Pressable>
 
-          {/* Correlation */}
+          {/* Correlations */}
           <Pressable
+            style={{
+              backgroundColor: corrButtonColor,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
             onPress={() => {
               setImageSource(images.correlationImg);
               setCorrButtonColor(buttonColors.darkGreen);
               setHistoryButtonColor(buttonColors.lightGreen);
             }}
-            style={{
-                width: 90,
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingRight: 2,
-                backgroundColor: corrButtonColor,
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-              }}>
-            {/* text */}
-            <Text style={styles.tabText}>Correlations</Text>
+          >
+            <Text style={styles.text}>Correlations</Text>
           </Pressable>
         </View>
-        {/* colored bar */}
+
+        {/* Colored bar */}
         <View style={styles.coloredBarView}>
           <View style={styles.coloredBar} />
         </View>
+
         {/* render image */}
-        <Image style={styles.images} source={imgSource} />
+        { imgSource === images.correlationImg &&
+          <Image style={styles.images} source={imgSource} />}
+        {imgSource === images.historyImg && <LineChart 
+          data = {{
+            labels: timestamps,
+            datasets: [
+              {
+                data: displayData
+              }
+            ]
+          }}
+          width={349} // from react-native
+          height={250}
+          yAxisLabel=""
+          yAxisSuffix=""
+          yAxisInterval={1} // optional, defaults to 1
+          chartConfig={{
+            backgroundColor: "#4CB97A",
+            backgroundGradientFrom: "#4CB97A",
+            backgroundGradientTo: "#A5DFB2",
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#4CB97A"
+            }
+          }}
+          bezier
+          style={{
+          }}
+        />}
+
+        {/* Render image */}
+        {/*<Image style={styles.images} source={imgSource} />*/}
+
       </View>
     );
 
-  /* daily activities <- nav */
+  {/* Daily Activities */}
   if (dailyActivities)
     return (
-      <View style={{ paddingLeft: 22, paddingRight: 22, paddingBottom: 10 }}>
-        <View style={{ height: 30, width: 220, flexDirection: 'row' }}>
-          {/* history - 1 */}
+      <View style={{ width: '90%', }}>
+        <View style={{ flexDirection: 'row', }}>
+          {/* History */}
           <Pressable
+            style={{
+              backgroundColor: historyButtonColor,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
             onPress={() => {
               setImageSource(images.historyImg);
               setCorrButtonColor(buttonColors.lightGreen);
@@ -143,21 +210,17 @@ const TabBarAndContent = ({
               setActivityButtonColor(buttonColors.lightGreen);
               navigation.navigate('HistoryDailyActivities1');
             }}
-            style={{
-                width: 55,
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingRight: 2,
-                backgroundColor: historyButtonColor,
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-              }}>
-            {/* text */}
-            <Text style={styles.tabText}>History</Text>
+          >
+            <Text style={styles.text}>History</Text>
           </Pressable>
 
-          {/* activity view - 2 */}
+          {/* Activities */}
           <Pressable
+            style={{
+              backgroundColor: activityButtonColor,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
             onPress={() => {
               setImageSource(images.activityImg);
               setCorrButtonColor(buttonColors.lightGreen);
@@ -165,21 +228,17 @@ const TabBarAndContent = ({
               setActivityButtonColor(buttonColors.darkGreen);
               navigation.navigate('HistoryDailyActivities2');
             }}
-            style={{
-                width: 90,
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingRight: 2,
-                backgroundColor: activityButtonColor,
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-              }}>
-            {/* text */}
-            <Text style={styles.tabText}>Activity View</Text>
+          >
+            <Text style={styles.text}>Activity</Text>
           </Pressable>
 
-          {/* correlation - 1 */}
+          {/* Correlations */}
           <Pressable
+            style={{
+              backgroundColor: corrButtonColor,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
             onPress={() => {
               setImageSource(images.correlationImg);
               setCorrButtonColor(buttonColors.darkGreen);
@@ -187,36 +246,32 @@ const TabBarAndContent = ({
               setActivityButtonColor(buttonColors.lightGreen);
               navigation.navigate('HistoryDailyActivities1');
             }}
-            style={{
-                width: 90,
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingRight: 2,
-                backgroundColor: corrButtonColor,
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-              }}>
-            {/* text */}
-            <Text style={styles.tabText}>Correlations</Text>
+          >
+            <Text style={styles.text}>Correlations</Text>
           </Pressable>
         </View>
-        {/* colored bar */}
+
+        {/* Colored bar */}
         <View style={styles.coloredBarView}>
           <View style={styles.coloredBar} />
         </View>
-
-        {/* render image */}
+        {/* Eender image */}
         <Image style={styles.images} source={imgSource} />
       </View>
     );
 
-  /* general health <- nav */
+  {/* General Health */}
   if (generalHealth)
     return (
-      <View style={{ paddingLeft: 22, paddingRight: 22, paddingBottom: 10 }}>
-        <View style={{ height: 30, width: 220, flexDirection: 'row' }}>
-          {/* history - 1 */}
+      <View style={{ width: '90%', }}>
+        <View style={{ flexDirection: 'row', }}>
+          {/* History */}
           <Pressable
+            style={{
+              backgroundColor: historyButtonColor,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
             onPress={() => {
               setImageSource(images.historyImg);
               setCorrButtonColor(buttonColors.lightGreen);
@@ -224,21 +279,17 @@ const TabBarAndContent = ({
               setIntensityButtonColor(buttonColors.lightGreen);
               navigation.navigate('HistoryGeneralHealth1');
             }}
-            style={{
-                width: 55,
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingRight: 2,
-                backgroundColor: historyButtonColor,
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-              }}>
-            {/* text */}
-            <Text style={styles.tabText}>History</Text>
+          >
+            <Text style={styles.text}>History</Text>
           </Pressable>
 
-          {/* intensity - 2 */}
+          {/* Intensity */}
           <Pressable
+            style={{
+              backgroundColor: intensityButtonColor,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
             onPress={() => {
               setImageSource(images.intensityImg);
               setCorrButtonColor(buttonColors.lightGreen);
@@ -246,21 +297,17 @@ const TabBarAndContent = ({
               setIntensityButtonColor(buttonColors.darkGreen);
               navigation.navigate('HistoryGeneralHealth2');
             }}
-            style={{
-                width: 65,
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingRight: 2,
-                backgroundColor: intensityButtonColor,
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-              }}>
-            {/* text */}
-            <Text style={styles.tabText}>Intensity</Text>
+          >
+            <Text style={styles.text}>Intensity</Text>
           </Pressable>
 
-          {/* correlation - 1 */}
+          {/* Correlation */}
           <Pressable
+            style={{
+              backgroundColor: corrButtonColor,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
             onPress={() => {
               setImageSource(images.correlationImg);
               setCorrButtonColor(buttonColors.darkGreen);
@@ -268,89 +315,79 @@ const TabBarAndContent = ({
               setIntensityButtonColor(buttonColors.lightGreen);
               navigation.navigate('HistoryGeneralHealth1');
             }}
-            style={{
-                width: 90,
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingRight: 2,
-                backgroundColor: corrButtonColor,
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-              }}>
-            {/* text */}
-            <Text style={styles.tabText}>Correlations</Text>
+          >
+            <Text style={styles.text}>Correlations</Text>
           </Pressable>
         </View>
-        {/* colored bar */}
+
+        {/* Colored bar */}
         <View style={styles.coloredBarView}>
           <View style={styles.coloredBar} />
         </View>
-        {/* render image */}
+        {/* Render image */}
         <Image style={styles.images} source={imgSource} />
       </View>
     );
 
-  /* medication */
+  {/* Medication */}
   if (medication)
     return (
-      <View style={{ paddingLeft: 22, paddingRight: 22, paddingBottom: 10 }}>
-        <View style={{ height: 30, width: 220, flexDirection: 'row' }}>
-          {/* prescription */}
+      <View style={{ width: '90%', }}>
+        <View style={{ flexDirection: 'row', }}>
+          {/* Prescription */}
           <Pressable
+            style={{
+              backgroundColor: historyButtonColor,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
             onPress={() => {
               setImageSource(images.prescriptionImg);
               setCorrButtonColor(buttonColors.lightGreen);
               setScriptButtonColor(buttonColors.darkGreen);
             }}
-            style={{
-                width: 90,
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingRight: 2,
-                backgroundColor: scriptButtonColor,
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-              }}>
-            {/* text */}
-            <Text style={styles.tabText}>Prescription</Text>
+          >
+            <Text style={styles.text}>History</Text>
           </Pressable>
 
-          {/* correlation */}
+          {/* Correlation */}
           <Pressable
+            style={{
+              backgroundColor: corrButtonColor,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
             onPress={() => {
               setImageSource(images.correlationImg);
               setCorrButtonColor(buttonColors.darkGreen);
               setScriptButtonColor(buttonColors.lightGreen);
             }}
-            style={{
-                width: 90,
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingRight: 2,
-                backgroundColor: corrButtonColor,
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-              }}>
-            {/* text */}
-            <Text style={styles.tabText}>Correlations</Text>
+          >
+            <Text style={styles.text}>Correlations</Text>
           </Pressable>
         </View>
-        {/* colored bar */}
+
+        {/* Colored bar */}
         <View style={styles.coloredBarView}>
           <View style={styles.coloredBar} />
         </View>
-        {/* render image */}
+        {/* Render image */}
         <Image style={styles.images} source={imgSource} />
       </View>
     );
 
-  /* sleep <- nav */
+  {/* Sleep */}
   if (sleep)
     return (
-      <View style={{ paddingLeft: 22, paddingRight: 22, paddingBottom: 10 }}>
-        <View style={{ height: 30, width: 220, flexDirection: 'row' }}>
-          {/* time asleep - 1 */}
+      <View style={{ width: '90%', }}>
+        <View style={{ flexDirection: 'row', }}>
+          {/* Time asleep */}
           <Pressable
+            style={{
+              backgroundColor: sleepButtonColor,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
             onPress={() => {
               setImageSource(images.timeSleepImg);
               setCorrButtonColor(buttonColors.lightGreen);
@@ -358,21 +395,17 @@ const TabBarAndContent = ({
               setQualityButtonColor(buttonColors.lightGreen);
               navigation.navigate('HistorySleep1');
             }}
-            style={{
-                width: 90,
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingRight: 2,
-                backgroundColor: sleepButtonColor,
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-              }}>
-            {/* text */}
-            <Text style={styles.tabText}>Time Asleep</Text>
+          >
+            <Text style={styles.text}>History</Text>
           </Pressable>
 
-          {/* quality - 2 */}
+          {/* Quality */}
           <Pressable
+            style={{
+              backgroundColor: qualityButtonColor,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
             onPress={() => {
               setImageSource(images.qualityImg);
               setCorrButtonColor(buttonColors.lightGreen);
@@ -380,21 +413,17 @@ const TabBarAndContent = ({
               setQualityButtonColor(buttonColors.darkGreen);
               navigation.navigate('HistorySleep2');
             }}
-            style={{
-                width: 55,
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingRight: 2,
-                backgroundColor: qualityButtonColor,
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-              }}>
-            {/* text */}
-            <Text style={styles.tabText}>Quality</Text>
+          >
+            <Text style={styles.text}>Quality</Text>
           </Pressable>
 
-          {/* correlation - 1 */}
+          {/* Correlation */}
           <Pressable
+            style={{
+              backgroundColor: corrButtonColor,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
             onPress={() => {
               setImageSource(images.correlationImg);
               setCorrButtonColor(buttonColors.darkGreen);
@@ -402,35 +431,32 @@ const TabBarAndContent = ({
               setQualityButtonColor(buttonColors.lightGreen);
               navigation.navigate('HistorySleep1');
             }}
-            style={{
-                width: 90,
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingRight: 2,
-                backgroundColor: corrButtonColor,
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-              }}>
-            {/* text */}
-            <Text style={styles.tabText}>Correlations</Text>
+          >
+            <Text style={styles.text}>Correlations</Text>
           </Pressable>
         </View>
-        {/* colored bar */}
+
+        {/* Colored bar */}
         <View style={styles.coloredBarView}>
           <View style={styles.coloredBar} />
         </View>
-        {/* render image */}
+        {/* Render image */}
         <Image style={styles.images} source={imgSource} />
       </View>
     );
 
-  /* fitness <- nav */
+  {/* Fitness */}
   if (fitness)
     return (
-      <View style={{ paddingLeft: 22, paddingRight: 22, paddingBottom: 10 }}>
-        <View style={{ height: 30, width: 220, flexDirection: 'row' }}>
-          {/* history - 1 */}
+      <View style={{ width: '90%', }}>
+        <View style={{ flexDirection: 'row', }}>
+          {/* History */}
           <Pressable
+            style={{
+              backgroundColor: historyButtonColor,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
             onPress={() => {
               navigation.navigate('HistoryFitness1');
               setImageSource(images.historyImg);
@@ -438,21 +464,17 @@ const TabBarAndContent = ({
               setHistoryButtonColor(buttonColors.darkGreen);
               setExerciseButtonColor(buttonColors.lightGreen);
             }}
-            style={{
-                width: 55,
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingRight: 2,
-                backgroundColor: historyButtonColor,
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-              }}>
-            {/* text */}
-            <Text style={styles.tabText}>History</Text>
+          >
+            <Text style={styles.text}>History</Text>
           </Pressable>
 
-          {/* exercises - 2 */}
+          {/* Exercises */}
           <Pressable
+            style={{
+              backgroundColor: exerciseButtonColor,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
             onPress={() => {
               navigation.navigate('HistoryFitness2');
               setImageSource(images.exerciseImg);
@@ -460,21 +482,17 @@ const TabBarAndContent = ({
               setHistoryButtonColor(buttonColors.lightGreen);
               setExerciseButtonColor(buttonColors.darkGreen);
             }}
-            style={{
-                width: 72,
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingRight: 2,
-                backgroundColor: exerciseButtonColor,
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-              }}>
-            {/* text */}
-            <Text style={styles.tabText}>Exercises</Text>
+          >
+            <Text style={styles.text}>Exercises</Text>
           </Pressable>
 
-          {/* correlation - 1 */}
+          {/* Correlation */}
           <Pressable
+            style={{
+              backgroundColor: corrButtonColor,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
             onPress={() => {
               navigation.navigate('HistoryFitness1');
               setImageSource(images.correlationImg);
@@ -482,30 +500,100 @@ const TabBarAndContent = ({
               setHistoryButtonColor(buttonColors.lightGreen);
               setExerciseButtonColor(buttonColors.lightGreen);
             }}
-            style={{
-                width: 90,
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingRight: 2,
-                backgroundColor: corrButtonColor,
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-              }}>
-            {/* text */}
-            <Text style={styles.tabText}>Correlations</Text>
+          >
+            <Text style={styles.text}>Correlations</Text>
           </Pressable>
         </View>
-        {/* colored bar */}
+
+        {/* Colored bar */}
         <View style={styles.coloredBarView}>
           <View style={styles.coloredBar} />
         </View>
-        {/* render image */}
+        {/* Render image */}
         <Image style={styles.images} source={imgSource} />
       </View>
     );
 
   return null;
 };
+
+function getGenData(data, timePeriod, timestamps, setTimestamps, page, displayData, setDisplayData) {
+  var len = 0;
+  
+  //data.moodData
+  if(page === 'mood') {
+    len = data.moodData.length;
+
+    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+        setDisplayData(data.moodData.slice(len - 7, len));
+
+    else if(timePeriod === 'past_month')
+      setDisplayData(data.moodData.slice(len - 30, len));
+
+    else
+      setDisplayData(data.moodData.slice(len - 365, len));
+  }
+  // diff func ideally
+  //data.napSleepData
+  //data.nightSleepData
+  //else if(page === 'sleep') {
+    
+  //}
+  
+  //data.periodData
+  else if(page === 'period') {
+    len = data.periodData.length;
+
+    setDisplayData(data.periodData.slice(len - 30, len));
+  }
+
+  //data.stressData
+  else if(page === 'stress') {
+    len = data.stressData.length;
+
+    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+        setDisplayData(data.stressData.slice(len - 7, len));
+
+    else if(timePeriod === 'past_month')
+      setDisplayData(data.stressData.slice(len - 30, len));
+
+    else
+      setDisplayData(data.stressData.slice(len - 365, len));
+  }
+  //data.weightData
+  else {
+    len = data.weightData.length;
+
+    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+        setDisplayData(data.weightData.slice(len - 7, len));
+
+    else if(timePeriod === 'past_month')
+      setDisplayData(data.weightData.slice(len - 30, len));
+
+    else
+      setDisplayData(data.weightData.slice(len - 365, len));
+  }
+}
+
+function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
+  var dates = [];
+  const latestDate = new Date(data.latestDate);
+
+  for(var i = 29; i >= 0; i--) {
+    var date = new Date(latestDate.getTime() - (i * 24 * 60 * 60 * 1000));
+    if(i % 4 == 0)
+      dates.push(date.toISOString().substring(5, 10));
+  }
+
+  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    setTimestamps(dayLabels);
+
+  else if(timePeriod === 'past_month')
+    setTimestamps(dates); 
+
+  else if(timePeriod === 'past_year')
+    setTimestamps(monthLabels);
+}
 
 export default TabBarAndContent;
 
@@ -527,12 +615,23 @@ const styles = StyleSheet.create({
     marginTop: -1,
   },
   images: {
-    width: 350,
-    height: 220,
+    flex: 1,
+    width: 370,
   },
-  tabText: {
+  subTab: {
+    backgroundColor: buttonColors.lightGreen,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  tab: {
+    backgroundColor: buttonColors.darkGreen,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  text: {
     color: 'white',
-    fontSize: 14,
-    paddingTop: 3,
+    fontSize: 16,
+    marginHorizontal: 8,
+    marginVertical: 4,
   },
 });

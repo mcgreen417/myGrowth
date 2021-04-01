@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,8 +10,13 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import { Auth, API } from 'aws-amplify';
 
-function ResetPassword({ navigation }) {
+function ResetPassword({ route, navigation }) {
+  const { email, code } = route.params;
+  const [pass, setPass] = useState('');
+  const [confPass, setConfPass] = useState('');
+
   return (
     <SafeAreaView style={styles().container}>
       <StatusBar
@@ -76,6 +81,10 @@ function ResetPassword({ navigation }) {
                 ? global.cb_placeHolderTextColor
                 : global.placeholderTextColor
             }
+            value={pass}
+            onChangeText={(pass) => {
+              setPass(pass);
+            }}
           />
           <View style={{ marginVertical: 8 }} />
           <TextInput
@@ -87,6 +96,10 @@ function ResetPassword({ navigation }) {
                 ? global.cb_placeHolderTextColor
                 : global.placeholderTextColor
             }
+            value={confPass}
+            onChangeText={(confPass) => {
+              setConfPass(confPass);
+            }}
           />
           <View style={{ marginVertical: 8 }} />
           <Button
@@ -96,7 +109,7 @@ function ResetPassword({ navigation }) {
                 ? global.cb_optionButtonsColor
                 : global.optionButtonsColor
             }
-            onPress={() => navigation.navigate('Login')}
+            onPress={() => passReset(email, code, pass, confPass, navigation)}
           />
           <View style={{ marginVertical: 8 }} />
         </View>
@@ -118,6 +131,20 @@ function ResetPassword({ navigation }) {
       </View>
     </SafeAreaView>
   );
+}
+
+async function passReset(email, code, password, confPass, navigation) {
+  try {  
+    if(password != confPass) {
+      throw 'Password and Confirm Password are not the same';
+    }
+
+    await Auth.forgotPasswordSubmit(email.email, code, password);
+    
+    navigation.navigate('Login');
+  } catch(error) {
+    console.log('error resetting password', error);
+  }
 }
 
 const styles = () =>
