@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Auth, API } from 'aws-amplify';
 import {
+  Alert,
   StyleSheet,
   Text,
   View,
@@ -14,7 +15,23 @@ import {
 
 function VerificationCode({ route, navigation }) {
   const [verificationCode, setVerificationCode] = useState('');
+  const [validLengthVerificationCode, setValidLengthVerificationCode] = useState(false);
   const { username } = route.params;
+
+  const handleVerificationCode = (verificationCode) => {
+    const verificationCodeRegexPattern = /^(?=.*[0-9]).{6,6}$/;
+    const charsNotAllowedRegex = /[^0-9]+$/;
+
+    verificationCode = verificationCode.replace(charsNotAllowedRegex, '');
+    setVerificationCode(verificationCode);
+
+    if (verificationCode.match(verificationCodeRegexPattern)) {
+      setValidLengthVerificationCode(true);
+    } else {
+      setValidLengthVerificationCode(false);
+    }
+  }
+
   return (
     <SafeAreaView style={styles().container}>
       <StatusBar
@@ -43,11 +60,13 @@ function VerificationCode({ route, navigation }) {
             placeholder='Verification Code'
             placeholderTextColor={global.colorblindMode
               ? global.cb_placeHolderTextColor
-              : global.cb_placeHolderTextColor
+              : global.placeHolderTextColor
             }
+            keyboardType='number-pad'
             value={verificationCode}
+            maxLength={6}
             onChangeText={(verificationCode) => {
-              setVerificationCode(verificationCode);
+              handleVerificationCode(verificationCode);
             }}
           />
           <View style={{ marginVertical: 8 }} />
@@ -58,7 +77,7 @@ function VerificationCode({ route, navigation }) {
                 ? global.cb_optionButtonsColor
                 : global.optionButtonsColor
             }
-            onPress={() => verify(username, verificationCode, navigation)}
+            onPress={() => verify(username, verificationCode, validLengthVerificationCode, navigation)}
           />
           <View style={{ marginVertical: 8 }} />
         </View>
@@ -84,13 +103,32 @@ function VerificationCode({ route, navigation }) {
   );
 }
 
-async function verify(username, code, navigation) {
-  try {
-    await Auth.confirmSignUp(username, code);
-    // console.log('confirm signup successfully');
-    navigation.navigate('Login');
-  } catch (error) {
-    console.log('error signing up', error);
+const createAlert = (title, message) => {
+  Alert.alert(
+    title,
+    message,
+    [
+      {
+        text: 'Cancel',
+        style: 'cancel'
+      },
+      { text: 'OK', }
+    ]
+  );
+}
+
+// Future: Store all possible error messages in an array and just pass in the index to keep this small.
+async function verify(username, code, validLengthVerificationCode, navigation) {
+  if (!validLengthVerificationCode) {
+    createAlert('Invalid Length', 'Verification codes must be 6 digits long.');
+  } else {
+    try {
+      await Auth.confirmSignUp(username, code);
+      // console.log('confirm signup successfully');
+      navigation.navigate('Login');
+    } catch (error) {
+      createAlert('Invalid Verification Code', 'Invalid verification code entered.')
+    }
   }
 }
 
@@ -99,7 +137,7 @@ async function resend(username) {
     await Auth.resendSignUp(username);
     // console.log('code resent successfully');
   } catch (error) {
-    console.log('error signing up', error);
+    createAlert('Error', 'Error resending verification code.  Please try again.')
   }
 }
 
