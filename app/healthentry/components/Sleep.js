@@ -48,6 +48,8 @@ const Sleep = ({
   setQualityOfNap,
   naps,
   setNaps,
+  sleepTime,
+  setSleepTime,
 }) => {
   return (
     <View style={{ width: '80%' }}>

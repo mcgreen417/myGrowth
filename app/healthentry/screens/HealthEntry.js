@@ -115,6 +115,7 @@ const HealthEntry = ({ navigation }) => {
   const [qualityOfSleep, setQualityOfSleep] = useState(-1);
   const [sleepTime, setSleepTime] = useState([]);
   const [qualityOfNap, setQualityOfNap] = useState(-1);
+  const [napTime, setNapTime] = useState([]);
   const [naps, setNaps] = useState([]);
   const [stress, setStress] = useState(-1);
   const [stressors, setStressors] = useState([]);
