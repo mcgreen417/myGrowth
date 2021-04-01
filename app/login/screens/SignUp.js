@@ -258,7 +258,7 @@ const styles = () => StyleSheet.create({
   buttons: {
     marginTop: 10,
     marginBottom: 10,
-    width: '70%',
+    width: '73.5%',
     borderColor: global.colorblindMode
       ? global.cb_optionButtonsBorderColor
       : global.optionButtonsBorderColor,
