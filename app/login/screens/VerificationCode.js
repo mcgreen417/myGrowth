@@ -14,7 +14,21 @@ import {
 
 function VerificationCode({ route, navigation }) {
   const [verificationCode, setVerificationCode] = useState('');
+  const [validLengthVerificationCode, setValidLengthVerificationCode] = useState(false);
   const { username } = route.params;
+
+  const handleVerificationCode = (verificationCode) => {
+    const verificationCodeRegexPattern = /^(?=.*[0-9]).{6,6}$/;
+    const charsNotAllowedRegex = /[^0-9]+$/;
+
+    verificationCode = verificationCode.replace(charsNotAllowedRegex, '');
+    setVerificationCode(verificationCode);
+
+    if (verificationCode.match(verificationCodeRegexPattern)) {
+      setValidLengthVerificationCode(true);
+    }
+  }
+
   return (
     <SafeAreaView style={styles().container}>
       <StatusBar
@@ -45,9 +59,11 @@ function VerificationCode({ route, navigation }) {
               ? global.cb_placeHolderTextColor
               : global.cb_placeHolderTextColor
             }
+            keyboardType='number-pad'
             value={verificationCode}
+            maxLength={6}
             onChangeText={(verificationCode) => {
-              setVerificationCode(verificationCode);
+              handleVerificationCode(verificationCode);
             }}
           />
           <View style={{ marginVertical: 8 }} />
