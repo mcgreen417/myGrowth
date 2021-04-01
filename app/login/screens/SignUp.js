@@ -128,7 +128,7 @@ function SignUp({ navigation }) {
       }
     }    
 
-    return signupProperties.validSignUp;
+    // return signupProperties.validSignUp;
   }
 
   return (
@@ -280,7 +280,13 @@ async function signUp(email, password, navigation) {
     });
     navigation.navigate('VerificationCode', { username: username });
   } catch (error) {
-    createAlert('Error', 'Error signing up.  Please try again.');
+    // console.log(error);
+    
+    if (error.code === "UsernameExistsException") {
+      createAlert('Oh no!', 'An account under this email already exists.  Please either reset your password or use a new email.');
+    } else {
+      createAlert('Error', 'Error signing up.  Please try again.');
+    }
   }
 }
 
