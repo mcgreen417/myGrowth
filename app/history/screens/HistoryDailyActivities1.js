@@ -15,9 +15,41 @@ import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
 
-function HistoryDailyActivities1({ navigation }) { 
+const dayLabels = [
+  "Mon",
+  "Tues",
+  "Weds",
+  "Thurs",
+  "Fri",
+  "Sat",
+  "Sun"
+];
+
+const monthLabels = [
+  "Jan",
+  "Mar",
+  "May",
+  "July",
+  "Sept",
+  "Nov"
+];
+
+/*
+*       TODO: edit the auxiliary functions below to do the following:
+*         - make the labels array hold the activities' names
+*         - implement the data array and find algorithm to parse said data and store it
+*             ~ aforemention array's structure: frequency of each activity under the same name in the activities name array
+*             ~ examples [act 1, act 2,  act 3] -> [4, 4, 0] activity 1 was done 4 times, activity 2 was done 4 times, and activity 3 was done 0 times
+*
+*/
+
+function HistoryDailyActivities1({ route, navigation }) {
+  const data = route.params.data;
+
   const [modalVisible, setModalVisible] = useState(false); 
   const [timePeriod, setTimePeriod] = useState('unselected');
+  //const arr = initDisplayData(passData, data);
+  //const [displayData, setDisplayDate] = useState(arr);
   
   return (
     <SafeAreaView style={styles().container}>
@@ -27,6 +59,7 @@ function HistoryDailyActivities1({ navigation }) {
         setModalView={setModalVisible}
         showModalView={modalVisible}
         navigation={navigation}
+        data={data}
       />
 
       {/* Actual screen */}
@@ -93,6 +126,49 @@ function HistoryDailyActivities1({ navigation }) {
     </SafeAreaView>
   );
 };
+
+function initDisplayData(passData, data) {
+  const mostRecentEntry = new Date(passData.latestDate);
+  const length = data;
+  var arr = [];
+
+  arr = data.stressData.slice(len - 7, len);
+
+  return arr;
+}
+
+function getDisplayData(data, timePeriod, setDisplayData) {
+  var len = data.stressData.length;
+
+  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    setDisplayData(data.stressData.slice(len - 7, len));
+
+  else if(timePeriod === 'past_month')
+    setDisplayData(data.stressData.slice(len - 30, len));
+
+  else
+    setDisplayData(data.stressData.slice(len - 365, len));
+}
+
+function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
+  var dates = [];
+  const latestDate = new Date(data.latestDate);
+
+  for(var i = 29; i >= 0; i--) {
+    var date = new Date(latestDate.getTime() - (i * 24 * 60 * 60 * 1000));
+    if(i % 4 == 0)
+      dates.push(date.toISOString().substring(5, 10));
+  }
+
+  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    setTimestamps(dayLabels);
+
+  else if(timePeriod === 'past_month')
+    setTimestamps(dates); 
+
+  else if(timePeriod === 'past_year')
+    setTimestamps(monthLabels);
+}
 
 export default HistoryDailyActivities1;
 

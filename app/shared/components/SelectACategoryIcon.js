@@ -6,12 +6,13 @@ const SelectACategoryIcon = ({
   navigation,
   setModalVisible,
   modalVisible,
+  data,
   ...rest
 }) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate(screens.navigateTo);
+        navigation.navigate(screens.navigateTo, {data});
         setModalVisible(!modalVisible);
       }}
       style={{

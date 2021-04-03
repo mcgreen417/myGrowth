@@ -16,7 +16,8 @@ import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
 
-function HistorySleep1({ navigation }) {
+function HistorySleep1({ route, navigation }) {
+  const data = route.params.data;
   const [modalVisible, setModalVisible] = useState(false);
   const [timePeriod, setTimePeriod] = useState('unselected');
   const [selectDisplay, setDisplay] = useState('unselected');
@@ -33,6 +34,7 @@ function HistorySleep1({ navigation }) {
         setModalView={setModalVisible}
         showModalView={modalVisible}
         navigation={navigation}
+        data={data}
       />
 
       {/* Actual screen */}

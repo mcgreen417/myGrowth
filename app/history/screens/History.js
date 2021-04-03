@@ -15,7 +15,8 @@ import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
 
-function HistoryHealthEntries({ navigation }) {
+function HistoryHealthEntries({ route, navigation }) {
+  const data = route.params.data;
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
@@ -26,6 +27,7 @@ function HistoryHealthEntries({ navigation }) {
         setModalView={setModalVisible}
         showModalView={modalVisible}
         navigation={navigation}
+        data={data}
       />
       
       {/* Actual screen */}
@@ -68,7 +70,7 @@ function HistoryHealthEntries({ navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent history={true} navigation={navigation} />
+          {/*<TabBarAndContent history={true} navigation={navigation} />*/}
 
           {/* Middle divider */}
           <View style={styles().dividerView}>

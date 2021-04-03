@@ -72,6 +72,7 @@ const HistorySelectACategory = ({
   setModalView,
   showModalView,
   navigation,
+  data,
   ...rest
 }) => {
   return (
@@ -152,6 +153,7 @@ const HistorySelectACategory = ({
                 key={index}
                 screens={screen}
                 navigation={navigation}
+                data={data}
                 setModalVisible={setModalView}
                 modalVisible={showModalView}
               />

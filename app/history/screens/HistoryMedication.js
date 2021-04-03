@@ -15,7 +15,8 @@ import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
 
-function HistoryMedication({ navigation }) {
+function HistoryMedication({ route, navigation }) {
+  const data = route.params.data;
   const [modalVisible, setModalVisible] = useState(false);
   const [selectmedication, setMedication] = useState('unselected');
 
@@ -27,6 +28,7 @@ function HistoryMedication({ navigation }) {
         setModalView={setModalVisible}
         showModalView={modalVisible}
         navigation={navigation}
+        data={data}
       />
 
       {/* Actual screen */}

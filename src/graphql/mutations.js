@@ -387,7 +387,7 @@ export const updatePoints = /* GraphQL */ `
 export const addDailyEntry = /* GraphQL */ `
   mutation AddDailyEntry(
     $UserID: ID
-    $Timestamp: AWSDate
+    $Timestamp: AWSDateTime
     $Health: HealthIn
     $Symptoms: [SymptomIn!]
     $Stress: StressIn
@@ -484,7 +484,7 @@ export const addDailyEntry = /* GraphQL */ `
 export const updateDailyEntry = /* GraphQL */ `
   mutation UpdateDailyEntry(
     $UserID: ID
-    $Timestamp: AWSDate
+    $Timestamp: AWSDateTime!
     $Health: HealthIn
     $Symptoms: [SymptomIn!]
     $Stress: StressIn
@@ -579,7 +579,7 @@ export const updateDailyEntry = /* GraphQL */ `
   }
 `;
 export const deleteDailyEntry = /* GraphQL */ `
-  mutation DeleteDailyEntry($UserID: ID, $Timestamp: AWSDate!) {
+  mutation DeleteDailyEntry($UserID: ID, $Timestamp: AWSDateTime!) {
     deleteDailyEntry(UserID: $UserID, Timestamp: $Timestamp) {
       UserID
       Timestamp
@@ -654,7 +654,7 @@ export const deleteDailyEntry = /* GraphQL */ `
 export const updateJournalEntry = /* GraphQL */ `
   mutation UpdateJournalEntry(
     $UserID: ID
-    $Timestamp: AWSDate
+    $Timestamp: AWSDateTime!
     $Entry: String!
     $FreqWords: [FreqWordsIn!]
   ) {
@@ -674,7 +674,7 @@ export const updateJournalEntry = /* GraphQL */ `
   }
 `;
 export const removeJournalEntry = /* GraphQL */ `
-  mutation RemoveJournalEntry($UserID: ID, $Timestamp: AWSDate!) {
+  mutation RemoveJournalEntry($UserID: ID, $Timestamp: AWSDateTime!) {
     removeJournalEntry(UserID: $UserID, Timestamp: $Timestamp) {
       Entry
       Timestamp

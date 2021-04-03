@@ -99,7 +99,7 @@ export const getSetting = /* GraphQL */ `
   }
 `;
 export const getDailyEntry = /* GraphQL */ `
-  query GetDailyEntry($UserID: ID, $Timestamp: AWSDate!) {
+  query GetDailyEntry($UserID: ID, $Timestamp: AWSDateTime!) {
     getDailyEntry(UserID: $UserID, Timestamp: $Timestamp) {
       UserID
       Timestamp
@@ -267,11 +267,29 @@ export const getChartData = /* GraphQL */ `
       napSleepData
       weightData
       periodData
+      fitnessData {
+        burned
+        dur
+        steps
+        exercises
+      }
+      activityData
+      mealData {
+        calories
+        carbs
+        fats
+        proteins
+      }
+      symptomData
+      medicineData {
+        allTaken
+        meds
+      }
     }
   }
 `;
 export const getJournalEntry = /* GraphQL */ `
-  query GetJournalEntry($UserID: ID, $Timestamp: AWSDate!) {
+  query GetJournalEntry($UserID: ID, $Timestamp: AWSDateTime!) {
     getJournalEntry(UserID: $UserID, Timestamp: $Timestamp) {
       Entry
       Timestamp

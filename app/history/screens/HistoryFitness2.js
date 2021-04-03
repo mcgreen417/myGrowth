@@ -15,7 +15,8 @@ import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
 
-function HistoryFitness2({ navigation }) {
+function HistoryFitness2({ route, navigation }) {
+  const data = route.params.data;
   const [modalVisible, setModalVisible] = useState(false);
   const [timePeriod, setTimePeriod] = useState('unselected');
   const [selectExercise, setExercise] = useState('unselected');  
@@ -28,6 +29,7 @@ function HistoryFitness2({ navigation }) {
         setModalView={setModalVisible}
         showModalView={modalVisible}
         navigation={navigation}
+        data={data}
       />
 
       {/* Actual screen */}

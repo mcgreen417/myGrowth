@@ -21,42 +21,17 @@ const images = {
   exerciseImg: require('../../shared/assets/splash.png'),
 };
 
-const dayLabels = [
-  "Mon",
-  "Tues",
-  "Weds",
-  "Thurs",
-  "Fri",
-  "Sat",
-  "Sun"
-];
-
-const monthLabels = [
-  "Jan",
-  "Mar",
-  "May",
-  "July",
-  "Sept",
-  "Nov"
-];
-
 const buttonColors = {
   lightGreen: '#A5DFB2',
   darkGreen: '#4CB97A',
 };
 
 const TabBarAndContent = ({
-  history = false,
-  historyGenComp = false,
-  dailyActivities = false,
-  generalHealth = false,
-  medication = false,
-  sleep = false,
-  fitness = false,
   navigation,
   data,
   timePeriod, 
-  page
+  page,
+  multiPageData
 }) => {
   const [imgSource, setImageSource] = useState(images.historyImg);
   const [historyButtonColor, setHistoryButtonColor] = useState(buttonColors.darkGreen);
@@ -68,11 +43,10 @@ const TabBarAndContent = ({
   const [qualityButtonColor, setQualityButtonColor] = useState(buttonColors.lightGreen);
   const [exerciseButtonColor, setExerciseButtonColor] = useState(buttonColors.lightGreen);
 
-  const [timestamps, setTimestamps] = useState([]);
-  const [displayData, setDisplayData] = useState([0, 0, 0, 0, 0, 0, 0, 0]);
+  const [showTable, setShowTable] = useState(true);
 
   /* History Comp version */
-  if (history)
+  if (page === 'history')
     return (
       <View style={{ width: '90%', }}>
         <View style={{ flexDirection: 'row', }}>
@@ -103,7 +77,7 @@ const TabBarAndContent = ({
     );
 
   {/* Mood, Stress, Period, Meal, Weight */}
-  if (historyGenComp)
+  if (page === 'historyGenComp')
     return (
       <View style={{ width: '90%', }}>
         <View style={{ flexDirection: 'row', }}>
@@ -115,11 +89,9 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.historyImg);
+              setShowTable(true);
               setCorrButtonColor(buttonColors.lightGreen);
               setHistoryButtonColor(buttonColors.darkGreen);
-              getTimestamps(data, timestamps, setTimestamps, timePeriod);
-              getGenData(data, timePeriod, timestamps, setTimestamps, page, displayData, setDisplayData);
             }}
           >
             <Text style={styles.text}>History</Text>
@@ -133,7 +105,7 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.correlationImg);
+              setShowTable(false);
               setCorrButtonColor(buttonColors.darkGreen);
               setHistoryButtonColor(buttonColors.lightGreen);
             }}
@@ -148,18 +120,18 @@ const TabBarAndContent = ({
         </View>
 
         {/* render image */}
-        { imgSource === images.correlationImg &&
-          <Image style={styles.images} source={imgSource} />}
-        {imgSource === images.historyImg && <LineChart 
+        {/* !showTable &&
+          <Image style={styles.images} source={imgSource} />*/}
+        {showTable && <LineChart 
           data = {{
-            labels: timestamps,
+            labels: timePeriod,
             datasets: [
               {
-                data: displayData
+                data: data
               }
             ]
           }}
-          width={349} // from react-native
+          width={353} // from react-native
           height={250}
           yAxisLabel=""
           yAxisSuffix=""
@@ -192,7 +164,7 @@ const TabBarAndContent = ({
     );
 
   {/* Daily Activities */}
-  if (dailyActivities)
+  if (page === 'dailyActivities')
     return (
       <View style={{ width: '90%', }}>
         <View style={{ flexDirection: 'row', }}>
@@ -204,11 +176,11 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.historyImg);
+              setShowTable(true);
               setCorrButtonColor(buttonColors.lightGreen);
               setHistoryButtonColor(buttonColors.darkGreen);
               setActivityButtonColor(buttonColors.lightGreen);
-              navigation.navigate('HistoryDailyActivities1');
+              navigation.navigate('HistoryDailyActivities1', {data});
             }}
           >
             <Text style={styles.text}>History</Text>
@@ -222,11 +194,11 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.activityImg);
+              setShowTable(true);
               setCorrButtonColor(buttonColors.lightGreen);
               setHistoryButtonColor(buttonColors.lightGreen);
               setActivityButtonColor(buttonColors.darkGreen);
-              navigation.navigate('HistoryDailyActivities2');
+              navigation.navigate('HistoryDailyActivities2', {data});
             }}
           >
             <Text style={styles.text}>Activity</Text>
@@ -240,11 +212,11 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.correlationImg);
+              setShowTable(false);
               setCorrButtonColor(buttonColors.darkGreen);
               setHistoryButtonColor(buttonColors.lightGreen);
               setActivityButtonColor(buttonColors.lightGreen);
-              navigation.navigate('HistoryDailyActivities1');
+              navigation.navigate('HistoryDailyActivities1', {data});
             }}
           >
             <Text style={styles.text}>Correlations</Text>
@@ -261,7 +233,7 @@ const TabBarAndContent = ({
     );
 
   {/* General Health */}
-  if (generalHealth)
+  if (page === 'generalHealth')
     return (
       <View style={{ width: '90%', }}>
         <View style={{ flexDirection: 'row', }}>
@@ -330,7 +302,7 @@ const TabBarAndContent = ({
     );
 
   {/* Medication */}
-  if (medication)
+  if (page === 'medication')
     return (
       <View style={{ width: '90%', }}>
         <View style={{ flexDirection: 'row', }}>
@@ -377,7 +349,7 @@ const TabBarAndContent = ({
     );
 
   {/* Sleep */}
-  if (sleep)
+  if (page === 'sleep')
     return (
       <View style={{ width: '90%', }}>
         <View style={{ flexDirection: 'row', }}>
@@ -446,7 +418,7 @@ const TabBarAndContent = ({
     );
 
   {/* Fitness */}
-  if (fitness)
+  if (page === 'fitness')
     return (
       <View style={{ width: '90%', }}>
         <View style={{ flexDirection: 'row', }}>
@@ -516,84 +488,6 @@ const TabBarAndContent = ({
 
   return null;
 };
-
-function getGenData(data, timePeriod, timestamps, setTimestamps, page, displayData, setDisplayData) {
-  var len = 0;
-  
-  //data.moodData
-  if(page === 'mood') {
-    len = data.moodData.length;
-
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
-        setDisplayData(data.moodData.slice(len - 7, len));
-
-    else if(timePeriod === 'past_month')
-      setDisplayData(data.moodData.slice(len - 30, len));
-
-    else
-      setDisplayData(data.moodData.slice(len - 365, len));
-  }
-  // diff func ideally
-  //data.napSleepData
-  //data.nightSleepData
-  //else if(page === 'sleep') {
-    
-  //}
-  
-  //data.periodData
-  else if(page === 'period') {
-    len = data.periodData.length;
-
-    setDisplayData(data.periodData.slice(len - 30, len));
-  }
-
-  //data.stressData
-  else if(page === 'stress') {
-    len = data.stressData.length;
-
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
-        setDisplayData(data.stressData.slice(len - 7, len));
-
-    else if(timePeriod === 'past_month')
-      setDisplayData(data.stressData.slice(len - 30, len));
-
-    else
-      setDisplayData(data.stressData.slice(len - 365, len));
-  }
-  //data.weightData
-  else {
-    len = data.weightData.length;
-
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
-        setDisplayData(data.weightData.slice(len - 7, len));
-
-    else if(timePeriod === 'past_month')
-      setDisplayData(data.weightData.slice(len - 30, len));
-
-    else
-      setDisplayData(data.weightData.slice(len - 365, len));
-  }
-}
-
-function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
-  var dates = [];
-  const latestDate = new Date(data.latestDate);
-
-  for(var i = 29; i >= 0; i--) {
-    var date = new Date(latestDate.getTime() - (i * 24 * 60 * 60 * 1000));
-    if(i % 4 == 0)
-      dates.push(date.toISOString().substring(5, 10));
-  }
-
-  if(timePeriod === 'past_week' || timePeriod === 'unselected')
-    setTimestamps(dayLabels);
-
-  else if(timePeriod === 'past_month')
-    setTimestamps(dates); 
-
-  else if(timePeriod === 'past_year')
-    setTimestamps(monthLabels);
-}
 
 export default TabBarAndContent;
 
