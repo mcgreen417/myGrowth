@@ -26,14 +26,12 @@ import HistorySelectACategory from '../../shared/components/HistorySelectACatego
 
 function HistoryDailyActivities1({ route, navigation }) {
   const data = route.params.data;
-  console.log(data.activityData[1]);
+  var activityMap = getMap(data, 'unselected');
 
   const [modalVisible, setModalVisible] = useState(false); 
   const [timePeriod, setTimePeriod] = useState('unselected');
-  const [labels, setLabels] = useState([]);
-  const [freqs, setFreqs] = useState([]);
-
-  iterTest(setLabels, setFreqs, data);
+  const [labels, setLabels] = useState(getLabels(activityMap));
+  const [freqs, setFreqs] = useState(getFreqs(activityMap, timePeriod));
   
   return (
     <SafeAreaView style={styles().container}>
@@ -85,7 +83,13 @@ function HistoryDailyActivities1({ route, navigation }) {
           </TouchableOpacity>
             
           {/* Custom history component */}
-          <TabBarAndContent dailyActivities={true} navigation={navigation} />
+          <TabBarAndContent 
+            navigation={navigation} 
+            data={data} 
+            timePeriod={labels} 
+            page={'dailyActivities'}
+            multiPageData={freqs}
+          />
 
           {/* Time Period drop-down selection */}
           <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, }}>
@@ -94,7 +98,12 @@ function HistoryDailyActivities1({ route, navigation }) {
               <Picker
                 selectedValue={timePeriod}
                 style={styles().picker}
-                onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+                onValueChange={(itemValue, itemIndex) => {
+                  setTimePeriod(itemValue);
+                  activityMap = getMap(data, itemValue);
+                  setLabels(getLabels(activityMap));
+                  setFreqs(getFreqs(activityMap, itemValue));
+                }}
                 mode={'dropdown'}
               >
                 <Picker.Item label='Select one...' value='unselected' />
@@ -111,67 +120,76 @@ function HistoryDailyActivities1({ route, navigation }) {
   );
 };
 
-function isEmptyObj(obj) {
-  for(var i in obj)
-    return false;
-
-    return true;
-}
-
-function iterTest(setLabels, setFreqs, data) {
-  var holdLabels = [];
-  var holdFreqs = [];
-  var obj = data.activityData;
-
-  //const keys = Object.keys(obj);
-  //console.log(Object.keys(obj));
-  console.log(data.activityData["activity 3"]);
-
-  /*for(var i in data.activityData) {
-    console.log(data.activityData[i]);
-    //check if the obj is empty
-    if(isEmptyObj(data.activityData[i]))
-      ;
-    
-    //access data in obj
-    else {
-
-    }
-  }*/
-
-  for(var [key, value] of Object.entries(data.activityData)) {
-    console.log(key, value);
-  }
-}
-
-function initDisplayData(passData, data) {
-  const mostRecentEntry = new Date(passData.latestDate);
-  const length = data;
-  var arr = [];
-
-  arr = data.stressData.slice(len - 7, len);
-
-  return arr;
-}
-
-function getLabels(data, timestamps, setTimestamps, timePeriod) {
-  var dates = [];
-  const latestDate = new Date(data.latestDate);
-
-  for(var i = 29; i >= 0; i--) {
-    var date = new Date(latestDate.getTime() - (i * 24 * 60 * 60 * 1000));
-    if(i % 4 == 0)
-      dates.push(date.toISOString().substring(5, 10));
-  }
+function getMap(data, timePeriod) {
+  var map = new Map();
+  var length = data.activityData.length;
 
   if(timePeriod === 'past_week' || timePeriod === 'unselected')
-    setTimestamps(dayLabels);
+    for(var i = length < 7 ? 0 : length - 7; i < length; i++)
+      for(var [key, value] of Object.entries(JSON.parse(data.activityData[i]))) {
+        //check if key is in map
+        if(!map.has(key)) {
+          if(key !== 'null')
+            map.set(key, value);
+        }
 
-  else if(timePeriod === 'past_month')
-    setTimestamps(dates); 
+        //it exists
+        else {
+          map.set(key, map.get(key) + value);
+        }
+      }
 
-  else if(timePeriod === 'past_year')
-    setTimestamps(monthLabels);
+  else if (timePeriod === 'past_month')
+    for(var i = i = length < 30 ? 0 : length - 30; i < length; i++)
+      for(var [key, value] of Object.entries(JSON.parse(data.activityData[i]))) {
+        //check if key is in map
+        if(!map.has(key)) {
+          if(key !== 'null')
+            map.set(key, value);
+        }
+
+        //it exists
+        else {
+          map.set(key, map.get(key) + value);
+        }
+      }
+
+  else
+    for(var i = length < 365 ? 0 : length - 365; i < length; i++)
+      for(let [key, value] of Object.entries(JSON.parse(data.activityData[i]))) {
+        //check if key is in map
+        if(!map.has(key)) {
+          if(key !== 'null')
+            map.set(key, value);
+        }
+
+        //it exists
+        else {
+          map.set(key, map.get(key) + value);
+        }
+      }
+
+  return map;
+}
+
+function getLabels(activityMap) {
+  const obj = [];
+
+  activityMap.forEach(function(value, key) {
+    obj.push(key);
+  })
+
+  return obj;
+}
+
+function getFreqs(activityMap, timePeriod) {
+  const obj = [];
+
+  activityMap.forEach(function(value, key) {
+    obj.push(value);
+  })
+
+  return obj;
 }
 
 export default HistoryDailyActivities1;

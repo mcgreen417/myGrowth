@@ -194,7 +194,7 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setShowTable(true);
+              setShowTable(false);
               setCorrButtonColor(buttonColors.lightGreen);
               setHistoryButtonColor(buttonColors.lightGreen);
               setActivityButtonColor(buttonColors.darkGreen);
@@ -227,8 +227,41 @@ const TabBarAndContent = ({
         <View style={styles.coloredBarView}>
           <View style={styles.coloredBar} />
         </View>
-        {/* Eender image */}
-        <Image style={styles.images} source={imgSource} />
+
+        {/* Render image */}
+        {!showTable && <Image style={styles.images} source={imgSource} />}
+
+        {/* Render bar graph */}
+        {showTable && <BarChart 
+          data = {{
+            labels: timePeriod,
+            datasets: [
+              {
+                data: multiPageData
+              }
+            ]
+          }}
+          width={353} // from react-native
+          height={250}
+          yAxisLabel=""
+          yAxisSuffix=""
+          yAxisInterval={1} // optional, defaults to 1
+          chartConfig={{
+            backgroundColor: "#4CB97A",
+            backgroundGradientFrom: "#4CB97A",
+            backgroundGradientTo: "#A5DFB2",
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            fillShadowGradientOpacity: 3,
+          }}
+          bezier
+          style={{
+          }}
+        />}
       </View>
     );
 
