@@ -15,25 +15,6 @@ import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
 
-const dayLabels = [
-  "Mon",
-  "Tues",
-  "Weds",
-  "Thurs",
-  "Fri",
-  "Sat",
-  "Sun"
-];
-
-const monthLabels = [
-  "Jan",
-  "Mar",
-  "May",
-  "July",
-  "Sept",
-  "Nov"
-];
-
 /*
 *       TODO: edit the auxiliary functions below to do the following:
 *         - make the labels array hold the activities' names
@@ -45,11 +26,14 @@ const monthLabels = [
 
 function HistoryDailyActivities1({ route, navigation }) {
   const data = route.params.data;
+  console.log(data.activityData[1]);
 
   const [modalVisible, setModalVisible] = useState(false); 
   const [timePeriod, setTimePeriod] = useState('unselected');
-  //const arr = initDisplayData(passData, data);
-  //const [displayData, setDisplayDate] = useState(arr);
+  const [labels, setLabels] = useState([]);
+  const [freqs, setFreqs] = useState([]);
+
+  iterTest(setLabels, setFreqs, data);
   
   return (
     <SafeAreaView style={styles().container}>
@@ -127,6 +111,39 @@ function HistoryDailyActivities1({ route, navigation }) {
   );
 };
 
+function isEmptyObj(obj) {
+  for(var i in obj)
+    return false;
+
+    return true;
+}
+
+function iterTest(setLabels, setFreqs, data) {
+  var holdLabels = [];
+  var holdFreqs = [];
+  var obj = data.activityData;
+
+  //const keys = Object.keys(obj);
+  //console.log(Object.keys(obj));
+  console.log(data.activityData["activity 3"]);
+
+  /*for(var i in data.activityData) {
+    console.log(data.activityData[i]);
+    //check if the obj is empty
+    if(isEmptyObj(data.activityData[i]))
+      ;
+    
+    //access data in obj
+    else {
+
+    }
+  }*/
+
+  for(var [key, value] of Object.entries(data.activityData)) {
+    console.log(key, value);
+  }
+}
+
 function initDisplayData(passData, data) {
   const mostRecentEntry = new Date(passData.latestDate);
   const length = data;
@@ -137,20 +154,7 @@ function initDisplayData(passData, data) {
   return arr;
 }
 
-function getDisplayData(data, timePeriod, setDisplayData) {
-  var len = data.stressData.length;
-
-  if(timePeriod === 'past_week' || timePeriod === 'unselected')
-    setDisplayData(data.stressData.slice(len - 7, len));
-
-  else if(timePeriod === 'past_month')
-    setDisplayData(data.stressData.slice(len - 30, len));
-
-  else
-    setDisplayData(data.stressData.slice(len - 365, len));
-}
-
-function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
+function getLabels(data, timestamps, setTimestamps, timePeriod) {
   var dates = [];
   const latestDate = new Date(data.latestDate);
 
