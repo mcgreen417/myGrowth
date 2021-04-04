@@ -21,6 +21,7 @@ export const getMilestones = /* GraphQL */ `
         Timestamp
         Category
         Progress
+        Reward
       }
       nextToken
     }
@@ -35,6 +36,7 @@ export const getMilestone = /* GraphQL */ `
       Timestamp
       Category
       Progress
+      Reward
     }
   }
 `;
@@ -265,6 +267,8 @@ export const getChartData = /* GraphQL */ `
       stressData
       nightSleepData
       napSleepData
+      nightQualityData
+      napQualityData
       weightData
       periodData
       fitnessData {

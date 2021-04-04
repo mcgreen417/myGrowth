@@ -41,7 +41,10 @@ function HistorySleep1({ route, navigation }) {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [timePeriod, setTimePeriod] = useState('unselected');
-  const [selectDisplay, setDisplay] = useState('unselected');
+  const [sleepView, setSleepView] = useState('unselected');
+  const [displayData1, setDisplay1] = useState(arr);
+  const [displayData2, setDisplay2] = useState([]);
+  const [timestamps, setTimestamps] = useState(dayLabels);
   const [useReccSleep, setUseReccSleep] = useState(false);
   
   const toggleReccSleep = () =>
@@ -98,6 +101,14 @@ function HistorySleep1({ route, navigation }) {
 
           {/* Custom history component */}
           <TabBarAndContent sleep={true} navigation={navigation} />
+          <TabBarAndContent 
+            navigation={navigation}
+            data={data} 
+            multiPageData={displayData1}
+            overlayData={displayData2}
+            timePeriod={timestamps} 
+            page={'sleep'} 
+          />
 
           {/* Time Period and Select Display drop-down selection */}
           <View 
@@ -113,7 +124,11 @@ function HistorySleep1({ route, navigation }) {
                 <Picker
                   selectedValue={timePeriod}
                   style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+                  onValueChange={(itemValue, itemIndex) => {
+                    setTimePeriod(itemValue);
+                    getTimestamps(data, timestamps, setTimestamps, itemValue);
+                    getDisplayData(data, timePeriod, setDisplay1, setDisplay2, sleepView);
+                  }}
                   mode={'dropdown'}
                 >
                   <Picker.Item label='Select one...' value='unselected' />
@@ -127,9 +142,13 @@ function HistorySleep1({ route, navigation }) {
               <Text style={styles().heading}>SELECT DISPLAY</Text>
               <View style={styles().pickerView}>
                 <Picker
-                  selectedValue={selectDisplay}
+                  selectedValue={sleepView}
                   style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => setDisplay(itemValue)}
+                  onValueChange={(itemValue, itemIndex) => {
+                    setSleepView(itemValue);
+                    getTimestamps(data, timestamps, setTimestamps, itemValue);
+                    getDisplayData(data, timePeriod, setDisplay1, setDisplay2, itemValue);
+                  }}
                   mode={'dropdown'}
                 >
                   <Picker.Item label='Select one...' value='unselected' />
@@ -327,6 +346,67 @@ function HistorySleep1({ route, navigation }) {
     </SafeAreaView>
   );
 };
+
+function initDisplayData(data) {
+  var len = data.nightSleepData.length;
+  var arr = [];
+
+  arr = data.nightSleepData.slice(len - 7, len);
+
+  return arr;
+}
+
+function getDisplayData(data, timePeriod, setDisplay1, setDisplay2, sleepView) {
+  console.log(data.napSleepData);
+
+  //sleep only or both
+  if(sleepView === 'sleep_only' || sleepView === 'unselected') {
+    var len = data.nightSleepData.length;
+
+    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+      setDisplay1(data.nightSleepData.slice(len - 7, len));
+
+    else if(timePeriod === 'past_month')
+      setDisplay1(data.nightSleepData.slice(len - 30, len));
+
+    else
+      setDisplay1(data.nightSleepData.slice(len - 365, len));
+  }
+
+  //nap only or both
+  if(sleepView === 'naps_only' || sleepView === 'unselected') {
+    var len = data.napSleepData.length;
+
+    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+      setDisplay2(data.napSleepData.slice(len - 7, len));
+
+    else if(timePeriod === 'past_month')
+      setDisplay2(data.napSleepData.slice(len - 30, len));
+
+    else
+      setDisplay2(data.napSleepData.slice(len - 365, len));
+  }
+}
+
+function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
+  var dates = [];
+  const latestDate = new Date(data.latestDate);
+
+  for(var i = 29; i >= 0; i--) {
+    var date = new Date(latestDate.getTime() - (i * 24 * 60 * 60 * 1000));
+    if(i % 4 == 0)
+      dates.push(date.toISOString().substring(5, 10));
+  }
+
+  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    setTimestamps(dayLabels);
+
+  else if(timePeriod === 'past_month')
+    setTimestamps(dates); 
+
+  else if(timePeriod === 'past_year')
+    setTimestamps(monthLabels);
+}
 
 export default HistorySleep1;
 

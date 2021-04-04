@@ -77,6 +77,7 @@ export const addMilestone = /* GraphQL */ `
     $timestamp: AWSDateTime
     $category: String!
     $progress: Float!
+    $reward: Int!
   ) {
     addMilestone(
       UserID: $UserID
@@ -84,6 +85,7 @@ export const addMilestone = /* GraphQL */ `
       timestamp: $timestamp
       category: $category
       progress: $progress
+      reward: $reward
     ) {
       UserID
       Title
@@ -91,6 +93,7 @@ export const addMilestone = /* GraphQL */ `
       Timestamp
       Category
       Progress
+      Reward
     }
   }
 `;
@@ -102,6 +105,7 @@ export const updateMilestone = /* GraphQL */ `
     $completed: Boolean!
     $category: String!
     $progress: Float!
+    $reward: Int!
   ) {
     updateMilestone(
       UserID: $UserID
@@ -110,6 +114,7 @@ export const updateMilestone = /* GraphQL */ `
       completed: $completed
       category: $category
       progress: $progress
+      reward: $reward
     ) {
       UserID
       Title
@@ -117,6 +122,7 @@ export const updateMilestone = /* GraphQL */ `
       Timestamp
       Category
       Progress
+      Reward
     }
   }
 `;
@@ -129,6 +135,7 @@ export const deleteMilestone = /* GraphQL */ `
       Timestamp
       Category
       Progress
+      Reward
     }
   }
 `;

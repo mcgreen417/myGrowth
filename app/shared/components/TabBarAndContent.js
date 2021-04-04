@@ -31,7 +31,8 @@ const TabBarAndContent = ({
   data,
   timePeriod, 
   page,
-  multiPageData
+  multiPageData,
+  overlayData,
 }) => {
   const [imgSource, setImageSource] = useState(images.historyImg);
   const [historyButtonColor, setHistoryButtonColor] = useState(buttonColors.darkGreen);
@@ -394,11 +395,11 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.timeSleepImg);
+              setShowTable(true);
               setCorrButtonColor(buttonColors.lightGreen);
               setSleepButtonColor(buttonColors.darkGreen);
               setQualityButtonColor(buttonColors.lightGreen);
-              navigation.navigate('HistorySleep1');
+              navigation.navigate('HistorySleep1', {data});
             }}
           >
             <Text style={styles.text}>History</Text>
@@ -412,11 +413,11 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.qualityImg);
+              setShowTable(false);
               setCorrButtonColor(buttonColors.lightGreen);
               setSleepButtonColor(buttonColors.lightGreen);
               setQualityButtonColor(buttonColors.darkGreen);
-              navigation.navigate('HistorySleep2');
+              navigation.navigate('HistorySleep2', {data});
             }}
           >
             <Text style={styles.text}>Quality</Text>
@@ -430,11 +431,11 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.correlationImg);
+              setShowTable(false);
               setCorrButtonColor(buttonColors.darkGreen);
               setSleepButtonColor(buttonColors.lightGreen);
               setQualityButtonColor(buttonColors.lightGreen);
-              navigation.navigate('HistorySleep1');
+              navigation.navigate('HistorySleep1', {data});
             }}
           >
             <Text style={styles.text}>Correlations</Text>
@@ -446,7 +447,44 @@ const TabBarAndContent = ({
           <View style={styles.coloredBar} />
         </View>
         {/* Render image */}
-        <Image style={styles.images} source={imgSource} />
+        {/* !showTable &&
+          <Image style={styles.images} source={imgSource} />*/}
+
+        {showTable && <LineChart 
+          data = {{
+            labels: timePeriod,
+            datasets: [
+              {
+                data: multiPageData,
+                data2: overlayData
+              }
+            ]
+          }}
+          width={353} // from react-native
+          height={250}
+          yAxisLabel=""
+          yAxisSuffix=""
+          yAxisInterval={1} // optional, defaults to 1
+          chartConfig={{
+            backgroundColor: "#4CB97A",
+            backgroundGradientFrom: "#4CB97A",
+            backgroundGradientTo: "#A5DFB2",
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#4CB97A"
+            }
+          }}
+          bezier
+          style={{
+          }}
+        />}
       </View>
     );
 

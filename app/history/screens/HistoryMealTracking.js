@@ -378,10 +378,10 @@ function initDisplayData(data) {
 }
 
 function getDisplayData(data, timePeriod, setDisplayData, selectNutrients) {
-  var len = data.mealData.calories.length;
-
   //calories || unselected
   if(selectNutrients === 'calories' || selectNutrients === 'unselected') {
+    var len = data.mealData.calories.length;
+
     if(timePeriod === 'past_week' || timePeriod === 'unselected')
       setDisplayData(data.mealData.calories.slice(len - 7, len));
 
@@ -394,38 +394,44 @@ function getDisplayData(data, timePeriod, setDisplayData, selectNutrients) {
 
   //fat
   if(selectNutrients === 'total_fat') {
+    var len = data.mealData.fats.length;
+
     if(timePeriod === 'past_week' || timePeriod === 'unselected')
-      setDisplayData(data.mealData.calories.slice(len - 7, len));
+      setDisplayData(data.mealData.fats.slice(len - 7, len));
 
     else if(timePeriod === 'past_month')
-      setDisplayData(data.mealData.calories.slice(len - 30, len));
+      setDisplayData(data.mealData.fats.slice(len - 30, len));
 
     else
-      setDisplayData(data.mealData.calories.slice(len - 365, len));
+      setDisplayData(data.mealData.fats.slice(len - 365, len));
   }
 
   //protein
   if(selectNutrients === 'total_protein') {
+    var len = data.mealData.proteins.length;
+
     if(timePeriod === 'past_week' || timePeriod === 'unselected')
-      setDisplayData(data.mealData.calories.slice(len - 7, len));
+      setDisplayData(data.mealData.proteins.slice(len - 7, len));
 
     else if(timePeriod === 'past_month')
-      setDisplayData(data.mealData.calories.slice(len - 30, len));
+      setDisplayData(data.mealData.proteins.slice(len - 30, len));
 
     else
-      setDisplayData(data.mealData.calories.slice(len - 365, len));
+      setDisplayData(data.mealData.proteins.slice(len - 365, len));
   }
 
   //carbs
   if(selectNutrients === 'total_carbs') {
+    var len = data.mealData.carbs.length;
+
     if(timePeriod === 'past_week' || timePeriod === 'unselected')
-      setDisplayData(data.mealData.calories.slice(len - 7, len));
+      setDisplayData(data.mealData.carbs.slice(len - 7, len));
 
     else if(timePeriod === 'past_month')
-      setDisplayData(data.mealData.calories.slice(len - 30, len));
+      setDisplayData(data.mealData.carbs.slice(len - 30, len));
 
     else
-      setDisplayData(data.mealData.calories.slice(len - 365, len));
+      setDisplayData(data.mealData.carbs.slice(len - 365, len));
   }
 }
 

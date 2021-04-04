@@ -25,8 +25,7 @@ Weight tracking: line chart representing weight in lbs/kgs (over week, month, ye
 Meal tracking: separate line charts for calories and each major nutrient tracked in advanced meal tracking (I looked at what was required on US nutrient labels for this), 
 with recommended amount as a second static line, & daily screen of progress circle graphs representing how far over/under they are for recommended calories/nutrients for 
 the day
-    - WIP: see fix below:
-        * save itemValue in each picker under nutrientVal and timeVal and then implement a button that modifies the data passed to the graph *
+    - DONE
 
 Fitness tracking: line charts representing calories burned from exercising, time spent exercising, steps taken (over week, month, year) & for each exercise, bar graph 
 representing the number of sets & reps
