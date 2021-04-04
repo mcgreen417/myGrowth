@@ -37,13 +37,12 @@ const monthLabels = [
 
 function HistorySleep1({ route, navigation }) {
   const data = route.params.data;
-  const arr = initDisplayData(data);
+  const obj = initDisplayData(data);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [timePeriod, setTimePeriod] = useState('unselected');
   const [sleepView, setSleepView] = useState('unselected');
-  const [displayData1, setDisplay1] = useState(arr);
-  const [displayData2, setDisplay2] = useState([]);
+  const [displayData, setDisplay] = useState(obj);
   const [timestamps, setTimestamps] = useState(dayLabels);
   const [useReccSleep, setUseReccSleep] = useState(false);
   
@@ -100,14 +99,13 @@ function HistorySleep1({ route, navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          {/*<TabBarAndContent 
+          <TabBarAndContent 
             navigation={navigation}
             data={data} 
-            multiPageData={displayData1}
-            overlayData={displayData2}
+            multiPageData={displayData}
             timePeriod={timestamps} 
             page={'sleep'} 
-          />*/}
+          />
 
           {/* Time Period and Select Display drop-down selection */}
           <View 
@@ -125,9 +123,8 @@ function HistorySleep1({ route, navigation }) {
                   style={styles().picker}
                   onValueChange={(itemValue, itemIndex) => {
                     setTimePeriod(itemValue);
-                    getDisplayData(data, itemValue, setDisplay1, setDisplay2, sleepView);
+                    getDisplayData(data, itemValue, setDisplay, sleepView);
                     getTimestamps(data, timestamps, setTimestamps, itemValue);
-                    console.log('1st data: ', displayData1,'2nd data: ', displayData2);
                   }}
                   mode={'dropdown'}
                 >
@@ -146,7 +143,7 @@ function HistorySleep1({ route, navigation }) {
                   style={styles().picker}
                   onValueChange={(itemValue, itemIndex) => {
                     setSleepView(itemValue);
-                    getDisplayData(data, timePeriod, setDisplay1, setDisplay2, itemValue);
+                    getDisplayData(data, timePeriod, setDisplay, itemValue);
                     getTimestamps(data, timestamps, setTimestamps, timePeriod);
                   }}
                   mode={'dropdown'}
@@ -349,68 +346,84 @@ function HistorySleep1({ route, navigation }) {
 };
 
 function initDisplayData(data) {
-  var len = data.nightSleepData.length;
-  var arr = [];
+  var len1 = data.nightSleepData.length;
+  var len2 = data.napSleepData.length;
+  var obj = new Object();
 
-  arr = data.nightSleepData.slice(len - 7, len);
+  obj.sleep = data.nightSleepData.slice(len1 - 7, len1);
+  obj.nap = data.napSleepData.slice(len2 - 7, len2);
 
-  return arr;
+  return obj;
 }
 
-function getDisplayData(data, timePeriod, setDisplay1, setDisplay2, sleepView) {
+function getDisplayData(data, timePeriod, setDisplay, sleepView) {
+  var obj = new Object();
+
   //both
   if(sleepView === 'unselected' || sleepView === 'sleep_nap') {
-    console.log('we are here');
+    var len1 = data.nightSleepData.length;
+    var len2 = data.napSleepData.length;
+
     if(timePeriod === 'past_week' || timePeriod === 'unselected') {
-      setDisplay1(data.nightSleepData.slice(len - 7, len));
-      setDisplay2(data.nightSleepData.slice(len - 7, len));
+      obj.sleep = data.nightSleepData.slice(len1 - 7, len1);
+      obj.nap = data.napSleepData.slice(len2 - 7, len2);
+
+      setDisplay(obj);
     }
 
     else if(timePeriod === 'past_month') {
-      setDisplay1(data.nightSleepData.slice(len - 30, len));
-      setDisplay2(data.nightSleepData.slice(len - 30, len));
+      obj.sleep = data.nightSleepData.slice(len1 - 30, len1);
+      obj.nap = data.napSleepData.slice(len2 - 30, len2);
+
+      setDisplay(obj);
     }
 
     else {
-      setDisplay1(data.nightSleepData.slice(len - 365, len));
-      setDisplay2(data.nightSleepData.slice(len - 365, len));
-    }
+      obj.sleep = data.nightSleepData.slice(len1 - 365, len1);
+      obj.nap = data.napSleepData.slice(len2 - 365, len2);
 
-    return;
+      setDisplay(obj);
+    }
   }
   
   //sleep only
   else if(sleepView === 'sleep_only') {
-    console.log('hello');
     var len = data.nightSleepData.length;
 
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
-      setDisplay1(data.nightSleepData.slice(len - 7, len));
+    if(timePeriod === 'past_week' || timePeriod === 'unselected') {
+      obj = data.nightSleepData.slice(len - 7, len);
+      setDisplay(obj);
+    }
 
-    else if(timePeriod === 'past_month')
-      setDisplay1(data.nightSleepData.slice(len - 30, len));
+    else if(timePeriod === 'past_month') {
+      obj = data.nightSleepData.slice(len - 30, len);
+      setDisplay(obj);
+    }
 
-    else
-      setDisplay1(data.nightSleepData.slice(len - 365, len));
-
-    return;
+    else {
+      obj = data.nightSleepData.slice(len - 365, len);
+      setDisplay(obj);
+    }
   }
 
   //nap only
   else {
-    console.log('hello');
     var len = data.napSleepData.length;
 
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
-      setDisplay1(data.napSleepData.slice(len - 7, len));
+    if(timePeriod === 'past_week' || timePeriod === 'unselected') {
+      obj = data.napSleepData.slice(len - 7, len);
+      setDisplay(obj);
+    }
 
-    else if(timePeriod === 'past_month')
-      setDisplay1(data.napSleepData.slice(len - 30, len));
+    else if(timePeriod === 'past_month') {
+      obj = data.napSleepData.slice(len - 30, len);
+      setDisplay(obj);
+    }
 
-    else
-      setDisplay1(data.napSleepData.slice(len - 365, len));
-
-    return;
+    else {
+      obj = data.napSleepData.slice(len - 365, len);
+      setDisplay(obj);
+    }
   }
 }
 

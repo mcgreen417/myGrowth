@@ -526,12 +526,53 @@ const TabBarAndContent = ({
         {/* !showTable &&
           <Image style={styles.images} source={imgSource} />*/}
 
-        {showTable && <LineChart 
+        {showTable && typeof(multiPageData.sleep) != 'undefined' && <LineChart 
           data = {{
             labels: timePeriod,
             datasets: [
-                {data: multiPageData},
-                {data: overlayData}
+                { data: multiPageData.sleep,
+                  strokeWidth: 2,
+                  color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                },
+                {
+                  data: multiPageData.nap,
+                  strokeWidth: 2,
+                  color: (opacity = 1) => `rgba(129, 104, 104, ${opacity})`,
+                }
+            ],
+            legend: ['Sleep', 'Naps'],
+          }}
+          width={353} // from react-native
+          height={250}
+          yAxisLabel=""
+          yAxisSuffix=""
+          yAxisInterval={1} // optional, defaults to 1
+          chartConfig={{
+            backgroundColor: "#4CB97A",
+            backgroundGradientFrom: "#4CB97A",
+            backgroundGradientTo: "#4CB97A",
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#A5DFB2"
+            }
+          }}
+          bezier
+          style={{
+          }}
+        />}
+
+        {showTable && typeof(multiPageData.sleep) == 'undefined' && <LineChart 
+          data = {{
+            labels: timePeriod,
+            datasets: [
+                {data: multiPageData}
             ]
           }}
           width={353} // from react-native
