@@ -104,7 +104,8 @@ function HistorySleep1({ route, navigation }) {
             data={data} 
             multiPageData={displayData}
             timePeriod={timestamps} 
-            page={'sleep'} 
+            page={'sleep'}
+            page2color={false}
           />
 
           {/* Time Period and Select Display drop-down selection */}

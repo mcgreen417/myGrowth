@@ -32,17 +32,18 @@ const TabBarAndContent = ({
   timePeriod, 
   page,
   multiPageData,
-  overlayData,
+  page2Color,
 }) => {
+  //page 2 buttons: activity, intensity, quality, exercise
   const [imgSource, setImageSource] = useState(images.historyImg);
-  const [historyButtonColor, setHistoryButtonColor] = useState(buttonColors.darkGreen);
+  const [historyButtonColor, setHistoryButtonColor] = useState(page2Color ? buttonColors.darkGreen : buttonColors.lightGreen);
   const [corrButtonColor, setCorrButtonColor] = useState(buttonColors.lightGreen);
-  const [activityButtonColor, setActivityButtonColor] = useState(buttonColors.lightGreen);
-  const [intensityButtonColor, setIntensityButtonColor] = useState(buttonColors.lightGreen);
-  const [scriptButtonColor, setScriptButtonColor] = useState(buttonColors.darkGreen);
-  const [sleepButtonColor, setSleepButtonColor] = useState(buttonColors.darkGreen);
-  const [qualityButtonColor, setQualityButtonColor] = useState(buttonColors.lightGreen);
-  const [exerciseButtonColor, setExerciseButtonColor] = useState(buttonColors.lightGreen);
+  const [activityButtonColor, setActivityButtonColor] = useState(page2Color ? buttonColors.lightGreen : buttonColors.darkGreen);
+  const [intensityButtonColor, setIntensityButtonColor] = useState(page2Color ? buttonColors.lightGreen : buttonColors.darkGreen);
+  const [scriptButtonColor, setScriptButtonColor] = useState(page2Color ? buttonColors.darkGreen : buttonColors.lightGreen);
+  const [sleepButtonColor, setSleepButtonColor] = useState(page2Color ? buttonColors.darkGreen : buttonColors.lightGreen);
+  const [qualityButtonColor, setQualityButtonColor] = useState(page2Color ? buttonColors.lightGreen : buttonColors.darkGreen);
+  const [exerciseButtonColor, setExerciseButtonColor] = useState(page2Color ? buttonColors.lightGreen : buttonColors.darkGreen);
 
   const [showTable, setShowTable] = useState(true);
 
@@ -77,7 +78,7 @@ const TabBarAndContent = ({
       </View>
     );
 
-  {/* Mood, Stress, Period, Meal, Weight */}
+  {/* Mood, Stress, Meal, Weight */}
   if (page === 'historyGenComp')
     return (
       <View style={{ width: '90%', }}>
@@ -140,7 +141,7 @@ const TabBarAndContent = ({
           chartConfig={{
             backgroundColor: "#4CB97A",
             backgroundGradientFrom: "#4CB97A",
-            backgroundGradientTo: "#A5DFB2",
+            backgroundGradientTo: "#4CB97A",
             decimalPlaces: 2, // optional, defaults to 2dp
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -164,6 +165,7 @@ const TabBarAndContent = ({
       </View>
     );
   
+    {/* period */}
   if (page === 'period')
     return (
       <View style={{ width: '90%', }}>
@@ -218,7 +220,7 @@ const TabBarAndContent = ({
           chartConfig={{
             backgroundColor: "#4CB97A",
             backgroundGradientFrom: "#4CB97A",
-            backgroundGradientTo: "#A5DFB2",
+            backgroundGradientTo: "#4CB97A",
             fillShadowGradientOpacity: 3,
             decimalPlaces: 2, // optional, defaults to 2dp
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -326,7 +328,7 @@ const TabBarAndContent = ({
           chartConfig={{
             backgroundColor: "#4CB97A",
             backgroundGradientFrom: "#4CB97A",
-            backgroundGradientTo: "#A5DFB2",
+            backgroundGradientTo: "#4CB97A",
             decimalPlaces: 2, // optional, defaults to 2dp
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -419,7 +421,7 @@ const TabBarAndContent = ({
           {/* Prescription */}
           <Pressable
             style={{
-              backgroundColor: historyButtonColor,
+              backgroundColor: scriptButtonColor,
               borderTopLeftRadius: 10,
               borderTopRightRadius: 10,
             }}
@@ -429,7 +431,7 @@ const TabBarAndContent = ({
               setScriptButtonColor(buttonColors.darkGreen);
             }}
           >
-            <Text style={styles.text}>History</Text>
+            <Text style={styles.text}>Perscription</Text>
           </Pressable>
 
           {/* Correlation */}
@@ -489,7 +491,7 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setShowTable(false);
+              setShowTable(true);
               setCorrButtonColor(buttonColors.lightGreen);
               setSleepButtonColor(buttonColors.lightGreen);
               setQualityButtonColor(buttonColors.darkGreen);
@@ -583,7 +585,40 @@ const TabBarAndContent = ({
           chartConfig={{
             backgroundColor: "#4CB97A",
             backgroundGradientFrom: "#4CB97A",
-            backgroundGradientTo: "#A5DFB2",
+            backgroundGradientTo: "#4CB97A",
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#4CB97A"
+            }
+          }}
+          bezier
+          style={{
+          }}
+        />}
+
+        {showTable && typeof(page2Color) != 'undefined' && <LineChart 
+          data = {{
+            labels: timePeriod,
+            datasets: [
+                {data: multiPageData}
+            ]
+          }}
+          width={353} // from react-native
+          height={250}
+          yAxisLabel=""
+          yAxisSuffix=""
+          yAxisInterval={1} // optional, defaults to 1
+          chartConfig={{
+            backgroundColor: "#4CB97A",
+            backgroundGradientFrom: "#4CB97A",
+            backgroundGradientTo: "#4CB97A",
             decimalPlaces: 2, // optional, defaults to 2dp
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
