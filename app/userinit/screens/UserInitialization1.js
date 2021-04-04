@@ -33,6 +33,8 @@ function UserInitialization1({ navigation }) {
   const [dob, setDob] = useState('0000-00-00');
   const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
+  const [useHeightMeasurement, setToggleHeightMeasurement] = useState(false);
+  const [useWeightMeasurement, setToggleWeightMeasurement] = useState(false);
 
   const currentDay = new Date().getDate();
   const currentMonth = new Date().getMonth();
@@ -45,6 +47,8 @@ function UserInitialization1({ navigation }) {
     validDateOfBirth: false,
     validGender: false,
     validBiologicalSex: false,
+    validHeight: true,
+    validWeight: true,
     checkTextInputChange: false,
     validSignUp: false,
   });
@@ -148,15 +152,57 @@ function UserInitialization1({ navigation }) {
     }
   }
 
-  const [useHeightMeasurement, setToggleHeightMeasurement] = useState(false);
-  const toggleHeightMeasurement = () =>
+  const handleHeightChange = (height) => {
+    const heightRegexPattern = /^[0-9]*$/;
+    const charsNotAllowedRegex = /[^0-9]/g
+
+    height = height.replace(charsNotAllowedRegex, '');
+    setHeight(height);
+
+    if (height.match(heightRegexPattern)) {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validHeight: true,
+      });
+    } else {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validHeight: false,
+        validSignUp: false,
+      });
+    }
+  }
+
+  const handleWeightChange = (weight) => {
+    const weightRegexPattern = /^[0-9]*$/;
+    const charsNotAllowedRegex = /[^0-9]/g;
+
+    weight = weight.replace(charsNotAllowedRegex, '');
+    setWeight(weight);
+
+    if (weight.match(weightRegexPattern)) {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validWeight: true,
+      });
+    } else {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validWeight: false,
+        validSignUp: false,
+      });
+    }
+  }
+
+  const toggleHeightMeasurement = () => {
     setToggleHeightMeasurement((previousState) => !previousState);
+  }
 
-  const [useWeightMeasurement, setToggleWeightMeasurement] = useState(false);
-  const toggleWeightMeasurement = () =>
+  const toggleWeightMeasurement = () => {
     setToggleWeightMeasurement((previousState) => !previousState);
+  }
 
-  const checkRequiredFields = (firstName, dob, gender, bioSex) => {
+  const checkRequiredFields = (firstName, dob, gender, bioSex, height, weight) => {
     const ableToSignUp = (userInitializationProperties.validFirstName
                           && userInitializationProperties.validDateOfBirth
                           && userInitializationProperties.validGender
@@ -165,6 +211,8 @@ function UserInitialization1({ navigation }) {
     const validDOB = userInitializationProperties.validDateOfBirth;
     const validGender = userInitializationProperties.validGender;
     const validBioSex = userInitializationProperties.validBiologicalSex;
+    const validHeight = userInitializationProperties.validHeight;
+    const validWeight = userInitializationProperties.validWeight;
     
     if (ableToSignUp) {
       setUserInitializationProperties({
@@ -385,13 +433,15 @@ function UserInitialization1({ navigation }) {
             <TextInput 
               style={styles().textInput2}
               maxLength = {3}
-              onChangeText = {(height) => setHeight(height)} 
+              value={height}
+              onChangeText = {(height) => handleHeightChange(height)} 
               placeholder='#'
               placeholderTextColor={
                 global.colorblindMode
                   ? global.cb_placeHolderTextColor
                   : global.placeHolderTextColor
               }
+              keyboardType='number-pad'
             />
             <Text> IN</Text>
             <ToggleButton
@@ -423,13 +473,15 @@ function UserInitialization1({ navigation }) {
                 <TextInput 
                   style={styles().textInput3}
                   maxLength = {3}
-                  onChangeText = {(weight) => setWeight(weight)}
+                  value={weight}
+                  onChangeText = {(weight) => handleWeightChange(weight)}
                   placeholder='#' 
                   placeholderTextColor={
                     global.colorblindMode
                       ? global.cb_placeHolderTextColor
                       : global.placeHolderTextColor
                   }
+                  keyboardType='number-pad'
                 />
                 <Text> LB</Text>
                 <ToggleButton
@@ -457,7 +509,7 @@ function UserInitialization1({ navigation }) {
                       : global.optionButtonsColor
                   }
                   onPress={() => {
-                    checkRequiredFields(firstName, dob, gender, bioSex);
+                    checkRequiredFields(firstName, dob, gender, bioSex, height, weight);
                     if (userInitializationProperties.validSignUp) {
                       navigation.navigate('UserInitialization2', { 
                         height: height, 
