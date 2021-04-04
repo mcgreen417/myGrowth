@@ -98,7 +98,8 @@ function HistoryMood({ route, navigation }) {
             navigation={navigation} 
             data={displayData} 
             timePeriod={timestamps} 
-            page={'historyGenComp'} 
+            page={'historyGenComp'}
+            page2Color={false} 
           />
 
           {/* Time Period drop-down selection */}

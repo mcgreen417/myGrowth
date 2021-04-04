@@ -89,6 +89,7 @@ function HistoryDailyActivities1({ route, navigation }) {
             timePeriod={labels} 
             page={'dailyActivities'}
             multiPageData={freqs}
+            page2Color={false}
           />
 
           {/* Time Period drop-down selection */}

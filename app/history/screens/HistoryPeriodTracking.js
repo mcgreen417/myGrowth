@@ -75,7 +75,8 @@ function HistoryPeriodTracking({ route, navigation }) {
           <TabBarAndContent 
             navigation={navigation} 
             data={commits} 
-            page={'period'} 
+            page={'period'}
+            page2Color={false} 
           />
             
           {/* Period prediction */}

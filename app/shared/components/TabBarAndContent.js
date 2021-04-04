@@ -32,18 +32,18 @@ const TabBarAndContent = ({
   timePeriod, 
   page,
   multiPageData,
-  page2Color,
+  page2Color
 }) => {
   //page 2 buttons: activity, intensity, quality, exercise
   const [imgSource, setImageSource] = useState(images.historyImg);
-  const [historyButtonColor, setHistoryButtonColor] = useState(page2Color ? buttonColors.darkGreen : buttonColors.lightGreen);
+  const [historyButtonColor, setHistoryButtonColor] = useState(page2Color == false ? buttonColors.darkGreen : buttonColors.lightGreen);
   const [corrButtonColor, setCorrButtonColor] = useState(buttonColors.lightGreen);
-  const [activityButtonColor, setActivityButtonColor] = useState(page2Color ? buttonColors.lightGreen : buttonColors.darkGreen);
-  const [intensityButtonColor, setIntensityButtonColor] = useState(page2Color ? buttonColors.lightGreen : buttonColors.darkGreen);
-  const [scriptButtonColor, setScriptButtonColor] = useState(page2Color ? buttonColors.darkGreen : buttonColors.lightGreen);
-  const [sleepButtonColor, setSleepButtonColor] = useState(page2Color ? buttonColors.darkGreen : buttonColors.lightGreen);
-  const [qualityButtonColor, setQualityButtonColor] = useState(page2Color ? buttonColors.lightGreen : buttonColors.darkGreen);
-  const [exerciseButtonColor, setExerciseButtonColor] = useState(page2Color ? buttonColors.lightGreen : buttonColors.darkGreen);
+  const [activityButtonColor, setActivityButtonColor] = useState(page2Color == false ? buttonColors.lightGreen : buttonColors.darkGreen);
+  const [intensityButtonColor, setIntensityButtonColor] = useState(page2Color == false ? buttonColors.lightGreen : buttonColors.darkGreen);
+  const [scriptButtonColor, setScriptButtonColor] = useState(page2Color == false ? buttonColors.darkGreen : buttonColors.lightGreen);
+  const [sleepButtonColor, setSleepButtonColor] = useState(page2Color == false ? buttonColors.darkGreen : buttonColors.lightGreen);
+  const [qualityButtonColor, setQualityButtonColor] = useState(page2Color == false ? buttonColors.lightGreen : buttonColors.darkGreen);
+  const [exerciseButtonColor, setExerciseButtonColor] = useState(page2Color == false ? buttonColors.lightGreen : buttonColors.darkGreen);
 
   const [showTable, setShowTable] = useState(true);
 
@@ -603,7 +603,7 @@ const TabBarAndContent = ({
           }}
         />}
 
-        {showTable && typeof(page2Color) != 'undefined' && <LineChart 
+        {showTable && page2Color && <LineChart 
           data = {{
             labels: timePeriod,
             datasets: [
@@ -728,6 +728,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: -1,
+    marginBottom: -1
   },
   images: {
     flex: 1,

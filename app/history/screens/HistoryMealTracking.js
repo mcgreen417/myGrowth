@@ -108,7 +108,8 @@ function HistoryMealTracking({ route, navigation }) {
             navigation={navigation} 
             data={displayData} 
             timePeriod={timestamps} 
-            page={'historyGenComp'} 
+            page={'historyGenComp'}
+            page2Color={false} 
           />
 
           {/* Time Period and Select Nutrient drop-down selection */}

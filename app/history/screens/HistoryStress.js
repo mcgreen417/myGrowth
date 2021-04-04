@@ -98,6 +98,7 @@ function HistoryStress({ route, navigation }) {
             data={displayData} 
             timePeriod={timestamps} 
             page={'historyGenComp'} 
+            page2Color={false}
           />
 
           {/* Time Period drop-down selection */}

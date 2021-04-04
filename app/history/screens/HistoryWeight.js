@@ -98,6 +98,7 @@ function HistoryWeight({ route, navigation }) {
             data={displayData} 
             timePeriod={timestamps} 
             page={'historyGenComp'} 
+            page2Color={false}
           />
 
           {/* pass in itemValue not timePeriod */}

@@ -8,10 +8,6 @@ Symptom tracking: bar graph representing frequency of each symptom (over week, m
 to display only one symptom for easier viewing
     - WIP: gen health pages
 
-Sleep: line chart representing hrs of total sleep (over week, month, year), separate line charts to filter for nighttime sleep & naps-- also thinking about how to represent 
-with stacked bar graph (where bottom would be regular sleep, top would be nap), but this would only really work in week.... or monthly view at MOST
-    - sleep2: to be started
-
 Fitness tracking: line charts representing calories burned from exercising, time spent exercising, steps taken (over week, month, year) & for each exercise, bar graph 
 representing the number of sets & reps
     - WIP
