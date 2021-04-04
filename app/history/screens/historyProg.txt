@@ -17,8 +17,8 @@ to display only one symptom for easier viewing
 
 Sleep: line chart representing hrs of total sleep (over week, month, year), separate line charts to filter for nighttime sleep & naps-- also thinking about how to represent 
 with stacked bar graph (where bottom would be regular sleep, top would be nap), but this would only really work in week.... or monthly view at MOST
-    - sleep: WIP
-    - nap: WIP
+    - sleep1: WIP
+    - sleep2: to be started
 
 Weight tracking: line chart representing weight in lbs/kgs (over week, month, year) - DONE
 

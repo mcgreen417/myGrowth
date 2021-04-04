@@ -100,15 +100,14 @@ function HistorySleep1({ route, navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent sleep={true} navigation={navigation} />
-          <TabBarAndContent 
+          {/*<TabBarAndContent 
             navigation={navigation}
             data={data} 
             multiPageData={displayData1}
             overlayData={displayData2}
             timePeriod={timestamps} 
             page={'sleep'} 
-          />
+          />*/}
 
           {/* Time Period and Select Display drop-down selection */}
           <View 
@@ -126,8 +125,9 @@ function HistorySleep1({ route, navigation }) {
                   style={styles().picker}
                   onValueChange={(itemValue, itemIndex) => {
                     setTimePeriod(itemValue);
+                    getDisplayData(data, itemValue, setDisplay1, setDisplay2, sleepView);
                     getTimestamps(data, timestamps, setTimestamps, itemValue);
-                    getDisplayData(data, timePeriod, setDisplay1, setDisplay2, sleepView);
+                    console.log('1st data: ', displayData1,'2nd data: ', displayData2);
                   }}
                   mode={'dropdown'}
                 >
@@ -146,12 +146,13 @@ function HistorySleep1({ route, navigation }) {
                   style={styles().picker}
                   onValueChange={(itemValue, itemIndex) => {
                     setSleepView(itemValue);
-                    getTimestamps(data, timestamps, setTimestamps, itemValue);
                     getDisplayData(data, timePeriod, setDisplay1, setDisplay2, itemValue);
+                    getTimestamps(data, timestamps, setTimestamps, timePeriod);
                   }}
                   mode={'dropdown'}
                 >
                   <Picker.Item label='Select one...' value='unselected' />
+                  <Picker.Item label='Sleep and Naps' value='sleep_nap' />
                   <Picker.Item label='Sleep Only' value='sleep_only' />
                   <Picker.Item label='Naps Only' value='naps_only' />
                 </Picker>
@@ -357,10 +358,30 @@ function initDisplayData(data) {
 }
 
 function getDisplayData(data, timePeriod, setDisplay1, setDisplay2, sleepView) {
-  console.log(data.napSleepData);
+  //both
+  if(sleepView === 'unselected' || sleepView === 'sleep_nap') {
+    console.log('we are here');
+    if(timePeriod === 'past_week' || timePeriod === 'unselected') {
+      setDisplay1(data.nightSleepData.slice(len - 7, len));
+      setDisplay2(data.nightSleepData.slice(len - 7, len));
+    }
 
-  //sleep only or both
-  if(sleepView === 'sleep_only' || sleepView === 'unselected') {
+    else if(timePeriod === 'past_month') {
+      setDisplay1(data.nightSleepData.slice(len - 30, len));
+      setDisplay2(data.nightSleepData.slice(len - 30, len));
+    }
+
+    else {
+      setDisplay1(data.nightSleepData.slice(len - 365, len));
+      setDisplay2(data.nightSleepData.slice(len - 365, len));
+    }
+
+    return;
+  }
+  
+  //sleep only
+  else if(sleepView === 'sleep_only') {
+    console.log('hello');
     var len = data.nightSleepData.length;
 
     if(timePeriod === 'past_week' || timePeriod === 'unselected')
@@ -371,20 +392,25 @@ function getDisplayData(data, timePeriod, setDisplay1, setDisplay2, sleepView) {
 
     else
       setDisplay1(data.nightSleepData.slice(len - 365, len));
+
+    return;
   }
 
-  //nap only or both
-  if(sleepView === 'naps_only' || sleepView === 'unselected') {
+  //nap only
+  else {
+    console.log('hello');
     var len = data.napSleepData.length;
 
     if(timePeriod === 'past_week' || timePeriod === 'unselected')
-      setDisplay2(data.napSleepData.slice(len - 7, len));
+      setDisplay1(data.napSleepData.slice(len - 7, len));
 
     else if(timePeriod === 'past_month')
-      setDisplay2(data.napSleepData.slice(len - 30, len));
+      setDisplay1(data.napSleepData.slice(len - 30, len));
 
     else
-      setDisplay2(data.napSleepData.slice(len - 365, len));
+      setDisplay1(data.napSleepData.slice(len - 365, len));
+
+    return;
   }
 }
 

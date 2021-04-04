@@ -454,10 +454,8 @@ const TabBarAndContent = ({
           data = {{
             labels: timePeriod,
             datasets: [
-              {
-                data: multiPageData,
-                data2: overlayData
-              }
+                {data: multiPageData},
+                {data: overlayData}
             ]
           }}
           width={353} // from react-native
