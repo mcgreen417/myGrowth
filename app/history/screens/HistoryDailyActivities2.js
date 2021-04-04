@@ -15,10 +15,37 @@ import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
 
+const monthNames = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'June',
+  'July',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
+
+/**
+ * 
+ *  TODO: Dynamically genertate picker names based on hashmap of activities
+ *    - labels: work 
+ *    - freqs: parse through data and look for target act name and populate freqs array (of size 365)
+ * 
+ */
+
 function HistoryDailyActivities2({ route, navigation }) {
   const data = route.params.data;
-  const [modalVisible, setModalVisible] = useState(false);  
+
+  const [modalVisible, setModalVisible] = useState(false); 
   const [selectactivity, setActivity] = useState('unselected');
+  const [actName, setActName] = useState(new Map());
+  const [labels, setLabels] = useState(getLabels(data));
+  const [freqs, setFreqs] = useState(getFreqs(data, 'unselected'));
   
   return (
     <SafeAreaView style={styles().container}>
@@ -98,6 +125,29 @@ function HistoryDailyActivities2({ route, navigation }) {
     </SafeAreaView>
   );
 };
+
+function getLabels(data) {
+  const latest = new Date(data.latestDate);
+  const months = []
+
+  for(var i = 11; i >= 0; i++) {
+    months.push(monthNames[(latest.getMonth() + i) % 12]);
+  }
+
+  return months;
+}
+
+function getFreqs(data, activityName) {
+  const obj = [];
+
+  for(var i = length < 365 ? 0 : length - 365; i < length; i++)
+      for(let [key, value] of Object.entries(JSON.parse(data.activityData[i]))) {
+        
+      }
+
+
+  return obj;
+}
 
 export default HistoryDailyActivities2;
 
