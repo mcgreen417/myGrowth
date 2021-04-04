@@ -116,7 +116,7 @@ function HistoryGeneralHealth2({ navigation }) {
           </View>
 
           {/* App suggestions */}
-          <View style={{ marginHorizontal: '5%', marginBottom: 20, }}>
+          <View style={{ marginHorizontal: '5%', }}>
             {/* Decrease symptom intensity analysis */}
             <Text style={styles().text}>
               Based on our analysis, the following activities may help decrease the intensity of

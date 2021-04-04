@@ -112,14 +112,12 @@ function Home({ navigation }) {
         <View style={styles().dividerView}>
           <View style={styles().dividerLeft} />
           <View>
-            <Pressable>
+            <Pressable onPress={() => navigation.navigate('HealthEntry1')}>
               <View style={styles().entryButton}>
                 <View
                   style={{
-                    marginTop: 4,
-                    marginBottom: 4,
-                    marginLeft: 8,
-                    marginRight: 8,
+                    marginVertical: 4,
+                    marginHorizontal: 8,
                     paddingLeft: 8,
                     paddingTop: 2,
                   }}>
@@ -395,12 +393,8 @@ const styles = () => StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    color: '#816868',
-  },
-  textReg: {
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
-    fontSize: 16
-  }
+  },
 });

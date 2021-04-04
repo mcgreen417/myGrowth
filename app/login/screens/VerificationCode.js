@@ -11,6 +11,7 @@ import {
   Button,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 
 function VerificationCode({ route, navigation }) {
@@ -42,63 +43,69 @@ function VerificationCode({ route, navigation }) {
         }
         barStyle='light-content' 
       />
-      <View style={styles().pageSetup}>
+      <ScrollView 
+        showsVerticalScrollIndicator={false} 
+        keyboardShouldPersistTaps='handled' 
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+      >
+        <View style={styles().pageSetup}>
 
-        {/* Logo + title + page instructions */}
-        <Image style={styles().logo} source={require('../../shared/assets/icon.png')}/>
-        <Text style={styles().textTitle}>myGrowth</Text>
-        <Text style={styles().textSubtitle}>Your General Wellness Tracker</Text>
-        <Text style={styles().textInstructions}>
-          A verification code has been sent to your e-mail.{'\n'}
-          Enter the verification code you received below.
-        </Text>
+          {/* Logo + title + page instructions */}
+          <Image style={styles().logo} source={require('../../shared/assets/icon.png')}/>
+          <Text style={styles().textTitle}>myGrowth</Text>
+          <Text style={styles().textSubtitle}>Your General Wellness Tracker</Text>
+          <Text style={styles().textInstructions}>
+            A verification code has been sent to your e-mail.{'\n'}
+            Enter the verification code you received below.
+          </Text>
 
-        {/* verification code text entry + verify button */}
-        <View style={styles().buttons}>
-          <TextInput
-            style={styles().textInput}
-            placeholder='Verification Code'
-            placeholderTextColor={global.colorblindMode
-              ? global.cb_placeHolderTextColor
-              : global.placeHolderTextColor
-            }
-            keyboardType='number-pad'
-            value={verificationCode}
-            maxLength={6}
-            onChangeText={(verificationCode) => {
-              handleVerificationCode(verificationCode);
-            }}
-          />
-          <View style={{ marginVertical: 8 }} />
-          <Button 
-            title='VERIFY'
-            color={
-              global.colorblindMode
-                ? global.cb_optionButtonsColor
-                : global.optionButtonsColor
-            }
-            onPress={() => verify(username, verificationCode, validLengthVerificationCode, navigation)}
-          />
-          <View style={{ marginVertical: 8 }} />
-        </View>
+          {/* verification code text entry + verify button */}
+          <View style={styles().buttons}>
+            <TextInput
+              style={styles().textInput}
+              placeholder='Verification Code'
+              placeholderTextColor={global.colorblindMode
+                ? global.cb_placeHolderTextColor
+                : global.placeHolderTextColor
+              }
+              keyboardType='number-pad'
+              value={verificationCode}
+              maxLength={6}
+              onChangeText={(verificationCode) => {
+                handleVerificationCode(verificationCode);
+              }}
+            />
+            <View style={{ marginVertical: 8 }} />
+            <Button 
+              title='VERIFY'
+              color={
+                global.colorblindMode
+                  ? global.cb_optionButtonsColor
+                  : global.optionButtonsColor
+              }
+              onPress={() => verify(username, verificationCode, validLengthVerificationCode, navigation)}
+            />
+            <View style={{ marginVertical: 8 }} />
+          </View>
 
-        {/* Resend verification code */}
-        <View>
-          <View style={{ flexDirection: 'row' }}>
-            <Text style={styles().text}>Didn't receive a verification code?{' '}</Text>
-            <TouchableOpacity onPress={() => resend(username)}>
-              <Text style={styles().textLink}>Resend e-mail.</Text>
+          {/* Resend verification code */}
+          <View>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={styles().text}>Didn't receive a verification code?{' '}</Text>
+              <TouchableOpacity onPress={() => resend(username)}>
+                <Text style={styles().textLink}>Resend e-mail.</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* Login page redirect */}
+          <View style={{ flexDirection: 'row', marginTop: 8 }}>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <Text style={styles().textLink}>Return to login.</Text>
             </TouchableOpacity>
           </View>
         </View>
-
-        {/* Login page redirect */}
-        <View style={{ flexDirection: 'row', marginTop: 8 }}>
-          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <Text style={styles().textLink}>Return to login.</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

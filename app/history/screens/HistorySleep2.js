@@ -122,7 +122,7 @@ function HistorySleep2({ navigation }) {
           </View>
 
           {/* App suggestions */}
-          <View style={{ marginHorizontal: '5%', marginBottom: 20, }}>
+          <View style={{ marginHorizontal: '5%', }}>
             {/* High quality sleep analysis */}
             <Text style={styles().text}>
               Based on our analysis, on days that you reported a high quality of sleep, you 

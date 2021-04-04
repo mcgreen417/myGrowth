@@ -115,8 +115,7 @@ function PlantShop({ navigation }) {
         <View
           style={{
             flexDirection: 'row',
-            marginTop: 10,
-            marginBottom: 16,
+            marginVertical: 10,
             alignSelf: 'center',
           }}>
           <View style={{ width: '42.5%' }}>
@@ -138,7 +137,6 @@ function PlantShop({ navigation }) {
 
         <View style={styles().pageEnd} />
       </ScrollView>
-
       <NavBar navigation={navigation} />
     </SafeAreaView>
   );

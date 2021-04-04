@@ -17,7 +17,7 @@ import NavBar from '../../shared/components/NavBar';
 const Journal = ({ navigation }) => {
   return (
     <SafeAreaView style={styles().container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled'>
         <View style={styles().pageSetup}>
           {/* Gardener avatar + page blurb */}
           <View style={styles().avatarView}>

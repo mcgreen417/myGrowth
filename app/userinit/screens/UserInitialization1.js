@@ -11,12 +11,9 @@ import {
   TouchableOpacity,
   Platform,
   View,
-  FlatList,
-  Switch,
 } from 'react-native';
 
 import { Icon } from 'react-native-elements';
-import { ToggleButton } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
 import { ScrollView } from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -82,7 +79,7 @@ function UserInitialization1({ navigation }) {
         }
         barStyle='light-content'
       />
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled'>
         <View style={styles().pageSetup}>
           {/* Gardener avatar + page blurb */}
           <View style={styles().avatarView}>
@@ -107,7 +104,7 @@ function UserInitialization1({ navigation }) {
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
-              style={{ marginLeft: 6 }}
+              style={{ marginLeft: 8 }}
             />
           </View>
 
@@ -116,11 +113,12 @@ function UserInitialization1({ navigation }) {
             <TextInput 
               style={styles().textInput}
               placeholder='First name' 
-              placeholderTextColor={
-                global.colorblindMode
+              placeholderTextColor={global.colorblindMode
                   ? global.cb_placeHolderTextColor
-                  : global.placeHolderTextColor
-              }
+                  : global.placeHolderTextColor}
+              color={global.colorblindMode
+                ? global.cb_textColor
+                : global.textColor}
               value = {firstName}
               onChangeText = {(firstName) => {
                 setFirstName(firstName);
@@ -135,7 +133,7 @@ function UserInitialization1({ navigation }) {
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
-              style={{ marginLeft: 6 }}
+              style={{ marginLeft: 8 }}
             />
           </View>
 
@@ -143,10 +141,13 @@ function UserInitialization1({ navigation }) {
           <View style={styles().datePicker}>
             <TouchableOpacity onPress={showDatepicker}>
               <View style={styles().inlineRow}>
-                <Icon name='calendar-sharp' type='ionicon' color='#816868' />
-                <Text
-                  style={{ textDecorationLine: 'underline', color: '#4CB97A' }}
-                >
+                <Icon 
+                  name='calendar-sharp' 
+                  type='ionicon' 
+                  color='#816868'
+                  style={{ marginRight: 8, }} 
+                />
+                <Text style={{ textDecorationLine: 'underline', color: '#4CB97A', fontSize: 16, }}>
                   {dateDisplayText}
                 </Text>
               </View>
@@ -170,7 +171,7 @@ function UserInitialization1({ navigation }) {
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
-              style={{ marginLeft: 6 }}
+              style={{ marginLeft: 8 }}
             />
           </View>
 
@@ -199,7 +200,7 @@ function UserInitialization1({ navigation }) {
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
-              style={{ marginLeft: 6 }}
+              style={{ marginLeft: 8 }}
             />
           </View>
 
@@ -227,7 +228,7 @@ function UserInitialization1({ navigation }) {
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
-              style={{ marginLeft: 6 }}
+              style={{ marginLeft: 8 }}
             />
           </View>
           <View style={styles().userPrompt}>
@@ -238,21 +239,29 @@ function UserInitialization1({ navigation }) {
               placeholderTextColor={
                 global.colorblindMode
                   ? global.cb_placeHolderTextColor
-                  : global.placeHolderTextColor
-              }
+                  : global.placeHolderTextColor}
+              color={global.colorblindMode
+              ? global.cb_textColor
+              : global.textColor}
             />
-            <Text> IN</Text>
-            <ToggleButton
-              icon={
+            <Text style={styles().text}>IN</Text>
+            <View style={{ marginRight: 8, }}/>
+            <Icon
+              name={
                 useHeightMeasurement
-                  ? require('../../shared/assets/toggle_on.png')
-                  : require('../../shared/assets/toggle_off.png')
+                  ? 'toggle-on'
+                  : 'toggle-off'
               }
+              type='fontisto'
               value='heightMeasurement'
               status={useHeightMeasurement ? 'checked' : 'unchecked'}
               onPress={toggleHeightMeasurement}
+              color={global.colorblindMode
+                ? global.cb_textColor
+                : global.textColor}
             />
-            <Text>CM</Text>
+            <View style={{ marginRight: 8, }}/>
+            <Text style={styles().text}>CM</Text>
           </View>
 
           {/* Weight user input entry + kgs switch button */}
@@ -264,7 +273,7 @@ function UserInitialization1({ navigation }) {
                   name='information-circle-outline'
                   type='ionicon'
                   color='#816868'
-                  style={{ marginLeft: 6 }}
+                  style={{ marginLeft: 8 }}
                 />
               </View>
               <View style={styles().userPrompt}>
@@ -275,20 +284,28 @@ function UserInitialization1({ navigation }) {
                   placeholderTextColor={
                     global.colorblindMode
                       ? global.cb_placeHolderTextColor
-                      : global.placeHolderTextColor
-                  }
+                      : global.placeHolderTextColor}
+                  color={global.colorblindMode
+                    ? global.cb_textColor
+                    : global.textColor}
                 />
-                <Text> LB</Text>
-                <ToggleButton
-                  icon={
+                <Text style={styles().text}>LB</Text>
+                <View style={{ marginRight: 8, }}/>
+                <Icon
+                  name={
                     useWeightMeasurement
-                      ? require('../../shared/assets/toggle_on.png')
-                      : require('../../shared/assets/toggle_off.png')
+                      ? 'toggle-on'
+                      : 'toggle-off'
                   }
+                  type='fontisto'
                   value='weightMeasurement'
                   status={useWeightMeasurement ? 'checked' : 'unchecked'}
                   onPress={toggleWeightMeasurement}
+                  color={global.colorblindMode
+                    ? global.cb_textColor
+                    : global.textColor}
                 />
+                <View style={{ marginRight: 8, }}/>
                 <Text style={styles().text}>KG</Text>
               </View>
             </View>
@@ -448,7 +465,7 @@ const styles = () =>
       width: '100%',
     },
     pickerView: {
-      borderWidth: 1,
+      borderWidth: 2,
       marginBottom: 20,
       flexDirection: 'row',
       justifyContent: 'flex-start',
@@ -457,6 +474,9 @@ const styles = () =>
       backgroundColor: global.colorblindMode
         ? global.cb_textInputFillColor
         : global.textInputFillColor,
+      borderColor: global.colorblindMode
+        ? global.cb_textColor
+        : global.textColor,
     },
     switchView: {
       flex: 1,
@@ -467,9 +487,9 @@ const styles = () =>
     textInput: {
       height: 40,
       borderColor: global.colorblindMode
-        ? global.cb_textInputBlackBorderColor
-        : global.textInputBlackBorderColor,
-      borderWidth: 1,
+        ? global.cb_textColor
+        : global.textColor,
+      borderWidth: 2,
       borderRadius: 4,
       backgroundColor: global.colorblindMode
         ? global.cb_textInputFillColor
@@ -484,9 +504,9 @@ const styles = () =>
     textInput2: {
       height: 36,
       borderColor: global.colorblindMode
-        ? global.cb_textInputBlackBorderColor
-        : global.textInputBlackBorderColor,
-      borderWidth: 1,
+        ? global.cb_textColor
+        : global.textColor,
+      borderWidth: 2,
       borderRadius: 4,
       backgroundColor: global.colorblindMode
         ? global.cb_textInputFillColor
@@ -501,8 +521,10 @@ const styles = () =>
     },
     textInput3: {
       height: 36,
-      borderColor: 'black',
-      borderWidth: 1,
+      borderColor: global.colorblindMode
+        ? global.cb_textColor
+        : global.textColor,
+      borderWidth: 2,
       borderRadius: 4,
       backgroundColor: '#f4f3f4',
       color: '#000000',
@@ -512,7 +534,9 @@ const styles = () =>
       marginRight: 12,
     },
     text: {
-      color: 'black',
+      color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
       fontSize: 16,
     },
     textLink: {

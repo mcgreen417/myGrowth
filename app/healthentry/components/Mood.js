@@ -216,11 +216,9 @@ const Mood = ({ mood, setMood, feels, setFeels }) => {
         <Button
           title='+ Add Feelings'
           onPress={() => setShowFeelings(!showFeelings)}
-          color={
-            global.colorblindMode
+          color={global.colorblindMode
             ? global.cb_optionButtonsColor
-            : global.optionButtonsColor
-          }
+            : global.optionButtonsColor}
         />
       </View>
     </View>

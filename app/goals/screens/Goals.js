@@ -4,15 +4,11 @@ import {
   SafeAreaView,
   Text,
   View,
-  Button,
-  Modal,
   Pressable,
-  Alert,
   Image,
+  ScrollView,
 } from 'react-native';
-
 import { Icon } from 'react-native-elements';
-import { ScrollView } from 'react-native-gesture-handler';
 import NavBar from '../../shared/components/NavBar';
 
 const Goal = ({ title, description, type, navigation }) => {
@@ -57,7 +53,7 @@ function Goals({ navigation }) {
 
   return (
     <SafeAreaView style={styles().container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled'>
         {/* Gardener avatar + page blurb */}
         <View style={styles().avatarView}>
           <Text style={styles().pageDescription}>

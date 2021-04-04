@@ -5,6 +5,7 @@ import {
   View,
   SafeAreaView,
   Pressable,
+  ScrollView,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
@@ -88,16 +89,18 @@ const WordCloudDisplay = ({ route, navigation }) => {
         <View style={styles.divider} />
       </View>
 
-      <View style={{ marginHorizontal: '5%' }}>
-        {Object.keys(counts).map(function (key, index) {
-          return (
-            <View key={key} style={{ flexDirection: 'row' }}>
-              <Text style={styles.text}>{'"' + key + '": '}</Text>
-              <Text style={styles.text}>{counts[key]}</Text>
-            </View>
-          );
-        })}
-      </View>
+      <ScrollView>
+        <View style={{ marginHorizontal: '5%' }}>
+          {Object.keys(counts).map(function (key, index) {
+            return (
+              <View key={key} style={{ flexDirection: 'row' }}>
+                <Text style={styles.text}>{'"' + key + '": '}</Text>
+                <Text style={styles.text}>{counts[key]}</Text>
+              </View>
+            );
+          })}
+        </View>
+      </ScrollView>
       <NavBar journal={true} navigation={navigation} />
     </SafeAreaView>
   );

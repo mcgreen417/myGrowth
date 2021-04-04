@@ -8,6 +8,7 @@ import {
   Image,
   StatusBar,
   Button,
+  ScrollView,
 } from 'react-native';
 
 function Start({ navigation }) {
@@ -30,86 +31,91 @@ function Start({ navigation }) {
         }
         barStyle='light-content'
       />
-
-      {/* Colorblind mode switch displayed on screen */}
-      <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-        <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 1 }}>
-          {global.colorblindMode
-            ? 'Colorblind mode enabled'
-            : 'Enable colorblind mode?'}
-        </Text>
-        <Switch
-          trackColor={{
-            false: global.cb_switchTrackColorFalse,
-            true: global.cb_switchTrackColorTrue,
-          }}
-          thumbColor={
-            isEnabled
-              ? global.cb_switchThumbColorTrue
-              : global.cb_switchThumbColorFalse
-          }
-          ios_backgroundColor={global.cb_blackColor}
-          onValueChange={toggleSwitch}
-          value={isEnabled}
-          caption='test'
-        />
-      </View>
-
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100%',
-        }}>
-        {/* Logo + title */}
-        <Image
-          style={styles().logo}
-          source={require('../../shared/assets/icon.png')}
-        />
-        <Text
-          style={{
-            fontWeight: 'bold',
-            color: global.colorblindMode
-              ? global.cb_textColor
-              : global.textColor,
-            fontSize: 44,
-          }}>
-          myGrowth
-        </Text>
-        <Text
-          style={{
-            fontWeight: 'bold',
-            color: global.colorblindMode
-              ? global.cb_textColor
-              : global.textColor,
-            fontSize: 20,
-            marginBottom: 40,
-          }}>
-          Your General Wellness Tracker
-        </Text>
-        {/* Sign up + login buttons */}
-        <View style={styles().buttons}>
-          <Button
-            title='SIGN UP'
-            color={
-              global.colorblindMode
-                ? global.cb_optionButtonsColor
-                : global.optionButtonsColor
+      <ScrollView 
+        showsVerticalScrollIndicator={false} 
+        keyboardShouldPersistTaps='handled' 
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+      >
+        {/* Colorblind mode switch displayed on screen */}
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: '10%' }}>
+          <Text style={{ fontWeight: 'bold', fontSize: 18, }}>
+            {global.colorblindMode
+              ? 'Colorblind mode enabled'
+              : 'Enable colorblind mode?'}
+          </Text>
+          <Switch
+            trackColor={{
+              false: global.cb_switchTrackColorFalse,
+              true: global.cb_switchTrackColorTrue,
+            }}
+            thumbColor={
+              isEnabled
+                ? global.cb_switchThumbColorTrue
+                : global.cb_switchThumbColorFalse
             }
-            onPress={() => navigation.navigate('SignUp')}
-          />
-          <View style={{ marginVertical: 8 }} />
-          <Button
-            title='LOG IN'
-            color={
-              global.colorblindMode
-                ? global.cb_optionButtonsColor
-                : global.optionButtonsColor
-            }
-            onPress={() => navigation.navigate('Login')}
+            ios_backgroundColor={global.cb_blackColor}
+            onValueChange={toggleSwitch}
+            value={isEnabled}
+            caption='test'
           />
         </View>
-      </View>
+
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%',
+          }}>
+          {/* Logo + title */}
+          <Image
+            style={styles().logo}
+            source={require('../../shared/assets/icon.png')}
+          />
+          <Text
+            style={{
+              fontWeight: 'bold',
+              color: global.colorblindMode
+                ? global.cb_textColor
+                : global.textColor,
+              fontSize: 44,
+            }}>
+            myGrowth
+          </Text>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              color: global.colorblindMode
+                ? global.cb_textColor
+                : global.textColor,
+              fontSize: 20,
+              marginBottom: 40,
+            }}>
+            Your General Wellness Tracker
+          </Text>
+          {/* Sign up + login buttons */}
+          <View style={styles().buttons}>
+            <Button
+              title='SIGN UP'
+              color={
+                global.colorblindMode
+                  ? global.cb_optionButtonsColor
+                  : global.optionButtonsColor
+              }
+              onPress={() => navigation.navigate('SignUp')}
+            />
+            <View style={{ marginVertical: 8 }} />
+            <Button
+              title='LOG IN'
+              color={
+                global.colorblindMode
+                  ? global.cb_optionButtonsColor
+                  : global.optionButtonsColor
+              }
+              onPress={() => navigation.navigate('Login')}
+            />
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

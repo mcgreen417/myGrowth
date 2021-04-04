@@ -119,7 +119,7 @@ function HistoryFitness2({ navigation }) {
           </View>
 
           {/* Recommended exercises (decide how we're going to add this in?) */}
-          <View style={{ marginHorizontal: '5%', marginBottom: 20, }}>
+          <View style={{ marginHorizontal: '5%', }}>
             <Text style={styles().text}>
               Exercise is a great way to stay in shape and manage your weight! The
               following exercise regimens are recommended for you.

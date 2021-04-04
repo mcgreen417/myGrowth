@@ -7,6 +7,7 @@ import {
   Text,
   View,
   SafeAreaView,
+  ScrollView,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
@@ -126,26 +127,28 @@ const ViewJournalEntry = ({ route, navigation }) => {
         <View style={styles.divider} />
       </View>
 
-      {/* Journal entry body */}
-      <View style={{ marginHorizontal: '5%' }}>
-        {/* Entry creation time (date reflected in date selector) */}
-        {/*<View style={{ flexDirection: 'row' }}>
-          <Text style={styles.textBold}>Entry created at </Text>
-          <Text style={styles.textDateTime}>{time}</Text>
-        </View>*/}
+      <ScrollView>
+        {/* Journal entry body */}
+        <View style={{ marginHorizontal: '5%' }}>
+          {/* Entry creation time (date reflected in date selector) */}
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={styles.textBold}>Entry created at </Text>
+            <Text style={styles.textDateTime}>{time}</Text>
+          </View>
 
-        {/* Date/time of last entry edit */}
-        <View style={{ flexDirection: 'row' }}>
-          <Text style={styles.textBold}>Last edited on </Text>
-          <Text style={styles.textDateTime}>{date}</Text>
-          {/*<Text style={styles.textBold}> at </Text>
-          <Text style={styles.textDateTime}>{time}</Text>*/}
+          {/* Date/time of last entry edit */}
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={styles.textBold}>Last edited on </Text>
+            <Text style={styles.textDateTime}>{date}</Text>
+            <Text style={styles.textBold}> at </Text>
+            <Text style={styles.textDateTime}>{time}</Text>
+          </View>
+          {/* Entry text */}
+          <View style={{ marginVertical: 8 }} >
+            <Text style={styles.text}>{journal_entry}</Text>
+          </View>
         </View>
-        {/* Entry text */}
-        <View style={{ marginVertical: 8 }} >
-          <Text style={styles.text}>{journal_entry}</Text>
-        </View>
-      </View>
+      </ScrollView>
       
       <NavBar journal={true} navigation={navigation} />
     </SafeAreaView>

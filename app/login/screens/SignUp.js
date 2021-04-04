@@ -11,6 +11,7 @@ import {
   Button,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 
 function SignUp({ navigation }) {
@@ -141,113 +142,119 @@ function SignUp({ navigation }) {
         }
         barStyle='light-content'
       />
-      <View style={styles().pageSetup}>
-        {/* Logo + title */}
-        <Image
-          style={styles().logo}
-          source={require('../../shared/assets/icon.png')}
-        />
-        <Text style={styles().textTitle}>myGrowth</Text>
-        <Text style={styles().textSubtitle}>Your General Wellness Tracker</Text>
-
-        {/* E-mail address, password, confirm password entry boxes + signup button */}
-        <View style={styles().buttons}>
-          <TextInput
-            style={styles().textInput}
-            placeholder='E-mail Address'
-            placeholderTextColor={
-              global.colorblindMode
-                ? global.cb_placeHolderTextColor
-                : global.placeholderTextColor
-            }
-            keyboardType='email-address'
-            value={email}
-            maxLength={320}
-            onChangeText={(email) => {
-              emailTextInputChange(email);
-            }}
+      <ScrollView 
+        showsVerticalScrollIndicator={false} 
+        keyboardShouldPersistTaps='handled' 
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+      >
+        <View style={styles().pageSetup}>
+          {/* Logo + title */}
+          <Image
+            style={styles().logo}
+            source={require('../../shared/assets/icon.png')}
           />
-          <View style={{ marginVertical: 8 }} />
-          <TextInput
-            style={styles().textInput}
-            placeholder='Password'
-            placeholderTextColor={
-              global.colorblindMode
-                ? global.cb_placeHolderTextColor
-                : global.placeholderTextColor
-            }
-            secureTextEntry={true}
-            value={password}
-            maxLength={99}
-            onChangeText={(password) => {
-              handlePasswordChange(password);
-            }}
-          />
+          <Text style={styles().textTitle}>myGrowth</Text>
+          <Text style={styles().textSubtitle}>Your General Wellness Tracker</Text>
 
-          <Text style={styles().passwordDetailsText}>
-            Passwords must be 8 or more characters, with:{'\n'}
-            {'   '}-1 lowercase character{'\n'}
-            {'   '}-1 uppercase character{'\n'}
-            {'   '}-1 special character (!, @, #, $, %, etc.){'\n'}
-            {'   '}-1 number{'\n'}
-          </Text>
-
-          <View style={{ marginVertical: 8 }} />
+          {/* E-mail address, password, confirm password entry boxes + signup button */}
+          <View style={styles().buttons}>
             <TextInput
               style={styles().textInput}
-              placeholder='Confirm Password'
+              placeholder='E-mail Address'
+              placeholderTextColor={
+                global.colorblindMode
+                  ? global.cb_placeHolderTextColor
+                  : global.placeholderTextColor
+              }
+              keyboardType='email-address'
+              value={email}
+              maxLength={320}
+              onChangeText={(email) => {
+                emailTextInputChange(email);
+              }}
+            />
+            <View style={{ marginVertical: 8 }} />
+            <TextInput
+              style={styles().textInput}
+              placeholder='Password'
               placeholderTextColor={
                 global.colorblindMode
                   ? global.cb_placeHolderTextColor
                   : global.placeholderTextColor
               }
               secureTextEntry={true}
-              value={confirmPassword}
-              onChangeText={(confirmPassword) => {
-                handleConfirmPasswordChange(confirmPassword);
+              value={password}
+              maxLength={99}
+              onChangeText={(password) => {
+                handlePasswordChange(password);
               }}
             />
 
-          {/* </View> */}
-          
-          <View style={{ marginVertical: 8 }} />
-          <Button
-            title='SIGN UP'
-            color={
-              global.colorblindMode
-                ? global.cb_optionButtonsColor
-                : global.optionButtonsColor
-            }
-            onPress={() => {checkRequiredFields(email, password, navigation);}}
-          />
-          <View style={{ marginVertical: 8 }} />
-        </View>
+            <Text style={styles().passwordDetailsText}>
+              Passwords must be 8 or more characters, with:{'\n'}
+              {'   '}-1 lowercase character{'\n'}
+              {'   '}-1 uppercase character{'\n'}
+              {'   '}-1 special character (!, @, #, $, %, etc.){'\n'}
+              {'   '}-1 number{'\n'}
+            </Text>
 
-        {/* Login/signup page switch */}
-        <View style={{ flexDirection: 'row' }}>
-          <Text style={styles().text}>Already have an account? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <Text style={styles().textLink}>Log in here.</Text>
-          </TouchableOpacity>
-        </View>
+            <View style={{ marginVertical: 8 }} />
+              <TextInput
+                style={styles().textInput}
+                placeholder='Confirm Password'
+                placeholderTextColor={
+                  global.colorblindMode
+                    ? global.cb_placeHolderTextColor
+                    : global.placeholderTextColor
+                }
+                secureTextEntry={true}
+                value={confirmPassword}
+                onChangeText={(confirmPassword) => {
+                  handleConfirmPasswordChange(confirmPassword);
+                }}
+              />
 
-        {/* TOS + privacy policy agreement */}
-        <View style={{ marginVertical: 8 }} />
-        <View>
-          <Text style={styles().text}>
-            By continuing, you're accepting our{' '}
-          </Text>
+            {/* </View> */}
+            
+            <View style={{ marginVertical: 8 }} />
+            <Button
+              title='SIGN UP'
+              color={
+                global.colorblindMode
+                  ? global.cb_optionButtonsColor
+                  : global.optionButtonsColor
+              }
+              onPress={() => {checkRequiredFields(email, password, navigation);}}
+            />
+            <View style={{ marginVertical: 8 }} />
+          </View>
+
+          {/* Login/signup page switch */}
           <View style={{ flexDirection: 'row' }}>
-            <TouchableOpacity>
-              <Text style={styles().textLink}>Terms of Service </Text>
-            </TouchableOpacity>
-            <Text style={styles().text}> and </Text>
-            <TouchableOpacity>
-              <Text style={styles().textLink}>Privacy Policy.</Text>
+            <Text style={styles().text}>Already have an account? </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <Text style={styles().textLink}>Log in here.</Text>
             </TouchableOpacity>
           </View>
+
+          {/* TOS + privacy policy agreement */}
+          <View style={{ marginVertical: 8 }} />
+          <View>
+            <Text style={styles().text}>
+              By continuing, you're accepting our{' '}
+            </Text>
+            <View style={{ flexDirection: 'row' }}>
+              <TouchableOpacity>
+                <Text style={styles().textLink}>Terms of Service </Text>
+              </TouchableOpacity>
+              <Text style={styles().text}> and </Text>
+              <TouchableOpacity>
+                <Text style={styles().textLink}>Privacy Policy.</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

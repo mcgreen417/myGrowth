@@ -96,7 +96,7 @@ async function submit(
 
   console.log(res);
 
-  navigation.navigate('ReviewEntry');
+  navigation.navigate('EntryCompletion');
 }
 
 const HealthEntry = ({ navigation }) => {
@@ -123,7 +123,7 @@ const HealthEntry = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles().container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled'>
         <View style={styles().pageSetup}>
 
           {/* Gardener avatar + page blurb */}

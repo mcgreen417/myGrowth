@@ -74,6 +74,11 @@ function HistoryPeriodTracking({ navigation }) {
           {/* Custom history component */}
           <TabBarAndContent historyGenComp={true} navigation={navigation} data={data} timePeriod={'past_month'} page={'period'} />
             
+          {/* Middle divider */}
+          <View style={styles().dividerView}>
+            <View style={styles().divider} />
+          </View>
+
           {/* Period prediction */}
           <View 
             style={{ 
@@ -125,7 +130,7 @@ function HistoryPeriodTracking({ navigation }) {
           </View>
 
           {/* App suggestions */}
-          <View style={{ marginHorizontal: '5%', marginBottom: 20, }}>
+          <View style={{ marginHorizontal: '5%', }}>
             {/* Common symptom analysis */}
             <Text style={styles().text}>
               Based on this point in your cycle, some symptoms you may expect to
