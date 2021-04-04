@@ -1,15 +1,8 @@
 
-Mood: line chart representing very sad - very happy (over week, month, year) - DONE
-
-Stress: line chart representing not at all stressed - very stressed (over week, month, year) - DONE
-
 Daily activities: bar graph representing frequency of each activity (over week, month, year) & for each activity, show graph like GitHub's contribution graph (over year)
-    - bar graph: DONE
     - heatmap: WIP
 
 Medication: calendar (monthly), track prescription and OTC meds - WIP
-
-Period tracking: calendar (monthly) - WIP: data aggregated into line graph not heatmap
 
 Symptom tracking: bar graph representing frequency of each symptom (over week, month, year) & line chart representing symptom intensity (over week, month, year), w/ option 
 to display only one symptom for easier viewing
@@ -19,13 +12,6 @@ Sleep: line chart representing hrs of total sleep (over week, month, year), sepa
 with stacked bar graph (where bottom would be regular sleep, top would be nap), but this would only really work in week.... or monthly view at MOST
     - sleep1: WIP
     - sleep2: to be started
-
-Weight tracking: line chart representing weight in lbs/kgs (over week, month, year) - DONE
-
-Meal tracking: separate line charts for calories and each major nutrient tracked in advanced meal tracking (I looked at what was required on US nutrient labels for this), 
-with recommended amount as a second static line, & daily screen of progress circle graphs representing how far over/under they are for recommended calories/nutrients for 
-the day
-    - DONE
 
 Fitness tracking: line charts representing calories burned from exercising, time spent exercising, steps taken (over week, month, year) & for each exercise, bar graph 
 representing the number of sets & reps

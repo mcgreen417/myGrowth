@@ -19,6 +19,7 @@ function HistoryPeriodTracking({ route, navigation }) {
   const data = route.params.data;
   const arr = initDisplayData(data);
   const labels = getTimestamps(data);
+  const commits = genCommits(arr, labels);
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -73,9 +74,8 @@ function HistoryPeriodTracking({ route, navigation }) {
           {/* Custom history component */}
           <TabBarAndContent 
             navigation={navigation} 
-            data={arr} 
-            timePeriod={labels} 
-            page={'historyGenComp'} 
+            data={commits} 
+            page={'period'} 
           />
             
           {/* Period prediction */}
@@ -193,11 +193,30 @@ function HistoryPeriodTracking({ route, navigation }) {
   );
 };
 
+function genCommits(arr, labels) {
+  var commitsArr = [];
+
+  for(var i = 0; i < 90; i++) {
+    let obj = new Object();
+    obj.date = labels[i];
+    obj.count = arr[i];
+    commitsArr.push(obj);
+  }
+
+  return commitsArr;
+}
+
 function initDisplayData(data) {
   var len = data.periodData.length;
   var arr = [];
 
-  arr = data.periodData.slice(len - 30, len);
+  for(var i = len < 90 ? 0 : len - 90; i < len;  i++) {
+    if(data.periodData[i] == 0 || data.periodData[i] == -1)
+      arr.push(0);
+    
+    else
+      arr.push(data.periodData[i]);
+  }
 
   return arr;
 }
@@ -205,17 +224,16 @@ function initDisplayData(data) {
 function getDisplayData(data, setDisplayData) {
   var len = data.periodData.length;
 
-  setDisplayData(data.periodData.slice(len - 30, len));
+  setDisplayData(data.periodData.slice(len - 90, len));
 }
 
 function getTimestamps(data) {
   var dates = [];
   const latestDate = new Date(data.latestDate);
 
-  for(var i = 29; i >= 0; i--) {
+  for(var i = 89; i >= 0; i--) {
     var date = new Date(latestDate.getTime() - (i * 24 * 60 * 60 * 1000));
-    if(i % 4 == 0)
-      dates.push(date.toISOString().substring(5, 10));
+    dates.push(date.toISOString().substring(0, 10));
   }
 
   return dates;

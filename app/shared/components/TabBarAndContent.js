@@ -163,6 +163,82 @@ const TabBarAndContent = ({
 
       </View>
     );
+  
+  if (page === 'period')
+    return (
+      <View style={{ width: '90%', }}>
+        <View style={{ flexDirection: 'row', }}>
+          {/* History */}
+          <Pressable
+            style={{
+              backgroundColor: historyButtonColor,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
+            onPress={() => {
+              setShowTable(true);
+              setCorrButtonColor(buttonColors.lightGreen);
+              setHistoryButtonColor(buttonColors.darkGreen);
+            }}
+          >
+            <Text style={styles.text}>History</Text>
+          </Pressable>
+
+          {/* Correlations */}
+          <Pressable
+            style={{
+              backgroundColor: corrButtonColor,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
+            onPress={() => {
+              setShowTable(false);
+              setCorrButtonColor(buttonColors.darkGreen);
+              setHistoryButtonColor(buttonColors.lightGreen);
+            }}
+          >
+            <Text style={styles.text}>Correlations</Text>
+          </Pressable>
+        </View>
+
+        {/* Colored bar */}
+        <View style={styles.coloredBarView}>
+          <View style={styles.coloredBar} />
+        </View>
+
+        {/* render image */}
+        {/* !showTable &&
+          <Image style={styles.images} source={imgSource} />*/}
+        {showTable && <ContributionGraph
+          values={data}
+          endDate={new Date()}
+          numDays={90}
+          width={353}
+          height={250}
+          chartConfig={{
+            backgroundColor: "#4CB97A",
+            backgroundGradientFrom: "#4CB97A",
+            backgroundGradientTo: "#A5DFB2",
+            fillShadowGradientOpacity: 3,
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#4CB97A"
+            }
+          }}
+        />}
+
+        {/* Render image */}
+        {/*<Image style={styles.images} source={imgSource} />*/}
+
+      </View>
+    );
 
   {/* Daily Activities */}
   if (page === 'dailyActivities')
