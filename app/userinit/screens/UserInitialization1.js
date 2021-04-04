@@ -51,7 +51,7 @@ function UserInitialization1({ navigation }) {
 
 
   const handleFirstNameChange = (firstName) => {
-    const firstNameRegexPattern = /^(?=.[a-zA-z]+(?=.*[-' ])).{1,}$/;
+    const firstNameRegexPattern = /^(?=.*[a-zA-z]).{1,}$/;
     const charsNotAllowedRegexPattern = /[^a-zA-z-' ]/g;
 
     firstName = firstName.replace(charsNotAllowedRegexPattern, '');
@@ -63,6 +63,7 @@ function UserInitialization1({ navigation }) {
         validFirstName: true,
         checkTextInputChange: true,
       });
+      console.log("valid");
     } else {
       setUserInitializationProperties({
         ...userInitializationProperties,
@@ -70,6 +71,7 @@ function UserInitialization1({ navigation }) {
         checkTextInputChange: false,
         validSignUp: false,        
       });
+      console.log("invalid");
     }
   }
 
@@ -178,7 +180,7 @@ function UserInitialization1({ navigation }) {
 
       // Future update so that relevant input boxes have a red outline and a red 'x' next to/above them?
       if (!validFirstName && !validDOB && !validGender && !validBioSex) {
-        createAlert('Oh no!', 'Please double-check your entered information in the First Name, Date of Birth, Gender, and Biological Sex fields.');
+        createAlert('Oh no!', 'Please double-check that you entered information in the First Name, Date of Birth, Gender, and Biological Sex fields.');
       } else if (!validFirstName && !validDOB && !validGender) {
         createAlert('Oh no!', 'Please double-check your entered information in the First Name, Date of Birth, and Gender fields.');
       } else if (!validFirstName && !validDOB && !validBioSex) {
@@ -192,7 +194,7 @@ function UserInitialization1({ navigation }) {
       } else if (!validFirstName && !validGender) {
         createAlert('Oh no!', 'Please double-check your entered information in the First Name and Gender fields.');
       } else if (!validFirstName && !validBioSex) {
-        createAlert('Oh no!', 'Please select an option for Gender - if you do not wish to answer, please select \'Prefer not to answer\'.');
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name and Biological Sex fields.');
       } else if (!validDOB && !validGender) {
         createAlert('Oh no!', 'Please double-check your entered information in the Date of Birth and Gender fields.');   
       } else if (!validDOB && !validBioSex) {
@@ -202,7 +204,7 @@ function UserInitialization1({ navigation }) {
       } else if (!validFirstName) {
         createAlert('Oh no!', 'Please make sure that you\'ve entered at least one character for your name.'); 
       } else if (!validDOB) {
-        createAlert('Oh no!', 'Please make sure you\'ve entered your date of birth and are 13 years or older.'); 
+        createAlert('Oh no!', 'Please make sure you\'ve selected your date of birth and are 13 years or older.'); 
       } else if (!validGender) {
         createAlert('Oh no!', 'Please select an option for Gender - if you do not wish to answer, please select \'Prefer not to answer\'.'); 
       } else if (!validBioSex) {
@@ -287,7 +289,12 @@ function UserInitialization1({ navigation }) {
               <View style={styles().inlineRow}>
                 <Icon name='calendar-sharp' type='ionicon' color='#816868' />
                 <Text
-                  style={{ textDecorationLine: 'underline', color: '#4CB97A' }}
+                  style={{
+                    textDecorationLine: 'underline',
+                    color: global.colorblindMode
+                      ? global.cb_hyperlinkedTextColor
+                      : global.hyperlinkedTextColor
+                  }}
                 >
                   {dateDisplayText}
                 </Text>
