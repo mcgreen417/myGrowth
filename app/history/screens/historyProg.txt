@@ -1,8 +1,4 @@
 
-Symptom tracking: bar graph representing frequency of each symptom (over week, month, year) & line chart representing symptom intensity (over week, month, year), w/ option 
-to display only one symptom for easier viewing
-    - line graph: WIP
-
 Fitness tracking: line charts representing calories burned from exercising, time spent exercising, steps taken (over week, month, year) & for each exercise, bar graph 
 representing the number of sets & reps
     - line graph: WIP

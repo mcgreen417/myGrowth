@@ -763,8 +763,8 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              navigation.navigate('HistoryFitness1');
-              setImageSource(images.historyImg);
+              navigation.navigate('HistoryFitness1', {data});
+              setShowTable(true);
               setCorrButtonColor(buttonColors.lightGreen);
               setHistoryButtonColor(buttonColors.darkGreen);
               setExerciseButtonColor(buttonColors.lightGreen);
@@ -781,8 +781,8 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              navigation.navigate('HistoryFitness2');
-              setImageSource(images.exerciseImg);
+              navigation.navigate('HistoryFitness2', {data});
+              setShowTable(true);
               setCorrButtonColor(buttonColors.lightGreen);
               setHistoryButtonColor(buttonColors.lightGreen);
               setExerciseButtonColor(buttonColors.darkGreen);
@@ -799,8 +799,7 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              navigation.navigate('HistoryFitness1');
-              setImageSource(images.correlationImg);
+              setShowTable(false);
               setCorrButtonColor(buttonColors.darkGreen);
               setHistoryButtonColor(buttonColors.lightGreen);
               setExerciseButtonColor(buttonColors.lightGreen);
@@ -815,7 +814,42 @@ const TabBarAndContent = ({
           <View style={styles.coloredBar} />
         </View>
         {/* Render image */}
-        <Image style={styles.images} source={imgSource} />
+        {/*<Image style={styles.images} source={imgSource} />*/}
+
+        {showTable && !page2Color && <LineChart 
+          data = {{
+            labels: timePeriod,
+            datasets: [
+              {
+                data: multiPageData
+              }
+            ]
+          }}
+          width={353} // from react-native
+          height={250}
+          yAxisLabel=""
+          yAxisSuffix=""
+          yAxisInterval={1} // optional, defaults to 1
+          chartConfig={{
+            backgroundColor: "#4CB97A",
+            backgroundGradientFrom: "#4CB97A",
+            backgroundGradientTo: "#4CB97A",
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#4CB97A"
+            }
+          }}
+          bezier
+          style={{
+          }}
+        />}
       </View>
     );
 

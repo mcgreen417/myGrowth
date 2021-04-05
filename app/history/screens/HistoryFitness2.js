@@ -17,9 +17,10 @@ import HistorySelectACategory from '../../shared/components/HistorySelectACatego
 
 function HistoryFitness2({ route, navigation }) {
   const data = route.params.data;
+  
   const [modalVisible, setModalVisible] = useState(false);
   const [timePeriod, setTimePeriod] = useState('unselected');
-  const [selectExercise, setExercise] = useState('unselected');  
+  const [selectExercise, setExercise] = useState('unselected');
 
   return (
     <SafeAreaView style={styles().container}>
