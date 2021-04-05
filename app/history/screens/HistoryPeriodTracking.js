@@ -81,6 +81,11 @@ function HistoryPeriodTracking({ route, navigation }) {
             />
           </View>
             
+          {/* Middle divider */}
+          <View style={styles().dividerView}>
+            <View style={styles().divider} />
+          </View>
+
           {/* Period prediction */}
           <View 
             style={{ 
@@ -132,7 +137,7 @@ function HistoryPeriodTracking({ route, navigation }) {
           </View>
 
           {/* App suggestions */}
-          <View style={{ marginHorizontal: '5%', marginBottom: 20, }}>
+          <View style={{ marginHorizontal: '5%', }}>
             {/* Common symptom analysis */}
             <Text style={styles().text}>
               Based on this point in your cycle, some symptoms you may expect to

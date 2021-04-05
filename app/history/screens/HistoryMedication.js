@@ -113,7 +113,7 @@ function HistoryMedication({ route, navigation }) {
           </View>
 
           {/* App suggestions */}
-          <View style={{ marginHorizontal: '5%', marginBottom: 20, }}>
+          <View style={{ marginHorizontal: '5%', }}>
             {/* Took medication symptoms analysis */}
             <Text style={styles().text}>
               Based on our analysis, on days when you took your medication as prescribed, 

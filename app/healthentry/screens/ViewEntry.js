@@ -14,6 +14,9 @@ import NavBar from '../../shared/components/NavBar';
 const ViewEntry = () => {
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled'>
+        
+      </ScrollView>
       <NavBar navigation={navigation} />
     </SafeAreaView>
   );

@@ -71,104 +71,102 @@ function JournalHistory({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.pageSetup}>
+      <ScrollView showsVerticalScrollIndicator={false} stickyHeaderIndices={[0]}>
+        <View style={{ backgroundColor: '#F6EFED' }}>
+          <View style={styles.pageSetup}>
 
-        {/* Gardener avatar + page blurb */}
-        <View style={styles.avatarView}>
-          <Text style={styles.pageDescription}>
-            Select a past journal entry to view. Use the arrows below to select a month.
-          </Text>
-          <Image
-            style={styles.avatar}
-            source={require('../../shared/assets/gardener-avatar.png')}
-          />
-        </View>
-        {/* Top page divider */}
-        <View style={styles.dividerView}>
-          <View style={styles.divider} />
-        </View>
-
-        {/* Date display/selector */}
-        <View style={{ width: '90%', margin: 10, flexDirection: 'row' }}>
-          <Pressable onPress={showDatepicker}>
-            <View style={{ flex: 1, justifyContent: 'flex-start', flexDirection: 'row' }}>
-              <Icon 
-                name='calendar-sharp' 
-                type='ionicon' 
-                color='#816868' 
-                style={{ marginRight: 6 }}
-              />
-              <Text style={styles.textLink}>{monthNames[date.getMonth()] + ' ' + date.getFullYear()}</Text>
-              <Icon 
-                name='arrow-drop-down' 
-                type='material' 
-                color='#816868' 
+            {/* Gardener avatar + page blurb */}
+            <View style={styles.avatarView}>
+              <Text style={styles.pageDescription}>
+                Select a past journal entry to view. Use the arrows below to select a month.
+              </Text>
+              <Image
+                style={styles.avatar}
+                source={require('../../shared/assets/gardener-avatar.png')}
               />
             </View>
-          </Pressable>
-          {show && (
-              <DateTimePicker
-                testID='dateTimePicker'
-                value={date}
-                mode={mode}
-                is24Hour={true}
-                display='default'
-                onChange={onChange}
-              />
-            )}
+            {/* Top page divider */}
+            <View style={styles.dividerView}>
+              <View style={styles.divider} />
+            </View>
 
-          {/* Back/forward arrows (change month) */}
-          <View style={{ flexDirection: 'row', justifyContent: 'flex-end', flex: 1 }}>
-            <Pressable
-              onPress={() => {
-                date.setMonth(date.getMonth() - 1);
-                getEntries(date, navigation);
-              }}
-            >
-              <Icon name='arrow-left' color='#816868' />
-            </Pressable>
-            <Pressable
-              onPress={() => {
-                date.setMonth(date.getMonth() + 1);
-                getEntries(date, navigation);
-              }}
-            >
-              <Icon name='arrow-right' color='#816868' />
-            </Pressable>
+            {/* Date display/selector */}
+            <View style={{ width: '90%', margin: 10, flexDirection: 'row' }}>
+              <Pressable onPress={showDatepicker}>
+                <View style={{ flex: 1, justifyContent: 'flex-start', flexDirection: 'row' }}>
+                  <Icon 
+                    name='calendar-sharp' 
+                    type='ionicon' 
+                    color='#816868' 
+                    style={{ marginRight: 6 }}
+                  />
+                  <Text style={styles.textLink}>{monthNames[date.getMonth()] + ' ' + date.getFullYear()}</Text>
+                  <Icon 
+                    name='arrow-drop-down' 
+                    type='material' 
+                    color='#816868' 
+                  />
+                </View>
+              </Pressable>
+              {show && (
+                  <DateTimePicker
+                    testID='dateTimePicker'
+                    value={date}
+                    mode={mode}
+                    is24Hour={true}
+                    display='default'
+                    onChange={onChange}
+                  />
+                )}
+
+              {/* Back/forward arrows (change month) */}
+              <View style={{ flexDirection: 'row', justifyContent: 'flex-end', flex: 1 }}>
+                <Pressable
+                  onPress={() => {
+                    date.setMonth(date.getMonth() - 1);
+                    getEntries(date, navigation);
+                  }}
+                >
+                  <Icon name='arrow-left' color='#816868' />
+                </Pressable>
+                <Pressable
+                  onPress={() => {
+                    date.setMonth(date.getMonth() + 1);
+                    getEntries(date, navigation);
+                  }}
+                >
+                  <Icon name='arrow-right' color='#816868' />
+                </Pressable>
+              </View>
+            </View>
+          </View>
+
+          {/* Journal entry previews */}
+          <View style={{ marginHorizontal: '2.5%'}}>
+            {journalEntries.map((item, index) => (
+              <Pressable
+                key={index}
+                onPress={() => {
+                  navigation.navigate('ViewJournalEntry', {
+                    date: item.Timestamp,
+                    entry: item.Entry,
+                  })
+                }}>
+                <View style={styles.journalItemSelect}>
+                  {/* Journal entry date */}
+                  <View style={{ marginRight: 20, alignItems: 'center' }}>
+                    <Text style={styles.journalDate}>{monthAbbreviations[new Date(item.Timestamp).getMonth()]}</Text>
+                    <Text style={styles.journalDate}>{new Date(item.Timestamp).getDate()}</Text>
+                    <Text style={styles.journalDate}>{new Date(item.Timestamp).getFullYear()}</Text>
+                  </View>
+                  {/* Journal entry text preview */}
+                  <Text numberOfLines={3} style={styles.journalText}>{item.Entry}</Text>
+                </View>
+              </Pressable>
+            ))}
           </View>
         </View>
-
-        {/* Journal entry previews */}
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={{ marginHorizontal: '2.5%'}}
-        >
-          {journalEntries.map((item, index) => (
-            <Pressable
-              key={index}
-              onPress={() => {
-                navigation.navigate('ViewJournalEntry', {
-                  date: item.Timestamp,
-                  entry: item.Entry,
-                })
-              }}>
-              <View style={styles.journalItemSelect}>
-                {/* Journal entry date */}
-                <View style={{ marginRight: 20, alignItems: 'center' }}>
-                  <Text style={styles.journalDate}>{monthAbbreviations[new Date(item.Timestamp).getMonth()]}</Text>
-                  <Text style={styles.journalDate}>{new Date(item.Timestamp).getDate()}</Text>
-                  <Text style={styles.journalDate}>{new Date(item.Timestamp).getFullYear()}</Text>
-                </View>
-                {/* Journal entry text preview */}
-                <View style={{ flexShrink: 1 }}>
-                  <Text style={styles.journalText}>{item.Entry}</Text>
-                </View>
-              </View>
-            </Pressable>
-          ))}
-        </ScrollView>
-
-      </View>
+      </ScrollView>
       <NavBar navigation={navigation} journal={true} />
     </SafeAreaView>
   );
@@ -261,6 +259,7 @@ const styles = StyleSheet.create({
   journalText: {
     fontSize: 16,
     color: '#E5E5E5',
+    flexShrink: 1,
   },
   text: {
     fontSize: 16,

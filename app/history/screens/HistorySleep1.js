@@ -193,7 +193,7 @@ function HistorySleep1({ route, navigation }) {
           <View style={styles().line}/>
 
           {/* App suggestions */}
-          <View style={{ marginHorizontal: '5%', marginVertical: 20,  }}>
+          <View style={{ marginHorizontal: '5%', marginTop: 20,  }}>
             {/* Proper sleep analysis */}
             <Text style={styles().text}>
               Based on our analysis, on days that you slept for the traditionally recommended

@@ -112,14 +112,12 @@ function Home({ navigation }) {
         <View style={styles().dividerView}>
           <View style={styles().dividerLeft} />
           <View>
-            <Pressable>
+            <Pressable onPress={() => navigation.navigate('HealthEntry1')}>
               <View style={styles().entryButton}>
                 <View
                   style={{
-                    marginTop: 4,
-                    marginBottom: 4,
-                    marginLeft: 8,
-                    marginRight: 8,
+                    marginVertical: 4,
+                    marginHorizontal: 8,
                     paddingLeft: 8,
                     paddingTop: 2,
                   }}>
@@ -228,9 +226,9 @@ function Home({ navigation }) {
           </View>
 
           <Pressable
-            style={styles.inlineRow}
+            style={styles().inlineRow}
             onPress={() => getTodos(navigation)}>
-            <Text style={styles.text}>Check your to-do list</Text>
+            <Text style={styles().text}>Check your to-do list</Text>
             <Icon
               name='checkmark-circle-outline'
               type='ionicon'
@@ -243,6 +241,7 @@ function Home({ navigation }) {
             <View style={styles().line} />
           </View>
         </View>
+
         <View style={styles().pageEnd} />
       </ScrollView>
       <NavBar home={true} navigation={navigation} />
@@ -394,12 +393,8 @@ const styles = () => StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    color: '#816868',
-  },
-  textReg: {
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
-    fontSize: 16
-  }
+  },
 });

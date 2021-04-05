@@ -116,7 +116,7 @@ function HistoryGeneralHealth1({ route, navigation }) {
           </View>
 
           {/* App suggestions */}
-          <View style={{ marginHorizontal: '5%', marginBottom: 20, }}>
+          <View style={{ marginHorizontal: '5%', }}>
             {/* Decrease symptom frequency analysis */}
             <Text style={styles().text}>
               Based on our analysis, the following activities may help decrease the frequency of

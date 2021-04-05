@@ -8,6 +8,7 @@ import {
   Button,
   Pressable,
 } from 'react-native';
+import { useState } from 'react';
 import { Icon } from 'react-native-elements';
 import * as queries from '../../../src/graphql/queries';
 import { Auth, API } from 'aws-amplify';
@@ -23,6 +24,10 @@ const NavBar = ({
   account = false,
   navigation,
 }) => {
+  const [usePressedIcon, setTogglePressedIcon] = useState(false);
+  const togglePressedIcon = () =>
+    setTogglePressedIcon((previousState) => !previousState);
+
   return (
     <View
       style={{
@@ -357,10 +362,10 @@ const NavBar = ({
 
       {/* acct panel */}
       <Pressable
-        onPress={() => navigation.navigate('AccountPanel')}
+        onPress={() => {navigation.navigate('AccountPanel')}}
         style={({ pressed }) => [
           {
-            padding: 5,
+            padding: 4,
             flex: 1,
             zIndex: 2,
             justifyContent: 'center',
@@ -388,11 +393,73 @@ const NavBar = ({
               : (global.colorblindMode
                 ? global.cb_navBarIconColor
                 : global.navBarIconColor)
-          }
+            }
+        />
+        {/* Attempt at making the account icon color change onPress */}
+        {/* <Pressable
+        value='PressedIcon'
+        status={usePressedIcon ? 'checked' : 'unchecked'}
+        onPress={() => {
+          account
+            ? navigation.navigate('AccountPanel')
+            : togglePressedIcon(); navigation.navigate('AccountPanel')
+          }}  
+        style={({ pressed }) => [
+          {
+            padding: 4,
+            flex: 1,
+            zIndex: 2,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: pressed 
+              ? (global.colorblindMode
+                ? global.cb_navBarOnPressColor
+                : global.navBarOnPressColor)
+              : account
+                ? (global.colorblindMode
+                  ? global.cb_navBarCurrentIconBackgroundColor
+                  : global.navBarCurrentIconBackgroundColor)
+                : (global.colorblindMode
+                  ? global.cb_optionButtonsColor
+                  : global.optionButtonsColor),
+          },
+        ]}>
+        <Icon
+          name='menu'
+          color={
+            usePressedIcon
+              ? global.colorblindMode
+                ? global.cb_optionButtonsColor
+                : global.optionButtonsColor
+            : account
+              ? (global.colorblindMode
+                ? global.cb_navBarCurrentIconColor
+                : global.navBarCurrentIconColor)
+              : (global.colorblindMode
+                ? global.cb_navBarIconColor
+                : global.navBarIconColor)}
         />
         <Text
           numberOfLines={1}
           style={{
+            fontSize: 12,
+            color:
+              account
+                ? (global.colorblindMode
+                  ? global.cb_navBarCurrentIconColor
+                  : global.navBarCurrentIconColor)
+                : (global.colorblindMode
+                  ? global.cb_navBarIconColor
+                  : global.navBarIconColor)
+          }}
+        >
+          Account
+        </Text>
+      </Pressable> */}
+        <Text
+          numberOfLines={1}
+          style={{
+            fontSize: 12,
             color:
               account
                 ? (global.colorblindMode

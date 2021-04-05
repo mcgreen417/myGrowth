@@ -6,10 +6,8 @@ import {
   View,
   SafeAreaView,
   Image,
-  TextInput,
+  ScrollView,
 } from 'react-native';
-import { Icon } from 'react-native-elements';
-import NavBar from '../../shared/components/NavBar';
 
 const JournalEntryCompletion = ({ route, navigation }) => {
   const {date, entry} = route.params;
@@ -17,48 +15,55 @@ const JournalEntryCompletion = ({ route, navigation }) => {
   console.log(entry);
   return (
     <SafeAreaView style={styles.container}>
-      {/* Congratulations banner + filler image */}
-      <Image 
-        style={styles.bannerImage}
-        source={require('../../shared/assets/journal-banner.png')}/>
-      <Image
-        style={styles.fillerImage}
-        source={require('../../shared/assets/SettingsGirlReading2.png')}
-      />
-
-      {/* Success text */}
-      <View style={{ marginVertical: '10%', marginHorizontal: '5%', alignItems: 'center' }}>
-        <Text style={styles.text}>You have completed a journal entry!</Text>
-      </View>
-
-      {/* View Journal Entry + Return to Home buttons */}
-      <View
-        style={{
-          flexDirection: 'row',
-          marginTop: 10,
-          justifyContent: 'center',
-        }}>
-        <View style={{ width: '42.5%' }}>
-          <Button
-            title='View Entry'
-            color='#A5DFB2'
-            onPress={() =>
-              navigation.navigate('ViewJournalEntry', {
-                date,
-                entry
-              })
-            }
+      <ScrollView 
+        showsVerticalScrollIndicator={false} 
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', }}
+      >
+        <View style={{ alignItems: 'center' }}>
+          {/* Congratulations banner + filler image */}
+          <Image 
+            style={styles.bannerImage}
+            source={require('../../shared/assets/journal-banner.png')}/>
+          <Image
+            style={styles.fillerImage}
+            source={require('../../shared/assets/SettingsGirlReading2.png')}
           />
+
+          {/* Success text */}
+          <View style={{ marginVertical: '10%', marginHorizontal: '5%', alignItems: 'center' }}>
+            <Text style={styles.text}>You have completed a journal entry!</Text>
+          </View>
+
+          {/* View Journal Entry + Return to Home buttons */}
+          <View
+            style={{
+              flexDirection: 'row',
+              marginTop: 10,
+              justifyContent: 'center',
+            }}>
+            <View style={{ width: '42.5%' }}>
+              <Button
+                title='View Entry'
+                color='#A5DFB2'
+                onPress={() =>
+                  navigation.navigate('ViewJournalEntry', {
+                    date,
+                    entry
+                  })
+                }
+              />
+            </View>
+            <View style={{ width: '5%' }} />
+            <View style={{ width: '42.5%' }}>
+              <Button
+                title='Return to Home'
+                color='#A5DFB2'
+                onPress={() => navigation.navigate('Home')}
+              />
+            </View>
+          </View>
         </View>
-        <View style={{ width: '5%' }} />
-        <View style={{ width: '42.5%' }}>
-          <Button
-            title='Return to Home'
-            color='#A5DFB2'
-            onPress={() => navigation.navigate('Home')}
-          />
-        </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -69,8 +74,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F6EFED',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   bannerImage: {
     marginTop: '-6%',

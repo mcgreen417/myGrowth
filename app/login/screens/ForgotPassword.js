@@ -9,6 +9,7 @@ import {
   Button,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import { Auth, API } from 'aws-amplify';
 
@@ -25,94 +26,95 @@ function ForgotPassword({ navigation }) {
         }
         barStyle='light-content'
       />
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100%',
-        }}>
-        {/* Logo + title + page instructions */}
-        <Image
-          style={styles().logo}
-          source={require('../../shared/assets/icon.png')}
-        />
-        <Text
-          style={{
-            fontWeight: 'bold',
-            color: global.colorblindMode
-              ? global.cb_textColor
-              : global.textColor,
-            fontSize: 44,
-          }}>
-          myGrowth
-        </Text>
-        <Text
-          style={{
-            fontWeight: 'bold',
-            color: global.colorblindMode
-              ? global.cb_textColor
-              : global.textColor,
-            fontSize: 20,
-            marginBottom: 16,
-          }}>
-          Your General Wellness Tracker
-        </Text>
-        <Text
-          style={{
-            color: global.colorblindMode
-              ? global.cb_textColor
-              : global.textColor,
-            marginBottom: 12,
-            textAlign: 'center',
-          }}>
-          To reset your password, please enter the e-mail{'\n'}
-          address associated with your account.
-        </Text>
-
-        {/* Username + e-mail address entry boxes, submit button */}
-        <View style={styles().buttons}>
-          <View style={{ marginVertical: 8 }} />
-          <TextInput
-            style={styles().textInput}
-            placeholder='E-mail Address'
-            placeholderTextColor={
-              global.colorblindMode
-                ? global.cb_placeHolderTextColor
-                : global.placeholderTextColor
-            }
-            value={email}
-            onChangeText={(email) => {
-              setEmail(email);
-            }}
+      <ScrollView 
+        showsVerticalScrollIndicator={false} 
+        keyboardShouldPersistTaps='handled' 
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+      >
+        <View style={styles().pageSetup}>
+          {/* Logo + title + page instructions */}
+          <Image
+            style={styles().logo}
+            source={require('../../shared/assets/icon.png')}
           />
-          <View style={{ marginVertical: 8 }} />
-          <Button
-            title='SUBMIT'
-            color={
-              global.colorblindMode
-                ? global.cb_optionButtonsColor
-                : global.optionButtonsColor
-            }
-            onPress={() => resetPassword(email, navigation)}
-          />
-          <View style={{ marginVertical: 8 }} />
-        </View>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              color: global.colorblindMode
+                ? global.cb_textColor
+                : global.textColor,
+              fontSize: 44,
+            }}>
+            myGrowth
+          </Text>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              color: global.colorblindMode
+                ? global.cb_textColor
+                : global.textColor,
+              fontSize: 20,
+              marginBottom: 16,
+            }}>
+            Your General Wellness Tracker
+          </Text>
+          <Text
+            style={{
+              color: global.colorblindMode
+                ? global.cb_textColor
+                : global.textColor,
+              marginBottom: 12,
+              textAlign: 'center',
+            }}>
+            To reset your password, please enter the e-mail{'\n'}
+            address associated with your account.
+          </Text>
 
-        {/* Login page redirect */}
-        <View style={{ flexDirection: 'row' }}>
-          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <Text
-              style={{
-                color: global.colorblindMode
-                  ? global.cb_hyperlinkedTextColor
-                  : global.hyperlinkedTextColor,
-                textDecorationLine: 'underline',
-              }}>
-              Return to login.
-            </Text>
-          </TouchableOpacity>
+          {/* Username + e-mail address entry boxes, submit button */}
+          <View style={styles().buttons}>
+            <View style={{ marginVertical: 8 }} />
+            <TextInput
+              style={styles().textInput}
+              placeholder='E-mail Address'
+              placeholderTextColor={
+                global.colorblindMode
+                  ? global.cb_placeHolderTextColor
+                  : global.placeholderTextColor
+              }
+              value={email}
+              onChangeText={(email) => {
+                setEmail(email);
+              }}
+            />
+            <View style={{ marginVertical: 8 }} />
+            <Button
+              title='SUBMIT'
+              color={
+                global.colorblindMode
+                  ? global.cb_optionButtonsColor
+                  : global.optionButtonsColor
+              }
+              onPress={() => resetPassword(email, navigation)}
+            />
+            <View style={{ marginVertical: 8 }} />
+          </View>
+
+          {/* Login page redirect */}
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <Text
+                style={{
+                  color: global.colorblindMode
+                    ? global.cb_hyperlinkedTextColor
+                    : global.hyperlinkedTextColor,
+                  textDecorationLine: 'underline',
+                }}>
+                Return to login.
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

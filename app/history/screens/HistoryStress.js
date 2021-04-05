@@ -131,7 +131,7 @@ function HistoryStress({ route, navigation }) {
           </View>
 
           {/* App suggestions */}
-          <View style={{ marginHorizontal: '5%', marginBottom: 20, }}>
+          <View style={{ marginHorizontal: '5%', }}>
             {/* Stress-free activities recommendations */}
             <Text style={styles().text}>
               Based on our analysis, the following activities may help to reduce

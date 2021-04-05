@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Auth, API } from 'aws-amplify';
 import {
+  Alert,
   StyleSheet,
   Text,
   View,
@@ -10,6 +11,7 @@ import {
   Button,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -30,134 +32,169 @@ function Login({ navigation }) {
         }
         barStyle='light-content'
       />
-      <View style={styles().pageSetup}>
-        {/* Logo + title */}
-        <Image
-          style={styles().logo}
-          source={require('../../shared/assets/icon.png')}
-        />
-        <Text style={styles().textTitle}>myGrowth</Text>
-        <Text style={styles().textSubtitle}>Your General Wellness Tracker</Text>
-
-        {/* E-mail address + password entry boxes, login button */}
-        <View style={styles().buttons}>
-          <TextInput
-            style={styles().textInput}
-            placeholder='E-mail Address'
-            placeholderTextColor={
-              global.colorblindMode
-                ? global.cb_placeHolderTextColor
-                : global.placeHolderTextColor
-            }
-            value={email}
-            onChangeText={(email) => {
-              setEmail(email);
-            }}
+      <ScrollView 
+        showsVerticalScrollIndicator={false} 
+        keyboardShouldPersistTaps='handled' 
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+      >
+        <View style={styles().pageSetup}>
+          {/* Logo + title */}
+          <Image
+            style={styles().logo}
+            source={require('../../shared/assets/icon.png')}
           />
-          <View style={{ marginVertical: 8 }} />
-          <TextInput
-            style={styles().textInput}
-            placeholder='Password'
-            placeholderTextColor={
-              global.colorblindMode
-                ? global.cb_placeHolderTextColor
-                : global.placeHolderTextColor
-            }
-            secureTextEntry={true}
-            value={password}
-            onChangeText={(password) => {
-              setPassword(password);
-            }}
-          />
-          <View style={{ marginVertical: 8 }} />
-          <Button
-            title='LOG IN'
-            color={
-              global.colorblindMode
-                ? global.cb_optionButtonsColor
-                : global.optionButtonsColor
-            }
-            onPress={() => signIn(email, password, navigation)}
-          />
-          <View style={{ marginVertical: 8 }} />
-        </View>
+          <Text style={styles().textTitle}>myGrowth</Text>
+          <Text style={styles().textSubtitle}>Your General Wellness Tracker</Text>
 
-        {/* Login/signup page switch + forgot password button */}
-        <View style={{ flexDirection: 'row' }}>
-          <Text style={styles().text}>Don't have an account? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-            <Text style={styles().textLink}>Sign up here.</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ForgotPassword')}>
-            <Text style={styles().textLink}>Forgot your password?</Text>
-          </TouchableOpacity>
-        </View>
+          {/* E-mail address + password entry boxes, login button */}
+          <View style={styles().buttons}>
+            <TextInput
+              style={styles().textInput}
+              placeholder='E-mail Address'
+              placeholderTextColor={
+                global.colorblindMode
+                  ? global.cb_placeHolderTextColor
+                  : global.placeHolderTextColor
+              }
+              value={email}
+              onChangeText={(email) => {
+                setEmail(email);
+              }}
+            />
+            <View style={{ marginVertical: 8 }} />
+            <TextInput
+              style={styles().textInput}
+              placeholder='Password'
+              placeholderTextColor={
+                global.colorblindMode
+                  ? global.cb_placeHolderTextColor
+                  : global.placeHolderTextColor
+              }
+              secureTextEntry={true}
+              value={password}
+              onChangeText={(password) => {
+                setPassword(password);
+              }}
+            />
+            <View style={{ marginVertical: 8 }} />
+            <Button
+              title='LOG IN'
+              color={
+                global.colorblindMode
+                  ? global.cb_optionButtonsColor
+                  : global.optionButtonsColor
+              }
+              onPress={() => signIn(email, password, navigation)}
+            />
+            <View style={{ marginVertical: 8 }} />
+          </View>
 
-        {/* TOS + privacy policy agreement */}
-        <View style={{ marginVertical: 8 }} />
-        <View>
-          <Text style={styles().text}>
-            By continuing, you're accepting our{' '}
-          </Text>
+          {/* Login/signup page switch + forgot password button */}
           <View style={{ flexDirection: 'row' }}>
-            <TouchableOpacity>
-              <Text style={styles().textLink}>Terms of Service</Text>
-            </TouchableOpacity>
-            <Text style={styles().text}> and </Text>
-            <TouchableOpacity>
-              <Text style={styles().textLink}>Privacy Policy.</Text>
+            <Text style={styles().text}>Don't have an account? </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+              <Text style={styles().textLink}>Sign up here.</Text>
             </TouchableOpacity>
           </View>
+          <View>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ForgotPassword')}>
+              <Text style={styles().textLink}>Forgot your password?</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* TOS + privacy policy agreement */}
+          <View style={{ marginVertical: 8 }} />
+          <View>
+            <Text style={styles().text}>
+              By continuing, you're accepting our{' '}
+            </Text>
+            <View style={{ flexDirection: 'row' }}>
+              <TouchableOpacity>
+                <Text style={styles().textLink}>Terms of Service</Text>
+              </TouchableOpacity>
+              <Text style={styles().text}> and </Text>
+              <TouchableOpacity>
+                <Text style={styles().textLink}>Privacy Policy.</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
 
-async function signIn(username, pw, navigation) {
-  try {
-    //await signOut(); // This is to clear any tokens saved when debugging
-    
-    //instantiate new cache
-    const cache = new Cache({
-      namespace: "myapp",
-      policy: {
-        maxEntries: 50000
+const createAlert = (title, message) => {
+  Alert.alert(
+    title,
+    message,
+    [
+      {
+        text: 'Cancel',
+        style: 'cancel'
       },
-      backend: AsyncStorage
-    });
+      { text: 'OK', }
+    ]
+  );
+}
 
-    const user = await Auth.signIn(username, pw);
-    
-    //empty settings in db
-    if(user.attributes['custom:initialized'] == 0)
-      navigation.navigate('UserInitialization1');
-
-    //non-empty settings in db
-    if(user.attributes['custom:initialized'] == 1) {
-      const res = await API.graphql({
-        query: queries.getSetting,
-        variables: {UserID: user.username}
+async function signIn(username, pw, navigation) {
+  if (!username || !pw) {
+    createAlert('Oh no!', 'The email and/or password fields cannot be empty, please try again.');
+  } else {
+    try {
+      //await signOut(); // This is to clear any tokens saved when debugging
+      
+      //instantiate new cache
+      const cache = new Cache({
+        namespace: "myapp",
+        policy: {
+          maxEntries: 50000
+        },
+        backend: AsyncStorage
       });
 
-      //store settings from db
-      await cache.set("settings", res.data.getSetting.Options);
+      const user = await Auth.signIn(username, pw);
+      
+      //empty settings in db
+      if(user.attributes['custom:initialized'] == 0)
+        navigation.navigate('UserInitialization1');
 
-      //store data from db
-      const res2 = await API.graphql({
-        query: queries.getChartData,
-        variables: {UserID: user.username}
-      });
+      //non-empty settings in db
+      if(user.attributes['custom:initialized'] == 1) {
+        const res = await API.graphql({
+          query: queries.getSetting,
+          variables: {UserID: user.username}
+        });
 
-      await cache.set("data", res2.data.getChartData);
+        //store settings from db
+        await cache.set("settings", res.data.getSetting.Options);
+        //store data from db
+        const res2 = await API.graphql({
+          query: queries.getChartData,
+          variables: {UserID: user.username}
+        });
 
-      navigation.navigate('Home');
+        await cache.set("data", res2.data.getChartData);
+
+        navigation.navigate('Home');
+      }
+    } catch (error) {
+      // console.log(error);
+
+      // Error code handling
+      // Update with other different errors (incorrect pass, not a user, etc.)
+      switch(error.code) {
+        case 'UserNotConfirmedException':
+          navigation.navigate('VerificationCode', { username: username });
+          break;
+        case 'NotAuthorizedException':
+          createAlert('Oh no!', 'Email and password combination not found, please check your information and try again.');
+        default:
+          createAlert('Error', 'Please try signing in again.');
+      }
     }
-  } catch (error) {
-    console.log('error signing in', error);
   }
 }
 

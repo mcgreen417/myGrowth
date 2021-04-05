@@ -259,7 +259,7 @@ function HistoryMealTracking({ route, navigation }) {
           </View>
 
           {/* App suggestions */}
-          <View style={{ marginHorizontal: '5%', marginBottom: 20, }}>
+          <View style={{ marginHorizontal: '5%', }}>
             {/* Nutritional values met analysis */}
             <Text style={styles().text}>
               Based on our analysis, on days that you met or came close to meeting the daily
