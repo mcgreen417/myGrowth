@@ -92,8 +92,6 @@ function HistoryMedication({ route, navigation }) {
                 onValueChange={(itemValue, itemIndex) => {
                   setMedication(itemValue);
                   getCommits(itemValue, dates, data, setCommits);
-                  console.log(itemValue);
-                  console.log(commits);
                 }}
                 mode={'dropdown'}
               >

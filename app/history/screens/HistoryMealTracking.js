@@ -39,9 +39,6 @@ function HistoryMealTracking({ route, navigation }) {
   const data = route.params.data;
   const arr = initDisplayData(data);
 
-  var timeValue = 'unselected';
-  var nutrientValue = 'unselected';
-
   const [modalVisible, setModalVisible] = useState(false);
   const [timePeriod, setTimePeriod] = useState('unselected');
   const [selectNutrients, setNutrients] = useState('unselected');

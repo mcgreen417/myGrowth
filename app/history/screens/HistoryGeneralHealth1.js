@@ -17,9 +17,12 @@ import HistorySelectACategory from '../../shared/components/HistorySelectACatego
 
 function HistoryGeneralHealth1({ route, navigation }) {
   const data = route.params.data;
+  var activityMap = getMap(data, 'unselected');
+  
   const [modalVisible, setModalVisible] = useState(false);
   const [timePeriod, setTimePeriod] = useState('unselected');
-  const [selectsymptom, setSymptom] = useState('unselected');
+  const [labels, setLabels] = useState(getLabels(activityMap));
+  const [freqs, setFreqs] = useState(getFreqs(activityMap, timePeriod));
 
   return (
     <SafeAreaView style={styles().container}>
@@ -71,7 +74,14 @@ function HistoryGeneralHealth1({ route, navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent generalHealth={true} navigation={navigation} />
+          <TabBarAndContent 
+            navigation={navigation} 
+            data={data} 
+            timePeriod={labels} 
+            page={'generalHealth'}
+            multiPageData={freqs}
+            page2Color={false}
+          />
 
           {/* Time Period and Select Symptom drop-down selection */}
           <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, flexDirection: 'row', }}>
@@ -81,32 +91,18 @@ function HistoryGeneralHealth1({ route, navigation }) {
                 <Picker
                   selectedValue={timePeriod}
                   style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+                  onValueChange={(itemValue, itemIndex) => {
+                    setTimePeriod(itemValue);
+                    activityMap = getMap(data, itemValue);
+                    setLabels(getLabels(activityMap));
+                    setFreqs(getFreqs(activityMap, itemValue));
+                  }}
                   mode={'dropdown'}
                 >
                   <Picker.Item label='Select one...' value='unselected' />
                   <Picker.Item label='Past week' value='past_week' />
                   <Picker.Item label='Past month' value='past_month' />
                   <Picker.Item label='Past year' value='past_year' />
-                </Picker>
-              </View>
-            </View>
-            <View style={{ width: '50%' }}>
-              <Text style={styles().heading}>SELECT SYMPTOM</Text>
-              <View style={styles().pickerView}>
-                <Picker
-                  selectedValue={selectsymptom}
-                  style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => setSymptom(itemValue)}
-                  mode={'dropdown'}
-                >
-                  <Picker.Item label='Select one...' value='unselected' />
-                  <Picker.Item label='All symptoms' value='all_symptoms' />
-                  <Picker.Item label='Stomach ache' value='stomach_ache' />
-                  <Picker.Item label='Wrist soreness' value='wrist_soreness' />
-                  <Picker.Item label='Back soreness' value='back_soreness' />
-                  <Picker.Item label='Dizziness' value='dizziness' />
-                  <Picker.Item label='Fatigue' value='fatigue' />
                 </Picker>
               </View>
             </View>
@@ -227,6 +223,78 @@ function HistoryGeneralHealth1({ route, navigation }) {
     </SafeAreaView>
   );
 };
+
+function getMap(data, timePeriod) {
+  var map = new Map();
+  var length = data.symptomData.length;
+
+  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    for(var i = length < 7 ? 0 : length - 7; i < length; i++)
+      for(var [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
+        //check if key is in map
+        if(!map.has(key)) {
+          if(key !== 'null')
+            map.set(key, 1);
+        }
+
+        //it exists
+        else {
+          map.set(key, map.get(key) + value);
+        }
+      }
+
+  else if (timePeriod === 'past_month')
+    for(var i = i = length < 30 ? 0 : length - 30; i < length; i++)
+      for(var [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
+        //check if key is in map
+        if(!map.has(key)) {
+          if(key !== 'null')
+            map.set(key, 1);
+        }
+
+        //it exists
+        else {
+          map.set(key, map.get(key) + value);
+        }
+      }
+
+  else
+    for(var i = length < 365 ? 0 : length - 365; i < length; i++)
+      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
+        //check if key is in map
+        if(!map.has(key)) {
+          if(key !== 'null')
+            map.set(key, 1);
+        }
+
+        //it exists
+        else {
+          map.set(key, map.get(key) + value);
+        }
+      }
+
+  return map;
+}
+
+function getLabels(activityMap) {
+  const obj = [];
+
+  activityMap.forEach(function(value, key) {
+    obj.push(key);
+  })
+
+  return obj;
+}
+
+function getFreqs(activityMap, timePeriod) {
+  const obj = [];
+
+  activityMap.forEach(function(value, key) {
+    obj.push(value);
+  })
+
+  return obj;
+}
 
 export default HistoryGeneralHealth1;
 

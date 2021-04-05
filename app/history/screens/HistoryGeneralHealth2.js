@@ -15,11 +15,33 @@ import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
 
+const dayLabels = [
+  "Mon",
+  "Tues",
+  "Weds",
+  "Thurs",
+  "Fri",
+  "Sat",
+  "Sun"
+];
+
+const monthLabels = [
+  "Jan",
+  "Mar",
+  "May",
+  "July",
+  "Sept",
+  "Nov"
+];
+
 function HistoryGeneralHealth2({ route, navigation }) {
   const data = route.params.data;
+  const symptoms = getPickerLabels(data);
+
   const [modalVisible, setModalVisible] = useState(false);
   const [timePeriod, setTimePeriod] = useState('unselected');
   const [selectsymptom, setSymptom] = useState('unselected');
+  const [timestamps, setTimestamps] = useState(dayLabels);
 
   return (
     <SafeAreaView style={styles().container}>
@@ -97,16 +119,17 @@ function HistoryGeneralHealth2({ route, navigation }) {
                 <Picker
                   selectedValue={selectsymptom}
                   style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => setSymptom(itemValue)}
+                  onValueChange={(itemValue, itemIndex) => {
+                    setSymptom(itemValue);
+                  }}
                   mode={'dropdown'}
                 >
-                  <Picker.Item label='Select one...' value='unselected' />
-                  <Picker.Item label='All symptoms' value='all_symptoms' />
-                  <Picker.Item label='Stomach ache' value='stomach_ache' />
-                  <Picker.Item label='Wrist soreness' value='wrist_soreness' />
-                  <Picker.Item label='Back soreness' value='back_soreness' />
-                  <Picker.Item label='Dizziness' value='dizziness' />
-                  <Picker.Item label='Fatigue' value='fatigue' />
+                  <Picker.Item label='Select One...' value='unselected'/>
+                  {symptoms.map((item, index) => {
+                    return (
+                        <Picker.Item key={index} label={item} value={item} />
+                    );
+                  })}
                 </Picker>
               </View>
             </View>
@@ -227,6 +250,55 @@ function HistoryGeneralHealth2({ route, navigation }) {
     </SafeAreaView>
   );
 };
+
+function initDisplayData(symptoms, data, timePeriod) {
+  var arr = [];
+  var len = data.symptomData.length;
+
+
+
+  return arr;
+}
+
+function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
+  var dates = [];
+  const latestDate = new Date(data.latestDate);
+
+  for(var i = 29; i >= 0; i--) {
+    var date = new Date(latestDate.getTime() - (i * 24 * 60 * 60 * 1000));
+    if(i % 4 == 0)
+      dates.push(date.toISOString().substring(5, 10));
+  }
+
+  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    setTimestamps(dayLabels);
+
+  else if(timePeriod === 'past_month')
+    setTimestamps(dates); 
+
+  else if(timePeriod === 'past_year')
+    setTimestamps(monthLabels);
+}
+
+function getPickerLabels(data) {
+  var length = data.symptomData.length;
+  var arr = [];
+
+  for(var i = i = length < 90 ? 0 : length - 90; i < length; i++)
+    for(var [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
+      //check if key is in map
+      if(!arr.includes(key)) {
+        if(key !== 'null')
+          arr.push(key);
+      }
+
+      //it exists
+      else
+        ;
+    }
+
+  return arr;
+}
 
 export default HistoryGeneralHealth2;
 
