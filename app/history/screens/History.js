@@ -17,6 +17,10 @@ import HistorySelectACategory from '../../shared/components/HistorySelectACatego
 
 function HistoryHealthEntries({ route, navigation }) {
   const data = route.params.data;
+  const arr = initDisplayData(data);
+  const labels = getTimestamps(data);
+  const commits = genCommits(arr, labels);
+
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
@@ -70,7 +74,14 @@ function HistoryHealthEntries({ route, navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          {/*<TabBarAndContent history={true} navigation={navigation} />*/}
+          <View style={{marginTop: 6}}>
+            <TabBarAndContent 
+              navigation={navigation} 
+              data={commits} 
+              page={'history'}
+              page2Color={false} 
+            />
+          </View>
 
           {/* Middle divider */}
           <View style={styles().dividerView}>
@@ -114,6 +125,130 @@ const HistoryCorrelations = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
+function isEmpty(obj) {
+  for(var i in obj)
+    return false;
+
+  return true;
+}
+
+//moodData, stressData, nightSleepData, napSleepData, weightData, fitnessData, activityData, mealData, symptomData, medicineData
+function initDisplayData(data) {
+  var len = data.stressData.length;
+  var arr = [];
+
+  for(var i = len < 90 ? 0 : len - 90; i < len;  i++) {
+    let sum = 0;
+
+    //mood
+    if(data.moodData[i] >= 0)
+      sum++;
+
+    //stress
+    if(data.stressData[i] >= 0)
+      sum++;
+
+    //nightSleepData
+    if(data.nightSleepData[i] >= 0)
+      sum++;
+
+    //napSleepData
+    if(data.nightSleepData[i] >= 0)
+      sum++;
+
+    //weightData
+    if(data.weightData[i] >= 0)
+      sum++;
+
+    //fitnessData
+    if(!isEmpty(data.fitnessData)) {
+      //burned
+      if(data.fitnessData.burned[i] >= 0)
+        sum++;
+
+      //dur
+      else if(data.fitnessData.dur[i] >= 0)
+        sum++;
+
+      //steps
+      else if(data.fitnessData.steps[i] >= 0)
+        sum++;
+
+      //exercises
+      else
+        if(!isEmpty(data.fitnessData.exercises[i]))
+          for(let [key, value] of Object.entries(JSON.parse(data.fitnessData.exercises[i])))
+            if(key !== 'null') {
+              sum++;
+              break;
+            }
+    }
+
+    //activityData
+    if(data.activityData[i] >= 0)
+      sum++;
+
+    //mealData
+    if(!isEmpty(data.mealData)) {
+      //calories
+      if(data.mealData.calories[i])
+        sum++;
+
+      //carbs
+      if(data.mealData.carbs[i])
+        sum++;
+
+      //fats
+      if(data.mealData.fats[i])
+        sum++;
+
+      //proteins
+      if(data.mealData.proteins[i])
+        sum++;
+    }
+
+    //symptomData
+    if(data.symptomData[i] >= 0)
+      sum++;
+
+    //medicineData
+    if(!isEmpty(data.medicineData)) {
+      //all Taken
+      if(data.medicineData.allTaken[i] >= 0)
+        sum++;
+    }
+    
+    arr.push(sum);
+  }
+
+  return arr;
+}
+
+function getTimestamps(data) {
+  var dates = [];
+  const latestDate = new Date(data.latestDate);
+
+  for(var i = 89; i >= 0; i--) {
+    var date = new Date(latestDate.getTime() - (i * 24 * 60 * 60 * 1000));
+    dates.push(date.toISOString().substring(0, 10));
+  }
+
+  return dates;
+}
+
+function genCommits(arr, labels) {
+  var commitsArr = [];
+
+  for(var i = 0; i < 90; i++) {
+    let obj = new Object();
+    obj.date = labels[i];
+    obj.count = arr[i];
+    commitsArr.push(obj);
+  }
+
+  return commitsArr;
+}
 
 export { HistoryHealthEntries, HistoryCorrelations };
 

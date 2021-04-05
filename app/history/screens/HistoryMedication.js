@@ -75,12 +75,14 @@ function HistoryMedication({ route, navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent 
-            navigation={navigation} 
-            data={commits}
-            page={'medication'}
-            page2Color={false}
-          />
+          <View style={{marginTop: 6}}>
+            <TabBarAndContent 
+              navigation={navigation} 
+              data={commits}
+              page={'medication'}
+              page2Color={false}
+            />
+          </View>
 
           {/* Select Medication drop-down selection */}
           <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, }}>

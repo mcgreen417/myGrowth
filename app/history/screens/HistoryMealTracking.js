@@ -101,13 +101,15 @@ function HistoryMealTracking({ route, navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent 
-            navigation={navigation} 
-            data={displayData} 
-            timePeriod={timestamps} 
-            page={'historyGenComp'}
-            page2Color={false} 
-          />
+          <View style={{marginTop: 6}}>
+            <TabBarAndContent 
+              navigation={navigation} 
+              data={displayData} 
+              timePeriod={timestamps} 
+              page={'historyGenComp'}
+              page2Color={false} 
+            />
+          </View>
 
           {/* Time Period and Select Nutrient drop-down selection */}
           <View 

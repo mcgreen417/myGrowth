@@ -76,13 +76,15 @@ function HistoryDailyActivities2({ route, navigation }) {
           </TouchableOpacity>
             
           {/* Custom history component */}
-          <TabBarAndContent 
-            navigation={navigation}
-            data={data} 
-            multiPageData={commits}
-            page={'dailyActivities'}
-            page2Color={true}
-          />
+          <View style={{marginTop: 6}}>
+            <TabBarAndContent 
+              navigation={navigation}
+              data={data} 
+              multiPageData={commits}
+              page={'dailyActivities'}
+              page2Color={true}
+            />
+          </View>
 
           {/* Select Activity drop-down selection */}
           <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, }}>

@@ -10,17 +10,6 @@ import {
   StackedBarChart
 } from "react-native-chart-kit";
 
-const images = {
-  historyImg: require('../../shared/assets/Rectangle.png'),
-  correlationImg: require('../../shared/assets/close.png'),
-  activityImg: require('../../shared/assets/gardener-avatar.png'),
-  intensityImg: require('../../shared/assets/SettingsGirlReading.png'),
-  prescriptionImg: require('../../shared/assets/splash.png'),
-  timeSleepImg: require('../../shared/assets/Rectangle.png'),
-  qualityImg: require('../../shared/assets/splash.png'),
-  exerciseImg: require('../../shared/assets/splash.png'),
-};
-
 const buttonColors = {
   lightGreen: '#A5DFB2',
   darkGreen: '#4CB97A',
@@ -35,7 +24,6 @@ const TabBarAndContent = ({
   page2Color
 }) => {
   //page 2 buttons: activity, intensity, quality, exercise
-  const [imgSource, setImageSource] = useState(images.historyImg);
   const [historyButtonColor, setHistoryButtonColor] = useState(page2Color == false ? buttonColors.darkGreen : buttonColors.lightGreen);
   const [corrButtonColor, setCorrButtonColor] = useState(buttonColors.lightGreen);
   const [activityButtonColor, setActivityButtonColor] = useState(page2Color == false ? buttonColors.lightGreen : buttonColors.darkGreen);
@@ -60,9 +48,7 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.historyImg);
               setHistoryButtonColor(buttonColors.darkGreen);
-              navigation.navigate('HistoryHealthEntries');
             }}
           >
             <Text style={styles.text}>History</Text>
@@ -73,8 +59,31 @@ const TabBarAndContent = ({
         <View style={styles.coloredBarView}>
           <View style={styles.coloredBar} />
         </View>
-        {/* Render image */}
-        <Image style={styles.images} source={imgSource} />
+
+        {showTable && <ContributionGraph
+          values={data}
+          endDate={new Date()}
+          numDays={90}
+          width={353}
+          height={250}
+          chartConfig={{
+            backgroundColor: "#4CB97A",
+            backgroundGradientFrom: "#4CB97A",
+            backgroundGradientTo: "#4CB97A",
+            fillShadowGradientOpacity: 3,
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#4CB97A"
+            }
+          }}
+        />}
       </View>
     );
 
@@ -154,8 +163,10 @@ const TabBarAndContent = ({
               stroke: "#4CB97A"
             }
           }}
+          fromZero={true}
           bezier
           style={{
+            borderRadius: 16
           }}
         />}
 
@@ -208,9 +219,6 @@ const TabBarAndContent = ({
           <View style={styles.coloredBar} />
         </View>
 
-        {/* render image */}
-        {/* !showTable &&
-          <Image style={styles.images} source={imgSource} />*/}
         {showTable && <ContributionGraph
           values={data}
           endDate={new Date()}
@@ -236,16 +244,13 @@ const TabBarAndContent = ({
           }}
         />}
 
-        {/* Render image */}
-        {/*<Image style={styles.images} source={imgSource} />*/}
-
       </View>
     );
 
   {/* Daily Activities */}
   if (page === 'dailyActivities')
     return (
-      <View style={{ width: '90%', }}>
+      <View style={{ width: '90%', marginTop: 6}}>
         <View style={{ flexDirection: 'row', }}>
           {/* History */}
           <Pressable
@@ -273,10 +278,7 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setShowTable(false);
-              setCorrButtonColor(buttonColors.lightGreen);
-              setHistoryButtonColor(buttonColors.lightGreen);
-              setActivityButtonColor(buttonColors.darkGreen);
+              setShowTable(true);
               navigation.navigate('HistoryDailyActivities2', {data});
             }}
           >
@@ -359,8 +361,10 @@ const TabBarAndContent = ({
             },
             fillShadowGradientOpacity: 3,
           }}
+          fromZero={true}
           bezier
           style={{
+            borderRadius: 16
           }}
         />}
       </View>
@@ -369,7 +373,7 @@ const TabBarAndContent = ({
   {/* General Health */}
   if (page === 'generalHealth')
     return (
-      <View style={{ width: '90%', }}>
+      <View style={{ width: '90%', marginTop: 13 }}>
         <View style={{ flexDirection: 'row', }}>
           {/* History */}
           <Pressable
@@ -398,9 +402,6 @@ const TabBarAndContent = ({
             }}
             onPress={() => {
               setShowTable(true);
-              setCorrButtonColor(buttonColors.lightGreen);
-              setHistoryButtonColor(buttonColors.lightGreen);
-              setIntensityButtonColor(buttonColors.darkGreen);
               navigation.navigate('HistoryGeneralHealth2', {data});
             }}
           >
@@ -462,8 +463,10 @@ const TabBarAndContent = ({
               stroke: "#4CB97A"
             }
           }}
+          fromZero={true}
           bezier
           style={{
+            borderRadius: 16
           }}
         />}
 
@@ -493,8 +496,10 @@ const TabBarAndContent = ({
             },
             fillShadowGradientOpacity: 3,
           }}
+          fromZero={true}
           bezier
           style={{
+            borderRadius: 16
           }}
         />}
       </View>
@@ -575,7 +580,7 @@ const TabBarAndContent = ({
   {/* Sleep */}
   if (page === 'sleep')
     return (
-      <View style={{ width: '90%', }}>
+      <View style={{ width: '90%', marginTop: 6 }}>
         <View style={{ flexDirection: 'row', }}>
           {/* Time asleep */}
           <Pressable
@@ -604,9 +609,6 @@ const TabBarAndContent = ({
             }}
             onPress={() => {
               setShowTable(true);
-              setCorrButtonColor(buttonColors.lightGreen);
-              setSleepButtonColor(buttonColors.lightGreen);
-              setQualityButtonColor(buttonColors.darkGreen);
               navigation.navigate('HistorySleep2', {data});
             }}
           >
@@ -625,7 +627,6 @@ const TabBarAndContent = ({
               setCorrButtonColor(buttonColors.darkGreen);
               setSleepButtonColor(buttonColors.lightGreen);
               setQualityButtonColor(buttonColors.lightGreen);
-              navigation.navigate('HistorySleep1', {data});
             }}
           >
             <Text style={styles.text}>Correlations</Text>
@@ -640,7 +641,7 @@ const TabBarAndContent = ({
         {/* !showTable &&
           <Image style={styles.images} source={imgSource} />*/}
 
-        {showTable && typeof(multiPageData.sleep) != 'undefined' && <LineChart 
+        {showTable && typeof(multiPageData.sleep) != 'undefined' && !page2Color && <LineChart 
           data = {{
             labels: timePeriod,
             datasets: [
@@ -677,12 +678,14 @@ const TabBarAndContent = ({
               stroke: "#A5DFB2"
             }
           }}
+          fromZero={true}
           bezier
           style={{
+            borderRadius: 16
           }}
         />}
 
-        {showTable && typeof(multiPageData.sleep) == 'undefined' && <LineChart 
+        {showTable && typeof(multiPageData.sleep) == 'undefined' && !page2Color && <LineChart 
           data = {{
             labels: timePeriod,
             datasets: [
@@ -710,8 +713,10 @@ const TabBarAndContent = ({
               stroke: "#4CB97A"
             }
           }}
+          fromZero={true}
           bezier
           style={{
+            borderRadius: 16
           }}
         />}
 
@@ -743,8 +748,10 @@ const TabBarAndContent = ({
               stroke: "#4CB97A"
             }
           }}
+          fromZero={true}
           bezier
           style={{
+            borderRadius: 16
           }}
         />}
       </View>
@@ -753,7 +760,7 @@ const TabBarAndContent = ({
   {/* Fitness */}
   if (page === 'fitness')
     return (
-      <View style={{ width: '90%', }}>
+      <View style={{ width: '90%', marginTop: 13 }}>
         <View style={{ flexDirection: 'row', }}>
           {/* History */}
           <Pressable
@@ -783,9 +790,6 @@ const TabBarAndContent = ({
             onPress={() => {
               navigation.navigate('HistoryFitness2', {data});
               setShowTable(true);
-              setCorrButtonColor(buttonColors.lightGreen);
-              setHistoryButtonColor(buttonColors.lightGreen);
-              setExerciseButtonColor(buttonColors.darkGreen);
             }}
           >
             <Text style={styles.text}>Exercises</Text>
@@ -846,8 +850,43 @@ const TabBarAndContent = ({
               stroke: "#4CB97A"
             }
           }}
+          fromZero={true}
           bezier
           style={{
+            borderRadius: 16
+          }}
+        />}
+
+        {showTable && page2Color && <BarChart 
+          data = {{
+            labels: timePeriod,
+            datasets: [
+              {
+                data: multiPageData
+              }
+            ]
+          }}
+          width={353} // from react-native
+          height={250}
+          yAxisLabel=""
+          yAxisSuffix=""
+          yAxisInterval={1} // optional, defaults to 1
+          chartConfig={{
+            backgroundColor: "#4CB97A",
+            backgroundGradientFrom: "#4CB97A",
+            backgroundGradientTo: "#4CB97A",
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            fillShadowGradientOpacity: 3,
+          }}
+          fromZero={true}
+          bezier
+          style={{
+            borderRadius: 16
           }}
         />}
       </View>
@@ -866,15 +905,15 @@ const styles = StyleSheet.create({
   },
   coloredBar: {
     flex: 1,
-    height: 3,
-    width: 350,
+    height: 20,
+    width: 349,
     backgroundColor: '#4CB97A',
   },
   coloredBarView: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: -1,
-    marginBottom: -1
+    marginBottom: -16
   },
   images: {
     flex: 1,

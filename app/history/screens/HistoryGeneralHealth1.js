@@ -74,14 +74,16 @@ function HistoryGeneralHealth1({ route, navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent 
-            navigation={navigation} 
-            data={data} 
-            timePeriod={labels} 
-            page={'generalHealth'}
-            multiPageData={freqs}
-            page2Color={false}
-          />
+          <View style={{marginTop: 6}}>
+            <TabBarAndContent 
+              navigation={navigation} 
+              data={data} 
+              timePeriod={labels} 
+              page={'generalHealth'}
+              multiPageData={freqs}
+              page2Color={false}
+            />
+          </View>
 
           {/* Time Period and Select Symptom drop-down selection */}
           <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, flexDirection: 'row', }}>

@@ -93,13 +93,15 @@ function HistoryWeight({ route, navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent 
-            navigation={navigation} 
-            data={displayData} 
-            timePeriod={timestamps} 
-            page={'historyGenComp'} 
-            page2Color={false}
-          />
+          <View style={{marginTop: 6}}>
+            <TabBarAndContent 
+              navigation={navigation} 
+              data={displayData} 
+              timePeriod={timestamps} 
+              page={'historyGenComp'} 
+              page2Color={false}
+            />
+          </View>
 
           {/* pass in itemValue not timePeriod */}
           <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, }}>

@@ -72,12 +72,14 @@ function HistoryPeriodTracking({ route, navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent 
-            navigation={navigation} 
-            data={commits} 
-            page={'period'}
-            page2Color={false} 
-          />
+          <View style={{marginTop: 6}}>
+            <TabBarAndContent 
+              navigation={navigation} 
+              data={commits} 
+              page={'period'}
+              page2Color={false} 
+            />
+          </View>
             
           {/* Period prediction */}
           <View 

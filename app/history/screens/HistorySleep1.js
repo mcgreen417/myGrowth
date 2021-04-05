@@ -99,14 +99,16 @@ function HistorySleep1({ route, navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent 
-            navigation={navigation}
-            data={data} 
-            multiPageData={displayData}
-            timePeriod={timestamps} 
-            page={'sleep'}
-            page2Color={false}
-          />
+          <View style={{marginTop: 5}}>
+            <TabBarAndContent 
+              navigation={navigation}
+              data={data} 
+              multiPageData={displayData}
+              timePeriod={timestamps} 
+              page={'sleep'}
+              page2Color={false}
+            />
+          </View>
 
           {/* Time Period and Select Display drop-down selection */}
           <View 

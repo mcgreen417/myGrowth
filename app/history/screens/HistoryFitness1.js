@@ -100,14 +100,16 @@ function HistoryFitness1({ route, navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent 
-            navigation={navigation} 
-            data={data} 
-            timePeriod={timestamps}
-            multiPageData={displayData} 
-            page={'fitness'}
-            page2Color={false} 
-          />
+          <View style={{marginTop: 6}}>
+            <TabBarAndContent 
+              navigation={navigation} 
+              data={data} 
+              timePeriod={timestamps}
+              multiPageData={displayData} 
+              page={'fitness'}
+              page2Color={false} 
+            />
+          </View>
 
           {/* Time Period and Select Display drop-down selection */}
           <View 

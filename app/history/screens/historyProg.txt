@@ -1,4 +1,0 @@
-
-Fitness tracking: line charts representing calories burned from exercising, time spent exercising, steps taken (over week, month, year) & for each exercise, bar graph 
-representing the number of sets & reps
-    - bar graph: WIP
