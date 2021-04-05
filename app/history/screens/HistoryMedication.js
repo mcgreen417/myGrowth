@@ -15,9 +15,15 @@ import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
 
-function HistoryMedication({ navigation }) {
+function HistoryMedication({ route, navigation }) {
+  const data = route.params.data;
+  const medications = getPickerLabels(data);
+  const dates = getTimestamps(data);
+  const comms = initCommits(medications, dates, data);
+  
   const [modalVisible, setModalVisible] = useState(false);
   const [selectmedication, setMedication] = useState('unselected');
+  const [commits, setCommits] = useState(comms);
 
   return (
     <SafeAreaView style={styles().container}>
@@ -27,6 +33,7 @@ function HistoryMedication({ navigation }) {
         setModalView={setModalVisible}
         showModalView={modalVisible}
         navigation={navigation}
+        data={data}
       />
 
       {/* Actual screen */}
@@ -68,7 +75,14 @@ function HistoryMedication({ navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent medication={true} navigation={navigation} />
+          <View style={{marginTop: 6}}>
+            <TabBarAndContent 
+              navigation={navigation} 
+              data={commits}
+              page={'medication'}
+              page2Color={false}
+            />
+          </View>
 
           {/* Select Medication drop-down selection */}
           <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, }}>
@@ -77,16 +91,18 @@ function HistoryMedication({ navigation }) {
               <Picker
                 selectedValue={selectmedication}
                 style={styles().picker}
-                onValueChange={(itemValue, itemIndex) => setMedication(itemValue)}
+                onValueChange={(itemValue, itemIndex) => {
+                  setMedication(itemValue);
+                  getCommits(itemValue, dates, data, setCommits);
+                }}
                 mode={'dropdown'}
               >
-                <Picker.Item label='Select one...' value='unselected' />
-                <Picker.Item label='(Medicine 1)' value='medicine_1' />
-                <Picker.Item label='(Medicine 2)' value='medicine_2' />
-                <Picker.Item label='(Medicine 3)' value='medicine_3' />
-                <Picker.Item label='(Medicine 4)' value='medicine_4' />
-                <Picker.Item label='(Medicine 5)' value='medicine_5' />
-                <Picker.Item label='(Medicine 6)' value='medicine_6' />
+                <Picker.Item label='Select One...' value='unselected'/>
+                {medications.map((item, index) => {
+                  return (
+                      <Picker.Item key={index} label={item} value={item} />
+                  );
+                })}
               </Picker>
             </View>
           </View>
@@ -206,6 +222,98 @@ function HistoryMedication({ navigation }) {
     </SafeAreaView>
   );
 };
+
+function getCommits(medName, dates, data, setCommits) {
+  var length = data.medicineData.meds.length;
+  var commits = [];
+  var j = 0;
+
+  for(var i = length < 90 ? 0 : length - 90; i < length; i++)
+    for(var [key, value] of Object.entries(JSON.parse(data.medicineData.meds[i]))) {
+      //check if key is in what we are searching for
+      if(key === medName) {
+        let obj = new Object();
+        obj.date = dates[j];
+
+        if(value == true)
+          obj.count = 1;
+        
+        else
+          obj.count = 0;
+
+        j++;
+        commits.push(obj);
+      }
+
+      //it's not
+      else
+        ;
+    }
+
+  setCommits(commits);
+}
+
+function initCommits(medications, dates, data) {
+  var length = data.medicineData.meds.length;
+  var commits = [];
+  var j = 0;
+
+  for(var i = length < 90 ? 0 : length - 90; i < length; i++)
+    for(var [key, value] of Object.entries(JSON.parse(data.medicineData.meds[i]))) {
+      //check if key is in what we are searching for
+      if(key === medications[0]) {
+        let obj = new Object();
+        obj.date = dates[j];
+
+        if(value == true)
+          obj.count = 1;
+        
+        else
+          obj.count = 0;
+
+        j++;
+        commits.push(obj);
+      }
+
+      //it's not
+      else
+        ;
+    }
+
+  return commits;
+}
+
+function getPickerLabels(data) {
+  var length = data.medicineData.meds.length;
+  var arr = [];
+
+  for(var i = i = length < 90 ? 0 : length - 90; i < length; i++)
+    for(var [key, value] of Object.entries(JSON.parse(data.medicineData.meds[i]))) {
+      //check if key is in map
+      if(!arr.includes(key)) {
+        if(key !== 'null')
+          arr.push(key);
+      }
+
+      //it exists
+      else
+        ;
+    }
+
+  return arr;
+}
+
+function getTimestamps(data) {
+  var dates = [];
+  const latestDate = new Date(data.latestDate);
+
+  for(var i = 89; i >= 0; i--) {
+    var date = new Date(latestDate.getTime() - (i * 24 * 60 * 60 * 1000));
+    dates.push(date.toISOString().substring(0, 10));
+  }
+
+  return dates;
+}
 
 export default HistoryMedication;
 

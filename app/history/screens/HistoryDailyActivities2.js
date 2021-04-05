@@ -15,9 +15,16 @@ import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
 
-function HistoryDailyActivities2({ navigation }) { 
-  const [modalVisible, setModalVisible] = useState(false);  
+function HistoryDailyActivities2({ route, navigation }) {
+  const data = route.params.data;
+  const dates = getTimestamps(data);
+  const activities = getPickerLabels(data);
+  const comms = initCommits(activities, dates, data);
+  console.log(comms);
+
+  const [modalVisible, setModalVisible] = useState(false); 
   const [selectactivity, setActivity] = useState('unselected');
+  const [commits, setCommits] = useState(comms);
   
   return (
     <SafeAreaView style={styles().container}>
@@ -27,6 +34,7 @@ function HistoryDailyActivities2({ navigation }) {
         setModalView={setModalVisible}
         showModalView={modalVisible}
         navigation={navigation}
+        data={data}
       />
 
       {/* Actual screen */}
@@ -68,7 +76,15 @@ function HistoryDailyActivities2({ navigation }) {
           </TouchableOpacity>
             
           {/* Custom history component */}
-          <TabBarAndContent dailyActivities={true} navigation={navigation} />
+          <View style={{marginTop: 6}}>
+            <TabBarAndContent 
+              navigation={navigation}
+              data={data} 
+              multiPageData={commits}
+              page={'dailyActivities'}
+              page2Color={true}
+            />
+          </View>
 
           {/* Select Activity drop-down selection */}
           <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, }}>
@@ -77,16 +93,19 @@ function HistoryDailyActivities2({ navigation }) {
               <Picker
                 selectedValue={selectactivity}
                 style={styles().picker}
-                onValueChange={(itemValue, itemIndex) => setActivity(itemValue)}
+                onValueChange={(itemValue, itemIndex) => {
+                  setActivity(itemValue);
+                  getCommits(itemValue, dates, data, setCommits);
+                  //console.log(commits);
+                }}
                 mode={'dropdown'}
               >
-                <Picker.Item label='Select one...' value='unselected' />
-                <Picker.Item label='Played games' value='played_games' />
-                <Picker.Item label='Did homework' value='did_homework' />
-                <Picker.Item label='Cooked dinner' value='cooked_dinner' />
-                <Picker.Item label='Listened to music' value='listen_music' />
-                <Picker.Item label='Talked to friends' value='talk_friends' />
-                <Picker.Item label='Went to work' value='went_work' />
+                <Picker.Item label='Select One...' value='unselected'/>
+                {activities.map((item, index) => {
+                  return (
+                      <Picker.Item key={index} label={item} value={item} />
+                  );
+                })}
               </Picker>
             </View>
           </View>
@@ -96,6 +115,100 @@ function HistoryDailyActivities2({ navigation }) {
     </SafeAreaView>
   );
 };
+
+function getCommits(actName, dates, data, setCommits) {
+  var length = data.activityData.length;
+  var commits = [];
+  var j = 364;
+
+    for(var i = length < 365 ? 0 : length - 365; i < length; i++)
+      for(var [key, value] of Object.entries(JSON.parse(data.activityData[i]))) {
+        //check if key is in what we are searching for
+        if(key === actName) {
+          let obj = new Object();
+          obj.date = dates[j];
+          
+          j--;
+          obj.count = 1;
+          commits.push(obj);
+        }
+
+        //it's not
+        else {
+          let obj = new Object();
+          obj.date = dates[j];
+
+          j--;
+          obj.count = 0;
+          commits.push(obj);
+        }
+      }
+
+  setCommits(commits);
+}
+
+function initCommits(activities, dates, data) {
+  var length = data.activityData.length;
+  var commits = [];
+  var j = 364;
+
+  for(var i = length < 365 ? 0 : length - 365; i < length; i++)
+    for(var [key, value] of Object.entries(JSON.parse(data.activityData[i]))) {
+      //check if key is in what we are searching for
+      if(key === activities[0]) {
+        let obj = new Object();
+        obj.date = dates[j];
+          
+        j--;
+        obj.count = 1;
+        commits.push(obj);
+      }
+
+      //it's not
+      else {
+        let obj = new Object();
+        obj.date = dates[j];
+          
+        j--;
+        obj.count = 0;
+        commits.push(obj);
+      }
+    }
+
+  return commits;
+}
+
+function getTimestamps(data) {
+  var dates = [];
+  const latestDate = new Date(data.latestDate);
+
+  for(var i = 364; i >= 0; i--) {
+    var date = new Date(latestDate.getTime() - (i * 24 * 60 * 60 * 1000));
+    dates.push(date.toISOString().substring(0, 10));
+  }
+
+  return dates;
+}
+
+function getPickerLabels(data) {
+  var length = data.activityData.length;
+  var arr = [];
+
+  for(var i = i = length < 90 ? 0 : length - 90; i < length; i++)
+    for(var [key, value] of Object.entries(JSON.parse(data.activityData[i]))) {
+      //check if key is in map
+      if(!arr.includes(key)) {
+        if(key !== 'null')
+          arr.push(key);
+      }
+
+      //it exists
+      else
+        ;
+    }
+
+  return arr;
+}
 
 export default HistoryDailyActivities2;
 

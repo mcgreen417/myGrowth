@@ -16,10 +16,36 @@ import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
 
-function HistoryMealTracking({ navigation }) {
+const dayLabels = [
+  "Mon",
+  "Tues",
+  "Weds",
+  "Thurs",
+  "Fri",
+  "Sat",
+  "Sun"
+];
+
+const monthLabels = [
+  "Jan",
+  "Mar",
+  "May",
+  "July",
+  "Sept",
+  "Nov"
+];
+
+function HistoryMealTracking({ route, navigation }) {
+  const data = route.params.data;
+  const arr = initDisplayData(data);
+
   const [modalVisible, setModalVisible] = useState(false);
   const [timePeriod, setTimePeriod] = useState('unselected');
   const [selectNutrients, setNutrients] = useState('unselected');
+  const [timestamps, setTimestamps] = useState(dayLabels);
+  const [displayData, setDisplayData] = useState(arr);
+
+  //switch state
   const [useReccNutrition, setUseReccNutrition] = useState(false);
   
   const toggleReccNutrition = () =>
@@ -33,6 +59,7 @@ function HistoryMealTracking({ navigation }) {
         setModalView={setModalVisible}
         showModalView={modalVisible}
         navigation={navigation}
+        data={data}
       />
 
       {/* Actual screen */}
@@ -74,7 +101,15 @@ function HistoryMealTracking({ navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent historyGenComp={true} navigation={navigation} />
+          <View style={{marginTop: 6}}>
+            <TabBarAndContent 
+              navigation={navigation} 
+              data={displayData} 
+              timePeriod={timestamps} 
+              page={'historyGenComp'}
+              page2Color={false} 
+            />
+          </View>
 
           {/* Time Period and Select Nutrient drop-down selection */}
           <View 
@@ -90,7 +125,11 @@ function HistoryMealTracking({ navigation }) {
                 <Picker
                   selectedValue={timePeriod}
                   style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+                  onValueChange={(itemValue, itemIndex) => {
+                    setTimePeriod(itemValue);
+                    getDisplayData(data, itemValue, setDisplayData, selectNutrients);
+                    getTimestamps(data, timestamps, setTimestamps, itemValue);
+                  }}
                   mode={'dropdown'}
                 >
                   <Picker.Item label='Select one...' value='unselected' />
@@ -106,16 +145,21 @@ function HistoryMealTracking({ navigation }) {
                 <Picker
                   selectedValue={selectNutrients}
                   style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => setNutrients(itemValue)}
+                  onValueChange={(itemValue, itemIndex) => {
+                    setNutrients(itemValue);
+                    getDisplayData(data, timePeriod, setDisplayData, itemValue);
+                    getTimestamps(data, timestamps, setTimestamps, timePeriod);
+                  }}
                   mode={'dropdown'}
                 >
                   <Picker.Item label='Select one...' value='unselected' />
                   <Picker.Item label='Calories' value='calories' />
                   <Picker.Item label='Total fat' value='total_fat' />
-                  <Picker.Item label='Cholesterol' value='cholesterol' />
-                  <Picker.Item label='Sodium' value='sodium' />
+                  <Picker.Item label='Total Protein' value='total_protein' />
+                  {/*<Picker.Item label='Cholesterol' value='cholesterol' />*/}
+                  {/*<Picker.Item label='Sodium' value='sodium' />*/}
                   <Picker.Item label='Total carbs' value='total_carbs' />
-                  <Picker.Item label='Sugar' value='sugar' />
+                  {/*<Picker.Item label='Sugar' value='sugar' />*/}
                 </Picker>
               </View>
             </View>
@@ -323,6 +367,93 @@ function HistoryMealTracking({ navigation }) {
     </SafeAreaView>
   );
 };
+
+function initDisplayData(data) {
+  var len = data.mealData.calories.length;
+  var arr = [];
+
+  arr = data.mealData.calories.slice(len - 7, len);
+
+  return arr;
+}
+
+function getDisplayData(data, timePeriod, setDisplayData, selectNutrients) {
+  //calories || unselected
+  if(selectNutrients === 'calories' || selectNutrients === 'unselected') {
+    var len = data.mealData.calories.length;
+
+    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+      setDisplayData(data.mealData.calories.slice(len - 7, len));
+
+    else if(timePeriod === 'past_month')
+      setDisplayData(data.mealData.calories.slice(len - 30, len));
+
+    else
+      setDisplayData(data.mealData.calories.slice(len - 365, len));
+  }
+
+  //fat
+  if(selectNutrients === 'total_fat') {
+    var len = data.mealData.fats.length;
+
+    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+      setDisplayData(data.mealData.fats.slice(len - 7, len));
+
+    else if(timePeriod === 'past_month')
+      setDisplayData(data.mealData.fats.slice(len - 30, len));
+
+    else
+      setDisplayData(data.mealData.fats.slice(len - 365, len));
+  }
+
+  //protein
+  if(selectNutrients === 'total_protein') {
+    var len = data.mealData.proteins.length;
+
+    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+      setDisplayData(data.mealData.proteins.slice(len - 7, len));
+
+    else if(timePeriod === 'past_month')
+      setDisplayData(data.mealData.proteins.slice(len - 30, len));
+
+    else
+      setDisplayData(data.mealData.proteins.slice(len - 365, len));
+  }
+
+  //carbs
+  if(selectNutrients === 'total_carbs') {
+    var len = data.mealData.carbs.length;
+
+    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+      setDisplayData(data.mealData.carbs.slice(len - 7, len));
+
+    else if(timePeriod === 'past_month')
+      setDisplayData(data.mealData.carbs.slice(len - 30, len));
+
+    else
+      setDisplayData(data.mealData.carbs.slice(len - 365, len));
+  }
+}
+
+function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
+  var dates = [];
+  const latestDate = new Date(data.latestDate);
+
+  for(var i = 29; i >= 0; i--) {
+    var date = new Date(latestDate.getTime() - (i * 24 * 60 * 60 * 1000));
+    if(i % 4 == 0)
+      dates.push(date.toISOString().substring(5, 10));
+  }
+
+  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    setTimestamps(dayLabels);
+
+  else if(timePeriod === 'past_month')
+    setTimestamps(dates); 
+
+  else if(timePeriod === 'past_year')
+    setTimestamps(monthLabels);
+}
 
 export default HistoryMealTracking;
 

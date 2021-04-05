@@ -12,6 +12,8 @@ import { useState } from 'react';
 import { Icon } from 'react-native-elements';
 import * as queries from '../../../src/graphql/queries';
 import { Auth, API } from 'aws-amplify';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Cache } from "react-native-cache";
 
 const NavBar = ({
   home = false,
@@ -308,7 +310,7 @@ const NavBar = ({
         </Text>
       </Pressable>
       <Pressable
-        onPress={() => navigation.navigate('HistoryHealthEntries')}
+        onPress={() => goToHistory(navigation)}
         style={({ pressed }) => [
           {
             padding: 5,
@@ -483,6 +485,20 @@ async function getTodos(navigation) {
   const todos = res.data.getTodos.toDos;
 
   navigation.navigate('ToDoList', {todos});
+}
+
+async function goToHistory(navigation) {
+  const cache = new Cache({
+    namespace: "myapp",
+    policy: {
+      maxEntries: 50000
+    },
+    backend: AsyncStorage
+  });
+
+  const data = await cache.peek("data");
+
+  navigation.navigate('HistoryHealthEntries', {data});
 }
 
 export default NavBar;

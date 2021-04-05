@@ -16,10 +16,34 @@ import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
 
-function HistorySleep1({ navigation }) {
+const dayLabels = [
+  "Mon",
+  "Tues",
+  "Weds",
+  "Thurs",
+  "Fri",
+  "Sat",
+  "Sun"
+];
+
+const monthLabels = [
+  "Jan",
+  "Mar",
+  "May",
+  "July",
+  "Sept",
+  "Nov"
+];
+
+function HistorySleep1({ route, navigation }) {
+  const data = route.params.data;
+  const obj = initDisplayData(data);
+
   const [modalVisible, setModalVisible] = useState(false);
   const [timePeriod, setTimePeriod] = useState('unselected');
-  const [selectDisplay, setDisplay] = useState('unselected');
+  const [sleepView, setSleepView] = useState('unselected');
+  const [displayData, setDisplay] = useState(obj);
+  const [timestamps, setTimestamps] = useState(dayLabels);
   const [useReccSleep, setUseReccSleep] = useState(false);
   
   const toggleReccSleep = () =>
@@ -33,6 +57,7 @@ function HistorySleep1({ navigation }) {
         setModalView={setModalVisible}
         showModalView={modalVisible}
         navigation={navigation}
+        data={data}
       />
 
       {/* Actual screen */}
@@ -74,7 +99,16 @@ function HistorySleep1({ navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent sleep={true} navigation={navigation} />
+          <View style={{marginTop: 5}}>
+            <TabBarAndContent 
+              navigation={navigation}
+              data={data} 
+              multiPageData={displayData}
+              timePeriod={timestamps} 
+              page={'sleep'}
+              page2Color={false}
+            />
+          </View>
 
           {/* Time Period and Select Display drop-down selection */}
           <View 
@@ -90,7 +124,11 @@ function HistorySleep1({ navigation }) {
                 <Picker
                   selectedValue={timePeriod}
                   style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+                  onValueChange={(itemValue, itemIndex) => {
+                    setTimePeriod(itemValue);
+                    getDisplayData(data, itemValue, setDisplay, sleepView);
+                    getTimestamps(data, timestamps, setTimestamps, itemValue);
+                  }}
                   mode={'dropdown'}
                 >
                   <Picker.Item label='Select one...' value='unselected' />
@@ -104,12 +142,17 @@ function HistorySleep1({ navigation }) {
               <Text style={styles().heading}>SELECT DISPLAY</Text>
               <View style={styles().pickerView}>
                 <Picker
-                  selectedValue={selectDisplay}
+                  selectedValue={sleepView}
                   style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => setDisplay(itemValue)}
+                  onValueChange={(itemValue, itemIndex) => {
+                    setSleepView(itemValue);
+                    getDisplayData(data, timePeriod, setDisplay, itemValue);
+                    getTimestamps(data, timestamps, setTimestamps, timePeriod);
+                  }}
                   mode={'dropdown'}
                 >
                   <Picker.Item label='Select one...' value='unselected' />
+                  <Picker.Item label='Sleep and Naps' value='sleep_nap' />
                   <Picker.Item label='Sleep Only' value='sleep_only' />
                   <Picker.Item label='Naps Only' value='naps_only' />
                 </Picker>
@@ -304,6 +347,108 @@ function HistorySleep1({ navigation }) {
     </SafeAreaView>
   );
 };
+
+function initDisplayData(data) {
+  var len1 = data.nightSleepData.length;
+  var len2 = data.napSleepData.length;
+  var obj = new Object();
+
+  obj.sleep = data.nightSleepData.slice(len1 - 7, len1);
+  obj.nap = data.napSleepData.slice(len2 - 7, len2);
+
+  return obj;
+}
+
+function getDisplayData(data, timePeriod, setDisplay, sleepView) {
+  var obj = new Object();
+
+  //both
+  if(sleepView === 'unselected' || sleepView === 'sleep_nap') {
+    var len1 = data.nightSleepData.length;
+    var len2 = data.napSleepData.length;
+
+    if(timePeriod === 'past_week' || timePeriod === 'unselected') {
+      obj.sleep = data.nightSleepData.slice(len1 - 7, len1);
+      obj.nap = data.napSleepData.slice(len2 - 7, len2);
+
+      setDisplay(obj);
+    }
+
+    else if(timePeriod === 'past_month') {
+      obj.sleep = data.nightSleepData.slice(len1 - 30, len1);
+      obj.nap = data.napSleepData.slice(len2 - 30, len2);
+
+      setDisplay(obj);
+    }
+
+    else {
+      obj.sleep = data.nightSleepData.slice(len1 - 365, len1);
+      obj.nap = data.napSleepData.slice(len2 - 365, len2);
+
+      setDisplay(obj);
+    }
+  }
+  
+  //sleep only
+  else if(sleepView === 'sleep_only') {
+    var len = data.nightSleepData.length;
+
+    if(timePeriod === 'past_week' || timePeriod === 'unselected') {
+      obj = data.nightSleepData.slice(len - 7, len);
+      setDisplay(obj);
+    }
+
+    else if(timePeriod === 'past_month') {
+      obj = data.nightSleepData.slice(len - 30, len);
+      setDisplay(obj);
+    }
+
+    else {
+      obj = data.nightSleepData.slice(len - 365, len);
+      setDisplay(obj);
+    }
+  }
+
+  //nap only
+  else {
+    var len = data.napSleepData.length;
+
+    if(timePeriod === 'past_week' || timePeriod === 'unselected') {
+      obj = data.napSleepData.slice(len - 7, len);
+      setDisplay(obj);
+    }
+
+    else if(timePeriod === 'past_month') {
+      obj = data.napSleepData.slice(len - 30, len);
+      setDisplay(obj);
+    }
+
+    else {
+      obj = data.napSleepData.slice(len - 365, len);
+      setDisplay(obj);
+    }
+  }
+}
+
+function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
+  var dates = [];
+  const latestDate = new Date(data.latestDate);
+
+  for(var i = 29; i >= 0; i--) {
+    var date = new Date(latestDate.getTime() - (i * 24 * 60 * 60 * 1000));
+    if(i % 4 == 0)
+      dates.push(date.toISOString().substring(5, 10));
+  }
+
+  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    setTimestamps(dayLabels);
+
+  else if(timePeriod === 'past_month')
+    setTimestamps(dates); 
+
+  else if(timePeriod === 'past_year')
+    setTimestamps(monthLabels);
+}
 
 export default HistorySleep1;
 

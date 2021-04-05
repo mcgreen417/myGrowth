@@ -170,6 +170,13 @@ async function signIn(username, pw, navigation) {
 
         //store settings from db
         await cache.set("settings", res.data.getSetting.Options);
+        //store data from db
+        const res2 = await API.graphql({
+          query: queries.getChartData,
+          variables: {UserID: user.username}
+        });
+
+        await cache.set("data", res2.data.getChartData);
 
         navigation.navigate('Home');
       }

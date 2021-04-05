@@ -16,10 +16,35 @@ import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
 
-function HistoryFitness1({ navigation }) {
+const dayLabels = [
+  "Mon",
+  "Tues",
+  "Weds",
+  "Thurs",
+  "Fri",
+  "Sat",
+  "Sun"
+];
+
+const monthLabels = [
+  "Jan",
+  "Mar",
+  "May",
+  "July",
+  "Sept",
+  "Nov"
+];
+
+function HistoryFitness1({ route, navigation }) {
+  const data = route.params.data;
+  const arr = initDisplayData(data);
+
   const [modalVisible, setModalVisible] = useState(false); 
   const [timePeriod, setTimePeriod] = useState('unselected');
   const [selectDisplay, setDisplay] = useState('unselected');
+  const [timestamps, setTimestamps] = useState(dayLabels);
+  const [displayData, setDisplayData] = useState(arr);  
+
   const [useReccActivity, setUseReccActivity] = useState(false);
 
   const toggleReccActivity = () =>
@@ -33,6 +58,7 @@ function HistoryFitness1({ navigation }) {
         setModalView={setModalVisible}
         showModalView={modalVisible}
         navigation={navigation}
+        data={data}
       />
 
       {/* Actual screen */}
@@ -74,7 +100,16 @@ function HistoryFitness1({ navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent fitness={true} navigation={navigation} />
+          <View style={{marginTop: 6}}>
+            <TabBarAndContent 
+              navigation={navigation} 
+              data={data} 
+              timePeriod={timestamps}
+              multiPageData={displayData} 
+              page={'fitness'}
+              page2Color={false} 
+            />
+          </View>
 
           {/* Time Period and Select Display drop-down selection */}
           <View 
@@ -90,7 +125,11 @@ function HistoryFitness1({ navigation }) {
                 <Picker
                   selectedValue={timePeriod}
                   style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+                  onValueChange={(itemValue, itemIndex) => {
+                    setTimePeriod(itemValue);
+                    getDisplayData(data, itemValue, setDisplayData, selectDisplay);
+                    getTimestamps(data, timestamps, setTimestamps, itemValue);
+                  }}
                   mode={'dropdown'}
                 >
                   <Picker.Item label='Select one...' value='unselected' />
@@ -106,7 +145,11 @@ function HistoryFitness1({ navigation }) {
                 <Picker
                   selectedValue={selectDisplay}
                   style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => setDisplay(itemValue)}
+                  onValueChange={(itemValue, itemIndex) => {
+                    setDisplay(itemValue);
+                    getDisplayData(data, timePeriod, setDisplayData, itemValue);
+                    getTimestamps(data, timestamps, setTimestamps, timePeriod);
+                  }}
                   mode={'dropdown'}
                 >
                   <Picker.Item label='Select one...' value='unselected' />
@@ -270,6 +313,79 @@ function HistoryFitness1({ navigation }) {
     </SafeAreaView>
   );
 };
+
+function initDisplayData(data) {
+  var len = data.fitnessData.burned.length;
+  var arr = [];
+
+  arr = data.fitnessData.burned.slice(len - 7, len);
+
+  return arr;
+}
+
+function getDisplayData(data, timePeriod, setDisplayData, selectExercise) {
+  //burned || unselected
+  if(selectExercise === 'cals_burned' || selectExercise === 'unselected') {
+    var len = data.fitnessData.burned.length;
+
+    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+      setDisplayData(data.fitnessData.burned.slice(len - 7, len));
+
+    else if(timePeriod === 'past_month')
+      setDisplayData(data.fitnessData.burned.slice(len - 30, len));
+
+    else
+      setDisplayData(data.fitnessData.burned.slice(len - 365, len));
+  }
+
+  //dur
+  if(selectExercise === 'exercise_time') {
+    var len = data.fitnessData.dur.length;
+
+    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+      setDisplayData(data.fitnessData.dur.slice(len - 7, len));
+
+    else if(timePeriod === 'past_month')
+      setDisplayData(data.fitnessData.dur.slice(len - 30, len));
+
+    else
+      setDisplayData(data.fitnessData.dur.slice(len - 365, len));
+  }
+
+  //steps
+  if(selectExercise === 'steps_taken') {
+    var len = data.fitnessData.steps.length;
+
+    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+      setDisplayData(data.fitnessData.steps.slice(len - 7, len));
+
+    else if(timePeriod === 'past_month')
+      setDisplayData(data.fitnessData.steps.slice(len - 30, len));
+
+    else
+      setDisplayData(data.fitnessData.steps.slice(len - 365, len));
+  }
+}
+
+function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
+  var dates = [];
+  const latestDate = new Date(data.latestDate);
+
+  for(var i = 29; i >= 0; i--) {
+    var date = new Date(latestDate.getTime() - (i * 24 * 60 * 60 * 1000));
+    if(i % 4 == 0)
+      dates.push(date.toISOString().substring(5, 10));
+  }
+
+  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    setTimestamps(dayLabels);
+
+  else if(timePeriod === 'past_month')
+    setTimestamps(dates); 
+
+  else if(timePeriod === 'past_year')
+    setTimestamps(monthLabels);
+}
 
 export default HistoryFitness1;
 

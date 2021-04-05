@@ -15,10 +15,16 @@ import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
 
-function HistoryFitness2({ navigation }) {
+function HistoryFitness2({ route, navigation }) {
+  const data = route.params.data;
+  var fitMap = getMap(data, 'unselected');
+  const exercises = getLabels(getMap(data, 'past_year'));
+  
   const [modalVisible, setModalVisible] = useState(false);
   const [timePeriod, setTimePeriod] = useState('unselected');
-  const [selectExercise, setExercise] = useState('unselected');  
+  const [selectExercise, setExercise] = useState('unselected');
+  //const [labels, setLabels] = useState(getLabels(fitMap));
+  const [freqs, setFreqs] = useState(getFreqs(fitMap, timePeriod));
 
   return (
     <SafeAreaView style={styles().container}>
@@ -28,6 +34,7 @@ function HistoryFitness2({ navigation }) {
         setModalView={setModalVisible}
         showModalView={modalVisible}
         navigation={navigation}
+        data={data}
       />
 
       {/* Actual screen */}
@@ -69,7 +76,16 @@ function HistoryFitness2({ navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent fitness={true} navigation={navigation} />
+          <View style={{marginTop: 6}}>
+            <TabBarAndContent 
+              navigation={navigation} 
+              data={data} 
+              timePeriod={['Duration']} 
+              page={'fitness'}
+              multiPageData={freqs}
+              page2Color={true}
+            />
+          </View>
 
           {/* Time Period and Select Exercise drop-down selection */}
           <View 
@@ -85,7 +101,11 @@ function HistoryFitness2({ navigation }) {
                 <Picker
                   selectedValue={timePeriod}
                   style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+                  onValueChange={(itemValue, itemIndex) => {
+                    setTimePeriod(itemValue);
+                    fitMap = getMap(data, itemValue);
+                    setFreqs(getFreqs(fitMap, selectExercise === 'unselected' ? exercises[0] : selectExercise));
+                  }}
                   mode={'dropdown'}
                 >
                   <Picker.Item label='Select one...' value='unselected' />
@@ -101,13 +121,19 @@ function HistoryFitness2({ navigation }) {
                 <Picker
                   selectedValue={selectExercise}
                   style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => setDisplay(itemValue)}
+                  onValueChange={(itemValue, itemIndex) => {
+                    setExercise(itemValue);
+                    setFreqs(getFreqs(fitMap, itemValue === 'unselected' ? exercises[0] : itemValue));
+                    console.log(itemValue);
+                  }}
                   mode={'dropdown'}
                 >
                   <Picker.Item label='Select one...' value='unselected' />
-                  <Picker.Item label='Push-ups' value='push-ups' />
-                  <Picker.Item label='Sit-ups' value='situps' />
-                  <Picker.Item label='Squats' value='squats' />
+                  {exercises.map((item, index) => {
+                    return (
+                      <Picker.Item key={index} label={item} value={item} />
+                    );
+                  })}
                 </Picker>
               </View>
             </View>
@@ -133,6 +159,79 @@ function HistoryFitness2({ navigation }) {
     </SafeAreaView>
   );
 };
+
+function getMap(data, timePeriod) {
+  var map = new Map();
+  var length = data.fitnessData.exercises.length;
+
+  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    for(var i = length < 7 ? 0 : length - 7; i < length; i++)
+      for(var [key, value] of Object.entries(JSON.parse(data.fitnessData.exercises[i]))) {
+        //check if key is in map
+        if(!map.has(key)) {
+          if(key !== 'null')
+            map.set(key, value);
+        }
+
+        //it exists
+        else {
+          map.set(key, map.get(key) + value);
+        }
+      }
+
+  else if (timePeriod === 'past_month')
+    for(var i = i = length < 30 ? 0 : length - 30; i < length; i++)
+      for(var [key, value] of Object.entries(JSON.parse(data.fitnessData.exercises[i]))) {
+        //check if key is in map
+        if(!map.has(key)) {
+          if(key !== 'null')
+            map.set(key, value);
+        }
+
+        //it exists
+        else {
+          map.set(key, map.get(key) + value);
+        }
+      }
+
+  else
+    for(var i = length < 365 ? 0 : length - 365; i < length; i++)
+      for(let [key, value] of Object.entries(JSON.parse(data.fitnessData.exercises[i]))) {
+        //check if key is in map
+        if(!map.has(key)) {
+          if(key !== 'null')
+            map.set(key, value);
+        }
+
+        //it exists
+        else {
+          map.set(key, map.get(key) + value);
+        }
+      }
+
+  return map;
+}
+
+function getLabels(fitMap) {
+  const obj = [];
+
+  fitMap.forEach(function(value, key) {
+    obj.push(key);
+  })
+
+  return obj;
+}
+
+function getFreqs(fitMap, selectExercise) {
+  const obj = [];
+
+  fitMap.forEach(function(value, key) {
+    if(key === selectExercise)
+      obj.push(value);
+  })
+
+  return obj;
+}
 
 export default HistoryFitness2;
 

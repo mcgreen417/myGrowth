@@ -14,15 +14,14 @@ import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
-import { Auth, API } from 'aws-amplify';
-import * as queries from '../../../src/graphql/queries';
 
-function HistoryPeriodTracking({ navigation }) {
+function HistoryPeriodTracking({ route, navigation }) {
+  const data = route.params.data;
+  const arr = initDisplayData(data);
+  const labels = getTimestamps(data);
+  const commits = genCommits(arr, labels);
+
   const [modalVisible, setModalVisible] = useState(false);
-  //const [timePeriod, setTimePeriod] = useState('unselected');
-  const [data, setData] = useState([]);
-
-  getBasicData(data, setData);
 
   return (
     <SafeAreaView style={styles().container}>
@@ -32,6 +31,7 @@ function HistoryPeriodTracking({ navigation }) {
         setModalView={setModalVisible}
         showModalView={modalVisible}
         navigation={navigation}
+        data={data}
       />
           
       {/* Actual screen */}
@@ -72,7 +72,14 @@ function HistoryPeriodTracking({ navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent historyGenComp={true} navigation={navigation} data={data} timePeriod={'past_month'} page={'period'} />
+          <View style={{marginTop: 6}}>
+            <TabBarAndContent 
+              navigation={navigation} 
+              data={commits} 
+              page={'period'}
+              page2Color={false} 
+            />
+          </View>
             
           {/* Middle divider */}
           <View style={styles().dividerView}>
@@ -194,14 +201,44 @@ function HistoryPeriodTracking({ navigation }) {
   );
 };
 
-async function getBasicData(data, setData) {
-  const res = await API.graphql({
-    query: queries.getChartData
-  })
+function genCommits(arr, labels) {
+  var commitsArr = [];
 
-  const arr = res.data;
+  for(var i = 0; i < 90; i++) {
+    let obj = new Object();
+    obj.date = labels[i];
+    obj.count = arr[i];
+    commitsArr.push(obj);
+  }
 
-  setData(arr.getChartData);
+  return commitsArr;
+}
+
+function initDisplayData(data) {
+  var len = data.periodData.length;
+  var arr = [];
+
+  for(var i = len < 90 ? 0 : len - 90; i < len;  i++) {
+    if(data.periodData[i] == 0 || data.periodData[i] == -1)
+      arr.push(0);
+    
+    else
+      arr.push(data.periodData[i]);
+  }
+
+  return arr;
+}
+
+function getTimestamps(data) {
+  var dates = [];
+  const latestDate = new Date(data.latestDate);
+
+  for(var i = 89; i >= 0; i--) {
+    var date = new Date(latestDate.getTime() - (i * 24 * 60 * 60 * 1000));
+    dates.push(date.toISOString().substring(0, 10));
+  }
+
+  return dates;
 }
 
 export default HistoryPeriodTracking;

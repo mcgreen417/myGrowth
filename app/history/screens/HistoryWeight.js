@@ -14,15 +14,34 @@ import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
-import { Auth, API } from 'aws-amplify';
-import * as queries from '../../../src/graphql/queries';
 
-function HistoryWeight({ navigation }) {
+const dayLabels = [
+  "Mon",
+  "Tues",
+  "Weds",
+  "Thurs",
+  "Fri",
+  "Sat",
+  "Sun"
+];
+
+const monthLabels = [
+  "Jan",
+  "Mar",
+  "May",
+  "July",
+  "Sept",
+  "Nov"
+];
+
+function HistoryWeight({ route, navigation }) {
+  const data = route.params.data;
+  const arr = initDisplayData(data);
+
   const [modalVisible, setModalVisible] = useState(false);
   const [timePeriod, setTimePeriod] = useState('unselected');
-  const [data, setData] = useState([]);
-
-  getBasicData(data, setData);
+  const [timestamps, setTimestamps] = useState(dayLabels);
+  const [displayData, setDisplayData] = useState(arr);
 
   return (
     <SafeAreaView style={styles().container}>
@@ -32,6 +51,7 @@ function HistoryWeight({ navigation }) {
         setModalView={setModalVisible}
         showModalView={modalVisible}
         navigation={navigation}
+        data={data}
       />
 
       {/* Actual screen */}
@@ -73,15 +93,28 @@ function HistoryWeight({ navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent historyGenComp={true} navigation={navigation} data={data} timePeriod={timePeriod} page={'mood'} />
+          <View style={{marginTop: 6}}>
+            <TabBarAndContent 
+              navigation={navigation} 
+              data={displayData} 
+              timePeriod={timestamps} 
+              page={'historyGenComp'} 
+              page2Color={false}
+            />
+          </View>
 
+          {/* pass in itemValue not timePeriod */}
           <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, }}>
             <Text style={styles().heading}>TIME PERIOD</Text>
             <View style={styles().pickerView}>
               <Picker
                 selectedValue={timePeriod}
                 style={styles().picker}
-                onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+                onValueChange={(itemValue, itemIndex) => {
+                  setTimePeriod(itemValue);
+                  getDisplayData(data, itemValue, setDisplayData);
+                  getTimestamps(data, timestamps, setTimestamps, itemValue);
+                }}
                 mode={'dropdown'}
               >
                 <Picker.Item label='Select one...' value='unselected' />
@@ -174,14 +207,46 @@ function HistoryWeight({ navigation }) {
   );
 };
 
-async function getBasicData(data, setData) {
-  const res = await API.graphql({
-    query: queries.getChartData
-  })
+function initDisplayData(data) {
+  var len = data.weightData.length;
+  var arr = [];
 
-  const arr = res.data;
+  arr = data.weightData.slice(len - 7, len);
 
-  setData(arr.getChartData);
+  return arr;
+}
+
+function getDisplayData(data, timePeriod, setDisplayData) {
+  var len = data.weightData.length;
+
+  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    setDisplayData(data.weightData.slice(len - 7, len));
+
+  else if(timePeriod === 'past_month')
+    setDisplayData(data.weightData.slice(len - 30, len));
+
+  else
+    setDisplayData(data.stressData.slice(len - 365, len));
+}
+
+function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
+  var dates = [];
+  const latestDate = new Date(data.latestDate);
+
+  for(var i = 29; i >= 0; i--) {
+    var date = new Date(latestDate.getTime() - (i * 24 * 60 * 60 * 1000));
+    if(i % 4 == 0)
+      dates.push(date.toISOString().substring(5, 10));
+  }
+
+  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    setTimestamps(dayLabels);
+
+  else if(timePeriod === 'past_month')
+    setTimestamps(dates); 
+
+  else if(timePeriod === 'past_year')
+    setTimestamps(monthLabels);
 }
 
 export default HistoryWeight;

@@ -267,6 +267,8 @@ export const getChartData = /* GraphQL */ `
       stressData
       nightSleepData
       napSleepData
+      nightQualityData
+      napQualityData
       weightData
       periodData
       fitnessData {
