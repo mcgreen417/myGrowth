@@ -2,8 +2,6 @@
 Daily activities: bar graph representing frequency of each activity (over week, month, year) & for each activity, show graph like GitHub's contribution graph (over year)
     - heatmap: WIP
 
-Medication: calendar (monthly), track prescription and OTC meds - WIP
-
 Symptom tracking: bar graph representing frequency of each symptom (over week, month, year) & line chart representing symptom intensity (over week, month, year), w/ option 
 to display only one symptom for easier viewing
     - WIP: gen health pages

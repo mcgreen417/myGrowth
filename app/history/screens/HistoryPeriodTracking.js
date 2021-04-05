@@ -222,12 +222,6 @@ function initDisplayData(data) {
   return arr;
 }
 
-function getDisplayData(data, setDisplayData) {
-  var len = data.periodData.length;
-
-  setDisplayData(data.periodData.slice(len - 90, len));
-}
-
 function getTimestamps(data) {
   var dates = [];
   const latestDate = new Date(data.latestDate);

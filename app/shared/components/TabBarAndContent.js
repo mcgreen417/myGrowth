@@ -426,7 +426,7 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.prescriptionImg);
+              setShowTable(true);
               setCorrButtonColor(buttonColors.lightGreen);
               setScriptButtonColor(buttonColors.darkGreen);
             }}
@@ -442,7 +442,7 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.correlationImg);
+              setShowTable(false);
               setCorrButtonColor(buttonColors.darkGreen);
               setScriptButtonColor(buttonColors.lightGreen);
             }}
@@ -455,8 +455,33 @@ const TabBarAndContent = ({
         <View style={styles.coloredBarView}>
           <View style={styles.coloredBar} />
         </View>
-        {/* Render image */}
-        <Image style={styles.images} source={imgSource} />
+        {/* render image */}
+        {/* !showTable &&
+          <Image style={styles.images} source={imgSource} />*/}
+        {showTable && <ContributionGraph
+          values={data}
+          endDate={new Date()}
+          numDays={90}
+          width={353}
+          height={250}
+          chartConfig={{
+            backgroundColor: "#4CB97A",
+            backgroundGradientFrom: "#4CB97A",
+            backgroundGradientTo: "#4CB97A",
+            fillShadowGradientOpacity: 3,
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#4CB97A"
+            }
+          }}
+        />}
       </View>
     );
 
