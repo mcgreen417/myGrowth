@@ -71,16 +71,49 @@ async function submit(
   sleepTime,
   sleepQuality,
   naps,
+  ate,
+  meals,
+  totalCalories,
+  exercisedToday,
+  exerciseDuration,
+  caloriesBurned,
+  steps,
+  exercises,
+  meds,
   navigation
 ) {
-  console.log(symptoms);
-  console.log(period);
-  console.log(weight);
+  const totalProteins = 0;
+  const totalCarbs = 0;
+  const totalFats = 0;
+
   const activitiesIn = activities;
   const stressIn = { Severity: stress, Stressors: stressors };
   const moodIn = { Mood: mood, Feelings: feelings };
   const healthIn = { Period: period, Weight: weight };
   const symptomIn = symptoms;
+  const sleepIn = {
+    Slept: slept,
+    Start: sleepTime.start,
+    End: sleepTime.end,
+    Quality: sleepQuality,
+    Naps: naps,
+  };
+  const mealsIn = {
+    Ate: ate,
+    TotalCalories: totalCalories,
+    MealList: meals,
+    TotalProteins: totalProteins,
+    TotalCarbs: totalCarbs,
+    TotalFats: totalFats,
+  };
+  const fitnessIn = {
+    Exercised: exercisedToday,
+    Duration: exerciseDuration,
+    CaloriesBurned: caloriesBurned,
+    Steps: steps,
+    Exercises: exercises,
+  };
+  const medcheckIn = meds;
 
   const query = {
     Mood: moodIn,
@@ -105,22 +138,30 @@ const HealthEntry = ({ navigation }) => {
   const [showAdvanceFitnessTracking, setShowAdvanceFitnessTracking] = useState(
     false
   );
+
   const [eatenToday, setEatenToday] = useState(true);
+  const [meals, setMeals] = useState([]);
   const [showAdvanceMealTracking, setShowAdvanceMealTracking] = useState(false);
+
   const [med, setMed] = useState(Array(medication.length).fill(false));
+
   const [hadPeriod, setHadPeriod] = useState(false);
   const [weight, setWeight] = useState(0);
   const [symptoms, setSymptoms] = useState([]);
+
   const [hadSleep, setHadSleep] = useState(true);
   const [qualityOfSleep, setQualityOfSleep] = useState(-1);
   const [sleepTime, setSleepTime] = useState([]);
   const [qualityOfNap, setQualityOfNap] = useState(-1);
   const [napTime, setNapTime] = useState([]);
   const [naps, setNaps] = useState([]);
+
   const [stress, setStress] = useState(-1);
   const [stressors, setStressors] = useState([]);
+
   const [mood, setMood] = useState(0);
   const [feels, setFeels] = useState([]);
+
   const [activities, setActivities] = useState([]);
 
   return (
@@ -292,6 +333,15 @@ const HealthEntry = ({ navigation }) => {
                     sleepTime,
                     qualityOfSleep,
                     naps,
+                    eatenToday,
+                    meals,
+                    totalCalories,
+                    exercisedToday,
+                    exerciseDuration,
+                    caloriesBurned,
+                    steps,
+                    exercises,
+                    meds,
                     navigation
                   )
                 }

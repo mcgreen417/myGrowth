@@ -77,6 +77,7 @@ export const addMilestone = /* GraphQL */ `
     $timestamp: AWSDateTime
     $category: String!
     $progress: Float!
+    $reward: Int!
   ) {
     addMilestone(
       UserID: $UserID
@@ -84,6 +85,7 @@ export const addMilestone = /* GraphQL */ `
       timestamp: $timestamp
       category: $category
       progress: $progress
+      reward: $reward
     ) {
       UserID
       Title
@@ -91,6 +93,7 @@ export const addMilestone = /* GraphQL */ `
       Timestamp
       Category
       Progress
+      Reward
     }
   }
 `;
@@ -102,6 +105,7 @@ export const updateMilestone = /* GraphQL */ `
     $completed: Boolean!
     $category: String!
     $progress: Float!
+    $reward: Int!
   ) {
     updateMilestone(
       UserID: $UserID
@@ -110,6 +114,7 @@ export const updateMilestone = /* GraphQL */ `
       completed: $completed
       category: $category
       progress: $progress
+      reward: $reward
     ) {
       UserID
       Title
@@ -117,6 +122,7 @@ export const updateMilestone = /* GraphQL */ `
       Timestamp
       Category
       Progress
+      Reward
     }
   }
 `;
@@ -129,6 +135,7 @@ export const deleteMilestone = /* GraphQL */ `
       Timestamp
       Category
       Progress
+      Reward
     }
   }
 `;
@@ -387,7 +394,7 @@ export const updatePoints = /* GraphQL */ `
 export const addDailyEntry = /* GraphQL */ `
   mutation AddDailyEntry(
     $UserID: ID
-    $Timestamp: AWSDate
+    $Timestamp: AWSDateTime
     $Health: HealthIn
     $Symptoms: [SymptomIn!]
     $Stress: StressIn
@@ -484,7 +491,7 @@ export const addDailyEntry = /* GraphQL */ `
 export const updateDailyEntry = /* GraphQL */ `
   mutation UpdateDailyEntry(
     $UserID: ID
-    $Timestamp: AWSDate
+    $Timestamp: AWSDateTime!
     $Health: HealthIn
     $Symptoms: [SymptomIn!]
     $Stress: StressIn
@@ -579,7 +586,7 @@ export const updateDailyEntry = /* GraphQL */ `
   }
 `;
 export const deleteDailyEntry = /* GraphQL */ `
-  mutation DeleteDailyEntry($UserID: ID, $Timestamp: AWSDate!) {
+  mutation DeleteDailyEntry($UserID: ID, $Timestamp: AWSDateTime!) {
     deleteDailyEntry(UserID: $UserID, Timestamp: $Timestamp) {
       UserID
       Timestamp
@@ -654,7 +661,7 @@ export const deleteDailyEntry = /* GraphQL */ `
 export const updateJournalEntry = /* GraphQL */ `
   mutation UpdateJournalEntry(
     $UserID: ID
-    $Timestamp: AWSDate
+    $Timestamp: AWSDateTime!
     $Entry: String!
     $FreqWords: [FreqWordsIn!]
   ) {
@@ -674,7 +681,7 @@ export const updateJournalEntry = /* GraphQL */ `
   }
 `;
 export const removeJournalEntry = /* GraphQL */ `
-  mutation RemoveJournalEntry($UserID: ID, $Timestamp: AWSDate!) {
+  mutation RemoveJournalEntry($UserID: ID, $Timestamp: AWSDateTime!) {
     removeJournalEntry(UserID: $UserID, Timestamp: $Timestamp) {
       Entry
       Timestamp

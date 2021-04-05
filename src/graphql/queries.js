@@ -6,6 +6,11 @@ export const helloWorld = /* GraphQL */ `
     helloWorld(consumer_key: $consumer_key, consumer_secret: $consumer_secret)
   }
 `;
+export const function2 = /* GraphQL */ `
+  query Function2($consumer_key: String, $consumer_secret: String) {
+    function2(consumer_key: $consumer_key, consumer_secret: $consumer_secret)
+  }
+`;
 export const getMilestones = /* GraphQL */ `
   query GetMilestones($UserID: ID, $count: Int, $nextToken: String) {
     getMilestones(UserID: $UserID, count: $count, nextToken: $nextToken) {
@@ -16,6 +21,7 @@ export const getMilestones = /* GraphQL */ `
         Timestamp
         Category
         Progress
+        Reward
       }
       nextToken
     }
@@ -30,6 +36,7 @@ export const getMilestone = /* GraphQL */ `
       Timestamp
       Category
       Progress
+      Reward
     }
   }
 `;
@@ -94,7 +101,7 @@ export const getSetting = /* GraphQL */ `
   }
 `;
 export const getDailyEntry = /* GraphQL */ `
-  query GetDailyEntry($UserID: ID, $Timestamp: AWSDate!) {
+  query GetDailyEntry($UserID: ID, $Timestamp: AWSDateTime!) {
     getDailyEntry(UserID: $UserID, Timestamp: $Timestamp) {
       UserID
       Timestamp
@@ -260,13 +267,33 @@ export const getChartData = /* GraphQL */ `
       stressData
       nightSleepData
       napSleepData
+      nightQualityData
+      napQualityData
       weightData
       periodData
+      fitnessData {
+        burned
+        dur
+        steps
+        exercises
+      }
+      activityData
+      mealData {
+        calories
+        carbs
+        fats
+        proteins
+      }
+      symptomData
+      medicineData {
+        allTaken
+        meds
+      }
     }
   }
 `;
 export const getJournalEntry = /* GraphQL */ `
-  query GetJournalEntry($UserID: ID, $Timestamp: AWSDate!) {
+  query GetJournalEntry($UserID: ID, $Timestamp: AWSDateTime!) {
     getJournalEntry(UserID: $UserID, Timestamp: $Timestamp) {
       Entry
       Timestamp

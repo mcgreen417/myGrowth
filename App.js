@@ -24,7 +24,11 @@ import ViewJournalEntry from './app/journal/screens/ViewJournalEntry';
 import WordCloudDisplay from './app/journal/screens/WordCloudDisplay';
 import { Goals } from './app/goals/screens/Goals';
 import { GoalComplete } from './app/goals/screens/GoalComplete';
-import HealthEntry from './app/healthentry/screens/HealthEntry';
+import HealthEntry1 from './app/healthentry/screens/HealthEntry1';
+import HealthEntry2 from './app/healthentry/screens/HealthEntry2';
+import HealthEntry3 from './app/healthentry/screens/HealthEntry3';
+import HealthEntry4 from './app/healthentry/screens/HealthEntry4';
+import HealthEntry5 from './app/healthentry/screens/HealthEntry5';
 import ReviewEntry from './app/healthentry/screens/ReviewEntry';
 import EntryCompletion from './app/healthentry/screens/EntryCompletion';
 import { ToDoList } from './app/todolist/screens/ToDoList';
@@ -191,7 +195,31 @@ function App() {
 
         <Stack.Screen
           name='HealthEntry1'
-          component={HealthEntry}
+          component={HealthEntry1}
+          options={{ header: () => null }}
+        />
+
+        <Stack.Screen
+          name='HealthEntry2'
+          component={HealthEntry2}
+          options={{ header: () => null }}
+        />
+
+        <Stack.Screen
+          name='HealthEntry3'
+          component={HealthEntry3}
+          options={{ header: () => null }}
+        />
+
+        <Stack.Screen
+          name='HealthEntry4'
+          component={HealthEntry4}
+          options={{ header: () => null }}
+        />
+
+        <Stack.Screen
+          name='HealthEntry5'
+          component={HealthEntry5}
           options={{ header: () => null }}
         />
 

@@ -47,6 +47,40 @@
           "deprecationReason" : null,
           "directives" : [ ]
         }, {
+          "name" : "function2",
+          "description" : null,
+          "args" : [ {
+            "name" : "consumer_key",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "consumer_secret",
+            "description" : null,
+            "type" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null,
+          "directives" : [ ]
+        }, {
           "name" : "getMilestones",
           "description" : "  ----------------------------------------",
           "args" : [ {
@@ -210,7 +244,7 @@
           "directives" : [ ]
         }, {
           "name" : "getSetting",
-          "description" : "  Only for testing single query",
+          "description" : null,
           "args" : [ {
             "name" : "UserID",
             "description" : null,
@@ -253,7 +287,7 @@
               "name" : null,
               "ofType" : {
                 "kind" : "SCALAR",
-                "name" : "AWSDate",
+                "name" : "AWSDateTime",
                 "ofType" : null
               }
             },
@@ -364,7 +398,7 @@
               "name" : null,
               "ofType" : {
                 "kind" : "SCALAR",
-                "name" : "AWSDate",
+                "name" : "AWSDateTime",
                 "ofType" : null
               }
             },
@@ -558,7 +592,7 @@
           "directives" : [ ]
         }, {
           "name" : "Category",
-          "description" : "  Weekly or daily",
+          "description" : "  Daily, Weekly, or Long-term",
           "args" : [ ],
           "type" : {
             "kind" : "NON_NULL",
@@ -582,6 +616,22 @@
             "ofType" : {
               "kind" : "SCALAR",
               "name" : "Float",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null,
+          "directives" : [ ]
+        }, {
+          "name" : "Reward",
+          "description" : "  How many points",
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "Int",
               "ofType" : null
             }
           },
@@ -1241,7 +1291,7 @@
             "name" : null,
             "ofType" : {
               "kind" : "SCALAR",
-              "name" : "AWSDate",
+              "name" : "AWSDateTime",
               "ofType" : null
             }
           },
@@ -1370,16 +1420,6 @@
         "enumValues" : null,
         "possibleTypes" : null,
         "directives" : [ ]
-      }, {
-        "kind" : "SCALAR",
-        "name" : "AWSDate",
-        "description" : "The `AWSDate` scalar type provided by AWS AppSync, represents a valid ***extended*** [ISO 8601 Date](https://en.wikipedia.org/wiki/ISO_8601#Calendar_dates) string. In other words, this scalar type accepts date strings of the form `YYYY-MM-DD`.  The scalar can also accept \"negative years\" of the form `-YYYY` which correspond to years before `0000`. For example, \"**-2017-05-01**\" and \"**-9999-01-01**\" are both valid dates.  This scalar type can also accept an optional [time zone offset](https://en.wikipedia.org/wiki/ISO_8601#Time_zone_designators). For example, \"**1970-01-01**\", \"**1970-01-01Z**\", \"**1970-01-01-07:00**\" and \"**1970-01-01+05:30**\" are all valid dates. The time zone offset must either be `Z` (representing the UTC time zone) or be in the format `±hh:mm:ss`. The seconds field in the timezone offset will be considered valid even though it is not part of the ISO 8601 standard.",
-        "fields" : null,
-        "inputFields" : null,
-        "interfaces" : null,
-        "enumValues" : null,
-        "possibleTypes" : null,
-        "directives" : null
       }, {
         "kind" : "OBJECT",
         "name" : "Health",
@@ -1516,7 +1556,7 @@
         "description" : null,
         "fields" : [ {
           "name" : "Mood",
-          "description" : null,
+          "description" : "  could put Severity here to be consistent",
           "args" : [ ],
           "type" : {
             "kind" : "NON_NULL",
@@ -1532,7 +1572,7 @@
           "directives" : [ ]
         }, {
           "name" : "Feelings",
-          "description" : "  could put Severity here to be consistent",
+          "description" : null,
           "args" : [ ],
           "type" : {
             "kind" : "LIST",
@@ -1964,7 +2004,7 @@
         "description" : null,
         "fields" : [ {
           "name" : "Name",
-          "description" : null,
+          "description" : "  could put Title here to be consistent",
           "args" : [ ],
           "type" : {
             "kind" : "NON_NULL",
@@ -1980,7 +2020,7 @@
           "directives" : [ ]
         }, {
           "name" : "Sets",
-          "description" : "  could put Title here to be consistent",
+          "description" : null,
           "args" : [ ],
           "type" : {
             "kind" : "SCALAR",
@@ -2050,7 +2090,7 @@
         "description" : " -------------medchecklist----------------",
         "fields" : [ {
           "name" : "Name",
-          "description" : null,
+          "description" : "  could put Title here to be consistent",
           "args" : [ ],
           "type" : {
             "kind" : "NON_NULL",
@@ -2066,7 +2106,7 @@
           "directives" : [ ]
         }, {
           "name" : "Taken",
-          "description" : "  could put Title here to be consistent",
+          "description" : null,
           "args" : [ ],
           "type" : {
             "kind" : "NON_NULL",
@@ -2214,7 +2254,7 @@
           "args" : [ ],
           "type" : {
             "kind" : "SCALAR",
-            "name" : "AWSDate",
+            "name" : "AWSDateTime",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -2301,6 +2341,46 @@
           "deprecationReason" : null,
           "directives" : [ ]
         }, {
+          "name" : "nightQualityData",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "Float",
+                "ofType" : null
+              }
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null,
+          "directives" : [ ]
+        }, {
+          "name" : "napQualityData",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "Float",
+                "ofType" : null
+              }
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null,
+          "directives" : [ ]
+        }, {
           "name" : "weightData",
           "description" : null,
           "args" : [ ],
@@ -2333,6 +2413,322 @@
               "ofType" : {
                 "kind" : "SCALAR",
                 "name" : "Int",
+                "ofType" : null
+              }
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null,
+          "directives" : [ ]
+        }, {
+          "name" : "fitnessData",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "FitnessData",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null,
+          "directives" : [ ]
+        }, {
+          "name" : "activityData",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "AWSJSON",
+                "ofType" : null
+              }
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null,
+          "directives" : [ ]
+        }, {
+          "name" : "mealData",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "MealData",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null,
+          "directives" : [ ]
+        }, {
+          "name" : "symptomData",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "AWSJSON",
+                "ofType" : null
+              }
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null,
+          "directives" : [ ]
+        }, {
+          "name" : "medicineData",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "MedData",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null,
+          "directives" : [ ]
+        } ],
+        "inputFields" : null,
+        "interfaces" : [ ],
+        "enumValues" : null,
+        "possibleTypes" : null,
+        "directives" : [ ]
+      }, {
+        "kind" : "OBJECT",
+        "name" : "FitnessData",
+        "description" : null,
+        "fields" : [ {
+          "name" : "burned",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "Int",
+                "ofType" : null
+              }
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null,
+          "directives" : [ ]
+        }, {
+          "name" : "dur",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "Int",
+                "ofType" : null
+              }
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null,
+          "directives" : [ ]
+        }, {
+          "name" : "steps",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "Int",
+                "ofType" : null
+              }
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null,
+          "directives" : [ ]
+        }, {
+          "name" : "exercises",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "AWSJSON",
+                "ofType" : null
+              }
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null,
+          "directives" : [ ]
+        } ],
+        "inputFields" : null,
+        "interfaces" : [ ],
+        "enumValues" : null,
+        "possibleTypes" : null,
+        "directives" : [ ]
+      }, {
+        "kind" : "SCALAR",
+        "name" : "AWSJSON",
+        "description" : "The `AWSJSON` scalar type provided by AWS AppSync, represents a JSON string that complies with [RFC 8259](https://tools.ietf.org/html/rfc8259).  Maps like \"**{\\\\\"upvotes\\\\\": 10}**\", lists like \"**[1,2,3]**\", and scalar values like \"**\\\\\"AWSJSON example string\\\\\"**\", \"**1**\", and \"**true**\" are accepted as valid JSON and will automatically be parsed and loaded in the resolver mapping templates as Maps, Lists, or Scalar values rather than as the literal input strings.  Invalid JSON strings like \"**{a: 1}**\", \"**{'a': 1}**\" and \"**Unquoted string**\" will throw GraphQL validation errors.",
+        "fields" : null,
+        "inputFields" : null,
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null,
+        "directives" : null
+      }, {
+        "kind" : "OBJECT",
+        "name" : "MealData",
+        "description" : null,
+        "fields" : [ {
+          "name" : "calories",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "Int",
+                "ofType" : null
+              }
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null,
+          "directives" : [ ]
+        }, {
+          "name" : "carbs",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "Int",
+                "ofType" : null
+              }
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null,
+          "directives" : [ ]
+        }, {
+          "name" : "fats",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "Int",
+                "ofType" : null
+              }
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null,
+          "directives" : [ ]
+        }, {
+          "name" : "proteins",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "Int",
+                "ofType" : null
+              }
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null,
+          "directives" : [ ]
+        } ],
+        "inputFields" : null,
+        "interfaces" : [ ],
+        "enumValues" : null,
+        "possibleTypes" : null,
+        "directives" : [ ]
+      }, {
+        "kind" : "OBJECT",
+        "name" : "MedData",
+        "description" : null,
+        "fields" : [ {
+          "name" : "allTaken",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "Int",
+                "ofType" : null
+              }
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null,
+          "directives" : [ ]
+        }, {
+          "name" : "meds",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "AWSJSON",
                 "ofType" : null
               }
             }
@@ -2408,6 +2804,16 @@
         "enumValues" : null,
         "possibleTypes" : null,
         "directives" : [ ]
+      }, {
+        "kind" : "SCALAR",
+        "name" : "AWSDate",
+        "description" : "The `AWSDate` scalar type provided by AWS AppSync, represents a valid ***extended*** [ISO 8601 Date](https://en.wikipedia.org/wiki/ISO_8601#Calendar_dates) string. In other words, this scalar type accepts date strings of the form `YYYY-MM-DD`.  The scalar can also accept \"negative years\" of the form `-YYYY` which correspond to years before `0000`. For example, \"**-2017-05-01**\" and \"**-9999-01-01**\" are both valid dates.  This scalar type can also accept an optional [time zone offset](https://en.wikipedia.org/wiki/ISO_8601#Time_zone_designators). For example, \"**1970-01-01**\", \"**1970-01-01Z**\", \"**1970-01-01-07:00**\" and \"**1970-01-01+05:30**\" are all valid dates. The time zone offset must either be `Z` (representing the UTC time zone) or be in the format `±hh:mm:ss`. The seconds field in the timezone offset will be considered valid even though it is not part of the ISO 8601 standard.",
+        "fields" : null,
+        "inputFields" : null,
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null,
+        "directives" : null
       }, {
         "kind" : "OBJECT",
         "name" : "FreqWords",
@@ -2775,6 +3181,19 @@
               }
             },
             "defaultValue" : null
+          }, {
+            "name" : "reward",
+            "description" : null,
+            "type" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "Int",
+                "ofType" : null
+              }
+            },
+            "defaultValue" : null
           } ],
           "type" : {
             "kind" : "OBJECT",
@@ -2861,6 +3280,19 @@
               }
             },
             "defaultValue" : null
+          }, {
+            "name" : "reward",
+            "description" : null,
+            "type" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "Int",
+                "ofType" : null
+              }
+            },
+            "defaultValue" : null
           } ],
           "type" : {
             "kind" : "OBJECT",
@@ -2906,7 +3338,7 @@
           "directives" : [ ]
         }, {
           "name" : "addSetting",
-          "description" : " ---------------setting/medication-----------------",
+          "description" : " ---------------setting/medication-----------------\n use updateSetting below instead",
           "args" : [ {
             "name" : "UserID",
             "description" : null,
@@ -2940,7 +3372,7 @@
           "directives" : [ ]
         }, {
           "name" : "updateSetting",
-          "description" : "  use updateSetting below instead",
+          "description" : "  ADDS OR UPDATES setting item",
           "args" : [ {
             "name" : "UserID",
             "description" : null,
@@ -2974,7 +3406,7 @@
           "directives" : [ ]
         }, {
           "name" : "deleteSetting",
-          "description" : "  ADDS OR UPDATES setting item",
+          "description" : null,
           "args" : [ {
             "name" : "UserID",
             "description" : null,
@@ -3029,7 +3461,7 @@
           "directives" : [ ]
         }, {
           "name" : "updateMedication",
-          "description" : null,
+          "description" : "  requires index of item in list passed back from db",
           "args" : [ {
             "name" : "UserID",
             "description" : null,
@@ -3110,7 +3542,7 @@
           "directives" : [ ]
         }, {
           "name" : "updatePlantData",
-          "description" : "  requires index of item in list passed back from db",
+          "description" : null,
           "args" : [ {
             "name" : "UserID",
             "description" : null,
@@ -3193,7 +3625,7 @@
             "description" : null,
             "type" : {
               "kind" : "SCALAR",
-              "name" : "AWSDate",
+              "name" : "AWSDateTime",
               "ofType" : null
             },
             "defaultValue" : null
@@ -3327,9 +3759,13 @@
             "name" : "Timestamp",
             "description" : null,
             "type" : {
-              "kind" : "SCALAR",
-              "name" : "AWSDate",
-              "ofType" : null
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "AWSDateTime",
+                "ofType" : null
+              }
             },
             "defaultValue" : null
           }, {
@@ -3466,7 +3902,7 @@
               "name" : null,
               "ofType" : {
                 "kind" : "SCALAR",
-                "name" : "AWSDate",
+                "name" : "AWSDateTime",
                 "ofType" : null
               }
             },
@@ -3496,9 +3932,13 @@
             "name" : "Timestamp",
             "description" : null,
             "type" : {
-              "kind" : "SCALAR",
-              "name" : "AWSDate",
-              "ofType" : null
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "AWSDateTime",
+                "ofType" : null
+              }
             },
             "defaultValue" : null
           }, {
@@ -3560,7 +4000,7 @@
               "name" : null,
               "ofType" : {
                 "kind" : "SCALAR",
-                "name" : "AWSDate",
+                "name" : "AWSDateTime",
                 "ofType" : null
               }
             },
@@ -5357,9 +5797,83 @@
         "onFragment" : false,
         "onField" : false
       }, {
+        "name" : "aws_iam",
+        "description" : "Tells the service this field/object has access authorized by sigv4 signing.",
+        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
+        "args" : [ ],
+        "onOperation" : false,
+        "onFragment" : false,
+        "onField" : false
+      }, {
+        "name" : "aws_lambda",
+        "description" : "Tells the service this field/object has access authorized by a Lambda Authorizer.",
+        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
+        "args" : [ ],
+        "onOperation" : false,
+        "onFragment" : false,
+        "onField" : false
+      }, {
+        "name" : "aws_publish",
+        "description" : "Tells the service which subscriptions will be published to when this mutation is called. This directive is deprecated use @aws_susbscribe directive instead.",
+        "locations" : [ "FIELD_DEFINITION" ],
+        "args" : [ {
+          "name" : "subscriptions",
+          "description" : "List of subscriptions which will be published to when this mutation is called.",
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        } ],
+        "onOperation" : false,
+        "onFragment" : false,
+        "onField" : false
+      }, {
+        "name" : "aws_api_key",
+        "description" : "Tells the service this field/object has access authorized by an API key.",
+        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
+        "args" : [ ],
+        "onOperation" : false,
+        "onFragment" : false,
+        "onField" : false
+      }, {
+        "name" : "aws_oidc",
+        "description" : "Tells the service this field/object has access authorized by an OIDC token.",
+        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
+        "args" : [ ],
+        "onOperation" : false,
+        "onFragment" : false,
+        "onField" : false
+      }, {
         "name" : "aws_cognito_user_pools",
         "description" : "Tells the service this field/object has access authorized by a Cognito User Pools token.",
         "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
+        "args" : [ {
+          "name" : "cognito_groups",
+          "description" : "List of cognito user pool groups which have access on this field",
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        } ],
+        "onOperation" : false,
+        "onFragment" : false,
+        "onField" : false
+      }, {
+        "name" : "aws_auth",
+        "description" : "Directs the schema to enforce authorization on a field",
+        "locations" : [ "FIELD_DEFINITION" ],
         "args" : [ {
           "name" : "cognito_groups",
           "description" : "List of cognito user pool groups which have access on this field",
@@ -5395,80 +5909,6 @@
           },
           "defaultValue" : null
         } ],
-        "onOperation" : false,
-        "onFragment" : false,
-        "onField" : false
-      }, {
-        "name" : "aws_lambda",
-        "description" : "Tells the service this field/object has access authorized by a Lambda Authorizer.",
-        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
-        "args" : [ ],
-        "onOperation" : false,
-        "onFragment" : false,
-        "onField" : false
-      }, {
-        "name" : "aws_api_key",
-        "description" : "Tells the service this field/object has access authorized by an API key.",
-        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
-        "args" : [ ],
-        "onOperation" : false,
-        "onFragment" : false,
-        "onField" : false
-      }, {
-        "name" : "aws_iam",
-        "description" : "Tells the service this field/object has access authorized by sigv4 signing.",
-        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
-        "args" : [ ],
-        "onOperation" : false,
-        "onFragment" : false,
-        "onField" : false
-      }, {
-        "name" : "aws_auth",
-        "description" : "Directs the schema to enforce authorization on a field",
-        "locations" : [ "FIELD_DEFINITION" ],
-        "args" : [ {
-          "name" : "cognito_groups",
-          "description" : "List of cognito user pool groups which have access on this field",
-          "type" : {
-            "kind" : "LIST",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        } ],
-        "onOperation" : false,
-        "onFragment" : false,
-        "onField" : false
-      }, {
-        "name" : "aws_publish",
-        "description" : "Tells the service which subscriptions will be published to when this mutation is called. This directive is deprecated use @aws_susbscribe directive instead.",
-        "locations" : [ "FIELD_DEFINITION" ],
-        "args" : [ {
-          "name" : "subscriptions",
-          "description" : "List of subscriptions which will be published to when this mutation is called.",
-          "type" : {
-            "kind" : "LIST",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        } ],
-        "onOperation" : false,
-        "onFragment" : false,
-        "onField" : false
-      }, {
-        "name" : "aws_oidc",
-        "description" : "Tells the service this field/object has access authorized by an OIDC token.",
-        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
-        "args" : [ ],
         "onOperation" : false,
         "onFragment" : false,
         "onField" : false
