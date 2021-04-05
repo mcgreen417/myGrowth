@@ -37,11 +37,13 @@ const monthLabels = [
 function HistoryGeneralHealth2({ route, navigation }) {
   const data = route.params.data;
   const symptoms = getPickerLabels(data);
+  const arr = initDisplayData(symptoms, data, 'unselected');
 
   const [modalVisible, setModalVisible] = useState(false);
   const [timePeriod, setTimePeriod] = useState('unselected');
   const [selectsymptom, setSymptom] = useState('unselected');
   const [timestamps, setTimestamps] = useState(dayLabels);
+  const [displayData, setDisplayData] = useState(arr);
 
   return (
     <SafeAreaView style={styles().container}>
@@ -93,7 +95,14 @@ function HistoryGeneralHealth2({ route, navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent generalHealth={true} navigation={navigation} />
+          <TabBarAndContent 
+            navigation={navigation} 
+            data={data} 
+            timePeriod={timestamps} 
+            page={'generalHealth'}
+            multiPageData={displayData}
+            page2Color={true}
+          />
 
           {/* Time Period and Select Symptom drop-down selection */}
           <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, flexDirection: 'row', }}>
@@ -103,7 +112,12 @@ function HistoryGeneralHealth2({ route, navigation }) {
                 <Picker
                   selectedValue={timePeriod}
                   style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+                  onValueChange={(itemValue, itemIndex) => {
+                    setTimePeriod(itemValue);
+                    getTimestamps(data, timestamps, setTimestamps, itemValue);
+                    getDisplayData(selectsymptom === 'unselected' ? symptoms[0] : selectsymptom, data, itemValue, setDisplayData);
+                    console.log(displayData);
+                  }}
                   mode={'dropdown'}
                 >
                   <Picker.Item label='Select one...' value='unselected' />
@@ -121,6 +135,8 @@ function HistoryGeneralHealth2({ route, navigation }) {
                   style={styles().picker}
                   onValueChange={(itemValue, itemIndex) => {
                     setSymptom(itemValue);
+                    getDisplayData(itemValue === 'unselected' ? symptoms[0] : itemValue, data, timePeriod, setDisplayData);
+                    getTimestamps(data, timestamps, setTimestamps, timePeriod);
                   }}
                   mode={'dropdown'}
                 >
@@ -251,11 +267,77 @@ function HistoryGeneralHealth2({ route, navigation }) {
   );
 };
 
+function getDisplayData(symptomName, data, timePeriod, setDisplayData) {
+  var arr = [];
+  var len = data.symptomData.length;
+  console.log(timePeriod);
+
+  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    for(var i = len < 7 ? 0 : len - 7; i < len; i++)
+      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
+        if(key == symptomName)
+          arr.push(value);
+        
+        else
+          arr.push(0);
+      }
+
+  else if(timePeriod === 'past_month')
+    for(var i = len < 30 ? 0 : len - 30; i < len; i++)
+      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
+        if(key == symptomName)
+          arr.push(value);
+        
+        else
+          arr.push(0);
+      }
+
+  else
+    for(var i = len < 365 ? 0 : len - 365; i < len; i++)
+      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
+        if(key == symptomName)
+          arr.push(value);
+        
+        else
+          arr.push(0);
+      }
+
+  setDisplayData(arr);
+}
+
 function initDisplayData(symptoms, data, timePeriod) {
   var arr = [];
   var len = data.symptomData.length;
 
+  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    for(var i = len < 7 ? 0 : len - 7; i < len; i++)
+      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
+        if(key == symptoms[0])
+          arr.push(value);
+        
+        else
+          arr.push(0);
+      }
 
+  else if(timePeriod === 'past_month')
+    for(var i = len < 30 ? 0 : len - 30; i < len; i++)
+      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
+        if(key == symptoms[0])
+          arr.push(value);
+        
+        else
+          arr.push(0);
+      }
+
+  else
+    for(var i = len < 365 ? 0 : len - 365; i < len; i++)
+      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
+        if(key == symptoms[0])
+          arr.push(value);
+        
+        else
+          arr.push(0);
+      }
 
   return arr;
 }
