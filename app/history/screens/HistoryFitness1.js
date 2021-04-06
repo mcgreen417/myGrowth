@@ -314,28 +314,42 @@ function HistoryFitness1({ route, navigation }) {
   );
 };
 
+function cleanUpData(arr) {
+  const len = arr.length;
+
+  for(var i = 0; i < len; i++)
+    if(arr[i] == -1)
+      arr[i] = 0;
+
+  return arr;
+}
+
 function initDisplayData(data) {
   var len = data.fitnessData.burned.length;
   var arr = [];
 
   arr = data.fitnessData.burned.slice(len - 7, len);
 
+  arr = cleanUpData(arr);
+
   return arr;
 }
 
 function getDisplayData(data, timePeriod, setDisplayData, selectExercise) {
+  var arr = [];
+
   //burned || unselected
   if(selectExercise === 'cals_burned' || selectExercise === 'unselected') {
     var len = data.fitnessData.burned.length;
 
     if(timePeriod === 'past_week' || timePeriod === 'unselected')
-      setDisplayData(data.fitnessData.burned.slice(len - 7, len));
+      arr = data.fitnessData.burned.slice(len - 7, len);
 
     else if(timePeriod === 'past_month')
-      setDisplayData(data.fitnessData.burned.slice(len - 30, len));
+      arr = data.fitnessData.burned.slice(len - 30, len);
 
     else
-      setDisplayData(data.fitnessData.burned.slice(len - 365, len));
+      arr = data.fitnessData.burned.slice(len - 365, len);
   }
 
   //dur
@@ -343,13 +357,13 @@ function getDisplayData(data, timePeriod, setDisplayData, selectExercise) {
     var len = data.fitnessData.dur.length;
 
     if(timePeriod === 'past_week' || timePeriod === 'unselected')
-      setDisplayData(data.fitnessData.dur.slice(len - 7, len));
+      arr = data.fitnessData.dur.slice(len - 7, len);
 
     else if(timePeriod === 'past_month')
-      setDisplayData(data.fitnessData.dur.slice(len - 30, len));
+      arr = data.fitnessData.dur.slice(len - 30, len);
 
     else
-      setDisplayData(data.fitnessData.dur.slice(len - 365, len));
+      arr = data.fitnessData.dur.slice(len - 365, len);
   }
 
   //steps
@@ -357,14 +371,17 @@ function getDisplayData(data, timePeriod, setDisplayData, selectExercise) {
     var len = data.fitnessData.steps.length;
 
     if(timePeriod === 'past_week' || timePeriod === 'unselected')
-      setDisplayData(data.fitnessData.steps.slice(len - 7, len));
+      arr = data.fitnessData.steps.slice(len - 7, len);
 
     else if(timePeriod === 'past_month')
-      setDisplayData(data.fitnessData.steps.slice(len - 30, len));
+      arr = data.fitnessData.steps.slice(len - 30, len);
 
     else
-      setDisplayData(data.fitnessData.steps.slice(len - 365, len));
+      arr = data.fitnessData.steps.slice(len - 365, len);
   }
+
+  arr = cleanUpData(arr);
+  setDisplayData(arr);
 }
 
 function getTimestamps(data, timestamps, setTimestamps, timePeriod) {

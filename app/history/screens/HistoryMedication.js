@@ -226,22 +226,22 @@ function HistoryMedication({ route, navigation }) {
 function getCommits(medName, dates, data, setCommits) {
   var length = data.medicineData.meds.length;
   var commits = [];
-  var j = 0;
+  var j = 89;
 
-  for(var i = length < 90 ? 0 : length - 90; i < length; i++)
+  for(var i = length < 90 ? 0 : length - 90; i < length; i++) {
     for(var [key, value] of Object.entries(JSON.parse(data.medicineData.meds[i]))) {
       //check if key is in what we are searching for
       if(key === medName) {
         let obj = new Object();
         obj.date = dates[j];
 
-        if(value == true)
+        if(value == true) {
           obj.count = 1;
+        }
         
         else
           obj.count = 0;
 
-        j++;
         commits.push(obj);
       }
 
@@ -249,6 +249,8 @@ function getCommits(medName, dates, data, setCommits) {
       else
         ;
     }
+    j--;
+  }
 
   setCommits(commits);
 }
@@ -256,9 +258,9 @@ function getCommits(medName, dates, data, setCommits) {
 function initCommits(medications, dates, data) {
   var length = data.medicineData.meds.length;
   var commits = [];
-  var j = 0;
+  var j = 89;
 
-  for(var i = length < 90 ? 0 : length - 90; i < length; i++)
+  for(var i = length < 90 ? 0 : length - 90; i < length; i++) {
     for(var [key, value] of Object.entries(JSON.parse(data.medicineData.meds[i]))) {
       //check if key is in what we are searching for
       if(key === medications[0]) {
@@ -271,7 +273,6 @@ function initCommits(medications, dates, data) {
         else
           obj.count = 0;
 
-        j++;
         commits.push(obj);
       }
 
@@ -279,6 +280,8 @@ function initCommits(medications, dates, data) {
       else
         ;
     }
+    j--;
+  }
 
   return commits;
 }

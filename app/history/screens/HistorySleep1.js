@@ -348,6 +348,16 @@ function HistorySleep1({ route, navigation }) {
   );
 };
 
+function cleanUpData(arr) {
+  const len = arr.length;
+
+  for(var i = 0; i < len; i++)
+    if(arr[i] == -1)
+      arr[i] = 0;
+
+  return arr;
+}
+
 function initDisplayData(data) {
   var len1 = data.nightSleepData.length;
   var len2 = data.napSleepData.length;
@@ -355,6 +365,9 @@ function initDisplayData(data) {
 
   obj.sleep = data.nightSleepData.slice(len1 - 7, len1);
   obj.nap = data.napSleepData.slice(len2 - 7, len2);
+
+  obj.sleep = cleanUpData(obj.sleep);
+  obj.nap = cleanUpData(obj.nap);
 
   return obj;
 }
@@ -371,6 +384,9 @@ function getDisplayData(data, timePeriod, setDisplay, sleepView) {
       obj.sleep = data.nightSleepData.slice(len1 - 7, len1);
       obj.nap = data.napSleepData.slice(len2 - 7, len2);
 
+      obj.sleep = cleanUpData(obj.sleep);
+      obj.nap = cleanUpData(obj.nap);
+
       setDisplay(obj);
     }
 
@@ -378,12 +394,18 @@ function getDisplayData(data, timePeriod, setDisplay, sleepView) {
       obj.sleep = data.nightSleepData.slice(len1 - 30, len1);
       obj.nap = data.napSleepData.slice(len2 - 30, len2);
 
+      obj.sleep = cleanUpData(obj.sleep);
+      obj.nap = cleanUpData(obj.nap);
+
       setDisplay(obj);
     }
 
     else {
       obj.sleep = data.nightSleepData.slice(len1 - 365, len1);
       obj.nap = data.napSleepData.slice(len2 - 365, len2);
+
+      obj.sleep = cleanUpData(obj.sleep);
+      obj.nap = cleanUpData(obj.nap);
 
       setDisplay(obj);
     }
@@ -395,16 +417,25 @@ function getDisplayData(data, timePeriod, setDisplay, sleepView) {
 
     if(timePeriod === 'past_week' || timePeriod === 'unselected') {
       obj = data.nightSleepData.slice(len - 7, len);
+
+      obj = cleanUpData(obj);
+
       setDisplay(obj);
     }
 
     else if(timePeriod === 'past_month') {
       obj = data.nightSleepData.slice(len - 30, len);
+      
+      obj = cleanUpData(obj);
+
       setDisplay(obj);
     }
 
     else {
       obj = data.nightSleepData.slice(len - 365, len);
+      
+      obj = cleanUpData(obj);
+
       setDisplay(obj);
     }
   }
@@ -415,16 +446,25 @@ function getDisplayData(data, timePeriod, setDisplay, sleepView) {
 
     if(timePeriod === 'past_week' || timePeriod === 'unselected') {
       obj = data.napSleepData.slice(len - 7, len);
+      
+      obj = cleanUpData(obj);
+
       setDisplay(obj);
     }
 
     else if(timePeriod === 'past_month') {
       obj = data.napSleepData.slice(len - 30, len);
+      
+      obj = cleanUpData(obj);
+
       setDisplay(obj);
     }
 
     else {
       obj = data.napSleepData.slice(len - 365, len);
+      
+      obj = cleanUpData(obj);
+
       setDisplay(obj);
     }
   }

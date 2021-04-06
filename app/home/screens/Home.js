@@ -43,8 +43,7 @@ function Home({ navigation }) {
         ;
 
       else {
-        const lastInd = res.data.getDailyEntries.dailyEntries.length - 1;
-        var date = new Date(res.data.getDailyEntries.dailyEntries[lastInd].Timestamp);
+        var date = new Date(res.data.getDailyEntries.dailyEntries[0].Timestamp);
         const month = date.getMonth() + 1;
         const day = date.getDate();
         const year = date.getFullYear();

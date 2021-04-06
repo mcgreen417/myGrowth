@@ -121,14 +121,13 @@ function getCommits(actName, dates, data, setCommits) {
   var commits = [];
   var j = 364;
 
-    for(var i = length < 365 ? 0 : length - 365; i < length; i++)
+    for(var i = length < 365 ? 0 : length - 365; i < length; i++) {
       for(var [key, value] of Object.entries(JSON.parse(data.activityData[i]))) {
         //check if key is in what we are searching for
         if(key === actName) {
           let obj = new Object();
           obj.date = dates[j];
-          
-          j--;
+
           obj.count = 1;
           commits.push(obj);
         }
@@ -138,11 +137,12 @@ function getCommits(actName, dates, data, setCommits) {
           let obj = new Object();
           obj.date = dates[j];
 
-          j--;
           obj.count = 0;
           commits.push(obj);
         }
       }
+      j--;
+    }
 
   setCommits(commits);
 }
@@ -152,14 +152,13 @@ function initCommits(activities, dates, data) {
   var commits = [];
   var j = 364;
 
-  for(var i = length < 365 ? 0 : length - 365; i < length; i++)
+  for(var i = length < 365 ? 0 : length - 365; i < length; i++) {
     for(var [key, value] of Object.entries(JSON.parse(data.activityData[i]))) {
       //check if key is in what we are searching for
       if(key === activities[0]) {
         let obj = new Object();
         obj.date = dates[j];
-          
-        j--;
+
         obj.count = 1;
         commits.push(obj);
       }
@@ -168,12 +167,13 @@ function initCommits(activities, dates, data) {
       else {
         let obj = new Object();
         obj.date = dates[j];
-          
-        j--;
+
         obj.count = 0;
         commits.push(obj);
       }
     }
+    j--;
+  }
 
   return commits;
 }

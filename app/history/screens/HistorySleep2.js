@@ -273,42 +273,58 @@ function HistorySleep2({ route, navigation }) {
   );
 };
 
+function cleanUpData(arr) {
+  const len = arr.length;
+
+  for(var i = 0; i < len; i++)
+    if(arr[i] == -1)
+      arr[i] = 0;
+
+  return arr;
+}
+
 function initDisplayData(data) {
   var len = data.nightQualityData.length;
   var arr = [];
 
   arr = data.nightQualityData.slice(len - 7, len);
+  arr = cleanUpData(arr);
 
   return arr;
 }
 
 function getDisplayData(data, timePeriod, setDisplayData, sleepView) {
-  console.log(data.napQualityData);
+  var arr = [];
+
   if(sleepView === 'sleep_only' || sleepView === 'unselected') {
     var len = data.nightQualityData.length;
 
     if(timePeriod === 'past_week' || timePeriod === 'unselected')
-      setDisplayData(data.nightQualityData.slice(len - 7, len));
+      arr = data.nightQualityData.slice(len - 7, len);
 
     else if(timePeriod === 'past_month')
-      setDisplayData(data.nightQualityData.slice(len - 30, len));
+      arr = data.nightQualityData.slice(len - 30, len);
 
     else
-      setDisplayData(data.nightQualityData.slice(len - 365, len));
+      arr = data.nightQualityData.slice(len - 365, len);
   }
 
   if(sleepView === 'naps_only') {
     var len = data.napQualityData.length;var len = data.stressData.length;
 
     if(timePeriod === 'past_week' || timePeriod === 'unselected')
-      setDisplayData(data.napQualityData.slice(len - 7, len));
+      arr = data.napQualityData.slice(len - 7, len);
 
     else if(timePeriod === 'past_month')
-      setDisplayData(data.napQualityData.slice(len - 30, len));
+      arr = data.napQualityData.slice(len - 30, len);
 
     else
-      setDisplayData(data.napQualityData.slice(len - 365, len));
+      arr = data.napQualityData.slice(len - 365, len);
   }
+
+  arr = cleanUpData(arr);
+
+  setDisplayData(arr);
 }
 
 function getTimestamps(data, timestamps, setTimestamps, timePeriod) {

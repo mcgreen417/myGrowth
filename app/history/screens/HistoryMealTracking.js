@@ -15,6 +15,7 @@ import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
+import { set } from 'react-native-reanimated';
 
 const dayLabels = [
   "Mon",
@@ -368,28 +369,41 @@ function HistoryMealTracking({ route, navigation }) {
   );
 };
 
+function cleanUpData(arr) {
+  const len = arr.length;
+
+  for(var i = 0; i < len; i++)
+    if(arr[i] == -1)
+      arr[i] = 0;
+
+  return arr;
+}
+
 function initDisplayData(data) {
   var len = data.mealData.calories.length;
   var arr = [];
 
   arr = data.mealData.calories.slice(len - 7, len);
 
+  arr = cleanUpData(arr);
+
   return arr;
 }
 
 function getDisplayData(data, timePeriod, setDisplayData, selectNutrients) {
+  var arr = [];
   //calories || unselected
   if(selectNutrients === 'calories' || selectNutrients === 'unselected') {
     var len = data.mealData.calories.length;
 
     if(timePeriod === 'past_week' || timePeriod === 'unselected')
-      setDisplayData(data.mealData.calories.slice(len - 7, len));
+      arr = data.mealData.calories.slice(len - 7, len);
 
     else if(timePeriod === 'past_month')
-      setDisplayData(data.mealData.calories.slice(len - 30, len));
+      arr = data.mealData.calories.slice(len - 30, len);
 
     else
-      setDisplayData(data.mealData.calories.slice(len - 365, len));
+      arr = data.mealData.calories.slice(len - 365, len);
   }
 
   //fat
@@ -397,13 +411,13 @@ function getDisplayData(data, timePeriod, setDisplayData, selectNutrients) {
     var len = data.mealData.fats.length;
 
     if(timePeriod === 'past_week' || timePeriod === 'unselected')
-      setDisplayData(data.mealData.fats.slice(len - 7, len));
+      arr = data.mealData.fats.slice(len - 7, len);
 
     else if(timePeriod === 'past_month')
-      setDisplayData(data.mealData.fats.slice(len - 30, len));
+      arr = data.mealData.fats.slice(len - 30, len);
 
     else
-      setDisplayData(data.mealData.fats.slice(len - 365, len));
+      arr = data.mealData.fats.slice(len - 365, len);
   }
 
   //protein
@@ -411,13 +425,13 @@ function getDisplayData(data, timePeriod, setDisplayData, selectNutrients) {
     var len = data.mealData.proteins.length;
 
     if(timePeriod === 'past_week' || timePeriod === 'unselected')
-      setDisplayData(data.mealData.proteins.slice(len - 7, len));
+      arr = data.mealData.proteins.slice(len - 7, len);
 
     else if(timePeriod === 'past_month')
-      setDisplayData(data.mealData.proteins.slice(len - 30, len));
+      arr = data.mealData.proteins.slice(len - 30, len);
 
     else
-      setDisplayData(data.mealData.proteins.slice(len - 365, len));
+      arr = data.mealData.proteins.slice(len - 365, len);
   }
 
   //carbs
@@ -425,14 +439,18 @@ function getDisplayData(data, timePeriod, setDisplayData, selectNutrients) {
     var len = data.mealData.carbs.length;
 
     if(timePeriod === 'past_week' || timePeriod === 'unselected')
-      setDisplayData(data.mealData.carbs.slice(len - 7, len));
+      arr = data.mealData.carbs.slice(len - 7, len);
 
     else if(timePeriod === 'past_month')
-      setDisplayData(data.mealData.carbs.slice(len - 30, len));
+      arr = data.mealData.carbs.slice(len - 30, len);
 
     else
-      setDisplayData(data.mealData.carbs.slice(len - 365, len));
+      arr = data.mealData.carbs.slice(len - 365, len);
   }
+
+  arr = cleanUpData(arr);
+
+  setDisplayData(arr);
 }
 
 function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
