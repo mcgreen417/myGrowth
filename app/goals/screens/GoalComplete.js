@@ -18,11 +18,10 @@ function GoalComplete({ navigation }) {
         contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', }}
       >
         <View style={{ alignItems: 'center', }}>
-          <Image
-            style={styles.bannerImage}
-            source={require('../../shared/assets/goals-banner.png')}
-          />
 
+          {/* Congratulations banner + filler image */}
+          <Image source={require('../../shared/assets/goals-banner.png')}/>
+          
           <View style={{ marginVertical: '10%', alignItems: 'center' }}>
             <Text style={styles.text}>You have completed a goal!</Text>
             <View style={styles.inlineRow}>

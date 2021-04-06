@@ -75,24 +75,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F6EFED',
   },
-  bannerImage: {
-    marginTop: '-6%',
-  },
   fillerImage: {
-    flex: 1,
-    maxHeight: '50%',
+    maxHeight: '30%',
     maxWidth: '90%',
     marginTop: '-4%',
     marginBottom: '-12%',
-  },
-  heading: {
-    color: '#4CB97A',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  iconView: {
-    flex: 1,
-    alignItems: 'flex-end',
   },
   inlineRow: {
     flexDirection: 'row',
@@ -104,13 +91,5 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textAlign: 'center',
     fontWeight: 'bold',
-  },
-  pageDescription: {
-    color: '#816868',
-    fontSize: 20,
-    flex: 1,
-    flexWrap: 'wrap',
-    fontWeight: 'bold',
-    marginRight: 20,
   },
 });
