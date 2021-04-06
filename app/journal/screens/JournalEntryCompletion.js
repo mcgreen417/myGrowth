@@ -24,13 +24,17 @@ const JournalEntryCompletion = ({ route, navigation }) => {
           <Image 
             style={styles.bannerImage}
             source={require('../../shared/assets/journal-banner.png')}/>
-          <Image
-            style={styles.fillerImage}
-            source={require('../../shared/assets/SettingsGirlReading2.png')}
-          />
+          <View style={{ marginVertical: '-4%' }}/>
+          <View style={{ width: '90%', height: '60%', }}>
+            <Image
+              style={styles.fillerImage}
+              source={require('../../shared/assets/SettingsGirlReading2.png')}
+            />
+          </View>
+          <View style={{ marginVertical: '-2%' }}/>
 
           {/* Success text */}
-          <View style={{ marginVertical: '10%', marginHorizontal: '5%', alignItems: 'center' }}>
+          <View style={{ marginBottom: '10%', marginHorizontal: '5%', alignItems: 'center' }}>
             <Text style={styles.text}>You have completed a journal entry!</Text>
           </View>
 
@@ -76,10 +80,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#F6EFED',
   },
   fillerImage: {
-    maxHeight: '30%',
-    maxWidth: '90%',
-    marginTop: '-4%',
-    marginBottom: '-12%',
+    flex: 1,
+    width: '90%',
+    height: '50%',
+    resizeMode: 'contain',
   },
   inlineRow: {
     flexDirection: 'row',
