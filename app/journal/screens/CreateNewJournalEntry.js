@@ -18,14 +18,14 @@ const CreateNewJournalEntry = ({ navigation }) => {
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
-  const [dateInsert, setDateInsert] = useState(date.toISOString().slice(0, 10));
+  const [dateInsert, setDateInsert] = useState(date.toISOString());
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     //console.log(currentDate);
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
-    setDateInsert(selectedDate.toISOString().slice(0, 10));
+    setDateInsert(selectedDate.toISOString());
   };
 
   const showMode = (currentMode) => {
