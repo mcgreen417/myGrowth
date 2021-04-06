@@ -48,7 +48,7 @@ const FeelingsModal = ({ feelings, setFeelings }) => {
   );
 };
 
-const Mood = ({ mood, setMood, feels, setFeels }) => {
+const Mood = ({ mood, setMood, feelings, setFeelings }) => {
   const [showFeelings, setShowFeelings] = useState(false);
   return (
     <View style={{ width: '80%' }}>
@@ -67,7 +67,7 @@ const Mood = ({ mood, setMood, feels, setFeels }) => {
             alignContent: 'center',
             backgroundColor: '#00000050',
           }}>
-          <FeelingsModal feelings={feels} setFeelings={setFeels} />
+          <FeelingsModal feelings={feelings} setFeelings={setFeelings} />
         </Pressable>
       </Modal>
       <View>

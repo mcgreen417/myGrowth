@@ -17,28 +17,48 @@ import Medication from '../components/Medication';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Cache } from 'react-native-cache';
 
-const medication = [
-  { name: '(Medicine 1)', time: '2021-03-15T09:10:00Z' },
-  { name: '(Medicine 2)', time: '2021-03-15T13:35:40Z' },
-];
-
 async function back(navigation) {
   navigation.navigate('HealthEntry1');
 }
 
-async function next(navigation) {
-  // const healthIn = { Period: period, Weight: weight };
-  // const symptomIn = symptoms;
-  // const medcheckIn = meds;
+async function next(
+  hadPeriod,
+  weight,
+  symptoms,
+  medsChecked,
+  medications,
+  route,
+  navigation
+) {
+  const { moodIn, stressIn, activitiesIn } = route.params;
 
-  navigation.navigate('HealthEntry3');
+  const healthIn = { Period: hadPeriod, Weight: weight };
+  const symptomIn = symptoms;
+
+  let medcheckIn = [];
+
+  for (var index = 0; index < medications.length; index++) {
+    medcheckIn.push({
+      Name: medications[index].name,
+      Taken: (medsChecked & (1 << index)) != 0,
+    });
+  }
+
+  navigation.navigate('HealthEntry3', {
+    moodIn: moodIn,
+    stressIn: stressIn,
+    activitiesIn: activitiesIn,
+    healthIn: healthIn,
+    symptomIn: symptomIn,
+    medcheckIn: medcheckIn,
+  });
 }
 
-const HealthEntry2 = ({ navigation }) => {
-  const [med, setMed] = useState(Array(medication.length).fill(false));
-
+const HealthEntry2 = ({ route, navigation }) => {
+  const [medChecked, setMedChecked] = useState(0);
+  const [medications, setMedications] = useState([]);
   const [hadPeriod, setHadPeriod] = useState(false);
-  const [weight, setWeight] = useState(0);
+  const [weight, setWeight] = useState();
   const [symptoms, setSymptoms] = useState([]);
 
   return (
@@ -59,7 +79,12 @@ const HealthEntry2 = ({ navigation }) => {
           </View>
 
           {/* Add Medication */}
-          <Medication med={med} setMed={setMed} />
+          <Medication
+            medChecked={medChecked}
+            setMedChecked={setMedChecked}
+            medications={medications}
+            setMedications={setMedications}
+          />
           <View style={styles().dividerView}>
             <View style={styles().divider} />
           </View>
@@ -83,7 +108,17 @@ const HealthEntry2 = ({ navigation }) => {
               <Button
                 title='Next >'
                 color='#A5DFB2'
-                onPress={() => next(navigation)}
+                onPress={() =>
+                  next(
+                    hadPeriod,
+                    weight,
+                    symptoms,
+                    medChecked,
+                    medications,
+                    route,
+                    navigation
+                  )
+                }
               />
             </View>
           </View>

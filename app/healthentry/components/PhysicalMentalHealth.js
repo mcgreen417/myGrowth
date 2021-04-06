@@ -124,8 +124,8 @@ const PhysicalMentalHealth = ({
             textAlign: 'center',
           }}
           keyboardType='number-pad'
-          value={weight.toString()}
-          onChangeText={(val) => setWeight(parseInt(val))}
+          value={weight}
+          onChangeText={setWeight}
         />
         <Text>lbs</Text>
       </View>

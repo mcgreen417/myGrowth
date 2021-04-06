@@ -46,12 +46,23 @@ function getTime(d) {
   );
 }
 
-async function next(navigation) {
-  // const moodIn = { Mood: mood, Feelings: feelings };
-  // const stressIn = { Severity: stressSeverity, Stressors: stressors };
-  // const activitiesIn = activities;
+async function next(
+  mood,
+  feelings,
+  stressSeverity,
+  stressors,
+  activities,
+  navigation
+) {
+  const moodIn = { Mood: mood, Feelings: feelings };
+  const stressIn = { Severity: stressSeverity, Stressors: stressors };
+  const activitiesIn = activities;
 
-  navigation.navigate('HealthEntry2');
+  navigation.navigate('HealthEntry2', {
+    moodIn: moodIn,
+    stressIn: stressIn,
+    activitiesIn: activitiesIn,
+  });
 }
 
 const HealthEntry1 = ({ navigation }) => {
@@ -164,7 +175,16 @@ const HealthEntry1 = ({ navigation }) => {
               <Button
                 title='Next >'
                 color='#A5DFB2'
-                onPress={() => next(navigation)}
+                onPress={() =>
+                  next(
+                    mood,
+                    feelings,
+                    stressSeverity,
+                    stressors,
+                    activities,
+                    navigation
+                  )
+                }
               />
             </View>
           </View>
@@ -198,31 +218,6 @@ const styles = () =>
       justifyContent: 'center',
       width: '90%',
     },
-    buttons: {
-      marginTop: 7,
-      marginBottom: 7,
-      width: '110%',
-    },
-    fillerImage: {
-      width: 340,
-      height: 240,
-      marginTop: -20,
-    },
-    pageDescription: {
-      color: '#816868',
-      fontSize: 20,
-      flex: 1,
-      flexWrap: 'wrap',
-      fontWeight: 'bold',
-      marginRight: 50,
-    },
-    pageEnd: {
-      marginBottom: 100,
-    },
-    pageSetup: {
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
     divider: {
       flex: 1,
       height: 1,
@@ -230,45 +225,11 @@ const styles = () =>
       marginLeft: 30,
       marginRight: 30,
     },
-    dividerLeft: {
-      flex: 1,
-      height: 1,
-      backgroundColor: '#816868',
-      marginLeft: 20,
-    },
-    dividerRight: {
-      flex: 1,
-      height: 1,
-      backgroundColor: '#816868',
-      marginRight: 20,
-    },
     dividerView: {
       flexDirection: 'row',
       alignItems: 'center',
       marginTop: 16,
       marginBottom: 16,
-    },
-    dividerViewLow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginTop: 8,
-      marginBottom: 8,
-    },
-    inlineRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    inlineRow2: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-    },
-    line2: {
-      backgroundColor: '#816868',
-      marginLeft: 40,
-      marginRight: 40,
-      height: '100%',
-      width: 2,
     },
     pageDescription: {
       color: '#816868',
@@ -285,17 +246,5 @@ const styles = () =>
       // justifyContent: 'center',
       alignItems: 'center',
       height: '100%',
-    },
-    input: {
-      height: 40,
-      borderWidth: 1,
-      borderColor: '#A6A1A0',
-      margin: 30,
-      borderRadius: 2,
-    },
-    textReg: {
-      color: global.colorblindMode ? global.cb_textColor : global.textColor,
-      textDecorationLine: 'none',
-      textAlign: 'left',
     },
   });

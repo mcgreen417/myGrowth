@@ -21,7 +21,7 @@ async function back(navigation) {
   navigation.navigate('HealthEntry2');
 }
 
-async function next(navigation) {
+async function next(route, navigation) {
   // const sleepIn = {
   //   Slept: slept,
   //   Start: sleepTime.start,
@@ -29,11 +29,12 @@ async function next(navigation) {
   //   Quality: sleepQuality,
   //   Naps: naps,
   // };
+  console.log(route.params);
 
   navigation.navigate('HealthEntry4');
 }
 
-const HealthEntry3 = ({ navigation }) => {
+const HealthEntry3 = ({ route, navigation }) => {
   const [hadSleep, setHadSleep] = useState(true);
   const [qualityOfSleep, setQualityOfSleep] = useState(-1);
   const [sleepTime, setSleepTime] = useState([]);
@@ -81,7 +82,7 @@ const HealthEntry3 = ({ navigation }) => {
               <Button
                 title='Next >'
                 color='#A5DFB2'
-                onPress={() => next(navigation)}
+                onPress={() => next(route, navigation)}
               />
             </View>
           </View>
