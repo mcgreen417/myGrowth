@@ -29,7 +29,7 @@ async function next(route, navigation) {
   //   Quality: sleepQuality,
   //   Naps: naps,
   // };
-  console.log(route.params);
+  // console.log(route.params);
 
   navigation.navigate('HealthEntry4');
 }
@@ -37,9 +37,8 @@ async function next(route, navigation) {
 const HealthEntry3 = ({ route, navigation }) => {
   const [hadSleep, setHadSleep] = useState(true);
   const [qualityOfSleep, setQualityOfSleep] = useState(-1);
-  const [sleepTime, setSleepTime] = useState([]);
-  const [qualityOfNap, setQualityOfNap] = useState(-1);
-  const [napTime, setNapTime] = useState([]);
+  const [sleepTimeStart, setSleepTimeStart] = useState(new Date());
+  const [sleepTimeEnd, setSleepTimeEnd] = useState(new Date());
   const [naps, setNaps] = useState([]);
 
   return (
@@ -52,12 +51,12 @@ const HealthEntry3 = ({ route, navigation }) => {
             setHadSleep={setHadSleep}
             qualityOfSleep={qualityOfSleep}
             setQualityOfSleep={setQualityOfSleep}
-            qualityOfNap={qualityOfNap}
-            setQualityOfNap={setQualityOfNap}
             naps={naps}
             setNaps={setNaps}
-            sleepTime={sleepTime}
-            setSleepTime={setSleepTime}
+            sleepTimeStart={sleepTimeStart}
+            setSleepTimeStart={setSleepTimeStart}
+            sleepTimeEnd={sleepTimeEnd}
+            setSleepTimeEnd={setSleepTimeEnd}
           />
           <View style={styles().dividerView}>
             <View style={styles().divider} />
