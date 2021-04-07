@@ -197,69 +197,8 @@ function HistoryMealTracking({ route, navigation }) {
           </View>
           <View style={styles().line}/>
 
-          {/* Recommended calories */}
-          <View style={{ marginHorizontal: '5%', marginTop: 20, }}>
-            <Text style={styles().text}>
-              Based on your biological information, we can provide you the following
-              recommendations on your calorie consumption thresholds...
-            </Text>
-            <View style={{ borderRadius: 10, marginVertical: 10, }}>
-              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
-                <View style={{ width: '50%', backgroundColor: '#43A56C', borderTopLeftRadius: 10, }}>
-                  <Text style={styles().textAltWhite}>Weight gain</Text>
-                </View>
-                <View style={{ width: '50%', backgroundColor: '#F5F5F5', borderTopRightRadius: 10, }}>
-                  <Text style={styles().textAltBrown}>xxxx cal</Text>
-                </View>
-              </View>
-              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
-                <View style={{ width: '50%', backgroundColor: '#4CB97A', borderLeftRadius: 10, }}>
-                  <Text style={styles().textAltWhite}>Mild weight gain</Text>
-                </View>
-                <View style={{ width: '50%', backgroundColor: 'white', borderRightRadius: 10, }}>
-                  <Text style={styles().textAltBrown}>xxxx cal</Text>
-                </View>
-              </View>
-              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
-                <View style={{ width: '50%', backgroundColor: '#A5DFB2', borderLeftRadius: 10, }}>
-                  <Text style={styles().textAltWhite}>Maintan weight</Text>
-                </View>
-                <View style={{ width: '50%', backgroundColor: '#F5F5F5', borderRightRadius: 10, }}>
-                  <Text style={styles().textAltBrown}>xxxx cal</Text>
-                </View>
-              </View>
-              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
-                <View style={{ width: '50%', backgroundColor: '#C5E8CF', borderLeftRadius: 10, }}>
-                  <Text style={styles().textAltWhite}>Mild weight loss</Text>
-                </View>
-                <View style={{ width: '50%', backgroundColor: 'white', borderRightRadius: 10, }}>
-                  <Text style={styles().textAltBrown}>xxxx cal</Text>
-                </View>
-              </View>
-              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
-                <View style={{ width: '50%', backgroundColor: '#D8EFDE', borderBottomLeftRadius: 10, }}>
-                  <Text style={styles().textAltWhite}>Weight loss</Text>
-                </View>
-                <View style={{ width: '50%', backgroundColor: '#F5F5F5', borderBottomRightRadius: 10, }}>
-                  <Text style={styles().textAltBrown}>xxxx cal</Text>
-                </View>
-              </View>
-            </View>
-            <Text style={styles().textLightSmall}>
-              ** Please consult a medical professional before planning to go above 
-              (xxxx cal) or below (1200 cal), the minimum/maximum recommended daily calories 
-              amounts, for an extended period of time. Recommendations are based on current 
-              height, weight, and activity level, and thus may not always be accurate.
-            </Text>
-          </View>
-
-          {/* Middle divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
-
           {/* App suggestions */}
-          <View style={{ marginHorizontal: '5%', }}>
+          <View style={{ marginHorizontal: '5%', marginTop: 20, }}>
             {/* Nutritional values met analysis */}
             <Text style={styles().text}>
               Based on our analysis, on days that you met or came close to meeting the daily
@@ -357,6 +296,67 @@ function HistoryMealTracking({ route, navigation }) {
               ** Please consult a medical professional before altering your diet as a result 
               of these analyses. As a reminder, these analyses indicate correlation, not 
               causation, and thus may not indicate direct effects of your diet. 
+            </Text>
+          </View>
+
+          {/* Middle divider */}
+          <View style={styles().dividerView}>
+            <View style={styles().divider} />
+          </View>
+
+          {/* Recommended calories */}
+          <View style={{ marginHorizontal: '5%', }}>
+            <Text style={styles().text}>
+              Based on your biological information, we can provide you the following
+              recommendations on your calorie consumption thresholds...
+            </Text>
+            <View style={{ borderRadius: 10, marginVertical: 10, }}>
+              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
+                <View style={{ width: '50%', backgroundColor: '#43A56C', borderTopLeftRadius: 10, }}>
+                  <Text style={styles().textAltWhite}>Weight gain</Text>
+                </View>
+                <View style={{ width: '50%', backgroundColor: '#F5F5F5', borderTopRightRadius: 10, }}>
+                  <Text style={styles().textAltBrown}>xxxx cal</Text>
+                </View>
+              </View>
+              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
+                <View style={{ width: '50%', backgroundColor: '#4CB97A', borderLeftRadius: 10, }}>
+                  <Text style={styles().textAltWhite}>Mild weight gain</Text>
+                </View>
+                <View style={{ width: '50%', backgroundColor: 'white', borderRightRadius: 10, }}>
+                  <Text style={styles().textAltBrown}>xxxx cal</Text>
+                </View>
+              </View>
+              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
+                <View style={{ width: '50%', backgroundColor: '#A5DFB2', borderLeftRadius: 10, }}>
+                  <Text style={styles().textAltWhite}>Maintan weight</Text>
+                </View>
+                <View style={{ width: '50%', backgroundColor: '#F5F5F5', borderRightRadius: 10, }}>
+                  <Text style={styles().textAltBrown}>xxxx cal</Text>
+                </View>
+              </View>
+              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
+                <View style={{ width: '50%', backgroundColor: '#C5E8CF', borderLeftRadius: 10, }}>
+                  <Text style={styles().textAltWhite}>Mild weight loss</Text>
+                </View>
+                <View style={{ width: '50%', backgroundColor: 'white', borderRightRadius: 10, }}>
+                  <Text style={styles().textAltBrown}>xxxx cal</Text>
+                </View>
+              </View>
+              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
+                <View style={{ width: '50%', backgroundColor: '#D8EFDE', borderBottomLeftRadius: 10, }}>
+                  <Text style={styles().textAltWhite}>Weight loss</Text>
+                </View>
+                <View style={{ width: '50%', backgroundColor: '#F5F5F5', borderBottomRightRadius: 10, }}>
+                  <Text style={styles().textAltBrown}>xxxx cal</Text>
+                </View>
+              </View>
+            </View>
+            <Text style={styles().textLightSmall}>
+              ** Please consult a medical professional before planning to go above 
+              (xxxx cal) or below (1200 cal), the minimum/maximum recommended daily calories 
+              amounts, for an extended period of time. Recommendations are based on current 
+              height, weight, and activity level, and thus may not always be accurate.
             </Text>
           </View>
 

@@ -56,7 +56,7 @@ function Start({ navigation }) {
             ios_backgroundColor={global.cb_blackColor}
             onValueChange={toggleSwitch}
             value={isEnabled}
-            caption='test'
+            caption='Colorblind Mode Toggle'
           />
         </View>
 
