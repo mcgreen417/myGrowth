@@ -21,17 +21,41 @@ async function back(navigation) {
   navigation.navigate('HealthEntry2');
 }
 
-async function next(route, navigation) {
-  // const sleepIn = {
-  //   Slept: slept,
-  //   Start: sleepTime.start,
-  //   End: sleepTime.end,
-  //   Quality: sleepQuality,
-  //   Naps: naps,
-  // };
-  // console.log(route.params);
+async function next(
+  slept,
+  sleepTimeStart,
+  sleepTimeEnd,
+  sleepQuality,
+  naps,
+  route,
+  navigation
+) {
+  const {
+    moodIn,
+    stressIn,
+    activitiesIn,
+    healthIn,
+    symptomIn,
+    medcheckIn,
+  } = route.params;
 
-  navigation.navigate('HealthEntry4');
+  const sleepIn = {
+    Slept: slept,
+    Start: sleepTimeStart,
+    End: sleepTimeEnd,
+    Quality: sleepQuality,
+    Naps: naps,
+  };
+
+  navigation.navigate('HealthEntry4', {
+    moodIn: moodIn,
+    stressIn: stressIn,
+    activitiesIn: activitiesIn,
+    healthIn: healthIn,
+    symptomIn: symptomIn,
+    medcheckIn: medcheckIn,
+    sleepIn: sleepIn,
+  });
 }
 
 const HealthEntry3 = ({ route, navigation }) => {
@@ -81,7 +105,17 @@ const HealthEntry3 = ({ route, navigation }) => {
               <Button
                 title='Next >'
                 color='#A5DFB2'
-                onPress={() => next(route, navigation)}
+                onPress={() =>
+                  next(
+                    slept,
+                    sleepTimeStart,
+                    sleepTimeEnd,
+                    qualityOfSleep,
+                    naps,
+                    route,
+                    navigation
+                  )
+                }
               />
             </View>
           </View>
