@@ -22,7 +22,7 @@ function HistoryMedication({ route, navigation }) {
   const comms = initCommits(medications, dates, data);
   
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectmedication, setMedication] = useState('unselected');
+  const [selectmedication, setMedication] = useState(medications[0]);
   const [commits, setCommits] = useState(comms);
 
   return (
@@ -97,7 +97,6 @@ function HistoryMedication({ route, navigation }) {
                 }}
                 mode={'dropdown'}
               >
-                <Picker.Item label='Select One...' value='unselected'/>
                 {medications.map((item, index) => {
                   return (
                       <Picker.Item key={index} label={item} value={item} />

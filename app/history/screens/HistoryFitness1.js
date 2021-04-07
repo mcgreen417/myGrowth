@@ -40,8 +40,8 @@ function HistoryFitness1({ route, navigation }) {
   const arr = initDisplayData(data);
 
   const [modalVisible, setModalVisible] = useState(false); 
-  const [timePeriod, setTimePeriod] = useState('unselected');
-  const [selectDisplay, setDisplay] = useState('unselected');
+  const [timePeriod, setTimePeriod] = useState('past_week');
+  const [selectDisplay, setDisplay] = useState('exercise_time');
   const [timestamps, setTimestamps] = useState(dayLabels);
   const [displayData, setDisplayData] = useState(arr);  
 
@@ -132,7 +132,6 @@ function HistoryFitness1({ route, navigation }) {
                   }}
                   mode={'dropdown'}
                 >
-                  <Picker.Item label='Select one...' value='unselected' />
                   <Picker.Item label='Past week' value='past_week' />
                   <Picker.Item label='Past month' value='past_month' />
                   <Picker.Item label='Past year' value='past_year' />
@@ -152,7 +151,6 @@ function HistoryFitness1({ route, navigation }) {
                   }}
                   mode={'dropdown'}
                 >
-                  <Picker.Item label='Select one...' value='unselected' />
                   <Picker.Item label='Time spent exercising' value='exercise_time' />
                   <Picker.Item label='Calories burned' value='cals_burned' />
                   <Picker.Item label='Steps taken' value='steps_taken' />
@@ -339,10 +337,10 @@ function getDisplayData(data, timePeriod, setDisplayData, selectExercise) {
   var arr = [];
 
   //burned || unselected
-  if(selectExercise === 'cals_burned' || selectExercise === 'unselected') {
+  if(selectExercise === 'cals_burned') {
     var len = data.fitnessData.burned.length;
 
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    if(timePeriod === 'past_week')
       arr = data.fitnessData.burned.slice(len - 7, len);
 
     else if(timePeriod === 'past_month')
@@ -356,7 +354,7 @@ function getDisplayData(data, timePeriod, setDisplayData, selectExercise) {
   if(selectExercise === 'exercise_time') {
     var len = data.fitnessData.dur.length;
 
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    if(timePeriod === 'past_week')
       arr = data.fitnessData.dur.slice(len - 7, len);
 
     else if(timePeriod === 'past_month')
@@ -370,7 +368,7 @@ function getDisplayData(data, timePeriod, setDisplayData, selectExercise) {
   if(selectExercise === 'steps_taken') {
     var len = data.fitnessData.steps.length;
 
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    if(timePeriod === 'past_week')
       arr = data.fitnessData.steps.slice(len - 7, len);
 
     else if(timePeriod === 'past_month')
@@ -394,7 +392,7 @@ function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
       dates.push(date.toISOString().substring(5, 10));
   }
 
-  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+  if(timePeriod === 'past_week')
     setTimestamps(dayLabels);
 
   else if(timePeriod === 'past_month')

@@ -39,8 +39,8 @@ function HistorySleep2({ route, navigation }) {
   const arr = initDisplayData(data);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [timePeriod, setTimePeriod] = useState('unselected');
-  const [sleepView, setSleepView] = useState('unselected');
+  const [timePeriod, setTimePeriod] = useState('past_week');
+  const [sleepView, setSleepView] = useState('sleep_only');
   const [timestamps, setTimestamps] = useState(dayLabels);
   const [displayData, setDisplayData] = useState(arr);
   const [useReccSleep, setUseReccSleep] = useState(false);
@@ -296,10 +296,10 @@ function initDisplayData(data) {
 function getDisplayData(data, timePeriod, setDisplayData, sleepView) {
   var arr = [];
 
-  if(sleepView === 'sleep_only' || sleepView === 'unselected') {
+  if(sleepView === 'sleep_only') {
     var len = data.nightQualityData.length;
 
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    if(timePeriod === 'past_week')
       arr = data.nightQualityData.slice(len - 7, len);
 
     else if(timePeriod === 'past_month')
@@ -312,7 +312,7 @@ function getDisplayData(data, timePeriod, setDisplayData, sleepView) {
   if(sleepView === 'naps_only') {
     var len = data.napQualityData.length;var len = data.stressData.length;
 
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    if(timePeriod === 'past_week')
       arr = data.napQualityData.slice(len - 7, len);
 
     else if(timePeriod === 'past_month')
@@ -337,7 +337,7 @@ function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
       dates.push(date.toISOString().substring(5, 10));
   }
 
-  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+  if(timePeriod === 'past_week')
     setTimestamps(dayLabels);
 
   else if(timePeriod === 'past_month')

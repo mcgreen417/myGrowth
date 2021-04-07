@@ -17,14 +17,13 @@ import HistorySelectACategory from '../../shared/components/HistorySelectACatego
 
 function HistoryFitness2({ route, navigation }) {
   const data = route.params.data;
-  var fitMap = getMap(data, 'unselected');
+  var fitMap = getMap(data, 'past_week');
   const exercises = getLabels(getMap(data, 'past_year'));
   
   const [modalVisible, setModalVisible] = useState(false);
-  const [timePeriod, setTimePeriod] = useState('unselected');
-  const [selectExercise, setExercise] = useState('unselected');
-  //const [labels, setLabels] = useState(getLabels(fitMap));
-  const [freqs, setFreqs] = useState(getFreqs(fitMap, timePeriod));
+  const [timePeriod, setTimePeriod] = useState('past_week');
+  const [selectExercise, setExercise] = useState(exercises[0]);
+  const [freqs, setFreqs] = useState(getFreqs(fitMap, exercises[0]));
 
   return (
     <SafeAreaView style={styles().container}>
@@ -104,11 +103,10 @@ function HistoryFitness2({ route, navigation }) {
                   onValueChange={(itemValue, itemIndex) => {
                     setTimePeriod(itemValue);
                     fitMap = getMap(data, itemValue);
-                    setFreqs(getFreqs(fitMap, selectExercise === 'unselected' ? exercises[0] : selectExercise));
+                    setFreqs(getFreqs(fitMap, selectExercise));
                   }}
                   mode={'dropdown'}
                 >
-                  <Picker.Item label='Select one...' value='unselected' />
                   <Picker.Item label='Past week' value='past_week' />
                   <Picker.Item label='Past month' value='past_month' />
                   <Picker.Item label='Past year' value='past_year' />
@@ -123,12 +121,11 @@ function HistoryFitness2({ route, navigation }) {
                   style={styles().picker}
                   onValueChange={(itemValue, itemIndex) => {
                     setExercise(itemValue);
-                    setFreqs(getFreqs(fitMap, itemValue === 'unselected' ? exercises[0] : itemValue));
+                    setFreqs(getFreqs(fitMap, itemValue));
                     console.log(itemValue);
                   }}
                   mode={'dropdown'}
                 >
-                  <Picker.Item label='Select one...' value='unselected' />
                   {exercises.map((item, index) => {
                     return (
                       <Picker.Item key={index} label={item} value={item} />

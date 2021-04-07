@@ -40,7 +40,7 @@ function HistoryMood({ route, navigation }) {
   const arr = initDisplayData(data);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [timePeriod, setTimePeriod] = useState('unselected');
+  const [timePeriod, setTimePeriod] = useState('past_week');
   const [timestamps, setTimestamps] = useState(dayLabels);
   const [displayData, setDisplayData] = useState(arr);
 
@@ -118,7 +118,6 @@ function HistoryMood({ route, navigation }) {
                 }}
                 mode={'dropdown'}
               >
-                <Picker.Item label='Select one...' value='unselected' />
                 <Picker.Item label='Past week' value='past_week' />
                 <Picker.Item label='Past month' value='past_month' />
                 <Picker.Item label='Past year' value='past_year' />

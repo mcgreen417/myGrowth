@@ -41,8 +41,8 @@ function HistoryMealTracking({ route, navigation }) {
   const arr = initDisplayData(data);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [timePeriod, setTimePeriod] = useState('unselected');
-  const [selectNutrients, setNutrients] = useState('unselected');
+  const [timePeriod, setTimePeriod] = useState('past_week');
+  const [selectNutrients, setNutrients] = useState('calories');
   const [timestamps, setTimestamps] = useState(dayLabels);
   const [displayData, setDisplayData] = useState(arr);
 
@@ -133,7 +133,6 @@ function HistoryMealTracking({ route, navigation }) {
                   }}
                   mode={'dropdown'}
                 >
-                  <Picker.Item label='Select one...' value='unselected' />
                   <Picker.Item label='Past week' value='past_week' />
                   <Picker.Item label='Past month' value='past_month' />
                   <Picker.Item label='Past year' value='past_year' />
@@ -153,14 +152,10 @@ function HistoryMealTracking({ route, navigation }) {
                   }}
                   mode={'dropdown'}
                 >
-                  <Picker.Item label='Select one...' value='unselected' />
                   <Picker.Item label='Calories' value='calories' />
                   <Picker.Item label='Total fat' value='total_fat' />
                   <Picker.Item label='Total Protein' value='total_protein' />
-                  {/*<Picker.Item label='Cholesterol' value='cholesterol' />*/}
-                  {/*<Picker.Item label='Sodium' value='sodium' />*/}
                   <Picker.Item label='Total carbs' value='total_carbs' />
-                  {/*<Picker.Item label='Sugar' value='sugar' />*/}
                 </Picker>
               </View>
             </View>
@@ -393,10 +388,10 @@ function initDisplayData(data) {
 function getDisplayData(data, timePeriod, setDisplayData, selectNutrients) {
   var arr = [];
   //calories || unselected
-  if(selectNutrients === 'calories' || selectNutrients === 'unselected') {
+  if(selectNutrients === 'calories') {
     var len = data.mealData.calories.length;
 
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    if(timePeriod === 'past_week')
       arr = data.mealData.calories.slice(len - 7, len);
 
     else if(timePeriod === 'past_month')
@@ -410,7 +405,7 @@ function getDisplayData(data, timePeriod, setDisplayData, selectNutrients) {
   if(selectNutrients === 'total_fat') {
     var len = data.mealData.fats.length;
 
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    if(timePeriod === 'past_week')
       arr = data.mealData.fats.slice(len - 7, len);
 
     else if(timePeriod === 'past_month')
@@ -424,7 +419,7 @@ function getDisplayData(data, timePeriod, setDisplayData, selectNutrients) {
   if(selectNutrients === 'total_protein') {
     var len = data.mealData.proteins.length;
 
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    if(timePeriod === 'past_week')
       arr = data.mealData.proteins.slice(len - 7, len);
 
     else if(timePeriod === 'past_month')
@@ -438,7 +433,7 @@ function getDisplayData(data, timePeriod, setDisplayData, selectNutrients) {
   if(selectNutrients === 'total_carbs') {
     var len = data.mealData.carbs.length;
 
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    if(timePeriod === 'past_week')
       arr = data.mealData.carbs.slice(len - 7, len);
 
     else if(timePeriod === 'past_month')
@@ -463,7 +458,7 @@ function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
       dates.push(date.toISOString().substring(5, 10));
   }
 
-  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+  if(timePeriod === 'past_week')
     setTimestamps(dayLabels);
 
   else if(timePeriod === 'past_month')

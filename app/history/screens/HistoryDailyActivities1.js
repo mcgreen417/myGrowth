@@ -26,10 +26,10 @@ import HistorySelectACategory from '../../shared/components/HistorySelectACatego
 
 function HistoryDailyActivities1({ route, navigation }) {
   const data = route.params.data;
-  var activityMap = getMap(data, 'unselected');
+  var activityMap = getMap(data, 'past_week');
 
   const [modalVisible, setModalVisible] = useState(false); 
-  const [timePeriod, setTimePeriod] = useState('unselected');
+  const [timePeriod, setTimePeriod] = useState('past_week');
   const [labels, setLabels] = useState(getLabels(activityMap));
   const [freqs, setFreqs] = useState(getFreqs(activityMap, timePeriod));
   
@@ -109,7 +109,6 @@ function HistoryDailyActivities1({ route, navigation }) {
                 }}
                 mode={'dropdown'}
               >
-                <Picker.Item label='Select one...' value='unselected' />
                 <Picker.Item label='Past week' value='past_week' />
                 <Picker.Item label='Past month' value='past_month' />
                 <Picker.Item label='Past year' value='past_year' />
@@ -127,7 +126,7 @@ function getMap(data, timePeriod) {
   var map = new Map();
   var length = data.activityData.length;
 
-  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+  if(timePeriod === 'past_week')
     for(var i = length < 7 ? 0 : length - 7; i < length; i++)
       for(var [key, value] of Object.entries(JSON.parse(data.activityData[i]))) {
         //check if key is in map

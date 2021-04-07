@@ -20,10 +20,9 @@ function HistoryDailyActivities2({ route, navigation }) {
   const dates = getTimestamps(data);
   const activities = getPickerLabels(data);
   const comms = initCommits(activities, dates, data);
-  console.log(comms);
 
   const [modalVisible, setModalVisible] = useState(false); 
-  const [selectactivity, setActivity] = useState('unselected');
+  const [selectactivity, setActivity] = useState(activities[0]);
   const [commits, setCommits] = useState(comms);
   
   return (
@@ -100,7 +99,6 @@ function HistoryDailyActivities2({ route, navigation }) {
                 }}
                 mode={'dropdown'}
               >
-                <Picker.Item label='Select One...' value='unselected'/>
                 {activities.map((item, index) => {
                   return (
                       <Picker.Item key={index} label={item} value={item} />
