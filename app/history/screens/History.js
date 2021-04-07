@@ -218,7 +218,7 @@ function initDisplayData(data) {
       if(data.medicineData.allTaken[i] >= 0)
         sum++;
     }
-    
+
     arr.push(sum);
   }
 

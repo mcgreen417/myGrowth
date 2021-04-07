@@ -192,7 +192,7 @@ function getPickerLabels(data) {
   var length = data.activityData.length;
   var arr = [];
 
-  for(var i = i = length < 90 ? 0 : length - 90; i < length; i++)
+  for(var i = length < 365 ? 0 : length - 365; i < length; i++)
     for(var [key, value] of Object.entries(JSON.parse(data.activityData[i]))) {
       //check if key is in map
       if(!arr.includes(key)) {

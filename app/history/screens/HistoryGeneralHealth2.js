@@ -27,6 +27,7 @@ const dayLabels = [
 
 const monthLabels = [
   "Jan",
+  "Feb",
   "Mar",
   "May",
   "July",
