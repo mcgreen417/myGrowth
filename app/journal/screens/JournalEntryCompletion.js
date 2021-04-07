@@ -23,7 +23,8 @@ const JournalEntryCompletion = ({ route, navigation }) => {
           {/* Congratulations banner + filler image */}
           <Image 
             style={styles.bannerImage}
-            source={require('../../shared/assets/journal-banner.png')}/>
+            source={require('../../shared/assets/journal-banner.png')}
+          />
           <View style={{ marginVertical: '-4%' }}/>
           <View style={{ width: '90%', height: '60%', }}>
             <Image

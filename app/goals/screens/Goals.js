@@ -7,47 +7,120 @@ import {
   Pressable,
   Image,
   ScrollView,
+  Modal,
+  TouchableOpacity,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
 
 const Goal = ({ title, description, type, navigation }) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
-    <View style={{ 
-      flexDirection: 'row',
-      width: '90%',
-      alignItems: 'flex-start',
-      alignSelf: 'center', 
-      marginVertical: 4,
-    }}>
-      {/* This icon should change to check-box when the user clicks on it (and retain that until daily reset) */}
-      <Pressable onPress={() => navigation.navigate('GoalComplete')}>
-        <Icon
-          name='check-box-outline-blank'
-          type='MaterialIcons'
-          color='#816868'
-          style={{ marginRight: 8 }}
-        />
-      </Pressable>
-      <Text style={styles().text}>{title}</Text>
-      <View style={styles().iconView}>
-        <View style={{ flexDirection: 'row' }}>
-          <Pressable>
-            <Icon 
-              name='pencil' 
-              type='material-community' 
-              color='#816868' 
-            />
-          </Pressable>
-          <Pressable>
-            <Icon 
-              name='close' 
-              type='ionicon' 
-              color='#816868' 
-            />
-          </Pressable>
+    <View>
+      {/* Delete goal modal */}
+      <View style={styles().container}>
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 1,
+              backgroundColor: '#00000055',
+            }}>
+              <View style={styles().modalContainer}>
+                <View style={styles().modalHeaderBar}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 2,
+                      marginLeft: 6,
+                      marginVertical: 4,
+                    }}>
+                    <Icon
+                      name='star'
+                      type='material-community'
+                      color='white'
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles().textAlt}>Delete Goal</Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    marginHorizontal: '5%',
+                    maxHeight: '60%',
+                    marginVertical: 10,
+                  }}>
+                  <Text style={styles().text}>
+                    Are you sure you wish to delete the goal   
+                    <Text style={styles().textBoldAlt}> "{title}"</Text>
+                    ?
+                  </Text>
+                  
+                  
+                  <Text style={styles().textBoldAlt}>This action cannot be undone.</Text>
+                </View>
+                <View style={{ flexDirection: 'row', alignSelf: 'flex-end', marginVertical: 10, marginHorizontal: '5%', }}>
+                  <TouchableOpacity 
+                    style={{ marginRight: 20, }}
+                    onPress={() => setModalVisible(!modalVisible)}>
+                    <Text style={styles().textDateTime}>DELETE</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                    <Text style={styles().textDateTime}>CANCEL</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+        </Modal>
+      </View>
+
+      <View style={{ 
+        flexDirection: 'row',
+        width: '90%',
+        alignItems: 'flex-start',
+        alignSelf: 'center', 
+        marginVertical: 4,
+      }}>
+        {/* This icon should change to check-box when the user clicks on it (and retain that until daily reset) */}
+        <Pressable onPress={() => navigation.navigate('GoalComplete')}>
+          <Icon
+            name='check-box-outline-blank'
+            type='MaterialIcons'
+            color='#816868'
+            style={{ marginRight: 8 }}
+          />
+        </Pressable>
+        <Text style={styles().text}>{title}</Text>
+        <View style={styles().iconView}>
+          <View style={{ flexDirection: 'row' }}>
+            <Pressable>
+              <Icon 
+                name='pencil' 
+                type='material-community' 
+                color='#816868' 
+              />
+            </Pressable>
+            <Pressable>
+              <Icon 
+                name='close' 
+                type='ionicon' 
+                color='#816868' 
+                onPress={() => setModalVisible(!modalVisible)}
+              />
+            </Pressable>
+          </View>
         </View>
       </View>
     </View>
@@ -309,21 +382,30 @@ const styles = () => StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'center'
   },
-  inlineRow: {
-    flexDirection: 'row',
-    width: '90%',
-    alignItems: 'flex-end',
-    alignSelf: 'center',
+  modalContainer: {
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
+    alignItems: 'center',
+    width: '70%',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
   },
-  inlineRow2: {
+  modalHeaderBar: {
+    backgroundColor: global.colorblindMode
+      ? global.cb_optionButtonsColor
+      : global.optionButtonsColor,
     flexDirection: 'row',
-    width: '90%',
-    alignItems: 'flex-start',
-    alignSelf: 'center',
-  },
-  text: {
-    color: '#816868',
-    fontSize: 16,
+    alignItems: 'center',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
   line: {
     marginHorizontal: '5%',
@@ -333,11 +415,6 @@ const styles = () => StyleSheet.create({
     borderBottomWidth: 1,
     minHeight: 1,
     marginTop: 10,
-  },
-  textBold: {
-    color: '#816868',
-    fontSize: 16,
-    fontWeight: 'bold',
   },
   pageDescription: {
     color: '#816868',
@@ -350,9 +427,41 @@ const styles = () => StyleSheet.create({
   pageEnd: {
     marginBottom: 110,
   },
-  bodyText: {
-    color: global.colorblindMode
-      ? global.cb_textColor
-      : global.textColor,
+  text: {
+    color: '#816868',
+    fontSize: 16,
+  },
+  textAlt: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  textBold: {
+    color: '#816868',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  textBoldAlt: {
+    fontSize: 16,
+    color: '#816868',
+    fontWeight: 'bold',
+    marginTop: 4,
+  },
+  textDateTime: {
+    fontSize: 16,
+    color: '#4CB97A',
+    fontWeight: 'bold',
+  },
+  textDateTimeAlt: {
+    fontSize: 16,
+    color: '#4CB97A',
+    marginTop: 6,
+    marginBottom: 2,
+  },
+  textModal: {
+    fontSize: 16,
+    color: '#816868',
+    fontWeight: 'bold',
+    justifyContent: 'center',
   }
 });
