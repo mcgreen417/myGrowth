@@ -8,27 +8,12 @@ import {
   Dimensions,
   Button,
   Modal,
+  TouchableOpacity,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
-
-const monthNames = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
-
-function getDate(d) {
-  return monthNames[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
-}
+import * as queries from '../../../src/graphql/queries';
+import * as mutations from '../../../src/graphql/mutations';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 function getTime(d) {
   return (
@@ -44,6 +29,20 @@ const AddNap = ({ naps, setNaps, setShowAddNap }) => {
   const [qualityOfNap, setQualityOfNap] = useState(-1);
   const [napTimeStart, setNapTimeStart] = useState(new Date());
   const [napTimeEnd, setNapTimeEnd] = useState(new Date());
+  const [showStartPicker, setShowStartPicker] = useState(false);
+  const [showEndPicker, setShowEndPicker] = useState(false);
+
+  const onEndChange = (event, selectedDate) => {
+    setShowEndPicker(false);
+    const currentDate = selectedDate || napTimeEnd;
+    setNapTimeEnd(new Date(currentDate));
+  };
+
+  const onStartChange = (event, selectedDate) => {
+    setShowStartPicker(false);
+    const currentDate = selectedDate || napTimeStart;
+    setNapTimeStart(new Date(currentDate));
+  };
 
   return (
     <Pressable>
@@ -58,9 +57,27 @@ const AddNap = ({ naps, setNaps, setShowAddNap }) => {
                 alignItems: 'center',
               }}>
               <Icon name='schedule' />
-              <Text>{getTime(napTimeStart)}</Text>
-              <Icon name='arrow-drop-down' type='material' />
+              <TouchableOpacity
+                onPress={() => {
+                  setShowStartPicker(true);
+                }}
+                style={{ alignItems: 'center', flexDirection: 'row' }}>
+                <Text
+                  style={{ textDecorationLine: 'underline', color: '#4CB97A' }}>
+                  {getTime(napTimeStart)}
+                </Text>
+                <Icon name='arrow-drop-down' type='material' />
+              </TouchableOpacity>
             </View>
+            {showStartPicker && (
+              <DateTimePicker
+                value={napTimeStart}
+                mode={'time'}
+                is24Hour={false}
+                display='clock'
+                onChange={onStartChange}
+              />
+            )}
             <View
               style={{
                 flexDirection: 'row',
@@ -68,9 +85,25 @@ const AddNap = ({ naps, setNaps, setShowAddNap }) => {
                 alignItems: 'center',
               }}>
               <Icon name='schedule' />
-              <Text>{getTime(napTimeEnd)}</Text>
-              <Icon name='arrow-drop-down' type='material' />
+              <TouchableOpacity
+                onPress={() => setShowEndPicker(true)}
+                style={{ alignItems: 'center', flexDirection: 'row' }}>
+                <Text
+                  style={{ textDecorationLine: 'underline', color: '#4CB97A' }}>
+                  {getTime(napTimeEnd)}
+                </Text>
+                <Icon name='arrow-drop-down' type='material' />
+              </TouchableOpacity>
             </View>
+            {showEndPicker && (
+              <DateTimePicker
+                value={napTimeEnd}
+                mode={'time'}
+                is24Hour={false}
+                display='clock'
+                onChange={onEndChange}
+              />
+            )}
           </View>
         </View>
         <View>
@@ -233,7 +266,6 @@ const AddNap = ({ naps, setNaps, setShowAddNap }) => {
           <Button
             title='Add Nap'
             onPress={() => {
-              console.log(naps);
               let tempNaps = [...naps];
               tempNaps.push({
                 Start: napTimeStart.toISOString(),
@@ -263,6 +295,21 @@ const Sleep = ({
   setSleepTimeEnd,
 }) => {
   const [showAddNap, setShowAddNap] = useState(false);
+  const [showStartTime, setShowStartTime] = useState(false);
+  const [showEndTime, setShowEndTime] = useState(false);
+
+  const onEndChange = (event, selectedDate) => {
+    setShowEndTime(false);
+    const currentDate = selectedDate || sleepTimeEnd;
+    setSleepTimeEnd(new Date(currentDate));
+  };
+
+  const onStartChange = (event, selectedDate) => {
+    setShowStartTime(false);
+    const currentDate = selectedDate || sleepTimeStart;
+    setSleepTimeStart(new Date(currentDate));
+  };
+
   return (
     <View style={{ width: '80%' }}>
       <Modal
@@ -304,9 +351,25 @@ const Sleep = ({
               alignItems: 'center',
             }}>
             <Icon name='schedule' />
-            <Text>{getTime(sleepTimeStart)}</Text>
-            <Icon name='arrow-drop-down' type='material' />
+            <TouchableOpacity
+              onPress={() => setShowStartTime(true)}
+              style={{ alignItems: 'center', flexDirection: 'row' }}>
+              <Text
+                style={{ textDecorationLine: 'underline', color: '#4CB97A' }}>
+                {getTime(sleepTimeStart)}
+              </Text>
+              <Icon name='arrow-drop-down' type='material' />
+            </TouchableOpacity>
           </View>
+          {showStartTime && (
+            <DateTimePicker
+              value={sleepTimeStart}
+              mode={'time'}
+              is24Hour={false}
+              display='clock'
+              onChange={onStartChange}
+            />
+          )}
           <View
             style={{
               flexDirection: 'row',
@@ -314,9 +377,25 @@ const Sleep = ({
               alignItems: 'center',
             }}>
             <Icon name='schedule' />
-            <Text>{getTime(sleepTimeEnd)}</Text>
-            <Icon name='arrow-drop-down' type='material' />
+            <TouchableOpacity
+              onPress={() => setShowEndTime(true)}
+              style={{ alignItems: 'center', flexDirection: 'row' }}>
+              <Text
+                style={{ textDecorationLine: 'underline', color: '#4CB97A' }}>
+                {getTime(sleepTimeEnd)}
+              </Text>
+              <Icon name='arrow-drop-down' type='material' />
+            </TouchableOpacity>
           </View>
+          {showEndTime && (
+            <DateTimePicker
+              value={sleepTimeEnd}
+              mode={'time'}
+              is24Hour={false}
+              display='clock'
+              onChange={onEndChange}
+            />
+          )}
         </View>
       </View>
       <View>

@@ -70,7 +70,7 @@ const AddMedication = ({ setShowAddMedicine }) => {
     <Pressable>
       <View style={styles().modalView}>
         <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-          <Text>Medicine Title</Text>
+          <Text>Medicine Title </Text>
           <TextInput
             placeholder='Title'
             style={{
@@ -86,7 +86,7 @@ const AddMedication = ({ setShowAddMedicine }) => {
         </View>
 
         <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-          <Text>Medicine Times</Text>
+          <Text>Medicine Times </Text>
           <TouchableOpacity
             onPress={() => setShow(true)}
             style={{ alignItems: 'center', flexDirection: 'row' }}>
@@ -96,7 +96,6 @@ const AddMedication = ({ setShowAddMedicine }) => {
             <Icon name='arrow-drop-down' />
           </TouchableOpacity>
         </View>
-
         {show && (
           <DateTimePicker
             value={date}
