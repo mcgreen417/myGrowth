@@ -9,96 +9,234 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-const AdvanceFitnessTracking = () => {
+function removeExercise(exercises, setExercises, index) {
+  console.log(exercises);
+  let tempExercises = [...exercises];
+  tempExercises.pop(index);
+  setExercises(tempExercises);
+}
+
+const AddExercises = ({
+  index,
+  exercises,
+  setExercises,
+  name,
+  setName,
+  sets,
+  setSets,
+  reps,
+  setReps,
+  cals,
+  setCals,
+  weight,
+  setWeight,
+  duration,
+  setDuration,
+  editable,
+}) => {
   return (
-    <View style={{ marginTop: 10 }}>
-      <View
-        style={{
-          backgroundColor: '#E5E5E5',
-          borderRadius: 10,
-          padding: 35,
-          paddingBottom: 10,
-          paddingTop: 15,
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.5,
-          shadowRadius: 4,
-          elevation: 7,
-        }}>
-        <View>
+    <View
+      style={{
+        backgroundColor: '#E5E5E5',
+        borderRadius: 10,
+        padding: 35,
+        paddingBottom: 10,
+        paddingTop: 15,
+        marginTop: 15,
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 4,
+        elevation: 7,
+      }}>
+      <View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Icon name='fitness-center' />
+          <TextInput
+            placeholder='Exercise name'
+            style={{
+              borderBottomColor: '#C4BEBD',
+              borderBottomWidth: 1,
+              textAlign: 'center',
+              width: 100,
+            }}
+            value={name}
+            onChangeText={(val) => {
+              editable ? setName(val) : null;
+            }}
+            editable={editable}
+          />
+
+          {index != null && (
+            <Icon
+              name='close'
+              onPress={() => removeExercise(exercises, setExercises, index)}
+            />
+          )}
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Icon name='fitness-center' />
+            <Text>Sets:</Text>
             <TextInput
-              placeholder='Exercise name'
+              placeholder='#'
               style={{
                 borderBottomColor: '#C4BEBD',
                 borderBottomWidth: 1,
                 textAlign: 'center',
-                width: 100,
               }}
+              keyboardType='number-pad'
+              value={sets}
+              onChangeText={(val) => {
+                editable ? setSets(val) : null;
+              }}
+              editable={editable}
             />
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text>Sets:</Text>
-              <TextInput
-                placeholder='#'
-                style={{
-                  borderBottomColor: '#C4BEBD',
-                  borderBottomWidth: 1,
-                  textAlign: 'center',
-                }}
-                keyboardType='number-pad'
-              />
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text>Calories:</Text>
-              <TextInput
-                placeholder='#'
-                style={{
-                  borderBottomColor: '#C4BEBD',
-                  borderBottomWidth: 1,
-                  textAlign: 'center',
-                }}
-                keyboardType='number-pad'
-              />
-              <Text>cal</Text>
-            </View>
+            <Text>Calories:</Text>
+            <TextInput
+              placeholder='#'
+              style={{
+                borderBottomColor: '#C4BEBD',
+                borderBottomWidth: 1,
+                textAlign: 'center',
+              }}
+              keyboardType='number-pad'
+              value={cals}
+              onChangeText={(val) => {
+                editable ? setCals(val) : null;
+              }}
+              editable={editable}
+            />
+            <Text>cal</Text>
+          </View>
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Text>Reps:</Text>
+            <TextInput
+              placeholder='#'
+              style={{
+                borderBottomColor: '#C4BEBD',
+                borderBottomWidth: 1,
+                textAlign: 'center',
+              }}
+              keyboardType='number-pad'
+              value={reps}
+              onChangeText={(val) => {
+                editable ? setReps(val) : null;
+              }}
+              editable={editable}
+            />
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text>Reps:</Text>
-              <TextInput
-                placeholder='#'
-                style={{
-                  borderBottomColor: '#C4BEBD',
-                  borderBottomWidth: 1,
-                  textAlign: 'center',
-                }}
-                keyboardType='number-pad'
-              />
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text>Weight:</Text>
-              <TextInput
-                placeholder='#'
-                style={{
-                  borderBottomColor: '#C4BEBD',
-                  borderBottomWidth: 1,
-                  textAlign: 'center',
-                }}
-                keyboardType='number-pad'
-              />
-              <Text>lbs</Text>
-            </View>
+            <Text>Weight:</Text>
+            <TextInput
+              placeholder='#'
+              style={{
+                borderBottomColor: '#C4BEBD',
+                borderBottomWidth: 1,
+                textAlign: 'center',
+              }}
+              keyboardType='number-pad'
+              value={weight}
+              onChangeText={(val) => {
+                editable ? setWeight(val) : null;
+              }}
+              editable={editable}
+            />
+            <Text>lbs</Text>
+          </View>
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Text>Duration</Text>
+            <TextInput
+              placeholder='#'
+              style={{
+                borderBottomColor: '#C4BEBD',
+                borderBottomWidth: 1,
+                textAlign: 'center',
+              }}
+              keyboardType='number-pad'
+              value={duration}
+              onChangeText={(val) => {
+                editable ? setDuration(val) : null;
+              }}
+              editable={editable}
+            />
           </View>
         </View>
       </View>
+    </View>
+  );
+};
+
+const AdvanceFitnessTracking = ({ exercises, setExercises }) => {
+  const [exerciseName, setExerciseName] = useState();
+  const [exerciseSets, setExerciseSets] = useState();
+  const [exerciseReps, setExerciseReps] = useState();
+  const [exerciseCalories, setExerciseCalories] = useState();
+  const [exerciseWeight, setExerciseWeigh] = useState();
+  const [exerciseDuration, setExerciseDuration] = useState();
+
+  return (
+    <View style={{ marginTop: 10 }}>
+      {exercises.map((item, index) => {
+        console.log(item);
+        return (
+          <View key={index}>
+            <AddExercises
+              index={index}
+              exercises={exercises}
+              setExercises={setExercises}
+              name={item.Name.toString()}
+              sets={item.Sets.toString()}
+              reps={item.Reps.toString()}
+              cals={item.CaloriesBurned.toString()}
+              weight={item.Weight.toString()}
+              duration={item.Duration.toString()}
+              editable={false}
+            />
+          </View>
+        );
+      })}
+      <AddExercises
+        exercises={exercises}
+        setExercises={setExercises}
+        name={exerciseName}
+        setName={setExerciseName}
+        sets={exerciseSets}
+        setSets={setExerciseSets}
+        reps={exerciseReps}
+        setReps={setExerciseReps}
+        cals={exerciseCalories}
+        setCals={setExerciseCalories}
+        weight={exerciseWeight}
+        setWeight={setExerciseWeigh}
+        duration={exerciseDuration}
+        setDuration={setExerciseDuration}
+        editable={true}
+      />
       <View style={{ marginTop: 20, width: '50%' }}>
-        <Button title='+ Add Exercise' />
+        <Button
+          title='+ Add Exercise'
+          onPress={() => {
+            let tempExercises = [...exercises];
+            tempExercises.push({
+              Name: exerciseName,
+              Sets: parseInt(exerciseSets),
+              Reps: parseInt(exerciseReps),
+              Duration: parseInt(exerciseDuration),
+              Weight: parseInt(exerciseWeight),
+              CaloriesBurned: parseInt(exerciseCalories),
+            });
+            setExercises(tempExercises);
+          }}
+        />
       </View>
     </View>
   );
@@ -107,9 +245,18 @@ const AdvanceFitnessTracking = () => {
 const FitnessTracking = ({
   exerciseToday,
   setExerciseToday,
-  showAdvanceFitnessTracking,
-  setShowAdvanceFitnessTracking,
+  exerciseLength,
+  setExerciseLength,
+  caloriesBurn,
+  setCaloriesBurn,
+  steps,
+  setSteps,
+  exercises,
+  setExercises,
 }) => {
+  const [showAdvanceFitnessTracking, setShowAdvanceFitnessTracking] = useState(
+    false
+  );
   return (
     <View style={{ width: '80%' }}>
       <Text>Fitness Tracking</Text>
@@ -132,6 +279,8 @@ const FitnessTracking = ({
             borderBottomWidth: 1,
             textAlign: 'center',
           }}
+          value={exerciseLength}
+          onChangeText={(val) => setExerciseLength(val)}
           keyboardType='number-pad'
         />
         <Text>min</Text>
@@ -148,6 +297,8 @@ const FitnessTracking = ({
             borderBottomWidth: 1,
             textAlign: 'center',
           }}
+          value={caloriesBurn}
+          onChangeText={(val) => setCaloriesBurn(val)}
           keyboardType='number-pad'
         />
         <Text>cal</Text>
@@ -164,6 +315,8 @@ const FitnessTracking = ({
             borderBottomWidth: 1,
             textAlign: 'center',
           }}
+          value={steps}
+          onChangeText={(val) => setSteps(val)}
           keyboardType='number-pad'
         />
         <Text>steps</Text>
@@ -185,7 +338,12 @@ const FitnessTracking = ({
           }
         />
       </View>
-      {showAdvanceFitnessTracking && <AdvanceFitnessTracking />}
+      {showAdvanceFitnessTracking && (
+        <AdvanceFitnessTracking
+          exercises={exercises}
+          setExercises={setExercises}
+        />
+      )}
     </View>
   );
 };

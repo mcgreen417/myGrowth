@@ -58,7 +58,7 @@ const HealthEntry2 = ({ route, navigation }) => {
   const [medChecked, setMedChecked] = useState(0);
   const [medications, setMedications] = useState([]);
   const [hadPeriod, setHadPeriod] = useState(false);
-  const [weight, setWeight] = useState();
+  const [weight, setWeight] = useState(-1);
   const [symptoms, setSymptoms] = useState([]);
 
   return (

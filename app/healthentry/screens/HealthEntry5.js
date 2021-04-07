@@ -12,13 +12,6 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
-import Mood from '../components/Mood';
-import Stress from '../components/Stress';
-import DailyActivities from '../components/DailyActivities';
-import PhysicalMentalHealth from '../components/PhysicalMentalHealth';
-import Medication from '../components/Medication';
-import Sleep from '../components/Sleep';
-import MealHistory from '../components/MealHistory';
 import FitnessTracking from '../components/FitnessTracking';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Cache } from 'react-native-cache';
@@ -28,23 +21,65 @@ async function back(navigation) {
   navigation.navigate('HealthEntry4');
 }
 
-async function next(navigation) {
-  // const fitnessIn = {
-  //   Exercised: exercisedToday,
-  //   Duration: exerciseDuration,
-  //   CaloriesBurned: caloriesBurned,
-  //   Steps: steps,
-  //   Exercises: exercises,
-  // };
+async function next(
+  exercisedToday,
+  exerciseDuration,
+  caloriesBurned,
+  steps,
+  exercises,
+  route,
+  navigation
+) {
+  const {
+    moodIn,
+    stressIn,
+    activitiesIn,
+    healthIn,
+    symptomIn,
+    medcheckIn,
+    sleepIn,
+    mealsIn,
+  } = route.params;
+
+  const fitnessIn = {
+    Exercised: exercisedToday,
+    Duration: exerciseDuration,
+    CaloriesBurned: caloriesBurned,
+    Steps: steps,
+    Exercises: exercises,
+  };
+
+  const query = {
+    Timestamp: new Date().toISOString(),
+    Health: healthIn,
+    Symptoms: symptomIn,
+    Stress: stressIn,
+    Mood: moodIn,
+    Sleep: sleepIn,
+    Meals: mealsIn,
+    Fitness: fitnessIn,
+    Medcheck: medcheckIn,
+    Activities: activitiesIn,
+  };
+
+  console.log(query);
+
+  const res = await API.graphql({
+    query: mutations.updateDailyEntry,
+    variables: query,
+  });
+
+  console.log('res', res);
 
   navigation.navigate('ReviewEntry');
 }
 
-const HealthEntry5 = ({ navigation }) => {
+const HealthEntry5 = ({ route, navigation }) => {
   const [exerciseToday, setExerciseToday] = useState(false);
-  const [showAdvanceFitnessTracking, setShowAdvanceFitnessTracking] = useState(
-    false
-  );
+  const [exerciseLength, setExerciseLength] = useState(-1);
+  const [caloriesBurn, setCaloriesBurn] = useState(-1);
+  const [steps, setSteps] = useState(-1);
+  const [exercises, setExercises] = useState([]);
 
   return (
     <SafeAreaView style={styles().container}>
@@ -54,8 +89,14 @@ const HealthEntry5 = ({ navigation }) => {
           <FitnessTracking
             exerciseToday={exerciseToday}
             setExerciseToday={setExerciseToday}
-            showAdvanceFitnessTracking={showAdvanceFitnessTracking}
-            setShowAdvanceFitnessTracking={setShowAdvanceFitnessTracking}
+            exerciseLength={exerciseLength}
+            setExerciseLength={setExerciseLength}
+            caloriesBurn={caloriesBurn}
+            setCaloriesBurn={setCaloriesBurn}
+            steps={steps}
+            setSteps={setSteps}
+            exercises={exercises}
+            setExercises={setExercises}
           />
           <View style={styles().dividerView}>
             <View style={styles().divider} />
@@ -78,9 +119,19 @@ const HealthEntry5 = ({ navigation }) => {
             </View>
             <View style={{ width: '42.5%' }}>
               <Button
-                title='Next >'
+                title='Finish >'
                 color='#A5DFB2'
-                onPress={() => next(navigation)}
+                onPress={() =>
+                  next(
+                    exerciseToday,
+                    exerciseLength,
+                    caloriesBurn,
+                    steps,
+                    exercises,
+                    route,
+                    navigation
+                  )
+                }
               />
             </View>
           </View>

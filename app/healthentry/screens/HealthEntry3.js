@@ -41,8 +41,8 @@ async function next(
 
   const sleepIn = {
     Slept: slept,
-    Start: sleepTimeStart,
-    End: sleepTimeEnd,
+    Start: sleepTimeStart.toISOString(),
+    End: sleepTimeEnd.toISOString(),
     Quality: sleepQuality,
     Naps: naps,
   };
@@ -107,7 +107,7 @@ const HealthEntry3 = ({ route, navigation }) => {
                 color='#A5DFB2'
                 onPress={() =>
                   next(
-                    slept,
+                    hadSleep,
                     sleepTimeStart,
                     sleepTimeEnd,
                     qualityOfSleep,

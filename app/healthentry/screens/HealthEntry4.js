@@ -21,23 +21,54 @@ async function back(navigation) {
   navigation.navigate('HealthEntry3');
 }
 
-async function next(navigation) {
-  // const mealsIn = {
-  //   Ate: ate,
-  //   TotalCalories: totalCalories,
-  //   MealList: meals,
-  //   TotalProteins: totalProteins,
-  //   TotalCarbs: totalCarbs,
-  //   TotalFats: totalFats,
-  // };
+async function next(
+  eatenToday,
+  totalCalories,
+  meals,
+  totalProteins,
+  totalCarbs,
+  totalFats,
+  route,
+  navigation
+) {
+  const {
+    moodIn,
+    stressIn,
+    activitiesIn,
+    healthIn,
+    symptomIn,
+    medcheckIn,
+    sleepIn,
+  } = route.params;
 
-  navigation.navigate('HealthEntry5');
+  const mealsIn = {
+    Ate: eatenToday,
+    TotalCalories: totalCalories,
+    MealList: meals,
+    TotalProteins: totalProteins,
+    TotalCarbs: totalCarbs,
+    TotalFats: totalFats,
+  };
+
+  navigation.navigate('HealthEntry5', {
+    moodIn: moodIn,
+    stressIn: stressIn,
+    activitiesIn: activitiesIn,
+    healthIn: healthIn,
+    symptomIn: symptomIn,
+    medcheckIn: medcheckIn,
+    sleepIn: sleepIn,
+    mealsIn: mealsIn,
+  });
 }
 
-const HealthEntry4 = ({ navigation }) => {
+const HealthEntry4 = ({ route, navigation }) => {
   const [eatenToday, setEatenToday] = useState(true);
   const [meals, setMeals] = useState([]);
-  const [showAdvanceMealTracking, setShowAdvanceMealTracking] = useState(false);
+  const [totalCalories, setTotalCalories] = useState(-1);
+  const [totalProteins, setTotalProteins] = useState(-1);
+  const [totalCarbs, setTotalCarbs] = useState(-1);
+  const [totalFats, setTotalFats] = useState(-1);
 
   return (
     <SafeAreaView style={styles().container}>
@@ -47,8 +78,16 @@ const HealthEntry4 = ({ navigation }) => {
           <MealHistory
             eatenToday={eatenToday}
             setEatenToday={setEatenToday}
-            showAdvanceMealTracking={showAdvanceMealTracking}
-            setShowAdvanceMealTracking={setShowAdvanceMealTracking}
+            totalCalories={totalCalories}
+            setTotalCalories={setTotalCalories}
+            totalProteins={totalProteins}
+            setTotalProteins={setTotalProteins}
+            totalCarbs={totalCarbs}
+            setTotalCarbs={setTotalCarbs}
+            totalFats={totalFats}
+            setTotalFats={setTotalFats}
+            meals={meals}
+            setMeals={setMeals}
           />
           <View style={styles().dividerView}>
             <View style={styles().divider} />
@@ -73,7 +112,18 @@ const HealthEntry4 = ({ navigation }) => {
               <Button
                 title='Next >'
                 color='#A5DFB2'
-                onPress={() => next(navigation)}
+                onPress={() =>
+                  next(
+                    eatenToday,
+                    totalCalories,
+                    meals,
+                    totalProteins,
+                    totalCarbs,
+                    totalFats,
+                    route,
+                    navigation
+                  )
+                }
               />
             </View>
           </View>

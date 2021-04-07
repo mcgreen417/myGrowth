@@ -9,311 +9,346 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-const AdvanceMealTracking = () => {
+const AddFood = () => {
   return (
-    <View style={{ marginTop: 10 }}>
+    <View
+      style={{
+        backgroundColor: '#DADADA',
+        borderRadius: 10,
+        padding: 10,
+        margin: 10,
+        paddingBottom: 10,
+        paddingTop: 15,
+        marginBottom: 20,
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 4,
+        elevation: 7,
+      }}>
       <View
         style={{
-          backgroundColor: '#E5E5E5',
-          borderRadius: 10,
-          padding: 10,
-          paddingBottom: 10,
-          marginBottom: 20,
-          paddingTop: 15,
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.5,
-          shadowRadius: 4,
-          elevation: 7,
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginBottom: 10,
         }}>
-        <View
+        <Icon name='fastfood' />
+        <TextInput
+          placeholder='Food name'
           style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}>
-          <Icon name='restaurant' />
+            borderBottomColor: '#C4BEBD',
+            borderBottomWidth: 1,
+            textAlign: 'center',
+            width: 100,
+          }}
+        />
+      </View>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <Text>Serving measurement: </Text>
+        <TextInput
+          placeholder='Tbsp, bags, etc.'
+          style={{
+            borderBottomColor: '#C4BEBD',
+            borderBottomWidth: 1,
+            textAlign: 'center',
+            width: 100,
+          }}
+        />
+      </View>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <Text>Serving amount: </Text>
+        <TextInput
+          placeholder='#'
+          style={{
+            borderBottomColor: '#C4BEBD',
+            borderBottomWidth: 1,
+            textAlign: 'center',
+          }}
+          keyboardType='number-pad'
+        />
+      </View>
+      <View>
+        <Text style={{ fontWeight: 'bold' }}>NUTRIENTS PER SERVING:</Text>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-around',
+          // width: '100%',
+        }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text>Calories: </Text>
           <TextInput
-            placeholder='Meal name'
+            placeholder='#'
             style={{
               borderBottomColor: '#C4BEBD',
               borderBottomWidth: 1,
               textAlign: 'center',
-              width: 100,
             }}
+            keyboardType='number-pad'
           />
+          <Text>cal </Text>
         </View>
-        <View
-          style={{
-            backgroundColor: '#DADADA',
-            borderRadius: 10,
-            padding: 10,
-            margin: 10,
-            paddingBottom: 10,
-            paddingTop: 15,
-            marginBottom: 20,
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: 2,
-            },
-            shadowOpacity: 0.5,
-            shadowRadius: 4,
-            elevation: 7,
-          }}>
-          <View
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text>Total Fat: </Text>
+          <TextInput
+            placeholder='#'
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginBottom: 10,
-            }}>
-            <Icon name='fastfood' />
-            <TextInput
-              placeholder='Food name'
-              style={{
-                borderBottomColor: '#C4BEBD',
-                borderBottomWidth: 1,
-                textAlign: 'center',
-                width: 100,
-              }}
-            />
-          </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text>Serving measurement: </Text>
-            <TextInput
-              placeholder='Tbsp, bags, etc.'
-              style={{
-                borderBottomColor: '#C4BEBD',
-                borderBottomWidth: 1,
-                textAlign: 'center',
-                width: 100,
-              }}
-            />
-          </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text>Serving amount: </Text>
-            <TextInput
-              placeholder='#'
-              style={{
-                borderBottomColor: '#C4BEBD',
-                borderBottomWidth: 1,
-                textAlign: 'center',
-              }}
-              keyboardType='number-pad'
-            />
-          </View>
-          <View>
-            <Text style={{ fontWeight: 'bold' }}>NUTRIENTS PER SERVING:</Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-around',
-              // width: '100%',
-            }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text>Calories: </Text>
-              <TextInput
-                placeholder='#'
-                style={{
-                  borderBottomColor: '#C4BEBD',
-                  borderBottomWidth: 1,
-                  textAlign: 'center',
-                }}
-                keyboardType='number-pad'
-              />
-              <Text>cal </Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text>Total Fat: </Text>
-              <TextInput
-                placeholder='#'
-                style={{
-                  borderBottomColor: '#C4BEBD',
-                  borderBottomWidth: 1,
-                  textAlign: 'center',
-                }}
-                keyboardType='number-pad'
-              />
-              <Text>g</Text>
-            </View>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-around',
-              // width: '100%',
-            }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text>Cholesterol: </Text>
-              <TextInput
-                placeholder='#'
-                style={{
-                  borderBottomColor: '#C4BEBD',
-                  borderBottomWidth: 1,
-                  textAlign: 'center',
-                }}
-                keyboardType='number-pad'
-              />
-              <Text>mg</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text>Sodium: </Text>
-              <TextInput
-                placeholder='#'
-                style={{
-                  borderBottomColor: '#C4BEBD',
-                  borderBottomWidth: 1,
-                  textAlign: 'center',
-                }}
-                keyboardType='number-pad'
-              />
-              <Text>mg</Text>
-            </View>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-around',
-            }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text>Total Carbs: </Text>
-              <TextInput
-                placeholder='#'
-                style={{
-                  borderBottomColor: '#C4BEBD',
-                  borderBottomWidth: 1,
-                  textAlign: 'center',
-                }}
-                keyboardType='number-pad'
-              />
-              <Text>g</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text>Fiber: </Text>
-              <TextInput
-                placeholder='#'
-                style={{
-                  borderBottomColor: '#C4BEBD',
-                  borderBottomWidth: 1,
-                  textAlign: 'center',
-                }}
-                keyboardType='number-pad'
-              />
-              <Text>g</Text>
-            </View>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-around',
-            }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text>Total Sugars: </Text>
-              <TextInput
-                placeholder='#'
-                style={{
-                  borderBottomColor: '#C4BEBD',
-                  borderBottomWidth: 1,
-                  textAlign: 'center',
-                }}
-                keyboardType='number-pad'
-              />
-              <Text>g</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text>Protein: </Text>
-              <TextInput
-                placeholder='#'
-                style={{
-                  borderBottomColor: '#C4BEBD',
-                  borderBottomWidth: 1,
-                  textAlign: 'center',
-                }}
-                keyboardType='number-pad'
-              />
-              <Text>g</Text>
-            </View>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-around',
-            }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text>Vitamin D: </Text>
-              <TextInput
-                placeholder='#'
-                style={{
-                  borderBottomColor: '#C4BEBD',
-                  borderBottomWidth: 1,
-                  textAlign: 'center',
-                }}
-                keyboardType='number-pad'
-              />
-              <Text>mcg</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text>Calcium: </Text>
-              <TextInput
-                placeholder='#'
-                style={{
-                  borderBottomColor: '#C4BEBD',
-                  borderBottomWidth: 1,
-                  textAlign: 'center',
-                }}
-                keyboardType='number-pad'
-              />
-              <Text>mg</Text>
-            </View>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-around',
-            }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text>Iron: </Text>
-              <TextInput
-                placeholder='#'
-                style={{
-                  borderBottomColor: '#C4BEBD',
-                  borderBottomWidth: 1,
-                  textAlign: 'center',
-                }}
-                keyboardType='number-pad'
-              />
-              <Text>mg</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text>Potassium: </Text>
-              <TextInput
-                placeholder='#'
-                style={{
-                  borderBottomColor: '#C4BEBD',
-                  borderBottomWidth: 1,
-                  textAlign: 'center',
-                }}
-                keyboardType='number-pad'
-              />
-              <Text>mg</Text>
-            </View>
-          </View>
-        </View>
-        <View style={{ width: '50%', marginLeft: 10 }}>
-          <Button title='+ Add Food' />
+              borderBottomColor: '#C4BEBD',
+              borderBottomWidth: 1,
+              textAlign: 'center',
+            }}
+            keyboardType='number-pad'
+          />
+          <Text>g</Text>
         </View>
       </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-around',
+          // width: '100%',
+        }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text>Cholesterol: </Text>
+          <TextInput
+            placeholder='#'
+            style={{
+              borderBottomColor: '#C4BEBD',
+              borderBottomWidth: 1,
+              textAlign: 'center',
+            }}
+            keyboardType='number-pad'
+          />
+          <Text>mg</Text>
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text>Sodium: </Text>
+          <TextInput
+            placeholder='#'
+            style={{
+              borderBottomColor: '#C4BEBD',
+              borderBottomWidth: 1,
+              textAlign: 'center',
+            }}
+            keyboardType='number-pad'
+          />
+          <Text>mg</Text>
+        </View>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-around',
+        }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text>Total Carbs: </Text>
+          <TextInput
+            placeholder='#'
+            style={{
+              borderBottomColor: '#C4BEBD',
+              borderBottomWidth: 1,
+              textAlign: 'center',
+            }}
+            keyboardType='number-pad'
+          />
+          <Text>g</Text>
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text>Fiber: </Text>
+          <TextInput
+            placeholder='#'
+            style={{
+              borderBottomColor: '#C4BEBD',
+              borderBottomWidth: 1,
+              textAlign: 'center',
+            }}
+            keyboardType='number-pad'
+          />
+          <Text>g</Text>
+        </View>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-around',
+        }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text>Total Sugars: </Text>
+          <TextInput
+            placeholder='#'
+            style={{
+              borderBottomColor: '#C4BEBD',
+              borderBottomWidth: 1,
+              textAlign: 'center',
+            }}
+            keyboardType='number-pad'
+          />
+          <Text>g</Text>
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text>Protein: </Text>
+          <TextInput
+            placeholder='#'
+            style={{
+              borderBottomColor: '#C4BEBD',
+              borderBottomWidth: 1,
+              textAlign: 'center',
+            }}
+            keyboardType='number-pad'
+          />
+          <Text>g</Text>
+        </View>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-around',
+        }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text>Vitamin D: </Text>
+          <TextInput
+            placeholder='#'
+            style={{
+              borderBottomColor: '#C4BEBD',
+              borderBottomWidth: 1,
+              textAlign: 'center',
+            }}
+            keyboardType='number-pad'
+          />
+          <Text>mcg</Text>
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text>Calcium: </Text>
+          <TextInput
+            placeholder='#'
+            style={{
+              borderBottomColor: '#C4BEBD',
+              borderBottomWidth: 1,
+              textAlign: 'center',
+            }}
+            keyboardType='number-pad'
+          />
+          <Text>mg</Text>
+        </View>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-around',
+        }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text>Iron: </Text>
+          <TextInput
+            placeholder='#'
+            style={{
+              borderBottomColor: '#C4BEBD',
+              borderBottomWidth: 1,
+              textAlign: 'center',
+            }}
+            keyboardType='number-pad'
+          />
+          <Text>mg</Text>
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text>Potassium: </Text>
+          <TextInput
+            placeholder='#'
+            style={{
+              borderBottomColor: '#C4BEBD',
+              borderBottomWidth: 1,
+              textAlign: 'center',
+            }}
+            keyboardType='number-pad'
+          />
+          <Text>mg</Text>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+const AddMeal = ({ meals, mealIndex, setMeals, foods, setFoods }) => {
+  return (
+    <View
+      style={{
+        backgroundColor: '#E5E5E5',
+        borderRadius: 10,
+        padding: 10,
+        paddingBottom: 10,
+        marginBottom: 20,
+        paddingTop: 15,
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 4,
+        elevation: 7,
+      }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+        <Icon name='restaurant' />
+        <TextInput
+          placeholder='Meal name'
+          style={{
+            borderBottomColor: '#C4BEBD',
+            borderBottomWidth: 1,
+            textAlign: 'center',
+            width: 100,
+          }}
+        />
+      </View>
+      <AddFood />
+      <View style={{ width: '50%', marginLeft: 10 }}>
+        <Button title='+ Add Food' />
+      </View>
+    </View>
+  );
+};
+
+const AdvanceMealTracking = ({ meals, setMeals }) => {
+  const [foods, setFoods] = useState([]);
+  console.log(meals);
+  return (
+    <View style={{ marginTop: 10 }}>
+      {meals.map((item, index) => {
+        return <AddMeal key={index} foods={item.Food} />;
+      })}
+      <AddMeal
+        meals={meals}
+        setMeals={setMeals}
+        foods={foods}
+        setFoods={setFoods}
+      />
       <View style={{ width: '50%' }}>
-        <Button title='+ Add Meal' />
+        <Button
+          title='+ Add Meal'
+          onPress={() => {
+            let tempMeals = [...meals];
+            tempMeals.push({
+              Food: ['Test'],
+              Calories: 0,
+              Proteins: 0,
+              Carbs: 0,
+              Fats: 0,
+            });
+            setMeals(tempMeals);
+          }}
+        />
       </View>
     </View>
   );
@@ -322,9 +357,19 @@ const AdvanceMealTracking = () => {
 const MealHistory = ({
   eatenToday,
   setEatenToday,
-  showAdvanceMealTracking,
-  setShowAdvanceMealTracking,
+  totalCalories,
+  setTotalCalories,
+  totalProteins,
+  setTotalProteins,
+  totalCarbs,
+  setTotalCarbs,
+  totalFats,
+  setTotalFats,
+  meals,
+  setMeals,
 }) => {
+  const [showAdvanceMealTracking, setShowAdvanceMealTracking] = useState(false);
+
   return (
     <View style={{ width: '80%' }}>
       <Text>Meal History</Text>
@@ -350,9 +395,11 @@ const MealHistory = ({
             borderBottomWidth: 1,
             textAlign: 'center',
           }}
+          value={totalCalories}
+          onChangeText={setTotalCalories}
           keyboardType='number-pad'
         />
-        <Text>cal</Text>
+        <Text> cal</Text>
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Text
@@ -365,7 +412,9 @@ const MealHistory = ({
           onPress={() => setShowAdvanceMealTracking(!showAdvanceMealTracking)}
         />
       </View>
-      {showAdvanceMealTracking && <AdvanceMealTracking />}
+      {showAdvanceMealTracking && (
+        <AdvanceMealTracking meals={meals} setMeals={setMeals} />
+      )}
     </View>
   );
 };
