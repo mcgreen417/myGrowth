@@ -71,78 +71,75 @@ function JournalHistory({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false} stickyHeaderIndices={[0]}>
-        <View style={{ backgroundColor: '#F6EFED' }}>
-          <View style={styles.pageSetup}>
+        <View style={styles.pageSetup}>
 
-            {/* Gardener avatar + page blurb */}
-            <View style={styles.avatarView}>
-              <Text style={styles.pageDescription}>
-                Select a past journal entry to view. Use the arrows below to select a month.
-              </Text>
-              <Image
-                style={styles.avatar}
-                source={require('../../shared/assets/gardener-avatar.png')}
-              />
-            </View>
-            {/* Top page divider */}
-            <View style={styles.dividerView}>
-              <View style={styles.divider} />
-            </View>
+          {/* Gardener avatar + page blurb */}
+          <View style={styles.avatarView}>
+            <Text style={styles.pageDescription}>
+              Select a past journal entry to view. Use the arrows below to select a month.
+            </Text>
+            <Image
+              style={styles.avatar}
+              source={require('../../shared/assets/gardener-avatar.png')}
+            />
+          </View>
+          {/* Top page divider */}
+          <View style={styles.dividerView}>
+            <View style={styles.divider} />
+          </View>
 
-            {/* Date display/selector */}
-            <View style={{ width: '90%', margin: 10, flexDirection: 'row' }}>
-              <Pressable onPress={showDatepicker}>
-                <View style={{ flex: 1, justifyContent: 'flex-start', flexDirection: 'row' }}>
-                  <Icon 
-                    name='calendar-sharp' 
-                    type='ionicon' 
-                    color='#816868' 
-                    style={{ marginRight: 6 }}
-                  />
-                  <Text style={styles.textLink}>{monthNames[date.getMonth()] + ' ' + date.getFullYear()}</Text>
-                  <Icon 
-                    name='arrow-drop-down' 
-                    type='material' 
-                    color='#816868' 
-                  />
-                </View>
-              </Pressable>
-              {show && (
-                  <DateTimePicker
-                    testID='dateTimePicker'
-                    value={date}
-                    mode={mode}
-                    is24Hour={true}
-                    display='default'
-                    onChange={onChange}
-                  />
-                )}
-
-              {/* Back/forward arrows (change month) */}
-              <View style={{ flexDirection: 'row', justifyContent: 'flex-end', flex: 1 }}>
-                <Pressable
-                  onPress={() => {
-                    date.setMonth(date.getMonth() - 1);
-                    getEntries(date, navigation);
-                  }}
-                >
-                  <Icon name='arrow-left' color='#816868' />
-                </Pressable>
-                <Pressable
-                  onPress={() => {
-                    date.setMonth(date.getMonth() + 1);
-                    getEntries(date, navigation);
-                  }}
-                >
-                  <Icon name='arrow-right' color='#816868' />
-                </Pressable>
+          {/* Date display/selector */}
+          <View style={{ width: '90%', margin: 10, flexDirection: 'row' }}>
+            <Pressable onPress={showDatepicker}>
+              <View style={{ flex: 1, justifyContent: 'flex-start', flexDirection: 'row' }}>
+                <Icon 
+                  name='calendar-sharp' 
+                  type='ionicon' 
+                  color='#816868' 
+                  style={{ marginRight: 6 }}
+                />
+                <Text style={styles.textLink}>{monthNames[date.getMonth()] + ' ' + date.getFullYear()}</Text>
+                <Icon 
+                  name='arrow-drop-down' 
+                  type='material' 
+                  color='#816868' 
+                />
               </View>
+            </Pressable>
+            {show && (
+                <DateTimePicker
+                  testID='dateTimePicker'
+                  value={date}
+                  mode={mode}
+                  is24Hour={true}
+                  display='default'
+                  onChange={onChange}
+                />
+              )}
+
+            {/* Back/forward arrows (change month) */}
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-end', flex: 1 }}>
+              <Pressable
+                onPress={() => {
+                  date.setMonth(date.getMonth() - 1);
+                  getEntries(date, navigation);
+                }}
+              >
+                <Icon name='arrow-left' color='#816868' />
+              </Pressable>
+              <Pressable
+                onPress={() => {
+                  date.setMonth(date.getMonth() + 1);
+                  getEntries(date, navigation);
+                }}
+              >
+                <Icon name='arrow-right' color='#816868' />
+              </Pressable>
             </View>
           </View>
 
           {/* Journal entry previews */}
-          <View style={{ marginHorizontal: '2.5%'}}>
+          <ScrollView showsVerticalScrollIndicator={false}>
             {journalEntries.map((item, index) => (
               <Pressable
                 key={index}
@@ -150,7 +147,6 @@ function JournalHistory({ route, navigation }) {
                   navigation.navigate('ViewJournalEntry', {
                     date: item.Timestamp,
                     entry: item.Entry,
-                    updateDate: item.LastUpdated
                   })
                 }}>
                 <View style={styles.journalItemSelect}>
@@ -165,9 +161,9 @@ function JournalHistory({ route, navigation }) {
                 </View>
               </Pressable>
             ))}
-          </View>
+            <View style={styles.pageEnd}/>
+          </ScrollView>
         </View>
-      </ScrollView>
       <NavBar navigation={navigation} journal={true} />
     </SafeAreaView>
   );
@@ -226,6 +222,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexWrap: 'wrap',
     marginRight: 20,
+  },
+  pageEnd: {
+    marginBottom: 100,
   },
   pageSetup: {
     alignItems: 'center',
