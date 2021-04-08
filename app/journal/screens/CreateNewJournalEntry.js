@@ -126,7 +126,7 @@ const CreateNewJournalEntry = ({ navigation, route }) => {
 
         <View style={styles().input}>
           <TextInput 
-            multiline style={styles.text}
+            multiline style={styles().text}
             value={entry}
             onChangeText={(entry) => setEntry(entry)}
           />

@@ -459,7 +459,6 @@ const NavBar = ({
         <Text
           numberOfLines={1}
           style={{
-            fontSize: 12,
             color:
               account
                 ? (global.colorblindMode

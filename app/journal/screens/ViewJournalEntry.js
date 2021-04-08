@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { Pressable } from 'react-native';
 import {
-  Button,
   StyleSheet,
   Modal,
   Text,
   View,
   SafeAreaView,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
@@ -60,36 +59,69 @@ const ViewJournalEntry = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* delete entry modal */}
+      {/* delete goal modal */}
       <View>
         <Modal
+          animationType='fade'
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
             setModalVisible(!modalVisible);
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={{backgroundColor: 'white', width: '75%', height: '20%'}}>
-              <Text style={styles.textModal}>Are you sure you want to delete this entry?</Text>
-
-              <View style={styles.inlineRow}>
-                <Button 
-                  title='Yes'
-                  onPress={() => {
-                    deleteEntry(date, navigation);
-                    setModalVisible(!modalVisible);
-                  }}
-                />
-                <Button 
-                  title='No'
-                  onPress={() => {
-                    setModalVisible(!modalVisible);
-                  }}
-                />
+          }}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 1,
+              backgroundColor: '#00000055',
+            }}>
+              <View style={styles.modalContainer}>
+                <View style={styles.modalHeaderBar}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 2,
+                      marginLeft: 6,
+                      marginVertical: 4,
+                    }}>
+                    <Icon
+                      name='pencil'
+                      type='material-community'
+                      color='white'
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles.textAlt}>Delete Entry</Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    marginHorizontal: '5%',
+                    maxHeight: '60%',
+                    marginVertical: 10,
+                  }}>
+                  <Text style={styles.text}>
+                    Are you sure you wish to delete this journal entry?
+                  </Text>
+                  <Text style={styles.textBoldAlt}>This action cannot be undone.</Text>
+                </View>
+                <View style={{ flexDirection: 'row', alignSelf: 'flex-end', marginVertical: 10, marginHorizontal: '5%', }}>
+                  <TouchableOpacity 
+                    style={{ marginRight: 20, }}
+                    onPress={() => {
+                      deleteEntry(date, navigation);
+                      setModalVisible(!modalVisible);
+                    }}>
+                    <Text style={styles.textDateTime}>DELETE</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                    <Text style={styles.textDateTime}>CANCEL</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
-          </View>
         </Modal>
       </View>
       
@@ -115,7 +147,7 @@ const ViewJournalEntry = ({ route, navigation }) => {
           />
         </View>
         {/* Word cloud view button */}
-        <Pressable 
+        <TouchableOpacity
           style={{ flexDirection: 'row', justifyContent: 'flex-end', flex: 1 }} 
           onPress={() =>
             navigation.navigate('WordCloudDisplay', {
@@ -125,7 +157,7 @@ const ViewJournalEntry = ({ route, navigation }) => {
         }>
           <Text style={{ color: '#816868', fontSize: 16, marginRight: 10 }}>Word Cloud View</Text>
           <Icon name='cloud' color='#816868' />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       {/* Month select */}
@@ -240,14 +272,50 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  modalContainer: {
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
+    alignItems: 'center',
+    width: '70%',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+  },
+  modalHeaderBar: {
+    backgroundColor: global.colorblindMode
+      ? global.cb_optionButtonsColor
+      : global.optionButtonsColor,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
   text: {
     fontSize: 16,
     color: '#816868',
+  },
+  textAlt: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
   textBold: {
     fontSize: 16,
     color: '#816868',
     fontWeight: 'bold',
+  },
+  textBoldAlt: {
+    fontSize: 16,
+    color: '#816868',
+    fontWeight: 'bold',
+    marginTop: 4,
   },
   textDateTime: {
     fontSize: 16,

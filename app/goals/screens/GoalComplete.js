@@ -18,21 +18,29 @@ function GoalComplete({ navigation }) {
         contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', }}
       >
         <View style={{ alignItems: 'center', }}>
-          <Image
-            style={styles.bannerImage}
-            source={require('../../shared/assets/goals-banner.png')}
-          />
 
+          {/* Congratulations banner + filler image */}
+          <Image source={require('../../shared/assets/goals-banner.png')}/>
+          <View style={{ marginVertical: '-4%' }}/>
+          <View style={{ width: '90%', height: '50%', }}>
+            <Image
+              style={styles.fillerImage}
+              source={require('../../shared/assets/goals-trophy.png')}
+            />
+          </View>
+          <View style={{ marginVertical: '-4%' }}/>
+          
           <View style={{ marginVertical: '10%', alignItems: 'center' }}>
             <Text style={styles.text}>You have completed a goal!</Text>
             <View style={styles.inlineRow}>
-              <Text style={styles.text}>+30 </Text>
+              <Text style={styles.text}>You have gained +30</Text>
               <Icon
                 name='star'
                 type='MaterialCommunityIcons'
                 color='#816868'
                 style={{ marginLeft: -2 }}
               />
+              <Text style={styles.text}>!</Text>
             </View>
           </View>
 
@@ -76,6 +84,12 @@ const styles = StyleSheet.create({
     color: '#4CB97A',
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  fillerImage: {
+    flex: 1,
+    width: '90%',
+    height: '50%',
+    resizeMode: 'contain',
   },
   iconView: {
     flex: 1,

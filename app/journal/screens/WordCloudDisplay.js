@@ -4,8 +4,8 @@ import {
   Text,
   View,
   SafeAreaView,
-  Pressable,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
@@ -65,7 +65,7 @@ const WordCloudDisplay = ({ route, navigation }) => {
           />
         </View>
         {/* Word cloud view button */}
-        <Pressable 
+        <TouchableOpacity
           style={{ flexDirection: 'row', justifyContent: 'flex-end', flex: 1 }} 
           onPress={() =>
             navigation.navigate('ViewJournalEntry', {
@@ -75,7 +75,7 @@ const WordCloudDisplay = ({ route, navigation }) => {
         }>
           <Text style={{ color: '#816868', fontSize: 16, marginRight: 10 }}>Journal Entry View</Text>
           <Icon name='bookmark' color='#816868' />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       {/* Month select */}

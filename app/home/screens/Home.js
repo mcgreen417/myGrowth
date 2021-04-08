@@ -9,7 +9,6 @@ import {
   Pressable,
 } from 'react-native';
 import * as queries from '../../../src/graphql/queries';
-
 import { ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
@@ -148,7 +147,7 @@ function Home({ navigation }) {
         <View style={{ marginTop: -20 }}>
           <Pressable
             style={styles().inlineRowEnd}
-            onPress={() => navigation.navigate('')}>
+            onPress={() => navigation.navigate('HealthEntryHistory')}>
             <View style={{ alignSelf: 'flex-end' }}>
               <Text style={styles().plantLinks}>View Past Entries</Text>
             </View>
@@ -170,8 +169,8 @@ function Home({ navigation }) {
         <View style={{ marginLeft: '29%' }}>
           <Pressable
             style={styles().inlineRow}
-            onPress={() => navigation.navigate('Journal')}>
-            <Text style={styles().text}>Write a journal entry</Text>
+            onPress={() => navigation.navigate('HealthEntry1')}>
+            <Text style={styles().text}>Write a health entry</Text>
             <Icon
               name='checkmark-circle-outline'
               type='ionicon'
@@ -190,12 +189,16 @@ function Home({ navigation }) {
 
           <Pressable
             style={styles().inlineRow}
-            onPress={() => navigation.navigate('Goals')}>
-            <Text style={styles().text}>Create a new goal</Text>
+            onPress={() => navigation.navigate('Journal')}>
+            <Text style={styles().text}>Write a journal entry</Text>
             <Icon
               name='checkmark-circle-outline'
               type='ionicon'
-              color='#4CB97A'
+              color={
+                global.colorblindMode
+                  ? global.cb_switchThumbColorTrue
+                  : global.switchThumbColorTrue
+              }
               style={{ marginLeft: 10 }}
             />
           </Pressable>
