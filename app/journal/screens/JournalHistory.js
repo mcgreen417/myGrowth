@@ -150,6 +150,7 @@ function JournalHistory({ route, navigation }) {
                   navigation.navigate('ViewJournalEntry', {
                     date: item.Timestamp,
                     entry: item.Entry,
+                    updateDate: item.LastUpdated
                   })
                 }}>
                 <View style={styles.journalItemSelect}>
