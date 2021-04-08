@@ -9,7 +9,6 @@ import {
   Pressable,
 } from 'react-native';
 import * as queries from '../../../src/graphql/queries';
-
 import { ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
@@ -43,7 +42,6 @@ function Home({ navigation }) {
         ;
 
       else {
-        const lastInd = res.data.getDailyEntries.dailyEntries.length - 1;
         var date = new Date(res.data.getDailyEntries.dailyEntries[0].Timestamp);
         const month = date.getMonth() + 1;
         const day = date.getDate();
@@ -149,7 +147,7 @@ function Home({ navigation }) {
         <View style={{ marginTop: -20 }}>
           <Pressable
             style={styles().inlineRowEnd}
-            onPress={() => navigation.navigate('')}>
+            onPress={() => navigation.navigate('HealthEntryHistory')}>
             <View style={{ alignSelf: 'flex-end' }}>
               <Text style={styles().plantLinks}>View Past Entries</Text>
             </View>

@@ -25,6 +25,7 @@ import WordCloudDisplay from './app/journal/screens/WordCloudDisplay';
 import { Goals } from './app/goals/screens/Goals';
 import { GoalComplete } from './app/goals/screens/GoalComplete';
 import HealthEntry from './app/healthentry/screens/HealthEntry';
+import HealthEntryHistory from './app/healthentry/screens/HealthEntryHistory';
 import EntryCompletion from './app/healthentry/screens/EntryCompletion';
 import { ToDoList } from './app/todolist/screens/ToDoList';
 import {
@@ -191,6 +192,12 @@ function App() {
         <Stack.Screen
           name='HealthEntry1'
           component={HealthEntry}
+          options={{ header: () => null }}
+        />
+
+        <Stack.Screen
+          name='HealthEntryHistory'
+          component={HealthEntryHistory}
           options={{ header: () => null }}
         />
 

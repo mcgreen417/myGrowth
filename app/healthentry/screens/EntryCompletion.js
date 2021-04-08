@@ -9,7 +9,6 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-import NavBar from '../../shared/components/NavBar';
 
 const EntryCompletion = () => {
   return (
