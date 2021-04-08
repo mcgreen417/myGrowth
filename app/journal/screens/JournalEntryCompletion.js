@@ -10,9 +10,9 @@ import {
 } from 'react-native';
 
 const JournalEntryCompletion = ({ route, navigation }) => {
-  const {date, entry} = route.params;
-  console.log(date);
-  console.log(entry);
+  const date = route.params.date;
+  console.log('hello ', date);
+  const entry = route.params.entry;
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView 

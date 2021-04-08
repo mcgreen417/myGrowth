@@ -87,7 +87,7 @@ const ViewJournalEntry = ({ route, navigation }) => {
           <Icon 
             name='arrow-back' 
             color='#816868' 
-            onPress={() => navigation.navigate('JournalHistory')}
+            onPress={() => getEntries(navigation)}
           />
           <Icon 
             name='pencil' 
@@ -154,6 +154,19 @@ const ViewJournalEntry = ({ route, navigation }) => {
     </SafeAreaView>
   );
 };
+
+async function getEntries(navigation) {
+  const date = new Date();
+  const datePass = date.toISOString();
+  const res = await API.graphql({
+    query: queries.getJournalEntries,
+    variables: {timerange: date.toISOString().slice(0, 7)}
+  });
+
+  const arr = res.data.getJournalEntries.journalEntries;
+
+  navigation.navigate('JournalHistory', {arr, datePass})
+}
 
 async function deleteEntry(date, navigation) {
   const datePass = new Date(date);

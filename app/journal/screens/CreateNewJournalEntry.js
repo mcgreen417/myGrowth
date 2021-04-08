@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,23 +9,25 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import * as mutations from '../../../src/graphql/mutations';
+import * as queries from '../../../src/graphql/queries';
 import { Auth, API } from 'aws-amplify';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { ScrollView } from 'react-native-gesture-handler';
+import { createIconSetFromFontello } from 'react-native-vector-icons';
 
 const CreateNewJournalEntry = ({ navigation }) => {
-  const [entry, setEntry] = useState('');
+  const [entry, setEntry] = useState(getPastEntry(new Date()));
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
-  const [dateInsert, setDateInsert] = useState(date.toISOString().slice(0, 10));
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    //console.log(currentDate);
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
-    setDateInsert(selectedDate.toISOString().slice(0, 10));
+    getPastEntry(currentDate);
+
+    setEntry(getPastEntry(currentDate));
   };
 
   const showMode = (currentMode) => {
@@ -36,6 +38,10 @@ const CreateNewJournalEntry = ({ navigation }) => {
   const showDatepicker = () => {
     showMode('date');
   };
+
+  const showTimePicker = () => {
+    showMode('time');
+  }
 
   return (
     <SafeAreaView style={styles().container}>
@@ -66,12 +72,15 @@ const CreateNewJournalEntry = ({ navigation }) => {
                 />
                 <Text 
                   style={styles().heading}
-                  onPress={() => saveEntry(dateInsert, entry, navigation)}
+                  onPress={() => saveEntry(date, entry, navigation)}
                 >
                   SAVE
                 </Text>
                 <TouchableOpacity onPress={showDatepicker}>  
                   <Icon name='event' type='material' color='#816868' />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={showTimePicker}>
+                  <Icon name='schedule' type='material' color='#816868' />
                 </TouchableOpacity>
                 {show && (
                     <DateTimePicker
@@ -83,7 +92,6 @@ const CreateNewJournalEntry = ({ navigation }) => {
                       onChange={onChange}
                     />
                   )}
-                <Icon name='schedule' type='material' color='#816868' />
               </View>
 
               {/* Text format buttons */}
@@ -118,13 +126,27 @@ const CreateNewJournalEntry = ({ navigation }) => {
   );
 };
 
+async function getPastEntry(date) {
+  const res = await API.graphql({
+    query: queries.getJournalEntry,
+    variables: {Timestamp: date}
+  });
+
+  if(res.data.getJournalEntry != null)
+    return res.data.getJournalEntry.Entry;
+  
+  else
+    return '';
+}
+
 async function saveEntry(date, entry, navigation) {
+  const datePass = date.toISOString();
   const res = await API.graphql({
     query: mutations.updateJournalEntry,
     variables: {Timestamp: date, Entry: entry}
   });
 
-  navigation.navigate('JournalEntryCompletion', {date, entry});
+  navigation.navigate('JournalEntryCompletion', {datePass, entry});
 }
 
 export default CreateNewJournalEntry;
