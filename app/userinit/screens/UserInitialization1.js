@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Auth, API } from 'aws-amplify';
 import {
+  Alert,
   Button,
   Image,
   SafeAreaView,
@@ -16,7 +17,7 @@ import {
 import { Icon } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
 import { ScrollView } from 'react-native-gesture-handler';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import RNDateTimePicker from '@react-native-community/datetimepicker';
 
 function UserInitialization1({ navigation }) {
   const [date, setDate] = useState(new Date());
@@ -29,10 +30,54 @@ function UserInitialization1({ navigation }) {
   const [dob, setDob] = useState('0000-00-00');
   const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
+  const [useHeightMeasurement, setToggleHeightMeasurement] = useState(false);
+  const [useWeightMeasurement, setToggleWeightMeasurement] = useState(false);
 
+  const currentDay = new Date().getDate();
+  const currentMonth = new Date().getMonth();
+  const currentYear = new Date().getFullYear();
+  const minimumUserBirthDate = new Date(currentYear - 13, currentMonth, currentDay);
+  const maximumUserBirthDate = new Date(currentYear - 150, currentMonth, currentDay);
+
+  const [userInitializationProperties, setUserInitializationProperties] = useState({
+    validFirstName: false,
+    validDateOfBirth: false,
+    validGender: false,
+    validBiologicalSex: false,
+    checkTextInputChange: false,
+    validSignUp: false,
+  });
+
+
+  const handleFirstNameChange = (firstName) => {
+    const firstNameRegexPattern = /^(?=.*[a-zA-Z]).{1,}$/;
+    const charsNotAllowedRegexPattern = /[^a-zA-Z-' ]/g;
+
+    firstName = firstName.replace(charsNotAllowedRegexPattern, '');
+    setFirstName(firstName);
+
+    if (firstName.match(firstNameRegexPattern)) {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validFirstName: true,
+        checkTextInputChange: true,
+      });
+    } else {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validFirstName: false,
+        checkTextInputChange: false,
+        validSignUp: false,        
+      });
+    }
+  }
+
+  // Birth date calendar selector.
+  // Currently marks is valid if user opens the calendar because the currentDate is auto-selected,
+  //   which is >= 13 years old.
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    //console.log(currentDate);
+    // console.log(currentDate);
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
 
@@ -50,6 +95,11 @@ function UserInitialization1({ navigation }) {
 
     setDateDisplayText(fullStr);
     setDob(selectedDate.toISOString().slice(0, 10));
+    
+    setUserInitializationProperties({
+      ...userInitializationProperties,
+      validDateOfBirth: true,
+    });
   };
 
   const showMode = (currentMode) => {
@@ -61,13 +111,148 @@ function UserInitialization1({ navigation }) {
     showMode('date');
   };
 
-  const [useHeightMeasurement, setToggleHeightMeasurement] = useState(false);
-  const toggleHeightMeasurement = () =>
-    setToggleHeightMeasurement((previousState) => !previousState);
+  const handleGenderChange = (itemValue) => {
+    setGender(itemValue);    
 
-  const [useWeightMeasurement, setToggleWeightMeasurement] = useState(false);
-  const toggleWeightMeasurement = () =>
+    if (itemValue === 'unselected') {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validGender: false,
+        validSignUp: false,        
+      });
+    } else {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validGender: true,
+      });  
+    }
+  }
+
+  const handleBioSexChange = (itemValue) => {
+    setBioSex(itemValue);    
+
+    if (itemValue === 'unselected') {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validBiologicalSex: false,
+        validSignUp: false,        
+      });
+    } else {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validBiologicalSex: true,
+      });  
+    }
+  }
+
+  const handleHeightChange = (height) => {
+    const heightRegexPattern = /^[0-9]*$/;
+    const charsNotAllowedRegex = /[^0-9]/g
+
+    height = height.replace(charsNotAllowedRegex, '');
+    setHeight(height);
+
+    if (height.match(heightRegexPattern)) {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validHeight: true,
+      });
+    } else {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validHeight: false,
+        validSignUp: false,
+      });
+    }
+  }
+
+  const handleWeightChange = (weight) => {
+    const weightRegexPattern = /^[0-9]*$/;
+    const charsNotAllowedRegex = /[^0-9]/g;
+
+    weight = weight.replace(charsNotAllowedRegex, '');
+    setWeight(weight);
+
+    if (weight.match(weightRegexPattern)) {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validWeight: true,
+      });
+    } else {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validWeight: false,
+        validSignUp: false,
+      });
+    }
+  }
+
+  const toggleHeightMeasurement = () => {
+    setToggleHeightMeasurement((previousState) => !previousState);
+  }
+
+  const toggleWeightMeasurement = () => {
     setToggleWeightMeasurement((previousState) => !previousState);
+  }
+
+  const checkRequiredFields = (firstName, dob, gender, bioSex) => {
+    const ableToSignUp = (userInitializationProperties.validFirstName
+                          && userInitializationProperties.validDateOfBirth
+                          && userInitializationProperties.validGender
+                          && userInitializationProperties.validBiologicalSex);
+    const validFirstName = userInitializationProperties.validFirstName;
+    const validDOB = userInitializationProperties.validDateOfBirth;
+    const validGender = userInitializationProperties.validGender;
+    const validBioSex = userInitializationProperties.validBiologicalSex;
+    
+    if (ableToSignUp) {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validSignUp: true,
+      });
+
+    } else {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validSignUp: false,
+      });
+
+      // Future update so that relevant input boxes have a red outline and a red 'x' next to/above them?
+      if (!validFirstName && !validDOB && !validGender && !validBioSex) {
+        createAlert('Oh no!', 'Please double-check that you entered information in the First Name, Date of Birth, Gender, and Biological Sex fields.');
+      } else if (!validFirstName && !validDOB && !validGender) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name, Date of Birth, and Gender fields.');
+      } else if (!validFirstName && !validDOB && !validBioSex) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name, Date of Birth, and Biological Sex fields.');
+      } else if (!validFirstName && !validGender && !validBioSex) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name, Gender, and Biological Sex fields.');
+      } else if (!validDOB && !validGender && !validBioSex) {
+        createAlert('Oh no!', 'Please double-check your entered information in the Date of Birth, Gender, and Biological Sex fields.');
+      } else if (!validFirstName && !validDOB) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name and Date of Birth fields.');
+      } else if (!validFirstName && !validGender) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name and Gender fields.');
+      } else if (!validFirstName && !validBioSex) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name and Biological Sex fields.');
+      } else if (!validDOB && !validGender) {
+        createAlert('Oh no!', 'Please double-check your entered information in the Date of Birth and Gender fields.');   
+      } else if (!validDOB && !validBioSex) {
+        createAlert('Oh no!', 'Please double-check your entered information in the Date of Birth and Biological Sex fields.');  
+      } else if (!validGender && !validBioSex) {
+        createAlert('Oh no!', 'Please double-check your entered information in the Gender and Biological Sex fields.'); 
+      } else if (!validFirstName) {
+        createAlert('Oh no!', 'Please make sure that you\'ve entered at least one character for your name.'); 
+      } else if (!validDOB) {
+        createAlert('Oh no!', 'Please make sure you\'ve selected your date of birth and are 13 years or older.'); 
+      } else if (!validGender) {
+        createAlert('Oh no!', 'Please select an option for Gender - if you do not wish to answer, please select \'Prefer not to answer\'.'); 
+      } else if (!validBioSex) {
+        createAlert('Oh no!', 'Please select an option for Biological Sex - if you do not wish to answer, please select \'Prefer not to answer\'.');   
+      } else {
+        createAlert('Error', 'Please check all fields and try again');
+      }
+    }
+  }  
 
   return (
     <SafeAreaView style={styles().container}>
@@ -120,8 +305,9 @@ function UserInitialization1({ navigation }) {
                 ? global.cb_textColor
                 : global.textColor}
               value = {firstName}
+              maxLength = {50}
               onChangeText = {(firstName) => {
-                setFirstName(firstName);
+                handleFirstNameChange(firstName);
               }}
             />
           </View>
@@ -141,21 +327,25 @@ function UserInitialization1({ navigation }) {
           <View style={styles().datePicker}>
             <TouchableOpacity onPress={showDatepicker}>
               <View style={styles().inlineRow}>
-                <Icon 
-                  name='calendar-sharp' 
-                  type='ionicon' 
-                  color='#816868'
-                  style={{ marginRight: 8, }} 
-                />
-                <Text style={{ textDecorationLine: 'underline', color: '#4CB97A', fontSize: 16, }}>
+                <Icon name='calendar-sharp' type='ionicon' color='#816868' />
+                <Text
+                  style={{
+                    textDecorationLine: 'underline',
+                    color: global.colorblindMode
+                      ? global.cb_hyperlinkedTextColor
+                      : global.hyperlinkedTextColor
+                  }}
+                >
                   {dateDisplayText}
                 </Text>
               </View>
             </TouchableOpacity>
             {show && (
-              <DateTimePicker
+              <RNDateTimePicker
                 testID='dateTimePicker'
-                value={date}
+                minimumDate={maximumUserBirthDate}
+                maximumDate={minimumUserBirthDate}
+                value={minimumUserBirthDate}
                 mode={mode}
                 is24Hour={true}
                 display='default'
@@ -181,7 +371,7 @@ function UserInitialization1({ navigation }) {
               <Picker
                 selectedValue={gender}
                 style={styles().picker}
-                onValueChange={(itemValue, itemIndex) => setGender(itemValue)}
+                onValueChange={(itemValue, itemIndex) => handleGenderChange(itemValue)}
                 mode={'dropdown'}>
                 <Picker.Item label='Select one...' value='unselected' />
                 <Picker.Item label='Male' value='male' />
@@ -210,7 +400,7 @@ function UserInitialization1({ navigation }) {
               <Picker
                 selectedValue={bioSex}
                 style={styles().picker}
-                onValueChange={(itemValue, itemIndex) => setBioSex(itemValue)}
+                onValueChange={(itemValue, itemIndex) => handleBioSexChange(itemValue)}
                 mode={'dropdown'}>
                 <Picker.Item label='Select one...' value='unselected' />
                 <Picker.Item label='Male' value='male' />
@@ -233,16 +423,17 @@ function UserInitialization1({ navigation }) {
           </View>
           <View style={styles().userPrompt}>
             <TextInput 
-              style={styles().textInput2} 
-              onChangeText = {(height) => setHeight(height)} 
+              style={styles().textInput2}
+              maxLength = {3}
+              value={height}
+              onChangeText = {(height) => handleHeightChange(height)} 
               placeholder='#'
               placeholderTextColor={
                 global.colorblindMode
                   ? global.cb_placeHolderTextColor
-                  : global.placeHolderTextColor}
-              color={global.colorblindMode
-              ? global.cb_textColor
-              : global.textColor}
+                  : global.placeHolderTextColor
+              }
+              keyboardType='number-pad'
             />
             <Text style={styles().text}>IN</Text>
             <View style={{ marginRight: 8, }}/>
@@ -278,16 +469,17 @@ function UserInitialization1({ navigation }) {
               </View>
               <View style={styles().userPrompt}>
                 <TextInput 
-                  style={styles().textInput3} 
-                  onChangeText = {(weight) => setWeight(weight)}
+                  style={styles().textInput3}
+                  maxLength = {3}
+                  value={weight}
+                  onChangeText = {(weight) => handleWeightChange(weight)}
                   placeholder='#' 
                   placeholderTextColor={
                     global.colorblindMode
                       ? global.cb_placeHolderTextColor
-                      : global.placeHolderTextColor}
-                  color={global.colorblindMode
-                    ? global.cb_textColor
-                    : global.textColor}
+                      : global.placeHolderTextColor
+                  }
+                  keyboardType='number-pad'
                 />
                 <Text style={styles().text}>LB</Text>
                 <View style={{ marginRight: 8, }}/>
@@ -321,13 +513,16 @@ function UserInitialization1({ navigation }) {
                       : global.optionButtonsColor
                   }
                   onPress={() => {
-                    updateUser(firstName, dob, gender, bioSex);
-                    navigation.navigate('UserInitialization2', { 
-                      height: height, 
-                      weight: weight, 
-                      heightMeasurement: useHeightMeasurement, 
-                      weightMeasurement: useWeightMeasurement
-                    });
+                    checkRequiredFields(firstName, dob, gender, bioSex);
+                    if (userInitializationProperties.validSignUp) {
+                      updateUser(firstName, dob, gender, bioSex);
+                      navigation.navigate('UserInitialization2', { 
+                        height: height, 
+                        weight: weight, 
+                        heightMeasurement: useHeightMeasurement, 
+                        weightMeasurement: useWeightMeasurement
+                      });
+                    }
                   }}
                 />
               </View>
@@ -336,6 +531,20 @@ function UserInitialization1({ navigation }) {
         </View>
       </ScrollView>
     </SafeAreaView>
+  );
+}
+
+const createAlert = (title, message) => {
+  Alert.alert(
+    title,
+    message,
+    [
+      {
+        text: 'Cancel',
+        style: 'cancel'
+      },
+      { text: 'OK', }
+    ]
   );
 }
 
