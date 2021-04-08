@@ -15,17 +15,27 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { ScrollView } from 'react-native-gesture-handler';
 import { createIconSetFromFontello } from 'react-native-vector-icons';
 
-const CreateNewJournalEntry = ({ navigation }) => {
-  const [entry, setEntry] = useState(getPastEntry(new Date()));
+const CreateNewJournalEntry = ({ navigation, route }) => {
+  var datePassed = new Date();
+  var entryPassed = '';
+  const updateDate = new Date();
+
+  if(route.params != null) {
+    datePassed = route.params.date;
+    entryPassed = route.params.entry;
+  }
+
+  const [entry, setEntry] = useState(entryPassed);
   const [show, setShow] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(datePassed);
   const [mode, setMode] = useState('date');
+
+  getPastEntry(date, navigation);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
-    getPastEntry(currentDate);
 
     setEntry(getPastEntry(currentDate));
   };
@@ -72,7 +82,7 @@ const CreateNewJournalEntry = ({ navigation }) => {
                 />
                 <Text 
                   style={styles().heading}
-                  onPress={() => saveEntry(date, entry, navigation)}
+                  onPress={() => saveEntry(date, entry, navigation, updateDate)}
                 >
                   SAVE
                 </Text>
@@ -134,19 +144,23 @@ async function getPastEntry(date) {
 
   if(res.data.getJournalEntry != null)
     return res.data.getJournalEntry.Entry;
-  
+
   else
     return '';
 }
 
-async function saveEntry(date, entry, navigation) {
-  const datePass = date.toISOString();
+async function saveEntry(datePass, entry, navigation, updateDatePass) {
+  const date = datePass.toISOString();
+  const updateDate = updateDatePass.toISOString();
+  
   const res = await API.graphql({
     query: mutations.updateJournalEntry,
-    variables: {Timestamp: date, Entry: entry}
+    variables: {Timestamp: date, Entry: entry, LastUpdated: updateDate}
   });
 
-  navigation.navigate('JournalEntryCompletion', {datePass, entry});
+  console.log(res);
+
+  navigation.navigate('JournalEntryCompletion', {date, entry, updateDate});
 }
 
 export default CreateNewJournalEntry;

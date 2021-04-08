@@ -11,7 +11,7 @@ import {
 
 const JournalEntryCompletion = ({ route, navigation }) => {
   const date = route.params.date;
-  console.log('hello ', date);
+  const updateDate = route.params.updateDate;
   const entry = route.params.entry;
   return (
     <SafeAreaView style={styles.container}>
@@ -48,7 +48,8 @@ const JournalEntryCompletion = ({ route, navigation }) => {
                 onPress={() =>
                   navigation.navigate('ViewJournalEntry', {
                     date,
-                    entry
+                    entry, 
+                    updateDate
                   })
                 }
               />

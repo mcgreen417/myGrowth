@@ -85,6 +85,7 @@ export const getSetting = /* GraphQL */ `
         userHeight
         userWeight
         metric
+        activityLevel
       }
       Medications {
         name
@@ -259,6 +260,92 @@ export const getDailyEntries = /* GraphQL */ `
     }
   }
 `;
+export const getDailyEntriesAsc = /* GraphQL */ `
+  query GetDailyEntriesAsc(
+    $UserID: ID
+    $count: Int
+    $nextToken: String
+    $timerange: String
+  ) {
+    getDailyEntriesAsc(
+      UserID: $UserID
+      count: $count
+      nextToken: $nextToken
+      timerange: $timerange
+    ) {
+      dailyEntries {
+        UserID
+        Timestamp
+        Health {
+          Period
+          Weight
+        }
+        Symptoms {
+          Title
+          Severity
+        }
+        Stress {
+          Severity
+          Stressors
+        }
+        Mood {
+          Mood
+          Feelings
+        }
+        Sleep {
+          Slept
+          Start
+          End
+          Quality
+          Naps {
+            Start
+            End
+            Quality
+          }
+        }
+        Meals {
+          Ate
+          TotalCalories
+          MealList {
+            Food
+            Calories
+            Proteins
+            Carbs
+            Fats
+          }
+          TotalProteins
+          TotalCarbs
+          TotalFats
+        }
+        Fitness {
+          Exercised
+          Duration
+          CaloriesBurned
+          Steps
+          Exercises {
+            Name
+            Sets
+            Reps
+            Duration
+            Weight
+            CaloriesBurned
+          }
+        }
+        MedCheck {
+          Name
+          Taken
+        }
+        Activities {
+          Activities {
+            Name
+            Duration
+          }
+        }
+      }
+      nextToken
+    }
+  }
+`;
 export const getChartData = /* GraphQL */ `
   query GetChartData($UserID: ID) {
     getChartData(UserID: $UserID) {
@@ -301,6 +388,7 @@ export const getJournalEntry = /* GraphQL */ `
         word
         count
       }
+      LastUpdated
     }
   }
 `;
@@ -324,6 +412,7 @@ export const getJournalEntries = /* GraphQL */ `
           word
           count
         }
+        LastUpdated
       }
       nextToken
     }

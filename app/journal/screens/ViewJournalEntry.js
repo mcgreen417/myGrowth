@@ -32,12 +32,24 @@ const monthNames = [
 
 const ViewJournalEntry = ({ route, navigation }) => {
   const journal_date  = route.params.date;
+  const journal_updateDate = route.params.updateDate;
   const journal_entry = route.params.entry;
   const d = new Date(journal_date);
+  const updateD = new Date(journal_updateDate);
   const [modalVisible, setModalVisible] = useState(false);
 
   const date =
     monthNames[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+
+  const updateDate = 
+    monthNames[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+
+  const updateTime = 
+    (updateD.getHours() % 12) +
+    1 +
+    ':' +
+    (updateD.getMinutes() < 10 ? '0' + updateD.getMinutes() : updateD.getMinutes()) +
+    (updateD.getHours() > 12 ? 'pm' : 'am');
 
   const time =
     (d.getHours() % 12) +
@@ -87,13 +99,13 @@ const ViewJournalEntry = ({ route, navigation }) => {
           <Icon 
             name='arrow-back' 
             color='#816868' 
-            onPress={() => getEntries(navigation)}
+            onPress={() => getEntries(navigation, journal_date)}
           />
           <Icon 
             name='pencil' 
             type='material-community' 
             color='#816868' 
-            onPress={() => navigation.navigate('CreateNewJournalEntry')}
+            onPress={() => goToEdit(navigation, journal_entry, journal_date)}
           />
           <Icon 
             name='close' 
@@ -139,9 +151,9 @@ const ViewJournalEntry = ({ route, navigation }) => {
           {/* Date/time of last entry edit */}
           <View style={{ flexDirection: 'row' }}>
             <Text style={styles.textBold}>Last edited on </Text>
-            <Text style={styles.textDateTime}>{date}</Text>
+            <Text style={styles.textDateTime}>{updateDate}</Text>
             <Text style={styles.textBold}> at </Text>
-            <Text style={styles.textDateTime}>{time}</Text>
+            <Text style={styles.textDateTime}>{updateTime}</Text>
           </View>
           {/* Entry text */}
           <View style={{ marginVertical: 8 }} >
@@ -155,8 +167,12 @@ const ViewJournalEntry = ({ route, navigation }) => {
   );
 };
 
-async function getEntries(navigation) {
-  const date = new Date();
+function goToEdit(navigation, entry, date) {
+  navigation.navigate('CreateNewJournalEntry', {entry, date});
+}
+
+async function getEntries(navigation, journal_date) {
+  const date = new Date(journal_date);
   const datePass = date.toISOString();
   const res = await API.graphql({
     query: queries.getJournalEntries,
