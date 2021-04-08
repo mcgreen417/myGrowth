@@ -47,16 +47,14 @@ function UserInitialization1({ navigation }) {
     validDateOfBirth: false,
     validGender: false,
     validBiologicalSex: false,
-    validHeight: true,
-    validWeight: true,
     checkTextInputChange: false,
     validSignUp: false,
   });
 
 
   const handleFirstNameChange = (firstName) => {
-    const firstNameRegexPattern = /^(?=.*[a-zA-z]).{1,}$/;
-    const charsNotAllowedRegexPattern = /[^a-zA-z-' ]/g;
+    const firstNameRegexPattern = /^(?=.*[a-zA-Z]).{1,}$/;
+    const charsNotAllowedRegexPattern = /[^a-zA-Z-' ]/g;
 
     firstName = firstName.replace(charsNotAllowedRegexPattern, '');
     setFirstName(firstName);
@@ -67,7 +65,6 @@ function UserInitialization1({ navigation }) {
         validFirstName: true,
         checkTextInputChange: true,
       });
-      console.log("valid");
     } else {
       setUserInitializationProperties({
         ...userInitializationProperties,
@@ -75,7 +72,6 @@ function UserInitialization1({ navigation }) {
         checkTextInputChange: false,
         validSignUp: false,        
       });
-      console.log("invalid");
     }
   }
 
@@ -121,7 +117,7 @@ function UserInitialization1({ navigation }) {
   const handleGenderChange = (itemValue) => {
     setGender(itemValue);    
 
-    if (itemValue === "unselected") {
+    if (itemValue === 'unselected') {
       setUserInitializationProperties({
         ...userInitializationProperties,
         validGender: false,
@@ -138,7 +134,7 @@ function UserInitialization1({ navigation }) {
   const handleBioSexChange = (itemValue) => {
     setBioSex(itemValue);    
 
-    if (itemValue === "unselected") {
+    if (itemValue === 'unselected') {
       setUserInitializationProperties({
         ...userInitializationProperties,
         validBiologicalSex: false,
@@ -202,7 +198,7 @@ function UserInitialization1({ navigation }) {
     setToggleWeightMeasurement((previousState) => !previousState);
   }
 
-  const checkRequiredFields = (firstName, dob, gender, bioSex, height, weight) => {
+  const checkRequiredFields = (firstName, dob, gender, bioSex) => {
     const ableToSignUp = (userInitializationProperties.validFirstName
                           && userInitializationProperties.validDateOfBirth
                           && userInitializationProperties.validGender
@@ -211,8 +207,6 @@ function UserInitialization1({ navigation }) {
     const validDOB = userInitializationProperties.validDateOfBirth;
     const validGender = userInitializationProperties.validGender;
     const validBioSex = userInitializationProperties.validBiologicalSex;
-    const validHeight = userInitializationProperties.validHeight;
-    const validWeight = userInitializationProperties.validWeight;
     
     if (ableToSignUp) {
       setUserInitializationProperties({
@@ -509,7 +503,7 @@ function UserInitialization1({ navigation }) {
                       : global.optionButtonsColor
                   }
                   onPress={() => {
-                    checkRequiredFields(firstName, dob, gender, bioSex, height, weight);
+                    checkRequiredFields(firstName, dob, gender, bioSex);
                     if (userInitializationProperties.validSignUp) {
                       navigation.navigate('UserInitialization2', { 
                         height: height, 
