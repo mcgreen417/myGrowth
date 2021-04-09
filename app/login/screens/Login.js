@@ -191,7 +191,9 @@ async function signIn(username, pw, navigation) {
           break;
         case 'NotAuthorizedException':
           createAlert('Oh no!', 'Email and password combination not found, please check your information and try again.');
+          break;
         default:
+          console.log(error);
           createAlert('Error', 'Please try signing in again.');
       }
     }
