@@ -19,10 +19,22 @@ function Start({ navigation }) {
     global.colorblindMode = !global.colorblindMode;
   };
 
+  const STATUS_BAR_HEIGHT = Platform.OS === 'ios' ? 48 : StatusBar.currentHeight;
+
   return (
     // styles is now a function (styles()), will allow us to reload changes made to stylesheet
     //   from the colorblind mode toggle.
     <SafeAreaView style={styles().container}>
+      <View style={{
+        marginTop: -50,
+        marginBottom: 5,
+        width: "100%",
+        height: STATUS_BAR_HEIGHT,
+        backgroundColor:
+          global.colorblindMode
+            ? global.cb_statusBarColor
+            : global.statusBarColor
+        }}>
       <StatusBar
         backgroundColor={
           global.colorblindMode
@@ -31,6 +43,7 @@ function Start({ navigation }) {
         }
         barStyle='light-content'
       />
+      </View>
       <ScrollView 
         showsVerticalScrollIndicator={false} 
         keyboardShouldPersistTaps='handled' 
