@@ -139,29 +139,31 @@ function JournalHistory({ route, navigation }) {
           </View>
 
           {/* Journal entry previews */}
-          <ScrollView showsVerticalScrollIndicator={false}>
-            {journalEntries.map((item, index) => (
-              <Pressable
-                key={index}
-                onPress={() => {
-                  navigation.navigate('ViewJournalEntry', {
-                    date: item.Timestamp,
-                    entry: item.Entry,
-                    updateDate: item.LastUpdated
-                  })
-                }}>
-                <View style={styles.journalItemSelect}>
-                  {/* Journal entry date */}
-                  <View style={{ marginRight: 20, alignItems: 'center' }}>
-                    <Text style={styles.journalDate}>{monthAbbreviations[new Date(item.Timestamp).getMonth()]}</Text>
-                    <Text style={styles.journalDate}>{new Date(item.Timestamp).getDate()}</Text>
-                    <Text style={styles.journalDate}>{new Date(item.Timestamp).getFullYear()}</Text>
+          <ScrollView showsVerticalScrollIndicator={false} style={{ width: '100%' }}>
+            <View style={{ marginLeft: '2.5%', marginRight: '4%' }}>
+              {journalEntries.map((item, index) => (
+                <Pressable
+                  key={index}
+                  onPress={() => {
+                    navigation.navigate('ViewJournalEntry', {
+                      date: item.Timestamp,
+                      entry: item.Entry,
+                      updateDate: item.LastUpdated
+                    })
+                  }}>
+                  <View style={styles.journalItemSelect}>
+                    {/* Journal entry date */}
+                    <View style={{ marginRight: 20, alignItems: 'center' }}>
+                      <Text style={styles.journalDate}>{monthAbbreviations[new Date(item.Timestamp).getMonth()]}</Text>
+                      <Text style={styles.journalDate}>{new Date(item.Timestamp).getDate()}</Text>
+                      <Text style={styles.journalDate}>{new Date(item.Timestamp).getFullYear()}</Text>
+                    </View>
+                    {/* Journal entry text preview */}
+                    <Text numberOfLines={3} style={styles.journalText}>{item.Entry}</Text>
                   </View>
-                  {/* Journal entry text preview */}
-                  <Text numberOfLines={3} style={styles.journalText}>{item.Entry}</Text>
-                </View>
-              </Pressable>
-            ))}
+                </Pressable>
+              ))}
+            </View>
             <View style={styles.pageEnd}/>
           </ScrollView>
         </View>
@@ -208,7 +210,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 1,
     backgroundColor: '#816868',
-    marginHorizontal: '5%',
+    marginHorizontal: ' 5%',
   },
   dividerView: {
     flexDirection: 'row',
@@ -243,7 +245,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 8,
-    width: '90%',
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: {
@@ -256,6 +257,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#816868',
     backgroundColor: '#816868',
+    
   },
   journalText: {
     fontSize: 16,
