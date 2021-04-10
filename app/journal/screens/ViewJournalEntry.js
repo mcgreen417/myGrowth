@@ -217,6 +217,7 @@ async function getEntries(navigation, journal_date) {
 
 async function deleteEntry(entry, date, navigation) {
   const dateRet = new Date(date);
+  const timerange = {start: new Date(dateRet.getFullYear(), dateRet.getMonth(), 1), end: new Date(dateRet.getFullYear(), dateRet.getMonth() + 1, 0)};
   const datePass = dateRet.toISOString();
 
   const res = await API.graphql({
@@ -226,7 +227,7 @@ async function deleteEntry(entry, date, navigation) {
 
   const forRet = await API.graphql({
     query: queries.getJournalEntries,
-    variables: {timerange: dateRet.toISOString().slice(0, 7)}
+    variables: {timerange: timerange}
   });
 
   const arr = forRet.data.getJournalEntries.journalEntries;
