@@ -27,6 +27,7 @@ const dayLabels = [
 
 const monthLabels = [
   "Jan",
+  "Feb",
   "Mar",
   "May",
   "July",
@@ -37,11 +38,11 @@ const monthLabels = [
 function HistoryGeneralHealth2({ route, navigation }) {
   const data = route.params.data;
   const symptoms = getPickerLabels(data);
-  const arr = initDisplayData(symptoms, data, 'unselected');
+  const arr = initDisplayData(symptoms, data, 'past_week');
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [timePeriod, setTimePeriod] = useState('unselected');
-  const [selectsymptom, setSymptom] = useState('unselected');
+  const [timePeriod, setTimePeriod] = useState('past_week');
+  const [selectsymptom, setSymptom] = useState(symptoms[0]);
   const [timestamps, setTimestamps] = useState(dayLabels);
   const [displayData, setDisplayData] = useState(arr);
 
@@ -117,12 +118,11 @@ function HistoryGeneralHealth2({ route, navigation }) {
                   onValueChange={(itemValue, itemIndex) => {
                     setTimePeriod(itemValue);
                     getTimestamps(data, timestamps, setTimestamps, itemValue);
-                    getDisplayData(selectsymptom === 'unselected' ? symptoms[0] : selectsymptom, data, itemValue, setDisplayData);
+                    getDisplayData(selectsymptom, data, itemValue, setDisplayData);
                     console.log(displayData);
                   }}
                   mode={'dropdown'}
                 >
-                  <Picker.Item label='Select one...' value='unselected' />
                   <Picker.Item label='Past week' value='past_week' />
                   <Picker.Item label='Past month' value='past_month' />
                   <Picker.Item label='Past year' value='past_year' />
@@ -137,12 +137,11 @@ function HistoryGeneralHealth2({ route, navigation }) {
                   style={styles().picker}
                   onValueChange={(itemValue, itemIndex) => {
                     setSymptom(itemValue);
-                    getDisplayData(itemValue === 'unselected' ? symptoms[0] : itemValue, data, timePeriod, setDisplayData);
+                    getDisplayData(itemValue, data, timePeriod, setDisplayData);
                     getTimestamps(data, timestamps, setTimestamps, timePeriod);
                   }}
                   mode={'dropdown'}
                 >
-                  <Picker.Item label='Select One...' value='unselected'/>
                   {symptoms.map((item, index) => {
                     return (
                         <Picker.Item key={index} label={item} value={item} />
@@ -274,7 +273,7 @@ function getDisplayData(symptomName, data, timePeriod, setDisplayData) {
   var len = data.symptomData.length;
   console.log(timePeriod);
 
-  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+  if(timePeriod === 'past_week')
     for(var i = len < 7 ? 0 : len - 7; i < len; i++)
       for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
         if(key == symptomName)
@@ -311,7 +310,7 @@ function initDisplayData(symptoms, data, timePeriod) {
   var arr = [];
   var len = data.symptomData.length;
 
-  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+  if(timePeriod === 'past_week')
     for(var i = len < 7 ? 0 : len - 7; i < len; i++)
       for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
         if(key == symptoms[0])
@@ -354,7 +353,7 @@ function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
       dates.push(date.toISOString().substring(5, 10));
   }
 
-  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+  if(timePeriod === 'past_week')
     setTimestamps(dayLabels);
 
   else if(timePeriod === 'past_month')

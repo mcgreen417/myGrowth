@@ -39,8 +39,8 @@ function HistorySleep2({ route, navigation }) {
   const arr = initDisplayData(data);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [timePeriod, setTimePeriod] = useState('unselected');
-  const [sleepView, setSleepView] = useState('unselected');
+  const [timePeriod, setTimePeriod] = useState('past_week');
+  const [sleepView, setSleepView] = useState('sleep_only');
   const [timestamps, setTimestamps] = useState(dayLabels);
   const [displayData, setDisplayData] = useState(arr);
   const [useReccSleep, setUseReccSleep] = useState(false);
@@ -273,42 +273,58 @@ function HistorySleep2({ route, navigation }) {
   );
 };
 
+function cleanUpData(arr) {
+  const len = arr.length;
+
+  for(var i = 0; i < len; i++)
+    if(arr[i] == -1)
+      arr[i] = 0;
+
+  return arr;
+}
+
 function initDisplayData(data) {
   var len = data.nightQualityData.length;
   var arr = [];
 
   arr = data.nightQualityData.slice(len - 7, len);
+  arr = cleanUpData(arr);
 
   return arr;
 }
 
 function getDisplayData(data, timePeriod, setDisplayData, sleepView) {
-  console.log(data.napQualityData);
-  if(sleepView === 'sleep_only' || sleepView === 'unselected') {
+  var arr = [];
+
+  if(sleepView === 'sleep_only') {
     var len = data.nightQualityData.length;
 
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
-      setDisplayData(data.nightQualityData.slice(len - 7, len));
+    if(timePeriod === 'past_week')
+      arr = data.nightQualityData.slice(len - 7, len);
 
     else if(timePeriod === 'past_month')
-      setDisplayData(data.nightQualityData.slice(len - 30, len));
+      arr = data.nightQualityData.slice(len - 30, len);
 
     else
-      setDisplayData(data.nightQualityData.slice(len - 365, len));
+      arr = data.nightQualityData.slice(len - 365, len);
   }
 
   if(sleepView === 'naps_only') {
     var len = data.napQualityData.length;var len = data.stressData.length;
 
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
-      setDisplayData(data.napQualityData.slice(len - 7, len));
+    if(timePeriod === 'past_week')
+      arr = data.napQualityData.slice(len - 7, len);
 
     else if(timePeriod === 'past_month')
-      setDisplayData(data.napQualityData.slice(len - 30, len));
+      arr = data.napQualityData.slice(len - 30, len);
 
     else
-      setDisplayData(data.napQualityData.slice(len - 365, len));
+      arr = data.napQualityData.slice(len - 365, len);
   }
+
+  arr = cleanUpData(arr);
+
+  setDisplayData(arr);
 }
 
 function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
@@ -321,7 +337,7 @@ function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
       dates.push(date.toISOString().substring(5, 10));
   }
 
-  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+  if(timePeriod === 'past_week')
     setTimestamps(dayLabels);
 
   else if(timePeriod === 'past_month')

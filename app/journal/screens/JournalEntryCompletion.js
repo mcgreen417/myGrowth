@@ -10,9 +10,9 @@ import {
 } from 'react-native';
 
 const JournalEntryCompletion = ({ route, navigation }) => {
-  const {date, entry} = route.params;
-  console.log(date);
-  console.log(entry);
+  const date = route.params.date;
+  const updateDate = route.params.updateDate;
+  const entry = route.params.entry;
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView 
@@ -53,7 +53,8 @@ const JournalEntryCompletion = ({ route, navigation }) => {
                 onPress={() =>
                   navigation.navigate('ViewJournalEntry', {
                     date,
-                    entry
+                    entry, 
+                    updateDate
                   })
                 }
               />

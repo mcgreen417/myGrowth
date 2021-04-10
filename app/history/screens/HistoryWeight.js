@@ -39,7 +39,7 @@ function HistoryWeight({ route, navigation }) {
   const arr = initDisplayData(data);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [timePeriod, setTimePeriod] = useState('unselected');
+  const [timePeriod, setTimePeriod] = useState('past_week');
   const [timestamps, setTimestamps] = useState(dayLabels);
   const [displayData, setDisplayData] = useState(arr);
 
@@ -117,7 +117,6 @@ function HistoryWeight({ route, navigation }) {
                 }}
                 mode={'dropdown'}
               >
-                <Picker.Item label='Select one...' value='unselected' />
                 <Picker.Item label='Past week' value='past_week' />
                 <Picker.Item label='Past month' value='past_month' />
                 <Picker.Item label='Past year' value='past_year' />
@@ -207,26 +206,47 @@ function HistoryWeight({ route, navigation }) {
   );
 };
 
+function cleanUpData(arr) {
+  const len = arr.length;
+
+  for(var i = 0; i < len; i++)
+    if(arr[i] == -1) {
+      if(i === 0)
+        arr[i] = arr[i + 1];
+
+      else
+        arr[i] = arr[i - 1];
+    }
+
+  return arr;
+}
+
 function initDisplayData(data) {
   var len = data.weightData.length;
   var arr = [];
 
   arr = data.weightData.slice(len - 7, len);
+  arr = cleanUpData(arr);
 
   return arr;
 }
 
 function getDisplayData(data, timePeriod, setDisplayData) {
   var len = data.weightData.length;
+  var arr = [];
 
-  if(timePeriod === 'past_week' || timePeriod === 'unselected')
-    setDisplayData(data.weightData.slice(len - 7, len));
+  if(timePeriod === 'past_week')
+    arr = data.weightData.slice(len - 7, len);
 
   else if(timePeriod === 'past_month')
-    setDisplayData(data.weightData.slice(len - 30, len));
+    arr = data.weightData.slice(len - 30, len);
 
   else
-    setDisplayData(data.stressData.slice(len - 365, len));
+    arr = data.stressData.slice(len - 365, len);
+
+  arr = cleanUpData(arr);
+
+  setDisplayData(arr);
 }
 
 function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
@@ -239,7 +259,7 @@ function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
       dates.push(date.toISOString().substring(5, 10));
   }
 
-  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+  if(timePeriod === 'past_week')
     setTimestamps(dayLabels);
 
   else if(timePeriod === 'past_month')

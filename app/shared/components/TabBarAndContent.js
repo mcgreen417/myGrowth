@@ -1,6 +1,6 @@
 import { button } from '@aws-amplify/ui';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Image, Pressable, ScrollView } from 'react-native';
 import {
   LineChart,
   BarChart,
@@ -309,30 +309,27 @@ const TabBarAndContent = ({
         </View>
 
         {/* Render heat map */}
-        {showTable && page2Color && <ContributionGraph
-          values={multiPageData}
-          endDate={new Date()}
-          numDays={90}
-          width={353}
-          height={250}
-          chartConfig={{
-            backgroundColor: "#4CB97A",
-            backgroundGradientFrom: "#4CB97A",
-            backgroundGradientTo: "#4CB97A",
-            fillShadowGradientOpacity: 3,
-            decimalPlaces: 2, // optional, defaults to 2dp
-            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            style: {
-              borderRadius: 16
-            },
-            propsForDots: {
-              r: "6",
-              strokeWidth: "2",
-              stroke: "#4CB97A"
-            }
-          }}
-        />}
+        {showTable && page2Color &&  
+          <ContributionGraph
+            values={multiPageData}
+            endDate={new Date()}
+            numDays={90}
+            width={353}
+            height={250}
+            chartConfig={{
+              backgroundColor: "#4CB97A",
+              backgroundGradientFrom: "#4CB97A",
+              backgroundGradientTo: "#4CB97A",
+              fillShadowGradientOpacity: 3,
+              decimalPlaces: 2, // optional, defaults to 2dp
+              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              style: {
+                borderRadius: 16
+              }
+            }}
+          />
+        }
 
         {/* Render bar graph */}
         {showTable && !page2Color && <BarChart 
