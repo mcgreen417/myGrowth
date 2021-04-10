@@ -98,7 +98,19 @@ const Graph = ({labels, data1, data2, legend}) => {
     );
 };
 
-const TwoPickers = ({picker1, setPicker1, picker2, setPicker2}) => {
+const TwoPickers = ({
+    picker1, 
+    setPicker1, 
+    picker2, 
+    setPicker2,
+    setShowSleep,
+    setShowNap,
+    setShowFitness,
+    setShowActivities,
+    setShowMeal,
+    setShowSymptom,
+    setShowMedicine
+}) => {
     return (
         <View 
             style={{ 
@@ -115,6 +127,17 @@ const TwoPickers = ({picker1, setPicker1, picker2, setPicker2}) => {
                         style={styles().picker}
                         onValueChange={(itemValue, itemIndex) => {
                             setPicker1(itemValue);
+                            //if(itemValue === 'mood')
+                            //if(itemValue === 'stress')
+                            //if(itemValue === 'sleep')
+                            //if(itemValue === 'nap')
+                            //if(itemValue === 'weight')
+                            //if(itemValue === 'period')
+                            //if(itemValue === 'mood')
+                            //if(itemValue === 'mood')
+                            //if(itemValue === 'mood')
+                            //if(itemValue === 'mood')
+                            //if(itemValue === 'mood')
                         }}
                         mode={'dropdown'}
                     >
@@ -162,15 +185,24 @@ const TwoPickers = ({picker1, setPicker1, picker2, setPicker2}) => {
     );
 };
 
-const Modals = ({modalName}) => {
-    //page modals
-    const [showSleep, setShowSleep] = useState(false);
-    const [showNap, setShowNap] = useState(false);
-    const [showFitness, setShowFitness] = useState(false);
-    const [showActivities, setShowActivities] = useState(false);
-    const [showMeal, setShowMeal] = useState(false);
-    const [showSymptom, setShowSymptom] = useState(false);
-    const [showMedicine, setShowMedicine] = useState(false);
+const Modals = ({
+    showSleep,
+    setShowSleep,
+    showNap,
+    setShowNap,
+    showFitness, 
+    setShowFitness,
+    showActivities, 
+    setShowActivities,
+    showMeal, 
+    setShowMeal,
+    showSymptom, 
+    setShowSymptom,
+    showMedicine, 
+    setShowMedicine,
+    data,
+    setData
+}) => {
 
     return (
         <View>
@@ -180,7 +212,7 @@ const Modals = ({modalName}) => {
 
             {/* Middle divider */}
             <View style={styles().dividerView}>
-                <View style={styles().divider} />
+                <View style={styles().modalDivider} />
             </View>
         </View>
     );
@@ -196,6 +228,15 @@ function HistoryCorrelations({ route, navigation }) {
     const [data2, setData2] = useState([12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
     const [labels, setLabels] = useState(monthLabels);
     const [legend, setLegend] = useState(['Data1', 'Data2']);
+
+    //page modals
+    const [showSleep, setShowSleep] = useState(false);
+    const [showNap, setShowNap] = useState(false);
+    const [showFitness, setShowFitness] = useState(false);
+    const [showActivities, setShowActivities] = useState(false);
+    const [showMeal, setShowMeal] = useState(false);
+    const [showSymptom, setShowSymptom] = useState(false);
+    const [showMedicine, setShowMedicine] = useState(false);
 
     return (
       <SafeAreaView style={styles().container}>
@@ -247,6 +288,13 @@ function HistoryCorrelations({ route, navigation }) {
                     setPicker1={setPicker1}
                     picker2={picker2}
                     setPicker2={setPicker2}
+                    setShowSleep={setShowSleep}
+                    setShowNap={setShowNap}
+                    setShowFitness={setShowFitness}
+                    setShowActivities={setShowActivities}
+                    setShowMeal={setShowMeal}
+                    setShowSymptom={setShowSymptom}
+                    setShowMedicine={setShowMedicine}
                 />
 
                 {/* Middle divider */}
@@ -254,9 +302,45 @@ function HistoryCorrelations({ route, navigation }) {
                     <View style={styles().divider} />
                 </View>
 
-                <Modals modalName={picker1} setData1={setData1} data1={data1}/>
+                <Modals 
+                    showSleep={showSleep}
+                    setShowSleep={setShowSleep}
+                    showNap={showNap}
+                    setShowNap={setShowNap}
+                    showFitness={showFitness}
+                    setShowFitness={setShowFitness}
+                    showActivities={showActivities}
+                    setShowActivities={setShowActivities}
+                    showMeal={showMeal}
+                    setShowMeal={setShowMeal}
+                    showSymptom={showSymptom}
+                    setShowSymptom={setShowSymptom}
+                    showMedicine={showMedicine}
+                    setShowMedicine={setShowMedicine}
+                    data={data1}
+                    setData={setData1}
+                />
 
-                <Modals modalName={picker2} setData2={setData2} data2={data2}/>
+                <Modals 
+                    showSleep={showSleep}
+                    setShowSleep={setShowSleep}
+                    showNap={showNap}
+                    setShowNap={setShowNap}
+                    showFitness={showFitness}
+                    setShowFitness={setShowFitness}
+                    showActivities={showActivities}
+                    setShowActivities={setShowActivities}
+                    showMeal={showMeal}
+                    setShowMeal={setShowMeal}
+                    showSymptom={showSymptom}
+                    setShowSymptom={setShowSymptom}
+                    showMedicine={showMedicine}
+                    setShowMedicine={setShowMedicine}
+                    data={data2}
+                    setData={setData2}
+                />
+
+                <View style={styles().pageEnd} />
             </View>
         </ScrollView>
 
@@ -324,6 +408,18 @@ const styles = () => StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 6,
+    },
+    modalDivider: {
+        flex: 1,
+        height: 1,
+        backgroundColor: global.colorblindMode
+            ? global.cb_contentDividerColor
+            : global.contentDividerColor,
+        marginLeft: 3,
+        marginRight: 3,
+    },
+    pageEnd: {
+        marginBottom: 100,
     },
     pageSetup: {
         alignItems: 'center',
