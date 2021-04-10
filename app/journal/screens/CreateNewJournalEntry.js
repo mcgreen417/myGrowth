@@ -19,10 +19,12 @@ const CreateNewJournalEntry = ({ navigation, route }) => {
   var datePassed = new Date();
   var entryPassed = '';
   const updateDate = new Date();
+  var oldEntry = false;
 
   if(route.params != null) {
     datePassed = route.params.date;
     entryPassed = route.params.entry;
+    oldEntry = true;
   }
 
   const [entry, setEntry] = useState(entryPassed);
@@ -30,14 +32,10 @@ const CreateNewJournalEntry = ({ navigation, route }) => {
   const [date, setDate] = useState(datePassed);
   const [mode, setMode] = useState('date');
 
-  getPastEntry(date, navigation);
-
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
-
-    setEntry(getPastEntry(currentDate));
   };
 
   const showMode = (currentMode) => {
@@ -82,7 +80,7 @@ const CreateNewJournalEntry = ({ navigation, route }) => {
                 />
                 <Text 
                   style={styles().heading}
-                  onPress={() => saveEntry(date, entry, navigation, updateDate)}
+                  onPress={() => saveEntry(date, entry, navigation, updateDate, oldEntry)}
                 >
                   SAVE
                 </Text>
@@ -136,29 +134,17 @@ const CreateNewJournalEntry = ({ navigation, route }) => {
   );
 };
 
-async function getPastEntry(date) {
-  const res = await API.graphql({
-    query: queries.getJournalEntry,
-    variables: {Timestamp: date}
-  });
-
-  if(res.data.getJournalEntry != null)
-    return res.data.getJournalEntry.Entry;
-
-  else
-    return '';
-}
-
-async function saveEntry(datePass, entry, navigation, updateDatePass) {
+async function saveEntry(datePass, entry, navigation, updateDatePass, oldEntry) {
   const date = datePass.toISOString();
-  const updateDate = updateDatePass.toISOString();
+  var updateDate = updateDatePass.toISOString();
+
+  if(!oldEntry)
+    updateDate = date;
   
   const res = await API.graphql({
     query: mutations.updateJournalEntry,
     variables: {Timestamp: date, Entry: entry, LastUpdated: updateDate}
   });
-
-  console.log(res);
 
   navigation.navigate('JournalEntryCompletion', {date, entry, updateDate});
 }

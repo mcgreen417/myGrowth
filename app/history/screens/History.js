@@ -106,7 +106,7 @@ function HistoryHealthEntries({ route, navigation }) {
                 ? global.cb_optionButtonsColor
                 : global.optionButtonsColor
               }
-              onPress={() => navigation.navigate('HistoryHealthEntries')}>
+              onPress={() => navigation.navigate('HistoryCorrelations', {data})}>
             </Button>
           </View>
 
@@ -117,14 +117,6 @@ function HistoryHealthEntries({ route, navigation }) {
     </SafeAreaView>
   );
 }
-
-const HistoryCorrelations = ({ navigation }) => {
-  return (
-    <SafeAreaView>
-      <Text>{/* add correlations page here */}</Text>
-    </SafeAreaView>
-  );
-};
 
 function isEmpty(obj) {
   for(var i in obj)
@@ -250,7 +242,7 @@ function genCommits(arr, labels) {
   return commitsArr;
 }
 
-export { HistoryHealthEntries, HistoryCorrelations };
+export default HistoryHealthEntries;
 
 const styles = () => StyleSheet.create({
   container: {

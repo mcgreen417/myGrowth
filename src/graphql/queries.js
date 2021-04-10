@@ -179,7 +179,7 @@ export const getDailyEntries = /* GraphQL */ `
     $UserID: ID
     $count: Int
     $nextToken: String
-    $timerange: String
+    $timerange: Timerange
   ) {
     getDailyEntries(
       UserID: $UserID
@@ -265,7 +265,7 @@ export const getDailyEntriesAsc = /* GraphQL */ `
     $UserID: ID
     $count: Int
     $nextToken: String
-    $timerange: String
+    $timerange: Timerange
   ) {
     getDailyEntriesAsc(
       UserID: $UserID
@@ -397,7 +397,7 @@ export const getJournalEntries = /* GraphQL */ `
     $UserID: ID
     $count: Int
     $nextToken: String
-    $timerange: String
+    $timerange: Timerange
   ) {
     getJournalEntries(
       UserID: $UserID
@@ -418,5 +418,29 @@ export const getJournalEntries = /* GraphQL */ `
     }
   }
 `;
-/* eslint-disable */
-// this is an auto generated file. This will be overwritten
+export const getJournalEntriesAsc = /* GraphQL */ `
+  query GetJournalEntriesAsc(
+    $UserID: ID
+    $count: Int
+    $nextToken: String
+    $timerange: Timerange
+  ) {
+    getJournalEntriesAsc(
+      UserID: $UserID
+      count: $count
+      nextToken: $nextToken
+      timerange: $timerange
+    ) {
+      journalEntries {
+        Entry
+        Timestamp
+        FreqWords {
+          word
+          count
+        }
+        LastUpdated
+      }
+      nextToken
+    }
+  }
+`;

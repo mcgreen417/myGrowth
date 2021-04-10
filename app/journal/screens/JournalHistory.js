@@ -51,7 +51,7 @@ function JournalHistory({ route, navigation }) {
   const [date, setDate] = useState(new Date(datePass));
   const [mode, setMode] = useState('date');
   const [journalEntries, setJournalEntries] = useState(arr);
-
+  
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     //console.log(currentDate);
@@ -147,6 +147,7 @@ function JournalHistory({ route, navigation }) {
                   navigation.navigate('ViewJournalEntry', {
                     date: item.Timestamp,
                     entry: item.Entry,
+                    updateDate: item.LastUpdated
                   })
                 }}>
                 <View style={styles.journalItemSelect}>
