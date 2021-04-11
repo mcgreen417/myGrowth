@@ -11,6 +11,7 @@ import {
   ScrollView,
 } from 'react-native';
 import StatusBariOS from '../../shared/components/StatusBariOS';
+import OSButton from '../../shared/components/OSButton';
 
 function Start({ navigation }) {
   // Colorblind mode switch initialization
@@ -96,7 +97,12 @@ function Start({ navigation }) {
           </Text>
           {/* Sign up + login buttons */}
           <View style={styles().buttons}>
-            <Button
+            <OSButton
+              buttonText='SIGN UP'
+              navigationPath={navigation}
+              screenName='SignUp'
+            />
+            {/* <Button
               title='SIGN UP'
               color={
                 global.colorblindMode
@@ -104,7 +110,7 @@ function Start({ navigation }) {
                   : global.optionButtonsColor
               }
               onPress={() => navigation.navigate('SignUp')}
-            />
+            /> */}
             <View style={{ marginVertical: 8 }} />
             <Button
               title='LOG IN'
