@@ -463,11 +463,27 @@ function HistoryCorrelations({ route, navigation }) {
 }
 
 function makeLabels(timePeriod, setLabels) {
+    
+}
 
+function makeArr(objArr, target) {
+    const length = objArr.length;
+    var arr = [];
+
+    for(var i = 0; i < length; i++)
+        for(var [key, value] of Object.entries(JSON.parse(data.activityData[i]))) {
+            if(key === target)
+                arr.push(value);
+
+            else
+                arr.push(0);
+        }
+    
+    return arr;
 }
 
 function makeData(data, setData, page, category, timePeriod) {
-    var map = new Map();
+    var arrFromObj = [];
     var arr = [];
 
     if(page === 'sleep') {
@@ -568,6 +584,9 @@ function makeData(data, setData, page, category, timePeriod) {
 
         //it is some exercise
         else {
+            arrFromObj = makeArr(data.fitnessData.exercises, category);
+            let length = arrFromObj;
+
             if(timePeriod === 'past_week')
                 ;
 
@@ -687,6 +706,9 @@ function makeData(data, setData, page, category, timePeriod) {
     }
 
     else if(page === 'activity') {
+        arrFromObj = makeArr(data.activityData, category);
+        let length = arrFromObj;
+
         //it is some activity
         if(timePeriod === 'past_week')
             ;
@@ -699,6 +721,9 @@ function makeData(data, setData, page, category, timePeriod) {
     }
 
     else if(page === 'symptom') {
+        arrFromObj = makeArr(data.symptomData, category);
+        let length = arrFromObj;
+
         //it is some symptom
         if(timePeriod === 'past_week')
             ;
@@ -712,6 +737,9 @@ function makeData(data, setData, page, category, timePeriod) {
 
     //medication
     else {
+        arrFromObj = makeArr(data.medicineData.meds, category);
+        let length = arrFromObj;
+
         //it is some medication
         if(timePeriod === 'past_week')
             ;
