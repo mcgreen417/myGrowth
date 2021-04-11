@@ -17,6 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Cache } from "react-native-cache"
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
+import StatusBariOS from '../../shared/components/StatusBariOS';
 
 //MISSING BACKEND HOOKUP FOR: PIN
 function UserSettings({ navigation, route }) {
@@ -60,6 +61,7 @@ function UserSettings({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles().container}>
+      <StatusBariOS />
       <StatusBar
         backgroundColor={
           global.colorblindMode
