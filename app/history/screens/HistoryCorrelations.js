@@ -105,6 +105,7 @@ const DataChoosers = ({
     showMeal,
     showSymptom,
     showMedicine,
+    timePeriod,
     dataRecs,
     data,
     setData
@@ -282,12 +283,15 @@ const DataChoosers = ({
 function HistoryCorrelations({ route, navigation }) {
     const data = route.params.data;
 
+    console.log(data.fitnessData);
+
     const [modalVisible, setModalVisible] = useState(false);
     const [picker1, setPicker1] = useState('mood');
     const [picker2, setPicker2] = useState('stress');
     const [data1, setData1] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
     const [data2, setData2] = useState([12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
     const [labels, setLabels] = useState(monthLabels);
+    const [timePeriod, setTimePeriod] = useState('past_month');
     const [legend, setLegend] = useState(['Data1', 'Data2']);
 
     return (
@@ -395,11 +399,6 @@ function HistoryCorrelations({ route, navigation }) {
                     </View>
                 </View>
 
-                {/* Middle divider */}
-                <View style={styles().dividerView}>
-                    <View style={styles().divider} />
-                </View>
-
                 <DataChoosers 
                     showSleep={picker1 === 'sleep' ? true : false}
                     showNap={picker1 === 'nap' ? true : false}
@@ -409,6 +408,7 @@ function HistoryCorrelations({ route, navigation }) {
                     showSymptom={picker1 === 'symptoms' ? true : false}
                     showMedicine={picker1 === 'medications' ? true : false}
                     dataRecs={data}
+                    timePeriod={timePeriod}
                     data={data1}
                     setData={setData1}
                 />
@@ -422,9 +422,37 @@ function HistoryCorrelations({ route, navigation }) {
                     showSymptom={picker2 === 'symptoms' ? true : false}
                     showMedicine={picker2 === 'medications' ? true : false}
                     dataRecs={data}
+                    timePeriod={timePeriod}
                     data={data2}
                     setData={setData2}
                 />
+
+                <View style={styles().dividerView}>
+                    <View style={styles().divider} />
+                </View>
+
+                <View style={{width: '90%'}}>
+                    <Text style={styles().heading1}>Please select the time period you like to view.</Text>
+                </View>
+
+                <View>
+                    <Text style={styles().heading}>TIME PERIOD</Text>
+                    <View style={styles().pickerView}>
+                        <Picker
+                            selectedValue={timePeriod}
+                            style={styles().picker}
+                            onValueChange={(itemValue, itemIndex) => {
+                                setTimePeriod(itemValue);
+                            }}
+                            mode={'dropdown'}
+                        >
+                            <Picker.Item label='Past Week' value='past_week' />
+                            <Picker.Item label='Past Month' value='past_month' />
+                            <Picker.Item label='Past Year' value='past_year' />
+                        </Picker>
+                    </View>
+                </View>
+
                 <View style={styles().pageEnd} />
             </View>
         </ScrollView>
@@ -434,95 +462,265 @@ function HistoryCorrelations({ route, navigation }) {
     );
 }
 
-function makeData(data, setData, page, category) {
+function makeLabels(timePeriod, setLabels) {
+
+}
+
+function makeData(data, setData, page, category, timePeriod) {
     var map = new Map();
     var arr = [];
 
     if(page === 'sleep') {
         if(category === 'quality') {
+            let length = data.nightQualityData.length;
 
+            if(timePeriod === 'past_week')
+                arr = data.nightQualityData.slice(length - 7, length);
+
+            else if(timePeriod === 'past_month')
+                arr = data.nightQualityData.slice(length - 30, length);
+
+            else
+                arr = data.nightQualityData.slice(length - 365, length);
         }
 
         else {
+            let length = data.nightSleepData.length;
 
+            if(timePeriod === 'past_week')
+                arr = data.nightSleepData.slice(length - 7, length);
+
+            else if(timePeriod === 'past_month')
+                arr = data.nightSleepData.slice(length - 30, length);
+
+            else
+                arr = data.nightSleepData.slice(length - 365, length);
         }
     }
 
     else if(page === 'nap') {
         if(category === 'quality') {
+            let length = data.napQualityData.length;
 
+            if(timePeriod === 'past_week')
+                arr = data.napQualityData.slice(length - 7, length);
+
+            else if(timePeriod === 'past_month')
+                arr = data.napQualityData.slice(length - 30, length);
+
+            else
+                arr = data.napQualityData.slice(length - 365, length);
         }
 
         else {
-            
+            let length = data.napSleepData.length;
+
+            if(timePeriod === 'past_week')
+                arr = data.napSleepData.slice(length - 7, length);
+
+            else if(timePeriod === 'past_month')
+                arr = data.napSleepData.slice(length - 30, length);
+
+            else
+                arr = data.napSleepData.slice(length - 365, length);
         }
     }
 
     else if(page === 'fitness') {
         if(category === 'burned') {
-    
+            let length = data.fitnessData.burned.length;
+
+            if(timePeriod === 'past_week')
+                arr = data.fitnessData.burned.slice(length - 7, length);
+
+            else if(timePeriod === 'past_month')
+                arr = data.fitnessData.burned.slice(length - 30, length);
+
+            else
+                arr = data.fitnessData.burned.slice(length - 365, length);
         }
 
         else if(category === 'dur') {
+            let length = data.fitnessData.dur.length;
 
+            if(timePeriod === 'past_week')
+                arr = data.fitnessData.dur.slice(length - 7, length);
+
+            else if(timePeriod === 'past_month')
+                arr = data.fitnessData.dur.slice(length - 30, length);
+
+            else
+                arr = data.fitnessData.dur.slice(length - 365, length);
         }
 
         else if(category === 'steps') {
+            let length = data.fitnessData.steps.length;
 
+            if(timePeriod === 'past_week')
+                arr = data.fitnessData.steps.slice(length - 7, length);
+
+            else if(timePeriod === 'past_month')
+                arr = data.fitnessData.steps.slice(length - 30, length);
+
+            else
+                arr = data.fitnessData.steps.slice(length - 365, length);
         }
 
         //it is some exercise
         else {
+            if(timePeriod === 'past_week')
+                ;
 
+            else if(timePeriod === 'past_month')
+                ;
+
+            else
+                ;
         }
     }
 
     else if(page === 'meal') {
         if(category === 'cals') {
+            let length = data.mealData.calories.length;
 
+            if(timePeriod === 'past_week')
+                arr = data.mealData.calories.slice(length - 7, length);
+
+            else if(timePeriod === 'past_month')
+                arr = data.mealData.calories.slice(length - 30, length);
+
+            else
+                arr = data.mealData.calories.slice(length - 365, length);
         }
 
         else if(category === 'carbs') {
+            let length = data.mealData.carbs.length;
 
+            if(timePeriod === 'past_week')
+                arr = data.mealData.carbs.slice(length - 7, length);
+
+            else if(timePeriod === 'past_month')
+                arr = data.mealData.carbs.slice(length - 30, length);
+
+            else
+                arr = data.mealData.carbs.slice(length - 365, length);
         }
 
         else if(category === 'fats') {
+            let length = data.mealData.fats.length;
 
+            if(timePeriod === 'past_week')
+                arr = data.mealData.fats.slice(length - 7, length);
+
+            else if(timePeriod === 'past_month')
+                arr = data.mealData.fats.slice(length - 30, length);
+
+            else
+                arr = data.mealData.fats.slice(length - 365, length);
         }
 
         //proteins
         else {
+            let length = data.mealData.proteins.length;
 
+            if(timePeriod === 'past_week')
+                arr = data.mealData.proteins.slice(length - 7, length);
+
+            else if(timePeriod === 'past_month')
+                arr = data.mealData.proteins.slice(length - 30, length);
+
+            else
+                arr = data.mealData.proteins.slice(length - 365, length);
         }
     }
 
     else if(page === 'period') {
+        let length = data.periodData.length;
 
+        if(timePeriod === 'past_week')
+            arr = data.periodData.slice(length - 7, length);
+
+        else if(timePeriod === 'past_month')
+            arr = data.periodData.slice(length - 30, length);
+
+        else
+            arr = data.periodData.slice(length - 365, length);
     }
 
     else if(page === 'mood') {
+        let length = data.moodData.length;
 
+        if(timePeriod === 'past_week')
+            arr = data.moodData.slice(length - 7, length);
+
+        else if(timePeriod === 'past_month')
+            arr = data.moodData.slice(length - 30, length);
+
+        else
+            arr = data.moodData.slice(length - 365, length);
     }
 
     else if(page === 'stress') {
+        let length = data.stressData.length;
 
+        if(timePeriod === 'past_week')
+            arr = data.stressData.slice(length - 7, length);
+
+        else if(timePeriod === 'past_month')
+            arr = data.stressData.slice(length - 30, length);
+
+        else
+            arr = data.stressData.slice(length - 365, length);
     }
 
     else if(page === 'weight') {
+        let length = data.weightData.length;
 
+        if(timePeriod === 'past_week')
+            arr = data.weightData.slice(length - 7, length);
+
+        else if(timePeriod === 'past_month')
+            arr = data.weightData.slice(length - 30, length);
+
+        else
+            arr = data.weightData.slice(length - 365, length);
     }
 
     else if(page === 'activity') {
         //it is some activity
+        if(timePeriod === 'past_week')
+            ;
+
+        else if(timePeriod === 'past_month')
+            ;
+
+        else
+            ;
     }
 
     else if(page === 'symptom') {
         //it is some symptom
+        if(timePeriod === 'past_week')
+            ;
+
+        else if(timePeriod === 'past_month')
+            ;
+
+        else
+            ;
     }
 
     //medication
     else {
         //it is some medication
+        if(timePeriod === 'past_week')
+            ;
+
+        else if(timePeriod === 'past_month')
+            ;
+
+        else
+            ;
     }
 }
 
