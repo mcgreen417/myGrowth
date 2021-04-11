@@ -172,9 +172,10 @@ function JournalHistory({ route, navigation }) {
 
 async function getEntries(date, navigation) {
   const datePass = date.toISOString();
+  const timerange = {start: new Date(date.getFullYear(), date.getMonth(), 1), end: new Date(date.getFullYear(), date.getMonth() + 1, 0)};
   const res = await API.graphql({
     query: queries.getJournalEntries,
-    variables: {timerange: date.toISOString().slice(0, 7)}
+    variables: {timerange: timerange}
   });
 
   const arr = res.data.getJournalEntries.journalEntries;

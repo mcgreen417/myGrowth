@@ -97,25 +97,48 @@ const Graph = ({labels, data1, data2, legend}) => {
     );
 };
 
-const DataChoosers = ({ page, data, setData }) => {
-    //pages
-    const [showSleep, setShowSleep] = useState(page === 'sleep' ? true : false);
-    const [showNap, setShowNap] = useState(page === 'nap' ? true : false);
-    const [showFitness, setShowFitness] = useState(page === 'fitness' ? true : false);
-    const [showActivities, setShowActivities] = useState(page === 'activity' ? true : false);
-    const [showMeal, setShowMeal] = useState(page === 'meals' ? true : false);
-    const [showSymptom, setShowSymptom] = useState(page === 'symptoms' ? true : false);
-    const [showMedicine, setShowMedicine] = useState(page === 'medications' ? true : false);
-
-    console.log(page)
+const DataChoosers = ({ 
+    showSleep,
+    showNap, 
+    showFitness,
+    showActivities,
+    showMeal,
+    showSymptom,
+    showMedicine,
+    dataRecs,
+    data,
+    setData
+}) => {
 
     const [picker, setPicker] = useState('unselected');
+
     return (
         <View style={{width: '90%'}}>
-            {/* SLEEP || NAP */}
-            { (showSleep || showNap) &&
+            {/* SLEEP */}
+            { showSleep &&
                 <View>
-                    <Text style={styles().heading}>Use either the duration or quality of your rest!</Text>
+                    <Text style={styles().heading2}>Use either the duration or quality of your sleep!</Text>
+                    <View style={styles().pickerView}>
+                        <Picker
+                            selectedValue={picker}
+                            style={styles().picker}
+                            onValueChange={(itemValue, itemIndex) => {
+                                setPicker(itemValue);
+                            }}
+                            mode={'dropdown'}
+                        >
+                            <Picker.Item label='Select One...' value='unselected'/>
+                            <Picker.Item label='Duration' value='duration'/>
+                            <Picker.Item label='Quality' value='quality'/>
+                        </Picker>
+                    </View>
+                </View>
+            }
+
+            {/* NAP */}
+            { showNap &&
+                <View>
+                    <Text style={styles().heading2}>Use either the duration or quality of your naps!</Text>
                     <View style={styles().pickerView}>
                         <Picker
                             selectedValue={picker}
@@ -136,7 +159,7 @@ const DataChoosers = ({ page, data, setData }) => {
             {/* FITNESS */}
             { showFitness &&
                 <View>
-                    <Text style={styles().heading}>Choose from a number of options regarding your fitness!</Text>
+                    <Text style={styles().heading2}>Choose from a number of options regarding your fitness!</Text>
                     <View style={styles().pickerView}>
                         <Picker
                             selectedValue={picker}
@@ -160,7 +183,7 @@ const DataChoosers = ({ page, data, setData }) => {
             {/* ACTIVITIES */}
             { showActivities &&
                 <View>
-                    <Text style={styles().heading}>Compare data with specific activities!</Text>
+                    <Text style={styles().heading2}>Compare data with specific activities!</Text>
                     <View style={styles().pickerView}>
                         <Picker
                             selectedValue={picker}
@@ -184,7 +207,7 @@ const DataChoosers = ({ page, data, setData }) => {
             {/* MEAL */}
             { showMeal &&
                 <View>
-                    <Text style={styles().heading}>Compare data with your nutritional values!</Text>
+                    <Text style={styles().heading2}>Compare data with your nutritional values!</Text>
                     <View style={styles().pickerView}>
                         <Picker
                             selectedValue={picker}
@@ -205,9 +228,9 @@ const DataChoosers = ({ page, data, setData }) => {
             }
 
             {/* SYMPTOM */}
-            { showSymptom || showNap &&
+            { showSymptom &&
                 <View>
-                    <Text style={styles().heading}>Track how your symptoms may be affecting other aspects your days!</Text>
+                    <Text style={styles().heading2}>Track how your symptoms may be affecting other aspects your days!</Text>
                     <View style={styles().pickerView}>
                         <Picker
                             selectedValue={picker}
@@ -231,7 +254,7 @@ const DataChoosers = ({ page, data, setData }) => {
             {/* MEDICINE */}
             { showMedicine &&
                 <View>
-                    <Text style={styles().heading}>Choose between your medications and inspect how they may be affecting you!</Text>
+                    <Text style={styles().heading2}>Choose between your medications and inspect how they may be affecting you!</Text>
                     <View style={styles().pickerView}>
                         <Picker
                             selectedValue={picker}
@@ -258,14 +281,10 @@ const DataChoosers = ({ page, data, setData }) => {
 
 function HistoryCorrelations({ route, navigation }) {
     const data = route.params.data;
-    var string1 = 'mood';
-    var string2 = 'stress';
 
     const [modalVisible, setModalVisible] = useState(false);
     const [picker1, setPicker1] = useState('mood');
     const [picker2, setPicker2] = useState('stress');
-    const [chooser1, setChooser1] = useState(false);
-    const [chooser2, setChooser2] = useState(false);
     const [data1, setData1] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
     const [data2, setData2] = useState([12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
     const [labels, setLabels] = useState(monthLabels);
@@ -381,35 +400,31 @@ function HistoryCorrelations({ route, navigation }) {
                     <View style={styles().divider} />
                 </View>
 
-                {(picker1 !== ('mood' || 'weight' || 'period' || 'stress')) || (picker2 !== ('mood' || 'weight' || 'period' || 'stress')) && 
-                    <View>
-                        <View style={{width: '90%'}}>
-                            <Text style={styles().heading1}>Get more specific data for the page(s) you selected.</Text>
-                        </View>
+                <DataChoosers 
+                    showSleep={picker1 === 'sleep' ? true : false}
+                    showNap={picker1 === 'nap' ? true : false}
+                    showFitness={picker1 === 'fitness' ? true : false}
+                    showActivities={picker1 === 'activity' ? true : false}
+                    showMeal={picker1 === 'meals' ? true : false}
+                    showSymptom={picker1 === 'symptoms' ? true : false}
+                    showMedicine={picker1 === 'medications' ? true : false}
+                    dataRecs={data}
+                    data={data1}
+                    setData={setData1}
+                />
 
-                        {/* Middle divider */}
-                        <View style={styles().dividerView}>
-                            <View style={styles().divider2} />
-                        </View>
-                    </View>
-                }
-
-                {picker1 !== ('mood' || 'weight' || 'period' || 'stress') &&
-                    <DataChoosers 
-                        page={picker1}
-                        data={data1}
-                        setData={setData1}
-                    />
-                }
-
-                {picker2 !== ('mood' || 'weight' || 'period' || 'stress') &&
-                    <DataChoosers 
-                        page={picker2}
-                        data={data2}
-                        setData={setData2}
-                    />
-                }
-
+                <DataChoosers 
+                    showSleep={picker2 === 'sleep' ? true : false}
+                    showNap={picker2 === 'nap' ? true : false}
+                    showFitness={picker2 === 'fitness' ? true : false}
+                    showActivities={picker2 === 'activity' ? true : false}
+                    showMeal={picker2 === 'meals' ? true : false}
+                    showSymptom={picker2 === 'symptoms' ? true : false}
+                    showMedicine={picker2 === 'medications' ? true : false}
+                    dataRecs={data}
+                    data={data2}
+                    setData={setData2}
+                />
                 <View style={styles().pageEnd} />
             </View>
         </ScrollView>
@@ -419,8 +434,96 @@ function HistoryCorrelations({ route, navigation }) {
     );
 }
 
-function makeData(data1, data2) {
+function makeData(data, setData, page, category) {
+    var map = new Map();
+    var arr = [];
 
+    if(page === 'sleep') {
+        if(category === 'quality') {
+
+        }
+
+        else {
+
+        }
+    }
+
+    else if(page === 'nap') {
+        if(category === 'quality') {
+
+        }
+
+        else {
+            
+        }
+    }
+
+    else if(page === 'fitness') {
+        if(category === 'burned') {
+    
+        }
+
+        else if(category === 'dur') {
+
+        }
+
+        else if(category === 'steps') {
+
+        }
+
+        //it is some exercise
+        else {
+
+        }
+    }
+
+    else if(page === 'meal') {
+        if(category === 'cals') {
+
+        }
+
+        else if(category === 'carbs') {
+
+        }
+
+        else if(category === 'fats') {
+
+        }
+
+        //proteins
+        else {
+
+        }
+    }
+
+    else if(page === 'period') {
+
+    }
+
+    else if(page === 'mood') {
+
+    }
+
+    else if(page === 'stress') {
+
+    }
+
+    else if(page === 'weight') {
+
+    }
+
+    else if(page === 'activity') {
+        //it is some activity
+    }
+
+    else if(page === 'symptom') {
+        //it is some symptom
+    }
+
+    //medication
+    else {
+        //it is some medication
+    }
 }
 
 export default HistoryCorrelations;
@@ -487,6 +590,15 @@ const styles = () => StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 6,
+    },
+    heading2: {
+        color: global.colorblindMode
+          ? global.cb_textColor
+          : global.textColor,
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 6,
+        marginTop: 12,
     },
     pageEnd: {
         marginBottom: 100,
