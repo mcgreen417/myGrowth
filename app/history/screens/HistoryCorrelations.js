@@ -20,7 +20,6 @@ import {
 import { Icon } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
-import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
 
 const dayLabels = [
@@ -98,122 +97,184 @@ const Graph = ({labels, data1, data2, legend}) => {
     );
 };
 
-const TwoPickers = ({
-    picker1, 
-    setPicker1, 
-    picker2, 
-    setPicker2,
-    setShowSleep,
-    setShowNap,
-    setShowFitness,
-    setShowActivities,
-    setShowMeal,
-    setShowSymptom,
-    setShowMedicine
-}) => {
-    return (
-        <View 
-            style={{ 
-            width: '90%', 
-            justifyContent: 'flex-start', 
-            marginVertical: 20, 
-            flexDirection: 'row',
-        }}>
-            <View style={{ width: '50%', }}>
-                <Text style={styles().heading}>PAGE 1</Text>
-                <View style={styles().pickerView}>
-                    <Picker
-                        selectedValue={picker1}
-                        style={styles().picker}
-                        onValueChange={(itemValue, itemIndex) => {
-                            setPicker1(itemValue);
-                            //if(itemValue === 'mood')
-                            //if(itemValue === 'stress')
-                            //if(itemValue === 'sleep')
-                            //if(itemValue === 'nap')
-                            //if(itemValue === 'weight')
-                            //if(itemValue === 'period')
-                            //if(itemValue === 'mood')
-                            //if(itemValue === 'mood')
-                            //if(itemValue === 'mood')
-                            //if(itemValue === 'mood')
-                            //if(itemValue === 'mood')
-                        }}
-                        mode={'dropdown'}
-                    >
-                        <Picker.Item label='Mood' value='mood' />
-                        <Picker.Item label='Stress' value='stress' />
-                        <Picker.Item label='Sleep' value='sleep' />
-                        <Picker.Item label='Nap' value='nap' />
-                        <Picker.Item label='Weight' value='weight' />
-                        <Picker.Item label='Period' value='period' />
-                        <Picker.Item label='Fitness' value='fitness' />
-                        <Picker.Item label='Activities' value='activity' />
-                        <Picker.Item label='Meals' value='meals' />
-                        <Picker.Item label='Symptoms' value='symptoms' />
-                        <Picker.Item label='Medications' value='medications' />
-                    </Picker>
-                </View>
-            </View>
-
-            <View style={{ width: '50%', }}>
-                <Text style={styles().heading}>PAGE 2</Text>
-                <View style={styles().pickerView}>
-                    <Picker
-                        selectedValue={picker2}
-                        style={styles().picker}
-                        onValueChange={(itemValue, itemIndex) => {
-                            setPicker2(itemValue);
-                        }}
-                        mode={'dropdown'}
-                    >
-                        <Picker.Item label='Mood' value='mood' />
-                        <Picker.Item label='Stress' value='stress' />
-                        <Picker.Item label='Sleep' value='sleep' />
-                        <Picker.Item label='Nap' value='nap' />
-                        <Picker.Item label='Weight' value='weight' />
-                        <Picker.Item label='Period' value='period' />
-                        <Picker.Item label='Fitness' value='fitness' />
-                        <Picker.Item label='Activities' value='activity' />
-                        <Picker.Item label='Meals' value='meals' />
-                        <Picker.Item label='Symptoms' value='symptoms' />
-                        <Picker.Item label='Medications' value='medications' />
-                    </Picker>
-                </View>
-            </View>
-        </View>
-    );
-};
-
-const Modals = ({
+const DataChoosers = ({ 
     showSleep,
-    setShowSleep,
-    showNap,
-    setShowNap,
-    showFitness, 
-    setShowFitness,
-    showActivities, 
-    setShowActivities,
-    showMeal, 
-    setShowMeal,
-    showSymptom, 
-    setShowSymptom,
-    showMedicine, 
-    setShowMedicine,
+    showNap, 
+    showFitness,
+    showActivities,
+    showMeal,
+    showSymptom,
+    showMedicine,
+    dataRecs,
     data,
     setData
 }) => {
 
-    return (
-        <View>
-            <View style={{width: '90%'}}>
-                <Text style={styles().heading1}>Get more specific data for the page you selected.</Text>
-            </View>
+    const [picker, setPicker] = useState('unselected');
 
-            {/* Middle divider */}
-            <View style={styles().dividerView}>
-                <View style={styles().modalDivider} />
-            </View>
+    return (
+        <View style={{width: '90%'}}>
+            {/* SLEEP */}
+            { showSleep &&
+                <View>
+                    <Text style={styles().heading2}>Use either the duration or quality of your sleep!</Text>
+                    <View style={styles().pickerView}>
+                        <Picker
+                            selectedValue={picker}
+                            style={styles().picker}
+                            onValueChange={(itemValue, itemIndex) => {
+                                setPicker(itemValue);
+                            }}
+                            mode={'dropdown'}
+                        >
+                            <Picker.Item label='Select One...' value='unselected'/>
+                            <Picker.Item label='Duration' value='duration'/>
+                            <Picker.Item label='Quality' value='quality'/>
+                        </Picker>
+                    </View>
+                </View>
+            }
+
+            {/* NAP */}
+            { showNap &&
+                <View>
+                    <Text style={styles().heading2}>Use either the duration or quality of your naps!</Text>
+                    <View style={styles().pickerView}>
+                        <Picker
+                            selectedValue={picker}
+                            style={styles().picker}
+                            onValueChange={(itemValue, itemIndex) => {
+                                setPicker(itemValue);
+                            }}
+                            mode={'dropdown'}
+                        >
+                            <Picker.Item label='Select One...' value='unselected'/>
+                            <Picker.Item label='Duration' value='duration'/>
+                            <Picker.Item label='Quality' value='quality'/>
+                        </Picker>
+                    </View>
+                </View>
+            }
+
+            {/* FITNESS */}
+            { showFitness &&
+                <View>
+                    <Text style={styles().heading2}>Choose from a number of options regarding your fitness!</Text>
+                    <View style={styles().pickerView}>
+                        <Picker
+                            selectedValue={picker}
+                            style={styles().picker}
+                            onValueChange={(itemValue, itemIndex) => {
+                                setPicker(itemValue);
+                            }}
+                            mode={'dropdown'}
+                        >
+                            <Picker.Item label='Select One...' value='unselected'/>
+                            <Picker.Item label='Calories Burned' value='burned'/>
+                            <Picker.Item label='Workout Duration' value='dur'/>
+                            <Picker.Item label='Total Steps' value='steps'/>
+                            <Picker.Item label='Exercise 1' value='exercise_1'/>
+                            <Picker.Item label='Exercise 2' value='exercise_2'/>
+                        </Picker>
+                    </View>
+                </View>
+            }
+
+            {/* ACTIVITIES */}
+            { showActivities &&
+                <View>
+                    <Text style={styles().heading2}>Compare data with specific activities!</Text>
+                    <View style={styles().pickerView}>
+                        <Picker
+                            selectedValue={picker}
+                            style={styles().picker}
+                            onValueChange={(itemValue, itemIndex) => {
+                                setPicker(itemValue);
+                            }}
+                            mode={'dropdown'}
+                        >
+                            <Picker.Item label='Select One...' value='unselected'/>
+                            <Picker.Item label='Activity 1' value='activity_1'/>
+                            <Picker.Item label='Activity 2' value='activity_2'/>
+                            <Picker.Item label='Activity 3' value='activity_3'/>
+                            <Picker.Item label='Activity 4' value='activity_4'/>
+                            <Picker.Item label='Activity 5' value='activity_5'/>
+                        </Picker>
+                    </View>
+                </View>
+            }
+
+            {/* MEAL */}
+            { showMeal &&
+                <View>
+                    <Text style={styles().heading2}>Compare data with your nutritional values!</Text>
+                    <View style={styles().pickerView}>
+                        <Picker
+                            selectedValue={picker}
+                            style={styles().picker}
+                            onValueChange={(itemValue, itemIndex) => {
+                                setPicker(itemValue);
+                            }}
+                            mode={'dropdown'}
+                        >
+                            <Picker.Item label='Select One...' value='unselected'/>
+                            <Picker.Item label='Calories' value='cals'/>
+                            <Picker.Item label='Carbohydrates' value='carbs'/>
+                            <Picker.Item label='Fats' value='fats'/>
+                            <Picker.Item label='Proteins' value='proteins'/>
+                        </Picker>
+                    </View>
+                </View>
+            }
+
+            {/* SYMPTOM */}
+            { showSymptom &&
+                <View>
+                    <Text style={styles().heading2}>Track how your symptoms may be affecting other aspects your days!</Text>
+                    <View style={styles().pickerView}>
+                        <Picker
+                            selectedValue={picker}
+                            style={styles().picker}
+                            onValueChange={(itemValue, itemIndex) => {
+                                setPicker(itemValue);
+                            }}
+                            mode={'dropdown'}
+                        >
+                            <Picker.Item label='Select One...' value='unselected'/>
+                            <Picker.Item label='Symptom 1' value='symptom_1'/>
+                            <Picker.Item label='Symptom 2' value='symptom_2'/>
+                            <Picker.Item label='Symptom 3' value='symptom_3'/>
+                            <Picker.Item label='Symptom 4' value='symptom_4'/>
+                            <Picker.Item label='Symptom 5' value='symptom_5'/>
+                        </Picker>
+                    </View>
+                </View>
+            }
+
+            {/* MEDICINE */}
+            { showMedicine &&
+                <View>
+                    <Text style={styles().heading2}>Choose between your medications and inspect how they may be affecting you!</Text>
+                    <View style={styles().pickerView}>
+                        <Picker
+                            selectedValue={picker}
+                            style={styles().picker}
+                            onValueChange={(itemValue, itemIndex) => {
+                                setPicker(itemValue);
+                            }}
+                            mode={'dropdown'}
+                        >
+                            <Picker.Item label='Select One...' value='unselected'/>
+                            <Picker.Item label='Medication 1' value='medication_1'/>
+                            <Picker.Item label='Medication 2' value='medication_2'/>
+                            <Picker.Item label='Medication 3' value='medication_3'/>
+                            <Picker.Item label='Medication 4' value='medication_4'/>
+                            <Picker.Item label='Medication 5' value='medication_5'/>
+                        </Picker>
+                    </View>
+                </View>
+            }
+
         </View>
     );
 };
@@ -228,15 +289,6 @@ function HistoryCorrelations({ route, navigation }) {
     const [data2, setData2] = useState([12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
     const [labels, setLabels] = useState(monthLabels);
     const [legend, setLegend] = useState(['Data1', 'Data2']);
-
-    //page modals
-    const [showSleep, setShowSleep] = useState(false);
-    const [showNap, setShowNap] = useState(false);
-    const [showFitness, setShowFitness] = useState(false);
-    const [showActivities, setShowActivities] = useState(false);
-    const [showMeal, setShowMeal] = useState(false);
-    const [showSymptom, setShowSymptom] = useState(false);
-    const [showMedicine, setShowMedicine] = useState(false);
 
     return (
       <SafeAreaView style={styles().container}>
@@ -283,63 +335,96 @@ function HistoryCorrelations({ route, navigation }) {
                     <View style={styles().divider} />
                 </View>
                 
-                <TwoPickers 
-                    picker1={picker1}
-                    setPicker1={setPicker1}
-                    picker2={picker2}
-                    setPicker2={setPicker2}
-                    setShowSleep={setShowSleep}
-                    setShowNap={setShowNap}
-                    setShowFitness={setShowFitness}
-                    setShowActivities={setShowActivities}
-                    setShowMeal={setShowMeal}
-                    setShowSymptom={setShowSymptom}
-                    setShowMedicine={setShowMedicine}
-                />
+                <View 
+                    style={{ 
+                    width: '90%', 
+                    justifyContent: 'flex-start', 
+                    marginVertical: 20, 
+                    flexDirection: 'row',
+                }}>
+                    <View style={{ width: '50%', }}>
+                        <Text style={styles().heading}>PAGE 1</Text>
+                        <View style={styles().pickerView}>
+                            <Picker
+                                selectedValue={picker1}
+                                style={styles().picker}
+                                onValueChange={(itemValue, itemIndex) => {
+                                    setPicker1(itemValue);
+                                }}
+                                mode={'dropdown'}
+                            >
+                                <Picker.Item label='Mood' value='mood' />
+                                <Picker.Item label='Stress' value='stress' />
+                                <Picker.Item label='Sleep' value='sleep' />
+                                <Picker.Item label='Nap' value='nap' />
+                                <Picker.Item label='Weight' value='weight' />
+                                <Picker.Item label='Period' value='period' />
+                                <Picker.Item label='Fitness' value='fitness' />
+                                <Picker.Item label='Activities' value='activity' />
+                                <Picker.Item label='Meals' value='meals' />
+                                <Picker.Item label='Symptoms' value='symptoms' />
+                                <Picker.Item label='Medications' value='medications' />
+                            </Picker>
+                        </View>
+                    </View>
+
+                    <View style={{ width: '50%', }}>
+                        <Text style={styles().heading}>PAGE 2</Text>
+                        <View style={styles().pickerView}>
+                            <Picker
+                                selectedValue={picker2}
+                                style={styles().picker}
+                                onValueChange={(itemValue, itemIndex) => {
+                                    setPicker2(itemValue);
+                                }}
+                                mode={'dropdown'}
+                            >
+                                <Picker.Item label='Mood' value='mood' />
+                                <Picker.Item label='Stress' value='stress' />
+                                <Picker.Item label='Sleep' value='sleep' />
+                                <Picker.Item label='Nap' value='nap' />
+                                <Picker.Item label='Weight' value='weight' />
+                                <Picker.Item label='Period' value='period' />
+                                <Picker.Item label='Fitness' value='fitness' />
+                                <Picker.Item label='Activities' value='activity' />
+                                <Picker.Item label='Meals' value='meals' />
+                                <Picker.Item label='Symptoms' value='symptoms' />
+                                <Picker.Item label='Medications' value='medications' />
+                            </Picker>
+                        </View>
+                    </View>
+                </View>
 
                 {/* Middle divider */}
                 <View style={styles().dividerView}>
                     <View style={styles().divider} />
                 </View>
 
-                <Modals 
-                    showSleep={showSleep}
-                    setShowSleep={setShowSleep}
-                    showNap={showNap}
-                    setShowNap={setShowNap}
-                    showFitness={showFitness}
-                    setShowFitness={setShowFitness}
-                    showActivities={showActivities}
-                    setShowActivities={setShowActivities}
-                    showMeal={showMeal}
-                    setShowMeal={setShowMeal}
-                    showSymptom={showSymptom}
-                    setShowSymptom={setShowSymptom}
-                    showMedicine={showMedicine}
-                    setShowMedicine={setShowMedicine}
+                <DataChoosers 
+                    showSleep={picker1 === 'sleep' ? true : false}
+                    showNap={picker1 === 'nap' ? true : false}
+                    showFitness={picker1 === 'fitness' ? true : false}
+                    showActivities={picker1 === 'activity' ? true : false}
+                    showMeal={picker1 === 'meals' ? true : false}
+                    showSymptom={picker1 === 'symptoms' ? true : false}
+                    showMedicine={picker1 === 'medications' ? true : false}
+                    dataRecs={data}
                     data={data1}
                     setData={setData1}
                 />
 
-                <Modals 
-                    showSleep={showSleep}
-                    setShowSleep={setShowSleep}
-                    showNap={showNap}
-                    setShowNap={setShowNap}
-                    showFitness={showFitness}
-                    setShowFitness={setShowFitness}
-                    showActivities={showActivities}
-                    setShowActivities={setShowActivities}
-                    showMeal={showMeal}
-                    setShowMeal={setShowMeal}
-                    showSymptom={showSymptom}
-                    setShowSymptom={setShowSymptom}
-                    showMedicine={showMedicine}
-                    setShowMedicine={setShowMedicine}
+                <DataChoosers 
+                    showSleep={picker2 === 'sleep' ? true : false}
+                    showNap={picker2 === 'nap' ? true : false}
+                    showFitness={picker2 === 'fitness' ? true : false}
+                    showActivities={picker2 === 'activity' ? true : false}
+                    showMeal={picker2 === 'meals' ? true : false}
+                    showSymptom={picker2 === 'symptoms' ? true : false}
+                    showMedicine={picker2 === 'medications' ? true : false}
+                    dataRecs={data}
                     data={data2}
                     setData={setData2}
                 />
-
                 <View style={styles().pageEnd} />
             </View>
         </ScrollView>
@@ -349,8 +434,96 @@ function HistoryCorrelations({ route, navigation }) {
     );
 }
 
-function makeData(data1, data2) {
+function makeData(data, setData, page, category) {
+    var map = new Map();
+    var arr = [];
 
+    if(page === 'sleep') {
+        if(category === 'quality') {
+
+        }
+
+        else {
+
+        }
+    }
+
+    else if(page === 'nap') {
+        if(category === 'quality') {
+
+        }
+
+        else {
+            
+        }
+    }
+
+    else if(page === 'fitness') {
+        if(category === 'burned') {
+    
+        }
+
+        else if(category === 'dur') {
+
+        }
+
+        else if(category === 'steps') {
+
+        }
+
+        //it is some exercise
+        else {
+
+        }
+    }
+
+    else if(page === 'meal') {
+        if(category === 'cals') {
+
+        }
+
+        else if(category === 'carbs') {
+
+        }
+
+        else if(category === 'fats') {
+
+        }
+
+        //proteins
+        else {
+
+        }
+    }
+
+    else if(page === 'period') {
+
+    }
+
+    else if(page === 'mood') {
+
+    }
+
+    else if(page === 'stress') {
+
+    }
+
+    else if(page === 'weight') {
+
+    }
+
+    else if(page === 'activity') {
+        //it is some activity
+    }
+
+    else if(page === 'symptom') {
+        //it is some symptom
+    }
+
+    //medication
+    else {
+        //it is some medication
+    }
 }
 
 export default HistoryCorrelations;
@@ -387,6 +560,15 @@ const styles = () => StyleSheet.create({
         marginLeft: 20,
         marginRight: 20,
     },
+    divider2: {
+        flex: 1,
+        height: 1,
+        backgroundColor: global.colorblindMode
+            ? global.cb_contentDividerColor
+            : global.contentDividerColor,
+        marginLeft: 3,
+        marginRight: 3,
+    },
     dividerView: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -409,14 +591,14 @@ const styles = () => StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 6,
     },
-    modalDivider: {
-        flex: 1,
-        height: 1,
-        backgroundColor: global.colorblindMode
-            ? global.cb_contentDividerColor
-            : global.contentDividerColor,
-        marginLeft: 3,
-        marginRight: 3,
+    heading2: {
+        color: global.colorblindMode
+          ? global.cb_textColor
+          : global.textColor,
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 6,
+        marginTop: 12,
     },
     pageEnd: {
         marginBottom: 100,
