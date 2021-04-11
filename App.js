@@ -58,6 +58,7 @@ import { Authenticator } from 'aws-amplify-react-native/dist/Auth';
 Amplify.configure(awsconfig);
 
 const Stack = createStackNavigator();
+global.usingiOSDevice = (Platform.OS === 'ios' ? true : false);
 
 function App() {
   return (

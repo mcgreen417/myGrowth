@@ -1,3 +1,5 @@
+var usingiOSDevice = false;
+
 // Colors used by the application.
 // Colorblind mode colors are prefixed with "cb_"
 var lightGreenColor = '#A5DFB2';
