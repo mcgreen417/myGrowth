@@ -12,6 +12,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { Auth, API } from 'aws-amplify';
+import StatusBariOS from '../../shared/components/StatusBariOS';
 
 function ResetPassword({ route, navigation }) {
   const { email, code } = route.params;
@@ -20,6 +21,7 @@ function ResetPassword({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles().container}>
+      <StatusBariOS />
       <StatusBar
         backgroundColor={
           global.colorblindMode

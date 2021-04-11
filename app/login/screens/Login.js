@@ -17,6 +17,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Cache } from "react-native-cache";
 import * as queries from '../../../src/graphql/queries';
+import StatusBariOS from '../../shared/components/StatusBariOS';
 //import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function Login({ navigation }) {
@@ -24,6 +25,7 @@ function Login({ navigation }) {
   const [password, setPassword] = useState('');
   return (
     <SafeAreaView style={styles().container}>
+      <StatusBariOS />
       <StatusBar
         backgroundColor={
           global.colorblindMode

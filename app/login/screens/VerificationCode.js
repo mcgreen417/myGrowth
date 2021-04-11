@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+import StatusBariOS from '../../shared/components/StatusBariOS';
 
 function VerificationCode({ route, navigation }) {
   const [verificationCode, setVerificationCode] = useState('');
@@ -35,6 +36,7 @@ function VerificationCode({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles().container}>
+      <StatusBariOS />
       <StatusBar
         backgroundColor={
           global.colorblindMode

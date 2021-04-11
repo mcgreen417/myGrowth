@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+import StatusBariOS from '../../shared/components/StatusBariOS';
 
 function SignUp({ navigation }) {
   const [email, setEmail] = useState('');
@@ -134,6 +135,7 @@ function SignUp({ navigation }) {
 
   return (
     <SafeAreaView style={styles().container}>
+      <StatusBariOS />
       <StatusBar
         backgroundColor={
           global.colorblindMode
