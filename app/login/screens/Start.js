@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import {
+  Button,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
   StyleSheet,
+  Switch,
   Text,
   View,
-  SafeAreaView,
-  Switch,
-  Image,
-  StatusBar,
-  Button,
-  ScrollView,
 } from 'react-native';
 import StatusBariOS from '../../shared/components/StatusBariOS';
-import OSButton from '../../shared/components/OSButton';
+import ButtonAndroidiOS from '../../shared/components/ButtonAndroidiOS';
 
 function Start({ navigation }) {
   // Colorblind mode switch initialization
@@ -97,20 +97,11 @@ function Start({ navigation }) {
           </Text>
           {/* Sign up + login buttons */}
           <View style={styles().buttons}>
-            <OSButton
+            <ButtonAndroidiOS
               buttonText='SIGN UP'
-              navigationPath={navigation}
+              navigation={navigation}
               screenName='SignUp'
             />
-            {/* <Button
-              title='SIGN UP'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              onPress={() => navigation.navigate('SignUp')}
-            /> */}
             <View style={{ marginVertical: 8 }} />
             <Button
               title='LOG IN'
