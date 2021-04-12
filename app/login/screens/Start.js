@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Button,
   Image,
   SafeAreaView,
   ScrollView,
@@ -10,8 +9,8 @@ import {
   Text,
   View,
 } from 'react-native';
-import StatusBariOS from '../../shared/components/StatusBariOS';
 import ButtonAndroidiOS from '../../shared/components/ButtonAndroidiOS';
+import StatusBariOS from '../../shared/components/StatusBariOS';
 
 function Start({ navigation }) {
   // Colorblind mode switch initialization
