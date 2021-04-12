@@ -12,12 +12,16 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Pressable,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 function SignUp({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
+  const [modalVisible, setModalVisible] = useState('');
 
   const [signupProperties, setSignupProperties] = useState({
     validEmail: false,
@@ -172,33 +176,41 @@ function SignUp({ navigation }) {
               onChangeText={(email) => {
                 emailTextInputChange(email);
               }}
-            />
-            <View style={{ marginVertical: 8 }} />
-            <TextInput
-              style={styles().textInput}
-              placeholder='Password'
-              placeholderTextColor={
-                global.colorblindMode
-                  ? global.cb_placeHolderTextColor
-                  : global.placeholderTextColor
-              }
-              secureTextEntry={true}
-              value={password}
-              maxLength={99}
-              onChangeText={(password) => {
-                handlePasswordChange(password);
-              }}
+              onFocus={() => {setShowPasswordRequirements(false)}}
             />
 
-            <Text style={styles().passwordDetailsText}>
-              Passwords must be 8 or more characters, with:{'\n'}
-              {'   '}-1 lowercase character{'\n'}
-              {'   '}-1 uppercase character{'\n'}
-              {'   '}-1 special character (!, @, #, $, %, etc.){'\n'}
-              {'   '}-1 number{'\n'}
-            </Text>
+            <View style={{ marginTop: 16, }}>
+              <TextInput
+                style={styles().textInput}
+                placeholder='Password'
+                placeholderTextColor={
+                  global.colorblindMode
+                    ? global.cb_placeHolderTextColor
+                    : global.placeholderTextColor
+                }
+                secureTextEntry={true}
+                value={password}
+                maxLength={99}
+                onChangeText={(password) => {
+                  handlePasswordChange(password);
+                }}
+                onFocus={() => {setShowPasswordRequirements(true)}}
+              />
+            </View>
 
-            <View style={{ marginVertical: 8 }} />
+            {showPasswordRequirements &&
+              <Text style={styles().passwordDetailsText}>
+                <Text style={{ fontWeight: 'bold' }}>
+                  Passwords must be 8 or more characters, with:{'\n'}
+                </Text>
+                {'      '}- 1 lowercase character{'\n'}
+                {'      '}- 1 uppercase character{'\n'}
+                {'      '}- 1 special character (!, @, #, $, %, etc.){'\n'}
+                {'      '}- 1 number
+              </Text>
+            }
+
+            <View style={{ marginTop: 16, }}>
               <TextInput
                 style={styles().textInput}
                 placeholder='Confirm Password'
@@ -212,34 +224,40 @@ function SignUp({ navigation }) {
                 onChangeText={(confirmPassword) => {
                   handleConfirmPasswordChange(confirmPassword);
                 }}
+                onFocus={() => {setShowPasswordRequirements(false)}}
               />
-
-            {/* </View> */}
+            </View>
             
-            <View style={{ marginVertical: 8 }} />
-            <Button
-              title='SIGN UP'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              onPress={() => {checkRequiredFields(email, password, navigation);}}
-            />
-            <View style={{ marginVertical: 8 }} />
+            <View style={{ marginVertical: 16, }}>
+              <Button
+                title='SIGN UP'
+                color={
+                  global.colorblindMode
+                    ? global.cb_optionButtonsColor
+                    : global.optionButtonsColor
+                }
+                onPress={() => {
+                  setShowPasswordRequirements(false);
+                  checkRequiredFields(email, password, navigation);
+                }}
+              />
+            </View>
           </View>
 
           {/* Login/signup page switch */}
           <View style={{ flexDirection: 'row' }}>
-            <Text style={styles().text}>Already have an account? </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <Text style={styles().text}>Already have an account?{' '}</Text>
+            <TouchableOpacity 
+              onPress={() => {
+                setShowPasswordRequirements(false);
+                navigation.navigate('Login');
+              }}>
               <Text style={styles().textLink}>Log in here.</Text>
             </TouchableOpacity>
           </View>
 
           {/* TOS + privacy policy agreement */}
-          <View style={{ marginVertical: 8 }} />
-          <View>
+          <View style={{ marginTop: 16 }}>
             <Text style={styles().text}>
               By continuing, you're accepting our{' '}
             </Text>
@@ -247,7 +265,7 @@ function SignUp({ navigation }) {
               <TouchableOpacity>
                 <Text style={styles().textLink}>Terms of Service </Text>
               </TouchableOpacity>
-              <Text style={styles().text}> and </Text>
+              <Text style={styles().text}>{' '}and{' '}</Text>
               <TouchableOpacity>
                 <Text style={styles().textLink}>Privacy Policy.</Text>
               </TouchableOpacity>
@@ -305,9 +323,8 @@ const styles = () => StyleSheet.create({
       : global.pageBackgroundColor,
   },
   buttons: {
-    marginTop: 10,
-    marginBottom: 10,
-    width: '73.5%',
+    marginVertical: 10,
+    width: '75%',
     borderColor: global.colorblindMode
       ? global.cb_optionButtonsBorderColor
       : global.optionButtonsBorderColor,
@@ -323,15 +340,20 @@ const styles = () => StyleSheet.create({
   },
   passwordDetailsText: {
     marginTop: 8,
-    width: 300,
-    color: global.colorblindMode ? global.cb_textColor : global.textColor,
-    alignItems: 'center'
+    width: '100%',
+    color: global.colorblindMode 
+      ? global.cb_textColor 
+      : global.textColor,
+    fontSize: 14,
   },
   text: {
-    color: global.colorblindMode ? global.cb_textColor : global.textColor,
+    color: global.colorblindMode 
+      ? global.cb_textColor 
+      : global.textColor,
+    fontSize: 14,
   },
   textInput: {
-    width: 290,
+    width: '100%',
     height: 40,
     borderColor: global.colorblindMode
       ? global.cb_textInputBorderColor
@@ -351,15 +373,21 @@ const styles = () => StyleSheet.create({
       ? global.cb_hyperlinkedTextColor
       : global.hyperlinkedTextColor,
     textDecorationLine: 'underline',
+    fontWeight: 'bold',
+    fontSize: 14,
   },
   textSubtitle: {
-    color: global.colorblindMode ? global.cb_textColor : global.textColor,
+    color: global.colorblindMode 
+      ? global.cb_textColor 
+      : global.textColor,
     fontWeight: 'bold',
     fontSize: 20,
     marginBottom: 20,
   },
   textTitle: {
-    color: global.colorblindMode ? global.cb_textColor : global.textColor,
+    color: global.colorblindMode 
+      ? global.cb_textColor 
+      : global.textColor,
     fontWeight: 'bold',
     fontSize: 44,
   },

@@ -98,7 +98,7 @@ function HistoryHealthEntries({ route, navigation }) {
           </View>
 
           {/* Search for correlations button */}
-          <View style={{ width: '50%', marginTop: 20, marginBottom: 4, }}>
+          <View style={{ width: '60%', marginTop: 20, marginBottom: 4, }}>
             <Button 
               title='SEARCH FOR CORRELATIONS'
               color={

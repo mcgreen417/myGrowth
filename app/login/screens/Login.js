@@ -61,32 +61,35 @@ function Login({ navigation }) {
                 setEmail(email);
               }}
             />
-            <View style={{ marginVertical: 8 }} />
-            <TextInput
-              style={styles().textInput}
-              placeholder='Password'
-              placeholderTextColor={
-                global.colorblindMode
-                  ? global.cb_placeHolderTextColor
-                  : global.placeHolderTextColor
-              }
-              secureTextEntry={true}
-              value={password}
-              onChangeText={(password) => {
-                setPassword(password);
-              }}
-            />
-            <View style={{ marginVertical: 8 }} />
-            <Button
-              title='LOG IN'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              onPress={() => signIn(email, password, navigation)}
-            />
-            <View style={{ marginVertical: 8 }} />
+            
+            <View style={{ marginTop: 16 }}>
+              <TextInput
+                style={styles().textInput}
+                placeholder='Password'
+                placeholderTextColor={
+                  global.colorblindMode
+                    ? global.cb_placeHolderTextColor
+                    : global.placeHolderTextColor
+                }
+                secureTextEntry={true}
+                value={password}
+                onChangeText={(password) => {
+                  setPassword(password);
+                }}
+              />
+            </View>
+
+            <View style={{ marginVertical: 16 }}>
+              <Button
+                title='LOG IN'
+                color={
+                  global.colorblindMode
+                    ? global.cb_optionButtonsColor
+                    : global.optionButtonsColor
+                }
+                onPress={() => signIn(email, password, navigation)}
+              />
+            </View>
           </View>
 
           {/* Login/signup page switch + forgot password button */}
@@ -104,8 +107,7 @@ function Login({ navigation }) {
           </View>
 
           {/* TOS + privacy policy agreement */}
-          <View style={{ marginVertical: 8 }} />
-          <View>
+          <View style={{ marginTop: 16, }}>
             <Text style={styles().text}>
               By continuing, you're accepting our{' '}
             </Text>
@@ -230,9 +232,8 @@ const styles = () => StyleSheet.create({
     width: 100,
   },
   buttons: {
-    marginTop: 10,
-    marginBottom: 10,
-    width: 300,
+    marginVertical: 10,
+    width: '75%',
     borderColor: global.colorblindMode
       ? global.cb_optionButtonsBorderColor
       : global.optionButtonsBorderColor,
@@ -243,6 +244,7 @@ const styles = () => StyleSheet.create({
     alignItems: 'center',
   },
   textInput: {
+    width: '100%',
     height: 40,
     borderColor: global.colorblindMode
       ? global.cb_textInputBorderColor
@@ -269,11 +271,14 @@ const styles = () => StyleSheet.create({
       ? global.cb_hyperlinkedTextColor
       : global.hyperlinkedTextColor,
     textDecorationLine: 'underline',
+    fontWeight: 'bold',
+    fontSize: 14,
   },
   text: {
     color: global.colorblindMode
     ? global.cb_textColor
     : global.textColor,
+    fontSize: 14,
   },
   textSubtitle: {
     color: global.colorblindMode

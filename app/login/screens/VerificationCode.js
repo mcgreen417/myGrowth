@@ -59,7 +59,7 @@ function VerificationCode({ route, navigation }) {
             Enter the verification code you received below.
           </Text>
 
-          {/* verification code text entry + verify button */}
+          {/* Verification code text entry + verify button */}
           <View style={styles().buttons}>
             <TextInput
               style={styles().textInput}
@@ -75,27 +75,26 @@ function VerificationCode({ route, navigation }) {
                 handleVerificationCode(verificationCode);
               }}
             />
-            <View style={{ marginVertical: 8 }} />
-            <Button 
-              title='VERIFY'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              onPress={() => verify(username, verificationCode, validLengthVerificationCode, navigation)}
-            />
-            <View style={{ marginVertical: 8 }} />
+
+            <View style={{ marginVertical: 16, }}>
+              <Button 
+                title='VERIFY'
+                color={
+                  global.colorblindMode
+                    ? global.cb_optionButtonsColor
+                    : global.optionButtonsColor
+                }
+                onPress={() => verify(username, verificationCode, validLengthVerificationCode, navigation)}
+              />
+            </View>
           </View>
 
           {/* Resend verification code */}
-          <View>
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={styles().text}>Didn't receive a verification code?{' '}</Text>
-              <TouchableOpacity onPress={() => resend(username)}>
-                <Text style={styles().textLink}>Resend e-mail.</Text>
-              </TouchableOpacity>
-            </View>
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={styles().text}>Didn't receive a verification code?{' '}</Text>
+            <TouchableOpacity onPress={() => resend(username)}>
+              <Text style={styles().textLink}>Resend e-mail.</Text>
+            </TouchableOpacity>
           </View>
 
           {/* Login page redirect */}
@@ -160,9 +159,8 @@ const styles = () => StyleSheet.create({
     width: 100,
   },
   buttons: {
-    marginTop: 10,
-    marginBottom: 10,
-    width: '70%',
+    marginVertical: 10,
+    width: '75%',
     borderColor: global.colorblindMode
       ? global.cb_optionButtonsBorderColor
       : global.optionButtonsBorderColor,
@@ -189,18 +187,22 @@ const styles = () => StyleSheet.create({
       ? global.cb_textColor
       : global.textColor, 
     marginBottom: 12, 
-    textAlign: 'center'
+    textAlign: 'center',
+    fontSize: 14,
   },
   textLink: {
     color: global.colorblindMode
       ? global.cb_hyperlinkedTextColor
       : global.hyperlinkedTextColor,
     textDecorationLine: 'underline',
+    fontWeight: 'bold',
+    fontSize: 14,
   },
   text: {
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
+    fontSize: 14,
   },
   textSubtitle: {
     color: global.colorblindMode

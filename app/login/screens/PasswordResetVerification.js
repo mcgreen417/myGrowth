@@ -37,35 +37,9 @@ function PasswordResetVerification({ route, navigation }) {
             style={styles().logo}
             source={require('../../shared/assets/icon.png')}
           />
-          <Text
-            style={{
-              fontWeight: 'bold',
-              color: global.colorblindMode
-                ? global.cb_textColor
-                : global.textColor,
-              fontSize: 44,
-            }}>
-            myGrowth
-          </Text>
-          <Text
-            style={{
-              fontWeight: 'bold',
-              color: global.colorblindMode
-                ? global.cb_textColor
-                : global.textColor,
-              fontSize: 20,
-              marginBottom: 16,
-            }}>
-            Your General Wellness Tracker
-          </Text>
-          <Text
-            style={{
-              color: global.colorblindMode
-                ? global.cb_textColor
-                : global.textColor,
-              marginBottom: 12,
-              textAlign: 'center',
-            }}>
+          <Text style={styles().textTitle}>myGrowth</Text>
+          <Text style={styles().textSubtitle}>Your General Wellness Tracker</Text>
+          <Text style={styles().textInstructions}>
             A password reset code has been sent to your e-mail.{'\n'}
             Enter the password reset code you received below.
           </Text>
@@ -85,40 +59,26 @@ function PasswordResetVerification({ route, navigation }) {
                 setCode(code);
               }}
             />
-            <View style={{ marginVertical: 8 }} />
-            <Button
-              title='VERIFY'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              onPress={() => navigation.navigate('ResetPassword', {email, code})}
-            />
-            <View style={{ marginVertical: 8 }} />
+
+            <View style={{ marginVertical: 16 }}>
+              <Button
+                title='VERIFY'
+                color={
+                  global.colorblindMode
+                    ? global.cb_optionButtonsColor
+                    : global.optionButtonsColor
+                }
+                onPress={() => navigation.navigate('ResetPassword', {email, code})}
+              />
+            </View>
           </View>
 
           {/* Resend password reset code */}
           <View>
             <View style={{ flexDirection: 'row' }}>
-              <Text
-                style={{
-                  color: global.colorblindMode
-                    ? global.cb_textColor
-                    : global.textColor,
-                }}>
-                Didn't receive a reset code?{' '}
-              </Text>
+              <Text style={styles.text}>Didn't receive a reset code?{' '}</Text>
               <TouchableOpacity>
-                <Text
-                  style={{
-                    color: global.colorblindMode
-                      ? global.cb_hyperlinkedTextColor
-                      : global.hyperLinkedTextColor,
-                    textDecorationLine: 'underline',
-                  }}>
-                  Resend e-mail.
-                </Text>
+                <Text style={styles().textLink}>Resend e-mail.</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -126,15 +86,7 @@ function PasswordResetVerification({ route, navigation }) {
           {/* Login page redirect */}
           <View style={{ flexDirection: 'row', marginTop: 8 }}>
             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-              <Text
-                style={{
-                  color: global.colorblindMode
-                    ? global.cb_hyperlinkedTextColor
-                    : global.hyperlinkedTextColor,
-                  textDecorationLine: 'underline',
-                }}>
-                Return to login.
-              </Text>
+              <Text style={styles().textLink}>Return to login.</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -156,9 +108,8 @@ const styles = () =>
       width: 100,
     },
     buttons: {
-      marginTop: 10,
-      marginBottom: 10,
-      width: 300,
+      marginVertical: 10,
+      width: '75%',
       borderColor: global.colorblindMode
         ? global.cb_optionButtonsBorderColor
         : global.optionButtonsBorderColor,
@@ -169,6 +120,7 @@ const styles = () =>
       alignItems: 'center',
     },
     textInput: {
+      width: '100%',
       height: 40,
       borderColor: global.colorblindMode
         ? global.cb_textInputBorderColor
@@ -187,13 +139,17 @@ const styles = () =>
       color: '#816868',
       marginBottom: 12,
       textAlign: 'center',
+      fontSize: 14,
     },
     textLink: {
       color: '#A5DFB2',
       textDecorationLine: 'underline',
+      fontWeight: 'bold',
+      fontSize: 14,
     },
     text: {
       color: '#816868',
+      fontSize: 14,
     },
     textSubtitle: {
       color: '#816868',

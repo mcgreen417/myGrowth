@@ -23,7 +23,6 @@ function UserInitialization2({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles().container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles().pageSetup}>
           {/* Gardener avatar + page blurb */}
           <View style={styles().avatarView}>
@@ -86,7 +85,6 @@ function UserInitialization2({ route, navigation }) {
             />
           </View>
         </View>
-      </ScrollView>
     </SafeAreaView>
   );
 }

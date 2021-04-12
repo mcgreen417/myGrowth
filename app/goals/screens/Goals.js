@@ -15,7 +15,7 @@ import NavBar from '../../shared/components/NavBar';
 
 const Goal = ({ title, description, type, navigation }) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [deleteEntry, setDeleteEntry] = useState(false);
 
   return (
     <View>
@@ -24,9 +24,9 @@ const Goal = ({ title, description, type, navigation }) => {
         <Modal
           animationType='fade'
           transparent={true}
-          visible={modalVisible}
+          visible={deleteEntry}
           onRequestClose={() => {
-            setModalVisible(!modalVisible);
+            setDeleteEntry(!deleteEntry);
           }}>
           <View
             style={{
@@ -67,17 +67,21 @@ const Goal = ({ title, description, type, navigation }) => {
                     <Text style={styles().textBoldAlt}> "{title}"</Text>
                     ?
                   </Text>
-                  
-                  
                   <Text style={styles().textBoldAlt}>This action cannot be undone.</Text>
                 </View>
-                <View style={{ flexDirection: 'row', alignSelf: 'flex-end', marginVertical: 10, marginHorizontal: '5%', }}>
+                <View 
+                  style={{ 
+                    flexDirection: 'row', 
+                    alignSelf: 'flex-end', 
+                    marginVertical: 10, 
+                    marginHorizontal: '5%', 
+                  }}>
                   <TouchableOpacity 
                     style={{ marginRight: 20, }}
-                    onPress={() => setModalVisible(!modalVisible)}>
+                    onPress={() => setDeleteEntry(!deleteEntry)}>
                     <Text style={styles().textDateTime}>DELETE</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                  <TouchableOpacity onPress={() => setDeleteEntry(!deleteEntry)}>
                     <Text style={styles().textDateTime}>CANCEL</Text>
                   </TouchableOpacity>
                 </View>
@@ -117,7 +121,7 @@ const Goal = ({ title, description, type, navigation }) => {
                 name='close' 
                 type='ionicon' 
                 color='#816868' 
-                onPress={() => setModalVisible(!modalVisible)}
+                onPress={() => setDeleteEntry(!deleteEntry)}
               />
             </Pressable>
           </View>
@@ -132,9 +136,274 @@ function Goals({ navigation }) {
   const [showDailyGoals, setShowDailyGoals] = useState(true);
   const [showWeeklyGoals, setShowWeeklyGoals] = useState(true);
   const [showLongTermGoals, setShowLongTermGoals] = useState(true);
+  const [showDailyGoalsInfo, setShowDailyGoalsInfo] = useState(false);
+  const [showWeeklyGoalsInfo, setShowWeeklyGoalsInfo] = useState(false);
+  const [showLongTermGoalsInfo, setShowLongTermGoalsInfo] = useState(false);
 
   return (
     <SafeAreaView style={styles().container}>
+
+      {/* Daily Goals info pop-up */}
+      <View>
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={showDailyGoalsInfo}
+          onRequestClose={() => setShowDailyGoalsInfo(!showDailyGoalsInfo)}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 1,
+              backgroundColor: '#00000055',
+            }}>
+              <View style={styles().modalContainer}>
+                <View style={styles().modalHeaderBar}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 2,
+                      marginLeft: 6,
+                      marginVertical: 4,
+                    }}>
+                    <Icon
+                      name='information-circle-outline'
+                      type='ionicon'
+                      color='white'
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles().textAlt}>Daily Goals</Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        flex: 1,
+                        justifyContent: 'flex-end',
+                        marginRight: 6,
+                      }}>
+                      <Icon
+                        name='close'
+                        type='ionicon'
+                        color='white'
+                        onPress={() => setShowDailyGoalsInfo(!showDailyGoalsInfo)}
+                      />
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    marginHorizontal: '5%',
+                    maxHeight: '60%',
+                    marginTop: 10,
+                    marginBottom: 16,
+                  }}>
+                  <Text style={styles().textInfo}>
+                    Daily goals are goals that you want to aim to complete every day!
+                  </Text>
+                  <Text style={styles().textInfo}>
+                    Daily goals will reset at midnight each day. Be sure to check back in if you've
+                    completed a goal before then!
+                  </Text>
+                  <Text style={styles().textInfo}>
+                    You may receive rewards for up to five daily goals per day, although you may
+                    track additional goals for your own personal progress.
+                  </Text>
+                  <Text style={styles().textBoldAlt}>
+                    Completion rewards +5
+                    <Icon
+                      name='star'
+                      type='material-community'
+                      color='#816868'
+                      size={16}
+                    />
+                    {' '}per goal on a daily basis.
+                  </Text>
+                </View>
+              </View>
+            </View>
+        </Modal>
+      </View>
+
+      {/* Weekly Goals info pop-up */}
+      <View>
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={showWeeklyGoalsInfo}
+          onRequestClose={() => setShowWeeklyGoalsInfo(!showWeeklyGoalsInfo)}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 1,
+              backgroundColor: '#00000055',
+            }}>
+              <View style={styles().modalContainer}>
+                <View style={styles().modalHeaderBar}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 2,
+                      marginLeft: 6,
+                      marginVertical: 4,
+                    }}>
+                    <Icon
+                      name='information-circle-outline'
+                      type='ionicon'
+                      color='white'
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles().textAlt}>Weekly Goals</Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        flex: 1,
+                        justifyContent: 'flex-end',
+                        marginRight: 6,
+                      }}>
+                      <Icon
+                        name='close'
+                        type='ionicon'
+                        color='white'
+                        onPress={() => setShowWeeklyGoalsInfo(!showWeeklyGoalsInfo)}
+                      />
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    marginHorizontal: '5%',
+                    maxHeight: '60%',
+                    marginTop: 10,
+                    marginBottom: 16,
+                  }}>
+                  <Text style={styles().textInfo}>
+                    Daily goals are goals that you want to aim to complete a certain number of 
+                    times each week!
+                  </Text>
+                  <Text style={styles().textInfo}>
+                    Weekly goals will reset every Sunday at midnight. Be sure to check back in if you've
+                    completed a goal before then!
+                  </Text>
+                  <Text style={styles().textInfo}>
+                    You may receive rewards for up to five sets of weekly goals per week, although you may
+                    track additional goals for your own personal progress.
+                  </Text>
+                  <Text style={styles().textBoldAlt}>
+                    Completion rewards +5
+                    <Icon
+                      name='star'
+                      type='material-community'
+                      color='#816868'
+                      size={16}
+                    />
+                    {' '}per goal for each day of progress, and an additional one-time reward of +10
+                    <Icon
+                      name='star'
+                      type='material-community'
+                      color='#816868'
+                      size={16}
+                    />
+                    {' '}for full weekly completion.
+                  </Text>
+                </View>
+              </View>
+            </View>
+        </Modal>
+      </View>
+
+      {/* Long-Term Goals info pop-up */}
+      <View>
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={showLongTermGoalsInfo}
+          onRequestClose={() => setShowLongTermGoalsInfo(!showLongTermGoalsInfo)}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 1,
+              backgroundColor: '#00000055',
+            }}>
+              <View style={styles().modalContainer}>
+                <View style={styles().modalHeaderBar}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 2,
+                      marginLeft: 6,
+                      marginVertical: 4,
+                    }}>
+                    <Icon
+                      name='information-circle-outline'
+                      type='ionicon'
+                      color='white'
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles().textAlt}>Long-Term Goals</Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        flex: 1,
+                        justifyContent: 'flex-end',
+                        marginRight: 6,
+                      }}>
+                      <Icon
+                        name='close'
+                        type='ionicon'
+                        color='white'
+                        onPress={() => setShowLongTermGoalsInfo(!showLongTermGoalsInfo)}
+                      />
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    marginHorizontal: '5%',
+                    maxHeight: '60%',
+                    marginTop: 10,
+                    marginBottom: 16,
+                  }}>
+                  <Text style={styles().textInfo}>
+                    Long-term goals are goals that you want to aim to complete in the distant future!
+                  </Text>
+                  <Text style={styles().textInfo}>
+                    Long-term goals will never reset and will remain in your history until you choose
+                    to delete them.
+                  </Text>
+                  <Text style={styles().textInfo}>
+                    You may receive rewards for up to three long-term goals per month, although you may
+                    track additional goals for your own personal progress.
+                  </Text>
+                  <Text style={styles().textBoldAlt}>
+                    Completion rewards +100
+                    <Icon
+                      name='star'
+                      type='material-community'
+                      color='#816868'
+                      size={16}
+                    />
+                    {' '}per goal.
+                  </Text>
+                </View>
+              </View>
+            </View>
+        </Modal>
+      </View>
+
+      {/* Start of the Goals page */}
       <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled'>
         {/* Gardener avatar + page blurb */}
         <View style={styles().avatarView}>
@@ -153,11 +422,12 @@ function Goals({ navigation }) {
         <View style={{ marginHorizontal: '5%', }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Text style={styles().heading}>Daily Goals</Text>
+              <View style={{ marginRight: 8, }}/>
               <Icon
                 name='information-circle-outline'
                 type='ionicon'
                 color='#816868'
-                style={{ marginLeft: 8, }}
+                onPress={() => setShowDailyGoalsInfo(!showDailyGoalsInfo)}
               />
               <View style={styles().iconView}>
                 <View style={{ flexDirection: 'row' }}>
@@ -207,11 +477,12 @@ function Goals({ navigation }) {
         <View style={{ marginHorizontal: '5%', marginTop: 20, }}>
           <View style={{ flexDirection: 'row', alignItems: 'center',  }}>
             <Text style={styles().heading}>Weekly Goals</Text>
+            <View style={{ marginRight: 8, }}/>
             <Icon
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
-              style={{ marginLeft: 8, }}
+              onPress={() => setShowWeeklyGoalsInfo(!showWeeklyGoalsInfo)}
             />
             <View style={styles().iconView}>
               <View style={{ flexDirection: 'row' }}>
@@ -267,11 +538,12 @@ function Goals({ navigation }) {
         <View style={{ marginHorizontal: '5%', marginTop: 20, }}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text style={styles().heading}>Long-Term Goals</Text>
+            <View style={{ marginRight: 8, }}/>
             <Icon
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
-              style={{ marginLeft: 8, }}
+              onPress={() => setShowLongTermGoalsInfo(!showLongTermGoalsInfo)}
             />
             <View style={styles().iconView}>
               <View style={{ flexDirection: 'row' }}>
@@ -387,7 +659,7 @@ const styles = () => StyleSheet.create({
       ? global.cb_pageBackgroundColor
       : global.pageBackgroundColor,
     alignItems: 'center',
-    width: '70%',
+    width: '80%',
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: {
@@ -457,6 +729,11 @@ const styles = () => StyleSheet.create({
     color: '#4CB97A',
     marginTop: 6,
     marginBottom: 2,
+  },
+  textInfo: {
+    color: '#816868',
+    fontSize: 16,
+    marginBottom: 8,
   },
   textModal: {
     fontSize: 16,
