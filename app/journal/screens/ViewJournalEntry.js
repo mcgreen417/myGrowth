@@ -33,6 +33,11 @@ const ViewJournalEntry = ({ route, navigation }) => {
   const journal_date  = route.params.date;
   const journal_updateDate = route.params.updateDate;
   const journal_entry = route.params.entry;
+  var displayEdit = true;
+
+  if(journal_date === journal_updateDate) {}
+    displayEdit = false;
+  
   const d = new Date(journal_date);
   const updateD = new Date(journal_updateDate);
   const [modalVisible, setModalVisible] = useState(false);
@@ -179,12 +184,12 @@ const ViewJournalEntry = ({ route, navigation }) => {
           </View>
 
           {/* Date/time of last entry edit */}
-          <View style={{ flexDirection: 'row' }}>
+          {displayEdit && <View style={{ flexDirection: 'row' }}>
             <Text style={styles.textBold}>Last edited on </Text>
             <Text style={styles.textDateTime}>{updateDate}</Text>
             <Text style={styles.textBold}> at </Text>
             <Text style={styles.textDateTime}>{updateTime}</Text>
-          </View>
+          </View>}
           {/* Entry text */}
           <View style={{ marginVertical: 8 }} >
             <Text style={styles.text}>{journal_entry}</Text>
