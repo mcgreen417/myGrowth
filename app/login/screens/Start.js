@@ -103,14 +103,10 @@ function Start({ navigation }) {
               screenName='SignUp'
             />
             <View style={{ marginVertical: 8 }} />
-            <Button
-              title='LOG IN'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              onPress={() => navigation.navigate('Login')}
+            <ButtonAndroidiOS
+              buttonText='LOG IN'
+              navigation={navigation}
+              screenName='Login'
             />
           </View>
         </View>

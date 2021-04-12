@@ -31,7 +31,7 @@ const styles = () => StyleSheet.create({
     borderRadius: 2,
     height: 35,
     justifyContent: 'center',
-    marginVertical: 10,
+    // marginVertical: 10,
     width: '100%',
 
     // Android shadow attributes
