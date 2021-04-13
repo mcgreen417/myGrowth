@@ -14,6 +14,7 @@ import {
   ScrollView,
 } from 'react-native';
 import StatusBariOS from '../../shared/components/StatusBariOS';
+import ButtonFunctionAndroidiOS from '../../shared/components/ButtonFunctionAndroidiOS';
 
 function SignUp({ navigation }) {
   const [email, setEmail] = useState('');
@@ -93,6 +94,11 @@ function SignUp({ navigation }) {
     setConfirmPassword(val);
   }
 
+  // Wrapper functions are needed in order to pass into custom Button component.
+  const checkRequiredFieldsWrapper = () => {
+    checkRequiredFields(email, password, navigation);
+  }
+
   const checkRequiredFields = (email, password, navigation) => {
     const ableToSignUp = (signupProperties.validEmail
                           && signupProperties.validPassword
@@ -129,8 +135,6 @@ function SignUp({ navigation }) {
         createAlert('Error', 'Please check all fields and try again.');
       }
     }    
-
-    // return signupProperties.validSignUp;
   }
 
   return (
@@ -219,14 +223,9 @@ function SignUp({ navigation }) {
             {/* </View> */}
             
             <View style={{ marginVertical: 8 }} />
-            <Button
-              title='SIGN UP'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              onPress={() => {checkRequiredFields(email, password, navigation);}}
+            <ButtonFunctionAndroidiOS
+              buttonText='SIGN UP'
+              functionCall={checkRequiredFieldsWrapper}
             />
             <View style={{ marginVertical: 8 }} />
           </View>
