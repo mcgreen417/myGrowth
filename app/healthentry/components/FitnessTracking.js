@@ -176,34 +176,37 @@ const AddExercises = ({
 };
 
 const AdvanceFitnessTracking = ({ exercises, setExercises }) => {
-  const [exerciseName, setExerciseName] = useState();
-  const [exerciseSets, setExerciseSets] = useState();
-  const [exerciseReps, setExerciseReps] = useState();
-  const [exerciseCalories, setExerciseCalories] = useState();
-  const [exerciseWeight, setExerciseWeigh] = useState();
-  const [exerciseDuration, setExerciseDuration] = useState();
+  const [exerciseName, setExerciseName] = useState('');
+  const [exerciseSets, setExerciseSets] = useState(0);
+  const [exerciseReps, setExerciseReps] = useState(0);
+  const [exerciseCalories, setExerciseCalories] = useState(0);
+  const [exerciseWeight, setExerciseWeigh] = useState(0);
+  const [exerciseDuration, setExerciseDuration] = useState(0);
 
   return (
     <View style={{ marginTop: 10 }}>
-      {exercises.map((item, index) => {
-        console.log(item);
-        return (
-          <View key={index}>
-            <AddExercises
-              index={index}
-              exercises={exercises}
-              setExercises={setExercises}
-              name={item.Name.toString()}
-              sets={item.Sets.toString()}
-              reps={item.Reps.toString()}
-              cals={item.CaloriesBurned.toString()}
-              weight={item.Weight.toString()}
-              duration={item.Duration.toString()}
-              editable={false}
-            />
-          </View>
-        );
-      })}
+      {exercises.length != 0 &&
+        exercises.map((item, index) => {
+          console.log(item);
+          return (
+            item.Name != null && (
+              <View key={index}>
+                <AddExercises
+                  index={index}
+                  exercises={exercises}
+                  setExercises={setExercises}
+                  name={item.Name.toString()}
+                  sets={item.Sets.toString()}
+                  reps={item.Reps.toString()}
+                  cals={item.CaloriesBurned.toString()}
+                  weight={item.Weight.toString()}
+                  duration={item.Duration.toString()}
+                  editable={false}
+                />
+              </View>
+            )
+          );
+        })}
       <AddExercises
         exercises={exercises}
         setExercises={setExercises}

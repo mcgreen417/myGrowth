@@ -155,6 +155,7 @@ export const addSetting = /* GraphQL */ `
         userHeight
         userWeight
         metric
+        activityLevel
       }
       Medications {
         name
@@ -186,6 +187,7 @@ export const updateSetting = /* GraphQL */ `
         userHeight
         userWeight
         metric
+        activityLevel
       }
       Medications {
         name
@@ -217,6 +219,7 @@ export const deleteSetting = /* GraphQL */ `
         userHeight
         userWeight
         metric
+        activityLevel
       }
       Medications {
         name
@@ -248,6 +251,7 @@ export const addMedication = /* GraphQL */ `
         userHeight
         userWeight
         metric
+        activityLevel
       }
       Medications {
         name
@@ -283,6 +287,7 @@ export const updateMedication = /* GraphQL */ `
         userHeight
         userWeight
         metric
+        activityLevel
       }
       Medications {
         name
@@ -314,6 +319,7 @@ export const removeMedication = /* GraphQL */ `
         userHeight
         userWeight
         metric
+        activityLevel
       }
       Medications {
         name
@@ -345,6 +351,7 @@ export const updatePlantData = /* GraphQL */ `
         userHeight
         userWeight
         metric
+        activityLevel
       }
       Medications {
         name
@@ -376,6 +383,7 @@ export const updatePoints = /* GraphQL */ `
         userHeight
         userWeight
         metric
+        activityLevel
       }
       Medications {
         name
@@ -664,12 +672,14 @@ export const updateJournalEntry = /* GraphQL */ `
     $Timestamp: AWSDateTime!
     $Entry: String!
     $FreqWords: [FreqWordsIn!]
+    $LastUpdated: AWSDateTime
   ) {
     updateJournalEntry(
       UserID: $UserID
       Timestamp: $Timestamp
       Entry: $Entry
       FreqWords: $FreqWords
+      LastUpdated: $LastUpdated
     ) {
       Entry
       Timestamp
@@ -677,6 +687,7 @@ export const updateJournalEntry = /* GraphQL */ `
         word
         count
       }
+      LastUpdated
     }
   }
 `;
@@ -689,6 +700,7 @@ export const removeJournalEntry = /* GraphQL */ `
         word
         count
       }
+      LastUpdated
     }
   }
 `;
