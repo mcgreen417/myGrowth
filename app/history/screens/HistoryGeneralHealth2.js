@@ -15,10 +15,36 @@ import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
 
-function HistoryGeneralHealth2({ navigation }) {
+const dayLabels = [
+  "Mon",
+  "Tues",
+  "Weds",
+  "Thurs",
+  "Fri",
+  "Sat",
+  "Sun"
+];
+
+const monthLabels = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "May",
+  "July",
+  "Sept",
+  "Nov"
+];
+
+function HistoryGeneralHealth2({ route, navigation }) {
+  const data = route.params.data;
+  const symptoms = getPickerLabels(data);
+  const arr = initDisplayData(symptoms, data, 'past_week');
+
   const [modalVisible, setModalVisible] = useState(false);
-  const [timePeriod, setTimePeriod] = useState('unselected');
-  const [selectsymptom, setSymptom] = useState('unselected');
+  const [timePeriod, setTimePeriod] = useState('past_week');
+  const [selectsymptom, setSymptom] = useState(symptoms[0]);
+  const [timestamps, setTimestamps] = useState(dayLabels);
+  const [displayData, setDisplayData] = useState(arr);
 
   return (
     <SafeAreaView style={styles().container}>
@@ -28,6 +54,7 @@ function HistoryGeneralHealth2({ navigation }) {
         setModalView={setModalVisible}
         showModalView={modalVisible}
         navigation={navigation}
+        data={data}
       />
 
       {/* Actual screen */}
@@ -69,7 +96,16 @@ function HistoryGeneralHealth2({ navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent generalHealth={true} navigation={navigation} />
+          <View style={{marginTop: 6}}>
+            <TabBarAndContent 
+              navigation={navigation} 
+              data={data} 
+              timePeriod={timestamps} 
+              page={'generalHealth'}
+              multiPageData={displayData}
+              page2Color={true}
+            />
+          </View>
 
           {/* Time Period and Select Symptom drop-down selection */}
           <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, flexDirection: 'row', }}>
@@ -79,10 +115,14 @@ function HistoryGeneralHealth2({ navigation }) {
                 <Picker
                   selectedValue={timePeriod}
                   style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+                  onValueChange={(itemValue, itemIndex) => {
+                    setTimePeriod(itemValue);
+                    getTimestamps(data, timestamps, setTimestamps, itemValue);
+                    getDisplayData(selectsymptom, data, itemValue, setDisplayData);
+                    console.log(displayData);
+                  }}
                   mode={'dropdown'}
                 >
-                  <Picker.Item label='Select one...' value='unselected' />
                   <Picker.Item label='Past week' value='past_week' />
                   <Picker.Item label='Past month' value='past_month' />
                   <Picker.Item label='Past year' value='past_year' />
@@ -95,16 +135,18 @@ function HistoryGeneralHealth2({ navigation }) {
                 <Picker
                   selectedValue={selectsymptom}
                   style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => setSymptom(itemValue)}
+                  onValueChange={(itemValue, itemIndex) => {
+                    setSymptom(itemValue);
+                    getDisplayData(itemValue, data, timePeriod, setDisplayData);
+                    getTimestamps(data, timestamps, setTimestamps, timePeriod);
+                  }}
                   mode={'dropdown'}
                 >
-                  <Picker.Item label='Select one...' value='unselected' />
-                  <Picker.Item label='All symptoms' value='all_symptoms' />
-                  <Picker.Item label='Stomach ache' value='stomach_ache' />
-                  <Picker.Item label='Wrist soreness' value='wrist_soreness' />
-                  <Picker.Item label='Back soreness' value='back_soreness' />
-                  <Picker.Item label='Dizziness' value='dizziness' />
-                  <Picker.Item label='Fatigue' value='fatigue' />
+                  {symptoms.map((item, index) => {
+                    return (
+                        <Picker.Item key={index} label={item} value={item} />
+                    );
+                  })}
                 </Picker>
               </View>
             </View>
@@ -116,7 +158,7 @@ function HistoryGeneralHealth2({ navigation }) {
           </View>
 
           {/* App suggestions */}
-          <View style={{ marginHorizontal: '5%', marginBottom: 20, }}>
+          <View style={{ marginHorizontal: '5%', }}>
             {/* Decrease symptom intensity analysis */}
             <Text style={styles().text}>
               Based on our analysis, the following activities may help decrease the intensity of
@@ -225,6 +267,121 @@ function HistoryGeneralHealth2({ navigation }) {
     </SafeAreaView>
   );
 };
+
+function getDisplayData(symptomName, data, timePeriod, setDisplayData) {
+  var arr = [];
+  var len = data.symptomData.length;
+  console.log(timePeriod);
+
+  if(timePeriod === 'past_week')
+    for(var i = len < 7 ? 0 : len - 7; i < len; i++)
+      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
+        if(key == symptomName)
+          arr.push(value);
+        
+        else
+          arr.push(0);
+      }
+
+  else if(timePeriod === 'past_month')
+    for(var i = len < 30 ? 0 : len - 30; i < len; i++)
+      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
+        if(key == symptomName)
+          arr.push(value);
+        
+        else
+          arr.push(0);
+      }
+
+  else
+    for(var i = len < 365 ? 0 : len - 365; i < len; i++)
+      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
+        if(key == symptomName)
+          arr.push(value);
+        
+        else
+          arr.push(0);
+      }
+
+  setDisplayData(arr);
+}
+
+function initDisplayData(symptoms, data, timePeriod) {
+  var arr = [];
+  var len = data.symptomData.length;
+
+  if(timePeriod === 'past_week')
+    for(var i = len < 7 ? 0 : len - 7; i < len; i++)
+      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
+        if(key == symptoms[0])
+          arr.push(value);
+        
+        else
+          arr.push(0);
+      }
+
+  else if(timePeriod === 'past_month')
+    for(var i = len < 30 ? 0 : len - 30; i < len; i++)
+      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
+        if(key == symptoms[0])
+          arr.push(value);
+        
+        else
+          arr.push(0);
+      }
+
+  else
+    for(var i = len < 365 ? 0 : len - 365; i < len; i++)
+      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
+        if(key == symptoms[0])
+          arr.push(value);
+        
+        else
+          arr.push(0);
+      }
+
+  return arr;
+}
+
+function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
+  var dates = [];
+  const latestDate = new Date(data.latestDate);
+
+  for(var i = 29; i >= 0; i--) {
+    var date = new Date(latestDate.getTime() - (i * 24 * 60 * 60 * 1000));
+    if(i % 4 == 0)
+      dates.push(date.toISOString().substring(5, 10));
+  }
+
+  if(timePeriod === 'past_week')
+    setTimestamps(dayLabels);
+
+  else if(timePeriod === 'past_month')
+    setTimestamps(dates); 
+
+  else if(timePeriod === 'past_year')
+    setTimestamps(monthLabels);
+}
+
+function getPickerLabels(data) {
+  var length = data.symptomData.length;
+  var arr = [];
+
+  for(var i = i = length < 90 ? 0 : length - 90; i < length; i++)
+    for(var [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
+      //check if key is in map
+      if(!arr.includes(key)) {
+        if(key !== 'null')
+          arr.push(key);
+      }
+
+      //it exists
+      else
+        ;
+    }
+
+  return arr;
+}
 
 export default HistoryGeneralHealth2;
 

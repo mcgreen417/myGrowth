@@ -14,16 +14,35 @@ import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
-import { Auth, API } from 'aws-amplify';
-import * as queries from '../../../src/graphql/queries';
 
-function HistoryStress({ navigation }) {
+const dayLabels = [
+  "Mon",
+  "Tues",
+  "Weds",
+  "Thurs",
+  "Fri",
+  "Sat",
+  "Sun"
+];
+
+const monthLabels = [
+  "Jan",
+  "Mar",
+  "May",
+  "July",
+  "Sept",
+  "Nov"
+];
+
+function HistoryStress({ route, navigation }) {
+  const data = route.params.data;
+  const arr = initDisplayData(data);
+
   const [modalVisible, setModalVisible] = useState(false);
-  const [timePeriod, setTimePeriod] = useState('unselected');
-  const [data, setData] = useState([]);
-
-  getBasicData(data, setData);
-
+  const [timePeriod, setTimePeriod] = useState('past_week');
+  const [timestamps, setTimestamps] = useState(dayLabels);
+  const [displayData, setDisplayData] = useState(arr);
+  
   return (
     <SafeAreaView style={styles().container}>
       
@@ -32,6 +51,7 @@ function HistoryStress({ navigation }) {
         setModalView={setModalVisible}
         showModalView={modalVisible}
         navigation={navigation}
+        data={data}
       />
       
       {/* Actual screen */}
@@ -73,7 +93,15 @@ function HistoryStress({ navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent historyGenComp={true} navigation={navigation} data={data} timePeriod={timePeriod} page={'stress'} />
+          <View style={{marginTop: 6}}>
+            <TabBarAndContent 
+              navigation={navigation} 
+              data={displayData} 
+              timePeriod={timestamps} 
+              page={'historyGenComp'} 
+              page2Color={false}
+            />
+          </View>
 
           {/* Time Period drop-down selection */}
           <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, }}>
@@ -82,10 +110,13 @@ function HistoryStress({ navigation }) {
               <Picker
                 selectedValue={timePeriod}
                 style={styles().picker}
-                onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+                onValueChange={(itemValue, itemIndex) => {
+                  setTimePeriod(itemValue);
+                  getDisplayData(data, itemValue, setDisplayData);
+                  getTimestamps(data, timestamps, setTimestamps, itemValue);
+                }}
                 mode={'dropdown'}
               >
-                <Picker.Item label='Select one...' value='unselected' />
                 <Picker.Item label='Past week' value='past_week' />
                 <Picker.Item label='Past month' value='past_month' />
                 <Picker.Item label='Past year' value='past_year' />
@@ -99,7 +130,7 @@ function HistoryStress({ navigation }) {
           </View>
 
           {/* App suggestions */}
-          <View style={{ marginHorizontal: '5%', marginBottom: 20, }}>
+          <View style={{ marginHorizontal: '5%', }}>
             {/* Stress-free activities recommendations */}
             <Text style={styles().text}>
               Based on our analysis, the following activities may help to reduce
@@ -208,14 +239,62 @@ function HistoryStress({ navigation }) {
   );
 };
 
-async function getBasicData(data, setData) {
-  const res = await API.graphql({
-    query: queries.getChartData
-  })
+function cleanUpData(arr) {
+  const len = arr.length;
 
-  const arr = res.data;
+  for(var i = 0; i < len; i++)
+    if(arr[i] == -1)
+      arr[i] = 0;
 
-  setData(arr.getChartData);
+  return arr;
+}
+
+function initDisplayData(data) {
+  var len = data.stressData.length;
+  var arr = [];
+
+  arr = data.stressData.slice(len - 7, len);
+  arr = cleanUpData(arr);
+
+  return arr;
+}
+
+function getDisplayData(data, timePeriod, setDisplayData) {
+  var len = data.stressData.length;
+  var arr = [];
+
+  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    arr = data.stressData.slice(len - 7, len);
+
+  else if(timePeriod === 'past_month')
+    arr = data.stressData.slice(len - 30, len);
+
+  else
+    arr = data.stressData.slice(len - 365, len);
+
+  arr = cleanUpData(arr);
+
+  setDisplayData(arr);
+}
+
+function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
+  var dates = [];
+  const latestDate = new Date(data.latestDate);
+
+  for(var i = 29; i >= 0; i--) {
+    var date = new Date(latestDate.getTime() - (i * 24 * 60 * 60 * 1000));
+    if(i % 4 == 0)
+      dates.push(date.toISOString().substring(5, 10));
+  }
+
+  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+    setTimestamps(dayLabels);
+
+  else if(timePeriod === 'past_month')
+    setTimestamps(dates); 
+
+  else if(timePeriod === 'past_year')
+    setTimestamps(monthLabels);
 }
 
 export default HistoryStress;

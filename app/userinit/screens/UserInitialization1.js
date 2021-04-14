@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Auth, API } from 'aws-amplify';
 import {
+  Alert,
   Button,
   Image,
   SafeAreaView,
@@ -11,15 +12,13 @@ import {
   TouchableOpacity,
   Platform,
   View,
-  FlatList,
-  Switch,
+  Modal,
 } from 'react-native';
 
 import { Icon } from 'react-native-elements';
-import { ToggleButton } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
 import { ScrollView } from 'react-native-gesture-handler';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import RNDateTimePicker from '@react-native-community/datetimepicker';
 
 function UserInitialization1({ navigation }) {
   const [date, setDate] = useState(new Date());
@@ -32,10 +31,61 @@ function UserInitialization1({ navigation }) {
   const [dob, setDob] = useState('0000-00-00');
   const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
+  const [useHeightMeasurement, setToggleHeightMeasurement] = useState(false);
+  const [useWeightMeasurement, setToggleWeightMeasurement] = useState(false);
+  const [showFirstNameInfo, setShowFirstNameInfo] = useState(false);
+  const [showDOBInfo, setShowDOBInfo] = useState(false);
+  const [showGenderInfo, setShowGenderInfo] = useState(false);
+  const [showBioSexInfo, setShowBioSexInfo] = useState(false);
+  const [showActivityLevelInfo, setShowActivityLevelInfo] = useState(false);
+  const [showHeightInfo, setShowHeightInfo] = useState(false);
+  const [showWeightInfo, setShowWeightInfo] = useState(false);
 
+  const currentDay = new Date().getDate();
+  const currentMonth = new Date().getMonth();
+  const currentYear = new Date().getFullYear();
+  const minimumUserBirthDate = new Date(currentYear - 13, currentMonth, currentDay);
+  const maximumUserBirthDate = new Date(currentYear - 150, currentMonth, currentDay);
+
+  const [userInitializationProperties, setUserInitializationProperties] = useState({
+    validFirstName: false,
+    validDateOfBirth: false,
+    validGender: false,
+    validBiologicalSex: false,
+    checkTextInputChange: false,
+    validSignUp: false,
+  });
+
+
+  const handleFirstNameChange = (firstName) => {
+    const firstNameRegexPattern = /^(?=.*[a-zA-Z]).{1,}$/;
+    const charsNotAllowedRegexPattern = /[^a-zA-Z-' ]/g;
+
+    firstName = firstName.replace(charsNotAllowedRegexPattern, '');
+    setFirstName(firstName);
+
+    if (firstName.match(firstNameRegexPattern)) {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validFirstName: true,
+        checkTextInputChange: true,
+      });
+    } else {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validFirstName: false,
+        checkTextInputChange: false,
+        validSignUp: false,        
+      });
+    }
+  }
+
+  // Birth date calendar selector.
+  // Currently marks is valid if user opens the calendar because the currentDate is auto-selected,
+  //   which is >= 13 years old.
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    //console.log(currentDate);
+    // console.log(currentDate);
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
 
@@ -53,6 +103,11 @@ function UserInitialization1({ navigation }) {
 
     setDateDisplayText(fullStr);
     setDob(selectedDate.toISOString().slice(0, 10));
+    
+    setUserInitializationProperties({
+      ...userInitializationProperties,
+      validDateOfBirth: true,
+    });
   };
 
   const showMode = (currentMode) => {
@@ -64,13 +119,148 @@ function UserInitialization1({ navigation }) {
     showMode('date');
   };
 
-  const [useHeightMeasurement, setToggleHeightMeasurement] = useState(false);
-  const toggleHeightMeasurement = () =>
-    setToggleHeightMeasurement((previousState) => !previousState);
+  const handleGenderChange = (itemValue) => {
+    setGender(itemValue);    
 
-  const [useWeightMeasurement, setToggleWeightMeasurement] = useState(false);
-  const toggleWeightMeasurement = () =>
+    if (itemValue === 'unselected') {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validGender: false,
+        validSignUp: false,        
+      });
+    } else {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validGender: true,
+      });  
+    }
+  }
+
+  const handleBioSexChange = (itemValue) => {
+    setBioSex(itemValue);    
+
+    if (itemValue === 'unselected') {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validBiologicalSex: false,
+        validSignUp: false,        
+      });
+    } else {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validBiologicalSex: true,
+      });  
+    }
+  }
+
+  const handleHeightChange = (height) => {
+    const heightRegexPattern = /^[0-9]*$/;
+    const charsNotAllowedRegex = /[^0-9]/g
+
+    height = height.replace(charsNotAllowedRegex, '');
+    setHeight(height);
+
+    if (height.match(heightRegexPattern)) {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validHeight: true,
+      });
+    } else {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validHeight: false,
+        validSignUp: false,
+      });
+    }
+  }
+
+  const handleWeightChange = (weight) => {
+    const weightRegexPattern = /^[0-9]*$/;
+    const charsNotAllowedRegex = /[^0-9]/g;
+
+    weight = weight.replace(charsNotAllowedRegex, '');
+    setWeight(weight);
+
+    if (weight.match(weightRegexPattern)) {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validWeight: true,
+      });
+    } else {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validWeight: false,
+        validSignUp: false,
+      });
+    }
+  }
+
+  const toggleHeightMeasurement = () => {
+    setToggleHeightMeasurement((previousState) => !previousState);
+  }
+
+  const toggleWeightMeasurement = () => {
     setToggleWeightMeasurement((previousState) => !previousState);
+  }
+
+  const checkRequiredFields = (firstName, dob, gender, bioSex) => {
+    const ableToSignUp = (userInitializationProperties.validFirstName
+                          && userInitializationProperties.validDateOfBirth
+                          && userInitializationProperties.validGender
+                          && userInitializationProperties.validBiologicalSex);
+    const validFirstName = userInitializationProperties.validFirstName;
+    const validDOB = userInitializationProperties.validDateOfBirth;
+    const validGender = userInitializationProperties.validGender;
+    const validBioSex = userInitializationProperties.validBiologicalSex;
+    
+    if (ableToSignUp) {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validSignUp: true,
+      });
+
+    } else {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validSignUp: false,
+      });
+
+      // Future update so that relevant input boxes have a red outline and a red 'x' next to/above them?
+      if (!validFirstName && !validDOB && !validGender && !validBioSex) {
+        createAlert('Oh no!', 'Please double-check that you entered information in the First Name, Date of Birth, Gender, and Biological Sex fields.');
+      } else if (!validFirstName && !validDOB && !validGender) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name, Date of Birth, and Gender fields.');
+      } else if (!validFirstName && !validDOB && !validBioSex) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name, Date of Birth, and Biological Sex fields.');
+      } else if (!validFirstName && !validGender && !validBioSex) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name, Gender, and Biological Sex fields.');
+      } else if (!validDOB && !validGender && !validBioSex) {
+        createAlert('Oh no!', 'Please double-check your entered information in the Date of Birth, Gender, and Biological Sex fields.');
+      } else if (!validFirstName && !validDOB) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name and Date of Birth fields.');
+      } else if (!validFirstName && !validGender) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name and Gender fields.');
+      } else if (!validFirstName && !validBioSex) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name and Biological Sex fields.');
+      } else if (!validDOB && !validGender) {
+        createAlert('Oh no!', 'Please double-check your entered information in the Date of Birth and Gender fields.');   
+      } else if (!validDOB && !validBioSex) {
+        createAlert('Oh no!', 'Please double-check your entered information in the Date of Birth and Biological Sex fields.');  
+      } else if (!validGender && !validBioSex) {
+        createAlert('Oh no!', 'Please double-check your entered information in the Gender and Biological Sex fields.'); 
+      } else if (!validFirstName) {
+        createAlert('Oh no!', 'Please make sure that you\'ve entered at least one character for your name.'); 
+      } else if (!validDOB) {
+        createAlert('Oh no!', 'Please make sure you\'ve selected your date of birth and are 13 years or older.'); 
+      } else if (!validGender) {
+        createAlert('Oh no!', 'Please select an option for Gender - if you do not wish to answer, please select \'Prefer not to answer\'.'); 
+      } else if (!validBioSex) {
+        createAlert('Oh no!', 'Please select an option for Biological Sex - if you do not wish to answer, please select \'Prefer not to answer\'.');   
+      } else {
+        createAlert('Error', 'Please check all fields and try again');
+      }
+    }
+  }  
 
   return (
     <SafeAreaView style={styles().container}>
@@ -82,7 +272,526 @@ function UserInitialization1({ navigation }) {
         }
         barStyle='light-content'
       />
-      <ScrollView showsVerticalScrollIndicator={false}>
+
+      {/* First name info pop-up */}
+      <View>
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={showFirstNameInfo}
+          onRequestClose={() => setShowFirstNameInfo(!showFirstNameInfo)}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 1,
+              backgroundColor: '#00000055',
+            }}>
+              <View style={styles().modalContainer}>
+                <View style={styles().modalHeaderBar}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 2,
+                      marginLeft: 6,
+                      marginVertical: 4,
+                    }}>
+                    <Icon
+                      name='information-circle-outline'
+                      type='ionicon'
+                      color='white'
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles().textAlt}>First Name</Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        flex: 1,
+                        justifyContent: 'flex-end',
+                        marginRight: 6,
+                      }}>
+                      <Icon
+                        name='close'
+                        type='ionicon'
+                        color='white'
+                        onPress={() => setShowFirstNameInfo(!showFirstNameInfo)}
+                      />
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    marginHorizontal: '5%',
+                    maxHeight: '60%',
+                    marginTop: 10,
+                    marginBottom: 16,
+                  }}>
+                  <Text style={styles().text}>
+                    Please enter your first name so our friendly assistant knows who you are!
+                  </Text>
+                  <Text style={styles().text}>You can change this in your user settings at any time.</Text>
+                  <Text style={styles().text}>
+                    You may use a nickname, username, or alias if you are uncomfortable entering this 
+                    information.
+                  </Text>
+                  <Text style={styles().textBoldAlt}>This field is required.</Text>
+                </View>
+              </View>
+            </View>
+        </Modal>
+      </View>
+
+      {/* Date of birth info pop-up */}
+      <View>
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={showDOBInfo}
+          onRequestClose={() => setShowDOBInfo(!showDOBInfo)}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 1,
+              backgroundColor: '#00000055',
+            }}>
+              <View style={styles().modalContainer}>
+                <View style={styles().modalHeaderBar}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 2,
+                      marginLeft: 6,
+                      marginVertical: 4,
+                    }}>
+                    <Icon
+                      name='information-circle-outline'
+                      type='ionicon'
+                      color='white'
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles().textAlt}>Date of Birth</Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        flex: 1,
+                        justifyContent: 'flex-end',
+                        marginRight: 6,
+                      }}>
+                      <Icon
+                        name='close'
+                        type='ionicon'
+                        color='white'
+                        onPress={() => setShowDOBInfo(!showDOBInfo)}
+                      />
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    marginHorizontal: '5%',
+                    maxHeight: '60%',
+                    marginTop: 10,
+                    marginBottom: 16,
+                  }}>
+                  <Text style={styles().text}>
+                    Please enter your date of birth so we know how old you are!
+                  </Text>
+                  <Text style={styles().text}>
+                    This information will be used in physical health calculations and can be updated
+                    in your user settings at any time.
+                  </Text>
+                  <Text style={styles().textBoldAlt}>This field is required.</Text>
+                </View>
+              </View>
+            </View>
+        </Modal>
+      </View>
+
+      {/* Gender info pop-up */}
+      <View>
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={showGenderInfo}
+          onRequestClose={() => setShowGenderInfo(!showGenderInfo)}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 1,
+              backgroundColor: '#00000055',
+            }}>
+              <View style={styles().modalContainer}>
+                <View style={styles().modalHeaderBar}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 2,
+                      marginLeft: 6,
+                      marginVertical: 4,
+                    }}>
+                    <Icon
+                      name='information-circle-outline'
+                      type='ionicon'
+                      color='white'
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles().textAlt}>Gender</Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        flex: 1,
+                        justifyContent: 'flex-end',
+                        marginRight: 6,
+                      }}>
+                      <Icon
+                        name='close'
+                        type='ionicon'
+                        color='white'
+                        onPress={() => setShowGenderInfo(!showGenderInfo)}
+                      />
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    marginHorizontal: '5%',
+                    maxHeight: '60%',
+                    marginTop: 10,
+                    marginBottom: 16,
+                  }}>
+                  <Text style={styles().text}>
+                    Please enter your gender so we know more about you!
+                  </Text>
+                  <Text style={styles().text}>
+                    This information will be used in physical health calculations in combination with 
+                    your biological sex and can be updated in your user settings at any time.
+                  </Text>
+                  <Text style={styles().text}>
+                    You may choose not to answer this question if it makes you uncomfortable. However, 
+                    this may cause certain physical health calculations to be inaccurate. 
+                  </Text>
+                  <Text style={styles().textBoldAlt}>This field is required.</Text>
+                </View>
+              </View>
+            </View>
+        </Modal>
+      </View>
+
+      {/* Biological sex info pop-up */}
+      <View>
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={showBioSexInfo}
+          onRequestClose={() => setShowBioSexInfo(!showBioSexInfo)}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 1,
+              backgroundColor: '#00000055',
+            }}>
+              <View style={styles().modalContainer}>
+                <View style={styles().modalHeaderBar}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 2,
+                      marginLeft: 6,
+                      marginVertical: 4,
+                    }}>
+                    <Icon
+                      name='information-circle-outline'
+                      type='ionicon'
+                      color='white'
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles().textAlt}>Biological Sex</Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        flex: 1,
+                        justifyContent: 'flex-end',
+                        marginRight: 6,
+                      }}>
+                      <Icon
+                        name='close'
+                        type='ionicon'
+                        color='white'
+                        onPress={() => setShowBioSexInfo(!showBioSexInfo)}
+                      />
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    marginHorizontal: '5%',
+                    maxHeight: '60%',
+                    marginTop: 10,
+                    marginBottom: 16,
+                  }}>
+                  <Text style={styles().text}>
+                    Please enter your biological sex so we know more about you!
+                  </Text>
+                  <Text style={styles().text}>
+                    This information will be used in physical health calculations in combination with 
+                    your gender and can be updated in your user settings at any time.
+                  </Text>
+                  <Text style={styles().text}>
+                    You may choose not to answer this question if it makes you uncomfortable. However, 
+                    this may cause certain physical health calculations to be inaccurate. 
+                  </Text>
+                  <Text style={styles().textBoldAlt}>This field is required.</Text>
+                </View>
+              </View>
+            </View>
+        </Modal>
+      </View>
+
+      {/* Activity level info pop-up */}
+      <View>
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={showActivityLevelInfo}
+          onRequestClose={() => setShowActivityLevelInfo(!showActivityLevelInfo)}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 1,
+              backgroundColor: '#00000055',
+            }}>
+              <View style={styles().modalContainer}>
+                <View style={styles().modalHeaderBar}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 2,
+                      marginLeft: 6,
+                      marginVertical: 4,
+                    }}>
+                    <Icon
+                      name='information-circle-outline'
+                      type='ionicon'
+                      color='white'
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles().textAlt}>Activity Level</Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        flex: 1,
+                        justifyContent: 'flex-end',
+                        marginRight: 6,
+                      }}>
+                      <Icon
+                        name='close'
+                        type='ionicon'
+                        color='white'
+                        onPress={() => setShowActivityLevelInfo(!showActivityLevelInfo)}
+                      />
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    marginHorizontal: '5%',
+                    maxHeight: '60%',
+                    marginTop: 10,
+                    marginBottom: 16,
+                  }}>
+                  <Text style={styles().text}>
+                    Please let us know how active you typically are in your average week!
+                  </Text>
+                  <Text style={styles().text}>
+                    This information will be used in physical health calculations and can be updated
+                    in your user settings at any time.
+                  </Text>
+                  <Text style={styles().text}>
+                    You may choose not to answer this question if you are unsure of your typical activity 
+                    level. However, this may cause certain physical health calculations to be inaccurate. 
+                  </Text>
+                  <Text style={styles().textBoldAlt}>This field is optional.</Text>
+                </View>
+              </View>
+            </View>
+        </Modal>
+      </View>
+
+      {/* Height info pop-up */}
+      <View>
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={showHeightInfo}
+          onRequestClose={() => setShowHeightInfo(!showHeightInfo)}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 1,
+              backgroundColor: '#00000055',
+            }}>
+              <View style={styles().modalContainer}>
+                <View style={styles().modalHeaderBar}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 2,
+                      marginLeft: 6,
+                      marginVertical: 4,
+                    }}>
+                    <Icon
+                      name='information-circle-outline'
+                      type='ionicon'
+                      color='white'
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles().textAlt}>Height</Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        flex: 1,
+                        justifyContent: 'flex-end',
+                        marginRight: 6,
+                      }}>
+                      <Icon
+                        name='close'
+                        type='ionicon'
+                        color='white'
+                        onPress={() => setShowHeightInfo(!showHeightInfo)}
+                      />
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    marginHorizontal: '5%',
+                    maxHeight: '60%',
+                    marginTop: 10,
+                    marginBottom: 16,
+                  }}>
+                  <Text style={styles().text}>
+                    Please enter your height so we know how tall you are!
+                  </Text>
+                  <Text style={styles().text}>
+                    This information will be used in physical health calculations and can be updated 
+                    in your user settings at any time.
+                  </Text>
+                  <Text style={styles().text}>
+                    You may choose not to answer this question if you are unsure of your height. 
+                    However, this may cause certain physical health calculations to be inaccurate.
+                  </Text>
+                  <Text style={styles().textBoldAlt}>This field is optional.</Text>
+                </View>
+              </View>
+            </View>
+        </Modal>
+      </View>
+
+      {/* Weight info pop-up */}
+      <View>
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={showWeightInfo}
+          onRequestClose={() => setShowWeightInfo(!showWeightInfo)}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 1,
+              backgroundColor: '#00000055',
+            }}>
+              <View style={styles().modalContainer}>
+                <View style={styles().modalHeaderBar}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 2,
+                      marginLeft: 6,
+                      marginVertical: 4,
+                    }}>
+                    <Icon
+                      name='information-circle-outline'
+                      type='ionicon'
+                      color='white'
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles().textAlt}>Weight</Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        flex: 1,
+                        justifyContent: 'flex-end',
+                        marginRight: 6,
+                      }}>
+                      <Icon
+                        name='close'
+                        type='ionicon'
+                        color='white'
+                        onPress={() => setShowWeightInfo(!showWeightInfo)}
+                      />
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    marginHorizontal: '5%',
+                    maxHeight: '60%',
+                    marginVertical: 10,
+                  }}>
+                  <Text style={styles().text}>
+                    Please enter your weight so we know how much you weigh!
+                  </Text>
+                  <Text style={styles().text}>
+                    This information will be used in physical health calculations and can be updated
+                    dynamically via your daily health entries.
+                  </Text>
+                  <Text style={styles().text}>
+                    You may choose not to answer this question if you are unsure of your weight. 
+                    However, this may cause certain physical health calculations to be inaccurate.
+                  </Text>
+                  <Text style={styles().textBoldAlt}>This field is optional.</Text>
+                </View>
+              </View>
+            </View>
+        </Modal>
+      </View>
+
+      {/* Start of user initialization 1 page */}
+      <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled'>
         <View style={styles().pageSetup}>
           {/* Gardener avatar + page blurb */}
           <View style={styles().avatarView}>
@@ -103,27 +812,30 @@ function UserInitialization1({ navigation }) {
           {/* First name user input entry */}
           <View style={styles().inlineRow2}>
             <Text style={styles().heading}>FIRST NAME</Text>
+            <View style={{ marginRight: 8 }}/>
             <Icon
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
-              style={{ marginLeft: 6 }}
+              onPress={() => setShowFirstNameInfo(!showFirstNameInfo)}
             />
           </View>
 
-          {/* user's name in firstname var */}
+          {/* zuser's name in firstname var */}
           <View style={styles().userPrompt}>
             <TextInput 
               style={styles().textInput}
               placeholder='First name' 
-              placeholderTextColor={
-                global.colorblindMode
+              placeholderTextColor={global.colorblindMode
                   ? global.cb_placeHolderTextColor
-                  : global.placeHolderTextColor
-              }
+                  : global.placeHolderTextColor}
+              color={global.colorblindMode
+                ? global.cb_textColor
+                : global.textColor}
               value = {firstName}
+              maxLength = {50}
               onChangeText = {(firstName) => {
-                setFirstName(firstName);
+                handleFirstNameChange(firstName);
               }}
             />
           </View>
@@ -131,30 +843,40 @@ function UserInitialization1({ navigation }) {
           {/* Date of birth calendar pop-up */}
           <View style={styles().inlineRow2}>
             <Text style={styles().heading}>DATE OF BIRTH</Text>
+            <View style={{ marginLeft: 8, }}/>
             <Icon
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
-              style={{ marginLeft: 6 }}
+              onPress={() => setShowDOBInfo(!showDOBInfo)}
             />
           </View>
 
-          {/* stores the date in date var */}
+          {/* Stores the date in date var */}
           <View style={styles().datePicker}>
             <TouchableOpacity onPress={showDatepicker}>
               <View style={styles().inlineRow}>
                 <Icon name='calendar-sharp' type='ionicon' color='#816868' />
                 <Text
-                  style={{ textDecorationLine: 'underline', color: '#4CB97A' }}
+                  style={{
+                    textDecorationLine: 'underline',
+                    fontWeight: 'bold',
+                    color: global.colorblindMode
+                      ? global.cb_hyperlinkedTextColor
+                      : global.hyperlinkedTextColor,
+                    marginLeft: 8,
+                  }}
                 >
                   {dateDisplayText}
                 </Text>
               </View>
             </TouchableOpacity>
             {show && (
-              <DateTimePicker
+              <RNDateTimePicker
                 testID='dateTimePicker'
-                value={date}
+                minimumDate={maximumUserBirthDate}
+                maximumDate={minimumUserBirthDate}
+                value={minimumUserBirthDate}
                 mode={mode}
                 is24Hour={true}
                 display='default'
@@ -166,21 +888,21 @@ function UserInitialization1({ navigation }) {
           {/* Gender drop-down */}
           <View style={styles().inlineRow2}>
             <Text style={styles().heading}>GENDER</Text>
+            <View style={{ marginRight: 8, }}/>
             <Icon
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
-              style={{ marginLeft: 6 }}
+              onPress={() => setShowGenderInfo(!showGenderInfo)}
             />
           </View>
-
-          {/* gender stored in gender */}
+          {/* Stored in gender */}
           <View style={{ width: '90%' }}>
             <View style={styles().pickerView}>
               <Picker
                 selectedValue={gender}
                 style={styles().picker}
-                onValueChange={(itemValue, itemIndex) => setGender(itemValue)}
+                onValueChange={(itemValue, itemIndex) => handleGenderChange(itemValue)}
                 mode={'dropdown'}>
                 <Picker.Item label='Select one...' value='unselected' />
                 <Picker.Item label='Male' value='male' />
@@ -195,21 +917,21 @@ function UserInitialization1({ navigation }) {
           {/* Biological sex drop-down */}
           <View style={styles().inlineRow2}>
             <Text style={styles().heading}>BIOLOGICAL SEX</Text>
+            <View style={{ marginRight: 8, }}/>
             <Icon
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
-              style={{ marginLeft: 6 }}
+              onPress={() => setShowBioSexInfo(!showBioSexInfo)}
             />
           </View>
-
-          {/* stored in bioSex */}
+          {/* Stored in bioSex */}
           <View style={{ width: '90%' }}>
             <View style={styles().pickerView}>
               <Picker
                 selectedValue={bioSex}
                 style={styles().picker}
-                onValueChange={(itemValue, itemIndex) => setBioSex(itemValue)}
+                onValueChange={(itemValue, itemIndex) => handleBioSexChange(itemValue)}
                 mode={'dropdown'}>
                 <Picker.Item label='Select one...' value='unselected' />
                 <Picker.Item label='Male' value='male' />
@@ -220,81 +942,133 @@ function UserInitialization1({ navigation }) {
             </View>
           </View>
 
-          {/* Height user input entry + cm switch button */}
+          {/* Activity level drop-down */}
           <View style={styles().inlineRow2}>
-            <Text style={styles().heading}>HEIGHT</Text>
+            <Text style={styles().heading}>ACTIVITY LEVEL</Text>
+            <View style={{ marginRight: 8, }}/>
             <Icon
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
-              style={{ marginLeft: 6 }}
+              onPress={() => setShowActivityLevelInfo(!showActivityLevelInfo)}
+            />
+          </View>
+          {/* Stored in gender */}
+          <View style={{ width: '90%' }}>
+            <View style={styles().pickerView}>
+              <Picker
+                selectedValue={gender}
+                style={styles().picker}
+                onValueChange={(itemValue, itemIndex) => handleGenderChange(itemValue)}
+                mode={'dropdown'}>
+                <Picker.Item label='Select one...' value='unselected' />
+                <Picker.Item label='Sedentary (minimal activity)' value='sedentary' />
+                <Picker.Item label='Lightly active (1-2 days/week)' value='lightlyActive' />
+                <Picker.Item label='Moderately active (3-5 days/week)' value='moderatelyActive' />
+                <Picker.Item label='Very active (6-7 days/week)' value='veryActive' />
+              </Picker>
+            </View>
+          </View>
+
+          {/* Height user input entry + cm switch button */}
+          <View style={styles().inlineRow2}>
+            <Text style={styles().heading}>HEIGHT</Text>
+            <View style={{ marginRight: 8, }}/>
+            <Icon
+              name='information-circle-outline'
+              type='ionicon'
+              color='#816868'
+              onPress={() => setShowHeightInfo(!showHeightInfo)}
             />
           </View>
           <View style={styles().userPrompt}>
             <TextInput 
-              style={styles().textInput2} 
-              onChangeText = {(height) => setHeight(height)} 
+              style={styles().textInput2}
+              maxLength = {3}
+              value={height}
+              onChangeText = {(height) => handleHeightChange(height)} 
               placeholder='#'
               placeholderTextColor={
                 global.colorblindMode
                   ? global.cb_placeHolderTextColor
                   : global.placeHolderTextColor
               }
+              keyboardType='number-pad'
             />
-            <Text> IN</Text>
-            <ToggleButton
-              icon={
-                useHeightMeasurement
-                  ? require('../../shared/assets/toggle_on.png')
-                  : require('../../shared/assets/toggle_off.png')
-              }
-              value='heightMeasurement'
-              status={useHeightMeasurement ? 'checked' : 'unchecked'}
-              onPress={toggleHeightMeasurement}
-            />
-            <Text>CM</Text>
+            <View style={{ flexDirection: 'row', marginTop: 4, }}>
+              <Text style={styles().text}>IN</Text>
+              <View style={{ marginRight: 8, }}/>
+              <Icon
+                name={
+                  useHeightMeasurement
+                    ? 'toggle-on'
+                    : 'toggle-off'
+                }
+                type='fontisto'
+                value='heightMeasurement'
+                status={useHeightMeasurement ? 'checked' : 'unchecked'}
+                onPress={toggleHeightMeasurement}
+                color={global.colorblindMode
+                  ? global.cb_textColor
+                  : global.textColor}
+              />
+              <View style={{ marginRight: 8, }}/>
+              <Text style={styles().text}>CM</Text>
+            </View>
           </View>
 
           {/* Weight user input entry + kgs switch button */}
-          <View style={styles().inlineRow2}>
+          <View style={{ flexDirection: 'row', width: '90%', }}>
             <View style={{ width: '50%' }}>
               <View style={styles().inlineRow2}>
                 <Text style={styles().heading}>WEIGHT</Text>
+                <View style={{ marginRight: 8 }}/>
                 <Icon
                   name='information-circle-outline'
                   type='ionicon'
                   color='#816868'
-                  style={{ marginLeft: 6 }}
+                  onPress={() => setShowWeightInfo(!showWeightInfo)}
                 />
               </View>
               <View style={styles().userPrompt}>
                 <TextInput 
-                  style={styles().textInput3} 
-                  onChangeText = {(weight) => setWeight(weight)}
+                  style={styles().textInput3}
+                  maxLength = {3}
+                  value={weight}
+                  onChangeText = {(weight) => handleWeightChange(weight)}
                   placeholder='#' 
                   placeholderTextColor={
                     global.colorblindMode
                       ? global.cb_placeHolderTextColor
                       : global.placeHolderTextColor
                   }
+                  keyboardType='number-pad'
                 />
-                <Text> LB</Text>
-                <ToggleButton
-                  icon={
-                    useWeightMeasurement
-                      ? require('../../shared/assets/toggle_on.png')
-                      : require('../../shared/assets/toggle_off.png')
-                  }
-                  value='weightMeasurement'
-                  status={useWeightMeasurement ? 'checked' : 'unchecked'}
-                  onPress={toggleWeightMeasurement}
-                />
-                <Text style={styles().text}>KG</Text>
+                <View style={{ flexDirection: 'row', marginTop: 4, }}>
+                  <Text style={styles().text}>LB</Text>
+                  <View style={{ marginRight: 8, }}/>
+                  <Icon
+                    name={
+                      useWeightMeasurement
+                        ? 'toggle-on'
+                        : 'toggle-off'
+                    }
+                    type='fontisto'
+                    value='weightMeasurement'
+                    status={useWeightMeasurement ? 'checked' : 'unchecked'}
+                    onPress={toggleWeightMeasurement}
+                    color={global.colorblindMode
+                      ? global.cb_textColor
+                      : global.textColor}
+                  />
+                  <View style={{ marginRight: 8, }}/>
+                  <Text style={styles().text}>KG</Text>
+                </View>
               </View>
             </View>
 
             {/* Next button */}
-            <View style={{ width: '50%', marginTop: 40 }}>
+            <View style={{ alignSelf: 'flex-end', width: '50%', }}>
               <View style={styles().buttonsContainer}>
                 <Button
                   title='NEXT'
@@ -304,21 +1078,39 @@ function UserInitialization1({ navigation }) {
                       : global.optionButtonsColor
                   }
                   onPress={() => {
-                    updateUser(firstName, dob, gender, bioSex);
-                    navigation.navigate('UserInitialization2', { 
-                      height: height, 
-                      weight: weight, 
-                      heightMeasurement: useHeightMeasurement, 
-                      weightMeasurement: useWeightMeasurement
-                    });
+                    checkRequiredFields(firstName, dob, gender, bioSex);
+                    if (userInitializationProperties.validSignUp) {
+                      updateUser(firstName, dob, gender, bioSex);
+                      navigation.navigate('UserInitialization2', { 
+                        height: height, 
+                        weight: weight, 
+                        heightMeasurement: useHeightMeasurement, 
+                        weightMeasurement: useWeightMeasurement
+                      });
+                    }
                   }}
                 />
               </View>
             </View>
           </View>
+          <View style={styles().pageEnd}/>
         </View>
       </ScrollView>
     </SafeAreaView>
+  );
+}
+
+const createAlert = (title, message) => {
+  Alert.alert(
+    title,
+    message,
+    [
+      {
+        text: 'Cancel',
+        style: 'cancel'
+      },
+      { text: 'OK', }
+    ]
   );
 }
 
@@ -359,7 +1151,6 @@ const styles = () =>
     },
     buttonsContainer: {
       flexDirection: 'row',
-      alignItems: 'flex-end',
       justifyContent: 'flex-end',
     },
     datePicker: {
@@ -421,6 +1212,31 @@ const styles = () =>
       alignItems: 'flex-end',
       marginRight: 20,
     },
+    modalContainer: {
+      backgroundColor: global.colorblindMode
+        ? global.cb_pageBackgroundColor
+        : global.pageBackgroundColor,
+      alignItems: 'center',
+      width: '80%',
+      borderRadius: 10,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.23,
+      shadowRadius: 2.62,
+      elevation: 4,
+    },
+    modalHeaderBar: {
+      backgroundColor: global.colorblindMode
+        ? global.cb_optionButtonsColor
+        : global.optionButtonsColor,
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderTopLeftRadius: 10,
+      borderTopRightRadius: 10,
+    },
     textReg: {
       color: global.colorblindMode
         ? global.cb_textColor
@@ -431,13 +1247,13 @@ const styles = () =>
       color: global.colorblindMode
         ? global.cb_textColor
         : global.textColor,
-      fontSize: 16,
+      fontSize: 18,
       flex: 1,
       flexWrap: 'wrap',
       fontWeight: 'bold',
     },
     pageEnd: {
-      marginBottom: 10,
+      marginBottom: '4%',
     },
     pageSetup: {
       justifyContent: 'center',
@@ -467,9 +1283,9 @@ const styles = () =>
     textInput: {
       height: 40,
       borderColor: global.colorblindMode
-        ? global.cb_textInputBlackBorderColor
-        : global.textInputBlackBorderColor,
-      borderWidth: 1,
+        ? global.cb_textColor
+        : global.textColor,
+      borderWidth: 1.5,
       borderRadius: 4,
       backgroundColor: global.colorblindMode
         ? global.cb_textInputFillColor
@@ -484,9 +1300,9 @@ const styles = () =>
     textInput2: {
       height: 36,
       borderColor: global.colorblindMode
-        ? global.cb_textInputBlackBorderColor
-        : global.textInputBlackBorderColor,
-      borderWidth: 1,
+        ? global.cb_textColor
+        : global.textColor,
+      borderWidth: 1.5,
       borderRadius: 4,
       backgroundColor: global.colorblindMode
         ? global.cb_textInputFillColor
@@ -501,8 +1317,10 @@ const styles = () =>
     },
     textInput3: {
       height: 36,
-      borderColor: 'black',
-      borderWidth: 1,
+      borderColor: global.colorblindMode
+        ? global.cb_textColor
+        : global.textColor,
+      borderWidth: 1.5,
       borderRadius: 4,
       backgroundColor: '#f4f3f4',
       color: '#000000',
@@ -512,8 +1330,27 @@ const styles = () =>
       marginRight: 12,
     },
     text: {
-      color: 'black',
+      color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
       fontSize: 16,
+      marginBottom: 8,
+    },
+    textAlt: {
+      color: 'white',
+      fontSize: 20,
+      fontWeight: 'bold',
+    },
+    textBoldAlt: {
+      fontSize: 16,
+      color: '#816868',
+      fontWeight: 'bold',
+      marginTop: 4,
+    },
+    textButton: {
+      fontSize: 16,
+      color: '#4CB97A',
+      fontWeight: 'bold',
     },
     textLink: {
       textDecorationLine: 'underline', 

@@ -7,31 +7,35 @@ import {
   Text,
   View,
   Image,
-  TextInput,
+  ScrollView,
 } from 'react-native';
-import NavBar from '../../shared/components/NavBar';
 
 const EntryCompletion = () => {
   return (
     <SafeAreaView>
-      <View>
-        <Image
-          style={styles.avatar}
-          source={require('../../shared/assets/icon.png')}
-        />
-      </View>
-      <View>
-        <Image
-          style={styles.avatar}
-          source={require('../../shared/assets/icon.png')}
-        />
-        <Text>You have watered (plant name) today!</Text>
-        <Text>+5 growth points</Text>
-      </View>
-      <View>
-        <Button title='View Entry' />
-        <Button title='Return to Home' />
-      </View>
+      <ScrollView 
+        showsVerticalScrollIndicator={false} 
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+      >
+        <View>
+          <Image
+            style={styles.avatar}
+            source={require('../../shared/assets/icon.png')}
+          />
+        </View>
+        <View>
+          <Image
+            style={styles.avatar}
+            source={require('../../shared/assets/icon.png')}
+          />
+          <Text>You have watered (plant name) today!</Text>
+          <Text>+5 growth points</Text>
+        </View>
+        <View>
+          <Button title='View Entry' />
+          <Button title='Return to Home' />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

@@ -17,7 +17,7 @@ import NavBar from '../../shared/components/NavBar';
 const Journal = ({ navigation }) => {
   return (
     <SafeAreaView style={styles().container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled'>
         <View style={styles().pageSetup}>
           {/* Gardener avatar + page blurb */}
           <View style={styles().avatarView}>
@@ -105,10 +105,11 @@ const Journal = ({ navigation }) => {
 
 async function getEntries(navigation) {
   const date = new Date();
+  const timerange = {start: new Date(date.getFullYear(), date.getMonth(), 1), end: new Date(date.getFullYear(), date.getMonth() + 1, 0)};
   const datePass = date.toISOString();
   const res = await API.graphql({
     query: queries.getJournalEntries,
-    variables: {timerange: date.toISOString().slice(0, 7)}
+    variables: {timerange: timerange}
   });
 
   const arr = res.data.getJournalEntries.journalEntries;

@@ -9,6 +9,7 @@ import {
   Button,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import { Auth, API } from 'aws-amplify';
 
@@ -25,94 +26,65 @@ function ForgotPassword({ navigation }) {
         }
         barStyle='light-content'
       />
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100%',
-        }}>
-        {/* Logo + title + page instructions */}
-        <Image
-          style={styles().logo}
-          source={require('../../shared/assets/icon.png')}
-        />
-        <Text
-          style={{
-            fontWeight: 'bold',
-            color: global.colorblindMode
-              ? global.cb_textColor
-              : global.textColor,
-            fontSize: 44,
-          }}>
-          myGrowth
-        </Text>
-        <Text
-          style={{
-            fontWeight: 'bold',
-            color: global.colorblindMode
-              ? global.cb_textColor
-              : global.textColor,
-            fontSize: 20,
-            marginBottom: 16,
-          }}>
-          Your General Wellness Tracker
-        </Text>
-        <Text
-          style={{
-            color: global.colorblindMode
-              ? global.cb_textColor
-              : global.textColor,
-            marginBottom: 12,
-            textAlign: 'center',
-          }}>
-          To reset your password, please enter the e-mail{'\n'}
-          address associated with your account.
-        </Text>
-
-        {/* Username + e-mail address entry boxes, submit button */}
-        <View style={styles().buttons}>
-          <View style={{ marginVertical: 8 }} />
-          <TextInput
-            style={styles().textInput}
-            placeholder='E-mail Address'
-            placeholderTextColor={
-              global.colorblindMode
-                ? global.cb_placeHolderTextColor
-                : global.placeholderTextColor
-            }
-            value={email}
-            onChangeText={(email) => {
-              setEmail(email);
-            }}
+      <ScrollView 
+        showsVerticalScrollIndicator={false} 
+        keyboardShouldPersistTaps='handled' 
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+      >
+        <View style={styles().pageSetup}>
+          {/* Logo + title + page instructions */}
+          <Image
+            style={styles().logo}
+            source={require('../../shared/assets/icon.png')}
           />
-          <View style={{ marginVertical: 8 }} />
-          <Button
-            title='SUBMIT'
-            color={
-              global.colorblindMode
-                ? global.cb_optionButtonsColor
-                : global.optionButtonsColor
-            }
-            onPress={() => resetPassword(email, navigation)}
-          />
-          <View style={{ marginVertical: 8 }} />
-        </View>
+          <Text style={styles().textTitle}>myGrowth</Text>
+          <Text style={styles().textSubtitle}>Your General Wellness Tracker</Text>
+          <Text style={styles().textInstructions}>
+            To reset your password, please enter the e-mail{'\n'}
+            address associated with your account.
+          </Text>
 
-        {/* Login page redirect */}
-        <View style={{ flexDirection: 'row' }}>
-          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <Text
-              style={{
-                color: global.colorblindMode
-                  ? global.cb_hyperlinkedTextColor
-                  : global.hyperlinkedTextColor,
-                textDecorationLine: 'underline',
-              }}>
-              Return to login.
-            </Text>
-          </TouchableOpacity>
+          {/* Username + e-mail address entry boxes, submit button */}
+          <View style={styles().buttons}>
+            <View style={{ marginTop: 16 }}>
+              <TextInput
+                style={styles().textInput}
+                placeholder='E-mail Address'
+                placeholderTextColor={
+                  global.colorblindMode
+                    ? global.cb_placeHolderTextColor
+                    : global.placeholderTextColor
+                }
+                value={email}
+                onChangeText={(email) => {
+                  setEmail(email);
+                }}
+              />
+            </View>
+
+            <View style={{ marginVertical: 16 }}>
+              <Button
+                title='SUBMIT'
+                color={
+                  global.colorblindMode
+                    ? global.cb_optionButtonsColor
+                    : global.optionButtonsColor
+                }
+                onPress={() => resetPassword(email, navigation)}
+              />
+            </View>
+          </View>
+
+          {/* Login page redirect */}
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <Text style={styles().textLink}>
+                Return to login.
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -139,12 +111,11 @@ const styles = () =>
       width: 100,
     },
     buttons: {
-      marginTop: 10,
-      marginBottom: 10,
-      width: 300,
+      marginVertical: 10,
+      width: '75%',
       borderColor: global.colorblindMode
-        ? global.cb_optionButtonsBorderColor
-        : global.optionButtonsBorderColor,
+      ? global.cb_optionButtonsBorderColor
+      : global.optionButtonsBorderColor,
     },
     pageSetup: {
       height: '100%',
@@ -152,6 +123,7 @@ const styles = () =>
       alignItems: 'center',
     },
     textInput: {
+      width: '100%',
       height: 40,
       borderColor: global.colorblindMode
         ? global.cb_textInputBorderColor
@@ -170,13 +142,17 @@ const styles = () =>
       color: '#816868',
       marginBottom: 12,
       textAlign: 'center',
+      fontSize: 16,
     },
     textLink: {
       color: '#A5DFB2',
+      fontWeight: 'bold',
       textDecorationLine: 'underline',
+      fontSize: 14,
     },
     text: {
       color: '#816868',
+      fontSize: 14,
     },
     textSubtitle: {
       color: '#816868',

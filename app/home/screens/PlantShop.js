@@ -6,10 +6,10 @@ import {
   SafeAreaView,
   Image,
   Button,
-  FlatList,
   Pressable,
+  Modal,
+  TouchableOpacity,
 } from 'react-native';
-
 import { Icon } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import NavBar from '../../shared/components/NavBar';
@@ -42,9 +42,95 @@ function PlantShop({ navigation }) {
     require('../../shared/assets/plant_sprites/4_0.png')
   );
   const [plantItem, setPlantItem] = useState(plantItemList);
+  const [showGoalInfo, setShowGoalInfo] = useState(false);
 
   return (
     <SafeAreaView style={styles().container}>
+
+      {/* Goals info pop-up */}
+      <View>
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={showGoalInfo}
+          onRequestClose={() => setShowGoalInfo(!showGoalInfo)}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 1,
+              backgroundColor: '#00000055',
+            }}>
+              <View style={styles().modalContainer}>
+                <View style={styles().modalHeaderBar}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 2,
+                      marginLeft: 6,
+                      marginVertical: 4,
+                    }}>
+                    <Icon
+                      name='information-circle-outline'
+                      type='ionicon'
+                      color='white'
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles().textAlt}>About Stars</Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        flex: 1,
+                        justifyContent: 'flex-end',
+                        marginRight: 6,
+                      }}>
+                      <Icon
+                        name='close'
+                        type='ionicon'
+                        color='white'
+                        onPress={() => setShowGoalInfo(!showGoalInfo)}
+                      />
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    marginHorizontal: '5%',
+                    maxHeight: '60%',
+                    marginTop: 10,
+                    marginBottom: 16,
+                  }}>
+                  <Text style={styles().textSpaced}>
+                    Stars (
+                    <Icon
+                      name='star'
+                      type='material-community'
+                      color='#816868'
+                      size={16}
+                    />
+                    ) are myGrowth's official currency! 
+                  </Text>
+                  <Text style={styles().textSpaced}>
+                    These can be used to buy new varieties of plants and plant accessories. 
+                  </Text>
+                  <Text style={styles().textSpaced}>
+                    Stars can be earned by completing daily, weekly, or long-term goals recommended 
+                    by myGrowth.
+                  </Text>
+                  <Text style={styles().textSpaced}>
+                    Check out the Goals page and start tracking your progress toward your own personal 
+                    goals today!
+                  </Text>
+                </View>
+              </View>
+            </View>
+        </Modal>
+      </View>
+
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Gardener avatar + page blurb */}
         <View style={styles().avatarView}>
@@ -67,23 +153,23 @@ function PlantShop({ navigation }) {
 
         {/* Plant buttons */}
         <View style={styles().plantButtons}>
-          <Pressable
+          <TouchableOpacity
             style={styles().inlineRow}
             onPress={() => navigation.navigate('Home')}>
             <Icon name='arrow-left' color='#816868' />
             <View>
               <Text style={styles().plantLinks}>Return to Home</Text>
             </View>
-          </Pressable>
+          </TouchableOpacity>
           <View style={styles().line2} />
-          <Pressable
+          <TouchableOpacity
             style={styles().inlineRow}
             onPress={() => navigation.navigate('CustomizePlant')}>
             <View>
               <Text style={styles().plantLinks}>Customize Plant</Text>
             </View>
             <Icon name='arrow-right' color='#816868' />
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         <View style={styles().dividerView}>
@@ -152,11 +238,13 @@ function PlantShop({ navigation }) {
               name='information-circle-outline'
               type='ionicon'
               color='#816868'
+              onPress={() => setShowGoalInfo(!showGoalInfo)}
             />
-            <Text style={styles().text}> Want more stars? </Text>
-            <Pressable>
+            <View style={{ marginRight: 4, }}/>
+            <Text style={styles().text}>Want more stars? </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Goals')}>
               <Text style={styles().plantLinks}>Complete a new goal.</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -228,6 +316,31 @@ const styles = () => StyleSheet.create({
     marginRight: 40,
     height: '100%',
     width: 2,
+  },
+  modalContainer: {
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
+    alignItems: 'center',
+    width: '80%',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+  },
+  modalHeaderBar: {
+    backgroundColor: global.colorblindMode
+      ? global.cb_optionButtonsColor
+      : global.optionButtonsColor,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
   pageDescription: {
     color: global.colorblindMode
@@ -308,10 +421,22 @@ const styles = () => StyleSheet.create({
       ? global.cb_textColor
       : global.textColor,
   },
-  textReg: {
+  textSpaced: {
+    fontSize: 16,
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
-    textAlign: 'left',
+    marginBottom: 4,
+  },
+  textAlt: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  textBoldAlt: {
+    fontSize: 16,
+    color: '#816868',
+    fontWeight: 'bold',
+    marginTop: 4,
   },
 });

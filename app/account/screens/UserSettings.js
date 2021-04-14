@@ -9,14 +9,13 @@ import {
   StatusBar,
   Switch,
   TouchableOpacity,
-  Button
+  Button,
+  ScrollView,
 } from 'react-native';
 import * as mutations from '../../../src/graphql/mutations';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Cache } from "react-native-cache"
-
 import { Icon } from 'react-native-elements';
-import { ScrollView } from 'react-native-gesture-handler';
 import NavBar from '../../shared/components/NavBar';
 
 //MISSING BACKEND HOOKUP FOR: PIN
@@ -69,7 +68,7 @@ function UserSettings({ navigation, route }) {
         }
         barStyle='light-content' 
       />
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled'>
         <View style={styles().pageSetup}>
 
           {/* Gardener avatar + page blurb */}
@@ -90,7 +89,7 @@ function UserSettings({ navigation, route }) {
 
           {/* Require pin when opening app */}
           <View style={styles().inlineRow}>
-            <Text style={styles().textReg}>Require PIN when opening app</Text>
+            <Text style={styles().text}>Require PIN when opening app</Text>
             <View style={styles().switchView}>
               <View style={styles().line2} />
               <Switch
@@ -124,7 +123,7 @@ function UserSettings({ navigation, route }) {
           <View style={styles().inlineRow}>
             <TouchableOpacity style={styles().buttons} onPress={() => navigation.navigate('UserSettings')}>
               <View style={styles().inlineRow}>
-                <Text style={styles().textReg}>Create/Edit User PIN</Text>
+                <Text style={styles().text}>Create/Edit User PIN</Text>
                 <View style={styles().iconView}>
                   <Icon
                     name='chevron-forward'
@@ -142,7 +141,7 @@ function UserSettings({ navigation, route }) {
           <View style={styles().inlineRow}>
             <TouchableOpacity style={styles().buttons} onPress={() => navigation.navigate('UserSettings')}>
               <View style={styles().inlineRow}>
-                <Text style={styles().textReg}>Change Password</Text>
+                <Text style={styles().text}>Change Password</Text>
                 <View style={styles().iconView}>
                   <Icon
                     name='chevron-forward'
@@ -160,7 +159,7 @@ function UserSettings({ navigation, route }) {
           <View style={styles().inlineRow}>
             <TouchableOpacity style={styles().buttons} onPress={() => navigation.navigate('UserSettings')}>
               <View style={styles().inlineRow}>
-                <Text style={styles().textReg}>Change Email</Text>
+                <Text style={styles().text}>Change Email</Text>
                 <View style={styles().iconView}>
                   <Icon
                     name='chevron-forward'
@@ -178,7 +177,7 @@ function UserSettings({ navigation, route }) {
           <View style={styles().inlineRow}>
             <TouchableOpacity style={styles().buttons} onPress={() => navigation.navigate('LinkAccountPage')}>
               <View style={styles().inlineRow}>
-                <Text style={styles().textReg}>Link Your Account</Text>
+                <Text style={styles().text}>Link Your Account</Text>
                 <View style={styles().iconView}>
                   <Icon
                     name='chevron-forward'
@@ -201,7 +200,7 @@ function UserSettings({ navigation, route }) {
           <View style={styles().inlineRow}>
             <TouchableOpacity style={styles().buttons} onPress={() => navigation.navigate('ProfilePage')}>
               <View style={styles().inlineRow}>
-                <Text style={styles().textReg}>Personal Profile</Text>
+                <Text style={styles().text}>Personal Profile</Text>
                 <View style={styles().iconView}>
                   <Icon
                     name='chevron-forward'
@@ -219,7 +218,7 @@ function UserSettings({ navigation, route }) {
           <View style={styles().inlineRow}>
             <TouchableOpacity style={styles().buttons} onPress={() => navigation.navigate('AvatarSelectPage')}>
               <View style={styles().inlineRow}>
-                <Text style={styles().textReg}>Change Gardener Avatar</Text>
+                <Text style={styles().text}>Change Gardener Avatar</Text>
                 <View style={styles().iconView}>
                   <Icon
                     name='chevron-forward'
@@ -240,7 +239,7 @@ function UserSettings({ navigation, route }) {
 
           {/* Stress levels */}
           <View style={styles().inlineRow}>
-            <Text style={styles().textReg}>Stress Levels</Text>
+            <Text style={styles().text}>Stress Levels</Text>
             <View style={styles().switchView}>
               <View style={styles().line2} />
               <Switch
@@ -271,7 +270,7 @@ function UserSettings({ navigation, route }) {
 
           {/* Daily activities */}
           <View style={styles().inlineRow}>
-            <Text style={styles().textReg}>Daily Activities</Text>
+            <Text style={styles().text}>Daily Activities</Text>
             <View style={styles().switchView}>
               <View style={styles().line2} />
               <Switch
@@ -302,7 +301,7 @@ function UserSettings({ navigation, route }) {
 
           {/* Weight tracking */}
           <View style={styles().inlineRow}>
-            <Text style={styles().textReg}>Weight Tracking</Text>
+            <Text style={styles().text}>Weight Tracking</Text>
             <View style={styles().switchView}>
               <View style={styles().line2} />
               <Switch
@@ -333,7 +332,7 @@ function UserSettings({ navigation, route }) {
 
           {/* Period tracking */}
           <View style={styles().inlineRow}>
-            <Text style={styles().textReg}>Period Tracking</Text>
+            <Text style={styles().text}>Period Tracking</Text>
             <View style={styles().switchView}>
               <View style={styles().line2} />
               <Switch
@@ -364,7 +363,7 @@ function UserSettings({ navigation, route }) {
 
           {/* Medication tracking */}
           <View style={styles().inlineRow}>
-            <Text style={styles().textReg}>Medication Tracking</Text>
+            <Text style={styles().text}>Medication Tracking</Text>
             <View style={styles().switchView}>
               <View style={styles().line2} />
               <Switch
@@ -395,7 +394,7 @@ function UserSettings({ navigation, route }) {
 
           {/* Sleep tracking */}
           <View style={styles().inlineRow}>
-            <Text style={styles().textReg}>Sleep Tracking</Text>
+            <Text style={styles().text}>Sleep Tracking</Text>
             <View style={styles().switchView}>
               <View style={styles().line2} />
               <Switch
@@ -426,7 +425,7 @@ function UserSettings({ navigation, route }) {
 
           {/* Meal tracking */}
           <View style={styles().inlineRow}>
-            <Text style={styles().textReg}>Meal Tracking</Text>
+            <Text style={styles().text}>Meal Tracking</Text>
             <View style={styles().switchView}>
               <View style={styles().line2} />
               <Switch
@@ -457,7 +456,7 @@ function UserSettings({ navigation, route }) {
 
           {/* Fitness tracking */}
           <View style={styles().inlineRow}>
-            <Text style={styles().textReg}>Fitness Tracking</Text>
+            <Text style={styles().text}>Fitness Tracking</Text>
             <View style={styles().switchView}>
               <View style={styles().line2} />
               <Switch
@@ -649,12 +648,11 @@ const styles = () => StyleSheet.create({
     alignItems: 'flex-end',
     marginRight: 20,
   },
-  textReg: {
+  text: {
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
-    textDecorationLine: 'none',
-    textAlign: 'left',
+    fontSize: 16,
   },
   pageDescription: {
     color: global.colorblindMode

@@ -15,11 +15,38 @@ import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
+import { set } from 'react-native-reanimated';
 
-function HistoryMealTracking({ navigation }) {
+const dayLabels = [
+  "Mon",
+  "Tues",
+  "Weds",
+  "Thurs",
+  "Fri",
+  "Sat",
+  "Sun"
+];
+
+const monthLabels = [
+  "Jan",
+  "Mar",
+  "May",
+  "July",
+  "Sept",
+  "Nov"
+];
+
+function HistoryMealTracking({ route, navigation }) {
+  const data = route.params.data;
+  const arr = initDisplayData(data);
+
   const [modalVisible, setModalVisible] = useState(false);
-  const [timePeriod, setTimePeriod] = useState('unselected');
-  const [selectNutrients, setNutrients] = useState('unselected');
+  const [timePeriod, setTimePeriod] = useState('past_week');
+  const [selectNutrients, setNutrients] = useState('calories');
+  const [timestamps, setTimestamps] = useState(dayLabels);
+  const [displayData, setDisplayData] = useState(arr);
+
+  //switch state
   const [useReccNutrition, setUseReccNutrition] = useState(false);
   
   const toggleReccNutrition = () =>
@@ -33,6 +60,7 @@ function HistoryMealTracking({ navigation }) {
         setModalView={setModalVisible}
         showModalView={modalVisible}
         navigation={navigation}
+        data={data}
       />
 
       {/* Actual screen */}
@@ -74,7 +102,15 @@ function HistoryMealTracking({ navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent historyGenComp={true} navigation={navigation} />
+          <View style={{marginTop: 6}}>
+            <TabBarAndContent 
+              navigation={navigation} 
+              data={displayData} 
+              timePeriod={timestamps} 
+              page={'historyGenComp'}
+              page2Color={false} 
+            />
+          </View>
 
           {/* Time Period and Select Nutrient drop-down selection */}
           <View 
@@ -90,10 +126,13 @@ function HistoryMealTracking({ navigation }) {
                 <Picker
                   selectedValue={timePeriod}
                   style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+                  onValueChange={(itemValue, itemIndex) => {
+                    setTimePeriod(itemValue);
+                    getDisplayData(data, itemValue, setDisplayData, selectNutrients);
+                    getTimestamps(data, timestamps, setTimestamps, itemValue);
+                  }}
                   mode={'dropdown'}
                 >
-                  <Picker.Item label='Select one...' value='unselected' />
                   <Picker.Item label='Past week' value='past_week' />
                   <Picker.Item label='Past month' value='past_month' />
                   <Picker.Item label='Past year' value='past_year' />
@@ -106,16 +145,17 @@ function HistoryMealTracking({ navigation }) {
                 <Picker
                   selectedValue={selectNutrients}
                   style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => setNutrients(itemValue)}
+                  onValueChange={(itemValue, itemIndex) => {
+                    setNutrients(itemValue);
+                    getDisplayData(data, timePeriod, setDisplayData, itemValue);
+                    getTimestamps(data, timestamps, setTimestamps, timePeriod);
+                  }}
                   mode={'dropdown'}
                 >
-                  <Picker.Item label='Select one...' value='unselected' />
                   <Picker.Item label='Calories' value='calories' />
                   <Picker.Item label='Total fat' value='total_fat' />
-                  <Picker.Item label='Cholesterol' value='cholesterol' />
-                  <Picker.Item label='Sodium' value='sodium' />
+                  <Picker.Item label='Total Protein' value='total_protein' />
                   <Picker.Item label='Total carbs' value='total_carbs' />
-                  <Picker.Item label='Sugar' value='sugar' />
                 </Picker>
               </View>
             </View>
@@ -153,69 +193,8 @@ function HistoryMealTracking({ navigation }) {
           </View>
           <View style={styles().line}/>
 
-          {/* Recommended calories */}
-          <View style={{ marginHorizontal: '5%', marginTop: 20, }}>
-            <Text style={styles().text}>
-              Based on your biological information, we can provide you the following
-              recommendations on your calorie consumption thresholds...
-            </Text>
-            <View style={{ borderRadius: 10, marginVertical: 10, }}>
-              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
-                <View style={{ width: '50%', backgroundColor: '#43A56C', borderTopLeftRadius: 10, }}>
-                  <Text style={styles().textAltWhite}>Weight gain</Text>
-                </View>
-                <View style={{ width: '50%', backgroundColor: '#F5F5F5', borderTopRightRadius: 10, }}>
-                  <Text style={styles().textAltBrown}>xxxx cal</Text>
-                </View>
-              </View>
-              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
-                <View style={{ width: '50%', backgroundColor: '#4CB97A', borderLeftRadius: 10, }}>
-                  <Text style={styles().textAltWhite}>Mild weight gain</Text>
-                </View>
-                <View style={{ width: '50%', backgroundColor: 'white', borderRightRadius: 10, }}>
-                  <Text style={styles().textAltBrown}>xxxx cal</Text>
-                </View>
-              </View>
-              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
-                <View style={{ width: '50%', backgroundColor: '#A5DFB2', borderLeftRadius: 10, }}>
-                  <Text style={styles().textAltWhite}>Maintan weight</Text>
-                </View>
-                <View style={{ width: '50%', backgroundColor: '#F5F5F5', borderRightRadius: 10, }}>
-                  <Text style={styles().textAltBrown}>xxxx cal</Text>
-                </View>
-              </View>
-              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
-                <View style={{ width: '50%', backgroundColor: '#C5E8CF', borderLeftRadius: 10, }}>
-                  <Text style={styles().textAltWhite}>Mild weight loss</Text>
-                </View>
-                <View style={{ width: '50%', backgroundColor: 'white', borderRightRadius: 10, }}>
-                  <Text style={styles().textAltBrown}>xxxx cal</Text>
-                </View>
-              </View>
-              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
-                <View style={{ width: '50%', backgroundColor: '#D8EFDE', borderBottomLeftRadius: 10, }}>
-                  <Text style={styles().textAltWhite}>Weight loss</Text>
-                </View>
-                <View style={{ width: '50%', backgroundColor: '#F5F5F5', borderBottomRightRadius: 10, }}>
-                  <Text style={styles().textAltBrown}>xxxx cal</Text>
-                </View>
-              </View>
-            </View>
-            <Text style={styles().textLightSmall}>
-              ** Please consult a medical professional before planning to go above 
-              (xxxx cal) or below (1200 cal), the minimum/maximum recommended daily calories 
-              amounts, for an extended period of time. Recommendations are based on current 
-              height, weight, and activity level, and thus may not always be accurate.
-            </Text>
-          </View>
-
-          {/* Middle divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
-
           {/* App suggestions */}
-          <View style={{ marginHorizontal: '5%', marginBottom: 20, }}>
+          <View style={{ marginHorizontal: '5%', marginTop: 20, }}>
             {/* Nutritional values met analysis */}
             <Text style={styles().text}>
               Based on our analysis, on days that you met or came close to meeting the daily
@@ -316,6 +295,67 @@ function HistoryMealTracking({ navigation }) {
             </Text>
           </View>
 
+          {/* Middle divider */}
+          <View style={styles().dividerView}>
+            <View style={styles().divider} />
+          </View>
+
+          {/* Recommended calories */}
+          <View style={{ marginHorizontal: '5%', }}>
+            <Text style={styles().text}>
+              Based on your biological information, we can provide you the following
+              recommendations on your calorie consumption thresholds...
+            </Text>
+            <View style={{ borderRadius: 10, marginVertical: 10, }}>
+              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
+                <View style={{ width: '50%', backgroundColor: '#43A56C', borderTopLeftRadius: 10, }}>
+                  <Text style={styles().textAltWhite}>Weight gain</Text>
+                </View>
+                <View style={{ width: '50%', backgroundColor: '#F5F5F5', borderTopRightRadius: 10, }}>
+                  <Text style={styles().textAltBrown}>xxxx cal</Text>
+                </View>
+              </View>
+              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
+                <View style={{ width: '50%', backgroundColor: '#4CB97A', borderLeftRadius: 10, }}>
+                  <Text style={styles().textAltWhite}>Mild weight gain</Text>
+                </View>
+                <View style={{ width: '50%', backgroundColor: 'white', borderRightRadius: 10, }}>
+                  <Text style={styles().textAltBrown}>xxxx cal</Text>
+                </View>
+              </View>
+              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
+                <View style={{ width: '50%', backgroundColor: '#A5DFB2', borderLeftRadius: 10, }}>
+                  <Text style={styles().textAltWhite}>Maintan weight</Text>
+                </View>
+                <View style={{ width: '50%', backgroundColor: '#F5F5F5', borderRightRadius: 10, }}>
+                  <Text style={styles().textAltBrown}>xxxx cal</Text>
+                </View>
+              </View>
+              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
+                <View style={{ width: '50%', backgroundColor: '#C5E8CF', borderLeftRadius: 10, }}>
+                  <Text style={styles().textAltWhite}>Mild weight loss</Text>
+                </View>
+                <View style={{ width: '50%', backgroundColor: 'white', borderRightRadius: 10, }}>
+                  <Text style={styles().textAltBrown}>xxxx cal</Text>
+                </View>
+              </View>
+              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
+                <View style={{ width: '50%', backgroundColor: '#D8EFDE', borderBottomLeftRadius: 10, }}>
+                  <Text style={styles().textAltWhite}>Weight loss</Text>
+                </View>
+                <View style={{ width: '50%', backgroundColor: '#F5F5F5', borderBottomRightRadius: 10, }}>
+                  <Text style={styles().textAltBrown}>xxxx cal</Text>
+                </View>
+              </View>
+            </View>
+            <Text style={styles().textLightSmall}>
+              ** Please consult a medical professional before planning to go above 
+              (xxxx cal) or below (1200 cal), the minimum/maximum recommended daily calories 
+              amounts, for an extended period of time. Recommendations are based on current 
+              height, weight, and activity level, and thus may not always be accurate.
+            </Text>
+          </View>
+
           <View style={styles().pageEnd}/>
         </View>
       </ScrollView>
@@ -323,6 +363,110 @@ function HistoryMealTracking({ navigation }) {
     </SafeAreaView>
   );
 };
+
+function cleanUpData(arr) {
+  const len = arr.length;
+
+  for(var i = 0; i < len; i++)
+    if(arr[i] == -1)
+      arr[i] = 0;
+
+  return arr;
+}
+
+function initDisplayData(data) {
+  var len = data.mealData.calories.length;
+  var arr = [];
+
+  arr = data.mealData.calories.slice(len - 7, len);
+
+  arr = cleanUpData(arr);
+
+  return arr;
+}
+
+function getDisplayData(data, timePeriod, setDisplayData, selectNutrients) {
+  var arr = [];
+  //calories || unselected
+  if(selectNutrients === 'calories') {
+    var len = data.mealData.calories.length;
+
+    if(timePeriod === 'past_week')
+      arr = data.mealData.calories.slice(len - 7, len);
+
+    else if(timePeriod === 'past_month')
+      arr = data.mealData.calories.slice(len - 30, len);
+
+    else
+      arr = data.mealData.calories.slice(len - 365, len);
+  }
+
+  //fat
+  if(selectNutrients === 'total_fat') {
+    var len = data.mealData.fats.length;
+
+    if(timePeriod === 'past_week')
+      arr = data.mealData.fats.slice(len - 7, len);
+
+    else if(timePeriod === 'past_month')
+      arr = data.mealData.fats.slice(len - 30, len);
+
+    else
+      arr = data.mealData.fats.slice(len - 365, len);
+  }
+
+  //protein
+  if(selectNutrients === 'total_protein') {
+    var len = data.mealData.proteins.length;
+
+    if(timePeriod === 'past_week')
+      arr = data.mealData.proteins.slice(len - 7, len);
+
+    else if(timePeriod === 'past_month')
+      arr = data.mealData.proteins.slice(len - 30, len);
+
+    else
+      arr = data.mealData.proteins.slice(len - 365, len);
+  }
+
+  //carbs
+  if(selectNutrients === 'total_carbs') {
+    var len = data.mealData.carbs.length;
+
+    if(timePeriod === 'past_week')
+      arr = data.mealData.carbs.slice(len - 7, len);
+
+    else if(timePeriod === 'past_month')
+      arr = data.mealData.carbs.slice(len - 30, len);
+
+    else
+      arr = data.mealData.carbs.slice(len - 365, len);
+  }
+
+  arr = cleanUpData(arr);
+
+  setDisplayData(arr);
+}
+
+function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
+  var dates = [];
+  const latestDate = new Date(data.latestDate);
+
+  for(var i = 29; i >= 0; i--) {
+    var date = new Date(latestDate.getTime() - (i * 24 * 60 * 60 * 1000));
+    if(i % 4 == 0)
+      dates.push(date.toISOString().substring(5, 10));
+  }
+
+  if(timePeriod === 'past_week')
+    setTimestamps(dayLabels);
+
+  else if(timePeriod === 'past_month')
+    setTimestamps(dates); 
+
+  else if(timePeriod === 'past_year')
+    setTimestamps(monthLabels);
+}
 
 export default HistoryMealTracking;
 

@@ -1,6 +1,6 @@
 import { button } from '@aws-amplify/ui';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Image, Pressable, ScrollView } from 'react-native';
 import {
   LineChart,
   BarChart,
@@ -10,69 +10,33 @@ import {
   StackedBarChart
 } from "react-native-chart-kit";
 
-const images = {
-  historyImg: require('../../shared/assets/Rectangle.png'),
-  correlationImg: require('../../shared/assets/close.png'),
-  activityImg: require('../../shared/assets/gardener-avatar.png'),
-  intensityImg: require('../../shared/assets/SettingsGirlReading.png'),
-  prescriptionImg: require('../../shared/assets/splash.png'),
-  timeSleepImg: require('../../shared/assets/Rectangle.png'),
-  qualityImg: require('../../shared/assets/splash.png'),
-  exerciseImg: require('../../shared/assets/splash.png'),
-};
-
-const dayLabels = [
-  "Mon",
-  "Tues",
-  "Weds",
-  "Thurs",
-  "Fri",
-  "Sat",
-  "Sun"
-];
-
-const monthLabels = [
-  "Jan",
-  "Mar",
-  "May",
-  "July",
-  "Sept",
-  "Nov"
-];
-
 const buttonColors = {
   lightGreen: '#A5DFB2',
   darkGreen: '#4CB97A',
 };
 
 const TabBarAndContent = ({
-  history = false,
-  historyGenComp = false,
-  dailyActivities = false,
-  generalHealth = false,
-  medication = false,
-  sleep = false,
-  fitness = false,
   navigation,
   data,
   timePeriod, 
-  page
+  page,
+  multiPageData,
+  page2Color
 }) => {
-  const [imgSource, setImageSource] = useState(images.historyImg);
-  const [historyButtonColor, setHistoryButtonColor] = useState(buttonColors.darkGreen);
+  //page 2 buttons: activity, intensity, quality, exercise
+  const [historyButtonColor, setHistoryButtonColor] = useState(page2Color == false ? buttonColors.darkGreen : buttonColors.lightGreen);
   const [corrButtonColor, setCorrButtonColor] = useState(buttonColors.lightGreen);
-  const [activityButtonColor, setActivityButtonColor] = useState(buttonColors.lightGreen);
-  const [intensityButtonColor, setIntensityButtonColor] = useState(buttonColors.lightGreen);
-  const [scriptButtonColor, setScriptButtonColor] = useState(buttonColors.darkGreen);
-  const [sleepButtonColor, setSleepButtonColor] = useState(buttonColors.darkGreen);
-  const [qualityButtonColor, setQualityButtonColor] = useState(buttonColors.lightGreen);
-  const [exerciseButtonColor, setExerciseButtonColor] = useState(buttonColors.lightGreen);
+  const [activityButtonColor, setActivityButtonColor] = useState(page2Color == false ? buttonColors.lightGreen : buttonColors.darkGreen);
+  const [intensityButtonColor, setIntensityButtonColor] = useState(page2Color == false ? buttonColors.lightGreen : buttonColors.darkGreen);
+  const [scriptButtonColor, setScriptButtonColor] = useState(page2Color == false ? buttonColors.darkGreen : buttonColors.lightGreen);
+  const [sleepButtonColor, setSleepButtonColor] = useState(page2Color == false ? buttonColors.darkGreen : buttonColors.lightGreen);
+  const [qualityButtonColor, setQualityButtonColor] = useState(page2Color == false ? buttonColors.lightGreen : buttonColors.darkGreen);
+  const [exerciseButtonColor, setExerciseButtonColor] = useState(page2Color == false ? buttonColors.lightGreen : buttonColors.darkGreen);
 
-  const [timestamps, setTimestamps] = useState([]);
-  const [displayData, setDisplayData] = useState([0, 0, 0, 0, 0, 0, 0, 0]);
+  const [showTable, setShowTable] = useState(true);
 
   /* History Comp version */
-  if (history)
+  if (page === 'history')
     return (
       <View style={{ width: '90%', }}>
         <View style={{ flexDirection: 'row', }}>
@@ -84,9 +48,7 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.historyImg);
               setHistoryButtonColor(buttonColors.darkGreen);
-              navigation.navigate('HistoryHealthEntries');
             }}
           >
             <Text style={styles.text}>History</Text>
@@ -97,13 +59,36 @@ const TabBarAndContent = ({
         <View style={styles.coloredBarView}>
           <View style={styles.coloredBar} />
         </View>
-        {/* Render image */}
-        <Image style={styles.images} source={imgSource} />
+
+        {showTable && <ContributionGraph
+          values={data}
+          endDate={new Date()}
+          numDays={90}
+          width={353}
+          height={250}
+          chartConfig={{
+            backgroundColor: "#4CB97A",
+            backgroundGradientFrom: "#4CB97A",
+            backgroundGradientTo: "#4CB97A",
+            fillShadowGradientOpacity: 3,
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#4CB97A"
+            }
+          }}
+        />}
       </View>
     );
 
-  {/* Mood, Stress, Period, Meal, Weight */}
-  if (historyGenComp)
+  {/* Mood, Stress, Meal, Weight */}
+  if (page === 'historyGenComp')
     return (
       <View style={{ width: '90%', }}>
         <View style={{ flexDirection: 'row', }}>
@@ -115,11 +100,9 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.historyImg);
+              setShowTable(true);
               setCorrButtonColor(buttonColors.lightGreen);
               setHistoryButtonColor(buttonColors.darkGreen);
-              getTimestamps(data, timestamps, setTimestamps, timePeriod);
-              getGenData(data, timePeriod, timestamps, setTimestamps, page, displayData, setDisplayData);
             }}
           >
             <Text style={styles.text}>History</Text>
@@ -133,7 +116,7 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.correlationImg);
+              setShowTable(false);
               setCorrButtonColor(buttonColors.darkGreen);
               setHistoryButtonColor(buttonColors.lightGreen);
             }}
@@ -148,18 +131,18 @@ const TabBarAndContent = ({
         </View>
 
         {/* render image */}
-        { imgSource === images.correlationImg &&
-          <Image style={styles.images} source={imgSource} />}
-        {imgSource === images.historyImg && <LineChart 
+        {/* !showTable &&
+          <Image style={styles.images} source={imgSource} />*/}
+        {showTable && <LineChart 
           data = {{
-            labels: timestamps,
+            labels: timePeriod,
             datasets: [
               {
-                data: displayData
+                data: data
               }
             ]
           }}
-          width={349} // from react-native
+          width={353} // from react-native
           height={250}
           yAxisLabel=""
           yAxisSuffix=""
@@ -167,7 +150,7 @@ const TabBarAndContent = ({
           chartConfig={{
             backgroundColor: "#4CB97A",
             backgroundGradientFrom: "#4CB97A",
-            backgroundGradientTo: "#A5DFB2",
+            backgroundGradientTo: "#4CB97A",
             decimalPlaces: 2, // optional, defaults to 2dp
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -180,8 +163,10 @@ const TabBarAndContent = ({
               stroke: "#4CB97A"
             }
           }}
+          fromZero={true}
           bezier
           style={{
+            borderRadius: 16
           }}
         />}
 
@@ -190,9 +175,9 @@ const TabBarAndContent = ({
 
       </View>
     );
-
-  {/* Daily Activities */}
-  if (dailyActivities)
+  
+    {/* period */}
+  if (page === 'period')
     return (
       <View style={{ width: '90%', }}>
         <View style={{ flexDirection: 'row', }}>
@@ -204,11 +189,82 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.historyImg);
+              setShowTable(true);
+              setCorrButtonColor(buttonColors.lightGreen);
+              setHistoryButtonColor(buttonColors.darkGreen);
+            }}
+          >
+            <Text style={styles.text}>History</Text>
+          </Pressable>
+
+          {/* Correlations */}
+          <Pressable
+            style={{
+              backgroundColor: corrButtonColor,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
+            onPress={() => {
+              setShowTable(false);
+              setCorrButtonColor(buttonColors.darkGreen);
+              setHistoryButtonColor(buttonColors.lightGreen);
+            }}
+          >
+            <Text style={styles.text}>Correlations</Text>
+          </Pressable>
+        </View>
+
+        {/* Colored bar */}
+        <View style={styles.coloredBarView}>
+          <View style={styles.coloredBar} />
+        </View>
+
+        {showTable && <ContributionGraph
+          values={data}
+          endDate={new Date()}
+          numDays={90}
+          width={353}
+          height={250}
+          chartConfig={{
+            backgroundColor: "#4CB97A",
+            backgroundGradientFrom: "#4CB97A",
+            backgroundGradientTo: "#4CB97A",
+            fillShadowGradientOpacity: 3,
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#4CB97A"
+            }
+          }}
+        />}
+
+      </View>
+    );
+
+  {/* Daily Activities */}
+  if (page === 'dailyActivities')
+    return (
+      <View style={{ width: '90%', marginTop: 6}}>
+        <View style={{ flexDirection: 'row', }}>
+          {/* History */}
+          <Pressable
+            style={{
+              backgroundColor: historyButtonColor,
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
+            onPress={() => {
+              setShowTable(true);
               setCorrButtonColor(buttonColors.lightGreen);
               setHistoryButtonColor(buttonColors.darkGreen);
               setActivityButtonColor(buttonColors.lightGreen);
-              navigation.navigate('HistoryDailyActivities1');
+              navigation.navigate('HistoryDailyActivities1', {data});
             }}
           >
             <Text style={styles.text}>History</Text>
@@ -222,11 +278,8 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.activityImg);
-              setCorrButtonColor(buttonColors.lightGreen);
-              setHistoryButtonColor(buttonColors.lightGreen);
-              setActivityButtonColor(buttonColors.darkGreen);
-              navigation.navigate('HistoryDailyActivities2');
+              setShowTable(true);
+              navigation.navigate('HistoryDailyActivities2', {data});
             }}
           >
             <Text style={styles.text}>Activity</Text>
@@ -240,11 +293,10 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.correlationImg);
+              setShowTable(false);
               setCorrButtonColor(buttonColors.darkGreen);
               setHistoryButtonColor(buttonColors.lightGreen);
               setActivityButtonColor(buttonColors.lightGreen);
-              navigation.navigate('HistoryDailyActivities1');
             }}
           >
             <Text style={styles.text}>Correlations</Text>
@@ -255,15 +307,70 @@ const TabBarAndContent = ({
         <View style={styles.coloredBarView}>
           <View style={styles.coloredBar} />
         </View>
-        {/* Eender image */}
-        <Image style={styles.images} source={imgSource} />
+
+        {/* Render heat map */}
+        {showTable && page2Color &&  
+          <ContributionGraph
+            values={multiPageData}
+            endDate={new Date()}
+            numDays={90}
+            width={353}
+            height={250}
+            chartConfig={{
+              backgroundColor: "#4CB97A",
+              backgroundGradientFrom: "#4CB97A",
+              backgroundGradientTo: "#4CB97A",
+              fillShadowGradientOpacity: 3,
+              decimalPlaces: 2, // optional, defaults to 2dp
+              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              style: {
+                borderRadius: 16
+              }
+            }}
+          />
+        }
+
+        {/* Render bar graph */}
+        {showTable && !page2Color && <BarChart 
+          data = {{
+            labels: timePeriod,
+            datasets: [
+              {
+                data: multiPageData
+              }
+            ]
+          }}
+          width={353} // from react-native
+          height={250}
+          yAxisLabel=""
+          yAxisSuffix=""
+          yAxisInterval={1} // optional, defaults to 1
+          chartConfig={{
+            backgroundColor: "#4CB97A",
+            backgroundGradientFrom: "#4CB97A",
+            backgroundGradientTo: "#4CB97A",
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            fillShadowGradientOpacity: 3,
+          }}
+          fromZero={true}
+          bezier
+          style={{
+            borderRadius: 16
+          }}
+        />}
       </View>
     );
 
   {/* General Health */}
-  if (generalHealth)
+  if (page === 'generalHealth')
     return (
-      <View style={{ width: '90%', }}>
+      <View style={{ width: '90%', marginTop: 13 }}>
         <View style={{ flexDirection: 'row', }}>
           {/* History */}
           <Pressable
@@ -273,11 +380,11 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.historyImg);
+              setShowTable(true);
               setCorrButtonColor(buttonColors.lightGreen);
               setHistoryButtonColor(buttonColors.darkGreen);
               setIntensityButtonColor(buttonColors.lightGreen);
-              navigation.navigate('HistoryGeneralHealth1');
+              navigation.navigate('HistoryGeneralHealth1', {data});
             }}
           >
             <Text style={styles.text}>History</Text>
@@ -291,11 +398,8 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.intensityImg);
-              setCorrButtonColor(buttonColors.lightGreen);
-              setHistoryButtonColor(buttonColors.lightGreen);
-              setIntensityButtonColor(buttonColors.darkGreen);
-              navigation.navigate('HistoryGeneralHealth2');
+              setShowTable(true);
+              navigation.navigate('HistoryGeneralHealth2', {data});
             }}
           >
             <Text style={styles.text}>Intensity</Text>
@@ -309,11 +413,10 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.correlationImg);
+              setShowTable(false);
               setCorrButtonColor(buttonColors.darkGreen);
               setHistoryButtonColor(buttonColors.lightGreen);
               setIntensityButtonColor(buttonColors.lightGreen);
-              navigation.navigate('HistoryGeneralHealth1');
             }}
           >
             <Text style={styles.text}>Correlations</Text>
@@ -325,29 +428,99 @@ const TabBarAndContent = ({
           <View style={styles.coloredBar} />
         </View>
         {/* Render image */}
-        <Image style={styles.images} source={imgSource} />
+        {/*<Image style={styles.images} source={imgSource} />*/}
+
+        {showTable && page2Color && <LineChart 
+          data = {{
+            labels: timePeriod,
+            datasets: [
+              {
+                data: multiPageData
+              }
+            ]
+          }}
+          width={353} // from react-native
+          height={250}
+          yAxisLabel=""
+          yAxisSuffix=""
+          yAxisInterval={1} // optional, defaults to 1
+          chartConfig={{
+            backgroundColor: "#4CB97A",
+            backgroundGradientFrom: "#4CB97A",
+            backgroundGradientTo: "#4CB97A",
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#4CB97A"
+            }
+          }}
+          fromZero={true}
+          bezier
+          style={{
+            borderRadius: 16
+          }}
+        />}
+
+        {showTable && !page2Color && <BarChart 
+          data = {{
+            labels: timePeriod,
+            datasets: [
+              {
+                data: multiPageData
+              }
+            ]
+          }}
+          width={353} // from react-native
+          height={250}
+          yAxisLabel=""
+          yAxisSuffix=""
+          yAxisInterval={1} // optional, defaults to 1
+          chartConfig={{
+            backgroundColor: "#4CB97A",
+            backgroundGradientFrom: "#4CB97A",
+            backgroundGradientTo: "#4CB97A",
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            fillShadowGradientOpacity: 3,
+          }}
+          fromZero={true}
+          bezier
+          style={{
+            borderRadius: 16
+          }}
+        />}
       </View>
     );
 
   {/* Medication */}
-  if (medication)
+  if (page === 'medication')
     return (
       <View style={{ width: '90%', }}>
         <View style={{ flexDirection: 'row', }}>
           {/* Prescription */}
           <Pressable
             style={{
-              backgroundColor: historyButtonColor,
+              backgroundColor: scriptButtonColor,
               borderTopLeftRadius: 10,
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.prescriptionImg);
+              setShowTable(true);
               setCorrButtonColor(buttonColors.lightGreen);
               setScriptButtonColor(buttonColors.darkGreen);
             }}
           >
-            <Text style={styles.text}>History</Text>
+            <Text style={styles.text}>Perscription</Text>
           </Pressable>
 
           {/* Correlation */}
@@ -358,7 +531,7 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.correlationImg);
+              setShowTable(false);
               setCorrButtonColor(buttonColors.darkGreen);
               setScriptButtonColor(buttonColors.lightGreen);
             }}
@@ -371,15 +544,40 @@ const TabBarAndContent = ({
         <View style={styles.coloredBarView}>
           <View style={styles.coloredBar} />
         </View>
-        {/* Render image */}
-        <Image style={styles.images} source={imgSource} />
+        {/* render image */}
+        {/* !showTable &&
+          <Image style={styles.images} source={imgSource} />*/}
+        {showTable && <ContributionGraph
+          values={data}
+          endDate={new Date()}
+          numDays={90}
+          width={353}
+          height={250}
+          chartConfig={{
+            backgroundColor: "#4CB97A",
+            backgroundGradientFrom: "#4CB97A",
+            backgroundGradientTo: "#4CB97A",
+            fillShadowGradientOpacity: 3,
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#4CB97A"
+            }
+          }}
+        />}
       </View>
     );
 
   {/* Sleep */}
-  if (sleep)
+  if (page === 'sleep')
     return (
-      <View style={{ width: '90%', }}>
+      <View style={{ width: '90%', marginTop: 6 }}>
         <View style={{ flexDirection: 'row', }}>
           {/* Time asleep */}
           <Pressable
@@ -389,11 +587,11 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.timeSleepImg);
+              setShowTable(true);
               setCorrButtonColor(buttonColors.lightGreen);
               setSleepButtonColor(buttonColors.darkGreen);
               setQualityButtonColor(buttonColors.lightGreen);
-              navigation.navigate('HistorySleep1');
+              navigation.navigate('HistorySleep1', {data});
             }}
           >
             <Text style={styles.text}>History</Text>
@@ -407,11 +605,8 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.qualityImg);
-              setCorrButtonColor(buttonColors.lightGreen);
-              setSleepButtonColor(buttonColors.lightGreen);
-              setQualityButtonColor(buttonColors.darkGreen);
-              navigation.navigate('HistorySleep2');
+              setShowTable(true);
+              navigation.navigate('HistorySleep2', {data});
             }}
           >
             <Text style={styles.text}>Quality</Text>
@@ -425,11 +620,10 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              setImageSource(images.correlationImg);
+              setShowTable(false);
               setCorrButtonColor(buttonColors.darkGreen);
               setSleepButtonColor(buttonColors.lightGreen);
               setQualityButtonColor(buttonColors.lightGreen);
-              navigation.navigate('HistorySleep1');
             }}
           >
             <Text style={styles.text}>Correlations</Text>
@@ -441,14 +635,129 @@ const TabBarAndContent = ({
           <View style={styles.coloredBar} />
         </View>
         {/* Render image */}
-        <Image style={styles.images} source={imgSource} />
+        {/* !showTable &&
+          <Image style={styles.images} source={imgSource} />*/}
+
+        {showTable && typeof(multiPageData.sleep) != 'undefined' && !page2Color && <LineChart 
+          data = {{
+            labels: timePeriod,
+            datasets: [
+                { data: multiPageData.sleep,
+                  strokeWidth: 2,
+                  color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                },
+                {
+                  data: multiPageData.nap,
+                  strokeWidth: 2,
+                  color: (opacity = 1) => `rgba(129, 104, 104, ${opacity})`,
+                }
+            ],
+            legend: ['Sleep', 'Naps'],
+          }}
+          width={353} // from react-native
+          height={250}
+          yAxisLabel=""
+          yAxisSuffix=""
+          yAxisInterval={1} // optional, defaults to 1
+          chartConfig={{
+            backgroundColor: "#4CB97A",
+            backgroundGradientFrom: "#4CB97A",
+            backgroundGradientTo: "#4CB97A",
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#A5DFB2"
+            }
+          }}
+          fromZero={true}
+          bezier
+          style={{
+            borderRadius: 16
+          }}
+        />}
+
+        {showTable && typeof(multiPageData.sleep) == 'undefined' && !page2Color && <LineChart 
+          data = {{
+            labels: timePeriod,
+            datasets: [
+                {data: multiPageData}
+            ]
+          }}
+          width={353} // from react-native
+          height={250}
+          yAxisLabel=""
+          yAxisSuffix=""
+          yAxisInterval={1} // optional, defaults to 1
+          chartConfig={{
+            backgroundColor: "#4CB97A",
+            backgroundGradientFrom: "#4CB97A",
+            backgroundGradientTo: "#4CB97A",
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#4CB97A"
+            }
+          }}
+          fromZero={true}
+          bezier
+          style={{
+            borderRadius: 16
+          }}
+        />}
+
+        {showTable && page2Color && <LineChart 
+          data = {{
+            labels: timePeriod,
+            datasets: [
+                {data: multiPageData}
+            ]
+          }}
+          width={353} // from react-native
+          height={250}
+          yAxisLabel=""
+          yAxisSuffix=""
+          yAxisInterval={1} // optional, defaults to 1
+          chartConfig={{
+            backgroundColor: "#4CB97A",
+            backgroundGradientFrom: "#4CB97A",
+            backgroundGradientTo: "#4CB97A",
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#4CB97A"
+            }
+          }}
+          fromZero={true}
+          bezier
+          style={{
+            borderRadius: 16
+          }}
+        />}
       </View>
     );
 
   {/* Fitness */}
-  if (fitness)
+  if (page === 'fitness')
     return (
-      <View style={{ width: '90%', }}>
+      <View style={{ width: '90%', marginTop: 13 }}>
         <View style={{ flexDirection: 'row', }}>
           {/* History */}
           <Pressable
@@ -458,8 +767,8 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              navigation.navigate('HistoryFitness1');
-              setImageSource(images.historyImg);
+              navigation.navigate('HistoryFitness1', {data});
+              setShowTable(true);
               setCorrButtonColor(buttonColors.lightGreen);
               setHistoryButtonColor(buttonColors.darkGreen);
               setExerciseButtonColor(buttonColors.lightGreen);
@@ -476,11 +785,8 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              navigation.navigate('HistoryFitness2');
-              setImageSource(images.exerciseImg);
-              setCorrButtonColor(buttonColors.lightGreen);
-              setHistoryButtonColor(buttonColors.lightGreen);
-              setExerciseButtonColor(buttonColors.darkGreen);
+              navigation.navigate('HistoryFitness2', {data});
+              setShowTable(true);
             }}
           >
             <Text style={styles.text}>Exercises</Text>
@@ -494,8 +800,7 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              navigation.navigate('HistoryFitness1');
-              setImageSource(images.correlationImg);
+              setShowTable(false);
               setCorrButtonColor(buttonColors.darkGreen);
               setHistoryButtonColor(buttonColors.lightGreen);
               setExerciseButtonColor(buttonColors.lightGreen);
@@ -510,90 +815,82 @@ const TabBarAndContent = ({
           <View style={styles.coloredBar} />
         </View>
         {/* Render image */}
-        <Image style={styles.images} source={imgSource} />
+        {/*<Image style={styles.images} source={imgSource} />*/}
+
+        {showTable && !page2Color && <LineChart 
+          data = {{
+            labels: timePeriod,
+            datasets: [
+              {
+                data: multiPageData
+              }
+            ]
+          }}
+          width={353} // from react-native
+          height={250}
+          yAxisLabel=""
+          yAxisSuffix=""
+          yAxisInterval={1} // optional, defaults to 1
+          chartConfig={{
+            backgroundColor: "#4CB97A",
+            backgroundGradientFrom: "#4CB97A",
+            backgroundGradientTo: "#4CB97A",
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#4CB97A"
+            }
+          }}
+          fromZero={true}
+          bezier
+          style={{
+            borderRadius: 16
+          }}
+        />}
+
+        {showTable && page2Color && <BarChart 
+          data = {{
+            labels: timePeriod,
+            datasets: [
+              {
+                data: multiPageData
+              }
+            ]
+          }}
+          width={353} // from react-native
+          height={250}
+          yAxisLabel=""
+          yAxisSuffix=""
+          yAxisInterval={1} // optional, defaults to 1
+          chartConfig={{
+            backgroundColor: "#4CB97A",
+            backgroundGradientFrom: "#4CB97A",
+            backgroundGradientTo: "#4CB97A",
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            fillShadowGradientOpacity: 3,
+          }}
+          fromZero={true}
+          bezier
+          style={{
+            borderRadius: 16
+          }}
+        />}
       </View>
     );
 
   return null;
 };
-
-function getGenData(data, timePeriod, timestamps, setTimestamps, page, displayData, setDisplayData) {
-  var len = 0;
-  
-  //data.moodData
-  if(page === 'mood') {
-    len = data.moodData.length;
-
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
-        setDisplayData(data.moodData.slice(len - 7, len));
-
-    else if(timePeriod === 'past_month')
-      setDisplayData(data.moodData.slice(len - 30, len));
-
-    else
-      setDisplayData(data.moodData.slice(len - 365, len));
-  }
-  // diff func ideally
-  //data.napSleepData
-  //data.nightSleepData
-  //else if(page === 'sleep') {
-    
-  //}
-  
-  //data.periodData
-  else if(page === 'period') {
-    len = data.periodData.length;
-
-    setDisplayData(data.periodData.slice(len - 30, len));
-  }
-
-  //data.stressData
-  else if(page === 'stress') {
-    len = data.stressData.length;
-
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
-        setDisplayData(data.stressData.slice(len - 7, len));
-
-    else if(timePeriod === 'past_month')
-      setDisplayData(data.stressData.slice(len - 30, len));
-
-    else
-      setDisplayData(data.stressData.slice(len - 365, len));
-  }
-  //data.weightData
-  else {
-    len = data.weightData.length;
-
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
-        setDisplayData(data.weightData.slice(len - 7, len));
-
-    else if(timePeriod === 'past_month')
-      setDisplayData(data.weightData.slice(len - 30, len));
-
-    else
-      setDisplayData(data.weightData.slice(len - 365, len));
-  }
-}
-
-function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
-  var dates = [];
-  const latestDate = new Date(data.latestDate);
-
-  for(var i = 29; i >= 0; i--) {
-    var date = new Date(latestDate.getTime() - (i * 24 * 60 * 60 * 1000));
-    if(i % 4 == 0)
-      dates.push(date.toISOString().substring(5, 10));
-  }
-
-  if(timePeriod === 'past_week' || timePeriod === 'unselected')
-    setTimestamps(dayLabels);
-
-  else if(timePeriod === 'past_month')
-    setTimestamps(dates); 
-
-  else if(timePeriod === 'past_year')
-    setTimestamps(monthLabels);
-}
 
 export default TabBarAndContent;
 
@@ -605,14 +902,15 @@ const styles = StyleSheet.create({
   },
   coloredBar: {
     flex: 1,
-    height: 3,
-    width: 350,
+    height: 20,
+    width: 349,
     backgroundColor: '#4CB97A',
   },
   coloredBarView: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: -1,
+    marginBottom: -16
   },
   images: {
     flex: 1,

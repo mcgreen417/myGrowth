@@ -72,11 +72,12 @@ const HistorySelectACategory = ({
   setModalView,
   showModalView,
   navigation,
+  data,
   ...rest
 }) => {
   return (
     <Modal
-      animationType='none'
+      animationType='fade'
       transparent={true}
       visible={showModalView}
       onRequestClose={() => setModalView(!showModalView)}>
@@ -85,7 +86,6 @@ const HistorySelectACategory = ({
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          marginTop: -100,
           zIndex: 1,
           backgroundColor: '#00000055',
         }}>
@@ -97,7 +97,7 @@ const HistorySelectACategory = ({
                 flexDirection: 'row',
                 flex: 2,
                 marginLeft: 4,
-                marginVertical: 4,
+                marginVertical: 6,
               }}>
               <Icon
                 name='arrow-collapse-right'
@@ -112,28 +112,14 @@ const HistorySelectACategory = ({
                 flexDirection: 'row',
                 flex: 1,
                 justifyContent: 'flex-end',
-                marginRight: 4,
+                marginRight: 6,
               }}>
-
-                
-                {/* Will create each of the icons for all pages */}
-                {/*{screensInfo.map((screen, index) => (
-                  <SelectACategoryIcon
-                    key={index}
-                    screens={screen}
-                    navigation={navigation}
-                    setModalVisible={setModalView}
-                    modalVisible={showModalView}
-                  />
-                ))}*/}
-
               <Icon
                 name='close'
                 type='ionicon'
                 color='white'
                 onPress={() => setModalView(!showModalView)}
               />
-
             </View>
           </View>
 
@@ -152,6 +138,7 @@ const HistorySelectACategory = ({
                 key={index}
                 screens={screen}
                 navigation={navigation}
+                data={data}
                 setModalVisible={setModalView}
                 modalVisible={showModalView}
               />

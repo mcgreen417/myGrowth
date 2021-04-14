@@ -30,12 +30,11 @@ import HealthEntry3 from './app/healthentry/screens/HealthEntry3';
 import HealthEntry4 from './app/healthentry/screens/HealthEntry4';
 import HealthEntry5 from './app/healthentry/screens/HealthEntry5';
 import ReviewEntry from './app/healthentry/screens/ReviewEntry';
+import HealthEntryHistory from './app/healthentry/screens/HealthEntryHistory';
 import EntryCompletion from './app/healthentry/screens/EntryCompletion';
 import { ToDoList } from './app/todolist/screens/ToDoList';
-import {
-  HistoryHealthEntries,
-  HistoryCorrelations,
-} from './app/history/screens/History';
+import HistoryHealthEntries from './app/history/screens/History';
+import HistoryCorrelations from './app/history/screens/HistoryCorrelations';
 import HistoryDailyActivities1 from './app/history/screens/HistoryDailyActivities1';
 import HistoryDailyActivities2 from './app/history/screens/HistoryDailyActivities2';
 import HistoryFitness1 from './app/history/screens/HistoryFitness1';
@@ -226,6 +225,12 @@ function App() {
         <Stack.Screen
           name='ReviewEntry'
           component={ReviewEntry}
+          options={{ header: () => null }}
+        />
+
+        <Stack.Screen
+          name='HealthEntryHistory'
+          component={HealthEntryHistory}
           options={{ header: () => null }}
         />
 

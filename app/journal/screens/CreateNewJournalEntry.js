@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,22 +9,33 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import * as mutations from '../../../src/graphql/mutations';
+import * as queries from '../../../src/graphql/queries';
 import { Auth, API } from 'aws-amplify';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { ScrollView } from 'react-native-gesture-handler';
+import { createIconSetFromFontello } from 'react-native-vector-icons';
 
-const CreateNewJournalEntry = ({ navigation }) => {
-  const [entry, setEntry] = useState('');
+const CreateNewJournalEntry = ({ navigation, route }) => {
+  var datePassed = new Date();
+  var entryPassed = '';
+  const updateDate = new Date();
+  var oldEntry = false;
+
+  if(route.params != null) {
+    datePassed = route.params.date;
+    entryPassed = route.params.entry;
+    oldEntry = true;
+  }
+
+  const [entry, setEntry] = useState(entryPassed);
   const [show, setShow] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(datePassed);
   const [mode, setMode] = useState('date');
-  const [dateInsert, setDateInsert] = useState(date.toISOString().slice(0, 10));
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    //console.log(currentDate);
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
-    setDateInsert(selectedDate.toISOString().slice(0, 10));
   };
 
   const showMode = (currentMode) => {
@@ -36,87 +47,106 @@ const CreateNewJournalEntry = ({ navigation }) => {
     showMode('date');
   };
 
+  const showTimePicker = () => {
+    showMode('time');
+  }
+
   return (
     <SafeAreaView style={styles().container}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginHorizontal: '5%',
-          marginTop: 12,
-          marginBottom: 6,
-        }}>
-        {/* Text format buttons */}
-        <View 
-          style={{ 
-            flexDirection: 'row', 
-            alignItems: 'center', 
-            justifyContent: 'space-between', 
-            width: '40%',
-          }}>
-          <Icon
-            name='arrow-back-outline'
-            type='ionicon'
-            color='#816868'
-            onPress={() => navigation.navigate('Journal')}
-          />
-          <Text 
-            style={styles().heading}
-            onPress={() => saveEntry(dateInsert, entry, navigation)}
-          >
-            SAVE
-          </Text>
-          <TouchableOpacity onPress={showDatepicker}>  
-            <Icon name='event' type='material' color='#816868' />
-          </TouchableOpacity>
-          {show && (
-              <DateTimePicker
-                testID='dateTimePicker'
-                value={date}
-                mode={mode}
-                is24Hour={true}
-                display='default'
-                onChange={onChange}
-              />
-            )}
-          <Icon name='schedule' type='material' color='#816868' />
+      <ScrollView stickyHeaderIndices={[0]} keyboardShouldPersistTaps='handled'>
+        <View style={{ backgroundColor: '#F6EFED' }}>
+          <View style={{ marginBottom: 10, }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginHorizontal: '5%',
+                marginTop: 12,
+                marginBottom: 6,
+              }}>
+              {/* Text format buttons */}
+              <View 
+                style={{ 
+                  flexDirection: 'row', 
+                  alignItems: 'center', 
+                  justifyContent: 'space-between', 
+                  width: '40%',
+                }}>
+                <Icon
+                  name='arrow-back-outline'
+                  type='ionicon'
+                  color='#816868'
+                  onPress={() => navigation.navigate('Journal')}
+                />
+                <Text 
+                  style={styles().heading}
+                  onPress={() => saveEntry(date, entry, navigation, updateDate, oldEntry)}
+                >
+                  SAVE
+                </Text>
+                <TouchableOpacity onPress={showDatepicker}>  
+                  <Icon name='event' type='material' color='#816868' />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={showTimePicker}>
+                  <Icon name='schedule' type='material' color='#816868' />
+                </TouchableOpacity>
+                {show && (
+                    <DateTimePicker
+                      testID='dateTimePicker'
+                      value={date}
+                      mode={mode}
+                      is24Hour={true}
+                      display='default'
+                      onChange={onChange}
+                    />
+                  )}
+              </View>
+
+              {/* Text format buttons */}
+              <View style={{
+                flexDirection: 'row', 
+                alignItems: 'center', 
+                justifyContent: 'space-between', 
+                width: '44%',
+              }}>
+                <Icon name='format-bold' type='material' color='#816868' />
+                <Icon name='format-italic' type='material' color='#816868' />
+                <Icon name='format-underline' type='material' color='#816868' />
+                <Icon name='format-list-numbered' type='material' color='#816868' />
+                <Icon name='format-list-bulleted' type='material' color='#816868' />
+              </View>
+            </View>
+            <View style={styles().dividerView}>
+              <View style={styles().divider}></View>
+            </View>
+          </View>
         </View>
 
-        {/* Text format buttons */}
-        <View style={{
-          flexDirection: 'row', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
-          width: '44%',
-        }}>
-          <Icon name='format-bold' type='material' color='#816868' />
-          <Icon name='format-italic' type='material' color='#816868' />
-          <Icon name='format-underline' type='material' color='#816868' />
-          <Icon name='format-list-numbered' type='material' color='#816868' />
-          <Icon name='format-list-bulleted' type='material' color='#816868' />
+        <View style={styles().input}>
+          <TextInput 
+            multiline style={styles().text}
+            value={entry}
+            onChangeText={(entry) => setEntry(entry)}
+          />
         </View>
-      </View>
-      <View style={styles().dividerView}>
-        <View style={styles().divider}></View>
-      </View>
-      <View style={styles().input}>
-        <TextInput 
-          multiline style={styles.text}
-          value={entry}
-          onChangeText={(entry) => setEntry(entry)}
-        />
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
-async function saveEntry(date, entry, navigation) {
+async function saveEntry(datePass, entry, navigation, updateDatePass, oldEntry) {
+  const date = datePass.toISOString();
+  var updateDate = updateDatePass.toISOString();
+
+  if(!oldEntry)
+    updateDate = date;
+  
   const res = await API.graphql({
     query: mutations.updateJournalEntry,
-    variables: {Timestamp: date, Entry: entry}
+    variables: {Timestamp: date, Entry: entry, LastUpdated: updateDate}
   });
 
-  navigation.navigate('JournalEntryCompletion', {date, entry});
+  navigation.navigate('JournalEntryCompletion', {date, entry, updateDate});
 }
 
 export default CreateNewJournalEntry;
@@ -160,7 +190,6 @@ const styles = () => StyleSheet.create({
   input: {
     height: '100%',
     marginHorizontal: '5%',
-    marginTop: 10,
     borderRadius: 2,
   },
 });

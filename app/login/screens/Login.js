@@ -11,6 +11,7 @@ import {
   Button,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -31,89 +32,97 @@ function Login({ navigation }) {
         }
         barStyle='light-content'
       />
-      <View style={styles().pageSetup}>
-        {/* Logo + title */}
-        <Image
-          style={styles().logo}
-          source={require('../../shared/assets/icon.png')}
-        />
-        <Text style={styles().textTitle}>myGrowth</Text>
-        <Text style={styles().textSubtitle}>Your General Wellness Tracker</Text>
-
-        {/* E-mail address + password entry boxes, login button */}
-        <View style={styles().buttons}>
-          <TextInput
-            style={styles().textInput}
-            placeholder='E-mail Address'
-            placeholderTextColor={
-              global.colorblindMode
-                ? global.cb_placeHolderTextColor
-                : global.placeHolderTextColor
-            }
-            value={email}
-            onChangeText={(email) => {
-              setEmail(email);
-            }}
+      <ScrollView 
+        showsVerticalScrollIndicator={false} 
+        keyboardShouldPersistTaps='handled' 
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+      >
+        <View style={styles().pageSetup}>
+          {/* Logo + title */}
+          <Image
+            style={styles().logo}
+            source={require('../../shared/assets/icon.png')}
           />
-          <View style={{ marginVertical: 8 }} />
-          <TextInput
-            style={styles().textInput}
-            placeholder='Password'
-            placeholderTextColor={
-              global.colorblindMode
-                ? global.cb_placeHolderTextColor
-                : global.placeHolderTextColor
-            }
-            secureTextEntry={true}
-            value={password}
-            onChangeText={(password) => {
-              setPassword(password);
-            }}
-          />
-          <View style={{ marginVertical: 8 }} />
-          <Button
-            title='LOG IN'
-            color={
-              global.colorblindMode
-                ? global.cb_optionButtonsColor
-                : global.optionButtonsColor
-            }
-            onPress={() => signIn(email, password, navigation)}
-          />
-          <View style={{ marginVertical: 8 }} />
-        </View>
+          <Text style={styles().textTitle}>myGrowth</Text>
+          <Text style={styles().textSubtitle}>Your General Wellness Tracker</Text>
 
-        {/* Login/signup page switch + forgot password button */}
-        <View style={{ flexDirection: 'row' }}>
-          <Text style={styles().text}>Don't have an account? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-            <Text style={styles().textLink}>Sign up here.</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ForgotPassword')}>
-            <Text style={styles().textLink}>Forgot your password?</Text>
-          </TouchableOpacity>
-        </View>
+          {/* E-mail address + password entry boxes, login button */}
+          <View style={styles().buttons}>
+            <TextInput
+              style={styles().textInput}
+              placeholder='E-mail Address'
+              placeholderTextColor={
+                global.colorblindMode
+                  ? global.cb_placeHolderTextColor
+                  : global.placeHolderTextColor
+              }
+              value={email}
+              onChangeText={(email) => {
+                setEmail(email);
+              }}
+            />
+            
+            <View style={{ marginTop: 16 }}>
+              <TextInput
+                style={styles().textInput}
+                placeholder='Password'
+                placeholderTextColor={
+                  global.colorblindMode
+                    ? global.cb_placeHolderTextColor
+                    : global.placeHolderTextColor
+                }
+                secureTextEntry={true}
+                value={password}
+                onChangeText={(password) => {
+                  setPassword(password);
+                }}
+              />
+            </View>
 
-        {/* TOS + privacy policy agreement */}
-        <View style={{ marginVertical: 8 }} />
-        <View>
-          <Text style={styles().text}>
-            By continuing, you're accepting our{' '}
-          </Text>
+            <View style={{ marginVertical: 16 }}>
+              <Button
+                title='LOG IN'
+                color={
+                  global.colorblindMode
+                    ? global.cb_optionButtonsColor
+                    : global.optionButtonsColor
+                }
+                onPress={() => signIn(email, password, navigation)}
+              />
+            </View>
+          </View>
+
+          {/* Login/signup page switch + forgot password button */}
           <View style={{ flexDirection: 'row' }}>
-            <TouchableOpacity>
-              <Text style={styles().textLink}>Terms of Service</Text>
-            </TouchableOpacity>
-            <Text style={styles().text}> and </Text>
-            <TouchableOpacity>
-              <Text style={styles().textLink}>Privacy Policy.</Text>
+            <Text style={styles().text}>Don't have an account? </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+              <Text style={styles().textLink}>Sign up here.</Text>
             </TouchableOpacity>
           </View>
+          <View>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ForgotPassword')}>
+              <Text style={styles().textLink}>Forgot your password?</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* TOS + privacy policy agreement */}
+          <View style={{ marginTop: 16, }}>
+            <Text style={styles().text}>
+              By continuing, you're accepting our{' '}
+            </Text>
+            <View style={{ flexDirection: 'row' }}>
+              <TouchableOpacity>
+                <Text style={styles().textLink}>Terms of Service</Text>
+              </TouchableOpacity>
+              <Text style={styles().text}> and </Text>
+              <TouchableOpacity>
+                <Text style={styles().textLink}>Privacy Policy.</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -163,6 +172,13 @@ async function signIn(username, pw, navigation) {
 
         //store settings from db
         await cache.set("settings", res.data.getSetting.Options);
+        //store data from db
+        const res2 = await API.graphql({
+          query: queries.getChartData,
+          variables: {UserID: user.username}
+        });
+
+        await cache.set("data", res2.data.getChartData);
 
         navigation.navigate('Home');
       }
@@ -216,9 +232,8 @@ const styles = () => StyleSheet.create({
     width: 100,
   },
   buttons: {
-    marginTop: 10,
-    marginBottom: 10,
-    width: 300,
+    marginVertical: 10,
+    width: '75%',
     borderColor: global.colorblindMode
       ? global.cb_optionButtonsBorderColor
       : global.optionButtonsBorderColor,
@@ -229,6 +244,7 @@ const styles = () => StyleSheet.create({
     alignItems: 'center',
   },
   textInput: {
+    width: '100%',
     height: 40,
     borderColor: global.colorblindMode
       ? global.cb_textInputBorderColor
@@ -255,11 +271,14 @@ const styles = () => StyleSheet.create({
       ? global.cb_hyperlinkedTextColor
       : global.hyperlinkedTextColor,
     textDecorationLine: 'underline',
+    fontWeight: 'bold',
+    fontSize: 14,
   },
   text: {
     color: global.colorblindMode
     ? global.cb_textColor
     : global.textColor,
+    fontSize: 14,
   },
   textSubtitle: {
     color: global.colorblindMode

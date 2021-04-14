@@ -14,15 +14,34 @@ import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
-import { Auth, API } from 'aws-amplify';
-import * as queries from '../../../src/graphql/queries';
 
-function HistoryWeight({ navigation }) {
+const dayLabels = [
+  "Mon",
+  "Tues",
+  "Weds",
+  "Thurs",
+  "Fri",
+  "Sat",
+  "Sun"
+];
+
+const monthLabels = [
+  "Jan",
+  "Mar",
+  "May",
+  "July",
+  "Sept",
+  "Nov"
+];
+
+function HistoryWeight({ route, navigation }) {
+  const data = route.params.data;
+  const arr = initDisplayData(data);
+
   const [modalVisible, setModalVisible] = useState(false);
-  const [timePeriod, setTimePeriod] = useState('unselected');
-  const [data, setData] = useState([]);
-
-  getBasicData(data, setData);
+  const [timePeriod, setTimePeriod] = useState('past_week');
+  const [timestamps, setTimestamps] = useState(dayLabels);
+  const [displayData, setDisplayData] = useState(arr);
 
   return (
     <SafeAreaView style={styles().container}>
@@ -32,6 +51,7 @@ function HistoryWeight({ navigation }) {
         setModalView={setModalVisible}
         showModalView={modalVisible}
         navigation={navigation}
+        data={data}
       />
 
       {/* Actual screen */}
@@ -73,18 +93,30 @@ function HistoryWeight({ navigation }) {
           </TouchableOpacity>
 
           {/* Custom history component */}
-          <TabBarAndContent historyGenComp={true} navigation={navigation} data={data} timePeriod={timePeriod} page={'mood'} />
+          <View style={{marginTop: 6}}>
+            <TabBarAndContent 
+              navigation={navigation} 
+              data={displayData} 
+              timePeriod={timestamps} 
+              page={'historyGenComp'} 
+              page2Color={false}
+            />
+          </View>
 
+          {/* pass in itemValue not timePeriod */}
           <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, }}>
             <Text style={styles().heading}>TIME PERIOD</Text>
             <View style={styles().pickerView}>
               <Picker
                 selectedValue={timePeriod}
                 style={styles().picker}
-                onValueChange={(itemValue, itemIndex) => setTimePeriod(itemValue)}
+                onValueChange={(itemValue, itemIndex) => {
+                  setTimePeriod(itemValue);
+                  getDisplayData(data, itemValue, setDisplayData);
+                  getTimestamps(data, timestamps, setTimestamps, itemValue);
+                }}
                 mode={'dropdown'}
               >
-                <Picker.Item label='Select one...' value='unselected' />
                 <Picker.Item label='Past week' value='past_week' />
                 <Picker.Item label='Past month' value='past_month' />
                 <Picker.Item label='Past year' value='past_year' />
@@ -159,7 +191,7 @@ function HistoryWeight({ navigation }) {
           </View>
 
           {/* Recommended exercises (decide how we're going to add this in?) */}
-          <View style={{ marginHorizontal: '5%', marginBottom: 20, }}>
+          <View style={{ marginHorizontal: '5%', }}>
             <Text style={styles().text}>
               Exercise is a great way to stay in shape and manage your weight! The
               following exercise regimens are recommended for you.
@@ -174,14 +206,67 @@ function HistoryWeight({ navigation }) {
   );
 };
 
-async function getBasicData(data, setData) {
-  const res = await API.graphql({
-    query: queries.getChartData
-  })
+function cleanUpData(arr) {
+  const len = arr.length;
 
-  const arr = res.data;
+  for(var i = 0; i < len; i++)
+    if(arr[i] == -1) {
+      if(i === 0)
+        arr[i] = arr[i + 1];
 
-  setData(arr.getChartData);
+      else
+        arr[i] = arr[i - 1];
+    }
+
+  return arr;
+}
+
+function initDisplayData(data) {
+  var len = data.weightData.length;
+  var arr = [];
+
+  arr = data.weightData.slice(len - 7, len);
+  arr = cleanUpData(arr);
+
+  return arr;
+}
+
+function getDisplayData(data, timePeriod, setDisplayData) {
+  var len = data.weightData.length;
+  var arr = [];
+
+  if(timePeriod === 'past_week')
+    arr = data.weightData.slice(len - 7, len);
+
+  else if(timePeriod === 'past_month')
+    arr = data.weightData.slice(len - 30, len);
+
+  else
+    arr = data.stressData.slice(len - 365, len);
+
+  arr = cleanUpData(arr);
+
+  setDisplayData(arr);
+}
+
+function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
+  var dates = [];
+  const latestDate = new Date(data.latestDate);
+
+  for(var i = 29; i >= 0; i--) {
+    var date = new Date(latestDate.getTime() - (i * 24 * 60 * 60 * 1000));
+    if(i % 4 == 0)
+      dates.push(date.toISOString().substring(5, 10));
+  }
+
+  if(timePeriod === 'past_week')
+    setTimestamps(dayLabels);
+
+  else if(timePeriod === 'past_month')
+    setTimestamps(dates); 
+
+  else if(timePeriod === 'past_year')
+    setTimestamps(monthLabels);
 }
 
 export default HistoryWeight;

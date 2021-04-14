@@ -7,9 +7,9 @@ import {
   SafeAreaView,
   Image,
   Pressable,
+  TouchableOpacity,
 } from 'react-native';
 import * as queries from '../../../src/graphql/queries';
-
 import { ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
@@ -43,8 +43,7 @@ function Home({ navigation }) {
         ;
 
       else {
-        const lastInd = res.data.getDailyEntries.dailyEntries.length - 1;
-        var date = new Date(res.data.getDailyEntries.dailyEntries[lastInd].Timestamp);
+        var date = new Date(res.data.getDailyEntries.dailyEntries[0].Timestamp);
         const month = date.getMonth() + 1;
         const day = date.getDate();
         const year = date.getFullYear();
@@ -89,37 +88,35 @@ function Home({ navigation }) {
 
         {/* Plant buttons */}
         <View style={styles().plantButtons}>
-          <Pressable
+          <TouchableOpacity
             style={styles().inlineRow}
             onPress={() => navigation.navigate('CustomizePlant')}>
             <Icon name='arrow-left' color='#816868' />
             <View>
               <Text style={styles().plantLinks}>Customize Plant</Text>
             </View>
-          </Pressable>
+          </TouchableOpacity>
           <View style={styles().line2} />
-          <Pressable
+          <TouchableOpacity
             style={styles().inlineRow}
             onPress={() => navigation.navigate('PlantShop')}>
             <View>
               <Text style={styles().plantLinks}>Enter Plant Shop</Text>
             </View>
             <Icon name='arrow-right' color='#816868' />
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         {/* Write a new entry button - make it navigate - MAKE STRING DYNAMIC */}
         <View style={styles().dividerView}>
           <View style={styles().dividerLeft} />
           <View>
-            <Pressable>
+            <Pressable onPress={() => navigation.navigate('HealthEntry1')}>
               <View style={styles().entryButton}>
                 <View
                   style={{
-                    marginTop: 4,
-                    marginBottom: 4,
-                    marginLeft: 8,
-                    marginRight: 8,
+                    marginVertical: 4,
+                    marginHorizontal: 8,
                     paddingLeft: 8,
                     paddingTop: 2,
                   }}>
@@ -149,14 +146,14 @@ function Home({ navigation }) {
 
         {/* View past entries */}
         <View style={{ marginTop: -20 }}>
-          <Pressable
+          <TouchableOpacity
             style={styles().inlineRowEnd}
-            onPress={() => navigation.navigate('')}>
+            onPress={() => navigation.navigate('HealthEntryHistory')}>
             <View style={{ alignSelf: 'flex-end' }}>
               <Text style={styles().plantLinks}>View Past Entries</Text>
             </View>
             <Icon name='arrow-right' color='#816868' />
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         {/* Avatar Section */}
@@ -171,7 +168,27 @@ function Home({ navigation }) {
         </View>
 
         <View style={{ marginLeft: '29%' }}>
-          <Pressable
+          <TouchableOpacity
+            style={styles().inlineRow}
+            onPress={() => navigation.navigate('HealthEntry1')}>
+            <Text style={styles().text}>Write a health entry</Text>
+            <Icon
+              name='checkmark-circle-outline'
+              type='ionicon'
+              color={
+                global.colorblindMode
+                  ? global.cb_switchThumbColorTrue
+                  : global.switchThumbColorTrue
+              }
+              style={{ marginLeft: 10 }}
+            />
+          </TouchableOpacity>
+
+          <View style={styles().dividerViewLow}>
+            <View style={styles().line} />
+          </View>
+
+          <TouchableOpacity
             style={styles().inlineRow}
             onPress={() => navigation.navigate('Journal')}>
             <Text style={styles().text}>Write a journal entry</Text>
@@ -185,29 +202,13 @@ function Home({ navigation }) {
               }
               style={{ marginLeft: 10 }}
             />
-          </Pressable>
+          </TouchableOpacity>
 
           <View style={styles().dividerViewLow}>
             <View style={styles().line} />
           </View>
 
-          <Pressable
-            style={styles().inlineRow}
-            onPress={() => navigation.navigate('Goals')}>
-            <Text style={styles().text}>Create a new goal</Text>
-            <Icon
-              name='checkmark-circle-outline'
-              type='ionicon'
-              color='#4CB97A'
-              style={{ marginLeft: 10 }}
-            />
-          </Pressable>
-
-          <View style={styles().dividerViewLow}>
-            <View style={styles().line} />
-          </View>
-
-          <Pressable
+          <TouchableOpacity
             style={styles().inlineRow}
             onPress={() => navigation.navigate('Goals')}>
             <Text style={styles().text}>Complete a goal</Text>
@@ -221,13 +222,13 @@ function Home({ navigation }) {
               }
               style={{ marginLeft: 10 }}
             />
-          </Pressable>
+          </TouchableOpacity>
 
           <View style={styles().dividerViewLow}>
             <View style={styles().line} />
           </View>
 
-          <Pressable
+          <TouchableOpacity
             style={styles().inlineRow}
             onPress={() => getTodos(navigation)}>
             <Text style={styles().text}>Check your to-do list</Text>
@@ -237,7 +238,7 @@ function Home({ navigation }) {
               color='#4CB97A'
               style={{ marginLeft: 10 }}
             />
-          </Pressable>
+          </TouchableOpacity>
 
           <View style={styles().dividerViewLow}>
             <View style={styles().line} />
@@ -395,12 +396,8 @@ const styles = () => StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    color: '#816868',
-  },
-  textReg: {
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
-    fontSize: 16
-  }
+  },
 });

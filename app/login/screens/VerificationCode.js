@@ -11,6 +11,7 @@ import {
   Button,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 
 function VerificationCode({ route, navigation }) {
@@ -42,63 +43,68 @@ function VerificationCode({ route, navigation }) {
         }
         barStyle='light-content' 
       />
-      <View style={styles().pageSetup}>
+      <ScrollView 
+        showsVerticalScrollIndicator={false} 
+        keyboardShouldPersistTaps='handled' 
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+      >
+        <View style={styles().pageSetup}>
 
-        {/* Logo + title + page instructions */}
-        <Image style={styles().logo} source={require('../../shared/assets/icon.png')}/>
-        <Text style={styles().textTitle}>myGrowth</Text>
-        <Text style={styles().textSubtitle}>Your General Wellness Tracker</Text>
-        <Text style={styles().textInstructions}>
-          A verification code has been sent to your e-mail.{'\n'}
-          Enter the verification code you received below.
-        </Text>
+          {/* Logo + title + page instructions */}
+          <Image style={styles().logo} source={require('../../shared/assets/icon.png')}/>
+          <Text style={styles().textTitle}>myGrowth</Text>
+          <Text style={styles().textSubtitle}>Your General Wellness Tracker</Text>
+          <Text style={styles().textInstructions}>
+            A verification code has been sent to your e-mail.{'\n'}
+            Enter the verification code you received below.
+          </Text>
 
-        {/* verification code text entry + verify button */}
-        <View style={styles().buttons}>
-          <TextInput
-            style={styles().textInput}
-            placeholder='Verification Code'
-            placeholderTextColor={global.colorblindMode
-              ? global.cb_placeHolderTextColor
-              : global.placeHolderTextColor
-            }
-            keyboardType='number-pad'
-            value={verificationCode}
-            maxLength={6}
-            onChangeText={(verificationCode) => {
-              handleVerificationCode(verificationCode);
-            }}
-          />
-          <View style={{ marginVertical: 8 }} />
-          <Button 
-            title='VERIFY'
-            color={
-              global.colorblindMode
-                ? global.cb_optionButtonsColor
-                : global.optionButtonsColor
-            }
-            onPress={() => verify(username, verificationCode, validLengthVerificationCode, navigation)}
-          />
-          <View style={{ marginVertical: 8 }} />
-        </View>
+          {/* Verification code text entry + verify button */}
+          <View style={styles().buttons}>
+            <TextInput
+              style={styles().textInput}
+              placeholder='Verification Code'
+              placeholderTextColor={global.colorblindMode
+                ? global.cb_placeHolderTextColor
+                : global.placeHolderTextColor
+              }
+              keyboardType='number-pad'
+              value={verificationCode}
+              maxLength={6}
+              onChangeText={(verificationCode) => {
+                handleVerificationCode(verificationCode);
+              }}
+            />
 
-        {/* Resend verification code */}
-        <View>
+            <View style={{ marginVertical: 16, }}>
+              <Button 
+                title='VERIFY'
+                color={
+                  global.colorblindMode
+                    ? global.cb_optionButtonsColor
+                    : global.optionButtonsColor
+                }
+                onPress={() => verify(username, verificationCode, validLengthVerificationCode, navigation)}
+              />
+            </View>
+          </View>
+
+          {/* Resend verification code */}
           <View style={{ flexDirection: 'row' }}>
             <Text style={styles().text}>Didn't receive a verification code?{' '}</Text>
             <TouchableOpacity onPress={() => resend(username)}>
               <Text style={styles().textLink}>Resend e-mail.</Text>
             </TouchableOpacity>
           </View>
-        </View>
 
-        {/* Login page redirect */}
-        <View style={{ flexDirection: 'row', marginTop: 8 }}>
-          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <Text style={styles().textLink}>Return to login.</Text>
-          </TouchableOpacity>
+          {/* Login page redirect */}
+          <View style={{ flexDirection: 'row', marginTop: 8 }}>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <Text style={styles().textLink}>Return to login.</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -153,9 +159,8 @@ const styles = () => StyleSheet.create({
     width: 100,
   },
   buttons: {
-    marginTop: 10,
-    marginBottom: 10,
-    width: '70%',
+    marginVertical: 10,
+    width: '75%',
     borderColor: global.colorblindMode
       ? global.cb_optionButtonsBorderColor
       : global.optionButtonsBorderColor,
@@ -182,18 +187,22 @@ const styles = () => StyleSheet.create({
       ? global.cb_textColor
       : global.textColor, 
     marginBottom: 12, 
-    textAlign: 'center'
+    textAlign: 'center',
+    fontSize: 14,
   },
   textLink: {
     color: global.colorblindMode
       ? global.cb_hyperlinkedTextColor
       : global.hyperlinkedTextColor,
     textDecorationLine: 'underline',
+    fontWeight: 'bold',
+    fontSize: 14,
   },
   text: {
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
+    fontSize: 14,
   },
   textSubtitle: {
     color: global.colorblindMode
