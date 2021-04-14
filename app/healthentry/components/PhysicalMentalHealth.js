@@ -148,7 +148,7 @@ const PhysicalMentalHealth = ({
           }}
           keyboardType='number-pad'
           value={weight.toString()}
-          onChangeText={(val) => setWeight(parseInt(val))}
+          onChangeText={setWeight}
         />
         <Text style={styles().textLight}> lbs</Text>
       </View>
