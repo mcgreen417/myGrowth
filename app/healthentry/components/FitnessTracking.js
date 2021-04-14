@@ -35,139 +35,184 @@ const AddExercises = ({
   editable,
 }) => {
   return (
-    <View
-      style={{
-        backgroundColor: '#E5E5E5',
-        borderRadius: 10,
-        padding: 35,
-        paddingBottom: 10,
-        paddingTop: 15,
-        marginTop: 15,
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.5,
-        shadowRadius: 4,
-        elevation: 7,
-      }}>
-      <View>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Icon name='fitness-center' />
-          <TextInput
-            placeholder='Exercise name'
-            style={{
-              borderBottomColor: '#C4BEBD',
-              borderBottomWidth: 1,
-              textAlign: 'center',
-              width: 100,
-            }}
-            value={name}
-            onChangeText={(val) => {
-              editable ? setName(val) : null;
-            }}
-            editable={editable}
-          />
-
-          {index != null && (
+    <View style={{ marginTop: 10 }}>
+      <View
+        style={{
+          backgroundColor: '#816868',
+          borderRadius: 10,
+          paddingLeft: 12,
+          paddingTop: 12,
+          paddingBottom: 20,
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.5,
+          shadowRadius: 4,
+          elevation: 7,
+        }}>
+        <View>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Icon
-              name='close'
-              onPress={() => removeExercise(exercises, setExercises, index)}
+              name='fitness-center'
+              color={
+                global.colorblindMode
+                  ? global.cb_optionButtonsColor
+                  : global.optionButtonsColor
+              }
+              style={{ marginRight: 8 }}
             />
-          )}
-        </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text>Sets:</Text>
             <TextInput
-              placeholder='#'
+              placeholder='Exercise name'
+              color='#C4BEBD'
+              placeholderTextColor='#C4BEBD'
               style={{
                 borderBottomColor: '#C4BEBD',
                 borderBottomWidth: 1,
-                textAlign: 'center',
+                width: 100,
+                width: 150,
               }}
-              keyboardType='number-pad'
-              value={sets}
+              value={name}
               onChangeText={(val) => {
-                editable ? setSets(val) : null;
+                editable ? setName(val) : null;
               }}
               editable={editable}
             />
+
+            {index != null && (
+              <Icon
+                name='close'
+                onPress={() => removeExercise(exercises, setExercises, index)}
+              />
+            )}
+          </View>
+          <View style={{ flexDirection: 'row', marginTop: 10 }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: '40%',
+              }}>
+              <Text style={styles().textAltLight}>Sets:</Text>
+              <TextInput
+                placeholder='#'
+                color='#C4BEBD'
+                placeholderTextColor='#C4BEBD'
+                style={{
+                  borderBottomColor: '#C4BEBD',
+                  borderBottomWidth: 1,
+                  textAlign: 'center',
+                  width: 30,
+                }}
+                keyboardType='number-pad'
+                value={sets}
+                onChangeText={(val) => {
+                  editable ? setSets(val) : null;
+                }}
+                editable={editable}
+              />
+              <Text style={styles().textAltLight}> sets</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: '40%',
+              }}>
+              <Text style={styles().textAltLight}>Calories:</Text>
+              <TextInput
+                placeholder='#'
+                color='#C4BEBD'
+                placeholderTextColor='#C4BEBD'
+                style={{
+                  borderBottomColor: '#C4BEBD',
+                  borderBottomWidth: 1,
+                  textAlign: 'center',
+                  width: 30,
+                }}
+                keyboardType='number-pad'
+                value={cals}
+                onChangeText={(val) => {
+                  editable ? setCals(val) : null;
+                }}
+                editable={editable}
+              />
+              <Text style={styles().textAltLight}> cal</Text>
+            </View>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text>Calories:</Text>
-            <TextInput
-              placeholder='#'
+            <View
               style={{
-                borderBottomColor: '#C4BEBD',
-                borderBottomWidth: 1,
-                textAlign: 'center',
-              }}
-              keyboardType='number-pad'
-              value={cals}
-              onChangeText={(val) => {
-                editable ? setCals(val) : null;
-              }}
-              editable={editable}
-            />
-            <Text>cal</Text>
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: '40%',
+              }}>
+              <Text style={styles().textAltLight}>Reps:</Text>
+              <TextInput
+                placeholder='#'
+                color='#C4BEBD'
+                placeholderTextColor='#C4BEBD'
+                style={{
+                  borderBottomColor: '#C4BEBD',
+                  borderBottomWidth: 1,
+                  textAlign: 'center',
+                  width: 30,
+                }}
+                keyboardType='number-pad'
+                value={reps}
+                onChangeText={(val) => {
+                  editable ? setReps(val) : null;
+                }}
+                editable={editable}
+              />
+              <Text style={styles().textAltLight}> reps</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: '40%',
+              }}>
+              <Text style={styles().textAltLight}>Weight:</Text>
+              <TextInput
+                placeholder='#'
+                color='#C4BEBD'
+                placeholderTextColor='#C4BEBD'
+                style={{
+                  borderBottomColor: '#C4BEBD',
+                  borderBottomWidth: 1,
+                  textAlign: 'center',
+                  width: 30,
+                }}
+                keyboardType='number-pad'
+                value={weight}
+                onChangeText={(val) => {
+                  editable ? setWeight(val) : null;
+                }}
+                editable={editable}
+              />
+              <Text style={styles().textAltLight}> lbs</Text>
+            </View>
           </View>
-        </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text>Reps:</Text>
-            <TextInput
-              placeholder='#'
-              style={{
-                borderBottomColor: '#C4BEBD',
-                borderBottomWidth: 1,
-                textAlign: 'center',
-              }}
-              keyboardType='number-pad'
-              value={reps}
-              onChangeText={(val) => {
-                editable ? setReps(val) : null;
-              }}
-              editable={editable}
-            />
-          </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text>Weight:</Text>
-            <TextInput
-              placeholder='#'
-              style={{
-                borderBottomColor: '#C4BEBD',
-                borderBottomWidth: 1,
-                textAlign: 'center',
-              }}
-              keyboardType='number-pad'
-              value={weight}
-              onChangeText={(val) => {
-                editable ? setWeight(val) : null;
-              }}
-              editable={editable}
-            />
-            <Text>lbs</Text>
-          </View>
-        </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text>Duration</Text>
-            <TextInput
-              placeholder='#'
-              style={{
-                borderBottomColor: '#C4BEBD',
-                borderBottomWidth: 1,
-                textAlign: 'center',
-              }}
-              keyboardType='number-pad'
-              value={duration}
-              onChangeText={(val) => {
-                editable ? setDuration(val) : null;
-              }}
-              editable={editable}
-            />
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text>Duration</Text>
+              <TextInput
+                placeholder='#'
+                style={{
+                  borderBottomColor: '#C4BEBD',
+                  borderBottomWidth: 1,
+                  textAlign: 'center',
+                }}
+                keyboardType='number-pad'
+                value={duration}
+                onChangeText={(val) => {
+                  editable ? setDuration(val) : null;
+                }}
+                editable={editable}
+              />
+            </View>
           </View>
         </View>
       </View>
@@ -224,9 +269,14 @@ const AdvanceFitnessTracking = ({ exercises, setExercises }) => {
         setDuration={setExerciseDuration}
         editable={true}
       />
-      <View style={{ marginTop: 20, width: '50%' }}>
+      <View style={{ marginTop: 20, width: '40%' }}>
         <Button
           title='+ Add Exercise'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
           onPress={() => {
             let tempExercises = [...exercises];
             tempExercises.push({
@@ -261,72 +311,103 @@ const FitnessTracking = ({
     false
   );
   return (
-    <View style={{ width: '80%' }}>
-      <Text>Fitness Tracking</Text>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text>Did you exercise today?</Text>
-        <Switch
-          trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
-          thumbColor={exerciseToday ? '#4CB97A' : '#f4f3f4'}
-          ios_backgroundColor='#3e3e3e'
-          onValueChange={() => setExerciseToday(!exerciseToday)}
-          value={exerciseToday}
-        />
+    <View style={{ width: '90%' }}>
+      <Text style={styles().heading}>FITNESS TRACKING</Text>
+
+      <View style={{ marginTop: 10, marginBottom: 20 }}>
+        <View style={styles().line} />
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text style={styles().text}>Did you exercise today?</Text>
+          <View style={styles().switchView}>
+            <View style={styles().line2} />
+            <Switch
+              trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
+              thumbColor={exerciseToday ? '#4CB97A' : '#f4f3f4'}
+              ios_backgroundColor='#3e3e3e'
+              onValueChange={() => setExerciseToday(!exerciseToday)}
+              value={exerciseToday}
+              style={{ marginLeft: 8 }}
+            />
+          </View>
+        </View>
+        <View style={styles().line} />
       </View>
-      <Text>How long did you exercise for?</Text>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+
+      <Text style={styles().text}>How long did you exercise for?</Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginBottom: 20,
+        }}>
         <TextInput
           placeholder='#'
           style={{
             borderBottomColor: '#C4BEBD',
             borderBottomWidth: 1,
             textAlign: 'center',
+            width: 50,
           }}
           value={exerciseLength}
           onChangeText={(val) => setExerciseLength(val)}
           keyboardType='number-pad'
         />
-        <Text>min</Text>
+        <Text style={styles().text}> min</Text>
       </View>
-      <Text>
+
+      <Text style={styles().text}>
         If you kept track of your calories, how many calories did you burn?
         (Leave field blank if you are unsure.)
       </Text>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginBottom: 20,
+        }}>
         <TextInput
           placeholder='#'
           style={{
             borderBottomColor: '#C4BEBD',
             borderBottomWidth: 1,
             textAlign: 'center',
+            width: 50,
           }}
           value={caloriesBurn}
           onChangeText={(val) => setCaloriesBurn(val)}
           keyboardType='number-pad'
         />
-        <Text>cal</Text>
+        <Text style={styles().text}> cal</Text>
       </View>
-      <Text>
+
+      <Text style={styles().text}>
         If you kept track of your steps, how many steps did you take? (Leave
         field blank if you are unsure.)
       </Text>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginBottom: 20,
+        }}>
         <TextInput
           placeholder='#'
           style={{
             borderBottomColor: '#C4BEBD',
             borderBottomWidth: 1,
             textAlign: 'center',
+            width: 50,
           }}
           value={steps}
           onChangeText={(val) => setSteps(val)}
           keyboardType='number-pad'
         />
-        <Text>steps</Text>
+        <Text style={styles().text}> steps</Text>
       </View>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+
+      <View style={{ flexDirection: 'row', marginBottom: -10 }}>
         <Text
-          style={{ fontWeight: 'bold' }}
+          style={styles().heading}
           onPress={() =>
             setShowAdvanceFitnessTracking(!showAdvanceFitnessTracking)
           }>
@@ -339,6 +420,7 @@ const FitnessTracking = ({
           onPress={() =>
             setShowAdvanceFitnessTracking(!showAdvanceFitnessTracking)
           }
+          color={global.colorblindMode ? global.cb_textColor : global.textColor}
         />
       </View>
       {showAdvanceFitnessTracking && (
@@ -353,4 +435,83 @@ const FitnessTracking = ({
 
 export default FitnessTracking;
 
-const styles = StyleSheet.create({});
+const styles = () =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: global.colorblindMode
+        ? global.cb_pageBackgroundColor
+        : global.pageBackgroundColor,
+      justifyContent: 'center',
+      alignSelf: 'center',
+      width: '100%',
+    },
+    heading: {
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
+      fontSize: 16,
+      fontWeight: 'bold',
+      marginBottom: 10,
+    },
+    headingAlt: {
+      color: '#E5E5E5',
+      fontSize: 16,
+      fontWeight: 'bold',
+      marginTop: 20,
+      marginBottom: 10,
+    },
+    line: {
+      borderColor: global.colorblindMode
+        ? global.cb_lineColor
+        : global.lineColor,
+      borderBottomWidth: 1,
+      minHeight: 1,
+    },
+    line2: {
+      borderColor: global.colorblindMode
+        ? global.cb_lineColor
+        : global.lineColor,
+      borderRightWidth: 1,
+      minHeight: 28,
+      marginTop: 4,
+      marginBottom: 4,
+      flex: 1,
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'flex-end',
+    },
+    modalView: {
+      margin: 20,
+      backgroundColor: '#E5E5E5',
+      borderRadius: 10,
+      padding: 35,
+      paddingBottom: -10,
+      paddingTop: 15,
+      alignItems: 'center',
+      shadowColor: '#000',
+      shadowOffset: {
+        height: 2,
+      },
+      shadowOpacity: 0.5,
+      shadowRadius: 4,
+      elevation: 7,
+    },
+    switchView: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    text: {
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
+      fontSize: 16,
+    },
+    textAltLight: {
+      color: '#E5E5E5',
+      fontSize: 16,
+    },
+    textLink: {
+      color: '#4CB97A',
+      fontSize: 16,
+      textDecorationLine: 'underline',
+    },
+  });

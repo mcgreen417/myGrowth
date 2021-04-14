@@ -283,20 +283,6 @@ const styles = () => StyleSheet.create({
     borderBottomWidth: 1,
     minHeight: 1,
   },
-  line2: {
-    borderColor: global.colorblindMode
-      ? global.cb_lineColor
-      : global.lineColor,
-    borderRightWidth: 1,
-    minHeight: 28,
-    marginTop: 4,
-    marginBottom: 4,
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    marginRight: 20,
-  },
   text: {
     color: global.colorblindMode
       ? global.cb_textColor
@@ -318,12 +304,6 @@ const styles = () => StyleSheet.create({
   },
   pageSetup: {
     justifyContent: 'center', 
-    alignItems: 'center',
-  },
-  switchView: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
   },
 });

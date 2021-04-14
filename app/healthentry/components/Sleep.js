@@ -311,7 +311,7 @@ const Sleep = ({
   };
 
   return (
-    <View style={{ width: '80%' }}>
+    <View style={{ width: '90%' }}>
       <Modal
         transparent={true}
         visible={showAddNap}
@@ -330,35 +330,53 @@ const Sleep = ({
           <AddNap naps={naps} setNaps={setNaps} setShowAddNap={setShowAddNap} />
         </Pressable>
       </Modal>
-      <Text>Sleep</Text>
+      <Text style={styles().heading}>SLEEP</Text>
+      <View style={styles().line} />
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text>Did you sleep today?</Text>
-        <Switch
-          trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
-          thumbColor={hadSleep ? '#4CB97A' : '#f4f3f4'}
-          ios_backgroundColor='#3e3e3e'
-          onValueChange={() => setHadSleep(!hadSleep)}
-          value={hadSleep}
-        />
+        <Text style={styles().text}>Did you sleep today?</Text>
+        <View style={styles().switchView}>
+          <View style={styles().line2} />
+          <Switch
+            trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
+            thumbColor={hadSleep ? '#4CB97A' : '#f4f3f4'}
+            ios_backgroundColor='#3e3e3e'
+            onValueChange={() => setHadSleep(!hadSleep)}
+            value={hadSleep}
+            style={{ marginLeft: 8 }}
+          />
+        </View>
       </View>
-      <View>
-        <Text>When did you sleep last night?</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <View style={styles().line} />
+
+      <View style={{ marginVertical: 20 }}>
+        <Text style={styles().text}>When did you sleep last night?</Text>
+        <View
+          style={{ flexDirection: 'row', alignItems: 'center', marginTop: 6 }}>
+          <Text style={styles().text}>From </Text>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Icon name='schedule' />
+            <Icon
+              name='schedule'
+              color={
+                global.colorblindMode ? global.cb_textColor : global.textColor
+              }
+              style={{ marginRight: 4 }}
+            />
             <TouchableOpacity
               onPress={() => setShowStartTime(true)}
               style={{ alignItems: 'center', flexDirection: 'row' }}>
-              <Text
-                style={{ textDecorationLine: 'underline', color: '#4CB97A' }}>
-                {getTime(sleepTimeStart)}
-              </Text>
-              <Icon name='arrow-drop-down' type='material' />
+              <Text style={styles().textLink}>{getTime(sleepTimeStart)}</Text>
+              <Icon
+                name='arrow-drop-down'
+                type='material'
+                color={
+                  global.colorblindMode ? global.cb_textColor : global.textColor
+                }
+              />
             </TouchableOpacity>
           </View>
           {showStartTime && (
@@ -370,21 +388,31 @@ const Sleep = ({
               onChange={onStartChange}
             />
           )}
+          <Text style={styles().text}> to </Text>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Icon name='schedule' />
+            <Icon
+              name='schedule'
+              color={
+                global.colorblindMode ? global.cb_textColor : global.textColor
+              }
+              style={{ marginRight: 4 }}
+            />
             <TouchableOpacity
               onPress={() => setShowEndTime(true)}
               style={{ alignItems: 'center', flexDirection: 'row' }}>
-              <Text
-                style={{ textDecorationLine: 'underline', color: '#4CB97A' }}>
-                {getTime(sleepTimeEnd)}
-              </Text>
-              <Icon name='arrow-drop-down' type='material' />
+              <Text style={styles().textLink}>{getTime(sleepTimeEnd)}</Text>
+              <Icon
+                name='arrow-drop-down'
+                type='material'
+                color={
+                  global.colorblindMode ? global.cb_textColor : global.textColor
+                }
+              />
             </TouchableOpacity>
           </View>
           {showEndTime && (
@@ -398,8 +426,12 @@ const Sleep = ({
           )}
         </View>
       </View>
-      <View>
-        <Text>How would you rate your quality of sleep last night?</Text>
+
+      <Text style={styles().text}>
+        How would you rate your quality of sleep last night?
+      </Text>
+
+      <View style={{ alignItems: 'center' }}>
         <View
           style={{
             flexDirection: 'row',
@@ -408,6 +440,7 @@ const Sleep = ({
             marginLeft: 10,
             marginRight: 10,
             alignItems: 'center',
+            width: '83.5%',
           }}>
           <View
             style={{
@@ -421,7 +454,8 @@ const Sleep = ({
               right: 0,
               bottom: 0,
               top: 20 / 2,
-            }}></View>
+            }}
+          />
           <Pressable onPress={() => setQualityOfSleep(0)}>
             <View
               style={{
@@ -431,24 +465,14 @@ const Sleep = ({
                 backgroundColor: qualityOfSleep == 0 ? '#A5DFB2' : '#816868',
                 marginLeft: qualityOfSleep == 0 ? -10 : 0,
                 zIndex: 1,
-              }}></View>
-            <Text
-              style={{
-                flex: 1,
-                flexGrow: 1,
-                width: 45,
-                textAlign: 'center',
-                marginLeft: -20,
-                flexWrap: 'wrap',
-              }}>
-              Slept very poorly
-            </Text>
+              }}
+            />
+            <Text style={styles().textSlider}>1</Text>
           </Pressable>
 
           <View
-            style={{
-              width: (Dimensions.get('window').width * 0.55 - 20) / 4,
-            }}></View>
+            style={{ width: (Dimensions.get('window').width * 0.55 - 20) / 4 }}
+          />
           <Pressable onPress={() => setQualityOfSleep(1)}>
             <View
               style={{
@@ -458,24 +482,14 @@ const Sleep = ({
                 backgroundColor: qualityOfSleep == 1 ? '#A5DFB2' : '#816868',
                 marginLeft: qualityOfSleep == 1 ? -10 : 0,
                 zIndex: 1,
-              }}></View>
-            <Text
-              style={{
-                flex: 1,
-                flexGrow: 1,
-                width: 45,
-                textAlign: 'center',
-                marginLeft: -20,
-                flexWrap: 'wrap',
-              }}>
-              Slept poorly
-            </Text>
+              }}
+            />
+            <Text style={styles().textSlider}>2</Text>
           </Pressable>
 
           <View
-            style={{
-              width: (Dimensions.get('window').width * 0.55 - 20) / 4,
-            }}></View>
+            style={{ width: (Dimensions.get('window').width * 0.55 - 20) / 4 }}
+          />
           <Pressable onPress={() => setQualityOfSleep(2)}>
             <View
               style={{
@@ -485,24 +499,14 @@ const Sleep = ({
                 backgroundColor: qualityOfSleep == 2 ? '#A5DFB2' : '#816868',
                 marginLeft: qualityOfSleep == 2 ? -10 : 0,
                 zIndex: 1,
-              }}></View>
-            <Text
-              style={{
-                flex: 1,
-                flexGrow: 1,
-                width: 45,
-                textAlign: 'center',
-                marginLeft: -20,
-                flexWrap: 'wrap',
-              }}>
-              Slept alright
-            </Text>
+              }}
+            />
+            <Text style={styles().textSlider}>3</Text>
           </Pressable>
 
           <View
-            style={{
-              width: (Dimensions.get('window').width * 0.55 - 20) / 4,
-            }}></View>
+            style={{ width: (Dimensions.get('window').width * 0.55 - 20) / 4 }}
+          />
           <Pressable onPress={() => setQualityOfSleep(3)}>
             <View
               style={{
@@ -512,24 +516,14 @@ const Sleep = ({
                 backgroundColor: qualityOfSleep == 3 ? '#A5DFB2' : '#816868',
                 marginLeft: qualityOfSleep == 3 ? -10 : 0,
                 zIndex: 1,
-              }}></View>
-            <Text
-              style={{
-                flex: 1,
-                flexGrow: 1,
-                width: 45,
-                textAlign: 'center',
-                marginLeft: -20,
-                flexWrap: 'wrap',
-              }}>
-              Slept well
-            </Text>
+              }}
+            />
+            <Text style={styles().textSlider}>4</Text>
           </Pressable>
 
           <View
-            style={{
-              width: (Dimensions.get('window').width * 0.55 - 20) / 4,
-            }}></View>
+            style={{ width: (Dimensions.get('window').width * 0.55 - 20) / 4 }}
+          />
           <Pressable onPress={() => setQualityOfSleep(4)}>
             <View
               style={{
@@ -539,18 +533,9 @@ const Sleep = ({
                 backgroundColor: qualityOfSleep == 4 ? '#A5DFB2' : '#816868',
                 marginLeft: qualityOfSleep == 4 ? -10 : 0,
                 zIndex: 1,
-              }}></View>
-            <Text
-              style={{
-                flex: 1,
-                flexGrow: 1,
-                width: 45,
-                textAlign: 'center',
-                marginLeft: -20,
-                flexWrap: 'wrap',
-              }}>
-              Slept very well
-            </Text>
+              }}
+            />
+            <Text style={styles().textSlider}>5</Text>
           </Pressable>
         </View>
       </View>
@@ -565,8 +550,16 @@ const Sleep = ({
           );
         })}
       </View>
-      <View style={{ width: '50%' }}>
-        <Button title='+ Add New Nap' onPress={() => setShowAddNap(true)} />
+      <View style={{ width: '40%' }}>
+        <Button
+          title='+ Add New Nap'
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
+          onPress={() => setShowAddNap(true)}
+        />
       </View>
     </View>
   );
@@ -584,80 +577,32 @@ const styles = () =>
       justifyContent: 'center',
       alignSelf: 'center',
       width: '100%',
-      margin: 0,
-    },
-    avatar: {
-      width: 75,
-      height: 75,
-    },
-    avatarView: {
-      flexDirection: 'row',
-      marginTop: 20,
-      alignSelf: 'center',
-      justifyContent: 'center',
-      width: '90%',
-    },
-    divider: {
-      height: 1,
-      backgroundColor: '#816868',
-      marginVertical: 20,
-    },
-    categoryText: {
-      marginVertical: 6,
-      marginHorizontal: 16,
-      color: '#F5F5F5',
-      fontSize: 16,
-    },
-    categoryView: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: '#4CB97A',
-      borderRadius: 20,
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.23,
-      shadowRadius: 2.62,
-      elevation: 4,
-      marginHorizontal: 2,
     },
     heading: {
-      color: '#4CB97A',
-      fontSize: 20,
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
+      fontSize: 16,
       fontWeight: 'bold',
+      marginBottom: 10,
     },
-    iconView: {
+    line: {
+      borderColor: global.colorblindMode
+        ? global.cb_lineColor
+        : global.lineColor,
+      borderBottomWidth: 1,
+      minHeight: 1,
+    },
+    line2: {
+      borderColor: global.colorblindMode
+        ? global.cb_lineColor
+        : global.lineColor,
+      borderRightWidth: 1,
+      minHeight: 28,
+      marginTop: 4,
+      marginBottom: 4,
       flex: 1,
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'flex-end',
-    },
-    inlineRow: {
-      flexDirection: 'row',
-      width: '100%',
-      alignItems: 'center',
-    },
-    text: {
-      color: '#816868',
-      fontSize: 16,
-      textAlign: 'center',
-    },
-    pageDescription: {
-      color: '#816868',
-      fontSize: 20,
-      flex: 1,
-      flexWrap: 'wrap',
-      fontWeight: 'bold',
-      marginRight: 20,
-    },
-    pageEnd: {
-      marginBottom: 100,
-    },
-    pageSetup: {
-      justifyContent: 'center',
-      alignItems: 'center',
     },
     modalView: {
       margin: 20,
@@ -669,29 +614,36 @@ const styles = () =>
       alignItems: 'center',
       shadowColor: '#000',
       shadowOffset: {
-        width: 0,
         height: 2,
       },
       shadowOpacity: 0.5,
       shadowRadius: 4,
       elevation: 7,
     },
-    picker: {
-      height: 32,
-      width: '100%',
-    },
-    pickerView: {
-      borderWidth: 1,
-      marginBottom: 20,
+    switchView: {
+      flex: 1,
       flexDirection: 'row',
-      justifyContent: 'flex-start',
-      alignItems: 'flex-start',
-      width: '70%',
-      backgroundColor: '#f4f3f4',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
-    textReg: {
+    text: {
       color: global.colorblindMode ? global.cb_textColor : global.textColor,
-      textDecorationLine: 'none',
-      textAlign: 'left',
+      fontSize: 16,
+    },
+    textLink: {
+      color: '#4CB97A',
+      fontSize: 16,
+      textDecorationLine: 'underline',
+    },
+    textSlider: {
+      flex: 1,
+      flexGrow: 1,
+      width: 45,
+      textAlign: 'center',
+      marginLeft: -20,
+      flexWrap: 'wrap',
+      marginTop: 4,
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
+      fontSize: 20,
     },
   });

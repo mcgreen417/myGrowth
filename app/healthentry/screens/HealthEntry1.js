@@ -79,7 +79,9 @@ const HealthEntry1 = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles().container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps='handled'>
         <View style={styles().pageSetup}>
           {/* Gardener avatar + page blurb */}
           <View style={styles().avatarView}>
@@ -99,30 +101,60 @@ const HealthEntry1 = ({ navigation }) => {
           </View>
 
           {/* Select Data and Time */}
-          <View style={{ width: '80%' }}>
-            <Text>SELECT DATE & TIME</Text>
+          <View style={{ width: '90%' }}>
+            <Text style={styles().heading}>SELECT DATE & TIME</Text>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <View
                 style={{
                   flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignContent: 'center',
                   alignItems: 'center',
+                  width: '50%',
                 }}>
-                <Icon name='event' />
-                <Text>{getDate(new Date())}</Text>
-                <Icon name='arrow-drop-down' type='material' />
+                <Icon
+                  name='event'
+                  color={
+                    global.colorblindMode
+                      ? global.cb_contentDividerColor
+                      : global.contentDividerColor
+                  }
+                  style={{ marginRight: 4 }}
+                />
+                <Text style={styles().textLink}>{getDate(new Date())}</Text>
+                <Icon
+                  name='arrow-drop-down'
+                  type='material'
+                  color={
+                    global.colorblindMode
+                      ? global.cb_contentDividerColor
+                      : global.contentDividerColor
+                  }
+                />
               </View>
               <View
                 style={{
                   flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignContent: 'center',
                   alignItems: 'center',
+                  width: '50%',
                 }}>
-                <Icon name='schedule' />
-                <Text>{getTime(new Date())}</Text>
-                <Icon name='arrow-drop-down' type='material' />
+                <Icon
+                  name='schedule'
+                  color={
+                    global.colorblindMode
+                      ? global.cb_contentDividerColor
+                      : global.contentDividerColor
+                  }
+                  style={{ marginRight: 4 }}
+                />
+                <Text style={styles().textLink}>{getTime(new Date())}</Text>
+                <Icon
+                  name='arrow-drop-down'
+                  type='material'
+                  color={
+                    global.colorblindMode
+                      ? global.cb_contentDividerColor
+                      : global.contentDividerColor
+                  }
+                />
               </View>
             </View>
           </View>
@@ -213,7 +245,6 @@ const styles = () =>
     avatarView: {
       flexDirection: 'row',
       marginTop: 20,
-      marginBottom: 5,
       alignItems: 'center',
       justifyContent: 'center',
       width: '90%',
@@ -221,30 +252,57 @@ const styles = () =>
     divider: {
       flex: 1,
       height: 1,
-      backgroundColor: '#816868',
-      marginLeft: 30,
-      marginRight: 30,
+      backgroundColor: global.colorblindMode
+        ? global.cb_contentDividerColor
+        : global.contentDividerColor,
+      marginLeft: 20,
+      marginRight: 20,
     },
     dividerView: {
       flexDirection: 'row',
       alignItems: 'center',
-      marginTop: 16,
-      marginBottom: 16,
+      marginTop: 20,
+      marginBottom: 20,
+    },
+    heading: {
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
+      fontSize: 16,
+      fontWeight: 'bold',
+      marginBottom: 10,
+    },
+    line2: {
+      backgroundColor: global.colorblindMode
+        ? global.cb_textColor
+        : global.textColor,
+      marginLeft: 40,
+      marginRight: 40,
+      height: '100%',
+      width: 2,
     },
     pageDescription: {
-      color: '#816868',
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
       fontSize: 20,
       fontWeight: 'bold',
       flex: 1,
       flexWrap: 'wrap',
-      marginLeft: 20,
+      marginRight: 20,
     },
     pageEnd: {
       marginBottom: 100,
     },
     pageSetup: {
-      // justifyContent: 'center',
       alignItems: 'center',
       height: '100%',
+    },
+    text: {
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
+      fontSize: 16,
+      textAlign: 'center',
+      fontWeight: 'bold',
+    },
+    textLink: {
+      color: '#4CB97A',
+      fontSize: 16,
+      textDecorationLine: 'underline',
     },
   });

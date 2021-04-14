@@ -228,9 +228,9 @@ function Home({ navigation }) {
           </View>
 
           <Pressable
-            style={styles.inlineRow}
+            style={styles().inlineRow}
             onPress={() => getTodos(navigation)}>
-            <Text style={styles.text}>Check your to-do list</Text>
+            <Text style={styles().text}>Check your to-do list</Text>
             <Icon
               name='checkmark-circle-outline'
               type='ionicon'
@@ -243,6 +243,7 @@ function Home({ navigation }) {
             <View style={styles().line} />
           </View>
         </View>
+
         <View style={styles().pageEnd} />
       </ScrollView>
       <NavBar home={true} navigation={navigation} />

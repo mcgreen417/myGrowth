@@ -160,9 +160,7 @@ function JournalHistory({ route, navigation }) {
                   <Text style={styles.journalDate}>{new Date(item.Timestamp).getFullYear()}</Text>
                 </View>
                 {/* Journal entry text preview */}
-                <View style={{ flexShrink: 1 }}>
-                  <Text style={styles.journalText}>{item.Entry}</Text>
-                </View>
+                <Text style={styles.journalText}>{item.Entry}</Text>
               </View>
             </Pressable>
           ))}
@@ -261,6 +259,7 @@ const styles = StyleSheet.create({
   journalText: {
     fontSize: 16,
     color: '#E5E5E5',
+    flexShrink: 1,
   },
   text: {
     fontSize: 16,

@@ -143,6 +143,7 @@ const Medication = ({
   getMedications(setMedications);
 
   return (
+<<<<<<< HEAD
     <View style={{ width: '80%' }}>
       <Modal
         transparent={true}
@@ -193,6 +194,69 @@ const Medication = ({
         <Button
           title='+ Add Medication'
           onPress={() => setShowAddMedicine(true)}
+=======
+    <View style={{ width: '90%' }}>
+      <Text style={styles().heading}>MEDICATION</Text>
+      <Text style={styles().text}>Have you taken the following medications today?</Text>
+
+      
+      <View style={{ marginTop: 20, }}>
+        {medication.map((item, index) => {
+          console.log(index);
+          console.log(med[index]);
+          return (
+            <View>
+              <View style={styles().line}/>
+              <View
+                style={{ flexDirection: 'row', alignItems: 'center' }}
+                key={index}>
+                <Text style={styles().textLink}>{item.name}</Text>
+                <Text style={styles().text}> at </Text>
+                <Icon 
+                  name='schedule' 
+                  color={global.colorblindMode 
+                    ? global.cb_textColor 
+                    : global.textColor}
+                  style={{ marginLeft: 2, marginRight: 4, }}
+                />
+                <Text style={styles().textLink}>{getTime(new Date(item.time))}</Text>
+                <Icon 
+                  name='arrow-drop-down'
+                  color={global.colorblindMode 
+                    ? global.cb_textColor 
+                    : global.textColor} 
+                />
+                <View style={styles().switchView}>
+                  <View style={styles().line2}/>
+                  <Switch
+                    trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
+                    thumbColor={med[index] ? '#4CB97A' : '#f4f3f4'}
+                    ios_backgroundColor='#3e3e3e'
+                    onValueChange={() => {
+                      let newMed = [...med];
+                      newMed[index] = !med[index];
+                      setMed(newMed);
+                    }}
+                    value={med[index]}
+                    style={{ marginLeft: 8 }}
+                  />
+                </View>
+              </View>
+            </View>
+          );
+        })}
+      </View>
+      <View style={styles().line}/>
+
+      <View style={{ width: '40%', marginTop: 20, }}>
+        <Button 
+          title='+ Add Medication' 
+          color={
+            global.colorblindMode
+            ? global.cb_optionButtonsColor
+            : global.optionButtonsColor
+          }
+>>>>>>> master
         />
       </View>
     </View>
@@ -211,6 +275,7 @@ const styles = () =>
       justifyContent: 'center',
       alignSelf: 'center',
       width: '100%',
+<<<<<<< HEAD
       margin: 0,
     },
     avatar: {
@@ -256,11 +321,38 @@ const styles = () =>
       fontWeight: 'bold',
     },
     iconView: {
+=======
+    },
+    heading: {
+      color: global.colorblindMode
+        ? global.cb_textColor
+        : global.textColor,
+      fontSize: 16,
+      fontWeight: 'bold',
+      marginBottom: 10,
+    },
+    line: {
+      borderColor: global.colorblindMode
+        ? global.cb_lineColor
+        : global.lineColor,
+      borderBottomWidth: 1,
+      minHeight: 1,
+    },
+    line2: {
+      borderColor: global.colorblindMode
+        ? global.cb_lineColor
+        : global.lineColor,
+      borderRightWidth: 1,
+      minHeight: 28,
+      marginTop: 4,
+      marginBottom: 4,
+>>>>>>> master
       flex: 1,
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'flex-end',
     },
+<<<<<<< HEAD
     inlineRow: {
       flexDirection: 'row',
       width: '100%',
@@ -286,6 +378,8 @@ const styles = () =>
       justifyContent: 'center',
       alignItems: 'center',
     },
+=======
+>>>>>>> master
     modalView: {
       margin: 20,
       backgroundColor: '#E5E5E5',
@@ -296,13 +390,17 @@ const styles = () =>
       alignItems: 'center',
       shadowColor: '#000',
       shadowOffset: {
+<<<<<<< HEAD
         width: 0,
+=======
+>>>>>>> master
         height: 2,
       },
       shadowOpacity: 0.5,
       shadowRadius: 4,
       elevation: 7,
     },
+<<<<<<< HEAD
     picker: {
       height: 32,
       width: '100%',
@@ -320,5 +418,23 @@ const styles = () =>
       color: global.colorblindMode ? global.cb_textColor : global.textColor,
       textDecorationLine: 'none',
       textAlign: 'left',
+=======
+    switchView: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    text: {
+      color: global.colorblindMode 
+        ? global.cb_textColor 
+        : global.textColor,
+      fontSize: 16,
+    },
+    textLink: {
+      color: '#4CB97A',
+      fontSize: 16,
+      textDecorationLine: 'underline'
+>>>>>>> master
     },
   });
