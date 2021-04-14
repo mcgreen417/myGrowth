@@ -348,7 +348,7 @@ const FitnessTracking = ({
             textAlign: 'center',
             width: 50,
           }}
-          value={exerciseLength}
+          value={exerciseLength.toString()}
           onChangeText={(val) => setExerciseLength(val)}
           keyboardType='number-pad'
         />
@@ -373,7 +373,7 @@ const FitnessTracking = ({
             textAlign: 'center',
             width: 50,
           }}
-          value={caloriesBurn}
+          value={caloriesBurn.toString()}
           onChangeText={(val) => setCaloriesBurn(val)}
           keyboardType='number-pad'
         />
@@ -398,7 +398,7 @@ const FitnessTracking = ({
             textAlign: 'center',
             width: 50,
           }}
-          value={steps}
+          value={steps.toString()}
           onChangeText={(val) => setSteps(val)}
           keyboardType='number-pad'
         />
