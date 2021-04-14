@@ -143,7 +143,7 @@ const Medication = ({
   getMedications(setMedications);
 
   return (
-    <View style={{ width: '80%' }}>
+    <View style={{ width: '90%' }}>
       <Modal
         transparent={true}
         visible={showAddMedicine}
@@ -162,15 +162,26 @@ const Medication = ({
           <AddMedication setShowAddMedicine={setShowAddMedicine} />
         </Pressable>
       </Modal>
-      <Text>Medication</Text>
-      <Text>Have you taken the following medications today?</Text>
+      <Text style={styles().heading}>MEDICATION</Text>
+      <Text style={styles().text}>What medication have you taken today?</Text>
+      <View style={{ marginBottom: 10, }}/>
       <View>
         {medications != undefined &&
           medications.map((item, index) => {
             return (
               <View key={index}>
-                <View style={styles().line} />
+                <View style={styles().line3} />
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Icon
+                    name='pill'
+                    type='material-community'
+                    color={
+                      global.colorblindMode
+                        ? global.cb_textColor
+                        : global.textColor
+                    }
+                    style={{ marginRight: 4 }}
+                  />
                   <Text style={styles().textLink}>{item.name}</Text>
                   <Text style={styles().text}> at </Text>
                   <Icon
@@ -195,6 +206,13 @@ const Medication = ({
                   />
                   <View style={styles().switchView}>
                     <View style={styles().line2} />
+                    <View style={{ marginLeft: 10,  }}>
+                      <Icon
+                        name='close'
+                        color='#816868'
+                        onPress={() => removeMedication(index)}
+                      />
+                    </View>
                     <Switch
                       style={{ marginLeft: 8 }}
                       trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
@@ -207,17 +225,13 @@ const Medication = ({
                       }}
                       value={getBit(medChecked, index)}
                     />
-                    <Icon
-                      name='close'
-                      onPress={() => removeMedication(index)}
-                    />
                   </View>
                 </View>
+                <View style={styles().line3} />
               </View>
             );
           })}
       </View>
-      <View style={styles().line} />
       <View style={{ width: '40%', marginTop: 20 }}>
         <Button
           title='+ Add Medication'
@@ -272,6 +286,14 @@ const styles = () =>
       justifyContent: 'center',
       alignItems: 'flex-end',
     },
+    line3: {
+      borderColor: global.colorblindMode
+        ? global.cb_lineColor
+        : global.lineColor,
+      borderBottomWidth: 1,
+      minHeight: 1,
+      marginTop: -1,
+    },
     modalView: {
       margin: 20,
       backgroundColor: '#E5E5E5',
@@ -295,7 +317,9 @@ const styles = () =>
       alignItems: 'center',
     },
     text: {
-      color: global.colorblindMode ? global.cb_textColor : global.textColor,
+      color: global.colorblindMode 
+        ? global.cb_textColor 
+        : global.textColor,
       fontSize: 16,
     },
     textLink: {
