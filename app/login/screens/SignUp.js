@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Auth, API } from 'aws-amplify';
+import { Icon } from 'react-native-elements';
 import {
   Alert,
   StyleSheet,
@@ -21,7 +22,7 @@ function SignUp({ navigation }) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
-  const [modalVisible, setModalVisible] = useState('');
+  const [confirmAge, setConfirmAge] = useState(false);
 
   const [signupProperties, setSignupProperties] = useState({
     validEmail: false,
@@ -121,15 +122,17 @@ function SignUp({ navigation }) {
 
       // Check to make sure if caught all cases and probably convert to a switch statement.
       if (!validEmail && !validPassword && !validConfirmPassword) {
-        createAlert('Oh no!', 'Please double-check your entered information in all fields and try again.');
+        createAlert("Oh no!", "Please double-check your entered information in all fields and try again.");
       } else if (!validEmail) {
-        createAlert('Oh no!', 'Your email was typed incorrectly!  Please re-enter it and try again.');
+        createAlert("Oh no!", "Your e-mail was typed incorrectly! Please re-enter your e-mail and try again.");
       } else if (password !== confirmPassword) {
-        createAlert('Oh no!', 'Your password was entered differently in both boxes.  Please try again.');
+        createAlert("Oh no!", "The passwords you entered don't match. Please re-enter your password and try again.");
       } else if (!validPassword && !validConfirmPassword) {
-        createAlert('Oh no!', 'Your password is missing some important characters - please check the requirements and try again.');
+        createAlert("Oh no!", "Your password is missing some important characters. Please check the requirements and try again.");
+      } else if (!confirmAge) {
+        createAlert("Oh no!", "You haven't confirmed your age. Please check the box below and try again.");
       } else {
-        createAlert('Error', 'Please check all fields and try again.');
+        createAlert("Error", "Please check all fields and try again.");
       }
     }    
 
@@ -244,6 +247,41 @@ function SignUp({ navigation }) {
             </View>
           </View>
 
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Icon
+              name={
+                confirmAge
+                ? 'check-box'
+                : 'check-box-outline-blank'}
+              type='MaterialIcons'
+              color={
+                confirmAge
+                ? '#4CB97A'
+                : '#816868'
+              }
+              onPress={() => {setConfirmAge(!confirmAge)}}
+            />
+            <View style={{ marginRight: 8 }}/>
+            <Text style={styles().text}>I confirm I am 13 years of age or older.</Text>
+          </View>
+
+          {/* TOS + privacy policy agreement */}
+          <View style={{ marginTop: 8, marginBottom: 16, }}>
+            <Text style={styles().text}>
+              By creating an account, you agree to our
+            </Text>
+            <View style={{ flexDirection: 'row' }}>
+              <TouchableOpacity>
+                <Text style={styles().textLink}>Terms of Service </Text>
+              </TouchableOpacity>
+              <Text style={styles().text}>{' '}and{' '}</Text>
+              <TouchableOpacity>
+                <Text style={styles().textLink}>Privacy Policy</Text>
+              </TouchableOpacity>
+              <Text>.</Text>
+            </View>
+          </View>
+
           {/* Login/signup page switch */}
           <View style={{ flexDirection: 'row' }}>
             <Text style={styles().text}>Already have an account?{' '}</Text>
@@ -254,22 +292,6 @@ function SignUp({ navigation }) {
               }}>
               <Text style={styles().textLink}>Log in here.</Text>
             </TouchableOpacity>
-          </View>
-
-          {/* TOS + privacy policy agreement */}
-          <View style={{ marginTop: 16 }}>
-            <Text style={styles().text}>
-              By continuing, you're accepting our{' '}
-            </Text>
-            <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity>
-                <Text style={styles().textLink}>Terms of Service </Text>
-              </TouchableOpacity>
-              <Text style={styles().text}>{' '}and{' '}</Text>
-              <TouchableOpacity>
-                <Text style={styles().textLink}>Privacy Policy.</Text>
-              </TouchableOpacity>
-            </View>
           </View>
         </View>
       </ScrollView>
