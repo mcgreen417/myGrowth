@@ -10,7 +10,6 @@ import {
   View,
 } from 'react-native';
 import ButtonAndroidiOS from '../../shared/components/ButtonAndroidiOS';
-import ButtonNavigateAndroidiOS from '../../shared/components/ButtonNavigateAndroidiOS';
 import StatusBariOS from '../../shared/components/StatusBariOS';
 
 function Start({ navigation }) {
@@ -97,27 +96,17 @@ function Start({ navigation }) {
           </Text>
           {/* Sign up + login buttons */}
           <View style={styles().buttons}>
-            {/* <ButtonNavigateAndroidiOS
-              buttonText='SIGN UP'
-              navigation={navigation}
-              screenName='SignUp'
-            /> */}
             <ButtonAndroidiOS
               buttonText='SIGN UP'
               navigation={navigation}
               screenName='SignUp'
             />
             <View style={{ marginVertical: 8 }} />
-            {/* <ButtonNavigateAndroidiOS
-              buttonText='LOG IN'
-              navigation={navigation}
-              screenName='Login'
-            /> */}
-            <ButtonAndroidiOS
-              buttonText='LOG IN'
-              navigation={navigation}
-              screenName='Login'
-            />
+              <ButtonAndroidiOS
+                buttonText='LOG IN'
+                navigation={navigation}
+                screenName='Login'
+              />
           </View>
         </View>
       </ScrollView>
