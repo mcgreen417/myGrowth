@@ -11,7 +11,9 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-{/* Add Feelings pop-up */}
+{
+  /* Add Feelings pop-up */
+}
 const FeelingsModal = ({ feelings, setFeelings }) => {
   const [feel, setFeel] = useState();
 
@@ -20,7 +22,7 @@ const FeelingsModal = ({ feelings, setFeelings }) => {
       {console.log(feelings)}
       <View style={styles().modalView}>
         {/* Feeling user input box */}
-        <View style={{ alignItems: 'center', flexDirection: 'row', }}>
+        <View style={{ alignItems: 'center', flexDirection: 'row' }}>
           <Text style={styles().text}>Feeling:</Text>
           <TextInput
             placeholder='Feeling Name'
@@ -37,7 +39,7 @@ const FeelingsModal = ({ feelings, setFeelings }) => {
         </View>
 
         {/* Add Feeling button */}
-        <View style={{ width: '50%', marginVertical: 20, }}>
+        <View style={{ width: '50%', marginVertical: 20 }}>
           <Button
             title='Add Feeling'
             onPress={() => {
@@ -49,8 +51,8 @@ const FeelingsModal = ({ feelings, setFeelings }) => {
             }}
             color={
               global.colorblindMode
-              ? global.cb_optionButtonsColor
-              : global.optionButtonsColor
+                ? global.cb_optionButtonsColor
+                : global.optionButtonsColor
             }
           />
         </View>
@@ -59,11 +61,9 @@ const FeelingsModal = ({ feelings, setFeelings }) => {
   );
 };
 
-{/* Mood selection */}
-const Mood = ({ mood, setMood, feels, setFeels }) => {
+const Mood = ({ mood, setMood, feelings, setFeelings }) => {
   const [showFeelings, setShowFeelings] = useState(false);
   return (
-
     <View style={{ width: '90%' }}>
       {/* Add Feelings modal */}
       <Modal
@@ -81,19 +81,22 @@ const Mood = ({ mood, setMood, feels, setFeels }) => {
             alignContent: 'center',
             backgroundColor: '#00000050',
           }}>
-          <FeelingsModal feelings={feels} setFeelings={setFeels} />
+          <FeelingsModal feelings={feelings} setFeelings={setFeelings} />
         </Pressable>
       </Modal>
-      
+
       {/* Mood heading */}
       <Text style={styles().heading}>MOOD</Text>
 
-      <View style={{ flexDirection: 'row', marginVertical: 10, justifyContent: 'space-between', }}>
-        <View style={{ alignItems: 'center', }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          marginVertical: 10,
+          justifyContent: 'space-between',
+        }}>
+        <View style={{ alignItems: 'center' }}>
           {/* Awful face */}
-          <Pressable
-            style={{ marginBottom: 4, }}
-            onPress={() => setMood(1)}>
+          <Pressable style={{ marginBottom: 4 }} onPress={() => setMood(1)}>
             <Icon
               type='fontisto'
               name='mad'
@@ -102,23 +105,24 @@ const Mood = ({ mood, setMood, feels, setFeels }) => {
               color={mood == 1 ? '#4CB97A' : '#816868'}
             />
           </Pressable>
-          <Text 
+          <Text
             style={{
-              color: mood == 1 
-                ? '#4CB97A'
-                : (global.colorblindMode 
-                  ? global.cb_textColor 
-                  : global.textColor),
+              color:
+                mood == 1
+                  ? '#4CB97A'
+                  : global.colorblindMode
+                  ? global.cb_textColor
+                  : global.textColor,
               fontSize: 16,
               textAlign: 'center',
-            }}>Awful</Text>
+            }}>
+            Awful
+          </Text>
         </View>
-        
+
         {/* Bad face */}
         <View style={{ alignItems: 'center' }}>
-          <Pressable
-            style={{ marginBottom: 4, }}
-            onPress={() => setMood(2)}>
+          <Pressable style={{ marginBottom: 4 }} onPress={() => setMood(2)}>
             <Icon
               type='fontisto'
               name='frowning'
@@ -126,23 +130,24 @@ const Mood = ({ mood, setMood, feels, setFeels }) => {
               color={mood == 2 ? '#4CB97A' : '#816868'}
             />
           </Pressable>
-          <Text 
+          <Text
             style={{
-              color: mood == 2 
-                ? '#4CB97A'
-                : (global.colorblindMode 
-                  ? global.cb_textColor 
-                  : global.textColor),
+              color:
+                mood == 2
+                  ? '#4CB97A'
+                  : global.colorblindMode
+                  ? global.cb_textColor
+                  : global.textColor,
               fontSize: 16,
               textAlign: 'center',
-            }}>Bad</Text>
+            }}>
+            Bad
+          </Text>
         </View>
-        
+
         {/* Okay face */}
         <View style={{ alignItems: 'center' }}>
-          <Pressable
-            style={{ marginBottom: 4, }}
-            onPress={() => setMood(3)}>
+          <Pressable style={{ marginBottom: 4 }} onPress={() => setMood(3)}>
             <Icon
               type='fontisto'
               name='neutral'
@@ -150,23 +155,24 @@ const Mood = ({ mood, setMood, feels, setFeels }) => {
               color={mood == 3 ? '#4CB97A' : '#816868'}
             />
           </Pressable>
-          <Text 
+          <Text
             style={{
-              color: mood == 3 
-                ? '#4CB97A'
-                : (global.colorblindMode 
-                  ? global.cb_textColor 
-                  : global.textColor),
+              color:
+                mood == 3
+                  ? '#4CB97A'
+                  : global.colorblindMode
+                  ? global.cb_textColor
+                  : global.textColor,
               fontSize: 16,
               textAlign: 'center',
-            }}>Okay</Text>
+            }}>
+            Okay
+          </Text>
         </View>
 
         {/* Good face */}
         <View style={{ alignItems: 'center' }}>
-          <Pressable
-            style={{ marginBottom: 4, }}
-            onPress={() => setMood(4)}>
+          <Pressable style={{ marginBottom: 4 }} onPress={() => setMood(4)}>
             <Icon
               type='fontisto'
               name='smiling'
@@ -174,23 +180,24 @@ const Mood = ({ mood, setMood, feels, setFeels }) => {
               color={mood == 4 ? '#4CB97A' : '#816868'}
             />
           </Pressable>
-          <Text 
+          <Text
             style={{
-              color: mood == 4 
-                ? '#4CB97A'
-                : (global.colorblindMode 
-                  ? global.cb_textColor 
-                  : global.textColor),
+              color:
+                mood == 4
+                  ? '#4CB97A'
+                  : global.colorblindMode
+                  ? global.cb_textColor
+                  : global.textColor,
               fontSize: 16,
               textAlign: 'center',
-            }}>Good</Text>
+            }}>
+            Good
+          </Text>
         </View>
 
         {/* Great face */}
         <View style={{ alignItems: 'center' }}>
-          <Pressable
-            style={{ marginBottom: 4, }}
-            onPress={() => setMood(5)}>
+          <Pressable style={{ marginBottom: 4 }} onPress={() => setMood(5)}>
             <Icon
               type='fontisto'
               name='smiley'
@@ -198,27 +205,32 @@ const Mood = ({ mood, setMood, feels, setFeels }) => {
               color={mood == 5 ? '#4CB97A' : '#816868'}
             />
           </Pressable>
-          <Text 
+          <Text
             style={{
-              color: mood == 5
-                ? '#4CB97A'
-                : (global.colorblindMode 
-                  ? global.cb_textColor 
-                  : global.textColor),
+              color:
+                mood == 5
+                  ? '#4CB97A'
+                  : global.colorblindMode
+                  ? global.cb_textColor
+                  : global.textColor,
               fontSize: 16,
               textAlign: 'center',
-            }}>Great</Text>
+            }}>
+            Great
+          </Text>
         </View>
       </View>
 
       {/* Add Feelings button */}
-      <View style={{ width: '40%', marginTop: 10, }}>
+      <View style={{ width: '40%', marginTop: 10 }}>
         <Button
           title='+ Add Feelings'
           onPress={() => setShowFeelings(!showFeelings)}
-          color={global.colorblindMode
-            ? global.cb_optionButtonsColor
-            : global.optionButtonsColor}
+          color={
+            global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+          }
         />
       </View>
     </View>
@@ -239,9 +251,7 @@ const styles = () =>
       width: '100%',
     },
     heading: {
-      color: global.colorblindMode
-        ? global.cb_textColor
-        : global.textColor,
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
       fontSize: 16,
       fontWeight: 'bold',
       marginBottom: 10,
