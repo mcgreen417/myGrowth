@@ -214,7 +214,7 @@ const NavBar = ({
             bottom: 30,
           }}>
           <Pressable
-            onPress={() => navigation.navigate('HealthEntry1')}
+            onPress={() => navigation.navigate('HealthEntry')}
             style={({ pressed }) => [
               {
                 width: 56,
