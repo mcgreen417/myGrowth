@@ -100,7 +100,8 @@ function SignUp({ navigation }) {
   const checkRequiredFields = (email, password, navigation) => {
     const ableToSignUp = (signupProperties.validEmail
                           && signupProperties.validPassword
-                          && signupProperties.validConfirmPassword);
+                          && signupProperties.validConfirmPassword
+                          && confirmAge);
     const validEmail = signupProperties.validEmail;
     const validPassword = signupProperties.validPassword;
     const validConfirmPassword = signupProperties.validConfirmPassword;

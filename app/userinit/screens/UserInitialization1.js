@@ -37,6 +37,7 @@ function UserInitialization1({ navigation }) {
   const [showDOBInfo, setShowDOBInfo] = useState(false);
   const [showGenderInfo, setShowGenderInfo] = useState(false);
   const [showBioSexInfo, setShowBioSexInfo] = useState(false);
+  const [showActivityLevelInfo, setShowActivityLevelInfo] = useState(false);
   const [showHeightInfo, setShowHeightInfo] = useState(false);
   const [showWeightInfo, setShowWeightInfo] = useState(false);
 
@@ -332,8 +333,10 @@ function UserInitialization1({ navigation }) {
                   <Text style={styles().text}>
                     Please enter your first name so our friendly assistant knows who you are!
                   </Text>
+                  <Text style={styles().text}>You can change this in your user settings at any time.</Text>
                   <Text style={styles().text}>
-                    You may use a username if you are uncomfortable entering this information.
+                    You may use a nickname, username, or alias if you are uncomfortable entering this 
+                    information.
                   </Text>
                   <Text style={styles().textBoldAlt}>This field is required.</Text>
                 </View>
@@ -403,8 +406,8 @@ function UserInitialization1({ navigation }) {
                     Please enter your date of birth so we know how old you are!
                   </Text>
                   <Text style={styles().text}>
-                    This information is important for legal purposes and will be used 
-                    in physical health calculations.
+                    This information will be used in physical health calculations and can be updated
+                    in your user settings at any time.
                   </Text>
                   <Text style={styles().textBoldAlt}>This field is required.</Text>
                 </View>
@@ -475,7 +478,7 @@ function UserInitialization1({ navigation }) {
                   </Text>
                   <Text style={styles().text}>
                     This information will be used in physical health calculations in combination with 
-                    your biological sex.
+                    your biological sex and can be updated in your user settings at any time.
                   </Text>
                   <Text style={styles().text}>
                     You may choose not to answer this question if it makes you uncomfortable. However, 
@@ -550,13 +553,88 @@ function UserInitialization1({ navigation }) {
                   </Text>
                   <Text style={styles().text}>
                     This information will be used in physical health calculations in combination with 
-                    your gender.
+                    your gender and can be updated in your user settings at any time.
                   </Text>
                   <Text style={styles().text}>
                     You may choose not to answer this question if it makes you uncomfortable. However, 
                     this may cause certain physical health calculations to be inaccurate. 
                   </Text>
                   <Text style={styles().textBoldAlt}>This field is required.</Text>
+                </View>
+              </View>
+            </View>
+        </Modal>
+      </View>
+
+      {/* Activity level info pop-up */}
+      <View>
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={showActivityLevelInfo}
+          onRequestClose={() => setShowActivityLevelInfo(!showActivityLevelInfo)}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 1,
+              backgroundColor: '#00000055',
+            }}>
+              <View style={styles().modalContainer}>
+                <View style={styles().modalHeaderBar}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 2,
+                      marginLeft: 6,
+                      marginVertical: 4,
+                    }}>
+                    <Icon
+                      name='information-circle-outline'
+                      type='ionicon'
+                      color='white'
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles().textAlt}>Activity Level</Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        flex: 1,
+                        justifyContent: 'flex-end',
+                        marginRight: 6,
+                      }}>
+                      <Icon
+                        name='close'
+                        type='ionicon'
+                        color='white'
+                        onPress={() => setShowActivityLevelInfo(!showActivityLevelInfo)}
+                      />
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    marginHorizontal: '5%',
+                    maxHeight: '60%',
+                    marginTop: 10,
+                    marginBottom: 16,
+                  }}>
+                  <Text style={styles().text}>
+                    Please let us know how active you typically are in your average week!
+                  </Text>
+                  <Text style={styles().text}>
+                    This information will be used in physical health calculations and can be updated
+                    in your user settings at any time.
+                  </Text>
+                  <Text style={styles().text}>
+                    You may choose not to answer this question if you are unsure of your typical activity 
+                    level. However, this may cause certain physical health calculations to be inaccurate. 
+                  </Text>
+                  <Text style={styles().textBoldAlt}>This field is optional.</Text>
                 </View>
               </View>
             </View>
@@ -624,7 +702,8 @@ function UserInitialization1({ navigation }) {
                     Please enter your height so we know how tall you are!
                   </Text>
                   <Text style={styles().text}>
-                    This information will be used in physical health calculations.
+                    This information will be used in physical health calculations and can be updated 
+                    in your user settings at any time.
                   </Text>
                   <Text style={styles().text}>
                     You may choose not to answer this question if you are unsure of your height. 
@@ -698,7 +777,7 @@ function UserInitialization1({ navigation }) {
                   </Text>
                   <Text style={styles().text}>
                     This information will be used in physical health calculations and can be updated
-                    daily via your daily health entries.
+                    dynamically via your daily health entries.
                   </Text>
                   <Text style={styles().text}>
                     You may choose not to answer this question if you are unsure of your weight. 
@@ -817,8 +896,7 @@ function UserInitialization1({ navigation }) {
               onPress={() => setShowGenderInfo(!showGenderInfo)}
             />
           </View>
-
-          {/* Gender stored in gender */}
+          {/* Stored in gender */}
           <View style={{ width: '90%' }}>
             <View style={styles().pickerView}>
               <Picker
@@ -847,8 +925,7 @@ function UserInitialization1({ navigation }) {
               onPress={() => setShowBioSexInfo(!showBioSexInfo)}
             />
           </View>
-
-          {/* stored in bioSex */}
+          {/* Stored in bioSex */}
           <View style={{ width: '90%' }}>
             <View style={styles().pickerView}>
               <Picker
@@ -861,6 +938,34 @@ function UserInitialization1({ navigation }) {
                 <Picker.Item label='Female' value='female' />
                 <Picker.Item label='Assigned Male' value='amab' />
                 <Picker.Item label='Assigned Female' value='afab' />
+              </Picker>
+            </View>
+          </View>
+
+          {/* Activity level drop-down */}
+          <View style={styles().inlineRow2}>
+            <Text style={styles().heading}>ACTIVITY LEVEL</Text>
+            <View style={{ marginRight: 8, }}/>
+            <Icon
+              name='information-circle-outline'
+              type='ionicon'
+              color='#816868'
+              onPress={() => setShowActivityLevelInfo(!showActivityLevelInfo)}
+            />
+          </View>
+          {/* Stored in gender */}
+          <View style={{ width: '90%' }}>
+            <View style={styles().pickerView}>
+              <Picker
+                selectedValue={gender}
+                style={styles().picker}
+                onValueChange={(itemValue, itemIndex) => handleGenderChange(itemValue)}
+                mode={'dropdown'}>
+                <Picker.Item label='Select one...' value='unselected' />
+                <Picker.Item label='Sedentary (minimal activity)' value='sedentary' />
+                <Picker.Item label='Lightly active (1-2 days/week)' value='lightlyActive' />
+                <Picker.Item label='Moderately active (3-5 days/week)' value='moderatelyActive' />
+                <Picker.Item label='Very active (6-7 days/week)' value='veryActive' />
               </Picker>
             </View>
           </View>
@@ -913,7 +1018,7 @@ function UserInitialization1({ navigation }) {
           </View>
 
           {/* Weight user input entry + kgs switch button */}
-          <View style={styles().inlineRow2}>
+          <View style={{ flexDirection: 'row', width: '90%', }}>
             <View style={{ width: '50%' }}>
               <View style={styles().inlineRow2}>
                 <Text style={styles().heading}>WEIGHT</Text>
@@ -963,7 +1068,7 @@ function UserInitialization1({ navigation }) {
             </View>
 
             {/* Next button */}
-            <View style={{ width: '50%', marginTop: '9%', }}>
+            <View style={{ alignSelf: 'flex-end', width: '50%', }}>
               <View style={styles().buttonsContainer}>
                 <Button
                   title='NEXT'
@@ -988,6 +1093,7 @@ function UserInitialization1({ navigation }) {
               </View>
             </View>
           </View>
+          <View style={styles().pageEnd}/>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -1045,7 +1151,6 @@ const styles = () =>
     },
     buttonsContainer: {
       flexDirection: 'row',
-      alignItems: 'flex-end',
       justifyContent: 'flex-end',
     },
     datePicker: {
@@ -1148,7 +1253,7 @@ const styles = () =>
       fontWeight: 'bold',
     },
     pageEnd: {
-      marginBottom: 10,
+      marginBottom: '4%',
     },
     pageSetup: {
       justifyContent: 'center',

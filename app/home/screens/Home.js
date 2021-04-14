@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   Image,
   Pressable,
+  TouchableOpacity,
 } from 'react-native';
 import * as queries from '../../../src/graphql/queries';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -87,23 +88,23 @@ function Home({ navigation }) {
 
         {/* Plant buttons */}
         <View style={styles().plantButtons}>
-          <Pressable
+          <TouchableOpacity
             style={styles().inlineRow}
             onPress={() => navigation.navigate('CustomizePlant')}>
             <Icon name='arrow-left' color='#816868' />
             <View>
               <Text style={styles().plantLinks}>Customize Plant</Text>
             </View>
-          </Pressable>
+          </TouchableOpacity>
           <View style={styles().line2} />
-          <Pressable
+          <TouchableOpacity
             style={styles().inlineRow}
             onPress={() => navigation.navigate('PlantShop')}>
             <View>
               <Text style={styles().plantLinks}>Enter Plant Shop</Text>
             </View>
             <Icon name='arrow-right' color='#816868' />
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         {/* Write a new entry button - make it navigate - MAKE STRING DYNAMIC */}
@@ -145,14 +146,14 @@ function Home({ navigation }) {
 
         {/* View past entries */}
         <View style={{ marginTop: -20 }}>
-          <Pressable
+          <TouchableOpacity
             style={styles().inlineRowEnd}
             onPress={() => navigation.navigate('HealthEntryHistory')}>
             <View style={{ alignSelf: 'flex-end' }}>
               <Text style={styles().plantLinks}>View Past Entries</Text>
             </View>
             <Icon name='arrow-right' color='#816868' />
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         {/* Avatar Section */}
@@ -167,7 +168,7 @@ function Home({ navigation }) {
         </View>
 
         <View style={{ marginLeft: '29%' }}>
-          <Pressable
+          <TouchableOpacity
             style={styles().inlineRow}
             onPress={() => navigation.navigate('HealthEntry1')}>
             <Text style={styles().text}>Write a health entry</Text>
@@ -181,13 +182,13 @@ function Home({ navigation }) {
               }
               style={{ marginLeft: 10 }}
             />
-          </Pressable>
+          </TouchableOpacity>
 
           <View style={styles().dividerViewLow}>
             <View style={styles().line} />
           </View>
 
-          <Pressable
+          <TouchableOpacity
             style={styles().inlineRow}
             onPress={() => navigation.navigate('Journal')}>
             <Text style={styles().text}>Write a journal entry</Text>
@@ -201,13 +202,13 @@ function Home({ navigation }) {
               }
               style={{ marginLeft: 10 }}
             />
-          </Pressable>
+          </TouchableOpacity>
 
           <View style={styles().dividerViewLow}>
             <View style={styles().line} />
           </View>
 
-          <Pressable
+          <TouchableOpacity
             style={styles().inlineRow}
             onPress={() => navigation.navigate('Goals')}>
             <Text style={styles().text}>Complete a goal</Text>
@@ -221,13 +222,13 @@ function Home({ navigation }) {
               }
               style={{ marginLeft: 10 }}
             />
-          </Pressable>
+          </TouchableOpacity>
 
           <View style={styles().dividerViewLow}>
             <View style={styles().line} />
           </View>
 
-          <Pressable
+          <TouchableOpacity
             style={styles().inlineRow}
             onPress={() => getTodos(navigation)}>
             <Text style={styles().text}>Check your to-do list</Text>
@@ -237,7 +238,7 @@ function Home({ navigation }) {
               color='#4CB97A'
               style={{ marginLeft: 10 }}
             />
-          </Pressable>
+          </TouchableOpacity>
 
           <View style={styles().dividerViewLow}>
             <View style={styles().line} />

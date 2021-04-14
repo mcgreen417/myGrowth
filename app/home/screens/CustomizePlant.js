@@ -7,6 +7,7 @@ import {
   Image,
   Button,
   Pressable,
+  TouchableOpacity,
 } from 'react-native';
 
 import { Icon } from 'react-native-elements';
@@ -66,23 +67,23 @@ function PlantShop({ navigation }) {
 
         {/* Plant buttons */}
         <View style={styles().plantButtons}>
-          <Pressable
+          <TouchableOpacity
             style={styles().inlineRow}
             onPress={() => navigation.navigate('Home')}>
             <Icon name='arrow-left' color='#816868' />
             <View>
               <Text style={styles().plantLinks}>Return to Home</Text>
             </View>
-          </Pressable>
+          </TouchableOpacity>
           <View style={styles().line2} />
-          <Pressable
+          <TouchableOpacity
             style={styles().inlineRow}
             onPress={() => navigation.navigate('PlantShop')}>
             <View>
               <Text style={styles().plantLinks}>Enter Plant Shop</Text>
             </View>
             <Icon name='arrow-right' color='#816868' />
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         <View style={styles().dividerView}>
