@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+import ButtonAndroidiOS from '../../shared/components/ButtonAndroidiOS';
 import StatusBariOS from '../../shared/components/StatusBariOS';
 import ButtonFunctionAndroidiOS from '../../shared/components/ButtonFunctionAndroidiOS';
 
@@ -223,9 +224,13 @@ function SignUp({ navigation }) {
             {/* </View> */}
             
             <View style={{ marginVertical: 8 }} />
-            <ButtonFunctionAndroidiOS
+            {/* <ButtonFunctionAndroidiOS
               buttonText='SIGN UP'
               functionCall={checkRequiredFieldsWrapper}
+            /> */}
+            <ButtonAndroidiOS
+              buttonText='SIGN UP'
+              callFunction={checkRequiredFieldsWrapper}
             />
             <View style={{ marginVertical: 8 }} />
           </View>
