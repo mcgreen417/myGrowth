@@ -550,6 +550,43 @@ const AddMeal = ({
           />
         )}
       </View>
+      {index == null && (
+        <AddFood
+          foods={foods}
+          setFoods={setFoods}
+          fiber={foodFiber}
+          name={foodName}
+          measurement={foodMeasurement}
+          amount={foodAmount}
+          calories={foodCalories}
+          fats={foodFats}
+          cholesterol={foodCholesterol}
+          sodium={foodSodium}
+          carbs={foodCarbs}
+          sugars={foodSugars}
+          protein={foodProtein}
+          vitaminD={foodVitaminD}
+          calcium={foodCalcium}
+          iron={foodIron}
+          potassium={foodPotassium}
+          setFiber={setFoodFiber}
+          setName={setFoodName}
+          setMeasurement={setFoodMeasurement}
+          setAmount={setFoodAmount}
+          setCalories={setFoodCalories}
+          setFats={setFoodFats}
+          setCholesterol={setFoodCholesterol}
+          setSodium={setFoodSodium}
+          setCarbs={setFoodCarbs}
+          setSugars={setFoodSugars}
+          setProtein={setFoodProtein}
+          setVitaminD={setFoodVitaminD}
+          setCalcium={setFoodCalcium}
+          setIron={setFoodIron}
+          setPotassium={setFoodPotassium}
+          editable={editable}
+        />
+      )}
       {foods != null &&
         foods.map((item, index) => {
           const {
@@ -594,43 +631,6 @@ const AddMeal = ({
             />
           );
         })}
-      {index == null && (
-        <AddFood
-          foods={foods}
-          setFoods={setFoods}
-          fiber={foodFiber}
-          name={foodName}
-          measurement={foodMeasurement}
-          amount={foodAmount}
-          calories={foodCalories}
-          fats={foodFats}
-          cholesterol={foodCholesterol}
-          sodium={foodSodium}
-          carbs={foodCarbs}
-          sugars={foodSugars}
-          protein={foodProtein}
-          vitaminD={foodVitaminD}
-          calcium={foodCalcium}
-          iron={foodIron}
-          potassium={foodPotassium}
-          setFiber={setFoodFiber}
-          setName={setFoodName}
-          setMeasurement={setFoodMeasurement}
-          setAmount={setFoodAmount}
-          setCalories={setFoodCalories}
-          setFats={setFoodFats}
-          setCholesterol={setFoodCholesterol}
-          setSodium={setFoodSodium}
-          setCarbs={setFoodCarbs}
-          setSugars={setFoodSugars}
-          setProtein={setFoodProtein}
-          setVitaminD={setFoodVitaminD}
-          setCalcium={setFoodCalcium}
-          setIron={setFoodIron}
-          setPotassium={setFoodPotassium}
-          editable={editable}
-        />
-      )}
 
       {index == null && (
         <View style={{ width: '40%', marginLeft: 10, marginBottom: 10 }}>
@@ -695,6 +695,21 @@ const AdvanceMealTracking = ({ meals, setMeals }) => {
 
   return (
     <View style={{ marginTop: 10 }}>
+      <AddMeal
+        meals={meals}
+        setMeals={setMeals}
+        foods={foods}
+        setFoods={setFoods}
+        calories={calories}
+        setCalories={setCalories}
+        proteins={proteins}
+        setProteins={setProteins}
+        carbs={carbs}
+        setCarbs={setCarbs}
+        fats={fats}
+        setFats={setFats}
+        editable={true}
+      />
       {meals.map((item, index) => {
         return (
           <AddMeal
@@ -711,21 +726,7 @@ const AdvanceMealTracking = ({ meals, setMeals }) => {
           />
         );
       })}
-      <AddMeal
-        meals={meals}
-        setMeals={setMeals}
-        foods={foods}
-        setFoods={setFoods}
-        calories={calories}
-        setCalories={setCalories}
-        proteins={proteins}
-        setProteins={setProteins}
-        carbs={carbs}
-        setCarbs={setCarbs}
-        fats={fats}
-        setFats={setFats}
-        editable={true}
-      />
+
       <View style={{ width: '40%' }}>
         <Button
           title='+ Add Meal'
@@ -776,7 +777,7 @@ const MealHistory = ({
     <View style={{ width: '90%' }}>
       <Text style={styles().heading}>MEAL HISTORY</Text>
 
-      <View style={{ marginTop: 10, }}>
+      <View style={{ marginTop: 10 }}>
         <View style={styles().line} />
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text style={styles().text}>Have you eaten today?</Text>
@@ -788,18 +789,18 @@ const MealHistory = ({
               ios_backgroundColor='#3e3e3e'
               onValueChange={() => setEatenToday(!eatenToday)}
               value={eatenToday}
-              style={{ marginLeft: 8, }}
+              style={{ marginLeft: 8 }}
             />
           </View>
         </View>
         <View style={styles().line} />
       </View>
 
-      {eatenToday &&
-        <View style={{ marginTop: 10, }}>
+      {eatenToday && (
+        <View style={{ marginTop: 10 }}>
           <Text style={styles().text}>
-            If you kept track of your calories, how many calories did you consume?
-            (Leave field blank if you are unsure.)
+            If you kept track of your calories, how many calories did you
+            consume? (Leave field blank if you are unsure.)
           </Text>
           <View
             style={{
@@ -823,7 +824,7 @@ const MealHistory = ({
             <Text style={styles().text}> cal</Text>
           </View>
         </View>
-      }
+      )}
 
       <View style={{ flexDirection: 'row', marginTop: 20, marginBottom: -10 }}>
         <Text

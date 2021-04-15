@@ -104,7 +104,7 @@ const AddExercises = ({
                 alignItems: 'center',
                 width: '46%',
               }}>
-              <Text style={styles().textAltLight}>Sets:{' '}</Text>
+              <Text style={styles().textAltLight}>Sets: </Text>
               <TextInput
                 placeholder='#'
                 color='#E5E5E5'
@@ -123,7 +123,7 @@ const AddExercises = ({
                 }}
                 editable={editable}
               />
-              <Text style={styles().textAltLight}>{' '}sets</Text>
+              <Text style={styles().textAltLight}> sets</Text>
             </View>
             <View
               style={{
@@ -131,7 +131,7 @@ const AddExercises = ({
                 alignItems: 'center',
                 width: '40%',
               }}>
-              <Text style={styles().textAltLight}>Calories:{' '}</Text>
+              <Text style={styles().textAltLight}>Calories: </Text>
               <TextInput
                 placeholder='#'
                 color='#E5E5E5'
@@ -150,12 +150,22 @@ const AddExercises = ({
                 }}
                 editable={editable}
               />
-              <Text style={styles().textAltLight}>{' '}cal</Text>
+              <Text style={styles().textAltLight}> cal</Text>
             </View>
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4, }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', width: '46%', }}>
-              <Text style={styles().textAltLight}>Reps:{' '}</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginTop: 4,
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: '46%',
+              }}>
+              <Text style={styles().textAltLight}>Reps: </Text>
               <TextInput
                 placeholder='#'
                 color='#E5E5E5'
@@ -174,7 +184,7 @@ const AddExercises = ({
                 }}
                 editable={editable}
               />
-              <Text style={styles().textAltLight}>{' '}reps</Text>
+              <Text style={styles().textAltLight}> reps</Text>
             </View>
             <View
               style={{
@@ -182,7 +192,7 @@ const AddExercises = ({
                 alignItems: 'center',
                 width: '40%',
               }}>
-              <Text style={styles().textAltLight}>Duration:{' '}</Text>
+              <Text style={styles().textAltLight}>Duration: </Text>
               <TextInput
                 placeholder='#'
                 color='#E5E5E5'
@@ -201,30 +211,35 @@ const AddExercises = ({
                 }}
                 editable={editable}
               />
-              <Text style={styles().textAltLight}>{' '}mins</Text>
+              <Text style={styles().textAltLight}> mins</Text>
             </View>
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4, }}>
-            <Text style={styles().textAltLight}>Weight:{' '}</Text>
-              <TextInput
-                placeholder='#'
-                color='#E5E5E5'
-                placeholderTextColor='#C4BEBD'
-                fontSize={16}
-                style={{
-                  borderBottomColor: '#C4BEBD',
-                  borderBottomWidth: 1,
-                  textAlign: 'center',
-                  width: 50,
-                }}
-                keyboardType='number-pad'
-                value={weight}
-                onChangeText={(val) => {
-                  editable ? setWeight(val) : null;
-                }}
-                editable={editable}
-              />
-            <Text style={styles().textAltLight}>{' '}lbs</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginTop: 4,
+            }}>
+            <Text style={styles().textAltLight}>Weight: </Text>
+            <TextInput
+              placeholder='#'
+              color='#E5E5E5'
+              placeholderTextColor='#C4BEBD'
+              fontSize={16}
+              style={{
+                borderBottomColor: '#C4BEBD',
+                borderBottomWidth: 1,
+                textAlign: 'center',
+                width: 50,
+              }}
+              keyboardType='number-pad'
+              value={weight}
+              onChangeText={(val) => {
+                editable ? setWeight(val) : null;
+              }}
+              editable={editable}
+            />
+            <Text style={styles().textAltLight}> lbs</Text>
           </View>
         </View>
       </View>
@@ -242,6 +257,23 @@ const AdvanceFitnessTracking = ({ exercises, setExercises }) => {
 
   return (
     <View style={{ marginTop: 10 }}>
+      <AddExercises
+        exercises={exercises}
+        setExercises={setExercises}
+        name={exerciseName}
+        setName={setExerciseName}
+        sets={exerciseSets}
+        setSets={setExerciseSets}
+        reps={exerciseReps}
+        setReps={setExerciseReps}
+        cals={exerciseCalories}
+        setCals={setExerciseCalories}
+        weight={exerciseWeight}
+        setWeight={setExerciseWeigh}
+        duration={exerciseDuration}
+        setDuration={setExerciseDuration}
+        editable={true}
+      />
       {exercises.length != 0 &&
         exercises.map((item, index) => {
           console.log(item);
@@ -264,23 +296,7 @@ const AdvanceFitnessTracking = ({ exercises, setExercises }) => {
             )
           );
         })}
-      <AddExercises
-        exercises={exercises}
-        setExercises={setExercises}
-        name={exerciseName}
-        setName={setExerciseName}
-        sets={exerciseSets}
-        setSets={setExerciseSets}
-        reps={exerciseReps}
-        setReps={setExerciseReps}
-        cals={exerciseCalories}
-        setCals={setExerciseCalories}
-        weight={exerciseWeight}
-        setWeight={setExerciseWeigh}
-        duration={exerciseDuration}
-        setDuration={setExerciseDuration}
-        editable={true}
-      />
+
       <View style={{ marginTop: 20, width: '40%' }}>
         <Button
           title='+ Add Exercise'
@@ -328,7 +344,7 @@ const FitnessTracking = ({
     <View style={{ width: '90%' }}>
       <Text style={styles().heading}>FITNESS TRACKING</Text>
 
-      <View style={{ marginTop: 10, }}>
+      <View style={{ marginTop: 10 }}>
         <View style={styles().line} />
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text style={styles().text}>Did you exercise today?</Text>
@@ -347,8 +363,8 @@ const FitnessTracking = ({
         <View style={styles().line} />
       </View>
 
-      {exerciseToday &&
-        <View style={{ marginVertical: 10, }}>
+      {exerciseToday && (
+        <View style={{ marginVertical: 10 }}>
           <Text style={styles().text}>How long did you spend exercising?</Text>
           <View
             style={{
@@ -370,18 +386,18 @@ const FitnessTracking = ({
               onChangeText={(val) => setExerciseLength(val)}
               keyboardType='number-pad'
             />
-            <Text style={styles().text}>{' '}min</Text>
+            <Text style={styles().text}> min</Text>
           </View>
         </View>
-      }
+      )}
 
-      {!exerciseToday &&
-        <View style={{ marginTop: -1, }}/>
-      }
+      {!exerciseToday && <View style={{ marginTop: -1 }} />}
 
       <View style={styles().line} />
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text style={styles().text}>Did you track your number of steps today?</Text>
+        <Text style={styles().text}>
+          Did you track your number of steps today?
+        </Text>
         <View style={styles().switchView}>
           <View style={styles().line2} />
           <Switch
@@ -396,11 +412,9 @@ const FitnessTracking = ({
       </View>
       <View style={styles().line} />
 
-      {stepsTracked &&
-        <View style={{ marginTop: 10, }}>
-          <Text style={styles().text}>
-            How many steps did you take?
-          </Text>
+      {stepsTracked && (
+        <View style={{ marginTop: 10 }}>
+          <Text style={styles().text}>How many steps did you take?</Text>
           <View
             style={{
               flexDirection: 'row',
@@ -421,19 +435,17 @@ const FitnessTracking = ({
               onChangeText={(val) => setSteps(val)}
               keyboardType='number-pad'
             />
-            <Text style={styles().text}>{' '}steps</Text>
+            <Text style={styles().text}> steps</Text>
           </View>
         </View>
-      }
+      )}
 
-      {(exerciseToday || stepsTracked) &&
+      {(exerciseToday || stepsTracked) && (
         <View>
-          {!stepsTracked &&
-            <View style={{ marginTop: 10 }}/>
-          }
+          {!stepsTracked && <View style={{ marginTop: 10 }} />}
           <Text style={styles().text}>
-            If you kept track of your calories, how many calories did you burn today in total?
-            (Leave field blank if you are unsure.)
+            If you kept track of your calories, how many calories did you burn
+            today in total? (Leave field blank if you are unsure.)
           </Text>
           <View
             style={{
@@ -454,27 +466,25 @@ const FitnessTracking = ({
               onChangeText={(val) => setCaloriesBurn(val)}
               keyboardType='number-pad'
             />
-            <Text style={styles().text}>{' '}cal</Text>
+            <Text style={styles().text}> cal</Text>
           </View>
         </View>
-      }
+      )}
 
-      <Pressable 
-        style={{ flexDirection: 'row', marginTop: 20, marginBottom: -10, }}
-        onPress={() => setShowAdvanceFitnessTracking(!showAdvanceFitnessTracking)}>
+      <Pressable
+        style={{ flexDirection: 'row', marginTop: 20, marginBottom: -10 }}
+        onPress={() =>
+          setShowAdvanceFitnessTracking(!showAdvanceFitnessTracking)
+        }>
         <Text style={styles().heading}>ADVANCED FITNESS TRACKING</Text>
         <Icon
           name={
-            showAdvanceFitnessTracking 
-              ? 'arrow-drop-up' 
-              : 'arrow-drop-down'
+            showAdvanceFitnessTracking ? 'arrow-drop-up' : 'arrow-drop-down'
           }
-          color={
-            global.colorblindMode 
-              ? global.cb_textColor 
-              : global.textColor
+          color={global.colorblindMode ? global.cb_textColor : global.textColor}
+          onPress={() =>
+            setShowAdvanceFitnessTracking(!showAdvanceFitnessTracking)
           }
-          onPress={() => setShowAdvanceFitnessTracking(!showAdvanceFitnessTracking)}
         />
       </Pressable>
       {showAdvanceFitnessTracking && (
