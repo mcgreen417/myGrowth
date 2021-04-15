@@ -776,7 +776,7 @@ const MealHistory = ({
     <View style={{ width: '90%' }}>
       <Text style={styles().heading}>MEAL HISTORY</Text>
 
-      <View style={{ marginTop: 10, marginBottom: 20 }}>
+      <View style={{ marginTop: 10, }}>
         <View style={styles().line} />
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text style={styles().text}>Have you eaten today?</Text>
@@ -788,39 +788,44 @@ const MealHistory = ({
               ios_backgroundColor='#3e3e3e'
               onValueChange={() => setEatenToday(!eatenToday)}
               value={eatenToday}
+              style={{ marginLeft: 8, }}
             />
           </View>
         </View>
         <View style={styles().line} />
       </View>
 
-      <Text style={styles().text}>
-        If you kept track of your calories, how many calories did you consume?
-        (Leave field blank if you are unsure.)
-      </Text>
+      {eatenToday &&
+        <View style={{ marginTop: 10, }}>
+          <Text style={styles().text}>
+            If you kept track of your calories, how many calories did you consume?
+            (Leave field blank if you are unsure.)
+          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <TextInput
+              placeholder='#'
+              color='#816868'
+              fontSize={18}
+              style={{
+                borderBottomColor: '#C4BEBD',
+                borderBottomWidth: 1,
+                textAlign: 'center',
+                width: 50,
+              }}
+              //value={totalCalories.toString()}
+              onChangeText={setTotalCalories}
+              keyboardType='number-pad'
+            />
+            <Text style={styles().text}> cal</Text>
+          </View>
+        </View>
+      }
 
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginBottom: 20,
-        }}>
-        <TextInput
-          placeholder='#'
-          style={{
-            borderBottomColor: '#C4BEBD',
-            borderBottomWidth: 1,
-            textAlign: 'center',
-            width: 50,
-          }}
-          value={totalCalories.toString()}
-          onChangeText={setTotalCalories}
-          keyboardType='number-pad'
-        />
-        <Text style={styles().text}> cal</Text>
-      </View>
-
-      <View style={{ flexDirection: 'row', marginBottom: -10 }}>
+      <View style={{ flexDirection: 'row', marginTop: 20, marginBottom: -10 }}>
         <Text
           style={styles().heading}
           onPress={() => setShowAdvanceMealTracking(!showAdvanceMealTracking)}>

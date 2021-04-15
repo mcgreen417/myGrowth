@@ -101,11 +101,11 @@ async function submit(
 
 const HealthEntry = ({ navigation }) => {
   // Stress variables
-  const [stressSeverity, setStressSeverity] = useState(-1);
+  const [stressSeverity, setStressSeverity] = useState(0);
   const [stressors, setStressors] = useState([]);
 
   // Mood variables
-  const [mood, setMood] = useState(-1);
+  const [mood, setMood] = useState(0);
   const [feelings, setFeelings] = useState([]);
 
   // Daily Activities variables
@@ -114,26 +114,28 @@ const HealthEntry = ({ navigation }) => {
   const [medChecked, setMedChecked] = useState(0);
   const [medications, setMedications] = useState([]);
   const [hadPeriod, setHadPeriod] = useState(false);
-  const [weight, setWeight] = useState(-1);
+  const [weight, setWeight] = useState(0);
   const [symptoms, setSymptoms] = useState([]);
 
-  const [hadSleep, setHadSleep] = useState(true);
-  const [qualityOfSleep, setQualityOfSleep] = useState(-1);
+  const [hadSleep, setHadSleep] = useState(false);
+  const [qualityOfSleep, setQualityOfSleep] = useState(0);
   const [sleepTimeStart, setSleepTimeStart] = useState(new Date());
   const [sleepTimeEnd, setSleepTimeEnd] = useState(new Date());
+  const [hadNap, setHadNap] = useState(false);
   const [naps, setNaps] = useState([]);
 
-  const [eatenToday, setEatenToday] = useState(true);
+  const [eatenToday, setEatenToday] = useState(false);
   const [meals, setMeals] = useState([]);
-  const [totalCalories, setTotalCalories] = useState(-1);
-  const [totalProteins, setTotalProteins] = useState(-1);
-  const [totalCarbs, setTotalCarbs] = useState(-1);
-  const [totalFats, setTotalFats] = useState(-1);
+  const [totalCalories, setTotalCalories] = useState(0);
+  const [totalProteins, setTotalProteins] = useState(0);
+  const [totalCarbs, setTotalCarbs] = useState(0);
+  const [totalFats, setTotalFats] = useState(0);
 
   const [exerciseToday, setExerciseToday] = useState(false);
-  const [exerciseLength, setExerciseLength] = useState(-1);
-  const [caloriesBurn, setCaloriesBurn] = useState(-1);
-  const [steps, setSteps] = useState(-1);
+  const [exerciseLength, setExerciseLength] = useState(0);
+  const [caloriesBurn, setCaloriesBurn] = useState(0);
+  const [stepsTracked, setStepsTracked] = useState(false);
+  const [steps, setSteps] = useState(0);
   const [exercises, setExercises] = useState([]);
 
   return (
@@ -276,6 +278,9 @@ const HealthEntry = ({ navigation }) => {
             medications={medications}
             setMedications={setMedications}
           />
+          <View style={styles().dividerView}>
+            <View style={styles().divider} />
+          </View>
 
           {/* Add Sleep */}
           <Sleep
@@ -283,6 +288,8 @@ const HealthEntry = ({ navigation }) => {
             setHadSleep={setHadSleep}
             qualityOfSleep={qualityOfSleep}
             setQualityOfSleep={setQualityOfSleep}
+            hadNap={hadNap}
+            setHadNap={setHadNap}
             naps={naps}
             setNaps={setNaps}
             sleepTimeStart={sleepTimeStart}
@@ -323,6 +330,8 @@ const HealthEntry = ({ navigation }) => {
             setExerciseLength={setExerciseLength}
             caloriesBurn={caloriesBurn}
             setCaloriesBurn={setCaloriesBurn}
+            stepsTracked={stepsTracked}
+            setStepsTracked={setStepsTracked}
             steps={steps}
             setSteps={setSteps}
             exercises={exercises}
