@@ -13,6 +13,7 @@ import {
   Platform,
   View,
   Modal,
+  Pressable,
 } from 'react-native';
 
 import { Icon } from 'react-native-elements';
@@ -281,14 +282,16 @@ function UserInitialization1({ navigation }) {
           visible={showFirstNameInfo}
           onRequestClose={() => setShowFirstNameInfo(!showFirstNameInfo)}
         >
-          <View
+          <Pressable
             style={{
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
               zIndex: 1,
               backgroundColor: '#00000055',
-            }}>
+            }}
+            onPressOut={() => setShowFirstNameInfo(!showFirstNameInfo)}
+            >
               <View style={styles().modalContainer}>
                 <View style={styles().modalHeaderBar}>
                   <View
@@ -341,7 +344,7 @@ function UserInitialization1({ navigation }) {
                   <Text style={styles().textBoldAlt}>This field is required.</Text>
                 </View>
               </View>
-            </View>
+            </Pressable>
         </Modal>
       </View>
 
@@ -353,14 +356,16 @@ function UserInitialization1({ navigation }) {
           visible={showDOBInfo}
           onRequestClose={() => setShowDOBInfo(!showDOBInfo)}
         >
-          <View
+          <Pressable
             style={{
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
               zIndex: 1,
               backgroundColor: '#00000055',
-            }}>
+            }}
+            onPressOut={() => setShowDOBInfo(!showDOBInfo)}
+            >
               <View style={styles().modalContainer}>
                 <View style={styles().modalHeaderBar}>
                   <View
@@ -412,7 +417,7 @@ function UserInitialization1({ navigation }) {
                   <Text style={styles().textBoldAlt}>This field is required.</Text>
                 </View>
               </View>
-            </View>
+            </Pressable>
         </Modal>
       </View>
 
@@ -424,14 +429,16 @@ function UserInitialization1({ navigation }) {
           visible={showGenderInfo}
           onRequestClose={() => setShowGenderInfo(!showGenderInfo)}
         >
-          <View
+          <Pressable
             style={{
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
               zIndex: 1,
               backgroundColor: '#00000055',
-            }}>
+            }}
+            onPressOut={() => setShowGenderInfo(!showGenderInfo)}
+            >
               <View style={styles().modalContainer}>
                 <View style={styles().modalHeaderBar}>
                   <View
@@ -487,7 +494,7 @@ function UserInitialization1({ navigation }) {
                   <Text style={styles().textBoldAlt}>This field is required.</Text>
                 </View>
               </View>
-            </View>
+            </Pressable>
         </Modal>
       </View>
 
@@ -499,14 +506,16 @@ function UserInitialization1({ navigation }) {
           visible={showBioSexInfo}
           onRequestClose={() => setShowBioSexInfo(!showBioSexInfo)}
         >
-          <View
+          <Pressable
             style={{
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
               zIndex: 1,
               backgroundColor: '#00000055',
-            }}>
+            }}
+            onPressOut={() => setShowBioSexInfo(!showBioSexInfo)}
+            >
               <View style={styles().modalContainer}>
                 <View style={styles().modalHeaderBar}>
                   <View
@@ -562,7 +571,7 @@ function UserInitialization1({ navigation }) {
                   <Text style={styles().textBoldAlt}>This field is required.</Text>
                 </View>
               </View>
-            </View>
+            </Pressable>
         </Modal>
       </View>
 
@@ -574,14 +583,16 @@ function UserInitialization1({ navigation }) {
           visible={showActivityLevelInfo}
           onRequestClose={() => setShowActivityLevelInfo(!showActivityLevelInfo)}
         >
-          <View
+          <Pressable
             style={{
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
               zIndex: 1,
               backgroundColor: '#00000055',
-            }}>
+            }}
+            onPressOut={() => setShowActivityLevelInfo(!showActivityLevelInfo)}
+            >
               <View style={styles().modalContainer}>
                 <View style={styles().modalHeaderBar}>
                   <View
@@ -637,7 +648,7 @@ function UserInitialization1({ navigation }) {
                   <Text style={styles().textBoldAlt}>This field is optional.</Text>
                 </View>
               </View>
-            </View>
+            </Pressable>
         </Modal>
       </View>
 
@@ -649,14 +660,16 @@ function UserInitialization1({ navigation }) {
           visible={showHeightInfo}
           onRequestClose={() => setShowHeightInfo(!showHeightInfo)}
         >
-          <View
+          <Pressable
             style={{
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
               zIndex: 1,
               backgroundColor: '#00000055',
-            }}>
+            }}
+            onPressOut={() => setShowHeightInfo(!showHeightInfo)}
+            >
               <View style={styles().modalContainer}>
                 <View style={styles().modalHeaderBar}>
                   <View
@@ -712,7 +725,7 @@ function UserInitialization1({ navigation }) {
                   <Text style={styles().textBoldAlt}>This field is optional.</Text>
                 </View>
               </View>
-            </View>
+            </Pressable>
         </Modal>
       </View>
 
@@ -724,14 +737,16 @@ function UserInitialization1({ navigation }) {
           visible={showWeightInfo}
           onRequestClose={() => setShowWeightInfo(!showWeightInfo)}
         >
-          <View
+          <Pressable
             style={{
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
               zIndex: 1,
               backgroundColor: '#00000055',
-            }}>
+            }}
+            onPressOut={() => setShowWeightInfo(!showWeightInfo)}
+            >
               <View style={styles().modalContainer}>
                 <View style={styles().modalHeaderBar}>
                   <View
@@ -786,7 +801,7 @@ function UserInitialization1({ navigation }) {
                   <Text style={styles().textBoldAlt}>This field is optional.</Text>
                 </View>
               </View>
-            </View>
+            </Pressable>
         </Modal>
       </View>
 

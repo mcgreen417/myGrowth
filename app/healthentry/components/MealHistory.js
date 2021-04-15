@@ -6,6 +6,9 @@ import {
   Switch,
   TextInput,
   Button,
+  Modal,
+  TouchableOpacity,
+  Pressable,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 
@@ -52,410 +55,494 @@ const AddFood = ({
   setPotassium,
   editable,
 }) => {
+  const [deleteFood, setDeleteFood] = useState(false);
+
   return (
-    <View
-      style={{
-        backgroundColor: '#553C3C',
-        borderRadius: 10,
-        padding: 10,
-        margin: 10,
-        paddingBottom: 10,
-        paddingTop: 15,
-        marginBottom: 20,
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.5,
-        shadowRadius: 4,
-        elevation: 7,
-      }}>
+    <View>
+      {/* Delete food modal */}
+      <View style={styles().container}>
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={deleteFood}
+          onRequestClose={() => {
+            setDeleteFood(!deleteFood);
+          }}>
+          <Pressable
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 1,
+              backgroundColor: '#00000055',
+            }}
+            onPressOut={() => setDeleteFood(!deleteFood)}
+            >
+              <View style={styles().modalContainer}>
+                <View style={styles().modalHeaderBar}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 2,
+                      marginLeft: 6,
+                      marginVertical: 4,
+                    }}>
+                    <Icon
+                      name='fastfood'
+                      color='white'
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles().textAlt}>Delete Food</Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    marginHorizontal: '5%',
+                    maxHeight: '60%',
+                    marginVertical: 10,
+                  }}>
+                  <Text style={styles().text}>
+                    Are you sure you wish to delete this food?
+                  </Text>
+                  <Text style={styles().textBoldAlt}>This action cannot be undone.</Text>
+                </View>
+                <View 
+                  style={{ 
+                    flexDirection: 'row', 
+                    alignSelf: 'flex-end', 
+                    marginVertical: 10, 
+                    marginHorizontal: '5%', 
+                  }}>
+                  <TouchableOpacity 
+                    style={{ marginRight: 20, }}
+                    onPress={() => {
+                      setDeleteFood(!deleteFood);
+                      removeFood(foods, setFoods, index);}}>
+                    <Text style={styles().textButton}>DELETE</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => setDeleteFood(!deleteFood)}>
+                    <Text style={styles().textButton}>CANCEL</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Pressable>
+        </Modal>
+      </View>
+
       <View
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginBottom: 10,
+          backgroundColor: '#553C3C',
+          borderRadius: 10,
+          padding: 10,
+          margin: 10,
+          paddingBottom: 10,
+          paddingTop: 15,
+          marginBottom: 20,
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.5,
+          shadowRadius: 4,
+          elevation: 7,
         }}>
-        <Icon
-          name='fastfood'
-          color={
-            global.colorblindMode
-              ? global.cb_optionButtonsColor
-              : global.optionButtonsColor
-          }
-          style={{ marginRight: 8 }}
-        />
-        <TextInput
-          placeholder='Food name'
-          color='#C4BEBD'
-          placeholderTextColor='#C4BEBD'
+        <View
           style={{
-            borderBottomColor: '#E5E5E5',
-            borderBottomWidth: 1,
-            width: 100,
-          }}
-          value={name}
-          onChangeText={(val) => {
-            editable ? setName(val) : null;
-          }}
-          editable={editable}
-        />
-        {index != null && setFoods != null && (
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 10,
+          }}>
           <Icon
-            name='close'
-            onPress={() => removeFood(foods, setFoods, index)}
+            name='fastfood'
+            color={
+              global.colorblindMode
+                ? global.cb_optionButtonsColor
+                : global.optionButtonsColor
+            }
+            style={{ marginRight: 8 }}
           />
-        )}
-      </View>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text style={styles().textAltLight}>Serving measurement: </Text>
-        <TextInput
-          placeholder='Tbsp, bags, etc.'
-          color='#C4BEBD'
-          placeholderTextColor='#C4BEBD'
+          <TextInput
+            placeholder='Food name'
+            color='#C4BEBD'
+            placeholderTextColor='#C4BEBD'
+            fontSize={16}
+            style={{
+              borderBottomColor: '#E5E5E5',
+              borderBottomWidth: 1,
+              width: 150,
+            }}
+            value={name}
+            onChangeText={(val) => {
+              editable ? setName(val) : null;
+            }}
+            editable={editable}
+          />
+          <View style={{ flex: 1, alignItems: 'flex-end', marginRight: 10 }}>
+            {index != null && setFoods != null && (
+              <Icon
+                name='close'
+                color={
+                  global.colorblindMode
+                    ? global.cb_optionButtonsColor
+                    : global.optionButtonsColor
+                }
+                onPress={() => setDeleteFood(!deleteFood)}
+              />
+            )}
+          </View>
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text style={styles().textAltLight}>Serving measurement: </Text>
+          <TextInput
+            placeholder='Tbsp, bags, etc.'
+            color='#C4BEBD'
+            placeholderTextColor='#C4BEBD'
+            style={{
+              borderBottomColor: '#E5E5E5',
+              borderBottomWidth: 1,
+              textAlign: 'center',
+              width: 125,
+            }}
+            value={measurement.toString()}
+            onChangeText={(val) => {
+              editable ? setMeasurement(val) : null;
+            }}
+            editable={editable}
+          />
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text style={styles().textAltLight}>Serving amount: </Text>
+          <TextInput
+            placeholder='#'
+            color='#C4BEBD'
+            placeholderTextColor='#C4BEBD'
+            style={{
+              borderBottomColor: '#C4BEBD',
+              borderBottomWidth: 1,
+              textAlign: 'center',
+            }}
+            value={amount.toString()}
+            onChangeText={(val) => {
+              editable ? setAmount(val) : null;
+            }}
+            keyboardType='number-pad'
+            editable={editable}
+          />
+          <Text style={styles().textAltLight}> servings</Text>
+        </View>
+        <View>
+          <Text style={styles().headingAlt}>NUTRIENTS PER SERVING:</Text>
+        </View>
+        <View
           style={{
-            borderBottomColor: '#E5E5E5',
-            borderBottomWidth: 1,
-            textAlign: 'center',
-            width: 125,
-          }}
-          value={measurement.toString()}
-          onChangeText={(val) => {
-            editable ? setMeasurement(val) : null;
-          }}
-          editable={editable}
-        />
-      </View>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text style={styles().textAltLight}>Serving amount: </Text>
-        <TextInput
-          placeholder='#'
-          color='#C4BEBD'
-          placeholderTextColor='#C4BEBD'
+            flexDirection: 'row',
+            // alignItems: 'center',
+            // justifyContent: 'space-around',
+            // width: '100%',
+          }}>
+          <View
+            style={{ flexDirection: 'row', alignItems: 'center', width: '55%' }}>
+            <Text style={styles().textAltLight}>Calories: </Text>
+            <TextInput
+              placeholder='#'
+              color='#C4BEBD'
+              placeholderTextColor='#C4BEBD'
+              style={{
+                borderBottomColor: '#C4BEBD',
+                borderBottomWidth: 1,
+                textAlign: 'center',
+                width: 30,
+              }}
+              value={calories.toString()}
+              onChangeText={(val) => {
+                editable ? setCalories(val) : null;
+              }}
+              keyboardType='number-pad'
+              editable={editable}
+            />
+            <Text style={styles().textAltLight}> cal</Text>
+          </View>
+          <View
+            style={{ flexDirection: 'row', alignItems: 'center', width: '45%' }}>
+            <Text style={styles().textAltLight}>Total Fat: </Text>
+            <TextInput
+              placeholder='#'
+              color='#C4BEBD'
+              placeholderTextColor='#C4BEBD'
+              style={{
+                borderBottomColor: '#C4BEBD',
+                borderBottomWidth: 1,
+                textAlign: 'center',
+                width: 30,
+              }}
+              value={fats.toString()}
+              onChangeText={(val) => {
+                editable ? setFats(val) : null;
+              }}
+              keyboardType='number-pad'
+              editable={editable}
+            />
+            <Text style={styles().textAltLight}> g</Text>
+          </View>
+        </View>
+        <View
           style={{
-            borderBottomColor: '#C4BEBD',
-            borderBottomWidth: 1,
-            textAlign: 'center',
-          }}
-          value={amount.toString()}
-          onChangeText={(val) => {
-            editable ? setAmount(val) : null;
-          }}
-          keyboardType='number-pad'
-          editable={editable}
-        />
-        <Text style={styles().textAltLight}> servings</Text>
-      </View>
-      <View>
-        <Text style={styles().headingAlt}>NUTRIENTS PER SERVING:</Text>
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          // alignItems: 'center',
-          // justifyContent: 'space-around',
-          // width: '100%',
-        }}>
-        <View
-          style={{ flexDirection: 'row', alignItems: 'center', width: '55%' }}>
-          <Text style={styles().textAltLight}>Calories: </Text>
-          <TextInput
-            placeholder='#'
-            color='#C4BEBD'
-            placeholderTextColor='#C4BEBD'
-            style={{
-              borderBottomColor: '#C4BEBD',
-              borderBottomWidth: 1,
-              textAlign: 'center',
-              width: 30,
-            }}
-            value={calories.toString()}
-            onChangeText={(val) => {
-              editable ? setCalories(val) : null;
-            }}
-            keyboardType='number-pad'
-            editable={editable}
-          />
-          <Text style={styles().textAltLight}> cal</Text>
+            flexDirection: 'row',
+            // alignItems: 'center',
+            // justifyContent: 'space-around',
+            // width: '100%',
+          }}>
+          <View
+            style={{ flexDirection: 'row', alignItems: 'center', width: '55%' }}>
+            <Text style={styles().textAltLight}>Cholesterol: </Text>
+            <TextInput
+              placeholder='#'
+              color='#C4BEBD'
+              placeholderTextColor='#C4BEBD'
+              style={{
+                borderBottomColor: '#C4BEBD',
+                borderBottomWidth: 1,
+                textAlign: 'center',
+                width: 30,
+              }}
+              value={cholesterol.toString()}
+              onChangeText={(val) => {
+                editable ? setCholesterol(val) : null;
+              }}
+              keyboardType='number-pad'
+              editable={editable}
+            />
+            <Text style={styles().textAltLight}> mg</Text>
+          </View>
+          <View
+            style={{ flexDirection: 'row', alignItems: 'center', width: '45%' }}>
+            <Text style={styles().textAltLight}>Sodium: </Text>
+            <TextInput
+              placeholder='#'
+              color='#C4BEBD'
+              placeholderTextColor='#C4BEBD'
+              style={{
+                borderBottomColor: '#C4BEBD',
+                borderBottomWidth: 1,
+                textAlign: 'center',
+                width: 30,
+              }}
+              value={sodium.toString()}
+              onChangeText={(val) => {
+                editable ? setSodium(val) : null;
+              }}
+              keyboardType='number-pad'
+              editable={editable}
+            />
+            <Text style={styles().textAltLight}> mg</Text>
+          </View>
         </View>
         <View
-          style={{ flexDirection: 'row', alignItems: 'center', width: '45%' }}>
-          <Text style={styles().textAltLight}>Total Fat: </Text>
-          <TextInput
-            placeholder='#'
-            color='#C4BEBD'
-            placeholderTextColor='#C4BEBD'
-            style={{
-              borderBottomColor: '#C4BEBD',
-              borderBottomWidth: 1,
-              textAlign: 'center',
-              width: 30,
-            }}
-            value={fats.toString()}
-            onChangeText={(val) => {
-              editable ? setFats(val) : null;
-            }}
-            keyboardType='number-pad'
-            editable={editable}
-          />
-          <Text style={styles().textAltLight}> g</Text>
-        </View>
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          // alignItems: 'center',
-          // justifyContent: 'space-around',
-          // width: '100%',
-        }}>
-        <View
-          style={{ flexDirection: 'row', alignItems: 'center', width: '55%' }}>
-          <Text style={styles().textAltLight}>Cholesterol: </Text>
-          <TextInput
-            placeholder='#'
-            color='#C4BEBD'
-            placeholderTextColor='#C4BEBD'
-            style={{
-              borderBottomColor: '#C4BEBD',
-              borderBottomWidth: 1,
-              textAlign: 'center',
-              width: 30,
-            }}
-            value={cholesterol.toString()}
-            onChangeText={(val) => {
-              editable ? setCholesterol(val) : null;
-            }}
-            keyboardType='number-pad'
-            editable={editable}
-          />
-          <Text style={styles().textAltLight}> mg</Text>
-        </View>
-        <View
-          style={{ flexDirection: 'row', alignItems: 'center', width: '45%' }}>
-          <Text style={styles().textAltLight}>Sodium: </Text>
-          <TextInput
-            placeholder='#'
-            color='#C4BEBD'
-            placeholderTextColor='#C4BEBD'
-            style={{
-              borderBottomColor: '#C4BEBD',
-              borderBottomWidth: 1,
-              textAlign: 'center',
-              width: 30,
-            }}
-            value={sodium.toString()}
-            onChangeText={(val) => {
-              editable ? setSodium(val) : null;
-            }}
-            keyboardType='number-pad'
-            editable={editable}
-          />
-          <Text style={styles().textAltLight}> mg</Text>
-        </View>
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          // alignItems: 'center',
-          // justifyContent: 'space-around',
-        }}>
-        <View
-          style={{ flexDirection: 'row', alignItems: 'center', width: '55%' }}>
-          <Text style={styles().textAltLight}>Total Carbs: </Text>
-          <TextInput
-            placeholder='#'
-            color='#C4BEBD'
-            placeholderTextColor='#C4BEBD'
-            style={{
-              borderBottomColor: '#C4BEBD',
-              borderBottomWidth: 1,
-              textAlign: 'center',
-              width: 30,
-            }}
-            value={carbs.toString()}
-            onChangeText={(val) => {
-              editable ? setCarbs(val) : null;
-            }}
-            keyboardType='number-pad'
-            editable={editable}
-          />
-          <Text style={styles().textAltLight}> g</Text>
+          style={{
+            flexDirection: 'row',
+            // alignItems: 'center',
+            // justifyContent: 'space-around',
+          }}>
+          <View
+            style={{ flexDirection: 'row', alignItems: 'center', width: '55%' }}>
+            <Text style={styles().textAltLight}>Total Carbs: </Text>
+            <TextInput
+              placeholder='#'
+              color='#C4BEBD'
+              placeholderTextColor='#C4BEBD'
+              style={{
+                borderBottomColor: '#C4BEBD',
+                borderBottomWidth: 1,
+                textAlign: 'center',
+                width: 30,
+              }}
+              value={carbs.toString()}
+              onChangeText={(val) => {
+                editable ? setCarbs(val) : null;
+              }}
+              keyboardType='number-pad'
+              editable={editable}
+            />
+            <Text style={styles().textAltLight}> g</Text>
+          </View>
+          <View
+            style={{ flexDirection: 'row', alignItems: 'center', width: '45%' }}>
+            <Text style={styles().textAltLight}>Fiber: </Text>
+            <TextInput
+              placeholder='#'
+              color='#C4BEBD'
+              placeholderTextColor='#C4BEBD'
+              style={{
+                borderBottomColor: '#C4BEBD',
+                borderBottomWidth: 1,
+                textAlign: 'center',
+                width: 30,
+              }}
+              value={fiber.toString()}
+              onChangeText={(val) => {
+                editable ? setFiber(val) : null;
+              }}
+              keyboardType='number-pad'
+              editable={editable}
+            />
+            <Text style={styles().textAltLight}> g</Text>
+          </View>
         </View>
         <View
-          style={{ flexDirection: 'row', alignItems: 'center', width: '45%' }}>
-          <Text style={styles().textAltLight}>Fiber: </Text>
-          <TextInput
-            placeholder='#'
-            color='#C4BEBD'
-            placeholderTextColor='#C4BEBD'
-            style={{
-              borderBottomColor: '#C4BEBD',
-              borderBottomWidth: 1,
-              textAlign: 'center',
-              width: 30,
-            }}
-            value={fiber.toString()}
-            onChangeText={(val) => {
-              editable ? setFiber(val) : null;
-            }}
-            keyboardType='number-pad'
-            editable={editable}
-          />
-          <Text style={styles().textAltLight}> g</Text>
-        </View>
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          // alignItems: 'center',
-          // justifyContent: 'space-around',
-        }}>
-        <View
-          style={{ flexDirection: 'row', alignItems: 'center', width: '55%' }}>
-          <Text style={styles().textAltLight}>Total Sugars: </Text>
-          <TextInput
-            placeholder='#'
-            color='#C4BEBD'
-            placeholderTextColor='#C4BEBD'
-            style={{
-              borderBottomColor: '#C4BEBD',
-              borderBottomWidth: 1,
-              textAlign: 'center',
-              width: 30,
-            }}
-            value={sugars.toString()}
-            onChangeText={(val) => {
-              editable ? setSugars(val) : null;
-            }}
-            keyboardType='number-pad'
-            editable={editable}
-          />
-          <Text style={styles().textAltLight}> g</Text>
-        </View>
-        <View
-          style={{ flexDirection: 'row', alignItems: 'center', width: '45%' }}>
-          <Text style={styles().textAltLight}>Protein: </Text>
-          <TextInput
-            placeholder='#'
-            color='#C4BEBD'
-            placeholderTextColor='#C4BEBD'
-            style={{
-              borderBottomColor: '#C4BEBD',
-              borderBottomWidth: 1,
-              textAlign: 'center',
-              width: 30,
-            }}
-            value={protein.toString()}
-            onChangeText={(val) => {
-              editable ? setProtein(val) : null;
-            }}
-            keyboardType='number-pad'
-            editable={editable}
-          />
-          <Text style={styles().textAltLight}> g</Text>
-        </View>
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          // alignItems: 'center',
-          // justifyContent: 'space-around',
-        }}>
-        <View
-          style={{ flexDirection: 'row', alignItems: 'center', width: '55%' }}>
-          <Text style={styles().textAltLight}>Vitamin D: </Text>
-          <TextInput
-            placeholder='#'
-            color='#C4BEBD'
-            placeholderTextColor='#C4BEBD'
-            style={{
-              borderBottomColor: '#C4BEBD',
-              borderBottomWidth: 1,
-              textAlign: 'center',
-              width: 30,
-            }}
-            value={vitaminD.toString()}
-            onChangeText={(val) => {
-              editable ? setVitaminD(val) : null;
-            }}
-            keyboardType='number-pad'
-            editable={editable}
-          />
-          <Text style={styles().textAltLight}> mcg</Text>
+          style={{
+            flexDirection: 'row',
+            // alignItems: 'center',
+            // justifyContent: 'space-around',
+          }}>
+          <View
+            style={{ flexDirection: 'row', alignItems: 'center', width: '55%' }}>
+            <Text style={styles().textAltLight}>Total Sugars: </Text>
+            <TextInput
+              placeholder='#'
+              color='#C4BEBD'
+              placeholderTextColor='#C4BEBD'
+              style={{
+                borderBottomColor: '#C4BEBD',
+                borderBottomWidth: 1,
+                textAlign: 'center',
+                width: 30,
+              }}
+              value={sugars.toString()}
+              onChangeText={(val) => {
+                editable ? setSugars(val) : null;
+              }}
+              keyboardType='number-pad'
+              editable={editable}
+            />
+            <Text style={styles().textAltLight}> g</Text>
+          </View>
+          <View
+            style={{ flexDirection: 'row', alignItems: 'center', width: '45%' }}>
+            <Text style={styles().textAltLight}>Protein: </Text>
+            <TextInput
+              placeholder='#'
+              color='#C4BEBD'
+              placeholderTextColor='#C4BEBD'
+              style={{
+                borderBottomColor: '#C4BEBD',
+                borderBottomWidth: 1,
+                textAlign: 'center',
+                width: 30,
+              }}
+              value={protein.toString()}
+              onChangeText={(val) => {
+                editable ? setProtein(val) : null;
+              }}
+              keyboardType='number-pad'
+              editable={editable}
+            />
+            <Text style={styles().textAltLight}> g</Text>
+          </View>
         </View>
         <View
-          style={{ flexDirection: 'row', alignItems: 'center', width: '45%' }}>
-          <Text style={styles().textAltLight}>Calcium: </Text>
-          <TextInput
-            placeholder='#'
-            color='#C4BEBD'
-            placeholderTextColor='#C4BEBD'
-            style={{
-              borderBottomColor: '#C4BEBD',
-              borderBottomWidth: 1,
-              textAlign: 'center',
-              width: 30,
-            }}
-            value={calcium.toString()}
-            onChangeText={(val) => {
-              editable ? setCalcium(val) : null;
-            }}
-            keyboardType='number-pad'
-            editable={editable}
-          />
-          <Text style={styles().textAltLight}> mg</Text>
+          style={{
+            flexDirection: 'row',
+            // alignItems: 'center',
+            // justifyContent: 'space-around',
+          }}>
+          <View
+            style={{ flexDirection: 'row', alignItems: 'center', width: '55%' }}>
+            <Text style={styles().textAltLight}>Vitamin D: </Text>
+            <TextInput
+              placeholder='#'
+              color='#C4BEBD'
+              placeholderTextColor='#C4BEBD'
+              style={{
+                borderBottomColor: '#C4BEBD',
+                borderBottomWidth: 1,
+                textAlign: 'center',
+                width: 30,
+              }}
+              value={vitaminD.toString()}
+              onChangeText={(val) => {
+                editable ? setVitaminD(val) : null;
+              }}
+              keyboardType='number-pad'
+              editable={editable}
+            />
+            <Text style={styles().textAltLight}> mcg</Text>
+          </View>
+          <View
+            style={{ flexDirection: 'row', alignItems: 'center', width: '45%' }}>
+            <Text style={styles().textAltLight}>Calcium: </Text>
+            <TextInput
+              placeholder='#'
+              color='#C4BEBD'
+              placeholderTextColor='#C4BEBD'
+              style={{
+                borderBottomColor: '#C4BEBD',
+                borderBottomWidth: 1,
+                textAlign: 'center',
+                width: 30,
+              }}
+              value={calcium.toString()}
+              onChangeText={(val) => {
+                editable ? setCalcium(val) : null;
+              }}
+              keyboardType='number-pad'
+              editable={editable}
+            />
+            <Text style={styles().textAltLight}> mg</Text>
+          </View>
         </View>
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          // alignItems: 'center',
-          // justifyContent: 'space-around',
-        }}>
         <View
-          style={{ flexDirection: 'row', alignItems: 'center', width: '55%' }}>
-          <Text style={styles().textAltLight}>Iron: </Text>
-          <TextInput
-            placeholder='#'
-            color='#C4BEBD'
-            placeholderTextColor='#C4BEBD'
-            style={{
-              borderBottomColor: '#C4BEBD',
-              borderBottomWidth: 1,
-              textAlign: 'center',
-              width: 30,
-            }}
-            value={iron.toString()}
-            onChangeText={(val) => {
-              editable ? setIron(val) : null;
-            }}
-            keyboardType='number-pad'
-            editable={editable}
-          />
-          <Text style={styles().textAltLight}> mg</Text>
-        </View>
-        <View
-          style={{ flexDirection: 'row', alignItems: 'center', width: '45%' }}>
-          <Text style={styles().textAltLight}>Potassium: </Text>
-          <TextInput
-            placeholder='#'
-            color='#C4BEBD'
-            placeholderTextColor='#C4BEBD'
-            style={{
-              borderBottomColor: '#C4BEBD',
-              borderBottomWidth: 1,
-              textAlign: 'center',
-              width: 30,
-            }}
-            value={potassium.toString()}
-            onChangeText={(val) => {
-              editable ? setPotassium(val) : null;
-            }}
-            keyboardType='number-pad'
-            editable={editable}
-          />
-          <Text style={styles().textAltLight}> mg</Text>
+          style={{
+            flexDirection: 'row',
+            // alignItems: 'center',
+            // justifyContent: 'space-around',
+          }}>
+          <View
+            style={{ flexDirection: 'row', alignItems: 'center', width: '55%' }}>
+            <Text style={styles().textAltLight}>Iron: </Text>
+            <TextInput
+              placeholder='#'
+              color='#C4BEBD'
+              placeholderTextColor='#C4BEBD'
+              style={{
+                borderBottomColor: '#C4BEBD',
+                borderBottomWidth: 1,
+                textAlign: 'center',
+                width: 30,
+              }}
+              value={iron.toString()}
+              onChangeText={(val) => {
+                editable ? setIron(val) : null;
+              }}
+              keyboardType='number-pad'
+              editable={editable}
+            />
+            <Text style={styles().textAltLight}> mg</Text>
+          </View>
+          <View
+            style={{ flexDirection: 'row', alignItems: 'center', width: '45%' }}>
+            <Text style={styles().textAltLight}>Potassium: </Text>
+            <TextInput
+              placeholder='#'
+              color='#C4BEBD'
+              placeholderTextColor='#C4BEBD'
+              style={{
+                borderBottomColor: '#C4BEBD',
+                borderBottomWidth: 1,
+                textAlign: 'center',
+                width: 30,
+              }}
+              value={potassium.toString()}
+              onChangeText={(val) => {
+                editable ? setPotassium(val) : null;
+              }}
+              keyboardType='number-pad'
+              editable={editable}
+            />
+            <Text style={styles().textAltLight}> mg</Text>
+          </View>
         </View>
       </View>
     </View>
@@ -485,203 +572,286 @@ const AddMeal = ({
   setFats,
   editable,
 }) => {
-  const [foodCalories, setFoodCalories] = useState(0);
+  const [foodCalories, setFoodCalories] = useState('');
   const [foodName, setFoodName] = useState('');
-  const [foodMeasurement, setFoodMeasurement] = useState(0);
-  const [foodAmount, setFoodAmount] = useState(0);
-  const [foodFats, setFoodFats] = useState(0);
-  const [foodCholesterol, setFoodCholesterol] = useState(0);
-  const [foodSodium, setFoodSodium] = useState(0);
-  const [foodFiber, setFoodFiber] = useState(0);
-  const [foodCarbs, setFoodCarbs] = useState(0);
-  const [foodSugars, setFoodSugars] = useState(0);
-  const [foodProtein, setFoodProtein] = useState(0);
-  const [foodVitaminD, setFoodVitaminD] = useState(0);
-  const [foodCalcium, setFoodCalcium] = useState(0);
-  const [foodIron, setFoodIron] = useState(0);
-  const [foodPotassium, setFoodPotassium] = useState(0);
+  const [foodMeasurement, setFoodMeasurement] = useState('');
+  const [foodAmount, setFoodAmount] = useState('');
+  const [foodFats, setFoodFats] = useState('');
+  const [foodCholesterol, setFoodCholesterol] = useState('');
+  const [foodSodium, setFoodSodium] = useState('');
+  const [foodFiber, setFoodFiber] = useState('');
+  const [foodCarbs, setFoodCarbs] = useState('');
+  const [foodSugars, setFoodSugars] = useState('');
+  const [foodProtein, setFoodProtein] = useState('');
+  const [foodVitaminD, setFoodVitaminD] = useState('');
+  const [foodCalcium, setFoodCalcium] = useState('');
+  const [foodIron, setFoodIron] = useState('');
+  const [foodPotassium, setFoodPotassium] = useState('');
+  const [deleteMeal, setDeleteMeal] = useState(false);
 
   return (
-    <View
-      style={{
-        backgroundColor: '#816868',
-        borderRadius: 10,
-        padding: 10,
-        paddingBottom: 10,
-        marginBottom: 20,
-        paddingTop: 15,
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.5,
-        shadowRadius: 4,
-        elevation: 7,
-      }}>
+    <View>
+      {/* Delete meal modal */}
+      <View style={styles().container}>
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={deleteMeal}
+          onRequestClose={() => {
+            setDeleteMeal(!deleteMeal);
+          }}>
+          <Pressable
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 1,
+              backgroundColor: '#00000055',
+            }}
+            onPressOut={() => setDeleteMeal(!deleteMeal)}
+            >
+              <View style={styles().modalContainer}>
+                <View style={styles().modalHeaderBar}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 2,
+                      marginLeft: 6,
+                      marginVertical: 4,
+                    }}>
+                    <Icon
+                      name='restaurant'
+                      color='white'
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles().textAlt}>Delete Meal</Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    marginHorizontal: '5%',
+                    maxHeight: '60%',
+                    marginVertical: 10,
+                  }}>
+                  <Text style={styles().text}>
+                    Are you sure you wish to delete this meal?
+                  </Text>
+                  <Text style={styles().textBoldAlt}>This action cannot be undone.</Text>
+                </View>
+                <View 
+                  style={{ 
+                    flexDirection: 'row', 
+                    alignSelf: 'flex-end', 
+                    marginVertical: 10, 
+                    marginHorizontal: '5%', 
+                  }}>
+                  <TouchableOpacity 
+                    style={{ marginRight: 20, }}
+                    onPress={() => {
+                      setDeleteMeal(!deleteMeal);
+                      removeMeal(meals, setMeals, index);}}>
+                    <Text style={styles().textButton}>DELETE</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => setDeleteMeal(!deleteMeal)}>
+                    <Text style={styles().textButton}>CANCEL</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Pressable>
+        </Modal>
+      </View>
+
       <View
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
+          backgroundColor: '#816868',
+          borderRadius: 10,
+          padding: 10,
+          paddingBottom: 10,
+          marginBottom: 20,
+          paddingTop: 15,
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.5,
+          shadowRadius: 4,
+          elevation: 7,
         }}>
-        <Icon
-          name='restaurant'
-          color={
-            global.colorblindMode
-              ? global.cb_optionButtonsColor
-              : global.optionButtonsColor
-          }
-          style={{ marginRight: 8 }}
-        />
-        <TextInput
-          placeholder='Meal name'
-          color='#C4BEBD'
-          placeholderTextColor='#C4BEBD'
+        <View
           style={{
-            borderBottomColor: '#E5E5E5',
-            borderBottomWidth: 1,
-            width: 100,
-          }}
-        />
-        {index != null && (
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
           <Icon
-            name='close'
-            onPress={() => removeMeal(meals, setMeals, index)}
-          />
-        )}
-      </View>
-      {index == null && (
-        <AddFood
-          foods={foods}
-          setFoods={setFoods}
-          fiber={foodFiber}
-          name={foodName}
-          measurement={foodMeasurement}
-          amount={foodAmount}
-          calories={foodCalories}
-          fats={foodFats}
-          cholesterol={foodCholesterol}
-          sodium={foodSodium}
-          carbs={foodCarbs}
-          sugars={foodSugars}
-          protein={foodProtein}
-          vitaminD={foodVitaminD}
-          calcium={foodCalcium}
-          iron={foodIron}
-          potassium={foodPotassium}
-          setFiber={setFoodFiber}
-          setName={setFoodName}
-          setMeasurement={setFoodMeasurement}
-          setAmount={setFoodAmount}
-          setCalories={setFoodCalories}
-          setFats={setFoodFats}
-          setCholesterol={setFoodCholesterol}
-          setSodium={setFoodSodium}
-          setCarbs={setFoodCarbs}
-          setSugars={setFoodSugars}
-          setProtein={setFoodProtein}
-          setVitaminD={setFoodVitaminD}
-          setCalcium={setFoodCalcium}
-          setIron={setFoodIron}
-          setPotassium={setFoodPotassium}
-          editable={editable}
-        />
-      )}
-      {foods != null &&
-        foods.map((item, index) => {
-          const {
-            name,
-            measurement,
-            amount,
-            calories,
-            fats,
-            cholesterol,
-            sodium,
-            carbs,
-            fiber,
-            sugars,
-            protein,
-            vitaminD,
-            calcium,
-            iron,
-            potassium,
-          } = JSON.parse(item);
-          return (
-            <AddFood
-              key={index}
-              index={index}
-              foods={foods}
-              setFoods={setFoods}
-              fiber={fiber}
-              name={name}
-              measurement={measurement}
-              amount={amount}
-              calories={calories}
-              fats={fats}
-              cholesterol={cholesterol}
-              sodium={sodium}
-              carbs={carbs}
-              sugars={sugars}
-              protein={protein}
-              vitaminD={vitaminD}
-              calcium={calcium}
-              iron={iron}
-              potassium={potassium}
-              editable={false}
-            />
-          );
-        })}
-
-      {index == null && (
-        <View style={{ width: '40%', marginLeft: 10, marginBottom: 10 }}>
-          <Button
-            title='+ Add Food'
+            name='restaurant'
             color={
               global.colorblindMode
                 ? global.cb_optionButtonsColor
                 : global.optionButtonsColor
             }
-            onPress={() => {
-              let tempFoods = [...foods];
-              tempFoods.push(
-                JSON.stringify({
-                  name: foodName,
-                  measurement: foodMeasurement,
-                  amount: foodAmount,
-                  calories: foodCalories,
-                  fats: foodFats,
-                  cholesterol: foodCholesterol,
-                  sodium: foodSodium,
-                  carbs: foodCarbs,
-                  fiber: foodFiber,
-                  sugars: foodSugars,
-                  protein: foodProtein,
-                  vitaminD: foodVitaminD,
-                  calcium: foodCalcium,
-                  iron: foodIron,
-                  potassium: foodPotassium,
-                })
-              );
-              setFoods(tempFoods);
-              setFoodFiber(0);
-              setFoodName('');
-              setFoodMeasurement(0);
-              setFoodAmount(0);
-              setFoodCalories(0);
-              setFoodFats(0);
-              setFoodCholesterol(0);
-              setFoodSodium(0);
-              setFoodCarbs(0);
-              setFoodSugars(0);
-              setFoodProtein(0);
-              setFoodVitaminD(0);
-              setFoodCalcium(0);
-              setFoodIron(0);
-              setFoodPotassium(0);
+            style={{ marginRight: 8 }}
+          />
+          <TextInput
+            placeholder='Meal name'
+            color='#C4BEBD'
+            placeholderTextColor='#C4BEBD'
+            fontSize={16}
+            style={{
+              borderBottomColor: '#E5E5E5',
+              borderBottomWidth: 1,
+              width: 150,
             }}
           />
+          <View style={{ flex: 1, alignItems: 'flex-end', marginRight: 10 }}>
+            {index != null && (
+              <Icon
+                name='close'
+                color={
+                  global.colorblindMode
+                    ? global.cb_optionButtonsColor
+                    : global.optionButtonsColor
+                }
+                onPress={() => setDeleteMeal(!deleteMeal)}
+              />
+            )}
+          </View>
         </View>
-      )}
+        {index == null && (
+          <AddFood
+            foods={foods}
+            setFoods={setFoods}
+            fiber={foodFiber}
+            name={foodName}
+            measurement={foodMeasurement}
+            amount={foodAmount}
+            calories={foodCalories}
+            fats={foodFats}
+            cholesterol={foodCholesterol}
+            sodium={foodSodium}
+            carbs={foodCarbs}
+            sugars={foodSugars}
+            protein={foodProtein}
+            vitaminD={foodVitaminD}
+            calcium={foodCalcium}
+            iron={foodIron}
+            potassium={foodPotassium}
+            setFiber={setFoodFiber}
+            setName={setFoodName}
+            setMeasurement={setFoodMeasurement}
+            setAmount={setFoodAmount}
+            setCalories={setFoodCalories}
+            setFats={setFoodFats}
+            setCholesterol={setFoodCholesterol}
+            setSodium={setFoodSodium}
+            setCarbs={setFoodCarbs}
+            setSugars={setFoodSugars}
+            setProtein={setFoodProtein}
+            setVitaminD={setFoodVitaminD}
+            setCalcium={setFoodCalcium}
+            setIron={setFoodIron}
+            setPotassium={setFoodPotassium}
+            editable={editable}
+          />
+        )}
+        {foods != null &&
+          foods.map((item, index) => {
+            const {
+              name,
+              measurement,
+              amount,
+              calories,
+              fats,
+              cholesterol,
+              sodium,
+              carbs,
+              fiber,
+              sugars,
+              protein,
+              vitaminD,
+              calcium,
+              iron,
+              potassium,
+            } = JSON.parse(item);
+            return (
+              <AddFood
+                key={index}
+                index={index}
+                foods={foods}
+                setFoods={setFoods}
+                fiber={fiber}
+                name={name}
+                measurement={measurement}
+                amount={amount}
+                calories={calories}
+                fats={fats}
+                cholesterol={cholesterol}
+                sodium={sodium}
+                carbs={carbs}
+                sugars={sugars}
+                protein={protein}
+                vitaminD={vitaminD}
+                calcium={calcium}
+                iron={iron}
+                potassium={potassium}
+                editable={false}
+              />
+            );
+          })}
+
+        {index == null && (
+          <View style={{ width: '40%', marginLeft: 10, marginBottom: 10 }}>
+            <Button
+              title='+ Add Food'
+              color={
+                global.colorblindMode
+                  ? global.cb_optionButtonsColor
+                  : global.optionButtonsColor
+              }
+              onPress={() => {
+                let tempFoods = [...foods];
+                tempFoods.push(
+                  JSON.stringify({
+                    name: foodName,
+                    measurement: foodMeasurement,
+                    amount: foodAmount,
+                    calories: foodCalories,
+                    fats: foodFats,
+                    cholesterol: foodCholesterol,
+                    sodium: foodSodium,
+                    carbs: foodCarbs,
+                    fiber: foodFiber,
+                    sugars: foodSugars,
+                    protein: foodProtein,
+                    vitaminD: foodVitaminD,
+                    calcium: foodCalcium,
+                    iron: foodIron,
+                    potassium: foodPotassium,
+                  })
+                );
+                setFoods(tempFoods);
+                setFoodFiber(0);
+                setFoodName('');
+                setFoodMeasurement(0);
+                setFoodAmount(0);
+                setFoodCalories(0);
+                setFoodFats(0);
+                setFoodCholesterol(0);
+                setFoodSodium(0);
+                setFoodCarbs(0);
+                setFoodSugars(0);
+                setFoodProtein(0);
+                setFoodVitaminD(0);
+                setFoodCalcium(0);
+                setFoodIron(0);
+                setFoodPotassium(0);
+              }}
+            />
+          </View>
+        )}
+      </View>
     </View>
   );
 };
@@ -780,7 +950,7 @@ const MealHistory = ({
       <View style={{ marginTop: 10 }}>
         <View style={styles().line} />
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={styles().text}>Have you eaten today?</Text>
+          <Text style={styles().text}>Did you eat today?</Text>
           <View style={styles().switchView}>
             <View style={styles().line2} />
             <Switch
@@ -800,7 +970,7 @@ const MealHistory = ({
         <View style={{ marginTop: 10 }}>
           <Text style={styles().text}>
             If you kept track of your calories, how many calories did you
-            consume? (Leave field blank if you are unsure.)
+            consume?
           </Text>
           <View
             style={{
@@ -810,7 +980,7 @@ const MealHistory = ({
             <TextInput
               placeholder='#'
               color='#816868'
-              fontSize={18}
+              fontSize={16}
               style={{
                 borderBottomColor: '#C4BEBD',
                 borderBottomWidth: 1,
@@ -826,18 +996,26 @@ const MealHistory = ({
         </View>
       )}
 
-      <View style={{ flexDirection: 'row', marginTop: 20, marginBottom: -10 }}>
-        <Text
-          style={styles().heading}
-          onPress={() => setShowAdvanceMealTracking(!showAdvanceMealTracking)}>
-          ADVANCED MEAL TRACKING
-        </Text>
+      <Pressable
+        style={{ flexDirection: 'row', marginTop: 20, marginBottom: -10 }}
+        onPress={() =>
+          setShowAdvanceMealTracking(!showAdvanceMealTracking)
+        }>
+        <Text style={styles().headingSub}>ADVANCED MEAL TRACKING</Text>
         <Icon
-          name={showAdvanceMealTracking ? 'arrow-drop-up' : 'arrow-drop-down'}
-          onPress={() => setShowAdvanceMealTracking(!showAdvanceMealTracking)}
-          color={global.colorblindMode ? global.cb_textColor : global.textColor}
+          name={showAdvanceMealTracking 
+            ? 'arrow-drop-up' 
+            : 'arrow-drop-down'
+          }
+          color={global.colorblindMode 
+            ? global.cb_textColor 
+            : global.textColor
+          }
+          onPress={() =>
+            setShowAdvanceMealTracking(!showAdvanceMealTracking)
+          }
         />
-      </View>
+      </Pressable>
       {showAdvanceMealTracking && (
         <AdvanceMealTracking meals={meals} setMeals={setMeals} />
       )}
@@ -859,7 +1037,17 @@ const styles = () =>
       width: '100%',
     },
     heading: {
-      color: global.colorblindMode ? global.cb_textColor : global.textColor,
+      color: global.colorblindMode  
+        ? global.cb_textColor 
+        : global.textColor,
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 10,
+    },
+    headingSub: {
+      color: global.colorblindMode 
+        ? global.cb_textColor 
+        : global.textColor,
       fontSize: 16,
       fontWeight: 'bold',
       marginBottom: 10,
@@ -891,21 +1079,30 @@ const styles = () =>
       justifyContent: 'center',
       alignItems: 'flex-end',
     },
-    modalView: {
-      margin: 20,
-      backgroundColor: '#E5E5E5',
-      borderRadius: 10,
-      padding: 35,
-      paddingBottom: -10,
-      paddingTop: 15,
+    modalContainer: {
+      backgroundColor: global.colorblindMode
+        ? global.cb_pageBackgroundColor
+        : global.pageBackgroundColor,
       alignItems: 'center',
+      width: '80%',
+      borderRadius: 10,
       shadowColor: '#000',
       shadowOffset: {
+        width: 0,
         height: 2,
       },
-      shadowOpacity: 0.5,
-      shadowRadius: 4,
-      elevation: 7,
+      shadowOpacity: 0.23,
+      shadowRadius: 2.62,
+      elevation: 4,
+    },
+    modalHeaderBar: {
+      backgroundColor: global.colorblindMode
+        ? global.cb_optionButtonsColor
+        : global.optionButtonsColor,
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderTopLeftRadius: 10,
+      borderTopRightRadius: 10,
     },
     switchView: {
       flex: 1,
@@ -914,12 +1111,30 @@ const styles = () =>
       alignItems: 'center',
     },
     text: {
-      color: global.colorblindMode ? global.cb_textColor : global.textColor,
+      color: global.colorblindMode 
+        ? global.cb_textColor 
+        : global.textColor,
       fontSize: 16,
+    },
+    textAlt: {
+      color: 'white',
+      fontSize: 20,
+      fontWeight: 'bold',
     },
     textAltLight: {
       color: '#E5E5E5',
       fontSize: 16,
+    },
+    textBoldAlt: {
+      fontSize: 16,
+      color: '#816868',
+      fontWeight: 'bold',
+      marginTop: 4,
+    },
+    textButton: {
+      fontSize: 16,
+      color: '#4CB97A',
+      fontWeight: 'bold',
     },
     textLink: {
       color: '#4CB97A',

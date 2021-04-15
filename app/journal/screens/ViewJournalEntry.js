@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
+  Pressable,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
@@ -63,17 +64,17 @@ const ViewJournalEntry = ({ route, navigation }) => {
           animationType='fade'
           transparent={true}
           visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}>
-          <View
+          onRequestClose={() => setModalVisible(!modalVisible)}>
+          <Pressable
             style={{
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
               zIndex: 1,
               backgroundColor: '#00000055',
-            }}>
+            }}
+            onPressOut={() => setModalVisible(!modalVisible)}
+            >
               <View style={styles.modalContainer}>
                 <View style={styles.modalHeaderBar}>
                   <View
@@ -119,7 +120,7 @@ const ViewJournalEntry = ({ route, navigation }) => {
                   </TouchableOpacity>
                 </View>
               </View>
-            </View>
+            </Pressable>
         </Modal>
       </View>
       

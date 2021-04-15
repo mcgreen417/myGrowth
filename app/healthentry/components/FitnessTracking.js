@@ -8,6 +8,8 @@ import {
   TextInput,
   Button,
   Pressable,
+  Modal,
+  TouchableOpacity,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 
@@ -36,75 +38,266 @@ const AddExercises = ({
   setDuration,
   editable,
 }) => {
-  return (
-    <View style={{ marginTop: 10 }}>
-      <View
-        style={{
-          backgroundColor: '#816868',
-          borderRadius: 10,
-          paddingLeft: 12,
-          paddingTop: 12,
-          paddingBottom: 20,
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.5,
-          shadowRadius: 4,
-          elevation: 7,
-        }}>
-        <View>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Icon
-              name='fitness-center'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              style={{ marginRight: 8 }}
-            />
-            <TextInput
-              placeholder='Exercise name'
-              color='#E5E5E5'
-              placeholderTextColor='#C4BEBD'
-              fontSize={16}
-              style={{
-                borderBottomColor: '#C4BEBD',
-                borderBottomWidth: 1,
-                width: 100,
-                width: 150,
-              }}
-              value={name}
-              onChangeText={(val) => {
-                editable ? setName(val) : null;
-              }}
-              editable={editable}
-            />
+  const [deleteEntry, setDeleteEntry] = useState(false);
 
-            <View style={{ flex: 1, alignItems: 'flex-end', marginRight: 12 }}>
-              {index != null && (
-                <Icon
-                  name='close'
-                  color={
-                    global.colorblindMode
-                      ? global.cb_optionButtonsColor
-                      : global.optionButtonsColor
-                  }
-                  onPress={() => removeExercise(exercises, setExercises, index)}
+  return (
+    <View>
+      {/* Delete exercise modal */}
+      <View style={styles().container}>
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={deleteEntry}
+          onRequestClose={() => {
+            setDeleteEntry(!deleteEntry);
+          }}>
+          <Pressable
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 1,
+              backgroundColor: '#00000055',
+            }}
+            onPressOut={() => setDeleteEntry(!deleteEntry)}
+            >
+              <View style={styles().modalContainer}>
+                <View style={styles().modalHeaderBar}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 2,
+                      marginLeft: 6,
+                      marginVertical: 4,
+                    }}>
+                    <Icon
+                      name='fitness-center'
+                      color='white'
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles().textAlt}>Delete Exercise</Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    marginHorizontal: '5%',
+                    maxHeight: '60%',
+                    marginVertical: 10,
+                  }}>
+                  <Text style={styles().text}>
+                    Are you sure you wish to delete this exercise?
+                  </Text>
+                  <Text style={styles().textBoldAlt}>This action cannot be undone.</Text>
+                </View>
+                <View 
+                  style={{ 
+                    flexDirection: 'row', 
+                    alignSelf: 'flex-end', 
+                    marginVertical: 10, 
+                    marginHorizontal: '5%', 
+                  }}>
+                  <TouchableOpacity 
+                    style={{ marginRight: 20, }}
+                    onPress={() => {
+                      setDeleteEntry(!deleteEntry);
+                      removeExercise(exercises, setExercises, index);}}>
+                    <Text style={styles().textButton}>DELETE</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => setDeleteEntry(!deleteEntry)}>
+                    <Text style={styles().textButton}>CANCEL</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Pressable>
+        </Modal>
+      </View>
+      
+      <View style={{ marginTop: 10 }}>
+        <View
+          style={{
+            backgroundColor: '#816868',
+            borderRadius: 10,
+            paddingLeft: 12,
+            paddingTop: 12,
+            paddingBottom: 20,
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.5,
+            shadowRadius: 4,
+            elevation: 7,
+          }}>
+          <View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Icon
+                name='fitness-center'
+                color={
+                  global.colorblindMode
+                    ? global.cb_optionButtonsColor
+                    : global.optionButtonsColor
+                }
+                style={{ marginRight: 8 }}
+              />
+              <TextInput
+                placeholder='Exercise name'
+                color='#E5E5E5'
+                placeholderTextColor='#C4BEBD'
+                fontSize={16}
+                style={{
+                  borderBottomColor: '#C4BEBD',
+                  borderBottomWidth: 1,
+                  width: 100,
+                  width: 150,
+                }}
+                value={name.toString()}
+                onChangeText={(val) => {
+                  editable ? setName(val) : null;
+                }}
+                editable={editable}
+              />
+
+              <View style={{ flex: 1, alignItems: 'flex-end', marginRight: 12 }}>
+                {index != null && (
+                  <Icon
+                    name='close'
+                    color={
+                      global.colorblindMode
+                        ? global.cb_optionButtonsColor
+                        : global.optionButtonsColor
+                    }
+                    onPress={() => setDeleteEntry(!deleteEntry)}
+                  />
+                )}
+              </View>
+            </View>
+            <View style={{ flexDirection: 'row', marginTop: 10 }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '46%',
+                }}>
+                <Text style={styles().textAltLight}>Sets: </Text>
+                <TextInput
+                  placeholder='#'
+                  color='#E5E5E5'
+                  placeholderTextColor='#C4BEBD'
+                  fontSize={16}
+                  style={{
+                    borderBottomColor: '#C4BEBD',
+                    borderBottomWidth: 1,
+                    textAlign: 'center',
+                    width: 50,
+                  }}
+                  keyboardType='number-pad'
+                  value={sets.toString()}
+                  onChangeText={(val) => {
+                    editable ? setSets(val) : null;
+                  }}
+                  editable={editable}
                 />
-              )}
+                <Text style={styles().textAltLight}> sets</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '40%',
+                }}>
+                <Text style={styles().textAltLight}>Calories: </Text>
+                <TextInput
+                  placeholder='#'
+                  color='#E5E5E5'
+                  placeholderTextColor='#C4BEBD'
+                  fontSize={16}
+                  style={{
+                    borderBottomColor: '#C4BEBD',
+                    borderBottomWidth: 1,
+                    textAlign: 'center',
+                    width: 50,
+                  }}
+                  keyboardType='number-pad'
+                  value={cals.toString()}
+                  onChangeText={(val) => {
+                    editable ? setCals(val) : null;
+                  }}
+                  editable={editable}
+                />
+                <Text style={styles().textAltLight}> cal</Text>
+              </View>
             </View>
-          </View>
-          <View style={{ flexDirection: 'row', marginTop: 10 }}>
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                width: '46%',
+                marginTop: 4,
               }}>
-              <Text style={styles().textAltLight}>Sets: </Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '46%',
+                }}>
+                <Text style={styles().textAltLight}>Reps: </Text>
+                <TextInput
+                  placeholder='#'
+                  color='#E5E5E5'
+                  placeholderTextColor='#C4BEBD'
+                  fontSize={16}
+                  style={{
+                    borderBottomColor: '#C4BEBD',
+                    borderBottomWidth: 1,
+                    textAlign: 'center',
+                    width: 50,
+                  }}
+                  keyboardType='number-pad'
+                  value={reps.toString()}
+                  onChangeText={(val) => {
+                    editable ? setReps(val) : null;
+                  }}
+                  editable={editable}
+                />
+                <Text style={styles().textAltLight}> reps</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '40%',
+                }}>
+                <Text style={styles().textAltLight}>Duration: </Text>
+                <TextInput
+                  placeholder='#'
+                  color='#E5E5E5'
+                  placeholderTextColor='#C4BEBD'
+                  fontSize={16}
+                  style={{
+                    borderBottomColor: '#C4BEBD',
+                    borderBottomWidth: 1,
+                    textAlign: 'center',
+                    width: 50,
+                  }}
+                  keyboardType='number-pad'
+                  value={duration.toString()}
+                  onChangeText={(val) => {
+                    editable ? setDuration(val) : null;
+                  }}
+                  editable={editable}
+                />
+                <Text style={styles().textAltLight}> mins</Text>
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 4,
+              }}>
+              <Text style={styles().textAltLight}>Weight: </Text>
               <TextInput
                 placeholder='#'
                 color='#E5E5E5'
@@ -117,129 +310,14 @@ const AddExercises = ({
                   width: 50,
                 }}
                 keyboardType='number-pad'
-                value={sets}
+                value={weight.toString()}
                 onChangeText={(val) => {
-                  editable ? setSets(val) : null;
+                  editable ? setWeight(val) : null;
                 }}
                 editable={editable}
               />
-              <Text style={styles().textAltLight}> sets</Text>
+              <Text style={styles().textAltLight}> lbs</Text>
             </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                width: '40%',
-              }}>
-              <Text style={styles().textAltLight}>Calories: </Text>
-              <TextInput
-                placeholder='#'
-                color='#E5E5E5'
-                placeholderTextColor='#C4BEBD'
-                fontSize={16}
-                style={{
-                  borderBottomColor: '#C4BEBD',
-                  borderBottomWidth: 1,
-                  textAlign: 'center',
-                  width: 50,
-                }}
-                keyboardType='number-pad'
-                value={cals}
-                onChangeText={(val) => {
-                  editable ? setCals(val) : null;
-                }}
-                editable={editable}
-              />
-              <Text style={styles().textAltLight}> cal</Text>
-            </View>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginTop: 4,
-            }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                width: '46%',
-              }}>
-              <Text style={styles().textAltLight}>Reps: </Text>
-              <TextInput
-                placeholder='#'
-                color='#E5E5E5'
-                placeholderTextColor='#C4BEBD'
-                fontSize={16}
-                style={{
-                  borderBottomColor: '#C4BEBD',
-                  borderBottomWidth: 1,
-                  textAlign: 'center',
-                  width: 50,
-                }}
-                keyboardType='number-pad'
-                value={reps}
-                onChangeText={(val) => {
-                  editable ? setReps(val) : null;
-                }}
-                editable={editable}
-              />
-              <Text style={styles().textAltLight}> reps</Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                width: '40%',
-              }}>
-              <Text style={styles().textAltLight}>Duration: </Text>
-              <TextInput
-                placeholder='#'
-                color='#E5E5E5'
-                placeholderTextColor='#C4BEBD'
-                fontSize={16}
-                style={{
-                  borderBottomColor: '#C4BEBD',
-                  borderBottomWidth: 1,
-                  textAlign: 'center',
-                  width: 50,
-                }}
-                keyboardType='number-pad'
-                value={duration}
-                onChangeText={(val) => {
-                  editable ? setDuration(val) : null;
-                }}
-                editable={editable}
-              />
-              <Text style={styles().textAltLight}> mins</Text>
-            </View>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginTop: 4,
-            }}>
-            <Text style={styles().textAltLight}>Weight: </Text>
-            <TextInput
-              placeholder='#'
-              color='#E5E5E5'
-              placeholderTextColor='#C4BEBD'
-              fontSize={16}
-              style={{
-                borderBottomColor: '#C4BEBD',
-                borderBottomWidth: 1,
-                textAlign: 'center',
-                width: 50,
-              }}
-              keyboardType='number-pad'
-              value={weight}
-              onChangeText={(val) => {
-                editable ? setWeight(val) : null;
-              }}
-              editable={editable}
-            />
-            <Text style={styles().textAltLight}> lbs</Text>
           </View>
         </View>
       </View>
@@ -249,11 +327,11 @@ const AddExercises = ({
 
 const AdvanceFitnessTracking = ({ exercises, setExercises }) => {
   const [exerciseName, setExerciseName] = useState('');
-  const [exerciseSets, setExerciseSets] = useState(0);
-  const [exerciseReps, setExerciseReps] = useState(0);
-  const [exerciseCalories, setExerciseCalories] = useState(0);
-  const [exerciseWeight, setExerciseWeigh] = useState(0);
-  const [exerciseDuration, setExerciseDuration] = useState(0);
+  const [exerciseSets, setExerciseSets] = useState('');
+  const [exerciseReps, setExerciseReps] = useState('');
+  const [exerciseCalories, setExerciseCalories] = useState('');
+  const [exerciseWeight, setExerciseWeigh] = useState('');
+  const [exerciseDuration, setExerciseDuration] = useState('');
 
   return (
     <View style={{ marginTop: 10 }}>
@@ -375,7 +453,7 @@ const FitnessTracking = ({
             <TextInput
               placeholder='#'
               color='#816868'
-              fontSize={18}
+              fontsize={16}
               style={{
                 borderBottomColor: '#C4BEBD',
                 borderBottomWidth: 1,
@@ -424,7 +502,7 @@ const FitnessTracking = ({
             <TextInput
               placeholder='#'
               color='#816868'
-              fontSize={18}
+              fontsize={16}
               style={{
                 borderBottomColor: '#C4BEBD',
                 borderBottomWidth: 1,
@@ -445,7 +523,7 @@ const FitnessTracking = ({
           {!stepsTracked && <View style={{ marginTop: 10 }} />}
           <Text style={styles().text}>
             If you kept track of your calories, how many calories did you burn
-            today in total? (Leave field blank if you are unsure.)
+            today in total? 
           </Text>
           <View
             style={{
@@ -455,7 +533,7 @@ const FitnessTracking = ({
             <TextInput
               placeholder='#'
               color='#816868'
-              fontSize={18}
+              fontsize={16}
               style={{
                 borderBottomColor: '#C4BEBD',
                 borderBottomWidth: 1,
@@ -476,12 +554,16 @@ const FitnessTracking = ({
         onPress={() =>
           setShowAdvanceFitnessTracking(!showAdvanceFitnessTracking)
         }>
-        <Text style={styles().heading}>ADVANCED FITNESS TRACKING</Text>
+        <Text style={styles().headingSub}>ADVANCED FITNESS TRACKING</Text>
         <Icon
-          name={
-            showAdvanceFitnessTracking ? 'arrow-drop-up' : 'arrow-drop-down'
+          name={showAdvanceFitnessTracking 
+            ? 'arrow-drop-up' 
+            : 'arrow-drop-down'
           }
-          color={global.colorblindMode ? global.cb_textColor : global.textColor}
+          color={global.colorblindMode 
+            ? global.cb_textColor 
+            : global.textColor
+          }
           onPress={() =>
             setShowAdvanceFitnessTracking(!showAdvanceFitnessTracking)
           }
@@ -511,7 +593,17 @@ const styles = () =>
       width: '100%',
     },
     heading: {
-      color: global.colorblindMode ? global.cb_textColor : global.textColor,
+      color: global.colorblindMode 
+        ? global.cb_textColor 
+        : global.textColor,
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 10,
+    },
+    headingSub: {
+      color: global.colorblindMode 
+        ? global.cb_textColor 
+        : global.textColor,
       fontSize: 16,
       fontWeight: 'bold',
       marginBottom: 10,
@@ -543,21 +635,30 @@ const styles = () =>
       justifyContent: 'center',
       alignItems: 'flex-end',
     },
-    modalView: {
-      margin: 20,
-      backgroundColor: '#E5E5E5',
-      borderRadius: 10,
-      padding: 35,
-      paddingBottom: -10,
-      paddingTop: 15,
+    modalContainer: {
+      backgroundColor: global.colorblindMode
+        ? global.cb_pageBackgroundColor
+        : global.pageBackgroundColor,
       alignItems: 'center',
+      width: '80%',
+      borderRadius: 10,
       shadowColor: '#000',
       shadowOffset: {
+        width: 0,
         height: 2,
       },
-      shadowOpacity: 0.5,
-      shadowRadius: 4,
-      elevation: 7,
+      shadowOpacity: 0.23,
+      shadowRadius: 2.62,
+      elevation: 4,
+    },
+    modalHeaderBar: {
+      backgroundColor: global.colorblindMode
+        ? global.cb_optionButtonsColor
+        : global.optionButtonsColor,
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderTopLeftRadius: 10,
+      borderTopRightRadius: 10,
     },
     switchView: {
       flex: 1,
@@ -566,12 +667,30 @@ const styles = () =>
       alignItems: 'center',
     },
     text: {
-      color: global.colorblindMode ? global.cb_textColor : global.textColor,
+      color: global.colorblindMode 
+        ? global.cb_textColor 
+        : global.textColor,
       fontSize: 16,
+    },
+    textAlt: {
+      color: 'white',
+      fontSize: 20,
+      fontWeight: 'bold',
     },
     textAltLight: {
       color: '#E5E5E5',
       fontSize: 16,
+    },
+    textBoldAlt: {
+      fontSize: 16,
+      color: '#816868',
+      fontWeight: 'bold',
+      marginTop: 4,
+    },
+    textButton: {
+      fontSize: 16,
+      color: '#4CB97A',
+      fontWeight: 'bold',
     },
     textLink: {
       color: '#4CB97A',

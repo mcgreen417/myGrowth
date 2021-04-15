@@ -465,23 +465,6 @@ const Sleep = ({
                   top: 20 / 2,
                 }}
               />
-              <Pressable onPress={() => setQualityOfSleep(0)}>
-                <View
-                  style={{
-                    width: qualityOfSleep == 0 ? 25 : 5,
-                    height: 25,
-                    borderRadius: qualityOfSleep == 0 ? 25 : 10,
-                    backgroundColor: qualityOfSleep == 0 ? '#A5DFB2' : '#816868',
-                    marginLeft: qualityOfSleep == 0 ? -10 : 0,
-                    zIndex: 1,
-                  }}
-                />
-                <Text style={styles().textSlider}>1</Text>
-              </Pressable>
-
-              <View
-                style={{ width: (Dimensions.get('window').width * 0.55 - 20) / 4 }}
-              />
               <Pressable onPress={() => setQualityOfSleep(1)}>
                 <View
                   style={{
@@ -493,7 +476,7 @@ const Sleep = ({
                     zIndex: 1,
                   }}
                 />
-                <Text style={styles().textSlider}>2</Text>
+                <Text style={styles().textSlider}>1</Text>
               </Pressable>
 
               <View
@@ -510,7 +493,7 @@ const Sleep = ({
                     zIndex: 1,
                   }}
                 />
-                <Text style={styles().textSlider}>3</Text>
+                <Text style={styles().textSlider}>2</Text>
               </Pressable>
 
               <View
@@ -527,7 +510,7 @@ const Sleep = ({
                     zIndex: 1,
                   }}
                 />
-                <Text style={styles().textSlider}>4</Text>
+                <Text style={styles().textSlider}>3</Text>
               </Pressable>
 
               <View
@@ -541,6 +524,23 @@ const Sleep = ({
                     borderRadius: qualityOfSleep == 4 ? 25 : 10,
                     backgroundColor: qualityOfSleep == 4 ? '#A5DFB2' : '#816868',
                     marginLeft: qualityOfSleep == 4 ? -10 : 0,
+                    zIndex: 1,
+                  }}
+                />
+                <Text style={styles().textSlider}>4</Text>
+              </Pressable>
+
+              <View
+                style={{ width: (Dimensions.get('window').width * 0.55 - 20) / 4 }}
+              />
+              <Pressable onPress={() => setQualityOfSleep(5)}>
+                <View
+                  style={{
+                    width: qualityOfSleep == 5 ? 25 : 5,
+                    height: 25,
+                    borderRadius: qualityOfSleep == 5 ? 25 : 10,
+                    backgroundColor: qualityOfSleep == 5 ? '#A5DFB2' : '#816868',
+                    marginLeft: qualityOfSleep == 5 ? -10 : 0,
                     zIndex: 1,
                   }}
                 />
@@ -568,7 +568,7 @@ const Sleep = ({
       </View>
       <View style={styles().line} />
 
-      {hadNap &&
+      {hadNap ?
         <View style={{ width: '40%', marginTop: 20, }}>
           <Button
             title='+ Add New Nap'
@@ -580,6 +580,7 @@ const Sleep = ({
             onPress={() => setShowAddNap(true)}
           />
         </View>
+        : <View style={{ marginBottom: 10, }}/>
       }
     </View>
   );
@@ -600,7 +601,7 @@ const styles = () =>
     },
     heading: {
       color: global.colorblindMode ? global.cb_textColor : global.textColor,
-      fontSize: 16,
+      fontSize: 18,
       fontWeight: 'bold',
       marginBottom: 10,
     },

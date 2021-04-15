@@ -21,7 +21,7 @@ function GoalComplete({ navigation }) {
 
           {/* Congratulations banner + filler image */}
           <Image source={require('../../shared/assets/goals-banner.png')}/>
-          <View style={{ marginVertical: '-4%' }}/>
+          <View style={{ marginVertical: '-2%' }}/>
           <View style={{ width: '90%', height: '50%', }}>
             <Image
               style={styles.fillerImage}

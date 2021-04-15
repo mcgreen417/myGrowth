@@ -114,28 +114,28 @@ const HealthEntry = ({ navigation }) => {
   const [medChecked, setMedChecked] = useState(0);
   const [medications, setMedications] = useState([]);
   const [hadPeriod, setHadPeriod] = useState(false);
-  const [weight, setWeight] = useState(0);
+  const [weight, setWeight] = useState('');
   const [symptoms, setSymptoms] = useState([]);
 
-  const [hadSleep, setHadSleep] = useState(false);
+  const [hadSleep, setHadSleep] = useState(true);
   const [qualityOfSleep, setQualityOfSleep] = useState(0);
   const [sleepTimeStart, setSleepTimeStart] = useState(new Date());
   const [sleepTimeEnd, setSleepTimeEnd] = useState(new Date());
   const [hadNap, setHadNap] = useState(false);
   const [naps, setNaps] = useState([]);
 
-  const [eatenToday, setEatenToday] = useState(false);
+  const [eatenToday, setEatenToday] = useState(true);
   const [meals, setMeals] = useState([]);
-  const [totalCalories, setTotalCalories] = useState(0);
-  const [totalProteins, setTotalProteins] = useState(0);
-  const [totalCarbs, setTotalCarbs] = useState(0);
-  const [totalFats, setTotalFats] = useState(0);
+  const [totalCalories, setTotalCalories] = useState('');
+  const [totalProteins, setTotalProteins] = useState('');
+  const [totalCarbs, setTotalCarbs] = useState('');
+  const [totalFats, setTotalFats] = useState('');
 
   const [exerciseToday, setExerciseToday] = useState(false);
-  const [exerciseLength, setExerciseLength] = useState(0);
-  const [caloriesBurn, setCaloriesBurn] = useState(0);
+  const [exerciseLength, setExerciseLength] = useState('');
+  const [caloriesBurn, setCaloriesBurn] = useState('');
   const [stepsTracked, setStepsTracked] = useState(false);
-  const [steps, setSteps] = useState(0);
+  const [steps, setSteps] = useState('');
   const [exercises, setExercises] = useState([]);
 
   return (
@@ -421,7 +421,7 @@ const styles = () =>
     },
     heading: {
       color: global.colorblindMode ? global.cb_textColor : global.textColor,
-      fontSize: 16,
+      fontSize: 18,
       fontWeight: 'bold',
       marginBottom: 10,
     },

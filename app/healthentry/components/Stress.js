@@ -112,21 +112,6 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
             }}/>
 
           {/* Not stresssed */}
-          <Pressable onPress={() => setStress(0)}>
-            <View
-              style={{
-                width: stress == 0 ? 25 : 5,
-                height: 25,
-                borderRadius: stress == 0 ? 25 : 10,
-                backgroundColor: stress == 0 ? '#A5DFB2' : '#816868',
-                marginLeft: stress == 0 ? -10 : 0,
-                zIndex: 1,
-              }}/>
-            <Text style={styles().textSlider}>1</Text>
-          </Pressable>
-          <View style={{ width: (Dimensions.get('window').width * 0.55 - 20) / 4, }}/>
-
-          {/* A bit stressed */}
           <Pressable onPress={() => setStress(1)}>
             <View
               style={{
@@ -137,11 +122,11 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
                 marginLeft: stress == 1 ? -10 : 0,
                 zIndex: 1,
               }}/>
-            <Text style={styles().textSlider}>2</Text>
+            <Text style={styles().textSlider}>1</Text>
           </Pressable>
           <View style={{ width: (Dimensions.get('window').width * 0.55 - 20) / 4, }}/>
 
-          {/* Stressed */}
+          {/* A bit stressed */}
           <Pressable onPress={() => setStress(2)}>
             <View
               style={{
@@ -152,11 +137,11 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
                 marginLeft: stress == 2 ? -10 : 0,
                 zIndex: 1,
               }}/>
-            <Text style={styles().textSlider}>3</Text>
+            <Text style={styles().textSlider}>2</Text>
           </Pressable>
           <View style={{ width: (Dimensions.get('window').width * 0.55 - 20) / 4, }}/>
 
-          {/* Very stressed */}
+          {/* Stressed */}
           <Pressable onPress={() => setStress(3)}>
             <View
               style={{
@@ -167,11 +152,11 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
                 marginLeft: stress == 3 ? -10 : 0,
                 zIndex: 1,
               }}/>
-            <Text style={styles().textSlider}>4</Text>
+            <Text style={styles().textSlider}>3</Text>
           </Pressable>
           <View style={{ width: (Dimensions.get('window').width * 0.55 - 20) / 4, }}/>
 
-          {/* Extremely stressed */}
+          {/* Very stressed */}
           <Pressable onPress={() => setStress(4)}>
             <View
               style={{
@@ -182,13 +167,32 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
                 marginLeft: stress == 4 ? -10 : 0,
                 zIndex: 1,
               }}/>
+            <Text style={styles().textSlider}>4</Text>
+          </Pressable>
+          <View style={{ width: (Dimensions.get('window').width * 0.55 - 20) / 4, }}/>
+
+          {/* Extremely stressed */}
+          <Pressable onPress={() => setStress(5)}>
+            <View
+              style={{
+                width: stress == 5 ? 25 : 5,
+                height: 25,
+                borderRadius: stress == 5 ? 25 : 10,
+                backgroundColor: stress == 5 ? '#A5DFB2' : '#816868',
+                marginLeft: stress == 5 ? -10 : 0,
+                zIndex: 1,
+              }}/>
             <Text style={styles().textSlider}>5</Text>
           </Pressable>
         </View>
       </View>
 
+      <Text style={styles().text}>
+        If you were stressed today, what were some of the sources of your stress?
+      </Text>
+
       {/* Add Stressors button */}
-      <View style={{ width: '40%', }}>
+      <View style={{ width: '40%', marginTop: 20, }}>
         <Button
           title='+ Add Stressors'
           onPress={() => setShowStressors(true)}
@@ -220,7 +224,7 @@ const styles = () =>
       color: global.colorblindMode
         ? global.cb_textColor
         : global.textColor,
-      fontSize: 16,
+      fontSize: 18,
       fontWeight: 'bold',
       marginBottom: 10,
     },

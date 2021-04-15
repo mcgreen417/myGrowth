@@ -140,6 +140,7 @@ const Medication = ({
   setMedications,
 }) => {
   const [showAddMedicine, setShowAddMedicine] = useState(false);
+  const [deleteEntry, setDeleteEntry] = useState(false);
   getMedications(setMedications);
 
   return (
@@ -151,7 +152,7 @@ const Medication = ({
           setShowAddMedicine(!showAddMedicine);
         }}>
         <Pressable
-          onPressOut={() => setShowAddMedicine(false)}
+          onPressOut={() => setShowAddMedicine(!showAddMedicine)}
           style={{
             width: Dimensions.get('window').width,
             height: Dimensions.get('window').height,
@@ -162,14 +163,93 @@ const Medication = ({
           <AddMedication setShowAddMedicine={setShowAddMedicine} />
         </Pressable>
       </Modal>
+      
       <Text style={styles().heading}>MEDICATION</Text>
+
       <Text style={styles().text}>What medication have you taken today?</Text>
-      <View style={{ marginBottom: 10, }}/>
+      {medications.length > 0 &&
+        <View style={{ marginBottom: 10, }}/>
+      }
       <View>
         {medications != undefined &&
           medications.map((item, index) => {
             return (
               <View key={index}>
+                {/* Delete exercise modal */}
+                <View style={styles().container}>
+                  <Modal
+                    animationType='fade'
+                    transparent={true}
+                    visible={deleteEntry}
+                    onRequestClose={() => {
+                      setDeleteEntry(!deleteEntry);
+                    }}>
+                    <Pressable
+                      style={{
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        zIndex: 1,
+                        backgroundColor: '#00000055',
+                      }}
+                      onPressOut={() => setDeleteEntry(!deleteEntry)}
+                      >
+                      <View style={styles().modalContainer}>
+                        <View style={styles().modalHeaderBar}>
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              flex: 2,
+                              marginLeft: 6,
+                              marginVertical: 4,
+                            }}>
+                            <Icon
+                              name='pill'
+                              type='material-community'
+                              color='white'
+                              style={{ marginRight: 8 }}
+                            />
+                            <Text style={styles().textAlt}>Delete Medication</Text>
+                          </View>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            flexWrap: 'wrap',
+                            marginHorizontal: '5%',
+                            maxHeight: '60%',
+                            marginVertical: 10,
+                          }}>
+                          <Text style={styles().text}>
+                            Are you sure you wish to delete the medication
+                            <Text style={styles().textBoldAlt}> "{item.name}" </Text>
+                            ?
+                          </Text>
+                          <Text style={styles().textBoldAlt}>This action cannot be undone.</Text>
+                        </View>
+                        <View 
+                          style={{ 
+                            flexDirection: 'row', 
+                            alignSelf: 'flex-end', 
+                            marginVertical: 10, 
+                            marginHorizontal: '5%', 
+                          }}>
+                          <TouchableOpacity 
+                            style={{ marginRight: 20, }}
+                            onPress={() => {
+                              setDeleteEntry(!deleteEntry);
+                              removeMedication(index);}}>
+                            <Text style={styles().textButton}>DELETE</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity onPress={() => setDeleteEntry(!deleteEntry)}>
+                            <Text style={styles().textButton}>CANCEL</Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    </Pressable>
+                  </Modal>
+                </View>
+
                 <View style={styles().line3} />
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Icon
@@ -210,7 +290,7 @@ const Medication = ({
                       <Icon
                         name='close'
                         color='#816868'
-                        onPress={() => removeMedication(index)}
+                        onPress={() => setDeleteEntry(!deleteEntry)}
                       />
                     </View>
                     <Switch
@@ -244,6 +324,7 @@ const Medication = ({
         />
       </View>
     </View>
+
   );
 };
 
@@ -262,7 +343,7 @@ const styles = () =>
     },
     heading: {
       color: global.colorblindMode ? global.cb_textColor : global.textColor,
-      fontSize: 16,
+      fontSize: 18,
       fontWeight: 'bold',
       marginBottom: 10,
     },
@@ -294,6 +375,31 @@ const styles = () =>
       minHeight: 1,
       marginTop: -1,
     },
+    modalContainer: {
+      backgroundColor: global.colorblindMode
+        ? global.cb_pageBackgroundColor
+        : global.pageBackgroundColor,
+      alignItems: 'center',
+      width: '80%',
+      borderRadius: 10,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.23,
+      shadowRadius: 2.62,
+      elevation: 4,
+    },
+    modalHeaderBar: {
+      backgroundColor: global.colorblindMode
+        ? global.cb_optionButtonsColor
+        : global.optionButtonsColor,
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderTopLeftRadius: 10,
+      borderTopRightRadius: 10,
+    },
     modalView: {
       margin: 20,
       backgroundColor: '#E5E5E5',
@@ -321,6 +427,26 @@ const styles = () =>
         ? global.cb_textColor 
         : global.textColor,
       fontSize: 16,
+    },
+    textAlt: {
+      color: 'white',
+      fontSize: 20,
+      fontWeight: 'bold',
+    },
+    textAltLight: {
+      color: '#E5E5E5',
+      fontSize: 16,
+    },
+    textBoldAlt: {
+      fontSize: 16,
+      color: '#816868',
+      fontWeight: 'bold',
+      marginTop: 4,
+    },
+    textButton: {
+      fontSize: 16,
+      color: '#4CB97A',
+      fontWeight: 'bold',
     },
     textLink: {
       color: '#4CB97A',

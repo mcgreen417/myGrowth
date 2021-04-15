@@ -112,7 +112,7 @@ function Home({ navigation }) {
           <View style={styles().dividerView}>
             <View style={styles().dividerLeft} />
             <View>
-              <Pressable onPress={() => navigation.navigate('HealthEntry1')}>
+              <Pressable onPress={() => navigation.navigate('HealthEntry')}>
                 <View style={styles().entryButton}>
                   <View
                     style={{
@@ -169,7 +169,7 @@ function Home({ navigation }) {
                 </Text>
                 <TouchableOpacity
                   style={styles().inlineRow}
-                  onPress={() => navigation.navigate('HealthEntry1')}>
+                  onPress={() => navigation.navigate('HealthEntry')}>
                   <Text style={styles().text}>Write a health entry</Text>
                   <Icon
                     name='checkmark-circle-outline'

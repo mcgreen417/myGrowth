@@ -133,8 +133,7 @@ const PhysicalMentalHealth = ({
       <View style={{ marginBottom: 20, }}/>
 
       <Text style={styles().textLight}>
-        If you have weighed yourself today, how much do you weigh? (Leave field
-        blank if you are unsure.)
+        If you have weighed yourself today, how much do you weigh?
       </Text>
 
       <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, marginBottom: 20, }}>
@@ -189,7 +188,7 @@ const styles = () =>
       color: global.colorblindMode
         ? global.cb_textColor
         : global.textColor,
-      fontSize: 16,
+      fontSize: 18,
       fontWeight: 'bold',
       marginBottom: 10,
     },

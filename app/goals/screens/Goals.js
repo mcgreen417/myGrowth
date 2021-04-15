@@ -25,17 +25,18 @@ const Goal = ({ title, description, type, navigation }) => {
           animationType='fade'
           transparent={true}
           visible={deleteEntry}
-          onRequestClose={() => {
-            setDeleteEntry(!deleteEntry);
-          }}>
-          <View
+          onRequestClose={() => setDeleteEntry(!deleteEntry)}
+        >
+          <Pressable
             style={{
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
               zIndex: 1,
               backgroundColor: '#00000055',
-            }}>
+            }}
+            onPressOut={() => setDeleteEntry(!deleteEntry)}
+            >
               <View style={styles().modalContainer}>
                 <View style={styles().modalHeaderBar}>
                   <View
@@ -86,7 +87,7 @@ const Goal = ({ title, description, type, navigation }) => {
                   </TouchableOpacity>
                 </View>
               </View>
-            </View>
+            </Pressable>
         </Modal>
       </View>
 
@@ -98,14 +99,21 @@ const Goal = ({ title, description, type, navigation }) => {
         marginVertical: 4,
       }}>
         {/* This icon should change to check-box when the user clicks on it (and retain that until daily reset) */}
-        <Pressable onPress={() => navigation.navigate('GoalComplete')}>
-          <Icon
-            name='check-box-outline-blank'
-            type='MaterialIcons'
-            color='#816868'
-            style={{ marginRight: 8 }}
-          />
-        </Pressable>
+        <Icon
+          name={toggleCheckBox
+            ? 'check-box'
+            : 'check-box-outline-blank'
+          }
+          type='MaterialIcons'
+          color={toggleCheckBox
+            ? '#4CB97A'
+            : '#816868'
+          }
+          onPress={() => {
+            setToggleCheckBox(true);
+            navigation.navigate('GoalComplete');}}
+        />
+        <View style={{ marginRight: 8 }}/>
         <Text style={styles().text}>{title}</Text>
         <View style={styles().iconView}>
           <View style={{ flexDirection: 'row' }}>
@@ -151,14 +159,16 @@ function Goals({ navigation }) {
           visible={showDailyGoalsInfo}
           onRequestClose={() => setShowDailyGoalsInfo(!showDailyGoalsInfo)}
         >
-          <View
+          <Pressable
             style={{
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
               zIndex: 1,
               backgroundColor: '#00000055',
-            }}>
+            }}
+            onPressOut={() => setShowDailyGoalsInfo(!showDailyGoalsInfo)}
+            >
               <View style={styles().modalContainer}>
                 <View style={styles().modalHeaderBar}>
                   <View
@@ -223,7 +233,7 @@ function Goals({ navigation }) {
                   </Text>
                 </View>
               </View>
-            </View>
+            </Pressable>
         </Modal>
       </View>
 
@@ -235,14 +245,16 @@ function Goals({ navigation }) {
           visible={showWeeklyGoalsInfo}
           onRequestClose={() => setShowWeeklyGoalsInfo(!showWeeklyGoalsInfo)}
         >
-          <View
+          <Pressable
             style={{
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
               zIndex: 1,
               backgroundColor: '#00000055',
-            }}>
+            }}
+            onPressOut={() => setShowWeeklyGoalsInfo(!showWeeklyGoalsInfo)}
+            >
               <View style={styles().modalContainer}>
                 <View style={styles().modalHeaderBar}>
                   <View
@@ -315,7 +327,7 @@ function Goals({ navigation }) {
                   </Text>
                 </View>
               </View>
-            </View>
+            </Pressable>
         </Modal>
       </View>
 
@@ -327,14 +339,16 @@ function Goals({ navigation }) {
           visible={showLongTermGoalsInfo}
           onRequestClose={() => setShowLongTermGoalsInfo(!showLongTermGoalsInfo)}
         >
-          <View
+          <Pressable
             style={{
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
               zIndex: 1,
               backgroundColor: '#00000055',
-            }}>
+            }}
+            onPressOut={() => setShowLongTermGoalsInfo(!showLongTermGoalsInfo)}
+            >
               <View style={styles().modalContainer}>
                 <View style={styles().modalHeaderBar}>
                   <View
@@ -399,7 +413,7 @@ function Goals({ navigation }) {
                   </Text>
                 </View>
               </View>
-            </View>
+            </Pressable>
         </Modal>
       </View>
 

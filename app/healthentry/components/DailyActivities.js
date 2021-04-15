@@ -149,7 +149,7 @@ const styles = () =>
       color: global.colorblindMode
         ? global.cb_textColor
         : global.textColor,
-      fontSize: 16,
+      fontSize: 18,
       fontWeight: 'bold',
       marginBottom: 10,
     },

@@ -55,14 +55,16 @@ function PlantShop({ navigation }) {
           visible={showGoalInfo}
           onRequestClose={() => setShowGoalInfo(!showGoalInfo)}
         >
-          <View
+          <Pressable
             style={{
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
               zIndex: 1,
               backgroundColor: '#00000055',
-            }}>
+            }}
+            onPressOut={() => setShowGoalInfo(!showGoalInfo)}
+            >
               <View style={styles().modalContainer}>
                 <View style={styles().modalHeaderBar}>
                   <View
@@ -127,7 +129,7 @@ function PlantShop({ navigation }) {
                   </Text>
                 </View>
               </View>
-            </View>
+            </Pressable>
         </Modal>
       </View>
 
