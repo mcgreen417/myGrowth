@@ -13,6 +13,7 @@ import * as queries from '../../../src/graphql/queries';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
+import { Dimensions } from 'react-native';
 
 function Home({ navigation }) {
   let plant = 4;
@@ -69,7 +70,7 @@ function Home({ navigation }) {
             </Text>
             <Image
               style={styles().avatar}
-              source={require('../../shared/assets/gardener-avatar.png')}
+              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
             />
           </View>
 
@@ -282,12 +283,15 @@ const styles = () => StyleSheet.create({
     marginBottom: 20,
   },
   avatar: {
-    width: 75,
-    height: 75,
+    width: Math.round(Dimensions.get('window').width * 1/3.5),
+    height: Math.round(Dimensions.get('window').width * 1/3.5),
+    transform: [
+      { scaleX: -1 }
+    ]
   },
   avatarView: {
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 10,
     alignItems: 'center',
     justifyContent: 'center',
     width: '90%',
