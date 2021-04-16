@@ -17,7 +17,7 @@ const StressorsModal = ({ stressors, setStressors }) => {
   
   return (
     <Pressable>
-      {console.log(stressors)}
+      {/*console.log(stressors)*/}
       <View style={styles().modalView}>
         {/* Stressors user input */}
         <View style={{ alignItems: 'center', flexDirection: 'row', }}>
@@ -42,7 +42,7 @@ const StressorsModal = ({ stressors, setStressors }) => {
             title='Add Stressor'
             onPress={() => {
               let temp = new Array(stressor).concat(stressors);
-              console.log('temp:', temp);
+              //console.log('temp:', temp);
               setStressors(temp);
             }}
             color={

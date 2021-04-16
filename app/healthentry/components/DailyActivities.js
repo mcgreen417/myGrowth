@@ -17,7 +17,7 @@ const AddActivitiesModal = ({ activities, setActivities }) => {
 
   return (
     <Pressable>
-      {console.log(activities)}
+      {/*console.log(activities)*/}
       <View style={styles().modalView}>
         {/* Activity user input */}
         <View style={{ alignItems: 'center', flexDirection: 'row', }}>
@@ -66,10 +66,10 @@ const AddActivitiesModal = ({ activities, setActivities }) => {
                 Duration: parseInt(activityDuration),
               };
               let temp = new Array(activity).concat(activities);
-              console.log('temp:', temp);
+              //console.log('temp:', temp);
               setActivities(temp);
-              console.log('activites', activities);
-              console.log('activites', activities);
+              //console.log('activites', activities);
+              //console.log('activites', activities);
             }}
             color={
               global.colorblindMode

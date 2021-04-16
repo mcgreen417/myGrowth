@@ -17,7 +17,7 @@ const AddSymptomsModal = ({ symptoms, setSymptoms }) => {
 
   return (
     <Pressable>
-      {console.log(symptoms)}
+      {/*console.log(symptoms)*/}
       <View style={styles().modalView}>
         <View style={{ alignItems: 'center', flexDirection: 'row' }}>
           <Text style={styles().text}>Symptom:</Text>
@@ -63,10 +63,10 @@ const AddSymptomsModal = ({ symptoms, setSymptoms }) => {
                 Severity: parseInt(symptomSeverity),
               };
               let temp = new Array(symptom).concat(symptoms);
-              console.log('temp:', temp);
+              //console.log('temp:', temp);
               setSymptoms(temp);
-              console.log('symptoms', symptoms);
-              console.log('symptoms', symptoms);
+              //console.log('symptoms', symptoms);
+              //console.log('symptoms', symptoms);
             }}
             color={
               global.colorblindMode

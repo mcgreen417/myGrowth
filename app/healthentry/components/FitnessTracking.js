@@ -14,7 +14,7 @@ import {
 import { Icon } from 'react-native-elements';
 
 function removeExercise(exercises, setExercises, index) {
-  console.log(exercises);
+  //console.log(exercises);
   let tempExercises = [...exercises];
   tempExercises.pop(index);
   setExercises(tempExercises);
@@ -354,7 +354,7 @@ const AdvanceFitnessTracking = ({ exercises, setExercises }) => {
       />
       {exercises.length != 0 &&
         exercises.map((item, index) => {
-          console.log(item);
+          //console.log(item);
           return (
             item.Name != null && (
               <View key={index}>

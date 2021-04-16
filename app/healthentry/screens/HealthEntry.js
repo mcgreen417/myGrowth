@@ -72,9 +72,9 @@ async function submit(
   naps,
   navigation
 ) {
-  console.log(symptoms);
-  console.log(period);
-  console.log(weight);
+  //console.log(symptoms);
+  //console.log(period);
+  //console.log(weight);
   const activitiesIn = activities;
   const stressIn = { Severity: stress, Stressors: stressors };
   const moodIn = { Mood: mood, Feelings: feelings };

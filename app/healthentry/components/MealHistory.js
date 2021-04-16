@@ -13,7 +13,7 @@ import {
 import { Icon } from 'react-native-elements';
 
 function removeFood(foods, setFoods, index) {
-  console.log(foods);
+  //console.log(foods);
   let tempFoods = [...foods];
   tempFoods.pop(index);
   setFoods(tempFoods);
@@ -550,7 +550,7 @@ const AddFood = ({
 };
 
 function removeMeal(meals, setMeals, index) {
-  console.log(meals);
+  //console.log(meals);
   let tempMeals = [...meals];
   tempMeals.pop(index);
   setMeals(tempMeals);

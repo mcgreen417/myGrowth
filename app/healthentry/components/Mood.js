@@ -19,7 +19,7 @@ const FeelingsModal = ({ feelings, setFeelings }) => {
 
   return (
     <Pressable>
-      {console.log(feelings)}
+      {/*console.log(feelings)*/}
       <View style={styles().modalView}>
         {/* Feeling user input box */}
         <View style={{ alignItems: 'center', flexDirection: 'row' }}>
@@ -44,10 +44,10 @@ const FeelingsModal = ({ feelings, setFeelings }) => {
             title='Add Feeling'
             onPress={() => {
               let temp = new Array(feel).concat(feelings);
-              console.log('temp:', temp);
+              //console.log('temp:', temp);
               setFeelings(temp);
-              console.log('feelings', feelings);
-              console.log('feelings', feelings);
+              //console.log('feelings', feelings);
+              //console.log('feelings', feelings);
             }}
             color={
               global.colorblindMode

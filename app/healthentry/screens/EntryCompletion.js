@@ -19,7 +19,7 @@ const EntryCompletion = () => {
         <View style={{ alignItems: 'center', }}>
 
           {/* Congratulations banner + filler image */}
-          <Image source={require('../../shared/assets/health-entry-banner.png')}/>
+          <Image source={require('../../shared/assets/health-entry-banner-edited.png')}/>
           <View style={{ marginTop: '-4%' }}/>
             <View style={{ width: '90%', height: '60%', }}>
               <Image
