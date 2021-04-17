@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   Image,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
@@ -147,12 +148,12 @@ const HealthEntry = ({ navigation }) => {
           {/* Gardener avatar + page blurb */}
           <View style={styles().avatarView}>
             <Text style={styles().pageDescription}>
-              Time for a new health entry! After you save your entry, you may
-              edit it at any time.
+              Time for a new health entry! Fill out only the fields you'd like to and come 
+              back here to edit your entry later.
             </Text>
             <Image
-              style={styles().avatar}
-              source={require('../../shared/assets/gardener-avatar.png')}
+              style={styles().avatarFlipped}
+              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
             />
           </View>
           {/* Top page divider */}
@@ -231,6 +232,7 @@ const HealthEntry = ({ navigation }) => {
             setFeels={setFeelings}
           />
           {/* Section divider */}
+          <View style={{ marginTop: -10, }}/>
           <View style={styles().dividerView}>
             <View style={styles().divider} />
           </View>
@@ -243,6 +245,7 @@ const HealthEntry = ({ navigation }) => {
             setStressors={setStressors}
           />
           {/* Section divider */}
+          <View style={{ marginTop: -10, }}/>
           <View style={styles().dividerView}>
             <View style={styles().divider} />
           </View>
@@ -253,6 +256,7 @@ const HealthEntry = ({ navigation }) => {
             setActivities={setActivities}
           />
           {/* Section divider */}
+          <View style={{ marginTop: -10, }}/>
           <View style={styles().dividerView}>
             <View style={styles().divider} />
           </View>
@@ -267,6 +271,7 @@ const HealthEntry = ({ navigation }) => {
             setSymptoms={setSymptoms}
           />
           {/* Section divider */}
+          <View style={{ marginTop: -10, }}/>
           <View style={styles().dividerView}>
             <View style={styles().divider} />
           </View>
@@ -278,6 +283,8 @@ const HealthEntry = ({ navigation }) => {
             medications={medications}
             setMedications={setMedications}
           />
+          {/* Section divider */}
+          <View style={{ marginTop: -10, }}/>
           <View style={styles().dividerView}>
             <View style={styles().divider} />
           </View>
@@ -393,9 +400,12 @@ const styles = () =>
         ? global.cb_pageBackgroundColor
         : global.pageBackgroundColor,
     },
-    avatar: {
-      width: 75,
-      height: 75,
+    avatarFlipped: {
+      width: Math.round(Dimensions.get('window').width * 1/4),
+      height: Math.round(Dimensions.get('window').width * 1/4),
+      transform: [
+        { scaleX: -1 }
+      ]
     },
     avatarView: {
       flexDirection: 'row',
@@ -440,7 +450,7 @@ const styles = () =>
       fontWeight: 'bold',
       flex: 1,
       flexWrap: 'wrap',
-      marginRight: 20,
+      marginRight: 10,
     },
     pageEnd: {
       marginBottom: 100,

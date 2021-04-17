@@ -9,76 +9,11 @@ import {
   Modal,
   Pressable,
   Dimensions,
+  Keyboard,
+  ScrollView,
+  SafeAreaView,
 } from 'react-native';
-
-const AddSymptomsModal = ({ symptoms, setSymptoms }) => {
-  const [symptomTitle, setSymptomTitle] = useState('');
-  const [symptomSeverity, setSymptomSeverity] = useState('');
-
-  return (
-    <Pressable>
-      {/*console.log(symptoms)*/}
-      <View style={styles().modalView}>
-        <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-          <Text style={styles().text}>Symptom:</Text>
-          <TextInput
-            placeholder='Symptom Name'
-            style={{
-              borderBottomColor: '#C4BEBD',
-              borderBottomWidth: 1,
-              textAlign: 'center',
-              width: 150,
-              marginLeft: 10,
-            }}
-            keyboardType='default'
-            value={symptomTitle}
-            onChangeText={setSymptomTitle}
-          />
-        </View>
-        
-        <View style={{ alignItems: 'center', flexDirection: 'row', marginTop: 10, }}>
-          <Text style={styles().text}>Symptom Severity:</Text>
-          <TextInput
-            placeholder='#'
-            style={{
-              borderBottomColor: '#C4BEBD',
-              borderBottomWidth: 1,
-              textAlign: 'center',
-              width: 50,
-              marginHorizontal: 10,
-            }}
-            keyboardType='number-pad'
-            value={symptomSeverity}
-            onChangeText={setSymptomSeverity}
-          />
-          <Text style={styles().textLight}>(1-10)</Text>
-        </View>
-
-        <View style={{ width: '50%', marginVertical: 20, }}>
-          <Button
-            title='Add Symptom'
-            onPress={() => {
-              let symptom = {
-                Title: symptomTitle,
-                Severity: parseInt(symptomSeverity),
-              };
-              let temp = new Array(symptom).concat(symptoms);
-              //console.log('temp:', temp);
-              setSymptoms(temp);
-              //console.log('symptoms', symptoms);
-              //console.log('symptoms', symptoms);
-            }}
-            color={
-              global.colorblindMode
-              ? global.cb_optionButtonsColor
-              : global.optionButtonsColor
-            }
-          />
-        </View>
-      </View>
-    </Pressable>
-  );
-};
+import { Icon } from 'react-native-elements';
 
 const PhysicalMentalHealth = ({
   hadPeriod,
@@ -88,86 +23,257 @@ const PhysicalMentalHealth = ({
   symptoms,
   setSymptoms,
 }) => {
-  const [showAddSymptom, setShowAddSymptom] = useState(false);
+  const [showAddSymptoms, setShowAddSymptoms] = useState(false);
+  const [pressedSymptom, setPressedSymptom] = useState(false);
+  const [pressedSeverity, setPressedSeverity] = useState(false);
+  const [symptomTitle, setSymptomTitle] = useState('');
+  const [symptomSeverity, setSymptomSeverity] = useState('');
 
   return (
-    <View style={{ width: '90%' }}>
-      <Modal
-        transparent={true}
-        visible={showAddSymptom}
-        onRequestClose={() => {
-          setShowAddSymptom(!showAddSymptom);
-        }}>
-        <Pressable
-          onPressOut={() => setShowAddSymptom(false)}
-          style={{
-            width: Dimensions.get('window').width,
-            height: Dimensions.get('window').height,
-            justifyContent: 'center',
-            alignContent: 'center',
-            backgroundColor: '#00000050',
-          }}>
-          <AddSymptomsModal symptoms={symptoms} setSymptoms={setSymptoms} />
-        </Pressable>
-      </Modal>
+    <SafeAreaView style={{ width: '90%' }}>
+      <ScrollView keyboardShouldPersistTaps='handled'>
 
-      <Text style={styles().heading}>PHYSICAL & MENTAL HEALTH</Text>
+        {/* Add Symptom modal */}
+        <View style={styles().container}>
+          <Modal
+            animationType='fade'
+            transparent={true}
+            visible={showAddSymptoms}
+            onRequestClose={() => {
+              setPressedSymptom(false);
+              setPressedSeverity(false);
+              setShowAddSymptoms(!showAddSymptoms);}}
+          >
+            <Pressable
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                zIndex: 1,
+                backgroundColor: '#00000055',
+              }}
+              onPressOut={() => {
+                setPressedSymptom(false);
+                setPressedSeverity(false);
+                setShowAddSymptoms(!showAddSymptoms);}}
+              >
+              <Pressable 
+                style={styles().modalContainer}
+                onPressOut={() => {
+                  Keyboard.dismiss();
+                  setPressedSymptom(false);
+                  setPressedSeverity(false);
+                  setShowAddSymptoms(true);}}
+              >
+                <View style={styles().modalHeaderBar}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 2,
+                      marginLeft: 6,
+                      marginVertical: 4,
+                      alignItems: 'center',
+                    }}>
+                    <Icon
+                      name='sick'
+                      type='MaterialIcons'
+                      color='white'
+                      size={20}
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles().textAlt}>Add Symptoms</Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        flex: 1,
+                        justifyContent: 'flex-end',
+                        marginRight: 6,
+                      }}>
+                      <Icon
+                        name='close'
+                        type='ionicon'
+                        color='white'
+                        onPress={() => {
+                          setPressedSymptom(false);
+                          setPressedSeverity(false);
+                          setShowAddSymptoms(!showAddSymptoms);}}
+                      />
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    marginHorizontal: '5%',
+                    maxHeight: '60%',
+                    marginTop: 10,
+                    marginBottom: 16,
+                  }}>
+                  <View style={{ marginTop: 16, marginBottom: 20, }}>
+                    <View style={styles().textInputView}>
+                      <View style={styles().labelView}>
+                        <Text style={{
+                          color: pressedSymptom 
+                            ? '#4CB97A'
+                            : '#816868',
+                          fontSize: 16,
+                          fontWeight: 'bold',
+                        }}>Symptom</Text>
+                      </View>
+                      <View style={{
+                          flex: 1, 
+                          borderWidth: 1, 
+                          borderColor: pressedSymptom
+                            ? '#4CB97A'
+                            : '#816868',
+                          justifyContent: 'flex-end',
+                          borderRadius: 10,
+                          paddingHorizontal: 16,
+                        }}>
+                        <TextInput 
+                          placeholder='Symptom name'
+                          fontSize={16}
+                          color='#816868'
+                          value={symptomTitle}
+                          onChangeText={setSymptomTitle}
+                          maxLength={99}
+                          onFocus={() => {
+                            setPressedSymptom(true);
+                            setPressedSeverity(false);
+                          }}
+                          style={{ top: -8, }}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                  <View style={{ marginTop: 10, marginBottom: 20, }}>
+                    <View style={styles().textInputView}>
+                      <View style={styles().labelView}>
+                        <Text style={{
+                          color: pressedSeverity 
+                            ? '#4CB97A'
+                            : '#816868',
+                          fontSize: 16,
+                          fontWeight: 'bold',
+                        }}>Severity</Text>
+                      </View>
+                      <View style={{
+                          flex: 1, 
+                          borderWidth: 1, 
+                          borderColor: pressedSeverity
+                            ? '#4CB97A'
+                            : '#816868',
+                          justifyContent: 'flex-end',
+                          borderRadius: 10,
+                          paddingHorizontal: 16,
+                        }}>
+                        <TextInput 
+                          placeholder='Severity (1-10)'
+                          fontSize={16}
+                          color='#816868'
+                          value={symptomSeverity}
+                          onChangeText={setSymptomSeverity}
+                          keyboardType='numeric'
+                          maxLength={2}
+                          onFocus={() => {
+                            setPressedSymptom(false);
+                            setPressedSeverity(true);
+                          }}
+                          style={{ top: -8, }}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                  {/* Add Feeling button */}
+                  <View style={{ alignSelf: 'center', }}>
+                    <Button
+                      title='Add Symptom'
+                      onPress={() => {
+                        let symptom = {
+                          Title: symptomTitle,
+                          Severity: parseInt(symptomSeverity),
+                        };
+                        let temp = new Array(symptom).concat(symptoms);
+                        //console.log('temp:', temp);
+                        setSymptoms(temp);
+                        //console.log('symptoms', symptoms);
+                        //console.log('symptoms', symptoms);
+                        setPressedSymptom(false);
+                        setPressedSeverity(false);
+                        setSymptomTitle('');
+                        setSymptomSeverity('');
+                        setShowAddSymptoms(true);
+                      }}
+                      color={
+                        global.colorblindMode
+                          ? global.cb_optionButtonsColor
+                          : global.optionButtonsColor
+                      }
+                    />
+                  </View>
+                </View>
+              </Pressable>
+            </Pressable>
+          </Modal>
+        </View>
 
-      <View style={{ marginTop: 10, }}/>
-      <View style={styles().line}/>
-      <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-        <Text style={styles().textLight}>Did you have your period today?</Text>
-        <View style={styles().switchView}>
-          <View style={styles().line2}/>
-          <Switch
-            trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
-            thumbColor={hadPeriod ? '#4CB97A' : '#f4f3f4'}
-            ios_backgroundColor='#3e3e3e'
-            onValueChange={() => setHadPeriod(!hadPeriod)}
-            value={hadPeriod}
-            style={{ marginLeft: 8, }}
+        <Text style={styles().heading}>PHYSICAL & MENTAL HEALTH</Text>
+
+        <View style={{ marginTop: 10, }}/>
+        <View style={styles().line}/>
+        <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+          <Text style={styles().text}>Did you have your period today?</Text>
+          <View style={styles().switchView}>
+            <View style={styles().line2}/>
+            <Switch
+              trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
+              thumbColor={hadPeriod ? '#4CB97A' : '#f4f3f4'}
+              ios_backgroundColor='#3e3e3e'
+              onValueChange={() => setHadPeriod(!hadPeriod)}
+              value={hadPeriod}
+              style={{ marginLeft: 8, }}
+            />
+          </View>
+        </View>
+        <View style={styles().line}/>
+        <View style={{ marginBottom: 20, }}/>
+
+        <Text style={styles().text}>
+          If you have weighed yourself today, how much do you weigh?
+        </Text>
+
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, marginBottom: 20, }}>
+          <TextInput
+            placeholder='#'
+            style={{
+              borderBottomColor: '#C4BEBD',
+              borderBottomWidth: 1,
+              textAlign: 'center',
+              width: 50,
+            }}
+            keyboardType='number-pad'
+            value={weight.toString()}
+            onChangeText={setWeight}
+          />
+          <Text style={styles().text}> lbs</Text>
+        </View>
+
+        <Text style={styles().text}>
+          Have you experienced any unusual physical or mental health symptoms today?
+        </Text>
+
+        <View style={{ width: '40%', marginTop: 20, marginBottom: 10, }}>
+          <Button
+            title='+ Add Symptoms'
+            onPress={() => setShowAddSymptoms(!showAddSymptoms)}
+            color={
+              global.colorblindMode
+              ? global.cb_optionButtonsColor
+              : global.optionButtonsColor
+            }
           />
         </View>
-      </View>
-      <View style={styles().line}/>
-      <View style={{ marginBottom: 20, }}/>
-
-      <Text style={styles().textLight}>
-        If you have weighed yourself today, how much do you weigh?
-      </Text>
-
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, marginBottom: 20, }}>
-        <TextInput
-          placeholder='#'
-          style={{
-            borderBottomColor: '#C4BEBD',
-            borderBottomWidth: 1,
-            textAlign: 'center',
-            width: 50,
-          }}
-          keyboardType='number-pad'
-          value={weight.toString()}
-          onChangeText={setWeight}
-        />
-        <Text style={styles().textLight}> lbs</Text>
-      </View>
-
-      <Text style={styles().textLight}>
-        Have you experienced any unusual physical or mental health symptoms today?
-      </Text>
-
-      <View style={{ width: '40%', marginTop: 20, }}>
-        <Button
-          title='+ Add Symptoms'
-          onPress={() => setShowAddSymptom(true)}
-          color={
-            global.colorblindMode
-            ? global.cb_optionButtonsColor
-            : global.optionButtonsColor
-          }
-        />
-      </View>
-    </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -192,6 +298,21 @@ const styles = () =>
       fontWeight: 'bold',
       marginBottom: 10,
     },
+    label: {
+      color: '#816868',
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
+    labelView: {
+      position: 'absolute',
+      backgroundColor: global.colorblindMode
+        ? global.cb_pageBackgroundColor
+        : global.pageBackgroundColor,
+      top: -16,
+      left: 14,
+      padding: 5,
+      zIndex: 50,
+    },
     line: {
       borderColor: global.colorblindMode
         ? global.cb_lineColor
@@ -212,21 +333,30 @@ const styles = () =>
       justifyContent: 'center',
       alignItems: 'flex-end',
     },
-    modalView: {
-      margin: 20,
-      backgroundColor: '#E5E5E5',
-      borderRadius: 10,
-      padding: 35,
-      paddingBottom: -10,
-      paddingTop: 15,
+    modalContainer: {
+      backgroundColor: global.colorblindMode
+        ? global.cb_pageBackgroundColor
+        : global.pageBackgroundColor,
       alignItems: 'center',
+      width: Math.round(Dimensions.get('window').width * 4/5),
+      borderRadius: 10,
       shadowColor: '#000',
       shadowOffset: {
+        width: 0,
         height: 2,
       },
-      shadowOpacity: 0.5,
-      shadowRadius: 4,
-      elevation: 7,
+      shadowOpacity: 0.23,
+      shadowRadius: 2.62,
+      elevation: 4,
+    },
+    modalHeaderBar: {
+      backgroundColor: global.colorblindMode
+        ? global.cb_optionButtonsColor
+        : global.optionButtonsColor,
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderTopLeftRadius: 10,
+      borderTopRightRadius: 10,
     },
     switchView: {
       flex: 1,
@@ -239,13 +369,15 @@ const styles = () =>
         ? global.cb_textColor 
         : global.textColor,
       fontSize: 16,
-      textAlign: 'center',
+    },
+    textAlt: {
+      color: 'white',
+      fontSize: 20,
       fontWeight: 'bold',
     },
-    textLight: {
-      color: global.colorblindMode 
-        ? global.cb_textColor 
-        : global.textColor,
-      fontSize: 16,
+    textInputView: {
+      height: 48, 
+      width: Math.round(Dimensions.get('window').width * 1/2),
+      position: 'relative',
     },
   });

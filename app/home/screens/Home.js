@@ -8,12 +8,12 @@ import {
   Image,
   Pressable,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import * as queries from '../../../src/graphql/queries';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
-import { Dimensions } from 'react-native';
 
 function Home({ navigation }) {
   let plant = 4;
@@ -69,7 +69,7 @@ function Home({ navigation }) {
               Good Morning,{'\n'}{displayName}!
             </Text>
             <Image
-              style={styles().avatar}
+              style={styles().avatarFlipped}
               source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
             />
           </View>
@@ -162,7 +162,7 @@ function Home({ navigation }) {
             <View style={{ flexDirection: 'row', }}>
               <Image
                 style={styles().avatar}
-                source={require('../../shared/assets/gardener-avatar.png')}
+                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
               />
               <View style={{ marginLeft: '5%', flex: 1, }}>
                 <Text style={styles().activityView}>
@@ -283,8 +283,12 @@ const styles = () => StyleSheet.create({
     marginBottom: 20,
   },
   avatar: {
-    width: Math.round(Dimensions.get('window').width * 1/3.5),
-    height: Math.round(Dimensions.get('window').width * 1/3.5),
+    width: Math.round(Dimensions.get('window').width * 1/4),
+    height: Math.round(Dimensions.get('window').width * 1/4),
+  },
+  avatarFlipped: {
+    width: Math.round(Dimensions.get('window').width * 1/4),
+    height: Math.round(Dimensions.get('window').width * 1/4),
     transform: [
       { scaleX: -1 }
     ]
