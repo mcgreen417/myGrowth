@@ -23,11 +23,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Cache } from 'react-native-cache';
 import * as mutations from '../../../src/graphql/mutations';
 
-const medication = [
-  { name: '(Medicine 1)', time: '2021-03-15T09:10:00Z' },
-  { name: '(Medicine 2)', time: '2021-03-15T13:35:40Z' },
-];
-
 const monthNames = [
   'January',
   'February',
@@ -58,48 +53,110 @@ function getTime(d) {
 }
 
 async function submit(
+  timestamp,
   mood,
   feelings,
-  stress,
+  stressSeverity,
   stressors,
   activities,
-  symptoms,
-  period,
+  hadPeriod,
   weight,
-  slept,
-  sleepTime,
-  sleepQuality,
+  symptoms,
+  medChecked,
+  medications,
+  hadSleep,
+  sleepTimeStart,
+  sleepTimeEnd,
+  qualityOfSleep,
   naps,
+  eatenToday,
+  totalCalories,
+  meals,
+  totalProteins,
+  totalCarbs,
+  totalFats,
+  exerciseToday,
+  exerciseLength,
+  caloriesBurn,
+  steps,
+  exercises,
   navigation
 ) {
-  //console.log(symptoms);
-  //console.log(period);
-  //console.log(weight);
-  const activitiesIn = activities;
-  const stressIn = { Severity: stress, Stressors: stressors };
+  // Mood, Stress, and Daily Activities
   const moodIn = { Mood: mood, Feelings: feelings };
-  const healthIn = { Period: period, Weight: weight };
+  const stressIn = { Severity: stressSeverity, Stressors: stressors };
+  const activitiesIn = activities;
+
+  // Medication, Physical, and Mental health
+  const healthIn = { Period: hadPeriod, Weight: parseInt(weight || 0) };
   const symptomIn = symptoms;
 
+  let medcheckIn = [];
+
+  for (var index = 0; index < medications.length; index++) {
+    medcheckIn.push({
+      Name: medications[index].name,
+      Taken: (medChecked & (1 << index)) != 0,
+    });
+  }
+
+  // Sleep and Naps
+  const sleepIn = {
+    Slept: hadSleep,
+    Start: sleepTimeStart.toISOString(),
+    End: sleepTimeEnd.toISOString(),
+    Quality: qualityOfSleep,
+    Naps: naps,
+  };
+
+  // Meals
+  const mealsIn = {
+    Ate: eatenToday,
+    TotalCalories: parseInt(totalCalories || 0),
+    MealList: meals,
+    TotalProteins: parseInt(totalProteins || 0),
+    TotalCarbs: parseInt(totalCarbs || 0),
+    TotalFats: parseInt(totalFats || 0),
+  };
+
+  // Fitness
+  const fitnessIn = {
+    Exercised: exerciseToday,
+    Duration: parseInt(exerciseLength || 0),
+    CaloriesBurned: parseInt(caloriesBurn || 0),
+    Steps: parseInt(steps || 0),
+    Exercises: exercises,
+  };
+
   const query = {
-    Mood: moodIn,
-    Stress: stressIn,
-    Activities: activitiesIn,
+    Timestamp: timestamp.toISOString(),
     Health: healthIn,
     Symptoms: symptomIn,
+    Stress: stressIn,
+    Mood: moodIn,
+    Sleep: sleepIn,
+    Meals: mealsIn,
+    Fitness: fitnessIn,
+    Medcheck: medcheckIn,
+    Activities: activitiesIn,
   };
-  console.log(query);
+
+  console.log('Query: ', query);
+
   const res = await API.graphql({
     query: mutations.updateDailyEntry,
     variables: query,
   });
 
-  console.log(res);
+  console.log('Response: ', res);
 
   navigation.navigate('EntryCompletion');
 }
 
 const HealthEntry = ({ navigation }) => {
+  // Timestamp variables
+  const [timestamp, setTimestamp] = useState(new Date());
+
   // Stress variables
   const [stressSeverity, setStressSeverity] = useState(0);
   const [stressors, setStressors] = useState([]);
@@ -111,12 +168,16 @@ const HealthEntry = ({ navigation }) => {
   // Daily Activities variables
   const [activities, setActivities] = useState([]);
 
+  // Medication variables
   const [medChecked, setMedChecked] = useState(0);
   const [medications, setMedications] = useState([]);
+
+  // Physical and Mental Health variables
   const [hadPeriod, setHadPeriod] = useState(false);
   const [weight, setWeight] = useState('');
   const [symptoms, setSymptoms] = useState([]);
 
+  // Sleep and Naps variables
   const [hadSleep, setHadSleep] = useState(true);
   const [qualityOfSleep, setQualityOfSleep] = useState(0);
   const [sleepTimeStart, setSleepTimeStart] = useState(new Date());
@@ -124,6 +185,7 @@ const HealthEntry = ({ navigation }) => {
   const [hadNap, setHadNap] = useState(false);
   const [naps, setNaps] = useState([]);
 
+  // Meals variables
   const [eatenToday, setEatenToday] = useState(true);
   const [meals, setMeals] = useState([]);
   const [totalCalories, setTotalCalories] = useState('');
@@ -131,6 +193,7 @@ const HealthEntry = ({ navigation }) => {
   const [totalCarbs, setTotalCarbs] = useState('');
   const [totalFats, setTotalFats] = useState('');
 
+  // Fitness variables
   const [exerciseToday, setExerciseToday] = useState(false);
   const [exerciseLength, setExerciseLength] = useState('');
   const [caloriesBurn, setCaloriesBurn] = useState('');
@@ -356,18 +419,33 @@ const HealthEntry = ({ navigation }) => {
                 color='#A5DFB2'
                 onPress={() =>
                   submit(
+                    timestamp,
                     mood,
-                    feels,
-                    stress,
+                    feelings,
+                    stressSeverity,
                     stressors,
                     activities,
-                    symptoms,
                     hadPeriod,
                     weight,
+                    symptoms,
+                    medChecked,
+                    medications,
                     hadSleep,
-                    sleepTime,
+                    sleepTimeStart,
+                    sleepTimeEnd,
                     qualityOfSleep,
                     naps,
+                    eatenToday,
+                    totalCalories,
+                    meals,
+                    totalProteins,
+                    totalCarbs,
+                    totalFats,
+                    exerciseToday,
+                    exerciseLength,
+                    caloriesBurn,
+                    steps,
+                    exercises,
                     navigation
                   )
                 }

@@ -9,26 +9,31 @@ import {
   ScrollView,
 } from 'react-native';
 
-const EntryCompletion = () => {
+const EntryCompletion = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView 
-        showsVerticalScrollIndicator={false} 
-        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', }}
-      >
-        <View style={{ alignItems: 'center', }}>
-
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
+        <View style={{ alignItems: 'center' }}>
           {/* Congratulations banner + filler image */}
-          <Image source={require('../../shared/assets/health-entry-banner-edited.png')}/>
-          <View style={{ marginTop: '-4%' }}/>
-            <View style={{ width: '90%', height: '60%', }}>
-              <Image
-                style={styles.fillerImage}
-                source={require('../../shared/assets/health-entry-watering-plant.png')}
-              />
-            </View>
-          
-          <View style={{ marginTop: '-4%', marginBottom: '10%', alignItems: 'center' }}>
+          <Image
+            source={require('../../shared/assets/health-entry-banner-edited.png')}
+          />
+          <View style={{ marginTop: '-4%' }} />
+          <View style={{ width: '90%', height: '60%' }}>
+            <Image
+              style={styles.fillerImage}
+              source={require('../../shared/assets/health-entry-watering-plant.png')}
+            />
+          </View>
+
+          <View
+            style={{
+              marginTop: '-4%',
+              marginBottom: '10%',
+              alignItems: 'center',
+            }}>
             <Text style={styles.text}>You've watered your plant today!</Text>
             <Text style={styles.text}>You have gained +5 Growth Points!</Text>
           </View>
