@@ -211,8 +211,8 @@ const HealthEntry = ({ navigation }) => {
           {/* Gardener avatar + page blurb */}
           <View style={styles().avatarView}>
             <Text style={styles().pageDescription}>
-              Time for a new health entry! Fill out only the fields you'd like to and come 
-              back here to edit your entry later.
+              Time for a new health entry! Fill out only the fields you'd like
+              to and come back here to edit your entry later.
             </Text>
             <Image
               style={styles().avatarFlipped}
@@ -291,11 +291,11 @@ const HealthEntry = ({ navigation }) => {
           <Mood
             mood={mood}
             setMood={setMood}
-            feels={feelings}
-            setFeels={setFeelings}
+            feelings={feelings}
+            setFeelings={setFeelings}
           />
           {/* Section divider */}
-          <View style={{ marginTop: -10, }}/>
+          <View style={{ marginTop: -10 }} />
           <View style={styles().dividerView}>
             <View style={styles().divider} />
           </View>
@@ -308,7 +308,7 @@ const HealthEntry = ({ navigation }) => {
             setStressors={setStressors}
           />
           {/* Section divider */}
-          <View style={{ marginTop: -10, }}/>
+          <View style={{ marginTop: -10 }} />
           <View style={styles().dividerView}>
             <View style={styles().divider} />
           </View>
@@ -319,7 +319,7 @@ const HealthEntry = ({ navigation }) => {
             setActivities={setActivities}
           />
           {/* Section divider */}
-          <View style={{ marginTop: -10, }}/>
+          <View style={{ marginTop: -10 }} />
           <View style={styles().dividerView}>
             <View style={styles().divider} />
           </View>
@@ -334,7 +334,7 @@ const HealthEntry = ({ navigation }) => {
             setSymptoms={setSymptoms}
           />
           {/* Section divider */}
-          <View style={{ marginTop: -10, }}/>
+          <View style={{ marginTop: -10 }} />
           <View style={styles().dividerView}>
             <View style={styles().divider} />
           </View>
@@ -347,7 +347,7 @@ const HealthEntry = ({ navigation }) => {
             setMedications={setMedications}
           />
           {/* Section divider */}
-          <View style={{ marginTop: -10, }}/>
+          <View style={{ marginTop: -10 }} />
           <View style={styles().dividerView}>
             <View style={styles().divider} />
           </View>
@@ -479,11 +479,9 @@ const styles = () =>
         : global.pageBackgroundColor,
     },
     avatarFlipped: {
-      width: Math.round(Dimensions.get('window').width * 1/4),
-      height: Math.round(Dimensions.get('window').width * 1/4),
-      transform: [
-        { scaleX: -1 }
-      ]
+      width: Math.round((Dimensions.get('window').width * 1) / 4),
+      height: Math.round((Dimensions.get('window').width * 1) / 4),
+      transform: [{ scaleX: -1 }],
     },
     avatarView: {
       flexDirection: 'row',
