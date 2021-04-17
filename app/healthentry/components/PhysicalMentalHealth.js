@@ -32,7 +32,6 @@ const PhysicalMentalHealth = ({
   return (
     <SafeAreaView style={{ width: '90%' }}>
       <ScrollView keyboardShouldPersistTaps='handled'>
-
         {/* Add Symptom modal */}
         <View style={styles().container}>
           <Modal
@@ -42,8 +41,8 @@ const PhysicalMentalHealth = ({
             onRequestClose={() => {
               setPressedSymptom(false);
               setPressedSeverity(false);
-              setShowAddSymptoms(!showAddSymptoms);}}
-          >
+              setShowAddSymptoms(!showAddSymptoms);
+            }}>
             <Pressable
               style={{
                 flex: 1,
@@ -55,16 +54,16 @@ const PhysicalMentalHealth = ({
               onPressOut={() => {
                 setPressedSymptom(false);
                 setPressedSeverity(false);
-                setShowAddSymptoms(!showAddSymptoms);}}
-              >
-              <Pressable 
+                setShowAddSymptoms(!showAddSymptoms);
+              }}>
+              <Pressable
                 style={styles().modalContainer}
                 onPressOut={() => {
                   Keyboard.dismiss();
                   setPressedSymptom(false);
                   setPressedSeverity(false);
-                  setShowAddSymptoms(true);}}
-              >
+                  setShowAddSymptoms(true);
+                }}>
                 <View style={styles().modalHeaderBar}>
                   <View
                     style={{
@@ -96,7 +95,8 @@ const PhysicalMentalHealth = ({
                         onPress={() => {
                           setPressedSymptom(false);
                           setPressedSeverity(false);
-                          setShowAddSymptoms(!showAddSymptoms);}}
+                          setShowAddSymptoms(!showAddSymptoms);
+                        }}
                       />
                     </View>
                   </View>
@@ -108,28 +108,28 @@ const PhysicalMentalHealth = ({
                     marginTop: 10,
                     marginBottom: 16,
                   }}>
-                  <View style={{ marginTop: 16, marginBottom: 20, }}>
+                  <View style={{ marginTop: 16, marginBottom: 20 }}>
                     <View style={styles().textInputView}>
                       <View style={styles().labelView}>
-                        <Text style={{
-                          color: pressedSymptom 
-                            ? '#4CB97A'
-                            : '#816868',
-                          fontSize: 16,
-                          fontWeight: 'bold',
-                        }}>Symptom</Text>
+                        <Text
+                          style={{
+                            color: pressedSymptom ? '#4CB97A' : '#816868',
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                          }}>
+                          Symptom
+                        </Text>
                       </View>
-                      <View style={{
-                          flex: 1, 
-                          borderWidth: 1, 
-                          borderColor: pressedSymptom
-                            ? '#4CB97A'
-                            : '#816868',
+                      <View
+                        style={{
+                          flex: 1,
+                          borderWidth: 1,
+                          borderColor: pressedSymptom ? '#4CB97A' : '#816868',
                           justifyContent: 'flex-end',
                           borderRadius: 10,
                           paddingHorizontal: 16,
                         }}>
-                        <TextInput 
+                        <TextInput
                           placeholder='Symptom name'
                           fontSize={16}
                           color='#816868'
@@ -140,33 +140,33 @@ const PhysicalMentalHealth = ({
                             setPressedSymptom(true);
                             setPressedSeverity(false);
                           }}
-                          style={{ top: -8, }}
+                          style={{ top: -8 }}
                         />
                       </View>
                     </View>
                   </View>
-                  <View style={{ marginTop: 10, marginBottom: 20, }}>
+                  <View style={{ marginTop: 10, marginBottom: 20 }}>
                     <View style={styles().textInputView}>
                       <View style={styles().labelView}>
-                        <Text style={{
-                          color: pressedSeverity 
-                            ? '#4CB97A'
-                            : '#816868',
-                          fontSize: 16,
-                          fontWeight: 'bold',
-                        }}>Severity</Text>
+                        <Text
+                          style={{
+                            color: pressedSeverity ? '#4CB97A' : '#816868',
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                          }}>
+                          Severity
+                        </Text>
                       </View>
-                      <View style={{
-                          flex: 1, 
-                          borderWidth: 1, 
-                          borderColor: pressedSeverity
-                            ? '#4CB97A'
-                            : '#816868',
+                      <View
+                        style={{
+                          flex: 1,
+                          borderWidth: 1,
+                          borderColor: pressedSeverity ? '#4CB97A' : '#816868',
                           justifyContent: 'flex-end',
                           borderRadius: 10,
                           paddingHorizontal: 16,
                         }}>
-                        <TextInput 
+                        <TextInput
                           placeholder='Severity (1-10)'
                           fontSize={16}
                           color='#816868'
@@ -178,19 +178,19 @@ const PhysicalMentalHealth = ({
                             setPressedSymptom(false);
                             setPressedSeverity(true);
                           }}
-                          style={{ top: -8, }}
+                          style={{ top: -8 }}
                         />
                       </View>
                     </View>
                   </View>
                   {/* Add Feeling button */}
-                  <View style={{ alignSelf: 'center', }}>
+                  <View style={{ alignSelf: 'center' }}>
                     <Button
                       title='Add Symptom'
                       onPress={() => {
                         let symptom = {
                           Title: symptomTitle,
-                          Severity: parseInt(symptomSeverity),
+                          Severity: parseInt(symptomSeverity || 0),
                         };
                         let temp = new Array(symptom).concat(symptoms);
                         //console.log('temp:', temp);
@@ -218,30 +218,36 @@ const PhysicalMentalHealth = ({
 
         <Text style={styles().heading}>PHYSICAL & MENTAL HEALTH</Text>
 
-        <View style={{ marginTop: 10, }}/>
-        <View style={styles().line}/>
-        <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+        <View style={{ marginTop: 10 }} />
+        <View style={styles().line} />
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text style={styles().text}>Did you have your period today?</Text>
           <View style={styles().switchView}>
-            <View style={styles().line2}/>
+            <View style={styles().line2} />
             <Switch
               trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
               thumbColor={hadPeriod ? '#4CB97A' : '#f4f3f4'}
               ios_backgroundColor='#3e3e3e'
               onValueChange={() => setHadPeriod(!hadPeriod)}
               value={hadPeriod}
-              style={{ marginLeft: 8, }}
+              style={{ marginLeft: 8 }}
             />
           </View>
         </View>
-        <View style={styles().line}/>
-        <View style={{ marginBottom: 20, }}/>
+        <View style={styles().line} />
+        <View style={{ marginBottom: 20 }} />
 
         <Text style={styles().text}>
           If you have weighed yourself today, how much do you weigh?
         </Text>
 
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, marginBottom: 20, }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginTop: 10,
+            marginBottom: 20,
+          }}>
           <TextInput
             placeholder='#'
             style={{
@@ -258,17 +264,18 @@ const PhysicalMentalHealth = ({
         </View>
 
         <Text style={styles().text}>
-          Have you experienced any unusual physical or mental health symptoms today?
+          Have you experienced any unusual physical or mental health symptoms
+          today?
         </Text>
 
-        <View style={{ width: '40%', marginTop: 20, marginBottom: 10, }}>
+        <View style={{ width: '40%', marginTop: 20, marginBottom: 10 }}>
           <Button
             title='+ Add Symptoms'
             onPress={() => setShowAddSymptoms(!showAddSymptoms)}
             color={
               global.colorblindMode
-              ? global.cb_optionButtonsColor
-              : global.optionButtonsColor
+                ? global.cb_optionButtonsColor
+                : global.optionButtonsColor
             }
           />
         </View>
@@ -291,9 +298,7 @@ const styles = () =>
       width: '100%',
     },
     heading: {
-      color: global.colorblindMode
-        ? global.cb_textColor
-        : global.textColor,
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
       fontSize: 18,
       fontWeight: 'bold',
       marginBottom: 10,
@@ -338,7 +343,7 @@ const styles = () =>
         ? global.cb_pageBackgroundColor
         : global.pageBackgroundColor,
       alignItems: 'center',
-      width: Math.round(Dimensions.get('window').width * 4/5),
+      width: Math.round((Dimensions.get('window').width * 4) / 5),
       borderRadius: 10,
       shadowColor: '#000',
       shadowOffset: {
@@ -365,9 +370,7 @@ const styles = () =>
       alignItems: 'center',
     },
     text: {
-      color: global.colorblindMode 
-        ? global.cb_textColor 
-        : global.textColor,
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
       fontSize: 16,
     },
     textAlt: {
@@ -376,8 +379,8 @@ const styles = () =>
       fontWeight: 'bold',
     },
     textInputView: {
-      height: 48, 
-      width: Math.round(Dimensions.get('window').width * 1/2),
+      height: 48,
+      width: Math.round((Dimensions.get('window').width * 1) / 2),
       position: 'relative',
     },
   });

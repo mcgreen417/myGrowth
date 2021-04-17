@@ -14,7 +14,9 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-{/* Daily activities section */}
+{
+  /* Daily activities section */
+}
 const DailyActivities = ({ activities, setActivities }) => {
   const [showAddActivities, setShowAddActivities] = useState(false);
   const [pressedActivity, setPressedActivity] = useState(false);
@@ -34,8 +36,8 @@ const DailyActivities = ({ activities, setActivities }) => {
             onRequestClose={() => {
               setPressedActivity(false);
               setPressedDuration(false);
-              setShowAddActivities(!showAddActivities);}}
-          >
+              setShowAddActivities(!showAddActivities);
+            }}>
             <Pressable
               style={{
                 flex: 1,
@@ -47,16 +49,16 @@ const DailyActivities = ({ activities, setActivities }) => {
               onPressOut={() => {
                 setPressedActivity(false);
                 setPressedDuration(false);
-                setShowAddActivities(!showAddActivities);}}
-              >
-              <Pressable 
+                setShowAddActivities(!showAddActivities);
+              }}>
+              <Pressable
                 style={styles().modalContainer}
                 onPressOut={() => {
                   Keyboard.dismiss();
                   setPressedActivity(false);
                   setPressedDuration(false);
-                  setShowAddActivities(true);}}
-              >
+                  setShowAddActivities(true);
+                }}>
                 <View style={styles().modalHeaderBar}>
                   <View
                     style={{
@@ -88,7 +90,8 @@ const DailyActivities = ({ activities, setActivities }) => {
                         onPress={() => {
                           setPressedActivity(false);
                           setPressedDuration(false);
-                          setShowAddActivities(!showAddActivities);}}
+                          setShowAddActivities(!showAddActivities);
+                        }}
                       />
                     </View>
                   </View>
@@ -100,28 +103,28 @@ const DailyActivities = ({ activities, setActivities }) => {
                     marginTop: 10,
                     marginBottom: 16,
                   }}>
-                  <View style={{ marginTop: 16, marginBottom: 20, }}>
+                  <View style={{ marginTop: 16, marginBottom: 20 }}>
                     <View style={styles().textInputView}>
                       <View style={styles().labelView}>
-                        <Text style={{
-                          color: pressedActivity 
-                            ? '#4CB97A'
-                            : '#816868',
-                          fontSize: 16,
-                          fontWeight: 'bold',
-                        }}>Activity</Text>
+                        <Text
+                          style={{
+                            color: pressedActivity ? '#4CB97A' : '#816868',
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                          }}>
+                          Activity
+                        </Text>
                       </View>
-                      <View style={{
-                          flex: 1, 
-                          borderWidth: 1, 
-                          borderColor: pressedActivity
-                            ? '#4CB97A'
-                            : '#816868',
+                      <View
+                        style={{
+                          flex: 1,
+                          borderWidth: 1,
+                          borderColor: pressedActivity ? '#4CB97A' : '#816868',
                           justifyContent: 'flex-end',
                           borderRadius: 10,
                           paddingHorizontal: 16,
                         }}>
-                        <TextInput 
+                        <TextInput
                           placeholder='Activity name'
                           fontSize={16}
                           color='#816868'
@@ -132,33 +135,33 @@ const DailyActivities = ({ activities, setActivities }) => {
                             setPressedActivity(true);
                             setPressedDuration(false);
                           }}
-                          style={{ top: -8, }}
+                          style={{ top: -8 }}
                         />
                       </View>
                     </View>
                   </View>
-                  <View style={{ marginTop: 10, marginBottom: 20, }}>
+                  <View style={{ marginTop: 10, marginBottom: 20 }}>
                     <View style={styles().textInputView}>
                       <View style={styles().labelView}>
-                        <Text style={{
-                          color: pressedDuration 
-                            ? '#4CB97A'
-                            : '#816868',
-                          fontSize: 16,
-                          fontWeight: 'bold',
-                        }}>Duration</Text>
+                        <Text
+                          style={{
+                            color: pressedDuration ? '#4CB97A' : '#816868',
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                          }}>
+                          Duration
+                        </Text>
                       </View>
-                      <View style={{
-                          flex: 1, 
-                          borderWidth: 1, 
-                          borderColor: pressedDuration
-                            ? '#4CB97A'
-                            : '#816868',
+                      <View
+                        style={{
+                          flex: 1,
+                          borderWidth: 1,
+                          borderColor: pressedDuration ? '#4CB97A' : '#816868',
                           justifyContent: 'flex-end',
                           borderRadius: 10,
                           paddingHorizontal: 16,
                         }}>
-                        <TextInput 
+                        <TextInput
                           placeholder='Duration (mins)'
                           fontSize={16}
                           color='#816868'
@@ -170,19 +173,19 @@ const DailyActivities = ({ activities, setActivities }) => {
                             setPressedActivity(false);
                             setPressedDuration(true);
                           }}
-                          style={{ top: -8, }}
+                          style={{ top: -8 }}
                         />
                       </View>
                     </View>
                   </View>
                   {/* Add Feeling button */}
-                  <View style={{ alignSelf: 'center', }}>
+                  <View style={{ alignSelf: 'center' }}>
                     <Button
                       title='Add Activity'
                       onPress={() => {
                         let activity = {
                           Name: activityName,
-                          Duration: parseInt(activityDuration),
+                          Duration: parseInt(activityDuration || 0),
                         };
                         let temp = new Array(activity).concat(activities);
                         //console.log('temp:', temp);
@@ -211,17 +214,19 @@ const DailyActivities = ({ activities, setActivities }) => {
         {/* Daily Activities heading */}
         <Text style={styles().heading}>DAILY ACTIVITIES</Text>
 
-        <Text style={styles().text}>What activities did you participate in today?</Text>
-        
+        <Text style={styles().text}>
+          What activities did you participate in today?
+        </Text>
+
         {/* Add Activities modal */}
-        <View style={{ width: '40%', marginTop: 20, marginBottom: 10, }}>
+        <View style={{ width: '40%', marginTop: 20, marginBottom: 10 }}>
           <Button
             title='+ Add Activities'
             onPress={() => setShowAddActivities(true)}
             color={
               global.colorblindMode
-              ? global.cb_optionButtonsColor
-              : global.optionButtonsColor
+                ? global.cb_optionButtonsColor
+                : global.optionButtonsColor
             }
           />
         </View>
@@ -244,9 +249,7 @@ const styles = () =>
       width: '100%',
     },
     heading: {
-      color: global.colorblindMode
-        ? global.cb_textColor
-        : global.textColor,
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
       fontSize: 18,
       fontWeight: 'bold',
       marginBottom: 10,
@@ -271,7 +274,7 @@ const styles = () =>
         ? global.cb_pageBackgroundColor
         : global.pageBackgroundColor,
       alignItems: 'center',
-      width: Math.round(Dimensions.get('window').width * 4/5),
+      width: Math.round((Dimensions.get('window').width * 4) / 5),
       borderRadius: 10,
       shadowColor: '#000',
       shadowOffset: {
@@ -292,9 +295,7 @@ const styles = () =>
       borderTopRightRadius: 10,
     },
     text: {
-      color: global.colorblindMode 
-        ? global.cb_textColor 
-        : global.textColor,
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
       fontSize: 16,
     },
     textAlt: {
@@ -303,8 +304,8 @@ const styles = () =>
       fontWeight: 'bold',
     },
     textInputView: {
-      height: 48, 
-      width: Math.round(Dimensions.get('window').width * 1/2),
+      height: 48,
+      width: Math.round((Dimensions.get('window').width * 1) / 2),
       position: 'relative',
     },
   });

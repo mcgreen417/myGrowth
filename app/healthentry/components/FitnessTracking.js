@@ -59,61 +59,63 @@ const AddExercises = ({
               zIndex: 1,
               backgroundColor: '#00000055',
             }}
-            onPressOut={() => setDeleteEntry(!deleteEntry)}
-            >
-              <View style={styles().modalContainer}>
-                <View style={styles().modalHeaderBar}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      flex: 2,
-                      marginLeft: 6,
-                      marginVertical: 4,
-                    }}>
-                    <Icon
-                      name='fitness-center'
-                      color='white'
-                      style={{ marginRight: 8 }}
-                    />
-                    <Text style={styles().textAlt}>Delete Exercise</Text>
-                  </View>
-                </View>
+            onPressOut={() => setDeleteEntry(!deleteEntry)}>
+            <View style={styles().modalContainer}>
+              <View style={styles().modalHeaderBar}>
                 <View
                   style={{
                     flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    marginHorizontal: '5%',
-                    maxHeight: '60%',
-                    marginVertical: 10,
+                    flex: 2,
+                    marginLeft: 6,
+                    marginVertical: 4,
                   }}>
-                  <Text style={styles().text}>
-                    Are you sure you wish to delete this exercise?
-                  </Text>
-                  <Text style={styles().textBoldAlt}>This action cannot be undone.</Text>
-                </View>
-                <View 
-                  style={{ 
-                    flexDirection: 'row', 
-                    alignSelf: 'flex-end', 
-                    marginVertical: 10, 
-                    marginHorizontal: '5%', 
-                  }}>
-                  <TouchableOpacity 
-                    style={{ marginRight: 20, }}
-                    onPress={() => {
-                      setDeleteEntry(!deleteEntry);
-                      removeExercise(exercises, setExercises, index);}}>
-                    <Text style={styles().textButton}>DELETE</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => setDeleteEntry(!deleteEntry)}>
-                    <Text style={styles().textButton}>CANCEL</Text>
-                  </TouchableOpacity>
+                  <Icon
+                    name='fitness-center'
+                    color='white'
+                    style={{ marginRight: 8 }}
+                  />
+                  <Text style={styles().textAlt}>Delete Exercise</Text>
                 </View>
               </View>
-            </Pressable>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  marginHorizontal: '5%',
+                  maxHeight: '60%',
+                  marginVertical: 10,
+                }}>
+                <Text style={styles().text}>
+                  Are you sure you wish to delete this exercise?
+                </Text>
+                <Text style={styles().textBoldAlt}>
+                  This action cannot be undone.
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignSelf: 'flex-end',
+                  marginVertical: 10,
+                  marginHorizontal: '5%',
+                }}>
+                <TouchableOpacity
+                  style={{ marginRight: 20 }}
+                  onPress={() => {
+                    setDeleteEntry(!deleteEntry);
+                    removeExercise(exercises, setExercises, index);
+                  }}>
+                  <Text style={styles().textButton}>DELETE</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setDeleteEntry(!deleteEntry)}>
+                  <Text style={styles().textButton}>CANCEL</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Pressable>
         </Modal>
       </View>
-      
+
       <View style={{ marginTop: 10 }}>
         <View
           style={{
@@ -160,7 +162,8 @@ const AddExercises = ({
                 editable={editable}
               />
 
-              <View style={{ flex: 1, alignItems: 'flex-end', marginRight: 12 }}>
+              <View
+                style={{ flex: 1, alignItems: 'flex-end', marginRight: 12 }}>
                 {index != null && (
                   <Icon
                     name='close'
@@ -387,11 +390,11 @@ const AdvanceFitnessTracking = ({ exercises, setExercises }) => {
             let tempExercises = [...exercises];
             tempExercises.push({
               Name: exerciseName,
-              Sets: parseInt(exerciseSets),
-              Reps: parseInt(exerciseReps),
-              Duration: parseInt(exerciseDuration),
-              Weight: parseInt(exerciseWeight),
-              CaloriesBurned: parseInt(exerciseCalories),
+              Sets: parseInt(exerciseSets || 0),
+              Reps: parseInt(exerciseReps || 0),
+              Duration: parseInt(exerciseDuration || 0),
+              Weight: parseInt(exerciseWeight || 0),
+              CaloriesBurned: parseInt(exerciseCalories || 0),
             });
             setExercises(tempExercises);
           }}
@@ -523,7 +526,7 @@ const FitnessTracking = ({
           {!stepsTracked && <View style={{ marginTop: 10 }} />}
           <Text style={styles().text}>
             If you kept track of your calories, how many calories did you burn
-            today in total? 
+            today in total?
           </Text>
           <View
             style={{
@@ -556,14 +559,10 @@ const FitnessTracking = ({
         }>
         <Text style={styles().headingSub}>ADVANCED FITNESS TRACKING</Text>
         <Icon
-          name={showAdvanceFitnessTracking 
-            ? 'arrow-drop-up' 
-            : 'arrow-drop-down'
+          name={
+            showAdvanceFitnessTracking ? 'arrow-drop-up' : 'arrow-drop-down'
           }
-          color={global.colorblindMode 
-            ? global.cb_textColor 
-            : global.textColor
-          }
+          color={global.colorblindMode ? global.cb_textColor : global.textColor}
           onPress={() =>
             setShowAdvanceFitnessTracking(!showAdvanceFitnessTracking)
           }
@@ -593,17 +592,13 @@ const styles = () =>
       width: '100%',
     },
     heading: {
-      color: global.colorblindMode 
-        ? global.cb_textColor 
-        : global.textColor,
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
       fontSize: 18,
       fontWeight: 'bold',
       marginBottom: 10,
     },
     headingSub: {
-      color: global.colorblindMode 
-        ? global.cb_textColor 
-        : global.textColor,
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
       fontSize: 16,
       fontWeight: 'bold',
       marginBottom: 10,
@@ -667,9 +662,7 @@ const styles = () =>
       alignItems: 'center',
     },
     text: {
-      color: global.colorblindMode 
-        ? global.cb_textColor 
-        : global.textColor,
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
       fontSize: 16,
     },
     textAlt: {
