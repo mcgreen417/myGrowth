@@ -115,14 +115,14 @@ async function submit(
     Activities: activitiesIn,
   };
 
-  // console.log('Query: ', query);
+  console.log('Query: ', query);
 
   const res = await API.graphql({
     query: mutations.updateDailyEntry,
     variables: query,
   });
 
-  // console.log('Response: ', res);
+  console.log('Response: ', res);
 
   navigation.navigate('EntryCompletion');
 }

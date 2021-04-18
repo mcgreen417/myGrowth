@@ -612,14 +612,6 @@ const AddMeal = ({
   index,
   foods,
   setFoods,
-  calories,
-  setCalories,
-  proteins,
-  setProteins,
-  carbs,
-  setCarbs,
-  fats,
-  setFats,
   editable,
   mealName,
   setMealName,
@@ -927,14 +919,6 @@ const AdvanceMealTracking = ({ meals, setMeals }) => {
         setMeals={setMeals}
         foods={foods}
         setFoods={setFoods}
-        calories={calories}
-        setCalories={setCalories}
-        proteins={proteins}
-        setProteins={setProteins}
-        carbs={carbs}
-        setCarbs={setCarbs}
-        fats={fats}
-        setFats={setFats}
         editable={true}
         mealName={mealName}
         setMealName={setMealName}
@@ -945,12 +929,6 @@ const AdvanceMealTracking = ({ meals, setMeals }) => {
             key={index}
             index={index}
             foods={item.Food}
-            meals={meals}
-            setMeals={setMeals}
-            calories={item.Calories}
-            proteins={item.Proteins}
-            carbs={item.Carbs}
-            fats={item.Fats}
             editable={false}
             mealName={item.Name}
           />
@@ -966,21 +944,29 @@ const AdvanceMealTracking = ({ meals, setMeals }) => {
               : global.optionButtonsColor
           }
           onPress={() => {
+            let totalCals = 0;
+            let totalProteins = 0;
+            let totalCarbs = 0;
+            let totalFats = 0;
+            foods.forEach((element) => {
+              food = JSON.parse(element);
+              totalCals += parseInt(food.calories);
+              totalProteins += parseInt(food.protein);
+              totalCarbs += parseInt(food.carbs);
+              totalFats += parseInt(food.fats);
+            });
+
             let tempMeals = [...meals];
             tempMeals.push({
               Name: mealName,
               Food: foods,
-              Calories: calories,
-              Proteins: proteins,
-              Carbs: carbs,
-              Fats: fats,
+              Calories: totalCals,
+              Proteins: totalProteins,
+              Carbs: totalCarbs,
+              Fats: totalFats,
             });
             setMeals(tempMeals);
             setFoods([]);
-            setCalories(0);
-            setProteins(0);
-            setCarbs(0);
-            setFats(0);
             setMealName('');
           }}
         />

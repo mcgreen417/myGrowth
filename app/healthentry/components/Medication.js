@@ -89,7 +89,7 @@ const Medication = ({
 
   useEffect(() => {
     getMedications().then((med) => setMedications(med));
-  }, [deleteEntry]);
+  }, [deleteEntry, medicineName]);
 
   return (
     <SafeAreaView style={{ width: '90%' }}>
