@@ -600,7 +600,8 @@ const AddFood = ({
 };
 
 function removeMeal(meals, setMeals, index) {
-  //console.log(meals);
+  console.log(meals);
+  console.log(index);
   let tempMeals = [...meals];
   tempMeals.pop(index);
   setMeals(tempMeals);
@@ -696,7 +697,7 @@ const AddMeal = ({
                   style={{ marginRight: 20 }}
                   onPress={() => {
                     setDeleteMeal(!deleteMeal);
-                    removeMeal(meals, setMeals, index);
+                    if (index != null) removeMeal(meals, setMeals, index);
                   }}>
                   <Text style={styles().textButton}>DELETE</Text>
                 </TouchableOpacity>
@@ -906,10 +907,6 @@ const AddMeal = ({
 
 const AdvanceMealTracking = ({ meals, setMeals }) => {
   const [foods, setFoods] = useState([]);
-  const [calories, setCalories] = useState(0);
-  const [proteins, setProteins] = useState(0);
-  const [carbs, setCarbs] = useState(0);
-  const [fats, setFats] = useState(0);
   const [mealName, setMealName] = useState('');
 
   return (
@@ -928,6 +925,8 @@ const AdvanceMealTracking = ({ meals, setMeals }) => {
           <AddMeal
             key={index}
             index={index}
+            meals={meals}
+            setMeals={setMeals}
             foods={item.Food}
             editable={false}
             mealName={item.Name}
