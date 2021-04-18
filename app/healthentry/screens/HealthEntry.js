@@ -11,6 +11,7 @@ import {
   Dimensions,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import Timestamp from '../components/Timestamp';
 import NavBar from '../../shared/components/NavBar';
 import Mood from '../components/Mood';
 import Stress from '../components/Stress';
@@ -24,35 +25,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Cache } from 'react-native-cache';
 import * as mutations from '../../../src/graphql/mutations';
 import * as queries from '../../../src/graphql/queries';
-
-const monthNames = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
-
-function getDate(d) {
-  return monthNames[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
-}
-
-function getTime(d) {
-  return (
-    (d.getHours() % 12) +
-    1 +
-    ':' +
-    (d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes()) +
-    (d.getHours() > 12 ? 'pm' : 'am')
-  );
-}
 
 async function submit(
   timestamp,
@@ -226,63 +198,8 @@ const HealthEntry = ({ navigation }) => {
           </View>
 
           {/* Select Data and Time */}
-          <View style={{ width: '90%' }}>
-            <Text style={styles().heading}>SELECT DATE & TIME</Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  width: '50%',
-                }}>
-                <Icon
-                  name='event'
-                  color={
-                    global.colorblindMode
-                      ? global.cb_contentDividerColor
-                      : global.contentDividerColor
-                  }
-                  style={{ marginRight: 4 }}
-                />
-                <Text style={styles().textLink}>{getDate(new Date())}</Text>
-                <Icon
-                  name='arrow-drop-down'
-                  type='material'
-                  color={
-                    global.colorblindMode
-                      ? global.cb_contentDividerColor
-                      : global.contentDividerColor
-                  }
-                />
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  width: '50%',
-                }}>
-                <Icon
-                  name='schedule'
-                  color={
-                    global.colorblindMode
-                      ? global.cb_contentDividerColor
-                      : global.contentDividerColor
-                  }
-                  style={{ marginRight: 4 }}
-                />
-                <Text style={styles().textLink}>{getTime(new Date())}</Text>
-                <Icon
-                  name='arrow-drop-down'
-                  type='material'
-                  color={
-                    global.colorblindMode
-                      ? global.cb_contentDividerColor
-                      : global.contentDividerColor
-                  }
-                />
-              </View>
-            </View>
-          </View>
+          <Timestamp timestamp={timestamp} setTimestamp={setTimestamp} />
+
           {/* Section divider */}
           <View style={styles().dividerView}>
             <View style={styles().divider} />
