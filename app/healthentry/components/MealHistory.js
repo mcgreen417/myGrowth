@@ -76,58 +76,60 @@ const AddFood = ({
               zIndex: 1,
               backgroundColor: '#00000055',
             }}
-            onPressOut={() => setDeleteFood(!deleteFood)}
-            >
-              <View style={styles().modalContainer}>
-                <View style={styles().modalHeaderBar}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      flex: 2,
-                      marginLeft: 6,
-                      marginVertical: 4,
-                    }}>
-                    <Icon
-                      name='fastfood'
-                      color='white'
-                      style={{ marginRight: 8 }}
-                    />
-                    <Text style={styles().textAlt}>Delete Food</Text>
-                  </View>
-                </View>
+            onPressOut={() => setDeleteFood(!deleteFood)}>
+            <View style={styles().modalContainer}>
+              <View style={styles().modalHeaderBar}>
                 <View
                   style={{
                     flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    marginHorizontal: '5%',
-                    maxHeight: '60%',
-                    marginVertical: 10,
+                    flex: 2,
+                    marginLeft: 6,
+                    marginVertical: 4,
                   }}>
-                  <Text style={styles().text}>
-                    Are you sure you wish to delete this food?
-                  </Text>
-                  <Text style={styles().textBoldAlt}>This action cannot be undone.</Text>
-                </View>
-                <View 
-                  style={{ 
-                    flexDirection: 'row', 
-                    alignSelf: 'flex-end', 
-                    marginVertical: 10, 
-                    marginHorizontal: '5%', 
-                  }}>
-                  <TouchableOpacity 
-                    style={{ marginRight: 20, }}
-                    onPress={() => {
-                      setDeleteFood(!deleteFood);
-                      removeFood(foods, setFoods, index);}}>
-                    <Text style={styles().textButton}>DELETE</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => setDeleteFood(!deleteFood)}>
-                    <Text style={styles().textButton}>CANCEL</Text>
-                  </TouchableOpacity>
+                  <Icon
+                    name='fastfood'
+                    color='white'
+                    style={{ marginRight: 8 }}
+                  />
+                  <Text style={styles().textAlt}>Delete Food</Text>
                 </View>
               </View>
-            </Pressable>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  marginHorizontal: '5%',
+                  maxHeight: '60%',
+                  marginVertical: 10,
+                }}>
+                <Text style={styles().text}>
+                  Are you sure you wish to delete this food?
+                </Text>
+                <Text style={styles().textBoldAlt}>
+                  This action cannot be undone.
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignSelf: 'flex-end',
+                  marginVertical: 10,
+                  marginHorizontal: '5%',
+                }}>
+                <TouchableOpacity
+                  style={{ marginRight: 20 }}
+                  onPress={() => {
+                    setDeleteFood(!deleteFood);
+                    removeFood(foods, setFoods, index);
+                  }}>
+                  <Text style={styles().textButton}>DELETE</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setDeleteFood(!deleteFood)}>
+                  <Text style={styles().textButton}>CANCEL</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Pressable>
         </Modal>
       </View>
 
@@ -244,7 +246,11 @@ const AddFood = ({
             // width: '100%',
           }}>
           <View
-            style={{ flexDirection: 'row', alignItems: 'center', width: '55%' }}>
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '55%',
+            }}>
             <Text style={styles().textAltLight}>Calories: </Text>
             <TextInput
               placeholder='#'
@@ -266,7 +272,11 @@ const AddFood = ({
             <Text style={styles().textAltLight}> cal</Text>
           </View>
           <View
-            style={{ flexDirection: 'row', alignItems: 'center', width: '45%' }}>
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '45%',
+            }}>
             <Text style={styles().textAltLight}>Total Fat: </Text>
             <TextInput
               placeholder='#'
@@ -296,7 +306,11 @@ const AddFood = ({
             // width: '100%',
           }}>
           <View
-            style={{ flexDirection: 'row', alignItems: 'center', width: '55%' }}>
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '55%',
+            }}>
             <Text style={styles().textAltLight}>Cholesterol: </Text>
             <TextInput
               placeholder='#'
@@ -318,7 +332,11 @@ const AddFood = ({
             <Text style={styles().textAltLight}> mg</Text>
           </View>
           <View
-            style={{ flexDirection: 'row', alignItems: 'center', width: '45%' }}>
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '45%',
+            }}>
             <Text style={styles().textAltLight}>Sodium: </Text>
             <TextInput
               placeholder='#'
@@ -347,7 +365,11 @@ const AddFood = ({
             // justifyContent: 'space-around',
           }}>
           <View
-            style={{ flexDirection: 'row', alignItems: 'center', width: '55%' }}>
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '55%',
+            }}>
             <Text style={styles().textAltLight}>Total Carbs: </Text>
             <TextInput
               placeholder='#'
@@ -369,7 +391,11 @@ const AddFood = ({
             <Text style={styles().textAltLight}> g</Text>
           </View>
           <View
-            style={{ flexDirection: 'row', alignItems: 'center', width: '45%' }}>
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '45%',
+            }}>
             <Text style={styles().textAltLight}>Fiber: </Text>
             <TextInput
               placeholder='#'
@@ -398,7 +424,11 @@ const AddFood = ({
             // justifyContent: 'space-around',
           }}>
           <View
-            style={{ flexDirection: 'row', alignItems: 'center', width: '55%' }}>
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '55%',
+            }}>
             <Text style={styles().textAltLight}>Total Sugars: </Text>
             <TextInput
               placeholder='#'
@@ -420,7 +450,11 @@ const AddFood = ({
             <Text style={styles().textAltLight}> g</Text>
           </View>
           <View
-            style={{ flexDirection: 'row', alignItems: 'center', width: '45%' }}>
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '45%',
+            }}>
             <Text style={styles().textAltLight}>Protein: </Text>
             <TextInput
               placeholder='#'
@@ -449,7 +483,11 @@ const AddFood = ({
             // justifyContent: 'space-around',
           }}>
           <View
-            style={{ flexDirection: 'row', alignItems: 'center', width: '55%' }}>
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '55%',
+            }}>
             <Text style={styles().textAltLight}>Vitamin D: </Text>
             <TextInput
               placeholder='#'
@@ -471,7 +509,11 @@ const AddFood = ({
             <Text style={styles().textAltLight}> mcg</Text>
           </View>
           <View
-            style={{ flexDirection: 'row', alignItems: 'center', width: '45%' }}>
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '45%',
+            }}>
             <Text style={styles().textAltLight}>Calcium: </Text>
             <TextInput
               placeholder='#'
@@ -500,7 +542,11 @@ const AddFood = ({
             // justifyContent: 'space-around',
           }}>
           <View
-            style={{ flexDirection: 'row', alignItems: 'center', width: '55%' }}>
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '55%',
+            }}>
             <Text style={styles().textAltLight}>Iron: </Text>
             <TextInput
               placeholder='#'
@@ -522,7 +568,11 @@ const AddFood = ({
             <Text style={styles().textAltLight}> mg</Text>
           </View>
           <View
-            style={{ flexDirection: 'row', alignItems: 'center', width: '45%' }}>
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '45%',
+            }}>
             <Text style={styles().textAltLight}>Potassium: </Text>
             <TextInput
               placeholder='#'
@@ -571,6 +621,8 @@ const AddMeal = ({
   fats,
   setFats,
   editable,
+  mealName,
+  setMealName,
 }) => {
   const [foodCalories, setFoodCalories] = useState('');
   const [foodName, setFoodName] = useState('');
@@ -608,58 +660,60 @@ const AddMeal = ({
               zIndex: 1,
               backgroundColor: '#00000055',
             }}
-            onPressOut={() => setDeleteMeal(!deleteMeal)}
-            >
-              <View style={styles().modalContainer}>
-                <View style={styles().modalHeaderBar}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      flex: 2,
-                      marginLeft: 6,
-                      marginVertical: 4,
-                    }}>
-                    <Icon
-                      name='restaurant'
-                      color='white'
-                      style={{ marginRight: 8 }}
-                    />
-                    <Text style={styles().textAlt}>Delete Meal</Text>
-                  </View>
-                </View>
+            onPressOut={() => setDeleteMeal(!deleteMeal)}>
+            <View style={styles().modalContainer}>
+              <View style={styles().modalHeaderBar}>
                 <View
                   style={{
                     flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    marginHorizontal: '5%',
-                    maxHeight: '60%',
-                    marginVertical: 10,
+                    flex: 2,
+                    marginLeft: 6,
+                    marginVertical: 4,
                   }}>
-                  <Text style={styles().text}>
-                    Are you sure you wish to delete this meal?
-                  </Text>
-                  <Text style={styles().textBoldAlt}>This action cannot be undone.</Text>
-                </View>
-                <View 
-                  style={{ 
-                    flexDirection: 'row', 
-                    alignSelf: 'flex-end', 
-                    marginVertical: 10, 
-                    marginHorizontal: '5%', 
-                  }}>
-                  <TouchableOpacity 
-                    style={{ marginRight: 20, }}
-                    onPress={() => {
-                      setDeleteMeal(!deleteMeal);
-                      removeMeal(meals, setMeals, index);}}>
-                    <Text style={styles().textButton}>DELETE</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => setDeleteMeal(!deleteMeal)}>
-                    <Text style={styles().textButton}>CANCEL</Text>
-                  </TouchableOpacity>
+                  <Icon
+                    name='restaurant'
+                    color='white'
+                    style={{ marginRight: 8 }}
+                  />
+                  <Text style={styles().textAlt}>Delete Meal</Text>
                 </View>
               </View>
-            </Pressable>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  marginHorizontal: '5%',
+                  maxHeight: '60%',
+                  marginVertical: 10,
+                }}>
+                <Text style={styles().text}>
+                  Are you sure you wish to delete this meal?
+                </Text>
+                <Text style={styles().textBoldAlt}>
+                  This action cannot be undone.
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignSelf: 'flex-end',
+                  marginVertical: 10,
+                  marginHorizontal: '5%',
+                }}>
+                <TouchableOpacity
+                  style={{ marginRight: 20 }}
+                  onPress={() => {
+                    setDeleteMeal(!deleteMeal);
+                    removeMeal(meals, setMeals, index);
+                  }}>
+                  <Text style={styles().textButton}>DELETE</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setDeleteMeal(!deleteMeal)}>
+                  <Text style={styles().textButton}>CANCEL</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Pressable>
         </Modal>
       </View>
 
@@ -699,6 +753,8 @@ const AddMeal = ({
             color='#C4BEBD'
             placeholderTextColor='#C4BEBD'
             fontSize={16}
+            value={mealName}
+            onChangeText={setMealName}
             style={{
               borderBottomColor: '#E5E5E5',
               borderBottomWidth: 1,
@@ -862,6 +918,7 @@ const AdvanceMealTracking = ({ meals, setMeals }) => {
   const [proteins, setProteins] = useState(0);
   const [carbs, setCarbs] = useState(0);
   const [fats, setFats] = useState(0);
+  const [mealName, setMealName] = useState('');
 
   return (
     <View style={{ marginTop: 10 }}>
@@ -879,6 +936,8 @@ const AdvanceMealTracking = ({ meals, setMeals }) => {
         fats={fats}
         setFats={setFats}
         editable={true}
+        mealName={mealName}
+        setMealName={setMealName}
       />
       {meals.map((item, index) => {
         return (
@@ -893,6 +952,7 @@ const AdvanceMealTracking = ({ meals, setMeals }) => {
             carbs={item.Carbs}
             fats={item.Fats}
             editable={false}
+            mealName={item.Name}
           />
         );
       })}
@@ -908,6 +968,7 @@ const AdvanceMealTracking = ({ meals, setMeals }) => {
           onPress={() => {
             let tempMeals = [...meals];
             tempMeals.push({
+              Name: mealName,
               Food: foods,
               Calories: calories,
               Proteins: proteins,
@@ -920,6 +981,7 @@ const AdvanceMealTracking = ({ meals, setMeals }) => {
             setProteins(0);
             setCarbs(0);
             setFats(0);
+            setMealName('');
           }}
         />
       </View>
@@ -998,22 +1060,12 @@ const MealHistory = ({
 
       <Pressable
         style={{ flexDirection: 'row', marginTop: 20, marginBottom: -10 }}
-        onPress={() =>
-          setShowAdvanceMealTracking(!showAdvanceMealTracking)
-        }>
+        onPress={() => setShowAdvanceMealTracking(!showAdvanceMealTracking)}>
         <Text style={styles().headingSub}>ADVANCED MEAL TRACKING</Text>
         <Icon
-          name={showAdvanceMealTracking 
-            ? 'arrow-drop-up' 
-            : 'arrow-drop-down'
-          }
-          color={global.colorblindMode 
-            ? global.cb_textColor 
-            : global.textColor
-          }
-          onPress={() =>
-            setShowAdvanceMealTracking(!showAdvanceMealTracking)
-          }
+          name={showAdvanceMealTracking ? 'arrow-drop-up' : 'arrow-drop-down'}
+          color={global.colorblindMode ? global.cb_textColor : global.textColor}
+          onPress={() => setShowAdvanceMealTracking(!showAdvanceMealTracking)}
         />
       </Pressable>
       {showAdvanceMealTracking && (
@@ -1037,17 +1089,13 @@ const styles = () =>
       width: '100%',
     },
     heading: {
-      color: global.colorblindMode  
-        ? global.cb_textColor 
-        : global.textColor,
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
       fontSize: 18,
       fontWeight: 'bold',
       marginBottom: 10,
     },
     headingSub: {
-      color: global.colorblindMode 
-        ? global.cb_textColor 
-        : global.textColor,
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
       fontSize: 16,
       fontWeight: 'bold',
       marginBottom: 10,
@@ -1111,9 +1159,7 @@ const styles = () =>
       alignItems: 'center',
     },
     text: {
-      color: global.colorblindMode 
-        ? global.cb_textColor 
-        : global.textColor,
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
       fontSize: 16,
     },
     textAlt: {

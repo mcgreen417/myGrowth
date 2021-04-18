@@ -33,7 +33,7 @@ function getTime(d) {
 }
 
 const Timestamp = ({ timestamp, setTimestamp }) => {
-  console.log(timestamp);
+  // console.log(timestamp);
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
 
