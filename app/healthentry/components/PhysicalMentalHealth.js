@@ -38,11 +38,8 @@ const PhysicalMentalHealth = ({
             animationType='fade'
             transparent={true}
             visible={showAddSymptoms}
-            onRequestClose={() => {
-              setPressedSymptom(false);
-              setPressedSeverity(false);
-              setShowAddSymptoms(!showAddSymptoms);
-            }}>
+            onRequestClose={() => setShowAddSymptoms(!showAddSymptoms)}
+          >
             <Pressable
               style={{
                 flex: 1,
@@ -51,17 +48,12 @@ const PhysicalMentalHealth = ({
                 zIndex: 1,
                 backgroundColor: '#00000055',
               }}
-              onPressOut={() => {
-                setPressedSymptom(false);
-                setPressedSeverity(false);
-                setShowAddSymptoms(!showAddSymptoms);
-              }}>
+              onPressOut={() => setShowAddSymptoms(!showAddSymptoms)}
+            >
               <Pressable
                 style={styles().modalContainer}
                 onPressOut={() => {
                   Keyboard.dismiss();
-                  setPressedSymptom(false);
-                  setPressedSeverity(false);
                   setShowAddSymptoms(true);
                 }}>
                 <View style={styles().modalHeaderBar}>
@@ -92,11 +84,7 @@ const PhysicalMentalHealth = ({
                         name='close'
                         type='ionicon'
                         color='white'
-                        onPress={() => {
-                          setPressedSymptom(false);
-                          setPressedSeverity(false);
-                          setShowAddSymptoms(!showAddSymptoms);
-                        }}
+                        onPress={() => setShowAddSymptoms(!showAddSymptoms)}
                       />
                     </View>
                   </View>
@@ -136,10 +124,8 @@ const PhysicalMentalHealth = ({
                           value={symptomTitle}
                           onChangeText={setSymptomTitle}
                           maxLength={99}
-                          onFocus={() => {
-                            setPressedSymptom(true);
-                            setPressedSeverity(false);
-                          }}
+                          onFocus={() => setPressedSymptom(true)}
+                          onBlur={() => setPressedSymptom(false)}
                           style={{ top: -8 }}
                         />
                       </View>
@@ -174,10 +160,8 @@ const PhysicalMentalHealth = ({
                           onChangeText={setSymptomSeverity}
                           keyboardType='numeric'
                           maxLength={2}
-                          onFocus={() => {
-                            setPressedSymptom(false);
-                            setPressedSeverity(true);
-                          }}
+                          onFocus={() => setPressedSeverity(true)}
+                          onBlur={() => setPressedSeverity(false)}
                           style={{ top: -8 }}
                         />
                       </View>
@@ -197,11 +181,10 @@ const PhysicalMentalHealth = ({
                         setSymptoms(temp);
                         //console.log('symptoms', symptoms);
                         //console.log('symptoms', symptoms);
-                        setPressedSymptom(false);
-                        setPressedSeverity(false);
                         setSymptomTitle('');
                         setSymptomSeverity('');
                         setShowAddSymptoms(true);
+                        Keyboard.dismiss();
                       }}
                       color={
                         global.colorblindMode

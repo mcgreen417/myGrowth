@@ -14,6 +14,7 @@ import {
   View,
   Modal,
   Pressable,
+  Dimensions,
 } from 'react-native';
 
 import { Icon } from 'react-native-elements';
@@ -291,60 +292,63 @@ function UserInitialization1({ navigation }) {
               backgroundColor: '#00000055',
             }}
             onPressOut={() => setShowFirstNameInfo(!showFirstNameInfo)}
+          >
+            <Pressable 
+              style={styles().modalContainer}
+              onPress={() => setShowFirstNameInfo(!showFirstNameInfo)}
             >
-              <View style={styles().modalContainer}>
-                <View style={styles().modalHeaderBar}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      flex: 2,
-                      marginLeft: 6,
-                      marginVertical: 4,
-                    }}>
-                    <Icon
-                      name='information-circle-outline'
-                      type='ionicon'
-                      color='white'
-                      style={{ marginRight: 8 }}
-                    />
-                    <Text style={styles().textAlt}>First Name</Text>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        flex: 1,
-                        justifyContent: 'flex-end',
-                        marginRight: 6,
-                      }}>
-                      <Icon
-                        name='close'
-                        type='ionicon'
-                        color='white'
-                        onPress={() => setShowFirstNameInfo(!showFirstNameInfo)}
-                      />
-                    </View>
-                  </View>
-                </View>
+              <View style={styles().modalHeaderBar}>
                 <View
                   style={{
                     flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    marginHorizontal: '5%',
-                    maxHeight: '60%',
-                    marginTop: 10,
-                    marginBottom: 16,
-                  }}>
-                  <Text style={styles().text}>
-                    Please enter your first name so our friendly assistant knows who you are!
-                  </Text>
-                  <Text style={styles().text}>You can change this in your user settings at any time.</Text>
-                  <Text style={styles().text}>
-                    You may use a nickname, username, or alias if you are uncomfortable entering this 
-                    information.
-                  </Text>
-                  <Text style={styles().textBoldAlt}>This field is required.</Text>
+                    flex: 2,
+                    marginLeft: 6,
+                    marginVertical: 4,
+                }}>
+                  <Icon
+                    name='information-circle-outline'
+                    type='ionicon'
+                    color='white'
+                    style={{ marginRight: 8 }}
+                  />
+                  <Text style={styles().textAlt}>First Name</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 1,
+                      justifyContent: 'flex-end',
+                      marginRight: 6,
+                    }}>
+                    <Icon
+                      name='close'
+                      type='ionicon'
+                      color='white'
+                      onPress={() => setShowFirstNameInfo(!showFirstNameInfo)}
+                    />
+                  </View>
                 </View>
               </View>
-            </Pressable>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  marginHorizontal: '5%',
+                  maxHeight: '60%',
+                  marginTop: 10,
+                  marginBottom: 16,
+                }}>
+                <Text style={styles().text}>
+                  Please enter your first name so our friendly assistant knows who you are!
+                </Text>
+                <Text style={styles().text}>You can change this in your user settings at any time.</Text>
+                <Text style={styles().text}>
+                  You may use a nickname, username, or alias if you are uncomfortable entering this 
+                  information.
+                </Text>
+                <Text style={styles().textBoldAlt}>This field is required.</Text>
+              </View>
+            </Pressable >
+          </Pressable>
         </Modal>
       </View>
 
@@ -365,59 +369,62 @@ function UserInitialization1({ navigation }) {
               backgroundColor: '#00000055',
             }}
             onPressOut={() => setShowDOBInfo(!showDOBInfo)}
+          >
+            <Pressable 
+              style={styles().modalContainer}
+              onPressOut={() => setShowDOBInfo(true)}
             >
-              <View style={styles().modalContainer}>
-                <View style={styles().modalHeaderBar}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      flex: 2,
-                      marginLeft: 6,
-                      marginVertical: 4,
-                    }}>
-                    <Icon
-                      name='information-circle-outline'
-                      type='ionicon'
-                      color='white'
-                      style={{ marginRight: 8 }}
-                    />
-                    <Text style={styles().textAlt}>Date of Birth</Text>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        flex: 1,
-                        justifyContent: 'flex-end',
-                        marginRight: 6,
-                      }}>
-                      <Icon
-                        name='close'
-                        type='ionicon'
-                        color='white'
-                        onPress={() => setShowDOBInfo(!showDOBInfo)}
-                      />
-                    </View>
-                  </View>
-                </View>
+              <View style={styles().modalHeaderBar}>
                 <View
                   style={{
                     flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    marginHorizontal: '5%',
-                    maxHeight: '60%',
-                    marginTop: 10,
-                    marginBottom: 16,
+                    flex: 2,
+                    marginLeft: 6,
+                    marginVertical: 4,
                   }}>
-                  <Text style={styles().text}>
-                    Please enter your date of birth so we know how old you are!
-                  </Text>
-                  <Text style={styles().text}>
-                    This information will be used in physical health calculations and can be updated
-                    in your user settings at any time.
-                  </Text>
-                  <Text style={styles().textBoldAlt}>This field is required.</Text>
+                  <Icon
+                    name='information-circle-outline'
+                    type='ionicon'
+                    color='white'
+                    style={{ marginRight: 8 }}
+                  />
+                  <Text style={styles().textAlt}>Date of Birth</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 1,
+                      justifyContent: 'flex-end',
+                      marginRight: 6,
+                    }}>
+                    <Icon
+                      name='close'
+                      type='ionicon'
+                      color='white'
+                      onPress={() => setShowDOBInfo(!showDOBInfo)}
+                    />
+                  </View>
                 </View>
               </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  marginHorizontal: '5%',
+                  maxHeight: '60%',
+                  marginTop: 10,
+                  marginBottom: 16,
+              }}>
+                <Text style={styles().text}>
+                  Please enter your date of birth so we know how old you are!
+                </Text>
+                <Text style={styles().text}>
+                  This information will be used in physical health calculations and can be updated
+                  in your user settings at any time.
+                </Text>
+                <Text style={styles().textBoldAlt}>This field is required.</Text>
+              </View>
             </Pressable>
+          </Pressable>
         </Modal>
       </View>
 
@@ -438,63 +445,66 @@ function UserInitialization1({ navigation }) {
               backgroundColor: '#00000055',
             }}
             onPressOut={() => setShowGenderInfo(!showGenderInfo)}
+          >
+            <Pressable 
+              style={styles().modalContainer}
+              onPressOut={() => setShowGenderInfo(true)}
             >
-              <View style={styles().modalContainer}>
-                <View style={styles().modalHeaderBar}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      flex: 2,
-                      marginLeft: 6,
-                      marginVertical: 4,
-                    }}>
-                    <Icon
-                      name='information-circle-outline'
-                      type='ionicon'
-                      color='white'
-                      style={{ marginRight: 8 }}
-                    />
-                    <Text style={styles().textAlt}>Gender</Text>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        flex: 1,
-                        justifyContent: 'flex-end',
-                        marginRight: 6,
-                      }}>
-                      <Icon
-                        name='close'
-                        type='ionicon'
-                        color='white'
-                        onPress={() => setShowGenderInfo(!showGenderInfo)}
-                      />
-                    </View>
-                  </View>
-                </View>
+              <View style={styles().modalHeaderBar}>
                 <View
                   style={{
                     flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    marginHorizontal: '5%',
-                    maxHeight: '60%',
-                    marginTop: 10,
-                    marginBottom: 16,
+                    flex: 2,
+                    marginLeft: 6,
+                    marginVertical: 4,
                   }}>
-                  <Text style={styles().text}>
-                    Please enter your gender so we know more about you!
-                  </Text>
-                  <Text style={styles().text}>
-                    This information will be used in physical health calculations in combination with 
-                    your biological sex and can be updated in your user settings at any time.
-                  </Text>
-                  <Text style={styles().text}>
-                    You may choose not to answer this question if it makes you uncomfortable. However, 
-                    this may cause certain physical health calculations to be inaccurate. 
-                  </Text>
-                  <Text style={styles().textBoldAlt}>This field is required.</Text>
+                  <Icon
+                    name='information-circle-outline'
+                    type='ionicon'
+                    color='white'
+                    style={{ marginRight: 8 }}
+                  />
+                  <Text style={styles().textAlt}>Gender</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 1,
+                      justifyContent: 'flex-end',
+                      marginRight: 6,
+                    }}>
+                    <Icon
+                      name='close'
+                      type='ionicon'
+                      color='white'
+                      onPress={() => setShowGenderInfo(!showGenderInfo)}
+                    />
+                  </View>
                 </View>
               </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  marginHorizontal: '5%',
+                  maxHeight: '60%',
+                  marginTop: 10,
+                  marginBottom: 16,
+                }}>
+                <Text style={styles().text}>
+                  Please enter your gender so we know more about you!
+                </Text>
+                <Text style={styles().text}>
+                  This information will be used in physical health calculations in combination with 
+                  your biological sex and can be updated in your user settings at any time.
+                </Text>
+                <Text style={styles().text}>
+                  You may choose not to answer this question if it makes you uncomfortable. However, 
+                  this may cause certain physical health calculations to be inaccurate. 
+                </Text>
+                <Text style={styles().textBoldAlt}>This field is required.</Text>
+              </View>
             </Pressable>
+          </Pressable>
         </Modal>
       </View>
 
@@ -515,63 +525,66 @@ function UserInitialization1({ navigation }) {
               backgroundColor: '#00000055',
             }}
             onPressOut={() => setShowBioSexInfo(!showBioSexInfo)}
+          >
+            <Pressable 
+              style={styles().modalContainer}
+              onPress={() => setShowBioSexInfo(true)}
             >
-              <View style={styles().modalContainer}>
-                <View style={styles().modalHeaderBar}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      flex: 2,
-                      marginLeft: 6,
-                      marginVertical: 4,
-                    }}>
-                    <Icon
-                      name='information-circle-outline'
-                      type='ionicon'
-                      color='white'
-                      style={{ marginRight: 8 }}
-                    />
-                    <Text style={styles().textAlt}>Biological Sex</Text>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        flex: 1,
-                        justifyContent: 'flex-end',
-                        marginRight: 6,
-                      }}>
-                      <Icon
-                        name='close'
-                        type='ionicon'
-                        color='white'
-                        onPress={() => setShowBioSexInfo(!showBioSexInfo)}
-                      />
-                    </View>
-                  </View>
-                </View>
+              <View style={styles().modalHeaderBar}>
                 <View
                   style={{
                     flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    marginHorizontal: '5%',
-                    maxHeight: '60%',
-                    marginTop: 10,
-                    marginBottom: 16,
-                  }}>
-                  <Text style={styles().text}>
-                    Please enter your biological sex so we know more about you!
-                  </Text>
-                  <Text style={styles().text}>
-                    This information will be used in physical health calculations in combination with 
-                    your gender and can be updated in your user settings at any time.
-                  </Text>
-                  <Text style={styles().text}>
-                    You may choose not to answer this question if it makes you uncomfortable. However, 
-                    this may cause certain physical health calculations to be inaccurate. 
-                  </Text>
-                  <Text style={styles().textBoldAlt}>This field is required.</Text>
+                    flex: 2,
+                    marginLeft: 6,
+                    marginVertical: 4,
+                }}>
+                  <Icon
+                    name='information-circle-outline'
+                    type='ionicon'
+                    color='white'
+                    style={{ marginRight: 8 }}
+                  />
+                  <Text style={styles().textAlt}>Biological Sex</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 1,
+                      justifyContent: 'flex-end',
+                      marginRight: 6,
+                    }}>
+                    <Icon
+                      name='close'
+                      type='ionicon'
+                      color='white'
+                      onPress={() => setShowBioSexInfo(!showBioSexInfo)}
+                    />
+                  </View>
                 </View>
               </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  marginHorizontal: '5%',
+                  maxHeight: '60%',
+                  marginTop: 10,
+                  marginBottom: 16,
+                }}>
+                <Text style={styles().text}>
+                  Please enter your biological sex so we know more about you!
+                </Text>
+                <Text style={styles().text}>
+                  This information will be used in physical health calculations in combination with 
+                  your gender and can be updated in your user settings at any time.
+                </Text>
+                <Text style={styles().text}>
+                  You may choose not to answer this question if it makes you uncomfortable. However, 
+                  this may cause certain physical health calculations to be inaccurate. 
+                </Text>
+                <Text style={styles().textBoldAlt}>This field is required.</Text>
+              </View>
             </Pressable>
+          </Pressable>
         </Modal>
       </View>
 
@@ -592,63 +605,66 @@ function UserInitialization1({ navigation }) {
               backgroundColor: '#00000055',
             }}
             onPressOut={() => setShowActivityLevelInfo(!showActivityLevelInfo)}
+          >
+            <Pressable
+              style={styles().modalContainer}
+              onPress={() => setShowActivityLevelInfo(true)}
             >
-              <View style={styles().modalContainer}>
-                <View style={styles().modalHeaderBar}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      flex: 2,
-                      marginLeft: 6,
-                      marginVertical: 4,
-                    }}>
-                    <Icon
-                      name='information-circle-outline'
-                      type='ionicon'
-                      color='white'
-                      style={{ marginRight: 8 }}
-                    />
-                    <Text style={styles().textAlt}>Activity Level</Text>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        flex: 1,
-                        justifyContent: 'flex-end',
-                        marginRight: 6,
-                      }}>
-                      <Icon
-                        name='close'
-                        type='ionicon'
-                        color='white'
-                        onPress={() => setShowActivityLevelInfo(!showActivityLevelInfo)}
-                      />
-                    </View>
-                  </View>
-                </View>
+              <View style={styles().modalHeaderBar}>
                 <View
                   style={{
                     flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    marginHorizontal: '5%',
-                    maxHeight: '60%',
-                    marginTop: 10,
-                    marginBottom: 16,
-                  }}>
-                  <Text style={styles().text}>
-                    Please let us know how active you typically are in your average week!
-                  </Text>
-                  <Text style={styles().text}>
-                    This information will be used in physical health calculations and can be updated
-                    in your user settings at any time.
-                  </Text>
-                  <Text style={styles().text}>
-                    You may choose not to answer this question if you are unsure of your typical activity 
-                    level. However, this may cause certain physical health calculations to be inaccurate. 
-                  </Text>
-                  <Text style={styles().textBoldAlt}>This field is optional.</Text>
+                    flex: 2,
+                    marginLeft: 6,
+                    marginVertical: 4,
+                }}>
+                  <Icon
+                    name='information-circle-outline'
+                    type='ionicon'
+                    color='white'
+                    style={{ marginRight: 8 }}
+                  />
+                  <Text style={styles().textAlt}>Activity Level</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 1,
+                      justifyContent: 'flex-end',
+                      marginRight: 6,
+                    }}>
+                    <Icon
+                      name='close'
+                      type='ionicon'
+                      color='white'
+                      onPress={() => setShowActivityLevelInfo(!showActivityLevelInfo)}
+                    />
+                  </View>
                 </View>
               </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  marginHorizontal: '5%',
+                  maxHeight: '60%',
+                  marginTop: 10,
+                  marginBottom: 16,
+                }}>
+                <Text style={styles().text}>
+                  Please let us know how active you typically are in your average week!
+                </Text>
+                <Text style={styles().text}>
+                  This information will be used in physical health calculations and can be updated
+                  in your user settings at any time.
+                </Text>
+                <Text style={styles().text}>
+                  You may choose not to answer this question if you are unsure of your typical activity 
+                  level. However, this may cause certain physical health calculations to be inaccurate. 
+                </Text>
+                <Text style={styles().textBoldAlt}>This field is optional.</Text>
+              </View>
             </Pressable>
+          </Pressable>
         </Modal>
       </View>
 
@@ -669,63 +685,66 @@ function UserInitialization1({ navigation }) {
               backgroundColor: '#00000055',
             }}
             onPressOut={() => setShowHeightInfo(!showHeightInfo)}
+          >
+            <Pressable 
+              style={styles().modalContainer}
+              onPress={() => setShowHeightInfo(true)}
             >
-              <View style={styles().modalContainer}>
-                <View style={styles().modalHeaderBar}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      flex: 2,
-                      marginLeft: 6,
-                      marginVertical: 4,
-                    }}>
-                    <Icon
-                      name='information-circle-outline'
-                      type='ionicon'
-                      color='white'
-                      style={{ marginRight: 8 }}
-                    />
-                    <Text style={styles().textAlt}>Height</Text>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        flex: 1,
-                        justifyContent: 'flex-end',
-                        marginRight: 6,
-                      }}>
-                      <Icon
-                        name='close'
-                        type='ionicon'
-                        color='white'
-                        onPress={() => setShowHeightInfo(!showHeightInfo)}
-                      />
-                    </View>
-                  </View>
-                </View>
+              <View style={styles().modalHeaderBar}>
                 <View
                   style={{
                     flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    marginHorizontal: '5%',
-                    maxHeight: '60%',
-                    marginTop: 10,
-                    marginBottom: 16,
-                  }}>
-                  <Text style={styles().text}>
-                    Please enter your height so we know how tall you are!
-                  </Text>
-                  <Text style={styles().text}>
-                    This information will be used in physical health calculations and can be updated 
-                    in your user settings at any time.
-                  </Text>
-                  <Text style={styles().text}>
-                    You may choose not to answer this question if you are unsure of your height. 
-                    However, this may cause certain physical health calculations to be inaccurate.
-                  </Text>
-                  <Text style={styles().textBoldAlt}>This field is optional.</Text>
+                    flex: 2,
+                    marginLeft: 6,
+                    marginVertical: 4,
+                }}>
+                  <Icon
+                    name='information-circle-outline'
+                    type='ionicon'
+                    color='white'
+                    style={{ marginRight: 8 }}
+                  />
+                  <Text style={styles().textAlt}>Height</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 1,
+                      justifyContent: 'flex-end',
+                      marginRight: 6,
+                    }}>
+                    <Icon
+                      name='close'
+                      type='ionicon'
+                      color='white'
+                      onPress={() => setShowHeightInfo(!showHeightInfo)}
+                    />
+                  </View>
                 </View>
               </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  marginHorizontal: '5%',
+                  maxHeight: '60%',
+                  marginTop: 10,
+                  marginBottom: 16,
+                }}>
+                <Text style={styles().text}>
+                  Please enter your height so we know how tall you are!
+                </Text>
+                <Text style={styles().text}>
+                  This information will be used in physical health calculations and can be updated 
+                  in your user settings at any time.
+                </Text>
+                <Text style={styles().text}>
+                  You may choose not to answer this question if you are unsure of your height. 
+                  However, this may cause certain physical health calculations to be inaccurate.
+                </Text>
+                <Text style={styles().textBoldAlt}>This field is optional.</Text>
+              </View>
             </Pressable>
+          </Pressable>
         </Modal>
       </View>
 
@@ -746,62 +765,65 @@ function UserInitialization1({ navigation }) {
               backgroundColor: '#00000055',
             }}
             onPressOut={() => setShowWeightInfo(!showWeightInfo)}
+          >
+            <Pressable 
+              style={styles().modalContainer}
+              onPress={() => setShowWeightInfo(false)}  
             >
-              <View style={styles().modalContainer}>
-                <View style={styles().modalHeaderBar}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      flex: 2,
-                      marginLeft: 6,
-                      marginVertical: 4,
-                    }}>
-                    <Icon
-                      name='information-circle-outline'
-                      type='ionicon'
-                      color='white'
-                      style={{ marginRight: 8 }}
-                    />
-                    <Text style={styles().textAlt}>Weight</Text>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        flex: 1,
-                        justifyContent: 'flex-end',
-                        marginRight: 6,
-                      }}>
-                      <Icon
-                        name='close'
-                        type='ionicon'
-                        color='white'
-                        onPress={() => setShowWeightInfo(!showWeightInfo)}
-                      />
-                    </View>
-                  </View>
-                </View>
+              <View style={styles().modalHeaderBar}>
                 <View
                   style={{
                     flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    marginHorizontal: '5%',
-                    maxHeight: '60%',
-                    marginVertical: 10,
-                  }}>
-                  <Text style={styles().text}>
-                    Please enter your weight so we know how much you weigh!
-                  </Text>
-                  <Text style={styles().text}>
-                    This information will be used in physical health calculations and can be updated
-                    dynamically via your daily health entries.
-                  </Text>
-                  <Text style={styles().text}>
-                    You may choose not to answer this question if you are unsure of your weight. 
-                    However, this may cause certain physical health calculations to be inaccurate.
-                  </Text>
-                  <Text style={styles().textBoldAlt}>This field is optional.</Text>
+                    flex: 2,
+                    marginLeft: 6,
+                    marginVertical: 4,
+                }}>
+                  <Icon
+                    name='information-circle-outline'
+                    type='ionicon'
+                    color='white'
+                    style={{ marginRight: 8 }}
+                  />
+                  <Text style={styles().textAlt}>Weight</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 1,
+                      justifyContent: 'flex-end',
+                      marginRight: 6,
+                    }}>
+                    <Icon
+                      name='close'
+                      type='ionicon'
+                      color='white'
+                      onPress={() => setShowWeightInfo(!showWeightInfo)}
+                    />
+                  </View>
                 </View>
               </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  marginHorizontal: '5%',
+                  maxHeight: '60%',
+                  marginVertical: 10,
+                }}>
+                <Text style={styles().text}>
+                  Please enter your weight so we know how much you weigh!
+                </Text>
+                <Text style={styles().text}>
+                  This information will be used in physical health calculations and can be updated
+                  dynamically via your daily health entries.
+                </Text>
+                <Text style={styles().text}>
+                  You may choose not to answer this question if you are unsure of your weight. 
+                  However, this may cause certain physical health calculations to be inaccurate.
+                </Text>
+                <Text style={styles().textBoldAlt}>This field is optional.</Text>
+              </View>
             </Pressable>
+          </Pressable>
         </Modal>
       </View>
 
@@ -812,7 +834,7 @@ function UserInitialization1({ navigation }) {
           <View style={styles().avatarView}>
             <Image
               style={styles().avatar}
-              source={require('../../shared/assets/gardener-avatar.png')}
+              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
             />
             <Text style={styles().pageDescription}>
               Welcome to myGrowth! Let’s initialize your account. First, please
@@ -875,7 +897,6 @@ function UserInitialization1({ navigation }) {
                 <Text
                   style={{
                     textDecorationLine: 'underline',
-                    fontWeight: 'bold',
                     color: global.colorblindMode
                       ? global.cb_hyperlinkedTextColor
                       : global.hyperlinkedTextColor,
@@ -1149,9 +1170,9 @@ const styles = () =>
         : global.pageBackgroundColor,
     },
     avatar: {
-      width: 75,
-      height: 75,
-      marginRight: 24,
+      width: Math.round(Dimensions.get('window').width * 1/4),
+      height: Math.round(Dimensions.get('window').width * 1/4),
+      marginRight: 20,
     },
     avatarView: {
       flexDirection: 'row',

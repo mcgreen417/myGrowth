@@ -9,6 +9,7 @@ import {
   StatusBar,
   TouchableOpacity,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Cache } from "react-native-cache";
@@ -32,10 +33,13 @@ function AccountPanel({ navigation }) {
 
           {/* Gardener avatar + page blurb */}
           <View style={styles().avatarView}>
-            <Image style={styles().avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
             <Text style={styles().pageDescription}>
               You can edit your account settings on this page. Please select one of the options below.
             </Text>
+            <Image
+              style={styles().avatarFlipped}
+              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+            />
           </View>
           {/* Top page divider */}
           <View style={styles().dividerView}>
@@ -171,6 +175,7 @@ function AccountPanel({ navigation }) {
 
           {/* Filler image */}
           <Image style={styles().fillerImage} source={require('../../shared/assets/SettingsPlantShelf.png')} />
+          <View style={styles().pageEnd}/>
         </View>
       </ScrollView>
       <NavBar account={true} navigation={navigation} />
@@ -218,17 +223,19 @@ const styles = () => StyleSheet.create({
       ? global.cb_pageBackgroundColor
       : global.pageBackgroundColor,
   },
-  avatar: {
-    width: 75,
-    height: 75,
-    marginRight: 24,
+  avatarFlipped: {
+    width: Math.round(Dimensions.get('window').width * 1/4),
+    height: Math.round(Dimensions.get('window').width * 1/4),
+    transform: [
+      { scaleX: -1 }
+    ]
   },
   avatarView: {
     flexDirection: 'row',
     marginTop: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    width: '90%'
+    width: '90%',
   },
   buttons: {
     marginTop: 7,
@@ -292,15 +299,16 @@ const styles = () => StyleSheet.create({
   },
   pageDescription: {
     color: global.colorblindMode
-      ? global.cb_textColor
-      : global.textColor,
-    fontSize: 16,
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
+    fontSize: 20,
+    fontWeight: 'bold',
     flex: 1,
     flexWrap: 'wrap',
-    fontWeight: 'bold',
+    marginRight: 20,
   },
   pageEnd: {
-    marginBottom: 30,
+    marginBottom: 80,
   },
   pageSetup: {
     justifyContent: 'center', 

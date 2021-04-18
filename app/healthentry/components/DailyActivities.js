@@ -33,11 +33,8 @@ const DailyActivities = ({ activities, setActivities }) => {
             animationType='fade'
             transparent={true}
             visible={showAddActivities}
-            onRequestClose={() => {
-              setPressedActivity(false);
-              setPressedDuration(false);
-              setShowAddActivities(!showAddActivities);
-            }}>
+            onRequestClose={() => setShowAddActivities(!showAddActivities)}
+          >
             <Pressable
               style={{
                 flex: 1,
@@ -46,19 +43,15 @@ const DailyActivities = ({ activities, setActivities }) => {
                 zIndex: 1,
                 backgroundColor: '#00000055',
               }}
-              onPressOut={() => {
-                setPressedActivity(false);
-                setPressedDuration(false);
-                setShowAddActivities(!showAddActivities);
-              }}>
+              onPressOut={() => setShowAddActivities(!showAddActivities)
+            }>
               <Pressable
                 style={styles().modalContainer}
                 onPressOut={() => {
                   Keyboard.dismiss();
-                  setPressedActivity(false);
-                  setPressedDuration(false);
                   setShowAddActivities(true);
-                }}>
+                }}
+              >
                 <View style={styles().modalHeaderBar}>
                   <View
                     style={{
@@ -87,11 +80,7 @@ const DailyActivities = ({ activities, setActivities }) => {
                         name='close'
                         type='ionicon'
                         color='white'
-                        onPress={() => {
-                          setPressedActivity(false);
-                          setPressedDuration(false);
-                          setShowAddActivities(!showAddActivities);
-                        }}
+                        onPress={() => setShowAddActivities(!showAddActivities)}
                       />
                     </View>
                   </View>
@@ -131,10 +120,8 @@ const DailyActivities = ({ activities, setActivities }) => {
                           value={activityName}
                           onChangeText={setActivityName}
                           maxLength={99}
-                          onFocus={() => {
-                            setPressedActivity(true);
-                            setPressedDuration(false);
-                          }}
+                          onFocus={() => setPressedActivity(true)}
+                          onBlur={() => setPressedActivity(false)}
                           style={{ top: -8 }}
                         />
                       </View>
@@ -169,10 +156,8 @@ const DailyActivities = ({ activities, setActivities }) => {
                           onChangeText={setActivityDuration}
                           keyboardType='numeric'
                           maxLength={4}
-                          onFocus={() => {
-                            setPressedActivity(false);
-                            setPressedDuration(true);
-                          }}
+                          onFocus={() => setPressedDuration(true)}
+                          onBlur={() => setPressedDuration(false)}
                           style={{ top: -8 }}
                         />
                       </View>
@@ -192,11 +177,10 @@ const DailyActivities = ({ activities, setActivities }) => {
                         setActivities(temp);
                         //console.log('activites', activities);
                         //console.log('activites', activities);
-                        setPressedActivity(false);
-                        setPressedDuration(false);
                         setActivityName('');
                         setActivityDuration('');
                         setShowAddActivities(true);
+                        Keyboard.dismiss();
                       }}
                       color={
                         global.colorblindMode

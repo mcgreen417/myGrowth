@@ -12,8 +12,9 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Dimensions,
 } from 'react-native';
-
+import { Icon } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Cache } from "react-native-cache";
 import * as queries from '../../../src/graphql/queries';
@@ -22,6 +23,10 @@ import * as queries from '../../../src/graphql/queries';
 function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [pressedEmail, setPressedEmail] = useState(false);
+  const [pressedPassword, setPressedPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <SafeAreaView style={styles().container}>
       <StatusBar
@@ -46,54 +51,130 @@ function Login({ navigation }) {
           <Text style={styles().textTitle}>myGrowth</Text>
           <Text style={styles().textSubtitle}>Your General Wellness Tracker</Text>
 
-          {/* E-mail address + password entry boxes, login button */}
-          <View style={styles().buttons}>
-            <TextInput
-              style={styles().textInput}
-              placeholder='E-mail Address'
-              placeholderTextColor={
-                global.colorblindMode
-                  ? global.cb_placeHolderTextColor
-                  : global.placeHolderTextColor
-              }
-              value={email}
-              onChangeText={(email) => {
-                setEmail(email);
-              }}
-            />
-            
-            <View style={{ marginTop: 16 }}>
-              <TextInput
-                style={styles().textInput}
-                placeholder='Password'
-                placeholderTextColor={
-                  global.colorblindMode
-                    ? global.cb_placeHolderTextColor
-                    : global.placeHolderTextColor
-                }
-                secureTextEntry={true}
-                value={password}
-                onChangeText={(password) => {
-                  setPassword(password);
-                }}
-              />
-            </View>
-
-            <View style={{ marginVertical: 16 }}>
-              <Button
-                title='LOG IN'
-                color={
-                  global.colorblindMode
-                    ? global.cb_optionButtonsColor
-                    : global.optionButtonsColor
-                }
-                onPress={() => signIn(email, password, navigation)}
-              />
+          <View style={{ marginTop: 16, marginBottom: 20 }}>
+            <View style={styles().textInputView}>
+              <View style={styles().labelView}>
+                <Text
+                  style={{
+                    color: pressedEmail ? '#4CB97A' : '#816868',
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                  }}>
+                  E-mail Address
+                </Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  borderWidth: 1,
+                  borderColor: pressedEmail ? '#4CB97A' : '#816868',
+                  justifyContent: 'flex-end',
+                  borderRadius: 6,
+                  paddingHorizontal: 16,
+                }}>
+                <TextInput
+                  placeholder='E-mail address'
+                  fontSize={16}
+                  color='#816868'
+                  placeholderTextColor={
+                    global.colorblindMode
+                      ? global.cb_placeHolderTextColor
+                      : global.placeHolderTextColor
+                  }
+                  value={email}
+                  onChangeText={(email) => {
+                    setEmail(email);
+                  }}
+                  maxLength={320}
+                  onFocus={() => setPressedEmail(true)}
+                  onBlur={() => setPressedEmail(false)}
+                  style={{ top: -8 }}
+                />
+              </View>
             </View>
           </View>
 
+          <View style={{ marginBottom: 10, }}>
+            <View style={styles().textInputView}>
+              <View style={styles().labelView}>
+                <Text
+                  style={{
+                    color: pressedPassword ? '#4CB97A' : '#816868',
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                  }}>
+                  Password
+                </Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  borderWidth: 1,
+                  borderColor: pressedPassword ? '#4CB97A' : '#816868',
+                  justifyContent: 'flex-end',
+                  borderRadius: 6,
+              }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', top: -8, }}>
+                  <TextInput
+                    placeholder='Password'
+                    fontSize={16}
+                    color='#816868'
+                    placeholderTextColor={
+                      global.colorblindMode
+                        ? global.cb_placeHolderTextColor
+                        : global.placeHolderTextColor
+                    }
+                    secureTextEntry={showPassword 
+                      ? false
+                      : true
+                    }
+                    value={password}
+                    onChangeText={(password) => {
+                      setPassword(password);
+                    }}
+                    maxLength={99}
+                    onFocus={() => setPressedPassword(true)}
+                    onBlur={() => setPressedPassword(false)}
+                    style={{ 
+                      paddingLeft: 16, 
+                      flexWrap: 'wrap', 
+                      width: Math.round((Dimensions.get('window').width * 6/10)), 
+                    }}
+                  />
+                  <View style={{ flex: 1, alignItems: 'flex-end', paddingHorizontal: 16, }}>
+                    <Icon
+                      name={showPassword 
+                        ? 'eye-off'
+                        : 'eye'
+                      }
+                      type='ionicon'
+                      color={pressedPassword
+                        ? '#4CB97A'
+                        : '#816868'
+                      }
+                      onPress={() => setShowPassword(!showPassword)}
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+
+          {/* Login button */}
+          <View style={styles().buttons}>
+            <Button
+              title='LOG IN'
+              color={
+                global.colorblindMode
+                  ? global.cb_optionButtonsColor
+                  : global.optionButtonsColor
+              }
+              onPress={() => signIn(email, password, navigation)}
+            />
+          </View>
+
           {/* Login/signup page switch + forgot password button */}
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: 'row', marginTop: 16, }}>
             <Text style={styles().text}>Don't have an account? </Text>
             <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
               <Text style={styles().textLink}>Sign up here.</Text>
@@ -228,56 +309,52 @@ const styles = () => StyleSheet.create({
       : global.pageBackgroundColor,
   },
   logo: {
-    height: 100,
-    width: 100,
+    height: Math.round(Dimensions.get('window').width * 1/4),
+    width: Math.round(Dimensions.get('window').width * 1/4),
   },
   buttons: {
     marginVertical: 10,
-    width: '75%',
+    width: Math.round(Dimensions.get('window').width * 3/4),
     borderColor: global.colorblindMode
       ? global.cb_optionButtonsBorderColor
       : global.optionButtonsBorderColor,
+  },
+  label: {
+    color: '#816868',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  labelView: {
+    position: 'absolute',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
+    top: -16,
+    left: 14,
+    padding: 5,
+    zIndex: 50,
   },
   pageSetup: {
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  textInput: {
-    width: '100%',
-    height: 40,
-    borderColor: global.colorblindMode
-      ? global.cb_textInputBorderColor
-      : global.textInputBorderColor,
-    borderWidth: 2,
-    borderRadius: 10,
-    backgroundColor: global.colorblindMode
-      ? global.cb_textInputFillColor
-      : global.textInputFillColor,
+  text: {
     color: global.colorblindMode
-      ? global.cb_textInputColor
-      : global.textInputColor,
-    textAlign: 'center',
+    ? global.cb_textColor
+    : global.textColor,
+    fontSize: 14,
   },
-  textInstructions: {
-    color: global.colorblindMode
-      ? global.cb_textColor
-      : global.textColor,
-    marginBottom: 12,
-    textAlign: 'center',
+  textInputView: {
+    height: 48,
+    width: Math.round(Dimensions.get('window').width * 3/4),
+    position: 'relative',
   },
   textLink: {
     color: global.colorblindMode
       ? global.cb_hyperlinkedTextColor
       : global.hyperlinkedTextColor,
     textDecorationLine: 'underline',
-    fontWeight: 'bold',
-    fontSize: 14,
-  },
-  text: {
-    color: global.colorblindMode
-    ? global.cb_textColor
-    : global.textColor,
     fontSize: 14,
   },
   textSubtitle: {

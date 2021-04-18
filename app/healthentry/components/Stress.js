@@ -29,9 +29,7 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
             animationType='fade'
             transparent={true}
             visible={showAddStressors}
-            onRequestClose={() => {
-              setPressed(false);
-              setShowAddStressors(!showAddStressors);}}
+            onRequestClose={() => setShowAddStressors(!showAddStressors)}
           >
             <Pressable
               style={{
@@ -41,15 +39,12 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
                 zIndex: 1,
                 backgroundColor: '#00000055',
               }}
-              onPressOut={() => {
-                setPressed(false);
-                setShowAddStressors(!showAddStressors);}}
-              >
+              onPressOut={() => setShowAddStressors(!showAddStressors)}
+            >
               <Pressable 
                 style={styles().modalContainer}
                 onPressOut={() => {
                   Keyboard.dismiss();
-                  setPressed(false);
                   setShowAddStressors(true);}}
               >
                 <View style={styles().modalHeaderBar}>
@@ -80,9 +75,7 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
                         name='close'
                         type='ionicon'
                         color='white'
-                        onPress={() => {
-                          setPressed(false);
-                          setShowAddStressors(!showAddStressors);}}
+                        onPress={() => setShowAddStressors(!showAddStressors)}
                       />
                     </View>
                   </View>
@@ -123,6 +116,7 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
                           onChangeText={setStressor}
                           maxLength={99}
                           onFocus={() => setPressed(true)}
+                          onBlur={() => setPressed(false)}
                           style={{ top: -8, }}
                         />
                       </View>
@@ -136,9 +130,9 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
                         let temp = new Array(stressor).concat(stressors);
                         //console.log('temp:', temp);
                         setStressors(temp);
-                        setPressed(false);
                         setStressor('');
                         setShowAddStressors(true);
+                        Keyboard.dismiss();
                       }}
                       color={
                         global.colorblindMode

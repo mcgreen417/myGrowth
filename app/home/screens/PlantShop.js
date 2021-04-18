@@ -54,82 +54,85 @@ function PlantShop({ navigation }) {
           transparent={true}
           visible={showGoalInfo}
           onRequestClose={() => setShowGoalInfo(!showGoalInfo)}
-        >
-          <Pressable
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              zIndex: 1,
-              backgroundColor: '#00000055',
-            }}
-            onPressOut={() => setShowGoalInfo(!showGoalInfo)}
+      >
+        <Pressable
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1,
+            backgroundColor: '#00000055',
+          }}
+          onPressOut={() => setShowGoalInfo(!showGoalInfo)}
+          >
+            <Pressable
+              style={styles().modalContainer}
+              onePress={() => setShowGoalInfo(true)}
             >
-              <View style={styles().modalContainer}>
-                <View style={styles().modalHeaderBar}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      flex: 2,
-                      marginLeft: 6,
-                      marginVertical: 4,
-                    }}>
-                    <Icon
-                      name='information-circle-outline'
-                      type='ionicon'
-                      color='white'
-                      style={{ marginRight: 8 }}
-                    />
-                    <Text style={styles().textAlt}>About Stars</Text>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        flex: 1,
-                        justifyContent: 'flex-end',
-                        marginRight: 6,
-                      }}>
-                      <Icon
-                        name='close'
-                        type='ionicon'
-                        color='white'
-                        onPress={() => setShowGoalInfo(!showGoalInfo)}
-                      />
-                    </View>
-                  </View>
-                </View>
+              <View style={styles().modalHeaderBar}>
                 <View
                   style={{
                     flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    marginHorizontal: '5%',
-                    maxHeight: '60%',
-                    marginTop: 10,
-                    marginBottom: 16,
-                  }}>
-                  <Text style={styles().textSpaced}>
-                    Stars (
+                    flex: 2,
+                    marginLeft: 6,
+                    marginVertical: 4,
+                }}>
+                  <Icon
+                    name='information-circle-outline'
+                    type='ionicon'
+                    color='white'
+                    style={{ marginRight: 8 }}
+                  />
+                  <Text style={styles().textAlt}>About Stars</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 1,
+                      justifyContent: 'flex-end',
+                      marginRight: 6,
+                    }}>
                     <Icon
-                      name='star'
-                      type='material-community'
-                      color='#816868'
-                      size={16}
+                      name='close'
+                      type='ionicon'
+                      color='white'
+                      onPress={() => setShowGoalInfo(!showGoalInfo)}
                     />
-                    ) are myGrowth's official currency! 
-                  </Text>
-                  <Text style={styles().textSpaced}>
-                    These can be used to buy new varieties of plants and plant accessories. 
-                  </Text>
-                  <Text style={styles().textSpaced}>
-                    Stars can be earned by completing daily, weekly, or long-term goals recommended 
-                    by myGrowth.
-                  </Text>
-                  <Text style={styles().textSpaced}>
-                    Check out the Goals page and start tracking your progress toward your own personal 
-                    goals today!
-                  </Text>
+                  </View>
                 </View>
               </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  marginHorizontal: '5%',
+                  maxHeight: '60%',
+                  marginTop: 10,
+                  marginBottom: 16,
+                }}>
+                <Text style={styles().textSpaced}>
+                  Stars (
+                  <Icon
+                    name='star'
+                    type='material-community'
+                    color='#816868'
+                    size={16}
+                  />
+                  ) are myGrowth's official currency! 
+                </Text>
+                <Text style={styles().textSpaced}>
+                  These can be used to buy new varieties of plants and plant accessories. 
+                </Text>
+                <Text style={styles().textSpaced}>
+                  Stars can be earned by completing daily, weekly, or long-term goals recommended 
+                  by myGrowth.
+                </Text>
+                <Text style={styles().textSpaced}>
+                  Check out the Goals page and start tracking your progress toward your own personal 
+                  goals today!
+                </Text>
+              </View>
             </Pressable>
+          </Pressable>
         </Modal>
       </View>
 

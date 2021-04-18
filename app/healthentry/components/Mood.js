@@ -28,9 +28,7 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
             animationType='fade'
             transparent={true}
             visible={showAddFeelings}
-            onRequestClose={() => {
-              setPressed(false);
-              setShowAddFeelings(!showAddFeelings);}}
+            onRequestClose={() => setShowAddFeelings(!showAddFeelings)}
           >
             <Pressable
               style={{
@@ -40,15 +38,12 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
                 zIndex: 1,
                 backgroundColor: '#00000055',
               }}
-              onPressOut={() => {
-                setPressed(false);
-                setShowAddFeelings(!showAddFeelings);}}
+              onPressOut={() => setShowAddFeelings(!showAddFeelings)}
               >
               <Pressable 
                 style={styles().modalContainer}
                 onPressOut={() => {
                   Keyboard.dismiss();
-                  setPressed(false);
                   setShowAddFeelings(true);}}
               >
                 <View style={styles().modalHeaderBar}>
@@ -79,9 +74,7 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
                         name='close'
                         type='ionicon'
                         color='white'
-                        onPress={() => {
-                          setPressed(false);
-                          setShowAddFeelings(!showAddFeelings);}}
+                        onPress={() => setShowAddFeelings(!showAddFeelings)}
                       />
                     </View>
                   </View>
@@ -122,6 +115,7 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
                           onChangeText={setFeel}
                           maxLength={99}
                           onFocus={() => setPressed(true)}
+                          onBlur={() => setPressed(false)}
                           style={{ top: -8, }}
                         />
                       </View>
@@ -137,9 +131,9 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
                         setFeelings(temp);
                         //console.log('feelings', feelings);
                         //console.log('feelings', feelings);
-                        setPressed(false);
                         setFeel('');
                         setShowAddFeelings(true);
+                        Keyboard.dismiss();
                       }}
                       color={
                         global.colorblindMode

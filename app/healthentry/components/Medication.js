@@ -101,9 +101,7 @@ const Medication = ({
             animationType='fade'
             transparent={true}
             visible={showAddMedicine}
-            onRequestClose={() => {
-              setPressed(false);
-              setShowAddMedicine(!showAddMedicine);}}
+            onRequestClose={() => setShowAddMedicine(!showAddMedicine)}
           >
             <Pressable
               style={{
@@ -113,15 +111,12 @@ const Medication = ({
                 zIndex: 1,
                 backgroundColor: '#00000055',
               }}
-              onPressOut={() => {
-                setPressed(false);
-                setShowAddMedicine(!showAddMedicine);}}
+              onPressOut={() => setShowAddMedicine(!showAddMedicine)}
               >
               <Pressable 
                 style={styles().modalContainer}
                 onPressOut={() => {
                   Keyboard.dismiss();
-                  setPressed(false);
                   setShowAddMedicine(true);}}
               >
                 <View style={styles().modalHeaderBar}>
@@ -152,9 +147,7 @@ const Medication = ({
                         name='close'
                         type='ionicon'
                         color='white'
-                        onPress={() => {
-                          setPressed(false);
-                          setShowAddMedicine(!showAddMedicine);}}
+                        onPress={() => setShowAddMedicine(!showAddMedicine)}
                       />
                     </View>
                   </View>
@@ -195,6 +188,7 @@ const Medication = ({
                           onChangeText={setMedicineName}
                           maxLength={99}
                           onFocus={() => setPressed(true)}
+                          onBlur={() => setPressed(false)}
                           style={{ top: -8, }}
                         />
                       </View>
@@ -205,10 +199,7 @@ const Medication = ({
                   <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'center', }}>
                     <Text style={styles().textBoldAlt}>Time Taken:</Text>
                     <TouchableOpacity
-                      onPress={() => {
-                        setShow(true);
-                        setPressed(false);
-                      }}
+                      onPress={() => setShow(true)}
                       style={{ alignItems: 'center', flexDirection: 'row' }}>
                       <Icon
                         name='schedule'
@@ -252,8 +243,8 @@ const Medication = ({
                           setMedicineName('');
                           setDate(Date());
                         }
-                        setPressed(false);
                         setShowAddMedicine(true);
+                        Keyboard.dismiss();
                       }}
                       color={
                         global.colorblindMode
@@ -279,7 +270,7 @@ const Medication = ({
             medications.map((item, index) => {
               return (
                 <View key={index}>
-                  {/* Delete exercise modal */}
+                  {/* Delete Medication modal */}
                   <View style={styles().container}>
                     <Modal
                       animationType='fade'

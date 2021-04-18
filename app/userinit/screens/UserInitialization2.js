@@ -13,6 +13,7 @@ import {
   FlatList,
   Switch,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 
 const avatars = new Array(48).fill('http://placeimg.com/100/100/any');
@@ -23,68 +24,67 @@ function UserInitialization2({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles().container}>
-        <View style={styles().pageSetup}>
-          {/* Gardener avatar + page blurb */}
-          <View style={styles().avatarView}>
-            <Image
-              style={styles().avatar}
-              source={require('../../shared/assets/gardener-avatar.png')}
-            />
-            <Text style={styles().pageDescription}>
-              As our next step, take some time to select and appearance for me!
-              I'll be here to guide you through the app. Think of me as your new
-              friend!
-            </Text>
-          </View>
-          {/* Top page divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
-
-          {/* Gardener avatar select */}
-          <View style={styles().avatarSelectView}>
-            <FlatList
-              data={avatar}
-              renderItem={({ item, index }) => (
-                <Image
-                  source={{ uri: item, cache: 'reload' }}
-                  key={index}
-                  style={{ width: 55, height: 55, margin: 4 }}
-                />
-              )}
-              keyExtractor={(item, index) => index.toString()}
-              numColumns={6}
-            />
-          </View>
-
-          {/* Back & next buttons */}
-          <View style={styles().buttonsContainer}>
-            <Button
-              title='Back'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              onPress={() => navigation.navigate('UserInitialization1')}
-            />
-            <View style={{ width: '72%' }}></View>
-            <Button
-              title='Next'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              onPress={() => navigation.navigate('UserInitialization3',{ 
-                height: height,
-                weight: weight, 
-                heightMeasurement: heightMeasurement, 
-                weightMeasurement: weightMeasurement
-              })}
-            />
-          </View>
+      <View style={styles().pageSetup}>
+        {/* Gardener avatar + page blurb */}
+        <View style={styles().avatarView}>
+          <Image
+            style={styles().avatar}
+            source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+          />
+          <Text style={styles().pageDescription}>
+            Next, let me know which look you prefer! Think of me as your new friend, here to guide
+            you through the app!
+          </Text>
         </View>
+        {/* Top page divider */}
+        <View style={styles().dividerView}>
+          <View style={styles().divider} />
+        </View>
+
+        {/* Gardener avatar select */}
+        <View style={styles().avatarSelectView}>
+          <FlatList
+            data={avatar}
+            renderItem={({ item, index }) => (
+              <Image
+                source={{ uri: item, cache: 'reload' }}
+                key={index}
+                style={{ width: 55, height: 55, margin: 4 }}
+              />
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={6}
+          />
+        </View>
+
+        {/* Back & next buttons */}
+        <View style={styles().buttonsContainer}>
+          <Button
+            title='Back'
+            color={
+              global.colorblindMode
+                ? global.cb_optionButtonsColor
+                : global.optionButtonsColor
+            }
+            onPress={() => navigation.navigate('UserInitialization1')}
+          />
+          <View style={{ width: '72%' }}></View>
+          <Button
+            title='Next'
+            color={
+              global.colorblindMode
+                ? global.cb_optionButtonsColor
+                : global.optionButtonsColor
+            }
+            onPress={() => navigation.navigate('UserInitialization3',{ 
+              height: height,
+              weight: weight, 
+              heightMeasurement: heightMeasurement, 
+              weightMeasurement: weightMeasurement
+            })}
+          />
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
@@ -99,9 +99,9 @@ const styles = () => StyleSheet.create({
       : global.pageBackgroundColor,
   },
   avatar: {
-    width: 75,
-    height: 75,
-    marginRight: 24,
+    width: Math.round(Dimensions.get('window').width * 1/4),
+    height: Math.round(Dimensions.get('window').width * 1/4),
+    marginRight: 20,
   },
   avatarView: {
     flexDirection: 'row',
@@ -111,7 +111,7 @@ const styles = () => StyleSheet.create({
     width: '90%',
   },
   avatarSelectView: {
-    height: '68%',
+    height: '64%',
     marginBottom: 20,
   },
   buttons: {
@@ -192,7 +192,7 @@ const styles = () => StyleSheet.create({
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
-    fontSize: 16,
+    fontSize: 18,
     flex: 1,
     flexWrap: 'wrap',
     fontWeight: 'bold',

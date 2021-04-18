@@ -89,8 +89,11 @@ const HistorySelectACategory = ({
           backgroundColor: '#00000055',
         }}
         onPressOut={() => setModalView(!showModalView)}
+      >
+        <Pressable 
+          style={styles().container}
+          onPress={() => setModalView(true)}  
         >
-        <View style={styles().container}>
           {/* Modal structure properties, Dismiss Bar */}
           <View style={styles().modalHeaderBar}>
             <View
@@ -145,7 +148,7 @@ const HistorySelectACategory = ({
               />
             ))}
           </View>
-        </View>
+        </Pressable>
       </Pressable>
     </Modal>
   );
