@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./app/shared/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.mygrowth"
     },
     "web": {
       "favicon": "./app/shared/assets/favicon.png"
