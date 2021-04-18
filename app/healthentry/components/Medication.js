@@ -23,6 +23,14 @@ import * as queries from '../../../src/graphql/queries';
 import * as mutations from '../../../src/graphql/mutations';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+async function getMedications() {
+  const res = await API.graphql({
+    query: queries.getSetting,
+  });
+
+  return res.data.getSetting.Medications;
+}
+
 function getTime(d) {
   return (
     (d.getHours() % 12) +
@@ -31,16 +39,6 @@ function getTime(d) {
     (d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes()) +
     (d.getHours() > 12 ? 'pm' : 'am')
   );
-}
-
-async function getMedications(setMedications) {
-  const res = await API.graphql({
-    query: queries.getSetting,
-  });
-  // console.log(res);
-  const meds = res.data.getSetting.Medications;
-  // console.log(meds.length);
-  setMedications(meds);
 }
 
 async function removeMedication(index) {
@@ -83,26 +81,26 @@ const Medication = ({
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
 
-  getMedications(setMedications);
-
   const onChange = (event, selectedDate) => {
     setShow(false);
     const currentDate = selectedDate || date;
     setDate(new Date(currentDate));
-  }
+  };
+
+  useEffect(() => {
+    getMedications().then((med) => setMedications(med));
+  }, [deleteEntry]);
 
   return (
     <SafeAreaView style={{ width: '90%' }}>
       <ScrollView keyboardShouldPersistTaps='handled'>
-
         {/* Add Medication modal */}
         <View style={styles().container}>
           <Modal
             animationType='fade'
             transparent={true}
             visible={showAddMedicine}
-            onRequestClose={() => setShowAddMedicine(!showAddMedicine)}
-          >
+            onRequestClose={() => setShowAddMedicine(!showAddMedicine)}>
             <Pressable
               style={{
                 flex: 1,
@@ -111,14 +109,13 @@ const Medication = ({
                 zIndex: 1,
                 backgroundColor: '#00000055',
               }}
-              onPressOut={() => setShowAddMedicine(!showAddMedicine)}
-              >
-              <Pressable 
+              onPressOut={() => setShowAddMedicine(!showAddMedicine)}>
+              <Pressable
                 style={styles().modalContainer}
                 onPressOut={() => {
                   Keyboard.dismiss();
-                  setShowAddMedicine(true);}}
-              >
+                  setShowAddMedicine(true);
+                }}>
                 <View style={styles().modalHeaderBar}>
                   <View
                     style={{
@@ -159,28 +156,28 @@ const Medication = ({
                     marginTop: 10,
                     marginBottom: 16,
                   }}>
-                  <View style={{ marginTop: 16, marginBottom: 12, }}>
+                  <View style={{ marginTop: 16, marginBottom: 12 }}>
                     <View style={styles().textInputView}>
                       <View style={styles().labelView}>
-                        <Text style={{
-                          color: pressed 
-                            ? '#4CB97A'
-                            : '#816868',
-                          fontSize: 16,
-                          fontWeight: 'bold',
-                        }}>Medication</Text>
+                        <Text
+                          style={{
+                            color: pressed ? '#4CB97A' : '#816868',
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                          }}>
+                          Medication
+                        </Text>
                       </View>
-                      <View style={{
-                          flex: 1, 
-                          borderWidth: 1, 
-                          borderColor: pressed
-                            ? '#4CB97A'
-                            : '#816868',
+                      <View
+                        style={{
+                          flex: 1,
+                          borderWidth: 1,
+                          borderColor: pressed ? '#4CB97A' : '#816868',
                           justifyContent: 'flex-end',
                           borderRadius: 10,
                           paddingHorizontal: 16,
                         }}>
-                        <TextInput 
+                        <TextInput
                           placeholder='Medication name'
                           fontSize={16}
                           color='#816868'
@@ -189,14 +186,19 @@ const Medication = ({
                           maxLength={99}
                           onFocus={() => setPressed(true)}
                           onBlur={() => setPressed(false)}
-                          style={{ top: -8, }}
+                          style={{ top: -8 }}
                         />
                       </View>
                     </View>
                   </View>
 
                   {/* Time Taken selection */}
-                  <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'center', }}>
+                  <View
+                    style={{
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                    }}>
                     <Text style={styles().textBoldAlt}>Time Taken:</Text>
                     <TouchableOpacity
                       onPress={() => setShow(true)}
@@ -211,8 +213,10 @@ const Medication = ({
                         }
                         style={{ marginLeft: 6, marginRight: 4 }}
                       />
-                      <Text style={styles().textLink}>{getTime(new Date(date))}</Text>
-                      <Icon 
+                      <Text style={styles().textLink}>
+                        {getTime(new Date(date))}
+                      </Text>
+                      <Icon
                         name='arrow-drop-down'
                         color={
                           global.colorblindMode
@@ -229,12 +233,11 @@ const Medication = ({
                       is24Hour={false}
                       display='clock'
                       onChange={onChange}
-                      
                     />
                   )}
 
                   {/* Add Medication button */}
-                  <View style={{ alignSelf: 'center', marginTop: 20, }}>
+                  <View style={{ alignSelf: 'center', marginTop: 20 }}>
                     <Button
                       title='Add Medication'
                       onPress={() => {
@@ -257,14 +260,12 @@ const Medication = ({
               </Pressable>
             </Pressable>
           </Modal>
-        </View>   
-      
+        </View>
+
         <Text style={styles().heading}>MEDICATION</Text>
 
         <Text style={styles().text}>What medication have you taken today?</Text>
-        {medications.length > 0 &&
-          <View style={{ marginBottom: 10, }}/>
-        }
+        {medications.length > 0 && <View style={{ marginBottom: 10 }} />}
         <View>
           {medications != undefined &&
             medications.map((item, index) => {
@@ -287,8 +288,7 @@ const Medication = ({
                           zIndex: 1,
                           backgroundColor: '#00000055',
                         }}
-                        onPressOut={() => setDeleteEntry(!deleteEntry)}
-                        >
+                        onPressOut={() => setDeleteEntry(!deleteEntry)}>
                         <View style={styles().modalContainer}>
                           <View style={styles().modalHeaderBar}>
                             <View
@@ -304,7 +304,9 @@ const Medication = ({
                                 color='white'
                                 style={{ marginRight: 8 }}
                               />
-                              <Text style={styles().textAlt}>Delete Medication</Text>
+                              <Text style={styles().textAlt}>
+                                Delete Medication
+                              </Text>
                             </View>
                           </View>
                           <View
@@ -317,26 +319,33 @@ const Medication = ({
                             }}>
                             <Text style={styles().text}>
                               Are you sure you wish to delete the medication
-                              <Text style={styles().textBoldAlt}> "{item.name}" </Text>
+                              <Text style={styles().textBoldAlt}>
+                                {' '}
+                                "{item.name}"{' '}
+                              </Text>
                               ?
                             </Text>
-                            <Text style={styles().textBoldAlt}>This action cannot be undone.</Text>
+                            <Text style={styles().textBoldAlt}>
+                              This action cannot be undone.
+                            </Text>
                           </View>
-                          <View 
-                            style={{ 
-                              flexDirection: 'row', 
-                              alignSelf: 'flex-end', 
-                              marginVertical: 10, 
-                              marginHorizontal: '5%', 
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              alignSelf: 'flex-end',
+                              marginVertical: 10,
+                              marginHorizontal: '5%',
                             }}>
-                            <TouchableOpacity 
-                              style={{ marginRight: 20, }}
+                            <TouchableOpacity
+                              style={{ marginRight: 20 }}
                               onPress={() => {
                                 setDeleteEntry(!deleteEntry);
-                                removeMedication(index);}}>
+                                removeMedication(index);
+                              }}>
                               <Text style={styles().textButton}>DELETE</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => setDeleteEntry(!deleteEntry)}>
+                            <TouchableOpacity
+                              onPress={() => setDeleteEntry(!deleteEntry)}>
                               <Text style={styles().textButton}>CANCEL</Text>
                             </TouchableOpacity>
                           </View>
@@ -381,7 +390,7 @@ const Medication = ({
                     />
                     <View style={styles().switchView}>
                       <View style={styles().line2} />
-                      <View style={{ marginLeft: 10,  }}>
+                      <View style={{ marginLeft: 10 }}>
                         <Icon
                           name='close'
                           color='#816868'
@@ -407,7 +416,7 @@ const Medication = ({
               );
             })}
         </View>
-        <View style={{ width: '40%', marginTop: 20, marginBottom: 10, }}>
+        <View style={{ width: '40%', marginTop: 20, marginBottom: 10 }}>
           <Button
             title='+ Add Medication'
             onPress={() => setShowAddMedicine(!showAddMedicine)}
@@ -420,7 +429,6 @@ const Medication = ({
         </View>
       </ScrollView>
     </SafeAreaView>
-
   );
 };
 
@@ -534,9 +542,7 @@ const styles = () =>
       alignItems: 'center',
     },
     text: {
-      color: global.colorblindMode 
-        ? global.cb_textColor 
-        : global.textColor,
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
       fontSize: 16,
     },
     textAlt: {
@@ -560,8 +566,8 @@ const styles = () =>
       fontWeight: 'bold',
     },
     textInputView: {
-      height: 48, 
-      width: Math.round(Dimensions.get('window').width * 1/2),
+      height: 48,
+      width: Math.round((Dimensions.get('window').width * 1) / 2),
       position: 'relative',
     },
     textLink: {

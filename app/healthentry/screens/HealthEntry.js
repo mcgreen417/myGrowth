@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Auth, API } from 'aws-amplify';
 import {
   Button,
@@ -23,6 +23,7 @@ import FitnessTracking from '../components/FitnessTracking';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Cache } from 'react-native-cache';
 import * as mutations from '../../../src/graphql/mutations';
+import * as queries from '../../../src/graphql/queries';
 
 const monthNames = [
   'January',
@@ -142,14 +143,14 @@ async function submit(
     Activities: activitiesIn,
   };
 
-  console.log('Query: ', query);
+  // console.log('Query: ', query);
 
   const res = await API.graphql({
     query: mutations.updateDailyEntry,
     variables: query,
   });
 
-  console.log('Response: ', res);
+  // console.log('Response: ', res);
 
   navigation.navigate('EntryCompletion');
 }

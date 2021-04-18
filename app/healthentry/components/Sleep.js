@@ -16,7 +16,6 @@ import * as mutations from '../../../src/graphql/mutations';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 function getTime(d) {
-  console.log(d);
   return (
     (d.getHours() % 12) +
     1 +
@@ -286,21 +285,10 @@ const AddNaps = ({ naps, setNaps, setShowAddNap }) => {
   };
 
   return (
-    <Pressable>
+    <View>
       <View style={styles().modalView}>
         <Text>When did you nap today?</Text>
         <View>
-          {naps.map((item, index) => {
-            return (
-              <AddNap
-                key={index}
-                napTimeStart={item.Start}
-                napTimeEnd={item.End}
-                qualityOfNap={item.Quality}
-                editable={false}
-              />
-            );
-          })}
           <AddNap
             napTimeStart={napTimeStart}
             setNapTimeStart={setNapTimeStart}
@@ -332,7 +320,20 @@ const AddNaps = ({ naps, setNaps, setShowAddNap }) => {
           />
         </View>
       </View>
-    </Pressable>
+      <View style={naps.length > 0 && styles().modalView}>
+        {naps.map((item, index) => {
+          return (
+            <AddNap
+              key={index}
+              napTimeStart={item.Start}
+              napTimeEnd={item.End}
+              qualityOfNap={item.Quality}
+              editable={false}
+            />
+          );
+        })}
+      </View>
+    </View>
   );
 };
 
@@ -641,7 +642,10 @@ const Sleep = ({
             trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
             thumbColor={hadNap ? '#4CB97A' : '#f4f3f4'}
             ios_backgroundColor='#3e3e3e'
-            onValueChange={() => setHadNap(!hadNap)}
+            onValueChange={() => {
+              setNaps([]);
+              setHadNap(!hadNap);
+            }}
             value={hadNap}
             style={{ marginLeft: 8 }}
           />
