@@ -25,6 +25,12 @@ function getTime(d) {
   );
 }
 
+function removeNap(naps, setNaps, index) {
+  let tempNaps = [...naps];
+  tempNaps.splice(index, 1);
+  setNaps(tempNaps);
+}
+
 const AddNap = ({
   napTimeStart,
   setNapTimeStart,
@@ -38,10 +44,14 @@ const AddNap = ({
   setShowEndPicker,
   onStartChange,
   onEndChange,
+  editable,
+  index,
+  naps,
+  setNaps,
 }) => {
   return (
     <View>
-      <View>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <View
             style={{
@@ -104,6 +114,19 @@ const AddNap = ({
             />
           )}
         </View>
+        {!editable && (
+          <Icon
+            name='close'
+            color={
+              global.colorblindMode
+                ? global.cb_optionButtonsColor
+                : global.optionButtonsColor
+            }
+            onPress={() => {
+              removeNap(naps, setNaps, index);
+            }}
+          />
+        )}
       </View>
       <View>
         <Text>How would you rate your quality of sleep during your nap?</Text>
@@ -316,20 +339,27 @@ const AddNaps = ({ naps, setNaps, setShowAddNap }) => {
                 Quality: qualityOfNap,
               });
               setNaps(tempNaps);
+              setQualityOfNap(-1);
+              setNapTimeStart(new Date());
+              setNapTimeEnd(new Date());
             }}
           />
         </View>
       </View>
-      <View style={naps.length > 0 && styles().modalView}>
+      <View>
         {naps.map((item, index) => {
           return (
-            <AddNap
-              key={index}
-              napTimeStart={item.Start}
-              napTimeEnd={item.End}
-              qualityOfNap={item.Quality}
-              editable={false}
-            />
+            <View key={index} style={styles().modalView}>
+              <AddNap
+                naps={naps}
+                setNaps={setNaps}
+                index={index}
+                napTimeStart={item.Start}
+                napTimeEnd={item.End}
+                qualityOfNap={item.Quality}
+                editable={false}
+              />
+            </View>
           );
         })}
       </View>
