@@ -50,7 +50,8 @@ const AddExercises = ({
           visible={deleteEntry}
           onRequestClose={() => {
             setDeleteEntry(!deleteEntry);
-          }}>
+          }}
+        >
           <Pressable
             style={{
               flex: 1,
@@ -59,8 +60,12 @@ const AddExercises = ({
               zIndex: 1,
               backgroundColor: '#00000055',
             }}
-            onPressOut={() => setDeleteEntry(!deleteEntry)}>
-            <View style={styles().modalContainer}>
+            onPressOut={() => setDeleteEntry(!deleteEntry)}
+          >
+            <Pressable
+              style={styles().modalContainer}
+              onPressout={() => setDeleteEntry(true)}
+            >
               <View style={styles().modalHeaderBar}>
                 <View
                   style={{
@@ -111,12 +116,12 @@ const AddExercises = ({
                   <Text style={styles().textButton}>CANCEL</Text>
                 </TouchableOpacity>
               </View>
-            </View>
+            </Pressable>
           </Pressable>
         </Modal>
       </View>
 
-      <View style={{ marginTop: 10 }}>
+      <View style={{ marginVertical: 10, }}>
         <View
           style={{
             backgroundColor: '#816868',
@@ -338,23 +343,6 @@ const AdvanceFitnessTracking = ({ exercises, setExercises }) => {
 
   return (
     <View style={{ marginTop: 10 }}>
-      <AddExercises
-        exercises={exercises}
-        setExercises={setExercises}
-        name={exerciseName}
-        setName={setExerciseName}
-        sets={exerciseSets}
-        setSets={setExerciseSets}
-        reps={exerciseReps}
-        setReps={setExerciseReps}
-        cals={exerciseCalories}
-        setCals={setExerciseCalories}
-        weight={exerciseWeight}
-        setWeight={setExerciseWeigh}
-        duration={exerciseDuration}
-        setDuration={setExerciseDuration}
-        editable={true}
-      />
       {exercises.length != 0 &&
         exercises.map((item, index) => {
           //console.log(item);
@@ -378,7 +366,7 @@ const AdvanceFitnessTracking = ({ exercises, setExercises }) => {
           );
         })}
 
-      <View style={{ marginTop: 20, width: '40%' }}>
+      <View style={{ marginTop: 10, width: '40%' }}>
         <Button
           title='+ Add Exercise'
           color={
