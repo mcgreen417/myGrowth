@@ -58,7 +58,7 @@ const HealthEntryHistory = ({ navigation }) => {
           {/* Gardener avatar + page blurb */}
           <View style={styles.avatarView}>
             <Text style={styles.pageDescription}>
-              How have you been feeling lately? Check out your health entry history below!
+              How have you been feeling lately? Click below to view past health entries!
             </Text>
             <Image
               style={styles.avatar}
@@ -70,7 +70,7 @@ const HealthEntryHistory = ({ navigation }) => {
             <View style={styles.divider} />
           </View>
 
-          <View style={{ width: '90%', }}>
+          <View style={{ width: '90%', marginTop: -10, }}>
             <Calendar
               //minDate={VeryFirstEntryString} <- Qeury fetches this after the calendar loads, so
               // the calendar doesn't get the right date initially; pass this value in through home

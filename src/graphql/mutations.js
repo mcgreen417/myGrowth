@@ -459,6 +459,7 @@ export const addDailyEntry = /* GraphQL */ `
         Ate
         TotalCalories
         MealList {
+          Name
           Food
           Calories
           Proteins
@@ -556,6 +557,7 @@ export const updateDailyEntry = /* GraphQL */ `
         Ate
         TotalCalories
         MealList {
+          Name
           Food
           Calories
           Proteins
@@ -629,6 +631,7 @@ export const deleteDailyEntry = /* GraphQL */ `
         Ate
         TotalCalories
         MealList {
+          Name
           Food
           Calories
           Proteins

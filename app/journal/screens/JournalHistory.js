@@ -8,6 +8,8 @@ import {
   Image,
   ScrollView,
   Pressable,
+  Dimensions,
+  TextInput,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
@@ -48,6 +50,9 @@ function JournalHistory({ route, navigation }) {
   const arr = route.params.arr;
   const datePass = route.params.datePass;
   const [show, setShow] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showSearch, setShowSearch] = useState(false);
+  const [pressed, setPressed] = useState(false);
   const [date, setDate] = useState(new Date(datePass));
   const [mode, setMode] = useState('date');
   const [journalEntries, setJournalEntries] = useState(arr);
@@ -79,8 +84,8 @@ function JournalHistory({ route, navigation }) {
               Select a past journal entry to view. Use the arrows below to select a month.
             </Text>
             <Image
-              style={styles.avatar}
-              source={require('../../shared/assets/gardener-avatar.png')}
+              style={styles.avatarFlipped}
+              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
             />
           </View>
           {/* Top page divider */}
@@ -117,51 +122,108 @@ function JournalHistory({ route, navigation }) {
                 />
               )}
 
-            {/* Back/forward arrows (change month) */}
+            {/* Search toggle + back/forward arrows (change month) */}
             <View style={{ flexDirection: 'row', justifyContent: 'flex-end', flex: 1 }}>
-              <Pressable
+              <Icon
+                name='search'
+                color='#816868'
+                onPress={() => setShowSearch(!showSearch)}
+              />
+              <View style={{ marginRight: 4, }}/>
+              <Icon 
+                name='arrow-left' 
+                color='#816868'
                 onPress={() => {
                   date.setMonth(date.getMonth() - 1);
                   getEntries(date, navigation);
-                }}
-              >
-                <Icon name='arrow-left' color='#816868' />
-              </Pressable>
-              <Pressable
+                }} 
+              />
+              <Icon 
+                name='arrow-right' 
+                color='#816868'
                 onPress={() => {
                   date.setMonth(date.getMonth() + 1);
                   getEntries(date, navigation);
-                }}
-              >
-                <Icon name='arrow-right' color='#816868' />
-              </Pressable>
+                }} 
+              />
             </View>
           </View>
 
-          {/* Journal entry previews */}
-          <ScrollView showsVerticalScrollIndicator={false}>
-            {journalEntries.map((item, index) => (
-              <Pressable
-                key={index}
-                onPress={() => {
-                  navigation.navigate('ViewJournalEntry', {
-                    date: item.Timestamp,
-                    entry: item.Entry,
-                    updateDate: item.LastUpdated
-                  })
-                }}>
-                <View style={styles.journalItemSelect}>
-                  {/* Journal entry date */}
-                  <View style={{ marginRight: 20, alignItems: 'center' }}>
-                    <Text style={styles.journalDate}>{monthAbbreviations[new Date(item.Timestamp).getMonth()]}</Text>
-                    <Text style={styles.journalDate}>{new Date(item.Timestamp).getDate()}</Text>
-                    <Text style={styles.journalDate}>{new Date(item.Timestamp).getFullYear()}</Text>
+          {showSearch &&
+            <View style={{ marginTop: 10, marginBottom: 10, }}>
+            <View style={styles.textInputView}>
+              <View style={styles.labelView}>
+                <Text
+                  style={{
+                    color: pressed ? '#4CB97A' : '#816868',
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                  }}>
+                  Search Term
+                </Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  borderWidth: 1,
+                  borderColor: pressed ? '#4CB97A' : '#816868',
+                  justifyContent: 'flex-end',
+                  borderRadius: 10,
+              }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', top: -8, }}>
+                  <TextInput
+                    placeholder='Search term'
+                    fontSize={16}
+                    color='#816868'
+                    value={searchTerm}
+                    onChangeText={setSearchTerm}
+                    maxLength={99}
+                    onFocus={() => {setPressed(true)}}
+                    style={{ 
+                      paddingLeft: 16, 
+                      flexWrap: 'wrap', 
+                      width: Math.round((Dimensions.get('window').width * 7.5/10)), 
+                    }}
+                  />
+                  <View style={{ flex: 1, alignItems: 'flex-end', paddingHorizontal: 16, }}>
+                    <Icon
+                      name='chevron-right'
+                      color='#816868'
+                      onPress={() => navigation.navigate('')}
+                    />
                   </View>
-                  {/* Journal entry text preview */}
-                  <Text numberOfLines={3} style={styles.journalText}>{item.Entry}</Text>
                 </View>
-              </Pressable>
-            ))}
+              </View>
+            </View>
+          </View>
+          }
+
+          {/* Journal entry previews */}
+          <ScrollView showsVerticalScrollIndicator={false} style={{ width: '100%' }}>
+            <View style={{ width: Math.round(Dimensions.get('window').width * 9/10), alignSelf: 'center', }}>
+              {journalEntries.map((item, index) => (
+                <Pressable
+                  key={index}
+                  onPress={() => {
+                    navigation.navigate('ViewJournalEntry', {
+                      date: item.Timestamp,
+                      entry: item.Entry,
+                      updateDate: item.LastUpdated
+                    })
+                  }}>
+                  <View style={styles.journalItemSelect}>
+                    {/* Journal entry date */}
+                    <View style={{ marginRight: 20, alignItems: 'center' }}>
+                      <Text style={styles.journalDate}>{monthAbbreviations[new Date(item.Timestamp).getMonth()]}</Text>
+                      <Text style={styles.journalDate}>{new Date(item.Timestamp).getDate()}</Text>
+                      <Text style={styles.journalDate}>{new Date(item.Timestamp).getFullYear()}</Text>
+                    </View>
+                    {/* Journal entry text preview */}
+                    <Text numberOfLines={3} style={styles.journalText}>{item.Entry}</Text>
+                  </View>
+                </Pressable>
+              ))}
+            </View>
             <View style={styles.pageEnd}/>
           </ScrollView>
         </View>
@@ -190,13 +252,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F6EFED',
   },
-  avatar: {
-    width: 75,
-    height: 75,
-  },
-  avatarSelectView: {
-    height: '68%',
-    marginBottom: 20,
+  avatarFlipped: {
+    width: Math.round(Dimensions.get('window').width * 1/4),
+    height: Math.round(Dimensions.get('window').width * 1/4),
+    transform: [
+      { scaleX: -1 }
+    ]
   },
   avatarView: {
     flexDirection: 'row',
@@ -209,28 +270,13 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 1,
     backgroundColor: '#816868',
-    marginHorizontal: '5%',
+    marginHorizontal: ' 5%',
   },
   dividerView: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  pageDescription: {
-    color: '#816868',
-    fontSize: 20,
-    fontWeight: 'bold',
-    flex: 1,
-    flexWrap: 'wrap',
-    marginRight: 20,
-  },
-  pageEnd: {
-    marginBottom: 100,
-  },
-  pageSetup: {
-    alignItems: 'center',
-    height: '100%',
+    marginTop: 20,
+    marginBottom: 6,
   },
   journalDate: {
     color: '#A5DFB2',
@@ -244,7 +290,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 8,
-    width: '90%',
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: {
@@ -257,15 +302,51 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#816868',
     backgroundColor: '#816868',
+    
   },
   journalText: {
     fontSize: 16,
     color: '#E5E5E5',
     flexShrink: 1,
   },
+  label: {
+    color: '#816868',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  labelView: {
+    position: 'absolute',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
+    top: -16,
+    left: 14,
+    padding: 5,
+    zIndex: 50,
+  },
+  pageDescription: {
+    color: '#816868',
+    fontSize: 20,
+    fontWeight: 'bold',
+    flex: 1,
+    flexWrap: 'wrap',
+    marginRight: 10,
+  },
+  pageEnd: {
+    marginBottom: 100,
+  },
+  pageSetup: {
+    alignItems: 'center',
+    height: '100%',
+  },
   text: {
     fontSize: 16,
     color: '#816868',
+  },
+  textInputView: {
+    height: 48,
+    width: Math.round(Dimensions.get('window').width * 9/10),
+    position: 'relative',
   },
   textLink: {
     fontSize: 16, 

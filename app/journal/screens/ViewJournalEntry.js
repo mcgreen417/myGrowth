@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
+  Pressable,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
@@ -62,69 +63,72 @@ const ViewJournalEntry = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* delete goal modal */}
+      {/* Delete goal modal */}
       <View>
         <Modal
           animationType='fade'
           transparent={true}
           visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}>
-          <View
+          onRequestClose={() => setModalVisible(!modalVisible)}>
+          <Pressable
             style={{
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
               zIndex: 1,
               backgroundColor: '#00000055',
-            }}>
-              <View style={styles.modalContainer}>
-                <View style={styles.modalHeaderBar}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      flex: 2,
-                      marginLeft: 6,
-                      marginVertical: 4,
-                    }}>
-                    <Icon
-                      name='pencil'
-                      type='material-community'
-                      color='white'
-                      style={{ marginRight: 8 }}
-                    />
-                    <Text style={styles.textAlt}>Delete Entry</Text>
-                  </View>
-                </View>
+            }}
+            onPressOut={() => setModalVisible(!modalVisible)}
+          >
+            <Pressable 
+              style={styles.modalContainer}
+              onPress={() => setModalVisible(true)}
+            >
+              <View style={styles.modalHeaderBar}>
                 <View
                   style={{
                     flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    marginHorizontal: '5%',
-                    maxHeight: '60%',
-                    marginVertical: 10,
-                  }}>
-                  <Text style={styles.text}>
-                    Are you sure you wish to delete this journal entry?
-                  </Text>
-                  <Text style={styles.textBoldAlt}>This action cannot be undone.</Text>
-                </View>
-                <View style={{ flexDirection: 'row', alignSelf: 'flex-end', marginVertical: 10, marginHorizontal: '5%', }}>
-                  <TouchableOpacity 
-                    style={{ marginRight: 20, }}
-                    onPress={() => {
-                      deleteEntry(journal_entry, journal_date, navigation);
-                      setModalVisible(!modalVisible);
-                    }}>
-                    <Text style={styles.textDateTime}>DELETE</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                    <Text style={styles.textDateTime}>CANCEL</Text>
-                  </TouchableOpacity>
+                    flex: 2,
+                    marginLeft: 6,
+                    marginVertical: 4,
+                }}>
+                  <Icon
+                    name='pencil'
+                    type='material-community'
+                    color='white'
+                    style={{ marginRight: 8 }}
+                  />
+                  <Text style={styles.textAlt}>Delete Entry</Text>
                 </View>
               </View>
-            </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  marginHorizontal: '5%',
+                  maxHeight: '60%',
+                  marginVertical: 10,
+                }}>
+                <Text style={styles.text}>
+                  Are you sure you wish to delete this journal entry?
+                </Text>
+                <Text style={styles.textBoldAlt}>This action cannot be undone.</Text>
+              </View>
+              <View style={{ flexDirection: 'row', alignSelf: 'flex-end', marginVertical: 10, marginHorizontal: '5%', }}>
+                <TouchableOpacity 
+                  style={{ marginRight: 20, }}
+                  onPress={() => {
+                    deleteEntry(journal_entry, journal_date, navigation);
+                    setModalVisible(!modalVisible);
+                  }}>
+                  <Text style={styles.textDateTime}>DELETE</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                  <Text style={styles.textDateTime}>CANCEL</Text>
+                </TouchableOpacity>
+              </View>
+            </Pressable>
+          </Pressable>
         </Modal>
       </View>
       

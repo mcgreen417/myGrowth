@@ -8,6 +8,7 @@ import {
   Image,
   TouchableOpacity,
   Modal,
+  Dimensions,
   ScrollView,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
@@ -41,13 +42,12 @@ function HistoryHealthEntries({ route, navigation }) {
           {/* Gardener avatar + page blurb */}
           <View style={styles().avatarView}>
             <Text style={styles().pageDescription}>
-              View an easily digestable summary of your health entry history! View
-              your individual health entries below or select a category to get
-              started.
+              View a summary of your health entry history! Select a category below to
+              get started.
             </Text>
             <Image
-              style={styles().avatar}
-              source={require('../../shared/assets/gardener-avatar.png')}
+              style={styles().avatarFlipped}
+              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
             />
           </View>
           {/* Top page divider */}
@@ -98,7 +98,7 @@ function HistoryHealthEntries({ route, navigation }) {
           </View>
 
           {/* Search for correlations button */}
-          <View style={{ width: '50%', marginTop: 20, marginBottom: 4, }}>
+          <View style={{ width: '60%', marginTop: 20, marginBottom: 4, }}>
             <Button 
               title='SEARCH FOR CORRELATIONS'
               color={
@@ -251,9 +251,12 @@ const styles = () => StyleSheet.create({
       ? global.cb_pageBackgroundColor
       : global.pageBackgroundColor,
   },
-  avatar: {
-    width: 75,
-    height: 75,
+  avatarFlipped: {
+    width: Math.round(Dimensions.get('window').width * 1/4),
+    height: Math.round(Dimensions.get('window').width * 1/4),
+    transform: [
+      { scaleX: -1 }
+    ]
   },
   avatarView: {
     flexDirection: 'row',
@@ -297,7 +300,7 @@ const styles = () => StyleSheet.create({
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
     flex: 1,
     flexWrap: 'wrap',

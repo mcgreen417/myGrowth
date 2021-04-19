@@ -10,11 +10,13 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import { Auth, API } from 'aws-amplify';
 
 function ForgotPassword({ navigation }) {
   const [email, setEmail] = useState('');
+  const [pressed, setPressed] = useState(false);
 
   return (
     <SafeAreaView style={styles().container}>
@@ -37,56 +39,59 @@ function ForgotPassword({ navigation }) {
             style={styles().logo}
             source={require('../../shared/assets/icon.png')}
           />
-          <Text
-            style={{
-              fontWeight: 'bold',
-              color: global.colorblindMode
-                ? global.cb_textColor
-                : global.textColor,
-              fontSize: 44,
-            }}>
-            myGrowth
-          </Text>
-          <Text
-            style={{
-              fontWeight: 'bold',
-              color: global.colorblindMode
-                ? global.cb_textColor
-                : global.textColor,
-              fontSize: 20,
-              marginBottom: 16,
-            }}>
-            Your General Wellness Tracker
-          </Text>
-          <Text
-            style={{
-              color: global.colorblindMode
-                ? global.cb_textColor
-                : global.textColor,
-              marginBottom: 12,
-              textAlign: 'center',
-            }}>
+          <Text style={styles().textTitle}>myGrowth</Text>
+          <Text style={styles().textSubtitle}>Your General Wellness Tracker</Text>
+          <Text style={styles().textInstructions}>
             To reset your password, please enter the e-mail{'\n'}
             address associated with your account.
           </Text>
 
-          {/* Username + e-mail address entry boxes, submit button */}
+          {/* E-mail address text input */}
+          <View style={{ marginTop: 20, marginBottom: 10 }}>
+            <View style={styles().textInputView}>
+              <View style={styles().labelView}>
+                <Text
+                  style={{
+                    color: pressed ? '#4CB97A' : '#816868',
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                  }}>
+                  E-mail Address
+                </Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  borderWidth: 1,
+                  borderColor: pressed ? '#4CB97A' : '#816868',
+                  justifyContent: 'flex-end',
+                  borderRadius: 6,
+                  paddingHorizontal: 16,
+                }}>
+                <TextInput
+                  placeholder='E-mail address'
+                  fontSize={16}
+                  color='#816868'
+                  placeholderTextColor={
+                    global.colorblindMode
+                      ? global.cb_placeHolderTextColor
+                      : global.placeHolderTextColor
+                  }
+                  value={email}
+                  onChangeText={(email) => {
+                    setEmail(email);
+                  }}
+                  maxLength={320}
+                  onFocus={() => setPressed(true)}
+                  onBlur={() => setPressed(false)}
+                  style={{ top: -8 }}
+                />
+              </View>
+            </View>
+          </View>
+
+          {/* Submit button */}
           <View style={styles().buttons}>
-            <View style={{ marginVertical: 8 }} />
-            <TextInput
-              style={styles().textInput}
-              placeholder='E-mail Address'
-              placeholderTextColor={
-                global.colorblindMode
-                  ? global.cb_placeHolderTextColor
-                  : global.placeholderTextColor
-              }
-              value={email}
-              onChangeText={(email) => {
-                setEmail(email);
-              }}
-            />
-            <View style={{ marginVertical: 8 }} />
             <Button
               title='SUBMIT'
               color={
@@ -96,19 +101,12 @@ function ForgotPassword({ navigation }) {
               }
               onPress={() => resetPassword(email, navigation)}
             />
-            <View style={{ marginVertical: 8 }} />
           </View>
 
           {/* Login page redirect */}
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: 'row', marginTop: 16, }}>
             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-              <Text
-                style={{
-                  color: global.colorblindMode
-                    ? global.cb_hyperlinkedTextColor
-                    : global.hyperlinkedTextColor,
-                  textDecorationLine: 'underline',
-                }}>
+              <Text style={styles().textLink}>
                 Return to login.
               </Text>
             </TouchableOpacity>
@@ -137,48 +135,57 @@ const styles = () =>
         : global.pageBackgroundColor,
     },
     logo: {
-      height: 100,
-      width: 100,
+      height: Math.round(Dimensions.get('window').width * 1/4),
+      width: Math.round(Dimensions.get('window').width * 1/4),
     },
     buttons: {
-      marginTop: 10,
-      marginBottom: 10,
-      width: 300,
+      marginVertical: 10,
+      width: Math.round(Dimensions.get('window').width * 3/4),
       borderColor: global.colorblindMode
-        ? global.cb_optionButtonsBorderColor
-        : global.optionButtonsBorderColor,
+      ? global.cb_optionButtonsBorderColor
+      : global.optionButtonsBorderColor,
+    },
+    label: {
+      color: '#816868',
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
+    labelView: {
+      position: 'absolute',
+      backgroundColor: global.colorblindMode
+        ? global.cb_pageBackgroundColor
+        : global.pageBackgroundColor,
+      top: -16,
+      left: 14,
+      padding: 5,
+      zIndex: 50,
     },
     pageSetup: {
       height: '100%',
       justifyContent: 'center',
       alignItems: 'center',
     },
-    textInput: {
-      height: 40,
-      borderColor: global.colorblindMode
-        ? global.cb_textInputBorderColor
-        : global.textInputBorderColor,
-      borderWidth: 2,
-      borderRadius: 10,
-      backgroundColor: global.colorblindMode
-        ? global.cb_textInputFillColor
-        : global.textInputFillColor,
-      color: global.colorblindMode
-        ? global.cb_textInputcolor
-        : global.textInputColor,
-      textAlign: 'center',
+    text: {
+      color: '#816868',
+      fontSize: 14,
+    },
+    textInputView: {
+      height: 48,
+      width: Math.round(Dimensions.get('window').width * 3/4),
+      position: 'relative',
     },
     textInstructions: {
       color: '#816868',
-      marginBottom: 12,
+      marginBottom: 10,
       textAlign: 'center',
+      fontSize: 16,
     },
     textLink: {
-      color: '#A5DFB2',
+      color: global.colorblindMode
+        ? global.cb_hyperlinkedTextColor
+        : global.hyperlinkedTextColor,
       textDecorationLine: 'underline',
-    },
-    text: {
-      color: '#816868',
+      fontSize: 14,
     },
     textSubtitle: {
       color: '#816868',

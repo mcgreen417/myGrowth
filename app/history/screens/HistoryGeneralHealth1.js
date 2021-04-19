@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Modal,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
@@ -42,12 +43,12 @@ function HistoryGeneralHealth1({ route, navigation }) {
           {/* Gardener avatar + page blurb */}
           <View style={styles().avatarView}>
             <Text style={styles().pageDescription}>
-              View a summary of your physical and mental health history and changes
-              in symtpom frequency and intensity over time.
+              View changes your in physical and mental health symtpom frequency and 
+              intensity over time!
             </Text>
             <Image
-              style={styles().avatar}
-              source={require('../../shared/assets/gardener-avatar.png')}
+              style={styles().avatarFlipped}
+              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
             />
           </View>
           {/* Top page divider */}
@@ -119,7 +120,7 @@ function HistoryGeneralHealth1({ route, navigation }) {
             {/* Decrease symptom frequency analysis */}
             <Text style={styles().text}>
               Based on our analysis, the following activities may help decrease the frequency of
-              (fill health symptom)...
+              this symptom...
             </Text>
             <View style={styles().suggestionView}>
                <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
@@ -165,7 +166,7 @@ function HistoryGeneralHealth1({ route, navigation }) {
             {/* Increase symptom intensity analysis */}
             <Text style={styles().text}>
               Likewise, the following activities may lead to an increase in the frequency of
-              (fill health symptom)...
+              this symptom...
             </Text>
             <View style={styles().suggestionView}>
                <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
@@ -306,9 +307,12 @@ const styles = () => StyleSheet.create({
       ? global.cb_pageBackgroundColor
       : global.pageBackgroundColor,
   },
-  avatar: {
-    width: 75,
-    height: 75,
+  avatarFlipped: {
+    width: Math.round(Dimensions.get('window').width * 1/4),
+    height: Math.round(Dimensions.get('window').width * 1/4),
+    transform: [
+      { scaleX: -1 }
+    ]
   },
   avatarView: {
     flexDirection: 'row',
@@ -360,7 +364,7 @@ const styles = () => StyleSheet.create({
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
     flex: 1,
     flexWrap: 'wrap',

@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Modal,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
@@ -43,12 +44,12 @@ function HistoryMedication({ route, navigation }) {
           {/* Gardener avatar + page blurb */}
           <View style={styles().avatarView}>
             <Text style={styles().pageDescription}>
-              View your medication history and our analysis of potential effects
-              that may stem from your medication consumption.
+              View your medication history and some trends we've noticed from your
+              consumption!
             </Text>
             <Image
-              style={styles().avatar}
-              source={require('../../shared/assets/gardener-avatar.png')}
+              style={styles().avatarFlipped}
+              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
             />
           </View>
           {/* Top page divider */}
@@ -326,9 +327,12 @@ const styles = () => StyleSheet.create({
       ? global.cb_pageBackgroundColor
       : global.pageBackgroundColor,
   },
-  avatar: {
-    width: 75,
-    height: 75,
+  avatarFlipped: {
+    width: Math.round(Dimensions.get('window').width * 1/4),
+    height: Math.round(Dimensions.get('window').width * 1/4),
+    transform: [
+      { scaleX: -1 }
+    ]
   },
   avatarView: {
     flexDirection: 'row',
@@ -380,7 +384,7 @@ const styles = () => StyleSheet.create({
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
     flex: 1,
     flexWrap: 'wrap',

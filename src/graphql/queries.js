@@ -137,6 +137,7 @@ export const getDailyEntry = /* GraphQL */ `
         Ate
         TotalCalories
         MealList {
+          Name
           Food
           Calories
           Proteins
@@ -221,6 +222,7 @@ export const getDailyEntries = /* GraphQL */ `
           Ate
           TotalCalories
           MealList {
+            Name
             Food
             Calories
             Proteins
@@ -307,6 +309,7 @@ export const getDailyEntriesAsc = /* GraphQL */ `
           Ate
           TotalCalories
           MealList {
+            Name
             Food
             Calories
             Proteins

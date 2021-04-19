@@ -9,6 +9,7 @@ import {
   Switch,
   Button,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
@@ -75,11 +76,13 @@ function GenerateReport({ navigation }) {
 
           {/* Gardener avatar + page blurb */}
           <View style={styles().avatarView}>
-            <Image style={styles().avatar} source={require('../../shared/assets/gardener-avatar.png')}/>
             <Text style={styles().pageDescription}>
-              Generate a report of your health entry history for your personal records. 
-              Select the time period and sections you'd like to be included in your report.
+              Generate a report of your health entry history for your personal records!
             </Text>
+            <Image
+              style={styles().avatarFlipped}
+              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+            />
           </View>
           {/* Top page divider */}
           <View style={styles().dividerView}>
@@ -499,10 +502,12 @@ const styles = () => StyleSheet.create({
       ? global.cb_pageBackgroundColor
       : global.pageBackgroundColor,
   },
-  avatar: {
-    width: 75,
-    height: 75,
-    marginRight: 24,
+  avatarFlipped: {
+    width: Math.round(Dimensions.get('window').width * 1/4),
+    height: Math.round(Dimensions.get('window').width * 1/4),
+    transform: [
+      { scaleX: -1 }
+    ]
   },
   avatarView: {
     flexDirection: 'row',
@@ -576,12 +581,13 @@ const styles = () => StyleSheet.create({
   },
   pageDescription: {
     color: global.colorblindMode
-      ? global.cb_textColor
-      : global.textColor,
-    fontSize: 16,
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
+    fontSize: 20,
+    fontWeight: 'bold',
     flex: 1,
     flexWrap: 'wrap',
-    fontWeight: 'bold',
+    marginRight: 20,
   },
   pageEnd: {
     marginBottom: 100,

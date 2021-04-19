@@ -232,8 +232,8 @@ const ToDoList = ({ navigation }) => {
           another productive day!
         </Text>
         <Image
-          style={styles().avatar}
-          source={require('../../shared/assets/gardener-avatar.png')}
+          style={styles().avatarFlipped}
+          source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
         />
       </View>
       <View style={styles().divider} />
@@ -405,9 +405,12 @@ const styles = () => StyleSheet.create({
     width: '100%',
     margin: 0,
   },
-  avatar: {
-    width: 75,
-    height: 75,
+  avatarFlipped: {
+    width: Math.round(Dimensions.get('window').width * 1/4),
+    height: Math.round(Dimensions.get('window').width * 1/4),
+    transform: [
+      { scaleX: -1 }
+    ]
   },
   avatarView: {
     flexDirection: 'row',
@@ -470,7 +473,7 @@ const styles = () => StyleSheet.create({
     flex: 1,
     flexWrap: 'wrap',
     fontWeight: 'bold',
-    marginRight: 20,
+    marginRight: 10,
   },
   pageEnd: {
     marginBottom: 100,

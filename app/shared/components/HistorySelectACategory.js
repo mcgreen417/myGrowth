@@ -3,9 +3,8 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
-  TouchableOpacity,
   Modal,
+  Pressable,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import SelectACategoryIcon from './SelectACategoryIcon';
@@ -81,15 +80,20 @@ const HistorySelectACategory = ({
       transparent={true}
       visible={showModalView}
       onRequestClose={() => setModalView(!showModalView)}>
-      <View
+      <Pressable
         style={{
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
           zIndex: 1,
           backgroundColor: '#00000055',
-        }}>
-        <View style={styles().container}>
+        }}
+        onPressOut={() => setModalView(!showModalView)}
+      >
+        <Pressable 
+          style={styles().container}
+          onPress={() => setModalView(true)}  
+        >
           {/* Modal structure properties, Dismiss Bar */}
           <View style={styles().modalHeaderBar}>
             <View
@@ -144,8 +148,8 @@ const HistorySelectACategory = ({
               />
             ))}
           </View>
-        </View>
-      </View>
+        </Pressable>
+      </Pressable>
     </Modal>
   );
 };

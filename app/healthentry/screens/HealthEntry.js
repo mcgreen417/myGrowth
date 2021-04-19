@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Auth, API } from 'aws-amplify';
 import {
   Button,
@@ -8,8 +8,10 @@ import {
   SafeAreaView,
   Image,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import Timestamp from '../components/Timestamp';
 import NavBar from '../../shared/components/NavBar';
 import Mood from '../components/Mood';
 import Stress from '../components/Stress';
@@ -22,119 +24,172 @@ import FitnessTracking from '../components/FitnessTracking';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Cache } from 'react-native-cache';
 import * as mutations from '../../../src/graphql/mutations';
-
-const medication = [
-  { name: '(Medicine 1)', time: '2021-03-15T09:10:00Z' },
-  { name: '(Medicine 2)', time: '2021-03-15T13:35:40Z' },
-];
-
-const monthNames = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
-
-function getDate(d) {
-  return monthNames[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
-}
-
-function getTime(d) {
-  return (
-    (d.getHours() % 12) +
-    1 +
-    ':' +
-    (d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes()) +
-    (d.getHours() > 12 ? 'pm' : 'am')
-  );
-}
+import * as queries from '../../../src/graphql/queries';
 
 async function submit(
+  timestamp,
   mood,
   feelings,
-  stress,
+  stressSeverity,
   stressors,
   activities,
-  symptoms,
-  period,
+  hadPeriod,
   weight,
-  slept,
-  sleepTime,
-  sleepQuality,
+  symptoms,
+  medChecked,
+  medications,
+  hadSleep,
+  sleepTimeStart,
+  sleepTimeEnd,
+  qualityOfSleep,
   naps,
+  eatenToday,
+  totalCalories,
+  meals,
+  totalProteins,
+  totalCarbs,
+  totalFats,
+  exerciseToday,
+  exerciseLength,
+  caloriesBurn,
+  steps,
+  exercises,
   navigation
 ) {
-  console.log(symptoms);
-  console.log(period);
-  console.log(weight);
-  const activitiesIn = activities;
-  const stressIn = { Severity: stress, Stressors: stressors };
+  // Mood, Stress, and Daily Activities
   const moodIn = { Mood: mood, Feelings: feelings };
-  const healthIn = { Period: period, Weight: weight };
+  const stressIn = { Severity: stressSeverity, Stressors: stressors };
+  const activitiesIn = activities;
+
+  // Medication, Physical, and Mental health
+  const healthIn = { Period: hadPeriod, Weight: parseInt(weight || 0) };
   const symptomIn = symptoms;
 
+  let medcheckIn = [];
+
+  for (var index = 0; index < medications.length; index++) {
+    medcheckIn.push({
+      Name: medications[index].name,
+      Taken: (medChecked & (1 << index)) != 0,
+    });
+  }
+
+  // Sleep and Naps
+  const sleepIn = {
+    Slept: hadSleep,
+    Start: sleepTimeStart.toISOString(),
+    End: sleepTimeEnd.toISOString(),
+    Quality: qualityOfSleep,
+    Naps: naps,
+  };
+
+  // Meals
+  const mealsIn = {
+    Ate: eatenToday,
+    TotalCalories: parseInt(totalCalories || 0),
+    MealList: meals,
+    TotalProteins: parseInt(totalProteins || 0),
+    TotalCarbs: parseInt(totalCarbs || 0),
+    TotalFats: parseInt(totalFats || 0),
+  };
+
+  // Fitness
+  const fitnessIn = {
+    Exercised: exerciseToday,
+    Duration: parseInt(exerciseLength || 0),
+    CaloriesBurned: parseInt(caloriesBurn || 0),
+    Steps: parseInt(steps || 0),
+    Exercises: exercises,
+  };
+
   const query = {
-    Mood: moodIn,
-    Stress: stressIn,
-    Activities: activitiesIn,
+    Timestamp: timestamp.toISOString(),
     Health: healthIn,
     Symptoms: symptomIn,
+    Stress: stressIn,
+    Mood: moodIn,
+    Sleep: sleepIn,
+    Meals: mealsIn,
+    Fitness: fitnessIn,
+    Medcheck: medcheckIn,
+    Activities: activitiesIn,
   };
-  console.log(query);
+
+  console.log('Query: ', query);
+
   const res = await API.graphql({
     query: mutations.updateDailyEntry,
     variables: query,
   });
 
-  console.log(res);
+  console.log('Response: ', res);
 
   navigation.navigate('EntryCompletion');
 }
 
 const HealthEntry = ({ navigation }) => {
-  const [exerciseToday, setExerciseToday] = useState(false);
-  const [showAdvanceFitnessTracking, setShowAdvanceFitnessTracking] = useState(
-    false
-  );
-  const [eatenToday, setEatenToday] = useState(true);
-  const [showAdvanceMealTracking, setShowAdvanceMealTracking] = useState(false);
-  const [med, setMed] = useState(Array(medication.length).fill(false));
-  const [hadPeriod, setHadPeriod] = useState(false);
-  const [weight, setWeight] = useState(0);
-  const [symptoms, setSymptoms] = useState([]);
-  const [hadSleep, setHadSleep] = useState(true);
-  const [qualityOfSleep, setQualityOfSleep] = useState(-1);
-  const [sleepTime, setSleepTime] = useState([]);
-  const [qualityOfNap, setQualityOfNap] = useState(-1);
-  const [naps, setNaps] = useState([]);
-  const [stress, setStress] = useState(-1);
+  // Timestamp variables
+  const [timestamp, setTimestamp] = useState(new Date());
+
+  // Stress variables
+  const [stressSeverity, setStressSeverity] = useState(0);
   const [stressors, setStressors] = useState([]);
+
+  // Mood variables
   const [mood, setMood] = useState(0);
-  const [feels, setFeels] = useState([]);
+  const [feelings, setFeelings] = useState([]);
+
+  // Daily Activities variables
   const [activities, setActivities] = useState([]);
+
+  // Medication variables
+  const [medChecked, setMedChecked] = useState(0);
+  const [medications, setMedications] = useState([]);
+
+  // Physical and Mental Health variables
+  const [hadPeriod, setHadPeriod] = useState(false);
+  const [weight, setWeight] = useState('');
+  const [symptoms, setSymptoms] = useState([]);
+
+  // Sleep and Naps variables
+  const [hadSleep, setHadSleep] = useState(true);
+  const [qualityOfSleep, setQualityOfSleep] = useState(0);
+  const [sleepTimeStart, setSleepTimeStart] = useState(new Date());
+  const [sleepTimeEnd, setSleepTimeEnd] = useState(new Date());
+  const [hadNap, setHadNap] = useState(false);
+  const [naps, setNaps] = useState([]);
+
+  // Meals variables
+  const [eatenToday, setEatenToday] = useState(true);
+  const [meals, setMeals] = useState([]);
+  const [totalCalories, setTotalCalories] = useState('');
+  const [totalProteins, setTotalProteins] = useState('');
+  const [totalCarbs, setTotalCarbs] = useState('');
+  const [totalFats, setTotalFats] = useState('');
+
+  // Fitness variables
+  const [exerciseToday, setExerciseToday] = useState(false);
+  const [exerciseLength, setExerciseLength] = useState('');
+  const [caloriesBurn, setCaloriesBurn] = useState('');
+  const [stepsTracked, setStepsTracked] = useState(false);
+  const [steps, setSteps] = useState('');
+  const [exercises, setExercises] = useState([]);
 
   return (
     <SafeAreaView style={styles().container}>
-      <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled'>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps='handled'>
         <View style={styles().pageSetup}>
-
           {/* Gardener avatar + page blurb */}
           <View style={styles().avatarView}>
             <Text style={styles().pageDescription}>
-              Time for a new health entry! After you save your entry, you may
-              edit it at any time.
+              Time for a new health entry! Fill out only the fields you'd like
+              to and come back here to edit your entry later.
             </Text>
             <Image
-              style={styles().avatar}
-              source={require('../../shared/assets/gardener-avatar.png')}
+              style={styles().avatarFlipped}
+              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
             />
           </View>
           {/* Top page divider */}
@@ -143,46 +198,8 @@ const HealthEntry = ({ navigation }) => {
           </View>
 
           {/* Select Data and Time */}
-          <View style={{ width: '90%' }}>
-            <Text style={styles().heading}>SELECT DATE & TIME</Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <View
-                style={{ flexDirection: 'row', alignItems: 'center', width: '50%', }}>
-                <Icon 
-                  name='event' 
-                  color={global.colorblindMode
-                    ? global.cb_contentDividerColor
-                    : global.contentDividerColor}
-                  style={{ marginRight: 4, }} 
-                />
-                <Text style={styles().textLink}>{getDate(new Date())}</Text>
-                <Icon 
-                  name='arrow-drop-down' 
-                  type='material'
-                  color={global.colorblindMode
-                    ? global.cb_contentDividerColor
-                    : global.contentDividerColor} 
-                />
-              </View>
-              <View style={{ flexDirection: 'row', alignItems: 'center', width: '50%', }}>
-                <Icon 
-                  name='schedule'
-                  color={global.colorblindMode
-                    ? global.cb_contentDividerColor
-                    : global.contentDividerColor} 
-                  style={{ marginRight: 4, }} 
-                />
-                <Text style={styles().textLink}>{getTime(new Date())}</Text>
-                <Icon 
-                  name='arrow-drop-down'
-                  type='material'
-                  color={global.colorblindMode
-                    ? global.cb_contentDividerColor
-                    : global.contentDividerColor}
-                 />
-              </View>
-            </View>
-          </View>
+          <Timestamp timestamp={timestamp} setTimestamp={setTimestamp} />
+
           {/* Section divider */}
           <View style={styles().dividerView}>
             <View style={styles().divider} />
@@ -192,22 +209,24 @@ const HealthEntry = ({ navigation }) => {
           <Mood
             mood={mood}
             setMood={setMood}
-            feels={feels}
-            setFeels={setFeels}
+            feelings={feelings}
+            setFeelings={setFeelings}
           />
           {/* Section divider */}
+          <View style={{ marginTop: -10 }} />
           <View style={styles().dividerView}>
             <View style={styles().divider} />
           </View>
 
           {/* Add Stress */}
           <Stress
-            stress={stress}
-            setStress={setStress}
+            stress={stressSeverity}
+            setStress={setStressSeverity}
             stressors={stressors}
             setStressors={setStressors}
           />
           {/* Section divider */}
+          <View style={{ marginTop: -10 }} />
           <View style={styles().dividerView}>
             <View style={styles().divider} />
           </View>
@@ -218,6 +237,7 @@ const HealthEntry = ({ navigation }) => {
             setActivities={setActivities}
           />
           {/* Section divider */}
+          <View style={{ marginTop: -10 }} />
           <View style={styles().dividerView}>
             <View style={styles().divider} />
           </View>
@@ -232,12 +252,20 @@ const HealthEntry = ({ navigation }) => {
             setSymptoms={setSymptoms}
           />
           {/* Section divider */}
+          <View style={{ marginTop: -10 }} />
           <View style={styles().dividerView}>
             <View style={styles().divider} />
           </View>
 
           {/* Add Medication */}
-          <Medication med={med} setMed={setMed} />
+          <Medication
+            medChecked={medChecked}
+            setMedChecked={setMedChecked}
+            medications={medications}
+            setMedications={setMedications}
+          />
+          {/* Section divider */}
+          <View style={{ marginTop: -10 }} />
           <View style={styles().dividerView}>
             <View style={styles().divider} />
           </View>
@@ -248,12 +276,14 @@ const HealthEntry = ({ navigation }) => {
             setHadSleep={setHadSleep}
             qualityOfSleep={qualityOfSleep}
             setQualityOfSleep={setQualityOfSleep}
-            qualityOfNap={qualityOfNap}
-            setQualityOfNap={setQualityOfNap}
+            hadNap={hadNap}
+            setHadNap={setHadNap}
             naps={naps}
             setNaps={setNaps}
-            sleepTime={sleepTime}
-            setSleepTime={setSleepTime}
+            sleepTimeStart={sleepTimeStart}
+            setSleepTimeStart={setSleepTimeStart}
+            sleepTimeEnd={sleepTimeEnd}
+            setSleepTimeEnd={setSleepTimeEnd}
           />
           {/* Section divider */}
           <View style={styles().dividerView}>
@@ -264,8 +294,16 @@ const HealthEntry = ({ navigation }) => {
           <MealHistory
             eatenToday={eatenToday}
             setEatenToday={setEatenToday}
-            showAdvanceMealTracking={showAdvanceMealTracking}
-            setShowAdvanceMealTracking={setShowAdvanceMealTracking}
+            totalCalories={totalCalories}
+            setTotalCalories={setTotalCalories}
+            totalProteins={totalProteins}
+            setTotalProteins={setTotalProteins}
+            totalCarbs={totalCarbs}
+            setTotalCarbs={setTotalCarbs}
+            totalFats={totalFats}
+            setTotalFats={setTotalFats}
+            meals={meals}
+            setMeals={setMeals}
           />
           {/* Section divider */}
           <View style={styles().dividerView}>
@@ -276,8 +314,16 @@ const HealthEntry = ({ navigation }) => {
           <FitnessTracking
             exerciseToday={exerciseToday}
             setExerciseToday={setExerciseToday}
-            showAdvanceFitnessTracking={showAdvanceFitnessTracking}
-            setShowAdvanceFitnessTracking={setShowAdvanceFitnessTracking}
+            exerciseLength={exerciseLength}
+            setExerciseLength={setExerciseLength}
+            caloriesBurn={caloriesBurn}
+            setCaloriesBurn={setCaloriesBurn}
+            stepsTracked={stepsTracked}
+            setStepsTracked={setStepsTracked}
+            steps={steps}
+            setSteps={setSteps}
+            exercises={exercises}
+            setExercises={setExercises}
           />
           {/* Section divider */}
           <View style={styles().dividerView}>
@@ -298,18 +344,33 @@ const HealthEntry = ({ navigation }) => {
                 color='#A5DFB2'
                 onPress={() =>
                   submit(
+                    timestamp,
                     mood,
-                    feels,
-                    stress,
+                    feelings,
+                    stressSeverity,
                     stressors,
                     activities,
-                    symptoms,
                     hadPeriod,
                     weight,
+                    symptoms,
+                    medChecked,
+                    medications,
                     hadSleep,
-                    sleepTime,
+                    sleepTimeStart,
+                    sleepTimeEnd,
                     qualityOfSleep,
                     naps,
+                    eatenToday,
+                    totalCalories,
+                    meals,
+                    totalProteins,
+                    totalCarbs,
+                    totalFats,
+                    exerciseToday,
+                    exerciseLength,
+                    caloriesBurn,
+                    steps,
+                    exercises,
                     navigation
                   )
                 }
@@ -335,9 +396,10 @@ const styles = () =>
         ? global.cb_pageBackgroundColor
         : global.pageBackgroundColor,
     },
-    avatar: {
-      width: 75,
-      height: 75,
+    avatarFlipped: {
+      width: Math.round((Dimensions.get('window').width * 1) / 4),
+      height: Math.round((Dimensions.get('window').width * 1) / 4),
+      transform: [{ scaleX: -1 }],
     },
     avatarView: {
       flexDirection: 'row',
@@ -362,16 +424,14 @@ const styles = () =>
       marginBottom: 20,
     },
     heading: {
-      color: global.colorblindMode
-        ? global.cb_textColor
-        : global.textColor,
-      fontSize: 16,
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
+      fontSize: 18,
       fontWeight: 'bold',
       marginBottom: 10,
     },
     line2: {
-      backgroundColor: global.colorblindMode 
-        ? global.cb_textColor 
+      backgroundColor: global.colorblindMode
+        ? global.cb_textColor
         : global.textColor,
       marginLeft: 40,
       marginRight: 40,
@@ -379,14 +439,12 @@ const styles = () =>
       width: 2,
     },
     pageDescription: {
-      color: global.colorblindMode
-        ? global.cb_textColor
-        : global.textColor,
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
       fontSize: 20,
       fontWeight: 'bold',
       flex: 1,
       flexWrap: 'wrap',
-      marginRight: 20,
+      marginRight: 10,
     },
     pageEnd: {
       marginBottom: 100,
@@ -396,9 +454,7 @@ const styles = () =>
       height: '100%',
     },
     text: {
-      color: global.colorblindMode 
-        ? global.cb_textColor 
-        : global.textColor,
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
       fontSize: 16,
       textAlign: 'center',
       fontWeight: 'bold',
@@ -406,6 +462,6 @@ const styles = () =>
     textLink: {
       color: '#4CB97A',
       fontSize: 16,
-      textDecorationLine: 'underline'
+      textDecorationLine: 'underline',
     },
   });
