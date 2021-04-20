@@ -276,7 +276,7 @@ function HistorySleep2({ route, navigation }) {
 
 function makeYear(dataArr) {
   var arr = [];
-  var sum = 0;
+  var [sum, len] = [0, dataArr.length];
 
   for(var i = len < 365 ? 0: len - 365; i < len; i++) {
       if(i === len - 1 && len < 365) {
@@ -416,7 +416,7 @@ function getDisplayData(data, timePeriod, setDisplayData, sleepView) {
       obj.sleep = makeMonth(data.nightQualityData);
 
     else
-      obj.sleep = makeMonth(data.nightQualityData);
+      obj.sleep = makeYear(data.nightQualityData);
   }
 
   //nap only
@@ -428,7 +428,7 @@ function getDisplayData(data, timePeriod, setDisplayData, sleepView) {
       obj.nap = makeMonth(data.napQualityData);
 
     else
-      obj.nap = makeMonth(data.napQualityData);
+      obj.nap = makeYear(data.napQualityData);
   }
 
   arr = cleanUpData(arr);

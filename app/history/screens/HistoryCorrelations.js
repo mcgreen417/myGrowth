@@ -627,6 +627,117 @@ function getPickerLabels(page, data) {
     return arr;
 }
 
+function makeYear(dataArr) {
+    var arr = [];
+    var [sum, len] = [0, dataArr.length];
+
+    for(var i = len < 365 ? 0: len - 365; i < len; i++) {
+        if(i === len - 1 && len < 365) {
+            let fullHalfWeeks = Math.floor(len / 30);
+            let spareHalves = len - (fullHalfWeeks * 30);
+    
+            sum = sum / spareHalves;
+
+            arr.push(sum);
+    
+            sum = 0;
+        }
+
+        else if(i === len - 1) {
+            sum = sum / 35;
+
+            arr.push(sum);
+    
+            sum = 0;
+        }
+
+        else if(i % 30 === 0 && i > 0) {
+            sum = sum / 30;
+
+            arr.push(sum);
+    
+            sum = 0;
+        }
+
+        else
+            sum += dataArr[i] === -1 ? 0 : dataArr[i];
+    }
+
+    if(arr.length < 12) {
+        let diff = 12 - arr.length;
+        var zeros = new Array(diff);
+        zeros.fill(0);
+
+        arr = zeros.concat(arr);
+    }
+
+    return arr;
+}
+
+function makeMonth(dataArr) {
+    var [sum, len] = [0, dataArr.length];
+    var arr = [];
+
+    for(var i = len < 30 ? 0: len - 30; i < len; i++) {
+        if(i === len - 1 && len < 30) {
+          let fullHalfWeeks = Math.floor(len / 4);
+          let spareHalves = len - (fullHalfWeeks * 4);
+  
+          sum = sum / spareHalves;
+
+          arr.push(sum);
+  
+          sum = 0;
+        }
+
+        else if(i === len - 1) {
+          sum = sum / 2;
+
+          arr.push(sum);
+  
+          sum = 0;
+        }
+
+        else if(i % 4 === 0 && i > 0) {
+          sum = sum / 4;
+
+          arr.push(sum);
+  
+          sum = 0;
+        }
+
+        else
+          sum += dataArr[i] === -1 ? 0 : dataArr[i];
+      }
+
+      if(arr.length < 8) {
+        let diff = 8 - arr.length;
+        var zeros = new Array(diff);
+        zeros.fill(0);
+    
+        arr = zeros.concat(arr);
+      }
+
+    return arr;
+}
+
+function makeWeek(dataArr) {
+    var len = dataArr.length;
+
+    for(var i = len < 7 ? 0 : len - 7; i < len; i++)
+        arr.push(dataArr[i]);
+          
+    if(arr.length < 7) {
+        let diff = 7 - arr.length;
+        var zeros = new Array(diff);
+        zeros.fill(0);
+    
+        arr = zeros.concat(arr);
+    }
+
+    return arr;
+}
+
 function makeLegend(page1, page2, cat1, cat2) {
     var arr = [];
 
@@ -806,117 +917,6 @@ function initData(page, data) {
         arr = makeWeek(data.stressData);
 
     arr = cleanUpData(arr);
-
-    return arr;
-}
-
-function makeYear(dataArr) {
-    var arr = [];
-    var sum = 0;
-
-    for(var i = len < 365 ? 0: len - 365; i < len; i++) {
-        if(i === len - 1 && len < 365) {
-            let fullHalfWeeks = Math.floor(len / 30);
-            let spareHalves = len - (fullHalfWeeks * 30);
-    
-            sum = sum / spareHalves;
-
-            arr.push(sum);
-    
-            sum = 0;
-        }
-
-        else if(i === len - 1) {
-            sum = sum / 35;
-
-            arr.push(sum);
-    
-            sum = 0;
-        }
-
-        else if(i % 30 === 0 && i > 0) {
-            sum = sum / 30;
-
-            arr.push(sum);
-    
-            sum = 0;
-        }
-
-        else
-            sum += dataArr[i] === -1 ? 0 : dataArr[i];
-    }
-
-    if(arr.length < 12) {
-        let diff = 12 - arr.length;
-        var zeros = new Array(diff);
-        zeros.fill(0);
-
-        arr = zeros.concat(arr);
-    }
-
-    return arr;
-}
-
-function makeMonth(dataArr) {
-    var [sum, len] = [0, dataArr.length];
-    var arr = [];
-
-    for(var i = len < 30 ? 0: len - 30; i < len; i++) {
-        if(i === len - 1 && len < 30) {
-          let fullHalfWeeks = Math.floor(len / 4);
-          let spareHalves = len - (fullHalfWeeks * 4);
-  
-          sum = sum / spareHalves;
-
-          arr.push(sum);
-  
-          sum = 0;
-        }
-
-        else if(i === len - 1) {
-          sum = sum / 2;
-
-          arr.push(sum);
-  
-          sum = 0;
-        }
-
-        else if(i % 4 === 0 && i > 0) {
-          sum = sum / 4;
-
-          arr.push(sum);
-  
-          sum = 0;
-        }
-
-        else
-          sum += dataArr[i] === -1 ? 0 : dataArr[i];
-      }
-
-      if(arr.length < 8) {
-        let diff = 8 - arr.length;
-        var zeros = new Array(diff);
-        zeros.fill(0);
-    
-        arr = zeros.concat(arr);
-      }
-
-    return arr;
-}
-
-function makeWeek(dataArr) {
-    var len = dataArr.length;
-
-    for(var i = len < 7 ? 0 : len - 7; i < len; i++)
-        arr.push(dataArr[i]);
-          
-    if(arr.length < 7) {
-        let diff = 7 - arr.length;
-        var zeros = new Array(diff);
-        zeros.fill(0);
-    
-        arr = zeros.concat(arr);
-    }
 
     return arr;
 }

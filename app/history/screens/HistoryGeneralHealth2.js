@@ -271,7 +271,7 @@ function HistoryGeneralHealth2({ route, navigation }) {
 
 function makeYear(dataArr) {
   var arr = [];
-  var sum = 0;
+  var [sum, len] = [0, dataArr.length];
 
   for(var i = len < 365 ? 0: len - 365; i < len; i++) {
       if(i === len - 1 && len < 365) {
@@ -434,10 +434,10 @@ function initDisplayData(symptoms, data, timePeriod) {
     arr = makeWeek(objArr);
 
   else if(timePeriod === 'past_month') 
-    arr = makeWeek(objArr);
+    arr = makeMonth(objArr);
 
   else 
-    arr = makeWeek(objArr);
+    arr = makeYear(objArr);
 
   arr = cleanUpData(arr);
 

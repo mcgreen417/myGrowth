@@ -209,7 +209,7 @@ function HistoryWeight({ route, navigation }) {
 
 function makeYear(dataArr) {
   var arr = [];
-  var sum = 0;
+  var [sum, len] = [0, dataArr.length];
 
   for(var i = len < 365 ? 0: len - 365; i < len; i++) {
       if(i === len - 1 && len < 365) {
