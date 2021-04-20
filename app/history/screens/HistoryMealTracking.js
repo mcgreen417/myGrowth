@@ -365,6 +365,117 @@ function HistoryMealTracking({ route, navigation }) {
   );
 };
 
+function makeYear(dataArr) {
+  var arr = [];
+  var sum = 0;
+
+  for(var i = len < 365 ? 0: len - 365; i < len; i++) {
+      if(i === len - 1 && len < 365) {
+          let fullHalfWeeks = Math.floor(len / 30);
+          let spareHalves = len - (fullHalfWeeks * 30);
+  
+          sum = sum / spareHalves;
+
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else if(i === len - 1) {
+          sum = sum / 35;
+
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else if(i % 30 === 0 && i > 0) {
+          sum = sum / 30;
+
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else
+          sum += dataArr[i] === -1 ? 0 : dataArr[i];
+  }
+
+  if(arr.length < 12) {
+      let diff = 12 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+
+      arr = zeros.concat(arr);
+  }
+
+  return arr;
+}
+
+function makeMonth(dataArr) {
+  var [sum, len] = [0, dataArr.length];
+  var arr = [];
+
+  for(var i = len < 30 ? 0: len - 30; i < len; i++) {
+      if(i === len - 1 && len < 30) {
+        let fullHalfWeeks = Math.floor(len / 4);
+        let spareHalves = len - (fullHalfWeeks * 4);
+
+        sum = sum / spareHalves;
+
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else if(i === len - 1) {
+        sum = sum / 2;
+
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else if(i % 4 === 0 && i > 0) {
+        sum = sum / 4;
+
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else
+        sum += dataArr[i] === -1 ? 0 : dataArr[i];
+    }
+
+    if(arr.length < 8) {
+      let diff = 8 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+  
+      arr = zeros.concat(arr);
+    }
+
+  return arr;
+}
+
+function makeWeek(dataArr) {
+  var len = dataArr.length;
+
+  for(var i = len < 7 ? 0 : len - 7; i < len; i++)
+      arr.push(dataArr[i]);
+        
+  if(arr.length < 7) {
+      let diff = 7 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+  
+      arr = zeros.concat(arr);
+  }
+
+  return arr;
+}
+
 function cleanUpData(arr) {
   const len = arr.length;
 
@@ -376,10 +487,9 @@ function cleanUpData(arr) {
 }
 
 function initDisplayData(data) {
-  var len = data.mealData.calories.length;
   var arr = [];
 
-  arr = data.mealData.calories.slice(len - 7, len);
+  arr = makeWeek(data.mealData.calories);
 
   arr = cleanUpData(arr);
 
@@ -388,60 +498,54 @@ function initDisplayData(data) {
 
 function getDisplayData(data, timePeriod, setDisplayData, selectNutrients) {
   var arr = [];
+  var sum = 0;
+
   //calories || unselected
   if(selectNutrients === 'calories') {
-    var len = data.mealData.calories.length;
-
     if(timePeriod === 'past_week')
-      arr = data.mealData.calories.slice(len - 7, len);
+      arr = makeWeek(data.mealData.calories);
 
     else if(timePeriod === 'past_month')
-      arr = data.mealData.calories.slice(len - 30, len);
+      arr = makeMonth(data.mealData.calories);
 
-    else
-      arr = data.mealData.calories.slice(len - 365, len);
+    else 
+      arr = makeYear(data.mealData.calories);
   }
 
   //fat
   if(selectNutrients === 'total_fat') {
-    var len = data.mealData.fats.length;
-
     if(timePeriod === 'past_week')
-      arr = data.mealData.fats.slice(len - 7, len);
+      arr = makeWeek(data.mealData.fats);
 
     else if(timePeriod === 'past_month')
-      arr = data.mealData.fats.slice(len - 30, len);
+      arr = makeMonth(data.mealData.fats);
 
-    else
-      arr = data.mealData.fats.slice(len - 365, len);
+    else 
+      arr = makeYear(data.mealData.fats);
   }
 
   //protein
   if(selectNutrients === 'total_protein') {
-    var len = data.mealData.proteins.length;
-
     if(timePeriod === 'past_week')
-      arr = data.mealData.proteins.slice(len - 7, len);
+      arr = makeWeek(data.mealData.proteins);
 
     else if(timePeriod === 'past_month')
-      arr = data.mealData.proteins.slice(len - 30, len);
+      arr = makeMonth(data.mealData.proteins);
 
-    else
-      arr = data.mealData.proteins.slice(len - 365, len);
+    else 
+      arr = makeYear(data.mealData.proteins);
   }
 
   //carbs
   if(selectNutrients === 'total_carbs') {
-    var len = data.mealData.carbs.length;
-
     if(timePeriod === 'past_week')
-      arr = data.mealData.carbs.slice(len - 7, len);
+      arr = makeWeek(data.mealData.carbs);
 
     else if(timePeriod === 'past_month')
-      arr = data.mealData.carbs.slice(len - 30, len);
+      arr = makeMonth(data.mealData.carbs);
 
-    else
-      arr = data.mealData.carbs.slice(len - 365, len);
+    else 
+      arr = makeYear(data.mealData.carbs);
   }
 
   arr = cleanUpData(arr);

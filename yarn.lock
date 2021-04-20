@@ -7484,10 +7484,10 @@ react-native-cache@^2.0.1:
   dependencies:
     "@react-native-community/async-storage" "^1.8.1"
 
-react-native-calendars@^1.1255.0:
-  version "1.1255.0"
-  resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.1255.0.tgz#6b7c8dc3228cfeda12dab5f8b55a2be674d04d23"
-  integrity sha512-BM9+dOEbmrd9sFp/ntDUKc4L5mJYMctahwXTyuzal0ex3LSddGOfnAJUOgxhgeojINmtzi/F9QHV5HsMwSUd9g==
+react-native-calendars@^1.1257.0:
+  version "1.1257.0"
+  resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.1257.0.tgz#39fdd76eec0ba66b159162314656ec23f2366627"
+  integrity sha512-nBL+ZTTUqYKJnjZZIpuAU6iC3zGxJge+NC0nPauwlgOgpCTLK1MZcBd+TjbK5cldRvzFles6dKpF5FW6Jhks5A==
   dependencies:
     hoist-non-react-statics "^3.3.1"
     immutable "^4.0.0-rc.12"

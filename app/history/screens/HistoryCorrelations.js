@@ -799,19 +799,124 @@ function makeArr(objArr, target) {
 function initData(page, data) {
     var arr = [];
 
-    if(page === 'mood') {
-        let length = data.moodData.length;
+    if(page === 'mood')
+        arr = makeWeek(data.moodData);
 
-        arr = data.moodData.slice(length - 7, length);
-    }
-
-    else {
-        let length = data.stressData.length;
-
-        arr = data.stressData.slice(length - 7, length);
-    }
+    else
+        arr = makeWeek(data.stressData);
 
     arr = cleanUpData(arr);
+
+    return arr;
+}
+
+function makeYear(dataArr) {
+    var arr = [];
+    var sum = 0;
+
+    for(var i = len < 365 ? 0: len - 365; i < len; i++) {
+        if(i === len - 1 && len < 365) {
+            let fullHalfWeeks = Math.floor(len / 30);
+            let spareHalves = len - (fullHalfWeeks * 30);
+    
+            sum = sum / spareHalves;
+
+            arr.push(sum);
+    
+            sum = 0;
+        }
+
+        else if(i === len - 1) {
+            sum = sum / 35;
+
+            arr.push(sum);
+    
+            sum = 0;
+        }
+
+        else if(i % 30 === 0 && i > 0) {
+            sum = sum / 30;
+
+            arr.push(sum);
+    
+            sum = 0;
+        }
+
+        else
+            sum += dataArr[i] === -1 ? 0 : dataArr[i];
+    }
+
+    if(arr.length < 12) {
+        let diff = 12 - arr.length;
+        var zeros = new Array(diff);
+        zeros.fill(0);
+
+        arr = zeros.concat(arr);
+    }
+
+    return arr;
+}
+
+function makeMonth(dataArr) {
+    var [sum, len] = [0, dataArr.length];
+    var arr = [];
+
+    for(var i = len < 30 ? 0: len - 30; i < len; i++) {
+        if(i === len - 1 && len < 30) {
+          let fullHalfWeeks = Math.floor(len / 4);
+          let spareHalves = len - (fullHalfWeeks * 4);
+  
+          sum = sum / spareHalves;
+
+          arr.push(sum);
+  
+          sum = 0;
+        }
+
+        else if(i === len - 1) {
+          sum = sum / 2;
+
+          arr.push(sum);
+  
+          sum = 0;
+        }
+
+        else if(i % 4 === 0 && i > 0) {
+          sum = sum / 4;
+
+          arr.push(sum);
+  
+          sum = 0;
+        }
+
+        else
+          sum += dataArr[i] === -1 ? 0 : dataArr[i];
+      }
+
+      if(arr.length < 8) {
+        let diff = 8 - arr.length;
+        var zeros = new Array(diff);
+        zeros.fill(0);
+    
+        arr = zeros.concat(arr);
+      }
+
+    return arr;
+}
+
+function makeWeek(dataArr) {
+    var len = dataArr.length;
+
+    for(var i = len < 7 ? 0 : len - 7; i < len; i++)
+        arr.push(dataArr[i]);
+          
+    if(arr.length < 7) {
+        let diff = 7 - arr.length;
+        var zeros = new Array(diff);
+        zeros.fill(0);
+    
+        arr = zeros.concat(arr);
+    }
 
     return arr;
 }
@@ -822,267 +927,232 @@ function makeData(data, setData, page, category, timePeriod) {
 
     if(page === 'sleep') {
         if(category === 'quality') {
-            let length = data.nightQualityData.length;
-
             if(timePeriod === 'past_week')
-                arr = data.nightQualityData.slice(length - 7, length);
-
+                arr = makeWeek(data.nightQualityData);
+          
             else if(timePeriod === 'past_month')
-                arr = data.nightQualityData.slice(length - 30, length);
-
+                arr = makeMonth(data.nightQualityData);
+          
             else
-                arr = data.nightQualityData.slice(length - 365, length);
+                arr = makeYear(data.nightQualityData);
         }
 
         else {
-            let length = data.nightSleepData.length;
-
             if(timePeriod === 'past_week')
-                arr = data.nightSleepData.slice(length - 7, length);
-
+                arr = makeWeek(data.nightSleepData);
+          
             else if(timePeriod === 'past_month')
-                arr = data.nightSleepData.slice(length - 30, length);
-
+                arr = makeMonth(data.nightSleepData);
+          
             else
-                arr = data.nightSleepData.slice(length - 365, length);
+                arr = makeYear(data.nightSleepData);
         }
     }
 
     else if(page === 'nap') {
         if(category === 'quality') {
-            let length = data.napQualityData.length;
-
             if(timePeriod === 'past_week')
-                arr = data.napQualityData.slice(length - 7, length);
-
+                arr = makeWeek(data.napQualityData);
+          
             else if(timePeriod === 'past_month')
-                arr = data.napQualityData.slice(length - 30, length);
-
+                arr = makeMonth(data.napQualityData);
+          
             else
-                arr = data.napQualityData.slice(length - 365, length);
+                arr = makeYear(data.napQualityData);
         }
 
         else {
-            let length = data.napSleepData.length;
-
             if(timePeriod === 'past_week')
-                arr = data.napSleepData.slice(length - 7, length);
-
+                arr = makeWeek(data.napSleepData);
+          
             else if(timePeriod === 'past_month')
-                arr = data.napSleepData.slice(length - 30, length);
-
+                arr = makeMonth(data.napSleepData);
+          
             else
-                arr = data.napSleepData.slice(length - 365, length);
+                arr = makeYear(data.napSleepData);
         }
     }
 
     else if(page === 'fitness') {
         if(category === 'burned') {
-            let length = data.fitnessData.burned.length;
-
             if(timePeriod === 'past_week')
-                arr = data.fitnessData.burned.slice(length - 7, length);
-
+                arr = makeWeek(data.fitnessData.burned);
+          
             else if(timePeriod === 'past_month')
-                arr = data.fitnessData.burned.slice(length - 30, length);
-
+                arr = makeMonth(data.fitnessData.burned);
+          
             else
-                arr = data.fitnessData.burned.slice(length - 365, length);
+                arr = makeYear(data.fitnessData.burned);
         }
 
         else if(category === 'dur') {
-            let length = data.fitnessData.dur.length;
-
             if(timePeriod === 'past_week')
-                arr = data.fitnessData.dur.slice(length - 7, length);
-
+                arr = makeWeek(data.fitnessData.dur);
+          
             else if(timePeriod === 'past_month')
-                arr = data.fitnessData.dur.slice(length - 30, length);
-
+                arr = makeMonth(data.fitnessData.dur);
+          
             else
-                arr = data.fitnessData.dur.slice(length - 365, length);
+                arr = makeYear(data.fitnessData.dur);
         }
 
         else if(category === 'steps') {
-            let length = data.fitnessData.steps.length;
-
             if(timePeriod === 'past_week')
-                arr = data.fitnessData.steps.slice(length - 7, length);
-
+                arr = makeWeek(data.fitnessData.steps);
+          
             else if(timePeriod === 'past_month')
-                arr = data.fitnessData.steps.slice(length - 30, length);
-
+                arr = makeMonth(data.fitnessData.steps);
+          
             else
-                arr = data.fitnessData.steps.slice(length - 365, length);
+                arr = makeYear(data.fitnessData.steps);
         }
 
         //it is some exercise
         else {
             arrFromObj = makeArr(data.fitnessData.exercises, category);
-            let length = arrFromObj.length;
 
             if(timePeriod === 'past_week')
-            arr = arrFromObj.slice(length - 7, length);
+                arr = makeWeek(arrFromObj);
 
             else if(timePeriod === 'past_month')
-                arr = arrFromObj.slice(length - 30, length);
+                arr = makeMonth(arrFromObj);
 
             else
-                arr = arrFromObj.slice(length - 365, length);
+                arr = makeYear(arrFromObj);
         }
     }
 
     else if(page === 'meal') {
         if(category === 'cals') {
-            let length = data.mealData.calories.length;
-
             if(timePeriod === 'past_week')
-                arr = data.mealData.calories.slice(length - 7, length);
+                arr = makeWeek(data.mealData.calories);
 
             else if(timePeriod === 'past_month')
-                arr = data.mealData.calories.slice(length - 30, length);
+                arr = makeMonth(data.mealData.calories);
 
             else
-                arr = data.mealData.calories.slice(length - 365, length);
+                arr = makeYear(data.mealData.calories);
         }
 
         else if(category === 'carbs') {
-            let length = data.mealData.carbs.length;
-
             if(timePeriod === 'past_week')
-                arr = data.mealData.carbs.slice(length - 7, length);
+                arr = makeWeek(data.mealData.carbs);
 
             else if(timePeriod === 'past_month')
-                arr = data.mealData.carbs.slice(length - 30, length);
+                arr = makeMonth(data.mealData.carbs);
 
             else
-                arr = data.mealData.carbs.slice(length - 365, length);
+                arr = makeYear(data.mealData.carbs);
         }
 
         else if(category === 'fats') {
-            let length = data.mealData.fats.length;
-
             if(timePeriod === 'past_week')
-                arr = data.mealData.fats.slice(length - 7, length);
+                arr = makeWeek(data.mealData.fats);
 
             else if(timePeriod === 'past_month')
-                arr = data.mealData.fats.slice(length - 30, length);
+                arr = makeMonth(data.mealData.fats);
 
             else
-                arr = data.mealData.fats.slice(length - 365, length);
+                arr = makeYear(data.mealData.fats);
         }
 
         //proteins
         else {
-            let length = data.mealData.proteins.length;
-
             if(timePeriod === 'past_week')
-                arr = data.mealData.proteins.slice(length - 7, length);
+                arr = makeWeek(data.proteins.fats);
 
             else if(timePeriod === 'past_month')
-                arr = data.mealData.proteins.slice(length - 30, length);
+                arr = makeMonth(data.proteins.fats);
 
             else
-                arr = data.mealData.proteins.slice(length - 365, length);
+                arr = makeYear(data.proteins.fats);
         }
     }
 
     else if(page === 'period') {
-        let length = data.periodData.length;
-
         if(timePeriod === 'past_week')
-            arr = data.periodData.slice(length - 7, length);
+            arr = makeWeek(data.periodData);
 
         else if(timePeriod === 'past_month')
-            arr = data.periodData.slice(length - 30, length);
+            arr = makeMonth(data.periodData);
 
         else
-            arr = data.periodData.slice(length - 365, length);
+            arr = makeYear(data.periodData);
     }
 
     else if(page === 'mood') {
-        let length = data.moodData.length;
-
         if(timePeriod === 'past_week')
-            arr = data.moodData.slice(length - 7, length);
+            arr = makeWeek(data.moodData);
 
         else if(timePeriod === 'past_month')
-            arr = data.moodData.slice(length - 30, length);
+            arr = makeMonth(data.moodData);
 
         else
-            arr = data.moodData.slice(length - 365, length);
+            arr = makeYear(data.moodData);
     }
 
     else if(page === 'stress') {
-        let length = data.stressData.length;
-
         if(timePeriod === 'past_week')
-            arr = data.stressData.slice(length - 7, length);
+            arr = makeWeek(data.stressData);
 
         else if(timePeriod === 'past_month')
-            arr = data.stressData.slice(length - 30, length);
+            arr = makeMonth(data.stressData);
 
         else
-            arr = data.stressData.slice(length - 365, length);
+            arr = makeYear(data.stressData);
     }
 
     else if(page === 'weight') {
-        let length = data.weightData.length;
-
         if(timePeriod === 'past_week')
-            arr = data.weightData.slice(length - 7, length);
+            arr = makeWeek(data.weightData);
 
         else if(timePeriod === 'past_month')
-            arr = data.weightData.slice(length - 30, length);
+            arr = makeMonth(data.weightData);
 
         else
-            arr = data.weightData.slice(length - 365, length);
+            arr = makeYear(data.weightData);
     }
 
     else if(page === 'activity') {
         arrFromObj = makeArr(data.activityData, category);
-        let length = arrFromObj.length;
 
         //it is some activity
         if(timePeriod === 'past_week')
-            arr = arrFromObj.slice(length - 7, length);
+            arr = makeWeek(arrFromObj);
 
         else if(timePeriod === 'past_month')
-            arr = arrFromObj.slice(length - 30, length);
+            arr = makeMonth(arrFromObj);
 
         else
-            arr = arrFromObj.slice(length - 365, length);
+            arr = makeYear(arrFromObj);
     }
 
     else if(page === 'symptoms') {
         arrFromObj = makeArr(data.symptomData, category);
-        let length = arrFromObj.length;
 
         //it is some symptom
         if(timePeriod === 'past_week')
-            arr = arrFromObj.slice(length - 7, length);
+            arr = makeWeek(arrFromObj);
 
         else if(timePeriod === 'past_month')
-            arr = arrFromObj.slice(length - 30, length);
+            arr = makeMonth(arrFromObj);
 
         else
-            arr = arrFromObj.slice(length - 365, length);
+            arr = makeYear(arrFromObj);
     }
 
     //medication
     else {
         arrFromObj = makeArr(data.medicineData.meds, category);
-        let length = arrFromObj.length;
-
-        //it is some medication
+        
         if(timePeriod === 'past_week')
-            arr = arrFromObj.slice(length - 7, length);
+            arr = makeWeek(arrFromObj);
 
         else if(timePeriod === 'past_month')
-            arr = arrFromObj.slice(length - 30, length);
+            arr = makeMonth(arrFromObj);
 
         else
-            arr = arrFromObj.slice(length - 365, length);
+            arr = makeYear(arrFromObj);
     }
 
     arr = cleanUpData(arr);

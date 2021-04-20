@@ -346,6 +346,117 @@ function HistorySleep1({ route, navigation }) {
   );
 };
 
+function makeYear(dataArr) {
+  var arr = [];
+  var sum = 0;
+
+  for(var i = len < 365 ? 0: len - 365; i < len; i++) {
+      if(i === len - 1 && len < 365) {
+          let fullHalfWeeks = Math.floor(len / 30);
+          let spareHalves = len - (fullHalfWeeks * 30);
+  
+          sum = sum / spareHalves;
+
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else if(i === len - 1) {
+          sum = sum / 35;
+
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else if(i % 30 === 0 && i > 0) {
+          sum = sum / 30;
+
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else
+          sum += dataArr[i] === -1 ? 0 : dataArr[i];
+  }
+
+  if(arr.length < 12) {
+      let diff = 12 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+
+      arr = zeros.concat(arr);
+  }
+
+  return arr;
+}
+
+function makeMonth(dataArr) {
+  var [sum, len] = [0, dataArr.length];
+  var arr = [];
+
+  for(var i = len < 30 ? 0: len - 30; i < len; i++) {
+      if(i === len - 1 && len < 30) {
+        let fullHalfWeeks = Math.floor(len / 4);
+        let spareHalves = len - (fullHalfWeeks * 4);
+
+        sum = sum / spareHalves;
+
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else if(i === len - 1) {
+        sum = sum / 2;
+
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else if(i % 4 === 0 && i > 0) {
+        sum = sum / 4;
+
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else
+        sum += dataArr[i] === -1 ? 0 : dataArr[i];
+    }
+
+    if(arr.length < 8) {
+      let diff = 8 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+  
+      arr = zeros.concat(arr);
+    }
+
+  return arr;
+}
+
+function makeWeek(dataArr) {
+  var len = dataArr.length;
+
+  for(var i = len < 7 ? 0 : len - 7; i < len; i++)
+      arr.push(dataArr[i]);
+        
+  if(arr.length < 7) {
+      let diff = 7 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+  
+      arr = zeros.concat(arr);
+  }
+
+  return arr;
+}
+
 function cleanUpData(arr) {
   const len = arr.length;
 
@@ -357,32 +468,12 @@ function cleanUpData(arr) {
 }
 
 function initDisplayData(data) {
-  var len1 = data.nightSleepData.length;
-  var len2 = data.napSleepData.length;
   var obj = new Object();
   obj.sleep = [];
   obj.nap = [];
 
-  for(var i = len1 < 7 ? 0 : len1 - 7; i < len1; i++) {
-    obj.sleep.push(data.nightSleepData[i]);
-    obj.nap.push(data.napSleepData[i]);
-  }
-
-  if(obj.sleep.length < 7) {
-    let diff = 7 - obj.sleep.length;
-    var zeros = new Array(diff);
-    zeros.fill(0);
-
-    obj.sleep = zeros.concat(obj.sleep);
-  }
-
-  if(obj.nap.length < 7) {
-    let diff = 7 - obj.nap.length;
-    var zeros = new Array(diff);
-    zeros.fill(0);
-
-    obj.nap = zeros.concat(obj.nap);
-  }
+  obj.sleep = makeWeek(data.nightSleepData);
+  obj.nap = makeWeek(data.napSleepData);
 
   obj.sleep = cleanUpData(obj.sleep);
   obj.nap = cleanUpData(obj.nap);
@@ -398,30 +489,9 @@ function getDisplayData(data, timePeriod, setDisplay, sleepView) {
 
   //both
   if(sleepView === 'sleep_nap') {
-    var len1 = data.nightSleepData.length;
-    var len2 = data.napSleepData.length;
-
-    if(timePeriod === 'past_week') {
-      for(var i = len1 < 7 ? 0 : len1 - 7; i < len1; i++) {
-        obj.sleep.push(data.nightSleepData[i]);
-        obj.nap.push(data.napSleepData[i]);
-      }
-
-      if(obj.sleep.length < 7) {
-        let diff = 7 - obj.sleep.length;
-        var zeros = new Array(diff);
-        zeros.fill(0);
-    
-        obj.sleep = zeros.concat(obj.sleep);
-      }
-    
-      if(obj.nap.length < 7) {
-        let diff = 7 - obj.nap.length;
-        var zeros = new Array(diff);
-        zeros.fill(0);
-    
-        obj.nap = zeros.concat(obj.nap);
-      }
+    if(timePeriod = 'past_week') {
+      obj.sleep = makeWeek(data.nightSleepData);
+      obj.nap = makeWeek(data.napSleepData);
 
       obj.sleep = cleanUpData(obj.sleep);
       obj.nap = cleanUpData(obj.nap);
@@ -430,64 +500,8 @@ function getDisplayData(data, timePeriod, setDisplay, sleepView) {
     }
 
     else if(timePeriod === 'past_month') {
-      for(var i = len1 < 30 ? 0: len1 - 30; i < len1; i++) {
-        if(i === len1 - 1 && len1 < 30) {
-          let fullHalfWeeks = Math.floor(len / 4);
-          let spareHalves = len1 - (fullHalfWeeks * 4);
-  
-          sum1 = sum1 / spareHalves;
-          sum2 = sum2 / spareHalves;
-
-          obj.sleep.push(sum1);
-          obj.nap.push(sum2);
-  
-          sum1 = 0;
-          sum2 = 0;
-        }
-
-        else if(i === len1 - 1) {
-          sum1 = sum1 / 2;
-          sum2 = sum2 / 2;
-
-          obj.sleep.push(sum1);
-          obj.nap.push(sum2);
-  
-          sum1 = 0;
-          sum2 = 0;
-        }
-
-        else if(i % 4 === 0 && i > 0) {
-          sum1 = sum1 / 4;
-          sum2 = sum2 / 4;
-
-          obj.sleep.push(sum1);
-          obj.nap.push(sum2);
-  
-          sum1 = 0;
-          sum2 = 0;
-        }
-
-        else {
-          sum1 += data.nightSleepData[i] === -1 ? 0 : data.nightSleepData[i];
-          sum2 += data.napSleepData[i] === -1 ? 0 : data.napSleepData[i];
-        }
-      }
-
-      if(obj.sleep.length < 8) {
-        let diff = 8 - obj.sleep.length;
-        var zeros = new Array(diff);
-        zeros.fill(0);
-    
-        obj.sleep = zeros.concat(obj.sleep);
-      }
-    
-      if(obj.nap.length < 8) {
-        let diff = 8 - obj.nap.length;
-        var zeros = new Array(diff);
-        zeros.fill(0);
-    
-        obj.nap = zeros.concat(obj.nap);
-      }
+      obj.sleep = makeMonth(data.nightSleepData);
+      obj.nap = makeMonth(data.napSleepData);
 
       obj.sleep = cleanUpData(obj.sleep);
       obj.nap = cleanUpData(obj.nap);
@@ -496,64 +510,8 @@ function getDisplayData(data, timePeriod, setDisplay, sleepView) {
     }
 
     else {
-      for(var i = len1 < 365 ? 0: len1 - 365; i < len1; i++) {
-        if(i === len1 - 1 && len1 < 365) {
-          let fullMonths = Math.floor(len / 30);
-          let spareDays = len1 - (fullMonths * 30);
-  
-          sum1 = sum1 / spareDays;
-          sum2 = sum2 / spareDays;
-
-          obj.sleep.push(sum1);
-          obj.nap.push(sum2);
-  
-          sum1 = 0;
-          sum2 = 0;
-        }
-
-        else if(i === len1 - 1) {
-          sum1 = sum1 / 35;
-          sum2 = sum2 / 35;
-
-          obj.sleep.push(sum1);
-          obj.nap.push(sum2);
-  
-          sum1 = 0;
-          sum2 = 0;
-        }
-
-        else if(i % 30 === 0 && i > 0) {
-          sum1 = sum1 / 30;
-          sum2 = sum2 / 30;
-
-          obj.sleep.push(sum1);
-          obj.nap.push(sum2);
-  
-          sum1 = 0;
-          sum2 = 0;
-        }
-
-        else {
-          sum1 += data.nightSleepData[i] === -1 ? 0 : data.nightSleepData[i];
-          sum2 += data.napSleepData[i] === -1 ? 0 : data.napSleepData[i];
-        }
-      }
-
-      if(obj.sleep.length < 12) {
-        let diff = 12 - obj.sleep.length;
-        var zeros = new Array(diff);
-        zeros.fill(0);
-    
-        obj.sleep = zeros.concat(obj.sleep);
-      }
-    
-      if(obj.nap.length < 12) {
-        let diff = 12 - obj.nap.length;
-        var zeros = new Array(diff);
-        zeros.fill(0);
-    
-        obj.nap = zeros.concat(obj.nap);
-      }
+      obj.sleep = makeYear(data.nightSleepData);
+      obj.nap = makeYear(data.napSleepData);
 
       obj.sleep = cleanUpData(obj.sleep);
       obj.nap = cleanUpData(obj.nap);
@@ -564,19 +522,8 @@ function getDisplayData(data, timePeriod, setDisplay, sleepView) {
   
   //sleep only
   else if(sleepView === 'sleep_only') {
-    var len = data.nightSleepData.length;
-
     if(timePeriod === 'past_week') {
-      for(var i = len < 7 ? 0 : len - 7; i < len; i++)
-        obj.sleep.push(data.nightSleepData[i]);
-
-      if(obj.sleep.length < 7) {
-        let diff = 7 - obj.sleep.length;
-        var zeros = new Array(diff);
-        zeros.fill(0);
-    
-        obj.sleep = zeros.concat(obj.sleep);
-      }
+      obj.sleep = makeWeek(data.nightSleepData);
 
       obj.sleep = cleanUpData(obj.sleep);
 
@@ -584,45 +531,7 @@ function getDisplayData(data, timePeriod, setDisplay, sleepView) {
     }
 
     else if(timePeriod === 'past_month') {
-      for(var i = len < 30 ? 0: len - 30; i < len; i++) {
-        if(i === len - 1 && len < 30) {
-          let fullHalfWeeks = Math.floor(len / 4);
-          let spareHalves = len - (fullHalfWeeks * 4);
-  
-          sum1 = sum1 / spareHalves;
-
-          obj.sleep.push(sum1);
-  
-          sum1 = 0;
-        }
-
-        else if(i === len - 1) {
-          sum1 = sum1 / 2;
-
-          obj.sleep.push(sum1);
-  
-          sum1 = 0;
-        }
-
-        else if(i % 4 === 0 && i > 0) {
-          sum1 = sum1 / 4;
-
-          obj.sleep.push(sum1);
-  
-          sum1 = 0;
-        }
-
-        else
-          sum1 += data.nightSleepData[i] === -1 ? 0 : data.nightSleepData[i];
-      }
-
-      if(obj.sleep.length < 8) {
-        let diff = 8 - obj.sleep.length;
-        var zeros = new Array(diff);
-        zeros.fill(0);
-    
-        obj.sleep = zeros.concat(obj.sleep);
-      }
+      obj.sleep = makeMonth(data.nightSleepData);
 
       obj.sleep = cleanUpData(obj.sleep);
 
@@ -630,50 +539,16 @@ function getDisplayData(data, timePeriod, setDisplay, sleepView) {
     }
 
     else {
-      for(var i = len < 365 ? 0: len - 365; i < len; i++) {
-        if(i === len - 1 && len < 365) {
-          let fullMonths = Math.floor(len / 30);
-          let spareDays = len - (fullMonths * 30);
-  
-          sum1 = sum1 / spareDays;
-
-          obj.sleep.push(sum1);
-  
-          sum1 = 0;
-        }
-
-        else if(i === len - 1) {
-          sum1 = sum1 / 35;
-
-          obj.sleep.push(sum1);
-  
-          sum1 = 0;
-        }
-
-        else if(i % 30 === 0 && i > 0) {
-          sum1 = sum1 / 30;
-
-          obj.sleep.push(sum1);
-  
-          sum1 = 0;
-        }
-
-        else
-          sum1 += data.nightSleepData[i] === -1 ? 0 : data.nightSleepData[i];
-      }
-
-      if(obj.sleep.length < 12) {
-        let diff = 12 - obj.sleep.length;
-        var zeros = new Array(diff);
-        zeros.fill(0);
-    
-        obj.sleep = zeros.concat(obj.sleep);
-      }
+      obj.sleep = makeMonth(data.nightSleepData);
 
       obj.sleep = cleanUpData(obj.sleep);
 
       setDisplay(obj);
     }
+
+    obj.sleep = cleanUpData(obj.sleep);
+
+    setDisplay(obj);
   }
 
   //nap only
@@ -681,16 +556,7 @@ function getDisplayData(data, timePeriod, setDisplay, sleepView) {
     var len = data.napSleepData.length;
 
     if(timePeriod === 'past_week') {
-      for(var i = len < 7 ? 0 : len - 7; i < len; i++)
-        obj.nap.push(data.napSleepData[i]);
-
-      if(obj.nap.length < 7) {
-        let diff = 7 - obj.nap.length;
-        var zeros = new Array(diff);
-        zeros.fill(0);
-    
-        obj.nap = zeros.concat(obj.nap);
-      }
+      obj.nap = makeWeek(data.napSleepData);
 
       obj.nap = cleanUpData(obj.nap);
 
@@ -698,45 +564,7 @@ function getDisplayData(data, timePeriod, setDisplay, sleepView) {
     }
 
     else if(timePeriod === 'past_month') {
-      for(var i = len < 30 ? 0: len - 30; i < len; i++) {
-        if(i === len - 1 && len < 30) {
-          let fullHalfWeeks = Math.floor(len / 4);
-          let spareHalves = len - (fullHalfWeeks * 4);
-  
-          sum1 = sum1 / spareHalves;
-
-          obj.nap.push(sum1);
-  
-          sum1 = 0;
-        }
-
-        else if(i === len - 1) {
-          sum1 = sum1 / 2;
-
-          obj.nap.push(sum1);
-  
-          sum1 = 0;
-        }
-
-        else if(i % 4 === 0 && i > 0) {
-          sum1 = sum1 / 4;
-
-          obj.nap.push(sum1);
-  
-          sum1 = 0;
-        }
-
-        else
-          sum1 += data.napSleepData[i] === -1 ? 0 : data.napSleepData[i];
-      }
-
-      if(obj.nap.length < 8) {
-        let diff = 8 - obj.nap.length;
-        var zeros = new Array(diff);
-        zeros.fill(0);
-    
-        obj.nap = zeros.concat(obj.nap);
-      }
+      obj.nap = makeMonth(data.napSleepData);
 
       obj.nap = cleanUpData(obj.nap);
 
@@ -744,45 +572,7 @@ function getDisplayData(data, timePeriod, setDisplay, sleepView) {
     }
 
     else {
-      for(var i = len < 365 ? 0: len - 365; i < len; i++) {
-        if(i === len - 1 && len < 365) {
-          let fullMonths = Math.floor(len / 30);
-          let spareDays = len - (fullMonths * 30);
-  
-          sum1 = sum1 / spareDays;
-
-          obj.nap.push(sum1);
-  
-          sum1 = 0;
-        }
-
-        else if(i === len - 1) {
-          sum1 = sum1 / 35;
-
-          obj.nap.push(sum1);
-  
-          sum1 = 0;
-        }
-
-        else if(i % 30 === 0 && i > 0) {
-          sum1 = sum1 / 30;
-
-          obj.nap.push(sum1);
-  
-          sum1 = 0;
-        }
-
-        else
-          sum1 += data.napSleepData[i] === -1 ? 0 : data.napSleepData[i];
-      }
-
-      if(obj.nap.length < 12) {
-        let diff = 12 - obj.nap.length;
-        var zeros = new Array(diff);
-        zeros.fill(0);
-    
-        obj.nap = zeros.concat(obj.nap);
-      }
+      obj.nap = makeMonth(data.napSleepData);
 
       obj.nap = cleanUpData(obj.nap);
 

@@ -269,39 +269,72 @@ function HistoryGeneralHealth2({ route, navigation }) {
   );
 };
 
-function getDisplayData(symptomName, data, timePeriod, setDisplayData) {
+function makeYear(dataArr) {
   var arr = [];
-  var len = data.symptomData.length;
   var sum = 0;
 
-  if(timePeriod === 'past_week')
-    for(var i = len < 7 ? 0 : len - 7; i < len; i++)
-      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
-        if(key == symptomName)
-          arr.push(value);
-        
-        else
-          arr.push(0);
+  for(var i = len < 365 ? 0: len - 365; i < len; i++) {
+      if(i === len - 1 && len < 365) {
+          let fullHalfWeeks = Math.floor(len / 30);
+          let spareHalves = len - (fullHalfWeeks * 30);
+  
+          sum = sum / spareHalves;
+
+          arr.push(sum);
+  
+          sum = 0;
       }
 
-  else if(timePeriod === 'past_month') {
-    for(var i = len < 30 ? 0 : len - 30; i < len; i++) {
-      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i])))
-        if(key == symptomName)
-          sum += value;
+      else if(i === len - 1) {
+          sum = sum / 35;
 
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else if(i % 30 === 0 && i > 0) {
+          sum = sum / 30;
+
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else
+          sum += dataArr[i] === -1 ? 0 : dataArr[i];
+  }
+
+  if(arr.length < 12) {
+      let diff = 12 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+
+      arr = zeros.concat(arr);
+  }
+
+  return arr;
+}
+
+function makeMonth(dataArr) {
+  var [sum, len] = [0, dataArr.length];
+  var arr = [];
+
+  for(var i = len < 30 ? 0: len - 30; i < len; i++) {
       if(i === len - 1 && len < 30) {
         let fullHalfWeeks = Math.floor(len / 4);
         let spareHalves = len - (fullHalfWeeks * 4);
 
         sum = sum / spareHalves;
+
         arr.push(sum);
 
         sum = 0;
       }
-      
+
       else if(i === len - 1) {
         sum = sum / 2;
+
         arr.push(sum);
 
         sum = 0;
@@ -309,100 +342,104 @@ function getDisplayData(symptomName, data, timePeriod, setDisplayData) {
 
       else if(i % 4 === 0 && i > 0) {
         sum = sum / 4;
+
         arr.push(sum);
 
         sum = 0;
       }
+
+      else
+        sum += dataArr[i] === -1 ? 0 : dataArr[i];
     }
 
     if(arr.length < 8) {
-      var diff  = 8 - arr.length;
+      let diff = 8 - arr.length;
       var zeros = new Array(diff);
       zeros.fill(0);
-
+  
       arr = zeros.concat(arr);
     }
-  }
 
-  else {
-    for(var i = len < 365 ? 0 : len - 365; i < len; i++) {
-      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
-        if(key === symptomName)
-          sum += value;
-      }
+  return arr;
+}
 
-      if(i === len - 1  && len < 365) {
-        let fullMonths = Math.floor(len / 30);
-        let spareDays = len - (fullMonths * 30);
+function makeWeek(dataArr) {
+  var len = dataArr.length;
 
-        sum = sum/spareDays;
-        arr.push(sum);
-
-        sum = 0;
-      }
-
-      else if(i === len - 1) {
-        sum = sum / 35;
-        arr.push(sum);
-
-        sum = 0;
-      }
-
-      else if(i % 30 === 0 && i > 0) {
-        sum = sum / 30;
-        arr.push(sum);
-
-        sum = 0;
-      }
-    }
-
-    if(arr.length < 12) {
-      var diff  = 12 - arr.length;
+  for(var i = len < 7 ? 0 : len - 7; i < len; i++)
+      arr.push(dataArr[i]);
+        
+  if(arr.length < 7) {
+      let diff = 7 - arr.length;
       var zeros = new Array(diff);
       zeros.fill(0);
-
+  
       arr = zeros.concat(arr);
-    }
   }
 
-  console.log(arr);
+  return arr;
+}
+
+function makeArr(objArr, target) {
+  const length = objArr.length;
+  var arr = [];
+
+  for(var i = 0; i < length; i++)
+      for(var [key, value] of Object.entries(JSON.parse(objArr[i]))) {
+          if(key === target) {
+              arr.push(value);
+          }
+
+          else
+              arr.push(0);
+      }
+
+  return arr;
+}
+
+function cleanUpData(arr) {
+  const len = arr.length;
+
+  for(var i = 0; i < len; i++)
+    if(arr[i] == -1)
+      arr[i] = 0;
+
+  return arr;
+}
+
+function getDisplayData(symptomName, data, timePeriod, setDisplayData) {
+  var arr = [];
+
+  var objArr = makeArr(data.symptomData, symptomName);
+
+  if(timePeriod === 'past_week')
+    arr = makeWeek(objArr);
+
+  else if(timePeriod === 'past_month') 
+    arr = makeWeek(objArr);
+
+  else 
+    arr = makeWeek(objArr);
+
+  arr = cleanUpData(arr);
 
   setDisplayData(arr);
 }
 
 function initDisplayData(symptoms, data, timePeriod) {
   var arr = [];
-  var len = data.symptomData.length;
+  var objArr = makeArr(data.symptomData, symptoms[0]);
 
   if(timePeriod === 'past_week')
-    for(var i = len < 7 ? 0 : len - 7; i < len; i++)
-      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
-        if(key == symptoms[0])
-          arr.push(value);
-        
-        else
-          arr.push(0);
-      }
+    arr = makeWeek(objArr);
 
-  else if(timePeriod === 'past_month')
-    for(var i = len < 30 ? 0 : len - 30; i < len; i++)
-      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
-        if(key == symptoms[0])
-          arr.push(value);
-        
-        else
-          arr.push(0);
-      }
+  else if(timePeriod === 'past_month') 
+    arr = makeWeek(objArr);
 
-  else
-    for(var i = len < 365 ? 0 : len - 365; i < len; i++)
-      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
-        if(key == symptoms[0])
-          arr.push(value);
-        
-        else
-          arr.push(0);
-      }
+  else 
+    arr = makeWeek(objArr);
+
+  arr = cleanUpData(arr);
 
   return arr;
 }

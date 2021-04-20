@@ -241,6 +241,117 @@ function HistoryMood({ route, navigation }) {
   );
 };
 
+function makeYear(dataArr) {
+  var arr = [];
+  var sum = 0;
+
+  for(var i = len < 365 ? 0: len - 365; i < len; i++) {
+      if(i === len - 1 && len < 365) {
+          let fullHalfWeeks = Math.floor(len / 30);
+          let spareHalves = len - (fullHalfWeeks * 30);
+  
+          sum = sum / spareHalves;
+
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else if(i === len - 1) {
+          sum = sum / 35;
+
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else if(i % 30 === 0 && i > 0) {
+          sum = sum / 30;
+
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else
+          sum += dataArr[i] === -1 ? 0 : dataArr[i];
+  }
+
+  if(arr.length < 12) {
+      let diff = 12 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+
+      arr = zeros.concat(arr);
+  }
+
+  return arr;
+}
+
+function makeMonth(dataArr) {
+  var [sum, len] = [0, dataArr.length];
+  var arr = [];
+
+  for(var i = len < 30 ? 0: len - 30; i < len; i++) {
+      if(i === len - 1 && len < 30) {
+        let fullHalfWeeks = Math.floor(len / 4);
+        let spareHalves = len - (fullHalfWeeks * 4);
+
+        sum = sum / spareHalves;
+
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else if(i === len - 1) {
+        sum = sum / 2;
+
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else if(i % 4 === 0 && i > 0) {
+        sum = sum / 4;
+
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else
+        sum += dataArr[i] === -1 ? 0 : dataArr[i];
+    }
+
+    if(arr.length < 8) {
+      let diff = 8 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+  
+      arr = zeros.concat(arr);
+    }
+
+  return arr;
+}
+
+function makeWeek(dataArr) {
+  var len = dataArr.length;
+
+  for(var i = len < 7 ? 0 : len - 7; i < len; i++)
+      arr.push(dataArr[i]);
+        
+  if(arr.length < 7) {
+      let diff = 7 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+  
+      arr = zeros.concat(arr);
+  }
+
+  return arr;
+}
+
 function cleanUpData(arr) {
   const len = arr.length;
 
@@ -252,19 +363,9 @@ function cleanUpData(arr) {
 }
 
 function initDisplayData(data) {
-  var len = data.moodData.length;
   var arr = [];
 
-  for(var i = len < 7 ? 0 : len - 7; i < len; i++)
-    arr.push(data.moodData[i]);
-
-  if(arr.length < 7) {
-    let diff = 7 - arr.length;
-    var zeros = new Array(diff);
-    zeros.fill(0);
-
-    arr = zeros.concat(arr);
-  }
+  arr = makeWeek(data.moodData);
 
   arr = cleanUpData(arr);
 
@@ -272,101 +373,17 @@ function initDisplayData(data) {
 }
 
 function getDisplayData(data, timePeriod, setDisplayData) {
-  var len = data.moodData.length;
   var arr = [];
-  var sum = 0;
 
-  if(timePeriod === 'past_week' || timePeriod === 'unselected') {
-    for(var i = len < 7 ? 0 : len - 7; i < len; i++)
-      arr.push(data.moodData[i]);
-
-    if(arr.length < 7) {
-      let diff = 7 - arr.length;
-      var zeros = new Array(diff);
-      zeros.fill(0);
-
-      arr = zeros.concat(arr);
-    }
-  }
+  if(timePeriod === 'past_week' || timePeriod === 'unselected') 
+    arr = makeWeek(data.moodData);
 
   //create data points for graph; show data points twice per week
-  else if(timePeriod === 'past_month') {
-    for(var i = len < 30 ? 0: len - 30; i < len; i++) {
-      if(i === len - 1 && len < 30) {
-        let fullHalfWeeks = Math.floor(len / 4);
-        let spareHalves = len - (fullHalfWeeks * 4);
+  else if(timePeriod === 'past_month') 
+    arr = makeMonth(data.moodData);
 
-        sum = sum / spareHalves;
-        arr.push(sum);
-
-        sum = 0;
-      }
-      
-      else if(i === len - 1) {
-        sum = sum / 2;
-        arr.push(sum);
-
-        sum = 0;
-      }
-
-      else if(i % 4 === 0 && i > 0) {
-        sum = sum / 4;
-        arr.push(sum);
-
-        sum = 0;
-      }
-
-      else
-        sum += data.moodData[i] === -1 ? 0 : data.moodData[i];
-    }
-
-    if(arr.length < 8) {
-      var diff  = 8 - arr.length;
-      var zeros = new Array(diff);
-      zeros.fill(0);
-
-      arr = zeros.concat(arr);
-    }
-  }
-
-  else {
-    for(var i = len < 365 ? 0: len - 365; i < len; i++) {
-      if(i === len - 1  && len < 365) {
-        let fullMonths = Math.floor(len / 30);
-        let spareDays = len - (fullMonths * 30);
-
-        sum = sum/spareDays;
-        arr.push(sum);
-
-        sum = 0;
-      }
-
-      else if(i === len - 1) {
-        sum = sum / 35;
-        arr.push(sum);
-
-        sum = 0;
-      }
-
-      else if(i % 30 === 0 && i > 0) {
-        sum = sum / 30;
-        arr.push(sum);
-
-        sum = 0;
-      }
-
-      else
-        sum += data.moodData[i] === -1 ? 0 : data.moodData[i];
-    }
-
-    if(arr.length < 12) {
-      var diff  = 12 - arr.length;
-      var zeros = new Array(diff);
-      zeros.fill(0);
-
-      arr = zeros.concat(arr);
-    }
-  }
+  else
+    arr = makeYear(data.moodData);
 
   arr = cleanUpData(arr);
 
