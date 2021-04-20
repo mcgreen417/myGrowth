@@ -18,104 +18,164 @@ import HistorySelectACategory from '../../shared/components/HistorySelectACatego
 
 function HistoryHealthEntries({ route, navigation }) {
   const data = route.params.data;
-  const arr = initDisplayData(data);
-  const labels = getTimestamps(data);
-  const commits = genCommits(arr, labels);
+  var dummy = false;
+  //const arr = data != null ? null : initDisplayData(data);
+  //const labels = data != null ? null : getTimestamps(data);
+  //const commits = data != null ? null : genCommits(arr, labels);
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  return (
-    <SafeAreaView style={styles().container}>
-      
-      { /* Modal */}
-      <HistorySelectACategory
-        setModalView={setModalVisible}
-        showModalView={modalVisible}
-        navigation={navigation}
-        data={data}
-      />
-      
-      {/* Actual screen */}
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles().pageSetup}>
-          
-          {/* Gardener avatar + page blurb */}
-          <View style={styles().avatarView}>
-            <Text style={styles().pageDescription}>
-              View a summary of your health entry history! Select a category below to
-              get started.
-            </Text>
-            <Image
-              style={styles().avatarFlipped}
-              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
-            />
-          </View>
-          {/* Top page divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
+  console.log(data);
 
-          {/* Categories button */}
-          <TouchableOpacity 
-            style={styles().categoriesView} 
-            onPress={() => setModalVisible(true)}
-          >
-            <View 
-              style={styles().categories}>
-              <Text style={styles().textAlt}>Categories</Text>
-              <View>
-                <Icon
-                  name='arrow-top-right'
-                  type='material-community'
-                  color='white'
-                />
-              </View>
+  if(dummy)
+    return (
+      <SafeAreaView style={styles().container}>
+        
+        { /* Modal */}
+        <HistorySelectACategory
+          setModalView={setModalVisible}
+          showModalView={modalVisible}
+          navigation={navigation}
+          data={data}
+        />
+        
+        {/* Actual screen */}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles().pageSetup}>
+            
+            {/* Gardener avatar + page blurb */}
+            <View style={styles().avatarView}>
+              <Text style={styles().pageDescription}>
+                View a summary of your health entry history! Select a category below to
+                get started.
+              </Text>
+              <Image
+                style={styles().avatarFlipped}
+                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+              />
             </View>
-          </TouchableOpacity>
+            {/* Top page divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
 
-          {/* Custom history component */}
-          <View style={{marginTop: 6}}>
-            <TabBarAndContent 
-              navigation={navigation} 
-              data={commits} 
-              page={'history'}
-              page2Color={false} 
-            />
+            {/* Categories button */}
+            <TouchableOpacity 
+              style={styles().categoriesView} 
+              onPress={() => setModalVisible(true)}
+            >
+              <View 
+                style={styles().categories}>
+                <Text style={styles().textAlt}>Categories</Text>
+                <View>
+                  <Icon
+                    name='arrow-top-right'
+                    type='material-community'
+                    color='white'
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+
+            {/* Custom history component */}
+            <View style={{marginTop: 6}}>
+              <TabBarAndContent 
+                navigation={navigation} 
+                data={commits} 
+                page={'history'}
+                page2Color={false} 
+              />
+            </View>
+
+            {/* Middle divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* Search for correlations blurb */}
+            <View style={{ width: '90%' }}>
+              <Text style={styles().text}>
+                You can overlay graphs from different categories to search 
+                for correlations between your physical and mental health. 
+                Click below to get started!
+              </Text>
+            </View>
+
+            {/* Search for correlations button */}
+            <View style={{ width: '60%', marginTop: 20, marginBottom: 4, }}>
+              <Button 
+                title='SEARCH FOR CORRELATIONS'
+                color={
+                  global.colorblindMode
+                  ? global.cb_optionButtonsColor
+                  : global.optionButtonsColor
+                }
+                onPress={() => navigation.navigate('HistoryCorrelations', {data})}>
+              </Button>
+            </View>
+
+            <View style={styles().pageEnd} />
           </View>
+        </ScrollView>
+        <NavBar history={true} navigation={navigation} />
+      </SafeAreaView>
+    );
 
-          {/* Middle divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
+  else
+    return (
+      <SafeAreaView style={styles().container}>
+        { /* Modal */}
+        <HistorySelectACategory
+          setModalView={setModalVisible}
+          showModalView={modalVisible}
+          navigation={navigation}
+          data={data}
+        />
+
+        {/* Actual screen */}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles().pageSetup}>
+            
+            {/* Gardener avatar + page blurb */}
+            <View style={styles().avatarView}>
+              <Text style={styles().pageDescription}>
+                View a summary of your health entry history! Select a category below to
+                get started.
+              </Text>
+              <Image
+                style={styles().avatarFlipped}
+                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+              />
+            </View>
+            {/* Top page divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* Categories button */}
+            <TouchableOpacity 
+              style={styles().categoriesView} 
+              onPress={() => setModalVisible(true)}
+            >
+              <View 
+                style={styles().categories}>
+                <Text style={styles().textAlt}>Categories</Text>
+                <View>
+                  <Icon
+                    name='arrow-top-right'
+                    type='material-community'
+                    color='white'
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+
+            <Text>Uh Oh! It seems like you don't have any data to view!\nTry making some health entries first!</Text>
           </View>
-
-          {/* Search for correlations blurb */}
-          <View style={{ width: '90%' }}>
-            <Text style={styles().text}>
-              You can overlay graphs from different categories to search 
-              for correlations between your physical and mental health. 
-              Click below to get started!
-            </Text>
-          </View>
-
-          {/* Search for correlations button */}
-          <View style={{ width: '60%', marginTop: 20, marginBottom: 4, }}>
-            <Button 
-              title='SEARCH FOR CORRELATIONS'
-              color={
-                global.colorblindMode
-                ? global.cb_optionButtonsColor
-                : global.optionButtonsColor
-              }
-              onPress={() => navigation.navigate('HistoryCorrelations', {data})}>
-            </Button>
-          </View>
-
-          <View style={styles().pageEnd} />
-        </View>
-      </ScrollView>
-      <NavBar history={true} navigation={navigation} />
-    </SafeAreaView>
-  );
+        </ScrollView>
+        <NavBar history={true} navigation={navigation} />
+      </SafeAreaView>
+    );
 }
 
 function isEmpty(obj) {
