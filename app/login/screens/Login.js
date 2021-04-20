@@ -18,6 +18,7 @@ import { Icon } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Cache } from "react-native-cache";
 import * as queries from '../../../src/graphql/queries';
+import Book from '../../shared/assets/svgs/book-emoji.svg'
 //import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function Login({ navigation }) {
@@ -44,6 +45,7 @@ function Login({ navigation }) {
       >
         <View style={styles().pageSetup}>
           {/* Logo + title */}
+          <Book width={120} height={40} />
           <Image
             style={styles().logo}
             source={require('../../shared/assets/icon.png')}
