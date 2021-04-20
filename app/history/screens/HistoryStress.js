@@ -254,7 +254,17 @@ function initDisplayData(data) {
   var len = data.stressData.length;
   var arr = [];
 
-  arr = data.stressData.slice(len - 7, len);
+  for(var i = len < 7 ? 0 : len - 7; i < len; i++)
+    arr.push(data.stressData[i]);
+
+  if(arr.length < 7) {
+    let diff = 7 - arr.length;
+    var zeros = new Array(diff);
+    zeros.fill(0);
+
+    arr = zeros.concat(arr);
+  }
+
   arr = cleanUpData(arr);
 
   return arr;
@@ -263,15 +273,99 @@ function initDisplayData(data) {
 function getDisplayData(data, timePeriod, setDisplayData) {
   var len = data.stressData.length;
   var arr = [];
+  var sum = 0;
 
-  if(timePeriod === 'past_week' || timePeriod === 'unselected')
-    arr = data.stressData.slice(len - 7, len);
+  if(timePeriod === 'past_week' || timePeriod === 'unselected') {
+    for(var i = len < 7 ? 0 : len - 7; i < len; i++)
+      arr.push(data.stressData[i]);
 
-  else if(timePeriod === 'past_month')
-    arr = data.stressData.slice(len - 30, len);
+    if(arr.length < 7) {
+      let diff = 7 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
 
-  else
-    arr = data.stressData.slice(len - 365, len);
+      arr = zeros.concat(arr);
+    }
+  }
+
+  //create data points for graph; show data points twice per week
+  else if(timePeriod === 'past_month') {
+    for(var i = len < 30 ? 0: len - 30; i < len; i++) {
+      if(i === len - 1 && len < 30) {
+        let fullHalfWeeks = Math.floor(len / 4);
+        let spareHalves = len - (fullHalfWeeks * 4);
+
+        sum = sum / spareHalves;
+        arr.push(sum);
+
+        sum = 0;
+      }
+      
+      else if(i === len - 1) {
+        sum = sum / 2;
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else if(i % 4 === 0 && i > 0) {
+        sum = sum / 4;
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else
+        sum += data.stressData[i] === -1 ? 0 : data.stressData[i];
+    }
+
+    if(arr.length < 8) {
+      var diff  = 8 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+
+      arr = zeros.concat(arr);
+    }
+  }
+
+  else {
+    for(var i = len < 365 ? 0: len - 365; i < len; i++) {
+      if(i === len - 1  && len < 365) {
+        let fullMonths = Math.floor(len / 30);
+        let spareDays = len - (fullMonths * 30);
+
+        sum = sum/spareDays;
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else if(i === len - 1) {
+        sum = sum / 35;
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else if(i % 30 === 0 && i > 0) {
+        sum = sum / 30;
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else
+        sum += data.stressData[i] === -1 ? 0 : data.stressData[i];
+    }
+
+    if(arr.length < 12) {
+      var diff  = 12 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+
+      arr = zeros.concat(arr);
+    }
+  }
 
   arr = cleanUpData(arr);
 

@@ -272,7 +272,7 @@ function HistoryGeneralHealth2({ route, navigation }) {
 function getDisplayData(symptomName, data, timePeriod, setDisplayData) {
   var arr = [];
   var len = data.symptomData.length;
-  console.log(timePeriod);
+  var sum = 0;
 
   if(timePeriod === 'past_week')
     for(var i = len < 7 ? 0 : len - 7; i < len; i++)
@@ -284,25 +284,88 @@ function getDisplayData(symptomName, data, timePeriod, setDisplayData) {
           arr.push(0);
       }
 
-  else if(timePeriod === 'past_month')
-    for(var i = len < 30 ? 0 : len - 30; i < len; i++)
-      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
+  else if(timePeriod === 'past_month') {
+    for(var i = len < 30 ? 0 : len - 30; i < len; i++) {
+      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i])))
         if(key == symptomName)
-          arr.push(value);
-        
-        else
-          arr.push(0);
+          sum += value;
+
+      if(i === len - 1 && len < 30) {
+        let fullHalfWeeks = Math.floor(len / 4);
+        let spareHalves = len - (fullHalfWeeks * 4);
+
+        sum = sum / spareHalves;
+        arr.push(sum);
+
+        sum = 0;
+      }
+      
+      else if(i === len - 1) {
+        sum = sum / 2;
+        arr.push(sum);
+
+        sum = 0;
       }
 
-  else
-    for(var i = len < 365 ? 0 : len - 365; i < len; i++)
-      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
-        if(key == symptomName)
-          arr.push(value);
-        
-        else
-          arr.push(0);
+      else if(i % 4 === 0 && i > 0) {
+        sum = sum / 4;
+        arr.push(sum);
+
+        sum = 0;
       }
+    }
+
+    if(arr.length < 8) {
+      var diff  = 8 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+
+      arr = zeros.concat(arr);
+    }
+  }
+
+  else {
+    for(var i = len < 365 ? 0 : len - 365; i < len; i++) {
+      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
+        if(key === symptomName)
+          sum += value;
+      }
+
+      if(i === len - 1  && len < 365) {
+        let fullMonths = Math.floor(len / 30);
+        let spareDays = len - (fullMonths * 30);
+
+        sum = sum/spareDays;
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else if(i === len - 1) {
+        sum = sum / 35;
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else if(i % 30 === 0 && i > 0) {
+        sum = sum / 30;
+        arr.push(sum);
+
+        sum = 0;
+      }
+    }
+
+    if(arr.length < 12) {
+      var diff  = 12 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+
+      arr = zeros.concat(arr);
+    }
+  }
+
+  console.log(arr);
 
   setDisplayData(arr);
 }

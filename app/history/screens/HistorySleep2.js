@@ -145,6 +145,7 @@ function HistorySleep2({ route, navigation }) {
                   style={styles().picker}
                   onValueChange={(itemValue, itemIndex) => {
                     setSleepView(itemValue);
+                    console.log(itemValue);
                     getDisplayData(data, timePeriod, setDisplayData, itemValue);
                     getTimestamps(data, timestamps, setTimestamps, timePeriod);
                   }}
@@ -287,7 +288,17 @@ function initDisplayData(data) {
   var len = data.nightQualityData.length;
   var arr = [];
 
-  arr = data.nightQualityData.slice(len - 7, len);
+  for(var i = len < 7 ? 0 : len - 7; i < len; i++)
+    arr.push(data.nightQualityData[i]);
+
+  if(arr.length < 7) {
+    let diff = 7 - arr.length;
+    var zeros = new Array(diff);
+    zeros.fill(0);
+
+    arr = zeros.concat(arr);
+  }
+
   arr = cleanUpData(arr);
 
   return arr;
@@ -295,31 +306,208 @@ function initDisplayData(data) {
 
 function getDisplayData(data, timePeriod, setDisplayData, sleepView) {
   var arr = [];
+  var sum = 0;
 
   if(sleepView === 'sleep_only') {
     var len = data.nightQualityData.length;
 
-    if(timePeriod === 'past_week')
-      arr = data.nightQualityData.slice(len - 7, len);
+    if(timePeriod === 'past_week') {
+      for(var i = len < 7 ? 0 : len - 7; i < len; i++)
+        arr.push(data.nightQualityData[i]);
 
-    else if(timePeriod === 'past_month')
-      arr = data.nightQualityData.slice(len - 30, len);
+      if(arr.length < 7) {
+        let diff = 7 - arr.length;
+        var zeros = new Array(diff);
+        zeros.fill(0);
+    
+        arr = zeros.concat(arr);
+      }
+    }
 
-    else
-      arr = data.nightQualityData.slice(len - 365, len);
+    else if(timePeriod === 'past_month') {
+      for(var i = len < 30 ? 0: len - 30; i < len; i++) {
+        if(i === len - 1 && len < 30) {
+          let fullHalfWeeks = Math.floor(len / 4);
+          let spareHalves = len - (fullHalfWeeks * 4);
+  
+          sum = sum / spareHalves;
+
+          arr.push(sum);
+  
+          sum = 0;
+        }
+
+        else if(i === len - 1) {
+          sum = sum / 2;
+
+          arr.push(sum);
+  
+          sum = 0;
+        }
+
+        else if(i % 4 === 0 && i > 0) {
+          sum = sum / 4;
+
+          arr.push(sum);
+  
+          sum = 0;
+        }
+
+        else
+          sum += data.nightQualityData[i] === -1 ? 0 : data.nightQualityData[i];
+      }
+
+      if(arr.length < 8) {
+        let diff = 8 - arr.length;
+        var zeros = new Array(diff);
+        zeros.fill(0);
+    
+        arr = zeros.concat(arr);
+      }
+    }
+
+    else {
+      for(var i = len < 365 ? 0: len - 365; i < len; i++) {
+        if(i === len - 1 && len < 365) {
+          let fullHalfWeeks = Math.floor(len / 30);
+          let spareHalves = len - (fullHalfWeeks * 30);
+  
+          sum = sum / spareHalves;
+
+          arr.push(sum);
+  
+          sum = 0;
+        }
+
+        else if(i === len - 1) {
+          sum = sum / 35;
+
+          arr.push(sum);
+  
+          sum = 0;
+        }
+
+        else if(i % 30 === 0 && i > 0) {
+          sum = sum / 30;
+
+          arr.push(sum);
+  
+          sum = 0;
+        }
+
+        else
+          sum += data.nightQualityData[i] === -1 ? 0 : data.nightQualityData[i];
+      }
+
+      if(arr.length < 12) {
+        let diff = 12 - arr.length;
+        var zeros = new Array(diff);
+        zeros.fill(0);
+    
+        arr = zeros.concat(arr);
+      }
+    }
   }
 
   if(sleepView === 'naps_only') {
-    var len = data.napQualityData.length;var len = data.stressData.length;
+    var len = data.napQualityData.length;
 
-    if(timePeriod === 'past_week')
-      arr = data.napQualityData.slice(len - 7, len);
+    if(timePeriod === 'past_week') {
+      for(var i = len < 7 ? 0 : len - 7; i < len; i++)
+        arr.push(data.napQualityData[i]);
 
-    else if(timePeriod === 'past_month')
-      arr = data.napQualityData.slice(len - 30, len);
+      if(arr.length < 7) {
+        let diff = 7 - arr.length;
+        var zeros = new Array(diff);
+        zeros.fill(0);
+    
+        arr = zeros.concat(arr);
+      }
+    }
 
-    else
-      arr = data.napQualityData.slice(len - 365, len);
+    else if(timePeriod === 'past_month') {
+      for(var i = len < 30 ? 0: len - 30; i < len; i++) {
+        if(i === len - 1 && len < 30) {
+          let fullHalfWeeks = Math.floor(len / 4);
+          let spareHalves = len - (fullHalfWeeks * 4);
+  
+          sum = sum / spareHalves;
+
+          arr.push(sum);
+  
+          sum = 0;
+        }
+
+        else if(i === len - 1) {
+          sum = sum / 2;
+
+          arr.push(sum);
+  
+          sum = 0;
+        }
+
+        else if(i % 4 === 0 && i > 0) {
+          sum = sum / 4;
+
+          arr.push(sum);
+  
+          sum = 0;
+        }
+
+        else
+          sum += data.napQualityData[i] === -1 ? 0 : data.napQualityData[i];
+      }
+
+      if(arr.length < 8) {
+        let diff = 8 - arr.length;
+        var zeros = new Array(diff);
+        zeros.fill(0);
+    
+        arr = zeros.concat(arr);
+      }
+    }
+
+    else {
+      for(var i = len < 365 ? 0: len - 365; i < len; i++) {
+        if(i === len - 1 && len < 365) {
+          let fullHalfWeeks = Math.floor(len / 30);
+          let spareHalves = len - (fullHalfWeeks * 30);
+  
+          sum = sum / spareHalves;
+
+          arr.push(sum);
+  
+          sum = 0;
+        }
+
+        else if(i === len - 1) {
+          sum = sum / 35;
+
+          arr.push(sum);
+  
+          sum = 0;
+        }
+
+        else if(i % 30 === 0 && i > 0) {
+          sum = sum / 30;
+
+          arr.push(sum);
+  
+          sum = 0;
+        }
+
+        else
+          sum += data.napQualityData[i] === -1 ? 0 : data.napQualityData[i];
+      }
+
+      if(arr.length < 12) {
+        let diff = 12 - arr.length;
+        var zeros = new Array(diff);
+        zeros.fill(0);
+    
+        arr = zeros.concat(arr);
+      }
+    }
   }
 
   arr = cleanUpData(arr);
