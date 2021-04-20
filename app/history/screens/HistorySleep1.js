@@ -442,6 +442,7 @@ function makeMonth(dataArr) {
 
 function makeWeek(dataArr) {
   var len = dataArr.length;
+  var arr = [];
 
   for(var i = len < 7 ? 0 : len - 7; i < len; i++)
       arr.push(dataArr[i]);
@@ -539,7 +540,7 @@ function getDisplayData(data, timePeriod, setDisplay, sleepView) {
     }
 
     else {
-      obj.sleep = makeMonth(data.nightSleepData);
+      obj.sleep = makeYear(data.nightSleepData);
 
       obj.sleep = cleanUpData(obj.sleep);
 
@@ -572,13 +573,20 @@ function getDisplayData(data, timePeriod, setDisplay, sleepView) {
     }
 
     else {
-      obj.nap = makeMonth(data.napSleepData);
+      obj.nap = makeYear(data.napSleepData);
 
       obj.nap = cleanUpData(obj.nap);
 
       setDisplay(obj);
     }
   }
+}
+
+function rotateCalLabels(data) {
+  var labels = monthLabels;
+  labels = labels.concat(labels.splice(0, new Date(data.latestDate).getMonth() % 6 - 1));
+
+  return labels;
 }
 
 function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
@@ -598,7 +606,7 @@ function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
     setTimestamps(dates); 
 
   else if(timePeriod === 'past_year')
-    setTimestamps(monthLabels);
+    setTimestamps(rotateCalLabels(data));
 }
 
 export default HistorySleep1;

@@ -120,7 +120,6 @@ function HistoryGeneralHealth2({ route, navigation }) {
                     setTimePeriod(itemValue);
                     getTimestamps(data, timestamps, setTimestamps, itemValue);
                     getDisplayData(selectsymptom, data, itemValue, setDisplayData);
-                    console.log(displayData);
                   }}
                   mode={'dropdown'}
                 >
@@ -365,6 +364,7 @@ function makeMonth(dataArr) {
 
 function makeWeek(dataArr) {
   var len = dataArr.length;
+  var arr = [];
 
   for(var i = len < 7 ? 0 : len - 7; i < len; i++)
       arr.push(dataArr[i]);
@@ -416,10 +416,10 @@ function getDisplayData(symptomName, data, timePeriod, setDisplayData) {
     arr = makeWeek(objArr);
 
   else if(timePeriod === 'past_month') 
-    arr = makeWeek(objArr);
+    arr = makeMonth(objArr);
 
   else 
-    arr = makeWeek(objArr);
+    arr = makeYear(objArr);
 
   arr = cleanUpData(arr);
 
@@ -444,6 +444,13 @@ function initDisplayData(symptoms, data, timePeriod) {
   return arr;
 }
 
+function rotateCalLabels(data) {
+  var labels = monthLabels;
+  labels = labels.concat(labels.splice(0, new Date(data.latestDate).getMonth() % 6 - 1));
+
+  return labels;
+}
+
 function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
   var dates = [];
   const latestDate = new Date(data.latestDate);
@@ -461,7 +468,7 @@ function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
     setTimestamps(dates); 
 
   else if(timePeriod === 'past_year')
-    setTimestamps(monthLabels);
+    setTimestamps(rotateCalLabels(data));
 }
 
 function getPickerLabels(data) {

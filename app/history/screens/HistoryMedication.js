@@ -79,7 +79,8 @@ function HistoryMedication({ route, navigation }) {
           <View style={{marginTop: 6}}>
             <TabBarAndContent 
               navigation={navigation} 
-              data={commits}
+              data={data}
+              multiPageData={commits}
               page={'medication'}
               page2Color={false}
             />

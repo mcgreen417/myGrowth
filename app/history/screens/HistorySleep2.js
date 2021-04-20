@@ -145,7 +145,6 @@ function HistorySleep2({ route, navigation }) {
                   style={styles().picker}
                   onValueChange={(itemValue, itemIndex) => {
                     setSleepView(itemValue);
-                    console.log(itemValue);
                     getDisplayData(data, timePeriod, setDisplayData, itemValue);
                     getTimestamps(data, timestamps, setTimestamps, timePeriod);
                   }}
@@ -370,6 +369,7 @@ function makeMonth(dataArr) {
 
 function makeWeek(dataArr) {
   var len = dataArr.length;
+  var arr = [];
 
   for(var i = len < 7 ? 0 : len - 7; i < len; i++)
       arr.push(dataArr[i]);
@@ -410,30 +410,37 @@ function getDisplayData(data, timePeriod, setDisplayData, sleepView) {
 
   if(sleepView === 'sleep_only') {
     if(timePeriod === 'past_week')
-      obj.sleep = makeWeek(data.nightQualityData);
+    arr = makeWeek(data.nightQualityData);
 
     else if(timePeriod === 'past_month')
-      obj.sleep = makeMonth(data.nightQualityData);
+      arr = makeMonth(data.nightQualityData);
 
     else
-      obj.sleep = makeYear(data.nightQualityData);
+      arr = makeYear(data.nightQualityData);
   }
 
   //nap only
   if(sleepView === 'naps_only') {
     if(timePeriod === 'past_week')
-      obj.nap = makeWeek(data.napQualityData);
+      arr = makeWeek(data.napQualityData);
 
     else if(timePeriod === 'past_month')
-      obj.nap = makeMonth(data.napQualityData);
+      arr = makeMonth(data.napQualityData);
 
     else
-      obj.nap = makeYear(data.napQualityData);
+      arr = makeYear(data.napQualityData);
   }
 
   arr = cleanUpData(arr);
 
   setDisplayData(arr);
+}
+
+function rotateCalLabels(data) {
+  var labels = monthLabels;
+  labels = labels.concat(labels.splice(0, new Date(data.latestDate).getMonth() % 6 - 1));
+
+  return labels;
 }
 
 function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
@@ -453,7 +460,7 @@ function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
     setTimestamps(dates); 
 
   else if(timePeriod === 'past_year')
-    setTimestamps(monthLabels);
+    setTimestamps(rotateCalLabels(data));
 }
 
 export default HistorySleep2;

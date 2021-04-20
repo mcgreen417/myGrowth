@@ -97,7 +97,8 @@ function HistoryWeight({ route, navigation }) {
           <View style={{marginTop: 6}}>
             <TabBarAndContent 
               navigation={navigation} 
-              data={displayData} 
+              data={data}
+              multiPageData={displayData} 
               timePeriod={timestamps} 
               page={'historyGenComp'} 
               page2Color={false}
@@ -303,6 +304,7 @@ function makeMonth(dataArr) {
 
 function makeWeek(dataArr) {
   var len = dataArr.length;
+  var arr = [];
 
   for(var i = len < 7 ? 0 : len - 7; i < len; i++)
       arr.push(dataArr[i]);
@@ -363,6 +365,13 @@ function getDisplayData(data, timePeriod, setDisplayData) {
   setDisplayData(arr);
 }
 
+function rotateCalLabels(data) {
+  var labels = monthLabels;
+  labels = labels.concat(labels.splice(0, new Date(data.latestDate).getMonth() % 6 - 1));
+
+  return labels;
+}
+
 function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
   var dates = [];
   const latestDate = new Date(data.latestDate);
@@ -380,7 +389,7 @@ function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
     setTimestamps(dates); 
 
   else if(timePeriod === 'past_year')
-    setTimestamps(monthLabels);
+    setTimestamps(rotateCalLabels(data));
 }
 
 export default HistoryWeight;

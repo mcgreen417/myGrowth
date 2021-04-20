@@ -77,7 +77,8 @@ function HistoryPeriodTracking({ route, navigation }) {
           <View style={{marginTop: 6}}>
             <TabBarAndContent 
               navigation={navigation} 
-              data={commits} 
+              data={data}
+              multiPageData={commits} 
               page={'period'}
               page2Color={false} 
             />

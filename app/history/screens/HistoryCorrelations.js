@@ -34,17 +34,11 @@ const dayLabels = [
   
 const monthLabels = [
     "Jan",
-    "Feb",
     "Mar",
-    "Apr",
     "May",
-    "June",
     "July",
-    "Aug",
     "Sept",
-    "Oct",
-    "Nov",
-    "Dec"
+    "Nov"
 ];
 
 const Graph = ({labels, data1, data2, legend}) => {
@@ -723,6 +717,7 @@ function makeMonth(dataArr) {
 
 function makeWeek(dataArr) {
     var len = dataArr.length;
+    var arr = [];
 
     for(var i = len < 7 ? 0 : len - 7; i < len; i++)
         arr.push(dataArr[i]);
@@ -860,6 +855,13 @@ function makeLegend(page1, page2, cat1, cat2) {
     return arr;
 }
 
+function rotateCalLabels(data) {
+    var labels = monthLabels;
+    labels = labels.concat(labels.splice(0, new Date(data.latestDate).getMonth() % 6 - 1));
+
+    return labels;
+}
+
 function makeLabels(timePeriod, setLabels, data) {
     var dates = [];
     const latestDate = new Date(data.latestDate);
@@ -877,7 +879,7 @@ function makeLabels(timePeriod, setLabels, data) {
         setLabels(dates); 
 
     else if(timePeriod === 'past_year')
-        setLabels(monthLabels);
+        setLabels(rotateCalLabels(data));
 }
 
 function cleanUpData(arr) {
@@ -1022,7 +1024,7 @@ function makeData(data, setData, page, category, timePeriod) {
         }
     }
 
-    else if(page === 'meal') {
+    else if(page === 'meals') {
         if(category === 'cals') {
             if(timePeriod === 'past_week')
                 arr = makeWeek(data.mealData.calories);
@@ -1059,13 +1061,13 @@ function makeData(data, setData, page, category, timePeriod) {
         //proteins
         else {
             if(timePeriod === 'past_week')
-                arr = makeWeek(data.proteins.fats);
+                arr = makeWeek(data.mealData.proteins);
 
             else if(timePeriod === 'past_month')
-                arr = makeMonth(data.proteins.fats);
+                arr = makeMonth(data.mealData.proteins);
 
             else
-                arr = makeYear(data.proteins.fats);
+                arr = makeYear(data.mealData.proteins);
         }
     }
 

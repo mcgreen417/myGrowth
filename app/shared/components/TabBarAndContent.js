@@ -9,6 +9,7 @@ import {
   ContributionGraph,
   StackedBarChart
 } from "react-native-chart-kit";
+import HistoryCorrelations from '../../history/screens/HistoryCorrelations';
 
 const buttonColors = {
   lightGreen: '#A5DFB2',
@@ -119,6 +120,7 @@ const TabBarAndContent = ({
               setShowTable(false);
               setCorrButtonColor(buttonColors.darkGreen);
               setHistoryButtonColor(buttonColors.lightGreen);
+              navigation.navigate('HistoryCorrelations', {data});
             }}
           >
             <Text style={styles.text}>Correlations</Text>
@@ -138,7 +140,7 @@ const TabBarAndContent = ({
             labels: timePeriod,
             datasets: [
               {
-                data: data
+                data: multiPageData
               }
             ]
           }}
@@ -208,6 +210,7 @@ const TabBarAndContent = ({
               setShowTable(false);
               setCorrButtonColor(buttonColors.darkGreen);
               setHistoryButtonColor(buttonColors.lightGreen);
+              navigation.navigate('HistoryCorrelations', {data});
             }}
           >
             <Text style={styles.text}>Correlations</Text>
@@ -220,7 +223,7 @@ const TabBarAndContent = ({
         </View>
 
         {showTable && <ContributionGraph
-          values={data}
+          values={multiPageData}
           endDate={new Date()}
           numDays={90}
           width={353}
@@ -297,6 +300,7 @@ const TabBarAndContent = ({
               setCorrButtonColor(buttonColors.darkGreen);
               setHistoryButtonColor(buttonColors.lightGreen);
               setActivityButtonColor(buttonColors.lightGreen);
+              navigation.navigate('HistoryCorrelations', {data});
             }}
           >
             <Text style={styles.text}>Correlations</Text>
@@ -417,6 +421,7 @@ const TabBarAndContent = ({
               setCorrButtonColor(buttonColors.darkGreen);
               setHistoryButtonColor(buttonColors.lightGreen);
               setIntensityButtonColor(buttonColors.lightGreen);
+              navigation.navigate('HistoryCorrelations', {data});
             }}
           >
             <Text style={styles.text}>Correlations</Text>
@@ -520,7 +525,7 @@ const TabBarAndContent = ({
               setScriptButtonColor(buttonColors.darkGreen);
             }}
           >
-            <Text style={styles.text}>Perscription</Text>
+            <Text style={styles.text}>Prescription</Text>
           </Pressable>
 
           {/* Correlation */}
@@ -534,6 +539,7 @@ const TabBarAndContent = ({
               setShowTable(false);
               setCorrButtonColor(buttonColors.darkGreen);
               setScriptButtonColor(buttonColors.lightGreen);
+              navigation.navigate('HistoryCorrelations', {data});
             }}
           >
             <Text style={styles.text}>Correlations</Text>
@@ -548,7 +554,7 @@ const TabBarAndContent = ({
         {/* !showTable &&
           <Image style={styles.images} source={imgSource} />*/}
         {showTable && <ContributionGraph
-          values={data}
+          values={multiPageData}
           endDate={new Date()}
           numDays={90}
           width={353}
@@ -624,6 +630,7 @@ const TabBarAndContent = ({
               setCorrButtonColor(buttonColors.darkGreen);
               setSleepButtonColor(buttonColors.lightGreen);
               setQualityButtonColor(buttonColors.lightGreen);
+              navigation.navigate('HistoryCorrelations', {data});
             }}
           >
             <Text style={styles.text}>Correlations</Text>
@@ -804,6 +811,7 @@ const TabBarAndContent = ({
               setCorrButtonColor(buttonColors.darkGreen);
               setHistoryButtonColor(buttonColors.lightGreen);
               setExerciseButtonColor(buttonColors.lightGreen);
+              navigation.navigate('HistoryCorrelations', {data});
             }}
           >
             <Text style={styles.text}>Correlations</Text>
