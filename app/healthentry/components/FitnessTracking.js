@@ -14,9 +14,44 @@ import {
 import { Icon } from 'react-native-elements';
 
 function removeExercise(exercises, setExercises, index) {
-  //console.log(exercises);
   let tempExercises = [...exercises];
   tempExercises.pop(index);
+  setExercises(tempExercises);
+}
+
+function changeName(exercises, setExercises, index, val) {
+  let tempExercises = [...exercises];
+  tempExercises[index].Name = val.toString();
+  setExercises(tempExercises);
+}
+
+function changeSets(exercises, setExercises, index, val) {
+  let tempExercises = [...exercises];
+  tempExercises[index].Sets = parseInt(val || 0);
+  setExercises(tempExercises);
+}
+
+function changeWeight(exercises, setExercises, index, val) {
+  let tempExercises = [...exercises];
+  tempExercises[index].Weight = parseInt(val || 0);
+  setExercises(tempExercises);
+}
+
+function changeDuration(exercises, setExercises, index, val) {
+  let tempExercises = [...exercises];
+  tempExercises[index].Duration = parseInt(val || 0);
+  setExercises(tempExercises);
+}
+
+function changeReps(exercises, setExercises, index, val) {
+  let tempExercises = [...exercises];
+  tempExercises[index].Reps = parseInt(val || 0);
+  setExercises(tempExercises);
+}
+
+function changeCals(exercises, setExercises, index, val) {
+  let tempExercises = [...exercises];
+  tempExercises[index].CaloriesBurned = parseInt(val || 0);
   setExercises(tempExercises);
 }
 
@@ -25,18 +60,11 @@ const AddExercises = ({
   exercises,
   setExercises,
   name,
-  setName,
   sets,
-  setSets,
   reps,
-  setReps,
   cals,
-  setCals,
   weight,
-  setWeight,
   duration,
-  setDuration,
-  editable,
 }) => {
   const [deleteEntry, setDeleteEntry] = useState(false);
 
@@ -50,8 +78,7 @@ const AddExercises = ({
           visible={deleteEntry}
           onRequestClose={() => {
             setDeleteEntry(!deleteEntry);
-          }}
-        >
+          }}>
           <Pressable
             style={{
               flex: 1,
@@ -60,12 +87,10 @@ const AddExercises = ({
               zIndex: 1,
               backgroundColor: '#00000055',
             }}
-            onPressOut={() => setDeleteEntry(!deleteEntry)}
-          >
+            onPressOut={() => setDeleteEntry(!deleteEntry)}>
             <Pressable
               style={styles().modalContainer}
-              onPressout={() => setDeleteEntry(true)}
-            >
+              onPressout={() => setDeleteEntry(true)}>
               <View style={styles().modalHeaderBar}>
                 <View
                   style={{
@@ -121,7 +146,7 @@ const AddExercises = ({
         </Modal>
       </View>
 
-      <View style={{ marginVertical: 10, }}>
+      <View style={{ marginVertical: 10 }}>
         <View
           style={{
             backgroundColor: '#816868',
@@ -162,9 +187,8 @@ const AddExercises = ({
                 }}
                 value={name.toString()}
                 onChangeText={(val) => {
-                  editable ? setName(val) : null;
+                  changeName(exercises, setExercises, index, val);
                 }}
-                editable={editable}
               />
 
               <View
@@ -204,9 +228,8 @@ const AddExercises = ({
                   keyboardType='number-pad'
                   value={sets.toString()}
                   onChangeText={(val) => {
-                    editable ? setSets(val) : null;
+                    changeSets(exercises, setExercises, index, val);
                   }}
-                  editable={editable}
                 />
                 <Text style={styles().textAltLight}> sets</Text>
               </View>
@@ -231,9 +254,8 @@ const AddExercises = ({
                   keyboardType='number-pad'
                   value={cals.toString()}
                   onChangeText={(val) => {
-                    editable ? setCals(val) : null;
+                    changeCals(exercises, setExercises, index, val);
                   }}
-                  editable={editable}
                 />
                 <Text style={styles().textAltLight}> cal</Text>
               </View>
@@ -265,9 +287,8 @@ const AddExercises = ({
                   keyboardType='number-pad'
                   value={reps.toString()}
                   onChangeText={(val) => {
-                    editable ? setReps(val) : null;
+                    changeReps(exercises, setExercises, index, val);
                   }}
-                  editable={editable}
                 />
                 <Text style={styles().textAltLight}> reps</Text>
               </View>
@@ -292,9 +313,8 @@ const AddExercises = ({
                   keyboardType='number-pad'
                   value={duration.toString()}
                   onChangeText={(val) => {
-                    editable ? setDuration(val) : null;
+                    changeDuration(exercises, setExercises, index, val);
                   }}
-                  editable={editable}
                 />
                 <Text style={styles().textAltLight}> mins</Text>
               </View>
@@ -320,9 +340,8 @@ const AddExercises = ({
                 keyboardType='number-pad'
                 value={weight.toString()}
                 onChangeText={(val) => {
-                  editable ? setWeight(val) : null;
+                  changeWeight(exercises, setExercises, index, val);
                 }}
-                editable={editable}
               />
               <Text style={styles().textAltLight}> lbs</Text>
             </View>
@@ -334,37 +353,26 @@ const AddExercises = ({
 };
 
 const AdvanceFitnessTracking = ({ exercises, setExercises }) => {
-  const [exerciseName, setExerciseName] = useState('');
-  const [exerciseSets, setExerciseSets] = useState('');
-  const [exerciseReps, setExerciseReps] = useState('');
-  const [exerciseCalories, setExerciseCalories] = useState('');
-  const [exerciseWeight, setExerciseWeigh] = useState('');
-  const [exerciseDuration, setExerciseDuration] = useState('');
-
   return (
     <View style={{ marginTop: 10 }}>
-      {exercises.length != 0 &&
-        exercises.map((item, index) => {
-          //console.log(item);
-          return (
-            item.Name != null && (
-              <View key={index}>
-                <AddExercises
-                  index={index}
-                  exercises={exercises}
-                  setExercises={setExercises}
-                  name={item.Name.toString()}
-                  sets={item.Sets.toString()}
-                  reps={item.Reps.toString()}
-                  cals={item.CaloriesBurned.toString()}
-                  weight={item.Weight.toString()}
-                  duration={item.Duration.toString()}
-                  editable={false}
-                />
-              </View>
-            )
-          );
-        })}
+      {exercises.map((item, index) => {
+        console.log(item);
+        return (
+          <View key={index}>
+            <AddExercises
+              index={index}
+              exercises={exercises}
+              setExercises={setExercises}
+              name={item.Name.toString()}
+              sets={item.Sets.toString()}
+              reps={item.Reps.toString()}
+              cals={item.CaloriesBurned.toString()}
+              weight={item.Weight.toString()}
+              duration={item.Duration.toString()}
+            />
+          </View>
+        );
+      })}
 
       <View style={{ marginTop: 10, width: '40%' }}>
         <Button
@@ -377,12 +385,12 @@ const AdvanceFitnessTracking = ({ exercises, setExercises }) => {
           onPress={() => {
             let tempExercises = [...exercises];
             tempExercises.push({
-              Name: exerciseName,
-              Sets: parseInt(exerciseSets || 0),
-              Reps: parseInt(exerciseReps || 0),
-              Duration: parseInt(exerciseDuration || 0),
-              Weight: parseInt(exerciseWeight || 0),
-              CaloriesBurned: parseInt(exerciseCalories || 0),
+              Name: ' ',
+              Sets: 0,
+              Reps: 0,
+              Duration: 0,
+              Weight: 0,
+              CaloriesBurned: 0,
             });
             setExercises(tempExercises);
           }}
