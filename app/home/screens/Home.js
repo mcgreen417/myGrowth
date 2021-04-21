@@ -14,6 +14,7 @@ import * as queries from '../../../src/graphql/queries';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
+import Wave from '../../shared/assets/svgs/wave-emoji.svg'
 
 function Home({ navigation }) {
   let plant = 4;
@@ -66,7 +67,7 @@ function Home({ navigation }) {
           {/* Gardener avatar + page blurb */}
           <View style={styles().avatarView}>
             <Text style={styles().pageDescription}>
-              Good Morning,{'\n'}{displayName}!
+              Good Morning,{'\n'}{displayName}! <Wave />
             </Text>
             <Image
               style={styles().avatarFlipped}

@@ -10,11 +10,13 @@ import {
   Pressable,
   Dimensions,
   TextInput,
+  Button,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
 import * as queries from '../../../src/graphql/queries';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import Sweat from '../../shared/assets/svgs/sweat-emoji.svg'
 
 const monthNames = [
   'January',
@@ -237,32 +239,60 @@ function JournalHistory({ route, navigation }) {
   else
     return (
       <SafeAreaView style={styles.container}>
-        <View style={styles.pageSetup}>
-          {/* Gardener avatar + page blurb */}
-          <View style={styles.avatarView}>
-            <Text style={styles.pageDescription}>
-              Select a past journal entry to view.
+        <ScrollView 
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', }}
+        >
+          <View style={{alignContent: 'center', marginHorizontal: '10%', marginTop: '-5%' }}>
+            <Text style={{ 
+              fontSize: 44, 
+              color: '#816868', 
+              fontWeight: 'bold', 
+              textAlign: 'center',
+              marginBottom: '10%',
+            }}>
+              Uh-oh! <Sweat />
             </Text>
-            <Image
-              style={styles.avatarFlipped}
-              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
-            />
-          </View>
-
-          {/* Top page divider */}
-          <View style={styles.dividerView}>
-            <View style={styles.divider} />
-          </View>
-          <ScrollView showsVerticalScrollIndicator={false} style={{ width: '100%' }}>
-            <View style={{alignContent: 'center', margin: 22}}>
-              <Text>
-                Uh Oh! It seems like you don't have any journals to look back on!
-                Try making some journal entries first!
+            <Image 
+              style={{ 
+                width: Math.round(Dimensions.get('window').width * 0.5),
+                height: Math.round(Dimensions.get('window').width * 0.6), 
+                alignSelf: 'center',
+              }}
+              source={require('../../shared/assets/bee-sprites/sad-bee.png')}/>
+            <View style={{ marginVertical: '10%' }}>
+              <Text style={{ fontSize: 20, color: '#816868', fontWeight: 'bold', textAlign: 'center', }}>
+                It seems like you don't have any journal entries to look back on!
+              </Text>
+              <Text style={{ fontSize: 20, color: '#816868', fontWeight: 'bold', textAlign: 'center', marginTop: '3%', }}>
+                Try writing a journal entry first!
               </Text>
             </View>
-          </ScrollView>
-        </View>
-        <NavBar navigation={navigation} journal={true} />
+          </View>
+
+          {/* New Health Entry + Return to Home buttons */}
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+            }}>
+            <View style={{ minWidth: '37.5%' }}>
+              <Button
+                title='Write New Entry'
+                color='#A5DFB2'
+                onPress={() => navigation.navigate('CreateNewJournalEntry')}
+              />
+            </View>
+            <View style={{ width: '5%' }} />
+            <View style={{ minWidth: '37.5%' }}>
+              <Button
+                title='Return to Home'
+                color='#A5DFB2'
+                onPress={() => navigation.navigate('Home')}
+              />
+            </View>
+          </View>
+        </ScrollView>
       </SafeAreaView>
     );
 }
