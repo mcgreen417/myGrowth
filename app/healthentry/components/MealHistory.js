@@ -12,17 +12,17 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-function removeFood(foods, setFoods, index) {
-  //console.log(foods);
-  let tempFoods = [...foods];
-  tempFoods.pop(index);
-  setFoods(tempFoods);
+function removeFood(meals, setMeals, mealIndex, foodIndex) {
+  let tempMeals = [...meals];
+  tempMeals[mealIndex].Food.pop(foodIndex);
+  setMeals(tempMeals);
 }
 
 const AddFood = ({
-  index,
-  foods,
-  setFoods,
+  meals,
+  setMeals,
+  mealIndex,
+  foodIndex,
   fiber,
   name,
   measurement,
@@ -38,22 +38,6 @@ const AddFood = ({
   calcium,
   iron,
   potassium,
-  setFiber,
-  setName,
-  setMeasurement,
-  setAmount,
-  setCalories,
-  setFats,
-  setCholesterol,
-  setSodium,
-  setCarbs,
-  setSugars,
-  setProtein,
-  setVitaminD,
-  setCalcium,
-  setIron,
-  setPotassium,
-  editable,
 }) => {
   const [deleteFood, setDeleteFood] = useState(false);
 
@@ -120,7 +104,7 @@ const AddFood = ({
                   style={{ marginRight: 20 }}
                   onPress={() => {
                     setDeleteFood(!deleteFood);
-                    removeFood(foods, setFoods, index);
+                    removeFood(meals, setMeals, mealIndex, foodIndex);
                   }}>
                   <Text style={styles().textButton}>DELETE</Text>
                 </TouchableOpacity>
@@ -178,22 +162,23 @@ const AddFood = ({
             }}
             value={name}
             onChangeText={(val) => {
-              editable ? setName(val) : null;
+              let tempMeals = [...meals];
+              let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+              tempFood.name = val.toString();
+              tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+              setMeals(tempMeals);
             }}
-            editable={editable}
           />
           <View style={{ flex: 1, alignItems: 'flex-end', marginRight: 10 }}>
-            {index != null && setFoods != null && (
-              <Icon
-                name='close'
-                color={
-                  global.colorblindMode
-                    ? global.cb_optionButtonsColor
-                    : global.optionButtonsColor
-                }
-                onPress={() => setDeleteFood(!deleteFood)}
-              />
-            )}
+            <Icon
+              name='close'
+              color={
+                global.colorblindMode
+                  ? global.cb_optionButtonsColor
+                  : global.optionButtonsColor
+              }
+              onPress={() => setDeleteFood(!deleteFood)}
+            />
           </View>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -210,9 +195,12 @@ const AddFood = ({
             }}
             value={measurement.toString()}
             onChangeText={(val) => {
-              editable ? setMeasurement(val) : null;
+              let tempMeals = [...meals];
+              let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+              tempFood.measurement = val.toString();
+              tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+              setMeals(tempMeals);
             }}
-            editable={editable}
           />
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -228,10 +216,13 @@ const AddFood = ({
             }}
             value={amount.toString()}
             onChangeText={(val) => {
-              editable ? setAmount(val) : null;
+              let tempMeals = [...meals];
+              let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+              tempFood.amount = parseInt(val || 0);
+              tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+              setMeals(tempMeals);
             }}
             keyboardType='number-pad'
-            editable={editable}
           />
           <Text style={styles().textAltLight}> servings</Text>
         </View>
@@ -264,10 +255,17 @@ const AddFood = ({
               }}
               value={calories.toString()}
               onChangeText={(val) => {
-                editable ? setCalories(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.calories = parseInt(val || 0);
+                tempMeals[mealIndex].Calories =
+                  tempMeals[mealIndex].Calories -
+                  parseInt(calories) +
+                  tempFood.calories;
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> cal</Text>
           </View>
@@ -290,10 +288,15 @@ const AddFood = ({
               }}
               value={fats.toString()}
               onChangeText={(val) => {
-                editable ? setFats(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.fats = parseInt(val || 0);
+                tempMeals[mealIndex].Fats =
+                  tempMeals[mealIndex].Fats - parseInt(fats) + tempFood.fats;
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> g</Text>
           </View>
@@ -324,10 +327,13 @@ const AddFood = ({
               }}
               value={cholesterol.toString()}
               onChangeText={(val) => {
-                editable ? setCholesterol(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.cholesterol = parseInt(val || 0);
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> mg</Text>
           </View>
@@ -350,10 +356,13 @@ const AddFood = ({
               }}
               value={sodium.toString()}
               onChangeText={(val) => {
-                editable ? setSodium(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.sodium = parseInt(val || 0);
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> mg</Text>
           </View>
@@ -383,10 +392,15 @@ const AddFood = ({
               }}
               value={carbs.toString()}
               onChangeText={(val) => {
-                editable ? setCarbs(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.carbs = parseInt(val || 0);
+                tempMeals[mealIndex].Carbs =
+                  tempMeals[mealIndex].Carbs - parseInt(carbs) + tempFood.carbs;
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> g</Text>
           </View>
@@ -409,10 +423,13 @@ const AddFood = ({
               }}
               value={fiber.toString()}
               onChangeText={(val) => {
-                editable ? setFiber(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.fiber = parseInt(val || 0);
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> g</Text>
           </View>
@@ -442,10 +459,13 @@ const AddFood = ({
               }}
               value={sugars.toString()}
               onChangeText={(val) => {
-                editable ? setSugars(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.sugars = parseInt(val || 0);
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> g</Text>
           </View>
@@ -468,10 +488,17 @@ const AddFood = ({
               }}
               value={protein.toString()}
               onChangeText={(val) => {
-                editable ? setProtein(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.protein = parseInt(val || 0);
+                tempMeals[mealIndex].Proteins =
+                  tempMeals[mealIndex].Proteins -
+                  parseInt(protein) +
+                  tempFood.protein;
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> g</Text>
           </View>
@@ -501,10 +528,13 @@ const AddFood = ({
               }}
               value={vitaminD.toString()}
               onChangeText={(val) => {
-                editable ? setVitaminD(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.vitaminD = parseInt(val || 0);
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> mcg</Text>
           </View>
@@ -527,10 +557,13 @@ const AddFood = ({
               }}
               value={calcium.toString()}
               onChangeText={(val) => {
-                editable ? setCalcium(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.calcium = parseInt(val || 0);
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> mg</Text>
           </View>
@@ -560,10 +593,13 @@ const AddFood = ({
               }}
               value={iron.toString()}
               onChangeText={(val) => {
-                editable ? setIron(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.iron = parseInt(val || 0);
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> mg</Text>
           </View>
@@ -586,10 +622,13 @@ const AddFood = ({
               }}
               value={potassium.toString()}
               onChangeText={(val) => {
-                editable ? setPotassium(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.potassium = parseInt(val || 0);
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> mg</Text>
           </View>
@@ -600,38 +639,12 @@ const AddFood = ({
 };
 
 function removeMeal(meals, setMeals, index) {
-  console.log(meals);
-  console.log(index);
   let tempMeals = [...meals];
   tempMeals.pop(index);
   setMeals(tempMeals);
 }
 
-const AddMeal = ({
-  meals,
-  setMeals,
-  index,
-  foods,
-  setFoods,
-  editable,
-  mealName,
-  setMealName,
-}) => {
-  const [foodCalories, setFoodCalories] = useState('');
-  const [foodName, setFoodName] = useState('');
-  const [foodMeasurement, setFoodMeasurement] = useState('');
-  const [foodAmount, setFoodAmount] = useState('');
-  const [foodFats, setFoodFats] = useState('');
-  const [foodCholesterol, setFoodCholesterol] = useState('');
-  const [foodSodium, setFoodSodium] = useState('');
-  const [foodFiber, setFoodFiber] = useState('');
-  const [foodCarbs, setFoodCarbs] = useState('');
-  const [foodSugars, setFoodSugars] = useState('');
-  const [foodProtein, setFoodProtein] = useState('');
-  const [foodVitaminD, setFoodVitaminD] = useState('');
-  const [foodCalcium, setFoodCalcium] = useState('');
-  const [foodIron, setFoodIron] = useState('');
-  const [foodPotassium, setFoodPotassium] = useState('');
+const AddMeal = ({ meals, setMeals, index, foods, mealName }) => {
   const [deleteMeal, setDeleteMeal] = useState(false);
 
   return (
@@ -697,7 +710,7 @@ const AddMeal = ({
                   style={{ marginRight: 20 }}
                   onPress={() => {
                     setDeleteMeal(!deleteMeal);
-                    if (index != null) removeMeal(meals, setMeals, index);
+                    removeMeal(meals, setMeals, index);
                   }}>
                   <Text style={styles().textButton}>DELETE</Text>
                 </TouchableOpacity>
@@ -747,7 +760,11 @@ const AddMeal = ({
             placeholderTextColor='#C4BEBD'
             fontSize={16}
             value={mealName}
-            onChangeText={setMealName}
+            onChangeText={(val) => {
+              let tempMeals = [...meals];
+              tempMeals[index].Name = val;
+              setMeals(tempMeals);
+            }}
             style={{
               borderBottomColor: '#E5E5E5',
               borderBottomWidth: 1,
@@ -755,171 +772,102 @@ const AddMeal = ({
             }}
           />
           <View style={{ flex: 1, alignItems: 'flex-end', marginRight: 10 }}>
-            {index != null && (
-              <Icon
-                name='close'
-                color={
-                  global.colorblindMode
-                    ? global.cb_optionButtonsColor
-                    : global.optionButtonsColor
-                }
-                onPress={() => setDeleteMeal(!deleteMeal)}
-              />
-            )}
-          </View>
-        </View>
-        {index == null && (
-          <AddFood
-            foods={foods}
-            setFoods={setFoods}
-            fiber={foodFiber}
-            name={foodName}
-            measurement={foodMeasurement}
-            amount={foodAmount}
-            calories={foodCalories}
-            fats={foodFats}
-            cholesterol={foodCholesterol}
-            sodium={foodSodium}
-            carbs={foodCarbs}
-            sugars={foodSugars}
-            protein={foodProtein}
-            vitaminD={foodVitaminD}
-            calcium={foodCalcium}
-            iron={foodIron}
-            potassium={foodPotassium}
-            setFiber={setFoodFiber}
-            setName={setFoodName}
-            setMeasurement={setFoodMeasurement}
-            setAmount={setFoodAmount}
-            setCalories={setFoodCalories}
-            setFats={setFoodFats}
-            setCholesterol={setFoodCholesterol}
-            setSodium={setFoodSodium}
-            setCarbs={setFoodCarbs}
-            setSugars={setFoodSugars}
-            setProtein={setFoodProtein}
-            setVitaminD={setFoodVitaminD}
-            setCalcium={setFoodCalcium}
-            setIron={setFoodIron}
-            setPotassium={setFoodPotassium}
-            editable={editable}
-          />
-        )}
-        {foods != null &&
-          foods.map((item, index) => {
-            const {
-              name,
-              measurement,
-              amount,
-              calories,
-              fats,
-              cholesterol,
-              sodium,
-              carbs,
-              fiber,
-              sugars,
-              protein,
-              vitaminD,
-              calcium,
-              iron,
-              potassium,
-            } = JSON.parse(item);
-            return (
-              <AddFood
-                key={index}
-                index={index}
-                foods={foods}
-                setFoods={setFoods}
-                fiber={fiber}
-                name={name}
-                measurement={measurement}
-                amount={amount}
-                calories={calories}
-                fats={fats}
-                cholesterol={cholesterol}
-                sodium={sodium}
-                carbs={carbs}
-                sugars={sugars}
-                protein={protein}
-                vitaminD={vitaminD}
-                calcium={calcium}
-                iron={iron}
-                potassium={potassium}
-                editable={false}
-              />
-            );
-          })}
-
-        {index == null && (
-          <View style={{ width: '40%', marginLeft: 10, marginBottom: 10 }}>
-            <Button
-              title='+ Add Food'
+            <Icon
+              name='close'
               color={
                 global.colorblindMode
                   ? global.cb_optionButtonsColor
                   : global.optionButtonsColor
               }
-              onPress={() => {
-                let tempFoods = [...foods];
-                tempFoods.push(
-                  JSON.stringify({
-                    name: foodName,
-                    measurement: foodMeasurement,
-                    amount: foodAmount,
-                    calories: foodCalories,
-                    fats: foodFats,
-                    cholesterol: foodCholesterol,
-                    sodium: foodSodium,
-                    carbs: foodCarbs,
-                    fiber: foodFiber,
-                    sugars: foodSugars,
-                    protein: foodProtein,
-                    vitaminD: foodVitaminD,
-                    calcium: foodCalcium,
-                    iron: foodIron,
-                    potassium: foodPotassium,
-                  })
-                );
-                setFoods(tempFoods);
-                setFoodFiber(0);
-                setFoodName('');
-                setFoodMeasurement(0);
-                setFoodAmount(0);
-                setFoodCalories(0);
-                setFoodFats(0);
-                setFoodCholesterol(0);
-                setFoodSodium(0);
-                setFoodCarbs(0);
-                setFoodSugars(0);
-                setFoodProtein(0);
-                setFoodVitaminD(0);
-                setFoodCalcium(0);
-                setFoodIron(0);
-                setFoodPotassium(0);
-              }}
+              onPress={() => setDeleteMeal(!deleteMeal)}
             />
           </View>
-        )}
+        </View>
+        {foods.map((item, foodIndex) => {
+          const {
+            name,
+            measurement,
+            amount,
+            calories,
+            fats,
+            cholesterol,
+            sodium,
+            carbs,
+            fiber,
+            sugars,
+            protein,
+            vitaminD,
+            calcium,
+            iron,
+            potassium,
+          } = JSON.parse(item);
+          return (
+            <AddFood
+              key={foodIndex}
+              meals={meals}
+              setMeals={setMeals}
+              mealIndex={index}
+              foodIndex={foodIndex}
+              fiber={fiber}
+              name={name}
+              measurement={measurement}
+              amount={amount}
+              calories={calories}
+              fats={fats}
+              cholesterol={cholesterol}
+              sodium={sodium}
+              carbs={carbs}
+              sugars={sugars}
+              protein={protein}
+              vitaminD={vitaminD}
+              calcium={calcium}
+              iron={iron}
+              potassium={potassium}
+            />
+          );
+        })}
+
+        <View style={{ width: '40%', marginLeft: 10, marginBottom: 10 }}>
+          <Button
+            title='+ Add Food'
+            color={
+              global.colorblindMode
+                ? global.cb_optionButtonsColor
+                : global.optionButtonsColor
+            }
+            onPress={() => {
+              let tempMeals = [...meals];
+              tempMeals[index].Food.push(
+                JSON.stringify({
+                  name: '',
+                  measurement: '',
+                  amount: 0,
+                  calories: 0,
+                  fats: 0,
+                  cholesterol: 0,
+                  sodium: 0,
+                  carbs: 0,
+                  fiber: 0,
+                  sugars: 0,
+                  protein: 0,
+                  vitaminD: 0,
+                  calcium: 0,
+                  iron: 0,
+                  potassium: 0,
+                })
+              );
+              setMeals(tempMeals);
+            }}
+          />
+        </View>
       </View>
     </View>
   );
 };
 
 const AdvanceMealTracking = ({ meals, setMeals }) => {
-  const [foods, setFoods] = useState([]);
-  const [mealName, setMealName] = useState('');
-
   return (
     <View style={{ marginTop: 10 }}>
-      <AddMeal
-        meals={meals}
-        setMeals={setMeals}
-        foods={foods}
-        setFoods={setFoods}
-        editable={true}
-        mealName={mealName}
-        setMealName={setMealName}
-      />
       {meals.map((item, index) => {
         return (
           <AddMeal
@@ -928,7 +876,6 @@ const AdvanceMealTracking = ({ meals, setMeals }) => {
             meals={meals}
             setMeals={setMeals}
             foods={item.Food}
-            editable={false}
             mealName={item.Name}
           />
         );
@@ -943,30 +890,16 @@ const AdvanceMealTracking = ({ meals, setMeals }) => {
               : global.optionButtonsColor
           }
           onPress={() => {
-            let totalCals = 0;
-            let totalProteins = 0;
-            let totalCarbs = 0;
-            let totalFats = 0;
-            foods.forEach((element) => {
-              food = JSON.parse(element);
-              totalCals += parseInt(food.calories);
-              totalProteins += parseInt(food.protein);
-              totalCarbs += parseInt(food.carbs);
-              totalFats += parseInt(food.fats);
-            });
-
             let tempMeals = [...meals];
             tempMeals.push({
-              Name: mealName,
-              Food: foods,
-              Calories: totalCals,
-              Proteins: totalProteins,
-              Carbs: totalCarbs,
-              Fats: totalFats,
+              Name: '',
+              Food: [],
+              Calories: 0,
+              Proteins: 0,
+              Carbs: 0,
+              Fats: 0,
             });
             setMeals(tempMeals);
-            setFoods([]);
-            setMealName('');
           }}
         />
       </View>
