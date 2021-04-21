@@ -12,18 +12,17 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-function removeFood(meals, setMeals, index, foodIndex) {
+function removeFood(meals, setMeals, mealIndex, foodIndex) {
   let tempMeals = [...meals];
-  tempMeals[index].Food.pop(foodIndex);
+  tempMeals[mealIndex].Food.pop(foodIndex);
   setMeals(tempMeals);
 }
 
 const AddFood = ({
   meals,
   setMeals,
-  index,
-  foods,
-  setFoods,
+  mealIndex,
+  foodIndex,
   fiber,
   name,
   measurement,
@@ -39,22 +38,6 @@ const AddFood = ({
   calcium,
   iron,
   potassium,
-  setFiber,
-  setName,
-  setMeasurement,
-  setAmount,
-  setCalories,
-  setFats,
-  setCholesterol,
-  setSodium,
-  setCarbs,
-  setSugars,
-  setProtein,
-  setVitaminD,
-  setCalcium,
-  setIron,
-  setPotassium,
-  editable,
 }) => {
   const [deleteFood, setDeleteFood] = useState(false);
 
@@ -121,7 +104,7 @@ const AddFood = ({
                   style={{ marginRight: 20 }}
                   onPress={() => {
                     setDeleteFood(!deleteFood);
-                    removeFood(foods, setFoods, mealIndex, foodIndex);
+                    removeFood(meals, setMeals, mealIndex, foodIndex);
                   }}>
                   <Text style={styles().textButton}>DELETE</Text>
                 </TouchableOpacity>
@@ -179,9 +162,12 @@ const AddFood = ({
             }}
             value={name}
             onChangeText={(val) => {
-              editable ? setName(val) : null;
+              let tempMeals = [...meals];
+              let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+              tempFood.name = val.toString();
+              tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+              setMeals(tempMeals);
             }}
-            editable={editable}
           />
           <View style={{ flex: 1, alignItems: 'flex-end', marginRight: 10 }}>
             <Icon
@@ -209,9 +195,12 @@ const AddFood = ({
             }}
             value={measurement.toString()}
             onChangeText={(val) => {
-              editable ? setMeasurement(val) : null;
+              let tempMeals = [...meals];
+              let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+              tempFood.measurement = val.toString();
+              tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+              setMeals(tempMeals);
             }}
-            editable={editable}
           />
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -227,10 +216,13 @@ const AddFood = ({
             }}
             value={amount.toString()}
             onChangeText={(val) => {
-              editable ? setAmount(val) : null;
+              let tempMeals = [...meals];
+              let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+              tempFood.amount = parseInt(val || 0);
+              tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+              setMeals(tempMeals);
             }}
             keyboardType='number-pad'
-            editable={editable}
           />
           <Text style={styles().textAltLight}> servings</Text>
         </View>
@@ -263,10 +255,17 @@ const AddFood = ({
               }}
               value={calories.toString()}
               onChangeText={(val) => {
-                editable ? setCalories(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.calories = parseInt(val || 0);
+                tempMeals[mealIndex].Calories =
+                  tempMeals[mealIndex].Calories -
+                  parseInt(calories) +
+                  tempFood.calories;
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> cal</Text>
           </View>
@@ -289,10 +288,15 @@ const AddFood = ({
               }}
               value={fats.toString()}
               onChangeText={(val) => {
-                editable ? setFats(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.fats = parseInt(val || 0);
+                tempMeals[mealIndex].Fats =
+                  tempMeals[mealIndex].Fats - parseInt(fats) + tempFood.fats;
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> g</Text>
           </View>
@@ -323,10 +327,13 @@ const AddFood = ({
               }}
               value={cholesterol.toString()}
               onChangeText={(val) => {
-                editable ? setCholesterol(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.cholesterol = parseInt(val || 0);
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> mg</Text>
           </View>
@@ -349,10 +356,13 @@ const AddFood = ({
               }}
               value={sodium.toString()}
               onChangeText={(val) => {
-                editable ? setSodium(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.sodium = parseInt(val || 0);
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> mg</Text>
           </View>
@@ -382,10 +392,15 @@ const AddFood = ({
               }}
               value={carbs.toString()}
               onChangeText={(val) => {
-                editable ? setCarbs(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.carbs = parseInt(val || 0);
+                tempMeals[mealIndex].Carbs =
+                  tempMeals[mealIndex].Carbs - parseInt(carbs) + tempFood.carbs;
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> g</Text>
           </View>
@@ -408,10 +423,13 @@ const AddFood = ({
               }}
               value={fiber.toString()}
               onChangeText={(val) => {
-                editable ? setFiber(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.fiber = parseInt(val || 0);
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> g</Text>
           </View>
@@ -441,10 +459,13 @@ const AddFood = ({
               }}
               value={sugars.toString()}
               onChangeText={(val) => {
-                editable ? setSugars(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.sugars = parseInt(val || 0);
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> g</Text>
           </View>
@@ -467,10 +488,17 @@ const AddFood = ({
               }}
               value={protein.toString()}
               onChangeText={(val) => {
-                editable ? setProtein(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.protein = parseInt(val || 0);
+                tempMeals[mealIndex].Proteins =
+                  tempMeals[mealIndex].Proteins -
+                  parseInt(protein) +
+                  tempFood.protein;
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> g</Text>
           </View>
@@ -500,10 +528,13 @@ const AddFood = ({
               }}
               value={vitaminD.toString()}
               onChangeText={(val) => {
-                editable ? setVitaminD(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.vitaminD = parseInt(val || 0);
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> mcg</Text>
           </View>
@@ -526,10 +557,13 @@ const AddFood = ({
               }}
               value={calcium.toString()}
               onChangeText={(val) => {
-                editable ? setCalcium(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.calcium = parseInt(val || 0);
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> mg</Text>
           </View>
@@ -559,10 +593,13 @@ const AddFood = ({
               }}
               value={iron.toString()}
               onChangeText={(val) => {
-                editable ? setIron(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.iron = parseInt(val || 0);
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> mg</Text>
           </View>
@@ -585,10 +622,13 @@ const AddFood = ({
               }}
               value={potassium.toString()}
               onChangeText={(val) => {
-                editable ? setPotassium(val) : null;
+                let tempMeals = [...meals];
+                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                tempFood.potassium = parseInt(val || 0);
+                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                setMeals(tempMeals);
               }}
               keyboardType='number-pad'
-              editable={editable}
             />
             <Text style={styles().textAltLight}> mg</Text>
           </View>
@@ -720,7 +760,11 @@ const AddMeal = ({ meals, setMeals, index, foods, mealName }) => {
             placeholderTextColor='#C4BEBD'
             fontSize={16}
             value={mealName}
-            onChangeText={() => {}}
+            onChangeText={(val) => {
+              let tempMeals = [...meals];
+              tempMeals[index].Name = val;
+              setMeals(tempMeals);
+            }}
             style={{
               borderBottomColor: '#E5E5E5',
               borderBottomWidth: 1,
@@ -759,12 +803,11 @@ const AddMeal = ({ meals, setMeals, index, foods, mealName }) => {
           } = JSON.parse(item);
           return (
             <AddFood
-              key={index}
+              key={foodIndex}
               meals={meals}
               setMeals={setMeals}
               mealIndex={index}
               foodIndex={foodIndex}
-              foods={foods}
               fiber={fiber}
               name={name}
               measurement={measurement}
