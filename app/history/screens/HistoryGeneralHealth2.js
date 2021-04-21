@@ -38,310 +38,485 @@ const monthLabels = [
 
 function HistoryGeneralHealth2({ route, navigation }) {
   const data = route.params.data;
-  const symptoms = getPickerLabels(data);
-  const arr = initDisplayData(symptoms, data, 'past_week');
-
+  const settings = route.params.settings;
   const [modalVisible, setModalVisible] = useState(false);
-  const [timePeriod, setTimePeriod] = useState('past_week');
-  const [selectsymptom, setSymptom] = useState(symptoms[0]);
-  const [timestamps, setTimestamps] = useState(dayLabels);
-  const [displayData, setDisplayData] = useState(arr);
 
-  return (
-    <SafeAreaView style={styles().container}>
+  if(data !== null) {
+    const symptoms = getPickerLabels(data);
+    const arr = initDisplayData(symptoms, data, 'past_week');
+    const [timePeriod, setTimePeriod] = useState('past_week');
+    const [selectsymptom, setSymptom] = useState(symptoms[0]);
+    const [timestamps, setTimestamps] = useState(dayLabels);
+    const [displayData, setDisplayData] = useState(arr);
 
-      {/* Modal + each of the navigable history pages */}
-      <HistorySelectACategory
-        setModalView={setModalVisible}
-        showModalView={modalVisible}
-        navigation={navigation}
-        data={data}
-      />
+    return (
+      <SafeAreaView style={styles().container}>
 
-      {/* Actual screen */}
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles().pageSetup}>
+        {/* Modal + each of the navigable history pages */}
+        <HistorySelectACategory
+          setModalView={setModalVisible}
+          showModalView={modalVisible}
+          navigation={navigation}
+          data={data}
+          settings={settings}
+        />
 
-          {/* Gardener avatar + page blurb */}
-          <View style={styles().avatarView}>
-            <Text style={styles().pageDescription}>
-              View changes your in physical and mental health symtpom frequency and 
-              intensity over time!
-            </Text>
-            <Image
-              style={styles().avatarFlipped}
-              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
-            />
-          </View>
-          {/* Top page divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
+        {/* Actual screen */}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles().pageSetup}>
 
-          {/* Categories button */}
-          <TouchableOpacity 
-            style={styles().categoriesView} 
-            onPress={() => setModalVisible(true)}
-          >
-            <View 
-              style={styles().categories}>
-              <Text style={styles().textAlt}>Categories</Text>
-              <View>
-                <Icon
-                  name='arrow-top-right'
-                  type='material-community'
-                  color='white'
-                />
-              </View>
+            {/* Gardener avatar + page blurb */}
+            <View style={styles().avatarView}>
+              <Text style={styles().pageDescription}>
+                View changes your in physical and mental health symptom frequency and 
+                intensity over time!
+              </Text>
+              <Image
+                style={styles().avatarFlipped}
+                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+              />
             </View>
-          </TouchableOpacity>
-
-          {/* Custom history component */}
-          <View style={{marginTop: 6}}>
-            <TabBarAndContent 
-              navigation={navigation} 
-              data={data} 
-              timePeriod={timestamps} 
-              page={'generalHealth'}
-              multiPageData={displayData}
-              page2Color={true}
-            />
-          </View>
-
-          {/* Time Period and Select Symptom drop-down selection */}
-          <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, flexDirection: 'row', }}>
-            <View style={{ width: '50%' }}>
-              <Text style={styles().heading}>TIME PERIOD</Text>
-              <View style={styles().pickerView}>
-                <Picker
-                  selectedValue={timePeriod}
-                  style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => {
-                    setTimePeriod(itemValue);
-                    getTimestamps(data, timestamps, setTimestamps, itemValue);
-                    getDisplayData(selectsymptom, data, itemValue, setDisplayData);
-                    console.log(displayData);
-                  }}
-                  mode={'dropdown'}
-                >
-                  <Picker.Item label='Past week' value='past_week' />
-                  <Picker.Item label='Past month' value='past_month' />
-                  <Picker.Item label='Past year' value='past_year' />
-                </Picker>
-              </View>
+            {/* Top page divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
             </View>
-            <View style={{ width: '50%' }}>
-              <Text style={styles().heading}>SELECT SYMPTOM</Text>
-              <View style={styles().pickerView}>
-                <Picker
-                  selectedValue={selectsymptom}
-                  style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => {
-                    setSymptom(itemValue);
-                    getDisplayData(itemValue, data, timePeriod, setDisplayData);
-                    getTimestamps(data, timestamps, setTimestamps, timePeriod);
-                  }}
-                  mode={'dropdown'}
-                >
-                  {symptoms.map((item, index) => {
-                    return (
-                        <Picker.Item key={index} label={item} value={item} />
-                    );
-                  })}
-                </Picker>
-              </View>
-            </View>
-          </View> 
 
-          {/* Middle divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
-
-          {/* App suggestions */}
-          <View style={{ marginHorizontal: '5%', }}>
-            {/* Decrease symptom intensity analysis */}
-            <Text style={styles().text}>
-              Based on our analysis, the following activities may help decrease the intensity of
-              this symptom...
-            </Text>
-            <View style={styles().suggestionView}>
-               <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #1)</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #3)</Text>
-                  </View>
-                </View>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #2)</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #4)</Text>
-                  </View>
+            {/* Categories button */}
+            <TouchableOpacity 
+              style={styles().categoriesView} 
+              onPress={() => setModalVisible(true)}
+            >
+              <View 
+                style={styles().categories}>
+                <Text style={styles().textAlt}>Categories</Text>
+                <View>
+                  <Icon
+                    name='arrow-top-right'
+                    type='material-community'
+                    color='white'
+                  />
                 </View>
               </View>
+            </TouchableOpacity>
+
+            {/* Custom history component */}
+            <View style={{marginTop: 6}}>
+              <TabBarAndContent 
+                navigation={navigation} 
+                data={data} 
+                timePeriod={timestamps} 
+                page={'generalHealth'}
+                multiPageData={displayData}
+                page2Color={true}
+                settings={settings}
+              />
             </View>
 
-            {/* Increase symptom intensity analysis */}
-            <Text style={styles().text}>
-              Likewise, the following activities may lead to an increase in the intensity of
-              this symptom...
-            </Text>
-            <View style={styles().suggestionView}>
-               <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #1)</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #3)</Text>
-                  </View>
+            {/* Time Period and Select Symptom drop-down selection */}
+            <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, flexDirection: 'row', }}>
+              <View style={{ width: '50%' }}>
+                <Text style={styles().heading}>TIME PERIOD</Text>
+                <View style={styles().pickerView}>
+                  <Picker
+                    selectedValue={timePeriod}
+                    style={styles().picker}
+                    onValueChange={(itemValue, itemIndex) => {
+                      setTimePeriod(itemValue);
+                      getTimestamps(data, timestamps, setTimestamps, itemValue);
+                      getDisplayData(selectsymptom, data, itemValue, setDisplayData);
+                    }}
+                    mode={'dropdown'}
+                  >
+                    <Picker.Item label='Past week' value='past_week' />
+                    <Picker.Item label='Past month' value='past_month' />
+                    <Picker.Item label='Past year' value='past_year' />
+                  </Picker>
                 </View>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #2)</Text>
+              </View>
+              <View style={{ width: '50%' }}>
+                <Text style={styles().heading}>SELECT SYMPTOM</Text>
+                <View style={styles().pickerView}>
+                  <Picker
+                    selectedValue={selectsymptom}
+                    style={styles().picker}
+                    onValueChange={(itemValue, itemIndex) => {
+                      setSymptom(itemValue);
+                      getDisplayData(itemValue, data, timePeriod, setDisplayData);
+                      getTimestamps(data, timestamps, setTimestamps, timePeriod);
+                    }}
+                    mode={'dropdown'}
+                  >
+                    {symptoms.map((item, index) => {
+                      return (
+                          <Picker.Item key={index} label={item} value={item} />
+                      );
+                    })}
+                  </Picker>
+                </View>
+              </View>
+            </View> 
+
+            {/* Middle divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* App suggestions */}
+            <View style={{ marginHorizontal: '5%', }}>
+              {/* Decrease symptom intensity analysis */}
+              <Text style={styles().text}>
+                Based on our analysis, the following activities may help decrease the intensity of
+                this symptom...
+              </Text>
+              <View style={styles().suggestionView}>
+                <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #1)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #3)</Text>
+                    </View>
                   </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #4)</Text>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #2)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #4)</Text>
+                    </View>
                   </View>
                 </View>
               </View>
+
+              {/* Increase symptom intensity analysis */}
+              <Text style={styles().text}>
+                Likewise, the following activities may lead to an increase in the intensity of
+                this symptom...
+              </Text>
+              <View style={styles().suggestionView}>
+                <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #1)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #3)</Text>
+                    </View>
+                  </View>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #2)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #4)</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+
+              {/* Medical disclaimer */}
+              <Text style={styles().textLightSmall}>
+                ** As a reminder, these analyses indicate correlation, not causation, and thus 
+                may not indicate direct effects of your daily habits. You may wish to speak to 
+                a medical professional if pre-existing physical or mental health symptoms suddenly 
+                change or worsen.
+              </Text>
             </View>
 
-            {/* Medical disclaimer */}
-            <Text style={styles().textLightSmall}>
-              ** As a reminder, these analyses indicate correlation, not causation, and thus 
-              may not indicate direct effects of your daily habits. You may wish to speak to 
-              a medical professional if pre-existing physical or mental health symptoms suddenly 
-              change or worsen.
-            </Text>
+            <View style={styles().pageEnd}/>
           </View>
+        </ScrollView>
+        <NavBar history={true} navigation={navigation} />
+      </SafeAreaView>
+    );
+  }
 
-          <View style={styles().pageEnd}/>
-        </View>
-      </ScrollView>
-      <NavBar history={true} navigation={navigation} />
-    </SafeAreaView>
-  );
+  else
+    return (
+      <SafeAreaView style={styles().container}>
+        { /* Modal */}
+        <HistorySelectACategory
+          setModalView={setModalVisible}
+          showModalView={modalVisible}
+          navigation={navigation}
+          data={data}
+          settings={settings}
+        />
+
+        {/* Actual screen */}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles().pageSetup}>
+            
+            {/* Gardener avatar + page blurb */}
+            <View style={styles().avatarView}>
+              <Text style={styles().pageDescription}>
+                View changes your in physical and mental health symptom frequency and 
+                intensity over time!
+              </Text>
+              <Image
+                style={styles().avatarFlipped}
+                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+              />
+            </View>
+            {/* Top page divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* Categories button */}
+            <TouchableOpacity 
+              style={styles().categoriesView} 
+              onPress={() => setModalVisible(true)}
+            >
+              <View 
+                style={styles().categories}>
+                <Text style={styles().textAlt}>Categories</Text>
+                <View>
+                  <Icon
+                    name='arrow-top-right'
+                    type='material-community'
+                    color='white'
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+
+            <View style={{alignContent: 'center', margin: 22}}>
+              <Text>
+                Uh Oh! It seems like you don't have any data to view!
+                Try making some health entries first!
+              </Text>
+            </View>
+            
+          </View>
+        </ScrollView>
+        <NavBar history={true} navigation={navigation} />
+      </SafeAreaView>
+    );
 };
+
+function makeYear(dataArr) {
+  var arr = [];
+  var [sum, len] = [0, dataArr.length];
+
+  for(var i = len < 365 ? 0: len - 365; i < len; i++) {
+      if(i === len - 1 && len < 365) {
+          let fullHalfWeeks = Math.floor(len / 30);
+          let spareHalves = len - (fullHalfWeeks * 30);
+  
+          sum = sum / spareHalves;
+
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else if(i === len - 1) {
+          sum = sum / 35;
+
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else if(i % 30 === 0 && i > 0) {
+          sum = sum / 30;
+
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else
+          sum += dataArr[i] === -1 ? 0 : dataArr[i];
+  }
+
+  if(arr.length < 12) {
+      let diff = 12 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+
+      arr = zeros.concat(arr);
+  }
+
+  return arr;
+}
+
+function makeMonth(dataArr) {
+  var [sum, len] = [0, dataArr.length];
+  var arr = [];
+
+  for(var i = len < 30 ? 0: len - 30; i < len; i++) {
+      if(i === len - 1 && len < 30) {
+        let fullHalfWeeks = Math.floor(len / 4);
+        let spareHalves = len - (fullHalfWeeks * 4);
+
+        sum = sum / spareHalves;
+
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else if(i === len - 1) {
+        sum = sum / 2;
+
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else if(i % 4 === 0 && i > 0) {
+        sum = sum / 4;
+
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else
+        sum += dataArr[i] === -1 ? 0 : dataArr[i];
+    }
+
+    if(arr.length < 8) {
+      let diff = 8 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+  
+      arr = zeros.concat(arr);
+    }
+
+  return arr;
+}
+
+function makeWeek(dataArr) {
+  var len = dataArr.length;
+  var arr = [];
+
+  for(var i = len < 7 ? 0 : len - 7; i < len; i++)
+      arr.push(dataArr[i]);
+        
+  if(arr.length < 7) {
+      let diff = 7 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+  
+      arr = zeros.concat(arr);
+  }
+
+  return arr;
+}
+
+function makeArr(objArr, target) {
+  const length = objArr.length;
+  var arr = [];
+
+  for(var i = 0; i < length; i++)
+      for(var [key, value] of Object.entries(JSON.parse(objArr[i]))) {
+          if(key === target) {
+              arr.push(value);
+          }
+
+          else
+              arr.push(0);
+      }
+
+  return arr;
+}
+
+function cleanUpData(arr) {
+  const len = arr.length;
+
+  for(var i = 0; i < len; i++)
+    if(arr[i] == -1)
+      arr[i] = 0;
+
+  return arr;
+}
 
 function getDisplayData(symptomName, data, timePeriod, setDisplayData) {
   var arr = [];
-  var len = data.symptomData.length;
-  console.log(timePeriod);
+
+  var objArr = makeArr(data.symptomData, symptomName);
 
   if(timePeriod === 'past_week')
-    for(var i = len < 7 ? 0 : len - 7; i < len; i++)
-      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
-        if(key == symptomName)
-          arr.push(value);
-        
-        else
-          arr.push(0);
-      }
+    arr = makeWeek(objArr);
 
-  else if(timePeriod === 'past_month')
-    for(var i = len < 30 ? 0 : len - 30; i < len; i++)
-      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
-        if(key == symptomName)
-          arr.push(value);
-        
-        else
-          arr.push(0);
-      }
+  else if(timePeriod === 'past_month') 
+    arr = makeMonth(objArr);
 
-  else
-    for(var i = len < 365 ? 0 : len - 365; i < len; i++)
-      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
-        if(key == symptomName)
-          arr.push(value);
-        
-        else
-          arr.push(0);
-      }
+  else 
+    arr = makeYear(objArr);
+
+  arr = cleanUpData(arr);
 
   setDisplayData(arr);
 }
 
 function initDisplayData(symptoms, data, timePeriod) {
   var arr = [];
-  var len = data.symptomData.length;
+  var objArr = makeArr(data.symptomData, symptoms[0]);
 
   if(timePeriod === 'past_week')
-    for(var i = len < 7 ? 0 : len - 7; i < len; i++)
-      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
-        if(key == symptoms[0])
-          arr.push(value);
-        
-        else
-          arr.push(0);
-      }
+    arr = makeWeek(objArr);
 
-  else if(timePeriod === 'past_month')
-    for(var i = len < 30 ? 0 : len - 30; i < len; i++)
-      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
-        if(key == symptoms[0])
-          arr.push(value);
-        
-        else
-          arr.push(0);
-      }
+  else if(timePeriod === 'past_month') 
+    arr = makeMonth(objArr);
 
-  else
-    for(var i = len < 365 ? 0 : len - 365; i < len; i++)
-      for(let [key, value] of Object.entries(JSON.parse(data.symptomData[i]))) {
-        if(key == symptoms[0])
-          arr.push(value);
-        
-        else
-          arr.push(0);
-      }
+  else 
+    arr = makeYear(objArr);
+
+  arr = cleanUpData(arr);
 
   return arr;
+}
+
+function rotateCalLabels(data) {
+  var labels = monthLabels;
+  labels = labels.concat(labels.splice(0, new Date(data.latestDate).getMonth() % 6 - 1));
+
+  return labels;
 }
 
 function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
@@ -361,7 +536,7 @@ function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
     setTimestamps(dates); 
 
   else if(timePeriod === 'past_year')
-    setTimestamps(monthLabels);
+    setTimestamps(rotateCalLabels(data));
 }
 
 function getPickerLabels(data) {

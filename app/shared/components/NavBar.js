@@ -486,8 +486,9 @@ async function goToHistory(navigation) {
   });
 
   const data = await cache.peek('data');
+  const settings = await cache.peek('settings');
 
-  navigation.navigate('HistoryHealthEntries', { data });
+  navigation.push('HistoryHealthEntries', { data, settings });
 }
 
 export default NavBar;

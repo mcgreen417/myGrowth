@@ -37,209 +37,389 @@ const monthLabels = [
 
 function HistoryMood({ route, navigation }) {
   const data = route.params.data;
-  //console.log(data.moodData);
-  const arr = initDisplayData(data);
-
+  const settings = route.params.settings;
   const [modalVisible, setModalVisible] = useState(false);
-  const [timePeriod, setTimePeriod] = useState('past_week');
-  const [timestamps, setTimestamps] = useState(dayLabels);
-  const [displayData, setDisplayData] = useState(arr);
 
-  return (
-    <SafeAreaView style={styles().container}>
-      
-      {/* Modal + each of the navigable history pages */}
-      <HistorySelectACategory
-        setModalView={setModalVisible}
-        showModalView={modalVisible}
-        navigation={navigation}
-        data={data}
-      />
+  if(data !== null) {
+    const arr = initDisplayData(data);
+    const [timePeriod, setTimePeriod] = useState('past_week');
+    const [timestamps, setTimestamps] = useState(dayLabels);
+    const [displayData, setDisplayData] = useState(arr);
 
-      {/* Actual page */}
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles().pageSetup}>
+    return (
+      <SafeAreaView style={styles().container}>
 
-          {/* Gardener avatar + page blurb */}
-          <View style={styles().avatarView}>
-            <Text style={styles().pageDescription}>
-              View your changes in mood over time and what we think may be 
-              causing them!
-            </Text>
-            <Image
-              style={styles().avatarFlipped}
-              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
-            />
-          </View>
-          {/* Top page divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
+        {/* Modal + each of the navigable history pages */}
+        <HistorySelectACategory
+          setModalView={setModalVisible}
+          showModalView={modalVisible}
+          navigation={navigation}
+          data={data}
+          settings={settings}
+        />
 
-          {/* Categories button */}
-          <TouchableOpacity 
-            style={styles().categoriesView} 
-            onPress={() => setModalVisible(true)}
-          >
-            <View 
-              style={styles().categories}>
-              <Text style={styles().textAlt}>Categories</Text>
-              <View>
-                <Icon
-                  name='arrow-top-right'
-                  type='material-community'
-                  color='white'
-                />
+        {/* Actual page */}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles().pageSetup}>
+
+            {/* Gardener avatar + page blurb */}
+            <View style={styles().avatarView}>
+              <Text style={styles().pageDescription}>
+                View your changes in mood over time and what we think may be 
+                causing them!
+              </Text>
+              <Image
+                style={styles().avatarFlipped}
+                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+              />
+            </View>
+            {/* Top page divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* Categories button */}
+            <TouchableOpacity 
+              style={styles().categoriesView} 
+              onPress={() => setModalVisible(true)}
+            >
+              <View 
+                style={styles().categories}>
+                <Text style={styles().textAlt}>Categories</Text>
+                <View>
+                  <Icon
+                    name='arrow-top-right'
+                    type='material-community'
+                    color='white'
+                  />
+                </View>
               </View>
+            </TouchableOpacity>
+
+            {/* Custom history component */}
+            <View style={{marginTop: 6}}>
+              <TabBarAndContent 
+                navigation={navigation} 
+                data={data}
+                multiPageData={displayData}
+                timePeriod={timestamps} 
+                page={'historyGenComp'}
+                page2Color={false} 
+                settings={settings}
+              />
             </View>
-          </TouchableOpacity>
 
-          {/* Custom history component */}
-          <View style={{marginTop: 6}}>
-            <TabBarAndContent 
-              navigation={navigation} 
-              data={displayData} 
-              timePeriod={timestamps} 
-              page={'historyGenComp'}
-              page2Color={false} 
-            />
-          </View>
-
-          {/* Time Period drop-down selection */}
-          <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, }}>
-            <Text style={styles().heading}>TIME PERIOD</Text>
-            <View style={styles().pickerView}>
-              <Picker
-                selectedValue={timePeriod}
-                style={styles().picker}
-                onValueChange={(itemValue, itemIndex) => {
-                  setTimePeriod(itemValue);
-                  getDisplayData(data, itemValue, setDisplayData);
-                  getTimestamps(data, timestamps, setTimestamps, itemValue);
-                }}
-                mode={'dropdown'}
-              >
-                <Picker.Item label='Past week' value='past_week' />
-                <Picker.Item label='Past month' value='past_month' />
-                <Picker.Item label='Past year' value='past_year' />
-              </Picker>
-            </View>
-          </View>
-
-          {/* Middle divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
-
-          {/* App suggestions */}
-          <View style={{ marginHorizontal: '5%', }}>
-            {/* Positive mood analysis */}
-            <Text style={styles().text}>
-              Based on our analysis, the following activities may help increase your mood...
-            </Text>
-            <View style={styles().suggestionView}>
-               <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #1)</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #3)</Text>
-                  </View>
-                </View>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #2)</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #4)</Text>
-                  </View>
-                </View>
+            {/* Time Period drop-down selection */}
+            <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, }}>
+              <Text style={styles().heading}>TIME PERIOD</Text>
+              <View style={styles().pickerView}>
+                <Picker
+                  selectedValue={timePeriod}
+                  style={styles().picker}
+                  onValueChange={(itemValue, itemIndex) => {
+                    setTimePeriod(itemValue);
+                    getDisplayData(data, itemValue, setDisplayData);
+                    getTimestamps(data, timestamps, setTimestamps, itemValue);
+                  }}
+                  mode={'dropdown'}
+                >
+                  <Picker.Item label='Past week' value='past_week' />
+                  <Picker.Item label='Past month' value='past_month' />
+                  <Picker.Item label='Past year' value='past_year' />
+                </Picker>
               </View>
             </View>
 
-            {/* Negative mood analysis */}
-            <Text style={styles().text}>
-              Likewise, if you're felling unhappy, you may want to consider
-              avoiding the following activities...
-            </Text>
-            <View style={styles().suggestionView}>
-               <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #1)</Text>
+            {/* Middle divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* App suggestions */}
+            <View style={{ marginHorizontal: '5%', }}>
+              {/* Positive mood analysis */}
+              <Text style={styles().text}>
+                Based on our analysis, the following activities may help increase your mood...
+              </Text>
+              <View style={styles().suggestionView}>
+                <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #1)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #3)</Text>
+                    </View>
                   </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #3)</Text>
-                  </View>
-                </View>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #2)</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #4)</Text>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #2)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #4)</Text>
+                    </View>
                   </View>
                 </View>
               </View>
+
+              {/* Negative mood analysis */}
+              <Text style={styles().text}>
+                Likewise, if you're felling unhappy, you may want to consider
+                avoiding the following activities...
+              </Text>
+              <View style={styles().suggestionView}>
+                <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #1)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #3)</Text>
+                    </View>
+                  </View>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #2)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #4)</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+
+              {/* Medical disclaimer */}
+              <Text style={styles().textLightSmall}>
+                ** As a reminder, these analyses indicate correlation, not causation, and thus 
+                may not indicate direct effects of your daily habits. You may wish to speak to 
+                a medical professional if you undergo frequent mood swings or extended periods 
+                of low mood without relief.
+              </Text>
             </View>
 
-            {/* Medical disclaimer */}
-            <Text style={styles().textLightSmall}>
-              ** As a reminder, these analyses indicate correlation, not causation, and thus 
-              may not indicate direct effects of your daily habits. You may wish to speak to 
-              a medical professional if you undergo frequent mood swings or extended periods 
-              of low mood without relief.
-            </Text>
+            <View style={styles().pageEnd} />
           </View>
+        </ScrollView>
+        <NavBar history={true} navigation={navigation} />
+      </SafeAreaView>
+    );
+  }
 
-          <View style={styles().pageEnd} />
-        </View>
-      </ScrollView>
-      <NavBar history={true} navigation={navigation} />
-    </SafeAreaView>
-  );
+  else
+    return (
+      <SafeAreaView style={styles().container}>
+        { /* Modal */}
+        <HistorySelectACategory
+          setModalView={setModalVisible}
+          showModalView={modalVisible}
+          navigation={navigation}
+          data={data}
+          settings={settings}
+        />
+
+        {/* Actual screen */}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles().pageSetup}>
+            
+            {/* Gardener avatar + page blurb */}
+            <View style={styles().avatarView}>
+              <Text style={styles().pageDescription}>
+                View your changes in mood over time and what we think may be 
+                causing them!
+              </Text>
+              <Image
+                style={styles().avatarFlipped}
+                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+              />
+            </View>
+            {/* Top page divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* Categories button */}
+            <TouchableOpacity 
+              style={styles().categoriesView} 
+              onPress={() => setModalVisible(true)}
+            >
+              <View 
+                style={styles().categories}>
+                <Text style={styles().textAlt}>Categories</Text>
+                <View>
+                  <Icon
+                    name='arrow-top-right'
+                    type='material-community'
+                    color='white'
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+
+            <View style={{alignContent: 'center', margin: 22}}>
+              <Text>
+                Uh Oh! It seems like you don't have any data to view!
+                Try making some health entries first!
+              </Text>
+            </View>
+            
+          </View>
+        </ScrollView>
+        <NavBar history={true} navigation={navigation} />
+      </SafeAreaView>
+    );
 };
+
+function makeYear(dataArr) {
+  var arr = [];
+  var [sum, len] = [0, dataArr.length];
+
+  for(var i = len < 365 ? 0: len - 365; i < len; i++) {
+      if(i === len - 1 && len < 365) {
+          let fullHalfWeeks = Math.floor(len / 30);
+          let spareHalves = len - (fullHalfWeeks * 30);
+  
+          sum = sum / spareHalves;
+
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else if(i === len - 1) {
+          sum = sum / 35;
+
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else if(i % 30 === 0 && i > 0) {
+          sum = sum / 30;
+
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else
+          sum += dataArr[i] === -1 ? 0 : dataArr[i];
+  }
+
+  if(arr.length < 12) {
+      let diff = 12 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+
+      arr = zeros.concat(arr);
+  }
+
+  return arr;
+}
+
+function makeMonth(dataArr) {
+  var [sum, len] = [0, dataArr.length];
+  var arr = [];
+
+  for(var i = len < 30 ? 0: len - 30; i < len; i++) {
+      if(i === len - 1 && len < 30) {
+        let fullHalfWeeks = Math.floor(len / 4);
+        let spareHalves = len - (fullHalfWeeks * 4);
+
+        sum = sum / spareHalves;
+
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else if(i === len - 1) {
+        sum = sum / 2;
+
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else if(i % 4 === 0 && i > 0) {
+        sum = sum / 4;
+
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else
+        sum += dataArr[i] === -1 ? 0 : dataArr[i];
+    }
+
+    if(arr.length < 8) {
+      let diff = 8 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+  
+      arr = zeros.concat(arr);
+    }
+
+  return arr;
+}
+
+function makeWeek(dataArr) {
+  var len = dataArr.length;
+  var arr = [];
+
+  for(var i = len < 7 ? 0 : len - 7; i < len; i++)
+      arr.push(dataArr[i]);
+        
+  if(arr.length < 7) {
+      let diff = 7 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+  
+      arr = zeros.concat(arr);
+  }
+
+  return arr;
+}
 
 function cleanUpData(arr) {
   const len = arr.length;
@@ -252,31 +432,38 @@ function cleanUpData(arr) {
 }
 
 function initDisplayData(data) {
-  var len = data.moodData.length;
   var arr = [];
 
-  arr = data.moodData.slice(len - 7, len);
+  arr = makeWeek(data.moodData);
+
   arr = cleanUpData(arr);
 
   return arr;
 }
 
 function getDisplayData(data, timePeriod, setDisplayData) {
-  var len = data.moodData.length;
   var arr = [];
 
-  if(timePeriod === 'past_week' || timePeriod === 'unselected')
-    arr = data.moodData.slice(len - 7, len);
+  if(timePeriod === 'past_week' || timePeriod === 'unselected') 
+    arr = makeWeek(data.moodData);
 
-  else if(timePeriod === 'past_month')
-    arr = data.moodData.slice(len - 30, len);
+  //create data points for graph; show data points twice per week
+  else if(timePeriod === 'past_month') 
+    arr = makeMonth(data.moodData);
 
   else
-    arr = data.moodData.slice(len - 365, len);
+    arr = makeYear(data.moodData);
 
   arr = cleanUpData(arr);
 
   setDisplayData(arr);
+}
+
+function rotateCalLabels(data) {
+  var labels = monthLabels;
+  labels = labels.concat(labels.splice(0, new Date(data.latestDate).getMonth() % 6 - 1));
+
+  return labels;
 }
 
 function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
@@ -296,7 +483,7 @@ function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
     setTimestamps(dates); 
 
   else if(timePeriod === 'past_year')
-    setTimestamps(monthLabels);
+    setTimestamps(rotateCalLabels(data));
 }
 
 export default HistoryMood;

@@ -34,17 +34,11 @@ const dayLabels = [
   
 const monthLabels = [
     "Jan",
-    "Feb",
     "Mar",
-    "Apr",
     "May",
-    "June",
     "July",
-    "Aug",
     "Sept",
-    "Oct",
-    "Nov",
-    "Dec"
+    "Nov"
 ];
 
 const Graph = ({labels, data1, data2, legend}) => {
@@ -337,219 +331,269 @@ const DataChoosers = ({
 
 function HistoryCorrelations({ route, navigation }) {
     const data = route.params.data;
-
-    const arr1 = initData('mood', data);
-    const arr2 = initData('stress', data);
-    const legendInit = makeLegend('mood', 'stress', 'unselected', 'unselected');
-
+    const settings = route.params.settings;
     const [modalVisible, setModalVisible] = useState(false);
-    const [picker1, setPicker1] = useState('mood');
-    const [picker2, setPicker2] = useState('stress');
-    const [data1, setData1] = useState(arr1);
-    const [data2, setData2] = useState(arr2);
-    const [labels, setLabels] = useState(dayLabels);
-    const [category1, setCategory1] = useState('unselected');
-    const [category2, setCategory2] = useState('unselected');
-    const [timePeriod, setTimePeriod] = useState('past_week');
-    const [legend, setLegend] = useState(legendInit);
 
-    return (
-      <SafeAreaView style={styles().container}>
-        {/* Modal + each of the navigable history pages */}
-        <HistorySelectACategory
-            setModalView={setModalVisible}
-            showModalView={modalVisible}
-            navigation={navigation}
-            data={data}
-        />
+    if(data !== null) {
+        const arr1 = initData('mood', data);
+        const arr2 = initData('stress', data);
+        const legendInit = makeLegend('mood', 'stress', 'unselected', 'unselected');
 
-        <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles().pageSetup}>
-                {/* Categories button */}
-                <TouchableOpacity 
+        const [picker1, setPicker1] = useState('mood');
+        const [picker2, setPicker2] = useState('stress');
+        const [data1, setData1] = useState(arr1);
+        const [data2, setData2] = useState(arr2);
+        const [labels, setLabels] = useState(dayLabels);
+        const [category1, setCategory1] = useState('unselected');
+        const [category2, setCategory2] = useState('unselected');
+        const [timePeriod, setTimePeriod] = useState('past_week');
+        const [legend, setLegend] = useState(legendInit);
+
+        return (
+        <SafeAreaView style={styles().container}>
+            {/* Modal + each of the navigable history pages */}
+            <HistorySelectACategory
+                setModalView={setModalVisible}
+                showModalView={modalVisible}
+                navigation={navigation}
+                data={data}
+                settings={settings}
+            />
+
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={styles().pageSetup}>
+                    {/* Categories button */}
+                    <TouchableOpacity 
+                        style={styles().categoriesView} 
+                        onPress={() => setModalVisible(true)}
+                    >
+                        <View style={styles().categories}>
+                            <Text style={styles().textAlt}>Categories</Text>
+                            <View>
+                                <Icon
+                                name='arrow-top-right'
+                                type='material-community'
+                                color='white'
+                                />
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+
+                    <Graph 
+                        labels={labels}
+                        data1={data1}
+                        data2={data2}
+                        legend={legend}
+                    />
+
+                    <View style={{width: '90%'}}>
+                        <Text style={styles().heading1}>Please select which categories you would like to compare.</Text>
+                    </View>
+
+                    {/* Middle divider */}
+                    <View style={styles().dividerView}>
+                        <View style={styles().divider} />
+                    </View>
+                    
+                    <View 
+                        style={{ 
+                        width: '90%', 
+                        justifyContent: 'flex-start', 
+                        marginVertical: 20, 
+                        flexDirection: 'row',
+                    }}>
+                        <View style={{ width: '50%', }}>
+                            <Text style={styles().heading}>PAGE 1</Text>
+                            <View style={styles().pickerView}>
+                                <Picker
+                                    selectedValue={picker1}
+                                    style={styles().picker}
+                                    onValueChange={(itemValue, itemIndex) => {
+                                        setPicker1(itemValue);
+
+                                        if(itemValue === 'mood' || 'stress' || 'weight' || 'period') {
+                                            makeData(data, setData1, itemValue, 'unselected', timePeriod);
+                                            setLegend(makeLegend(itemValue, picker2, 'unselected', 'unselected'));
+                                        }
+                                    }}
+                                    mode={'dropdown'}
+                                >
+                                    <Picker.Item label='Mood' value='mood' />
+                                    <Picker.Item label='Stress' value='stress' />
+                                    <Picker.Item label='Sleep' value='sleep' />
+                                    <Picker.Item label='Nap' value='nap' />
+                                    <Picker.Item label='Weight' value='weight' />
+                                    <Picker.Item label='Period' value='period' />
+                                    <Picker.Item label='Fitness' value='fitness' />
+                                    <Picker.Item label='Activities' value='activity' />
+                                    <Picker.Item label='Meals' value='meals' />
+                                    <Picker.Item label='Symptoms' value='symptoms' />
+                                    <Picker.Item label='Medications' value='medications' />
+                                </Picker>
+                            </View>
+                        </View>
+
+                        <View style={{ width: '50%', }}>
+                            <Text style={styles().heading}>PAGE 2</Text>
+                            <View style={styles().pickerView}>
+                                <Picker
+                                    selectedValue={picker2}
+                                    style={styles().picker}
+                                    onValueChange={(itemValue, itemIndex) => {
+                                        setPicker2(itemValue);
+
+                                        if(itemValue === 'mood' || 'stress' || 'weight' || 'period') {
+                                            makeData(data, setData2, itemValue, 'unselected', timePeriod);
+                                            setLegend(makeLegend(picker1, itemValue, 'unselected', 'unselected'));
+                                        }
+                                    }}
+                                    mode={'dropdown'}
+                                >
+                                    <Picker.Item label='Mood' value='mood' />
+                                    <Picker.Item label='Stress' value='stress' />
+                                    <Picker.Item label='Sleep' value='sleep' />
+                                    <Picker.Item label='Nap' value='nap' />
+                                    <Picker.Item label='Weight' value='weight' />
+                                    <Picker.Item label='Period' value='period' />
+                                    <Picker.Item label='Fitness' value='fitness' />
+                                    <Picker.Item label='Activities' value='activity' />
+                                    <Picker.Item label='Meals' value='meals' />
+                                    <Picker.Item label='Symptoms' value='symptoms' />
+                                    <Picker.Item label='Medications' value='medications' />
+                                </Picker>
+                            </View>
+                        </View>
+                    </View>
+
+                    <DataChoosers 
+                        showSleep={picker1 === 'sleep' ? true : false}
+                        showNap={picker1 === 'nap' ? true : false}
+                        showFitness={picker1 === 'fitness' ? true : false}
+                        showActivities={picker1 === 'activity' ? true : false}
+                        showMeal={picker1 === 'meals' ? true : false}
+                        showSymptom={picker1 === 'symptoms' ? true : false}
+                        showMedicine={picker1 === 'medications' ? true : false}
+                        dataRecs={data}
+                        category1={category1}
+                        setCategory1={setCategory1}
+                        category2={category2}
+                        setCategory2={setCategory2}
+                        isFirst={true}
+                        page1={picker1}
+                        page2={picker2}
+                        timePeriod={timePeriod}
+                        setLegend={setLegend}
+                        setData={setData1}
+                    />
+
+                    <DataChoosers 
+                        showSleep={picker2 === 'sleep' ? true : false}
+                        showNap={picker2 === 'nap' ? true : false}
+                        showFitness={picker2 === 'fitness' ? true : false}
+                        showActivities={picker2 === 'activity' ? true : false}
+                        showMeal={picker2 === 'meals' ? true : false}
+                        showSymptom={picker2 === 'symptoms' ? true : false}
+                        showMedicine={picker2 === 'medications' ? true : false}
+                        dataRecs={data}
+                        category1={category1}
+                        setCategory1={setCategory1}
+                        category2={category2}
+                        setCategory2={setCategory2}
+                        isFirst={false}
+                        page1={picker1}
+                        page2={picker2}
+                        timePeriod={timePeriod}
+                        setLegend={setLegend}
+                        setData={setData2}
+                    />
+
+                    <View style={styles().dividerView}>
+                        <View style={styles().divider} />
+                    </View>
+
+                    <View style={{width: '90%'}}>
+                        <Text style={styles().heading1}>Please select the time period you like to view.</Text>
+                    </View>
+
+                    <View>
+                        <Text style={styles().heading}>TIME PERIOD</Text>
+                        <View style={styles().pickerView}>
+                            <Picker
+                                selectedValue={timePeriod}
+                                style={styles().picker}
+                                onValueChange={(itemValue, itemIndex) => {
+                                    setTimePeriod(itemValue);
+
+                                    //make data per category selected
+                                    makeData(data, setData1, picker1, category1, itemValue);
+                                    makeData(data, setData2, picker2, category2, itemValue);
+
+                                    //new graph labels
+                                    makeLabels(itemValue, setLabels, data);
+                                }}
+                                mode={'dropdown'}
+                            >
+                                <Picker.Item label='Past Week' value='past_week' />
+                                <Picker.Item label='Past Month' value='past_month' />
+                                <Picker.Item label='Past Year' value='past_year' />
+                            </Picker>
+                        </View>
+                    </View>
+
+                    <View style={styles().pageEnd} />
+                </View>
+            </ScrollView>
+
+            <NavBar history={true} navigation={navigation} />
+        </SafeAreaView>
+        );
+    }
+
+    else
+        return (
+        <SafeAreaView style={styles().container}>
+            { /* Modal */}
+            <HistorySelectACategory
+                setModalView={setModalVisible}
+                showModalView={modalVisible}
+                navigation={navigation}
+                data={data}
+                settings={settings}
+            />
+
+            {/* Actual screen */}
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={styles().pageSetup}>
+                    {/* Categories button */}
+                    <TouchableOpacity 
                     style={styles().categoriesView} 
                     onPress={() => setModalVisible(true)}
-                >
-                    <View style={styles().categories}>
-                        <Text style={styles().textAlt}>Categories</Text>
-                        <View>
-                            <Icon
-                            name='arrow-top-right'
-                            type='material-community'
-                            color='white'
-                            />
+                    >
+                        <View 
+                            style={styles().categories}>
+                            <Text style={styles().textAlt}>Categories</Text>
+                            <View>
+                                <Icon
+                                    name='arrow-top-right'
+                                    type='material-community'
+                                    color='white'
+                                />
+                                </View>
                         </View>
+                    </TouchableOpacity>
+
+                    <View style={{alignContent: 'center', margin: 22}}>
+                        <Text>
+                            Uh Oh! It seems like you don't have any data to view!
+                            Try making some health entries first!
+                        </Text>
                     </View>
-                </TouchableOpacity>
-
-                <Graph 
-                    labels={labels}
-                    data1={data1}
-                    data2={data2}
-                    legend={legend}
-                />
-
-                <View style={{width: '90%'}}>
-                    <Text style={styles().heading1}>Please select which categories you would like to compare.</Text>
+                    
                 </View>
-
-                {/* Middle divider */}
-                <View style={styles().dividerView}>
-                    <View style={styles().divider} />
-                </View>
-                
-                <View 
-                    style={{ 
-                    width: '90%', 
-                    justifyContent: 'flex-start', 
-                    marginVertical: 20, 
-                    flexDirection: 'row',
-                }}>
-                    <View style={{ width: '50%', }}>
-                        <Text style={styles().heading}>PAGE 1</Text>
-                        <View style={styles().pickerView}>
-                            <Picker
-                                selectedValue={picker1}
-                                style={styles().picker}
-                                onValueChange={(itemValue, itemIndex) => {
-                                    setPicker1(itemValue);
-
-                                    if(itemValue === 'mood' || 'stress' || 'weight' || 'period') {
-                                        makeData(data, setData1, itemValue, 'unselected', timePeriod);
-                                        setLegend(makeLegend(itemValue, picker2, 'unselected', 'unselected'));
-                                    }
-                                }}
-                                mode={'dropdown'}
-                            >
-                                <Picker.Item label='Mood' value='mood' />
-                                <Picker.Item label='Stress' value='stress' />
-                                <Picker.Item label='Sleep' value='sleep' />
-                                <Picker.Item label='Nap' value='nap' />
-                                <Picker.Item label='Weight' value='weight' />
-                                <Picker.Item label='Period' value='period' />
-                                <Picker.Item label='Fitness' value='fitness' />
-                                <Picker.Item label='Activities' value='activity' />
-                                <Picker.Item label='Meals' value='meals' />
-                                <Picker.Item label='Symptoms' value='symptoms' />
-                                <Picker.Item label='Medications' value='medications' />
-                            </Picker>
-                        </View>
-                    </View>
-
-                    <View style={{ width: '50%', }}>
-                        <Text style={styles().heading}>PAGE 2</Text>
-                        <View style={styles().pickerView}>
-                            <Picker
-                                selectedValue={picker2}
-                                style={styles().picker}
-                                onValueChange={(itemValue, itemIndex) => {
-                                    setPicker2(itemValue);
-
-                                    if(itemValue === 'mood' || 'stress' || 'weight' || 'period') {
-                                        makeData(data, setData2, itemValue, 'unselected', timePeriod);
-                                        setLegend(makeLegend(picker1, itemValue, 'unselected', 'unselected'));
-                                    }
-                                }}
-                                mode={'dropdown'}
-                            >
-                                <Picker.Item label='Mood' value='mood' />
-                                <Picker.Item label='Stress' value='stress' />
-                                <Picker.Item label='Sleep' value='sleep' />
-                                <Picker.Item label='Nap' value='nap' />
-                                <Picker.Item label='Weight' value='weight' />
-                                <Picker.Item label='Period' value='period' />
-                                <Picker.Item label='Fitness' value='fitness' />
-                                <Picker.Item label='Activities' value='activity' />
-                                <Picker.Item label='Meals' value='meals' />
-                                <Picker.Item label='Symptoms' value='symptoms' />
-                                <Picker.Item label='Medications' value='medications' />
-                            </Picker>
-                        </View>
-                    </View>
-                </View>
-
-                <DataChoosers 
-                    showSleep={picker1 === 'sleep' ? true : false}
-                    showNap={picker1 === 'nap' ? true : false}
-                    showFitness={picker1 === 'fitness' ? true : false}
-                    showActivities={picker1 === 'activity' ? true : false}
-                    showMeal={picker1 === 'meals' ? true : false}
-                    showSymptom={picker1 === 'symptoms' ? true : false}
-                    showMedicine={picker1 === 'medications' ? true : false}
-                    dataRecs={data}
-                    category1={category1}
-                    setCategory1={setCategory1}
-                    category2={category2}
-                    setCategory2={setCategory2}
-                    isFirst={true}
-                    page1={picker1}
-                    page2={picker2}
-                    timePeriod={timePeriod}
-                    setLegend={setLegend}
-                    setData={setData1}
-                />
-
-                <DataChoosers 
-                    showSleep={picker2 === 'sleep' ? true : false}
-                    showNap={picker2 === 'nap' ? true : false}
-                    showFitness={picker2 === 'fitness' ? true : false}
-                    showActivities={picker2 === 'activity' ? true : false}
-                    showMeal={picker2 === 'meals' ? true : false}
-                    showSymptom={picker2 === 'symptoms' ? true : false}
-                    showMedicine={picker2 === 'medications' ? true : false}
-                    dataRecs={data}
-                    category1={category1}
-                    setCategory1={setCategory1}
-                    category2={category2}
-                    setCategory2={setCategory2}
-                    isFirst={false}
-                    page1={picker1}
-                    page2={picker2}
-                    timePeriod={timePeriod}
-                    setLegend={setLegend}
-                    setData={setData2}
-                />
-
-                <View style={styles().dividerView}>
-                    <View style={styles().divider} />
-                </View>
-
-                <View style={{width: '90%'}}>
-                    <Text style={styles().heading1}>Please select the time period you like to view.</Text>
-                </View>
-
-                <View>
-                    <Text style={styles().heading}>TIME PERIOD</Text>
-                    <View style={styles().pickerView}>
-                        <Picker
-                            selectedValue={timePeriod}
-                            style={styles().picker}
-                            onValueChange={(itemValue, itemIndex) => {
-                                setTimePeriod(itemValue);
-
-                                //make data per category selected
-                                makeData(data, setData1, picker1, category1, itemValue);
-                                makeData(data, setData2, picker2, category2, itemValue);
-
-                                //new graph labels
-                                makeLabels(itemValue, setLabels, data);
-                            }}
-                            mode={'dropdown'}
-                        >
-                            <Picker.Item label='Past Week' value='past_week' />
-                            <Picker.Item label='Past Month' value='past_month' />
-                            <Picker.Item label='Past Year' value='past_year' />
-                        </Picker>
-                    </View>
-                </View>
-
-                <View style={styles().pageEnd} />
-            </View>
-        </ScrollView>
-
-        <NavBar history={true} navigation={navigation} />
-      </SafeAreaView>
-    );
+            </ScrollView>
+            <NavBar history={true} navigation={navigation} />
+        </SafeAreaView>
+        );
 }
 
 function getPickerLabels(page, data) {
@@ -622,6 +666,118 @@ function getPickerLabels(page, data) {
                 else
                     ;
             }
+    }
+
+    return arr;
+}
+
+function makeYear(dataArr) {
+    var arr = [];
+    var [sum, len] = [0, dataArr.length];
+
+    for(var i = len < 365 ? 0: len - 365; i < len; i++) {
+        if(i === len - 1 && len < 365) {
+            let fullHalfWeeks = Math.floor(len / 30);
+            let spareHalves = len - (fullHalfWeeks * 30);
+    
+            sum = sum / spareHalves;
+
+            arr.push(sum);
+    
+            sum = 0;
+        }
+
+        else if(i === len - 1) {
+            sum = sum / 35;
+
+            arr.push(sum);
+    
+            sum = 0;
+        }
+
+        else if(i % 30 === 0 && i > 0) {
+            sum = sum / 30;
+
+            arr.push(sum);
+    
+            sum = 0;
+        }
+
+        else
+            sum += dataArr[i] === -1 ? 0 : dataArr[i];
+    }
+
+    if(arr.length < 12) {
+        let diff = 12 - arr.length;
+        var zeros = new Array(diff);
+        zeros.fill(0);
+
+        arr = zeros.concat(arr);
+    }
+
+    return arr;
+}
+
+function makeMonth(dataArr) {
+    var [sum, len] = [0, dataArr.length];
+    var arr = [];
+
+    for(var i = len < 30 ? 0: len - 30; i < len; i++) {
+        if(i === len - 1 && len < 30) {
+          let fullHalfWeeks = Math.floor(len / 4);
+          let spareHalves = len - (fullHalfWeeks * 4);
+  
+          sum = sum / spareHalves;
+
+          arr.push(sum);
+  
+          sum = 0;
+        }
+
+        else if(i === len - 1) {
+          sum = sum / 2;
+
+          arr.push(sum);
+  
+          sum = 0;
+        }
+
+        else if(i % 4 === 0 && i > 0) {
+          sum = sum / 4;
+
+          arr.push(sum);
+  
+          sum = 0;
+        }
+
+        else
+          sum += dataArr[i] === -1 ? 0 : dataArr[i];
+      }
+
+      if(arr.length < 8) {
+        let diff = 8 - arr.length;
+        var zeros = new Array(diff);
+        zeros.fill(0);
+    
+        arr = zeros.concat(arr);
+      }
+
+    return arr;
+}
+
+function makeWeek(dataArr) {
+    var len = dataArr.length;
+    var arr = [];
+
+    for(var i = len < 7 ? 0 : len - 7; i < len; i++)
+        arr.push(dataArr[i]);
+          
+    if(arr.length < 7) {
+        let diff = 7 - arr.length;
+        var zeros = new Array(diff);
+        zeros.fill(0);
+    
+        arr = zeros.concat(arr);
     }
 
     return arr;
@@ -749,6 +905,13 @@ function makeLegend(page1, page2, cat1, cat2) {
     return arr;
 }
 
+function rotateCalLabels(data) {
+    var labels = monthLabels;
+    labels = labels.concat(labels.splice(0, new Date(data.latestDate).getMonth() % 6 - 1));
+
+    return labels;
+}
+
 function makeLabels(timePeriod, setLabels, data) {
     var dates = [];
     const latestDate = new Date(data.latestDate);
@@ -766,7 +929,7 @@ function makeLabels(timePeriod, setLabels, data) {
         setLabels(dates); 
 
     else if(timePeriod === 'past_year')
-        setLabels(monthLabels);
+        setLabels(rotateCalLabels(data));
 }
 
 function cleanUpData(arr) {
@@ -799,17 +962,11 @@ function makeArr(objArr, target) {
 function initData(page, data) {
     var arr = [];
 
-    if(page === 'mood') {
-        let length = data.moodData.length;
+    if(page === 'mood')
+        arr = makeWeek(data.moodData);
 
-        arr = data.moodData.slice(length - 7, length);
-    }
-
-    else {
-        let length = data.stressData.length;
-
-        arr = data.stressData.slice(length - 7, length);
-    }
+    else
+        arr = makeWeek(data.stressData);
 
     arr = cleanUpData(arr);
 
@@ -822,267 +979,232 @@ function makeData(data, setData, page, category, timePeriod) {
 
     if(page === 'sleep') {
         if(category === 'quality') {
-            let length = data.nightQualityData.length;
-
             if(timePeriod === 'past_week')
-                arr = data.nightQualityData.slice(length - 7, length);
-
+                arr = makeWeek(data.nightQualityData);
+          
             else if(timePeriod === 'past_month')
-                arr = data.nightQualityData.slice(length - 30, length);
-
+                arr = makeMonth(data.nightQualityData);
+          
             else
-                arr = data.nightQualityData.slice(length - 365, length);
+                arr = makeYear(data.nightQualityData);
         }
 
         else {
-            let length = data.nightSleepData.length;
-
             if(timePeriod === 'past_week')
-                arr = data.nightSleepData.slice(length - 7, length);
-
+                arr = makeWeek(data.nightSleepData);
+          
             else if(timePeriod === 'past_month')
-                arr = data.nightSleepData.slice(length - 30, length);
-
+                arr = makeMonth(data.nightSleepData);
+          
             else
-                arr = data.nightSleepData.slice(length - 365, length);
+                arr = makeYear(data.nightSleepData);
         }
     }
 
     else if(page === 'nap') {
         if(category === 'quality') {
-            let length = data.napQualityData.length;
-
             if(timePeriod === 'past_week')
-                arr = data.napQualityData.slice(length - 7, length);
-
+                arr = makeWeek(data.napQualityData);
+          
             else if(timePeriod === 'past_month')
-                arr = data.napQualityData.slice(length - 30, length);
-
+                arr = makeMonth(data.napQualityData);
+          
             else
-                arr = data.napQualityData.slice(length - 365, length);
+                arr = makeYear(data.napQualityData);
         }
 
         else {
-            let length = data.napSleepData.length;
-
             if(timePeriod === 'past_week')
-                arr = data.napSleepData.slice(length - 7, length);
-
+                arr = makeWeek(data.napSleepData);
+          
             else if(timePeriod === 'past_month')
-                arr = data.napSleepData.slice(length - 30, length);
-
+                arr = makeMonth(data.napSleepData);
+          
             else
-                arr = data.napSleepData.slice(length - 365, length);
+                arr = makeYear(data.napSleepData);
         }
     }
 
     else if(page === 'fitness') {
         if(category === 'burned') {
-            let length = data.fitnessData.burned.length;
-
             if(timePeriod === 'past_week')
-                arr = data.fitnessData.burned.slice(length - 7, length);
-
+                arr = makeWeek(data.fitnessData.burned);
+          
             else if(timePeriod === 'past_month')
-                arr = data.fitnessData.burned.slice(length - 30, length);
-
+                arr = makeMonth(data.fitnessData.burned);
+          
             else
-                arr = data.fitnessData.burned.slice(length - 365, length);
+                arr = makeYear(data.fitnessData.burned);
         }
 
         else if(category === 'dur') {
-            let length = data.fitnessData.dur.length;
-
             if(timePeriod === 'past_week')
-                arr = data.fitnessData.dur.slice(length - 7, length);
-
+                arr = makeWeek(data.fitnessData.dur);
+          
             else if(timePeriod === 'past_month')
-                arr = data.fitnessData.dur.slice(length - 30, length);
-
+                arr = makeMonth(data.fitnessData.dur);
+          
             else
-                arr = data.fitnessData.dur.slice(length - 365, length);
+                arr = makeYear(data.fitnessData.dur);
         }
 
         else if(category === 'steps') {
-            let length = data.fitnessData.steps.length;
-
             if(timePeriod === 'past_week')
-                arr = data.fitnessData.steps.slice(length - 7, length);
-
+                arr = makeWeek(data.fitnessData.steps);
+          
             else if(timePeriod === 'past_month')
-                arr = data.fitnessData.steps.slice(length - 30, length);
-
+                arr = makeMonth(data.fitnessData.steps);
+          
             else
-                arr = data.fitnessData.steps.slice(length - 365, length);
+                arr = makeYear(data.fitnessData.steps);
         }
 
         //it is some exercise
         else {
             arrFromObj = makeArr(data.fitnessData.exercises, category);
-            let length = arrFromObj.length;
 
             if(timePeriod === 'past_week')
-            arr = arrFromObj.slice(length - 7, length);
+                arr = makeWeek(arrFromObj);
 
             else if(timePeriod === 'past_month')
-                arr = arrFromObj.slice(length - 30, length);
+                arr = makeMonth(arrFromObj);
 
             else
-                arr = arrFromObj.slice(length - 365, length);
+                arr = makeYear(arrFromObj);
         }
     }
 
-    else if(page === 'meal') {
+    else if(page === 'meals') {
         if(category === 'cals') {
-            let length = data.mealData.calories.length;
-
             if(timePeriod === 'past_week')
-                arr = data.mealData.calories.slice(length - 7, length);
+                arr = makeWeek(data.mealData.calories);
 
             else if(timePeriod === 'past_month')
-                arr = data.mealData.calories.slice(length - 30, length);
+                arr = makeMonth(data.mealData.calories);
 
             else
-                arr = data.mealData.calories.slice(length - 365, length);
+                arr = makeYear(data.mealData.calories);
         }
 
         else if(category === 'carbs') {
-            let length = data.mealData.carbs.length;
-
             if(timePeriod === 'past_week')
-                arr = data.mealData.carbs.slice(length - 7, length);
+                arr = makeWeek(data.mealData.carbs);
 
             else if(timePeriod === 'past_month')
-                arr = data.mealData.carbs.slice(length - 30, length);
+                arr = makeMonth(data.mealData.carbs);
 
             else
-                arr = data.mealData.carbs.slice(length - 365, length);
+                arr = makeYear(data.mealData.carbs);
         }
 
         else if(category === 'fats') {
-            let length = data.mealData.fats.length;
-
             if(timePeriod === 'past_week')
-                arr = data.mealData.fats.slice(length - 7, length);
+                arr = makeWeek(data.mealData.fats);
 
             else if(timePeriod === 'past_month')
-                arr = data.mealData.fats.slice(length - 30, length);
+                arr = makeMonth(data.mealData.fats);
 
             else
-                arr = data.mealData.fats.slice(length - 365, length);
+                arr = makeYear(data.mealData.fats);
         }
 
         //proteins
         else {
-            let length = data.mealData.proteins.length;
-
             if(timePeriod === 'past_week')
-                arr = data.mealData.proteins.slice(length - 7, length);
+                arr = makeWeek(data.mealData.proteins);
 
             else if(timePeriod === 'past_month')
-                arr = data.mealData.proteins.slice(length - 30, length);
+                arr = makeMonth(data.mealData.proteins);
 
             else
-                arr = data.mealData.proteins.slice(length - 365, length);
+                arr = makeYear(data.mealData.proteins);
         }
     }
 
     else if(page === 'period') {
-        let length = data.periodData.length;
-
         if(timePeriod === 'past_week')
-            arr = data.periodData.slice(length - 7, length);
+            arr = makeWeek(data.periodData);
 
         else if(timePeriod === 'past_month')
-            arr = data.periodData.slice(length - 30, length);
+            arr = makeMonth(data.periodData);
 
         else
-            arr = data.periodData.slice(length - 365, length);
+            arr = makeYear(data.periodData);
     }
 
     else if(page === 'mood') {
-        let length = data.moodData.length;
-
         if(timePeriod === 'past_week')
-            arr = data.moodData.slice(length - 7, length);
+            arr = makeWeek(data.moodData);
 
         else if(timePeriod === 'past_month')
-            arr = data.moodData.slice(length - 30, length);
+            arr = makeMonth(data.moodData);
 
         else
-            arr = data.moodData.slice(length - 365, length);
+            arr = makeYear(data.moodData);
     }
 
     else if(page === 'stress') {
-        let length = data.stressData.length;
-
         if(timePeriod === 'past_week')
-            arr = data.stressData.slice(length - 7, length);
+            arr = makeWeek(data.stressData);
 
         else if(timePeriod === 'past_month')
-            arr = data.stressData.slice(length - 30, length);
+            arr = makeMonth(data.stressData);
 
         else
-            arr = data.stressData.slice(length - 365, length);
+            arr = makeYear(data.stressData);
     }
 
     else if(page === 'weight') {
-        let length = data.weightData.length;
-
         if(timePeriod === 'past_week')
-            arr = data.weightData.slice(length - 7, length);
+            arr = makeWeek(data.weightData);
 
         else if(timePeriod === 'past_month')
-            arr = data.weightData.slice(length - 30, length);
+            arr = makeMonth(data.weightData);
 
         else
-            arr = data.weightData.slice(length - 365, length);
+            arr = makeYear(data.weightData);
     }
 
     else if(page === 'activity') {
         arrFromObj = makeArr(data.activityData, category);
-        let length = arrFromObj.length;
 
         //it is some activity
         if(timePeriod === 'past_week')
-            arr = arrFromObj.slice(length - 7, length);
+            arr = makeWeek(arrFromObj);
 
         else if(timePeriod === 'past_month')
-            arr = arrFromObj.slice(length - 30, length);
+            arr = makeMonth(arrFromObj);
 
         else
-            arr = arrFromObj.slice(length - 365, length);
+            arr = makeYear(arrFromObj);
     }
 
     else if(page === 'symptoms') {
         arrFromObj = makeArr(data.symptomData, category);
-        let length = arrFromObj.length;
 
         //it is some symptom
         if(timePeriod === 'past_week')
-            arr = arrFromObj.slice(length - 7, length);
+            arr = makeWeek(arrFromObj);
 
         else if(timePeriod === 'past_month')
-            arr = arrFromObj.slice(length - 30, length);
+            arr = makeMonth(arrFromObj);
 
         else
-            arr = arrFromObj.slice(length - 365, length);
+            arr = makeYear(arrFromObj);
     }
 
     //medication
     else {
         arrFromObj = makeArr(data.medicineData.meds, category);
-        let length = arrFromObj.length;
-
-        //it is some medication
+        
         if(timePeriod === 'past_week')
-            arr = arrFromObj.slice(length - 7, length);
+            arr = makeWeek(arrFromObj);
 
         else if(timePeriod === 'past_month')
-            arr = arrFromObj.slice(length - 30, length);
+            arr = makeMonth(arrFromObj);
 
         else
-            arr = arrFromObj.slice(length - 365, length);
+            arr = makeYear(arrFromObj);
     }
 
     arr = cleanUpData(arr);
