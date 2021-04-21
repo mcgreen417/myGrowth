@@ -39,11 +39,11 @@ function GoalComplete({ navigation }) {
           />
           <View style={{ marginVertical: '10%' }}>
             <Text style={{ fontSize: 20, color: '#816868', fontWeight: 'bold', textAlign: 'center', }}>
-              You have completed a goal!
+              You've completed a goal!
             </Text>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', }}>
               <Text style={{ fontSize: 20, color: '#816868', fontWeight: 'bold', textAlign: 'center', }}>
-                You have gained +30 
+                You've gained +30 
               </Text>
               <Icon
                 name='star'

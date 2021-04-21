@@ -10,6 +10,7 @@ import {
   Button,
   ScrollView,
 } from 'react-native';
+import { Icon } from 'react-native-elements';
 
 function Start({ navigation }) {
   // Colorblind mode switch initialization
@@ -37,27 +38,25 @@ function Start({ navigation }) {
         contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
       >
         {/* Colorblind mode switch displayed on screen */}
-        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: '10%' }}>
-          <Text style={{ fontWeight: 'bold', fontSize: 18, }}>
-            {global.colorblindMode
-              ? 'Colorblind mode enabled'
-              : 'Enable colorblind mode?'}
-          </Text>
-          <Switch
-            trackColor={{
-              false: global.cb_switchTrackColorFalse,
-              true: global.cb_switchTrackColorTrue,
-            }}
-            thumbColor={
-              isEnabled
-                ? global.cb_switchThumbColorTrue
-                : global.cb_switchThumbColorFalse
-            }
-            ios_backgroundColor={global.cb_blackColor}
-            onValueChange={toggleSwitch}
-            value={isEnabled}
-            caption='Colorblind Mode Toggle'
+
+        <View style={{ alignSelf: 'flex-end', marginTop: '15%', marginBottom: '-15%', marginRight: '5%' }}>
+          <Icon
+            name='eye-circle'
+            type='material-community'
+            size={48}
+            color={global.cb_textColor}
+            onPress={toggleSwitch}
           />
+          <Text style={{ 
+            fontWeight: 'bold', 
+            fontSize: 14, 
+            textAlign: 'center', 
+            color: global.cb_textColor, 
+            }}>
+            {global.colorblindMode
+              ? "Colorblind\nmode\nenabled"
+              : "Enable\ncolorblind\nmode"}
+          </Text>
         </View>
 
         <View style={styles().pageSetup}>
