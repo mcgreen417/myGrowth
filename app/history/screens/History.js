@@ -18,16 +18,14 @@ import HistorySelectACategory from '../../shared/components/HistorySelectACatego
 
 function HistoryHealthEntries({ route, navigation }) {
   const data = route.params.data;
-  var dummy = false;
-  //const arr = data != null ? null : initDisplayData(data);
-  //const labels = data != null ? null : getTimestamps(data);
-  //const commits = data != null ? null : genCommits(arr, labels);
-
+  const settings = route.params.settings;
   const [modalVisible, setModalVisible] = useState(false);
 
-  console.log(data);
+  if(data !== null) {
+    const arr = initDisplayData(data);
+    const labels = getTimestamps(data);
+    const commits = genCommits(arr, labels);
 
-  if(dummy)
     return (
       <SafeAreaView style={styles().container}>
         
@@ -37,6 +35,7 @@ function HistoryHealthEntries({ route, navigation }) {
           showModalView={modalVisible}
           navigation={navigation}
           data={data}
+          settings={settings}
         />
         
         {/* Actual screen */}
@@ -83,7 +82,8 @@ function HistoryHealthEntries({ route, navigation }) {
                 navigation={navigation} 
                 data={commits} 
                 page={'history'}
-                page2Color={false} 
+                page2Color={false}
+                settings={settings} 
               />
             </View>
 
@@ -110,7 +110,7 @@ function HistoryHealthEntries({ route, navigation }) {
                   ? global.cb_optionButtonsColor
                   : global.optionButtonsColor
                 }
-                onPress={() => navigation.navigate('HistoryCorrelations', {data})}>
+                onPress={() => navigation.navigate('HistoryCorrelations', {data, settings})}>
               </Button>
             </View>
 
@@ -120,6 +120,7 @@ function HistoryHealthEntries({ route, navigation }) {
         <NavBar history={true} navigation={navigation} />
       </SafeAreaView>
     );
+  }
 
   else
     return (
@@ -130,6 +131,7 @@ function HistoryHealthEntries({ route, navigation }) {
           showModalView={modalVisible}
           navigation={navigation}
           data={data}
+          settings={settings}
         />
 
         {/* Actual screen */}
@@ -170,7 +172,13 @@ function HistoryHealthEntries({ route, navigation }) {
               </View>
             </TouchableOpacity>
 
-            <Text>Uh Oh! It seems like you don't have any data to view!\nTry making some health entries first!</Text>
+            <View style={{alignContent: 'center', margin: 22}}>
+              <Text>
+                Uh Oh! It seems like you don't have any data to view!
+                Try making some health entries first!
+              </Text>
+            </View>
+            
           </View>
         </ScrollView>
         <NavBar history={true} navigation={navigation} />

@@ -38,279 +38,347 @@ const monthLabels = [
 
 function HistoryFitness1({ route, navigation }) {
   const data = route.params.data;
-  const arr = initDisplayData(data);
+  const settings = route.params.settings;
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const [modalVisible, setModalVisible] = useState(false); 
-  const [timePeriod, setTimePeriod] = useState('past_week');
-  const [selectDisplay, setDisplay] = useState('exercise_time');
-  const [timestamps, setTimestamps] = useState(dayLabels);
-  const [displayData, setDisplayData] = useState(arr);  
+  if(data !== null) {
+    const arr = initDisplayData(data); 
+    const [timePeriod, setTimePeriod] = useState('past_week');
+    const [selectDisplay, setDisplay] = useState('exercise_time');
+    const [timestamps, setTimestamps] = useState(dayLabels);
+    const [displayData, setDisplayData] = useState(arr);  
 
-  const [useReccActivity, setUseReccActivity] = useState(false);
+    const [useReccActivity, setUseReccActivity] = useState(false);
 
-  const toggleReccActivity = () =>
-    setUseReccActivity((previousState) => !previousState);
-  
-  return (
-    <SafeAreaView style={styles().container}>
+    const toggleReccActivity = () =>
+      setUseReccActivity((previousState) => !previousState);
+    
+    return (
+      <SafeAreaView style={styles().container}>
 
-      {/* Modal + each of the navigable history pages */}
-      <HistorySelectACategory
-        setModalView={setModalVisible}
-        showModalView={modalVisible}
-        navigation={navigation}
-        data={data}
-      />
+        {/* Modal + each of the navigable history pages */}
+        <HistorySelectACategory
+          setModalView={setModalVisible}
+          showModalView={modalVisible}
+          navigation={navigation}
+          data={data}
+          settings={settings}
+        />
 
-      {/* Actual screen */}
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles().pageSetup}>
+        {/* Actual screen */}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles().pageSetup}>
 
-          {/* Gardener avatar + page blurb */}
-          <View style={styles().avatarView}>
-            <Text style={styles().pageDescription}>
-              View your fitness history and what effects we think your fitness routine
-              may be having on your health!
-            </Text>
-            <Image
-              style={styles().avatarFlipped}
-              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
-            />
-          </View>
-          {/* Top page divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
+            {/* Gardener avatar + page blurb */}
+            <View style={styles().avatarView}>
+              <Text style={styles().pageDescription}>
+                View your fitness history and what effects we think your fitness routine
+                may be having on your health!
+              </Text>
+              <Image
+                style={styles().avatarFlipped}
+                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+              />
+            </View>
+            {/* Top page divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
 
-          {/* Categories button */}
-          <TouchableOpacity 
-            style={styles().categoriesView} 
-            onPress={() => setModalVisible(true)}
-          >
+            {/* Categories button */}
+            <TouchableOpacity 
+              style={styles().categoriesView} 
+              onPress={() => setModalVisible(true)}
+            >
+              <View 
+                style={styles().categories}>
+                <Text style={styles().textAlt}>Categories</Text>
+                <View>
+                  <Icon
+                    name='arrow-top-right'
+                    type='material-community'
+                    color='white'
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+
+            {/* Custom history component */}
+            <View style={{marginTop: 6}}>
+              <TabBarAndContent 
+                navigation={navigation} 
+                data={data} 
+                timePeriod={timestamps}
+                multiPageData={displayData} 
+                page={'fitness'}
+                page2Color={false}
+                settings={settings} 
+              />
+            </View>
+
+            {/* Time Period and Select Display drop-down selection */}
             <View 
-              style={styles().categories}>
-              <Text style={styles().textAlt}>Categories</Text>
-              <View>
-                <Icon
-                  name='arrow-top-right'
-                  type='material-community'
-                  color='white'
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
-
-          {/* Custom history component */}
-          <View style={{marginTop: 6}}>
-            <TabBarAndContent 
-              navigation={navigation} 
-              data={data} 
-              timePeriod={timestamps}
-              multiPageData={displayData} 
-              page={'fitness'}
-              page2Color={false} 
-            />
-          </View>
-
-          {/* Time Period and Select Display drop-down selection */}
-          <View 
-            style={{ 
-              width: '90%', 
-              justifyContent: 'flex-start', 
-              marginVertical: 20, 
-              flexDirection: 'row',
-            }}>
-            <View style={{ width: '50%', }}>
-              <Text style={styles().heading}>TIME PERIOD</Text>
-              <View style={styles().pickerView}>
-                <Picker
-                  selectedValue={timePeriod}
-                  style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => {
-                    setTimePeriod(itemValue);
-                    getDisplayData(data, itemValue, setDisplayData, selectDisplay);
-                    getTimestamps(data, timestamps, setTimestamps, itemValue);
-                  }}
-                  mode={'dropdown'}
-                >
-                  <Picker.Item label='Past week' value='past_week' />
-                  <Picker.Item label='Past month' value='past_month' />
-                  <Picker.Item label='Past year' value='past_year' />
-                </Picker>
-              </View>
-            </View>
-            <View style={{ width: '50%', }}>
-              <Text style={styles().heading}>SELECT DISPLAY</Text>
-              <View style={styles().pickerView}>
-                <Picker
-                  selectedValue={selectDisplay}
-                  style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => {
-                    setDisplay(itemValue);
-                    getDisplayData(data, timePeriod, setDisplayData, itemValue);
-                    getTimestamps(data, timestamps, setTimestamps, timePeriod);
-                  }}
-                  mode={'dropdown'}
-                >
-                  <Picker.Item label='Time spent exercising' value='exercise_time' />
-                  <Picker.Item label='Calories burned' value='cals_burned' />
-                  <Picker.Item label='Steps taken' value='steps_taken' />
-                </Picker>
-              </View>
-            </View>
-          </View>
-
-          {/* Display recommended activity level switch */}
-          <View style={styles().line}/>
-          <View style={{ flexDirection: 'row', width: '90%', alignItems: 'center' }}>
-            <Text style={styles().textLight}>Display recommended activity level</Text>
-            <View style={styles().switchView}>
-              <View style={styles().line2}/>
-                <Switch
-                  trackColor={{ 
-                    false: global.colorblindMode 
-                      ? global.cb_switchTrackColorFalse
-                      : global.switchTrackColorFalse,
-                    true: global.colorblindMode
-                      ? global.cb_switchTrackColorTrue 
-                      : global.switchTrackColorTrue
-                  }}
-                  thumbColor={
-                    useReccActivity
-                      ? (global.colorblindMode 
-                        ? global.cb_switchThumbColorTrue
-                        : global.switchThumbColorTrue)
-                      : (global.colorblindMode
-                        ? global.cb_switchThumbColorFalse
-                        : global.switchThumbColorFalse)
-                  }
-                  ios_backgroundColor={global.cb_switchIosBackgroundColor}
-                  onValueChange={toggleReccActivity}
-                  value={useReccActivity}
-                />
-            </View>
-          </View>
-          <View style={styles().line}/>
-
-          {/* App suggestions */}
-          <View style={{ marginHorizontal: '5%', marginTop: 20, }}>
-            {/* Exercised analysis */}
-            <Text style={styles().text}>
-              Based on our analysis, on days that you exercised, you often reported...
-            </Text>
-            <View style={styles().suggestionView}>
-               <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #1)</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #3)</Text>
-                  </View>
+              style={{ 
+                width: '90%', 
+                justifyContent: 'flex-start', 
+                marginVertical: 20, 
+                flexDirection: 'row',
+              }}>
+              <View style={{ width: '50%', }}>
+                <Text style={styles().heading}>TIME PERIOD</Text>
+                <View style={styles().pickerView}>
+                  <Picker
+                    selectedValue={timePeriod}
+                    style={styles().picker}
+                    onValueChange={(itemValue, itemIndex) => {
+                      setTimePeriod(itemValue);
+                      getDisplayData(data, itemValue, setDisplayData, selectDisplay);
+                      getTimestamps(data, timestamps, setTimestamps, itemValue);
+                    }}
+                    mode={'dropdown'}
+                  >
+                    <Picker.Item label='Past week' value='past_week' />
+                    <Picker.Item label='Past month' value='past_month' />
+                    <Picker.Item label='Past year' value='past_year' />
+                  </Picker>
                 </View>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #2)</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #4)</Text>
-                  </View>
+              </View>
+              <View style={{ width: '50%', }}>
+                <Text style={styles().heading}>SELECT DISPLAY</Text>
+                <View style={styles().pickerView}>
+                  <Picker
+                    selectedValue={selectDisplay}
+                    style={styles().picker}
+                    onValueChange={(itemValue, itemIndex) => {
+                      setDisplay(itemValue);
+                      getDisplayData(data, timePeriod, setDisplayData, itemValue);
+                      getTimestamps(data, timestamps, setTimestamps, timePeriod);
+                    }}
+                    mode={'dropdown'}
+                  >
+                    <Picker.Item label='Time spent exercising' value='exercise_time' />
+                    <Picker.Item label='Calories burned' value='cals_burned' />
+                    <Picker.Item label='Steps taken' value='steps_taken' />
+                  </Picker>
                 </View>
               </View>
             </View>
 
-            {/* Did not exercise analysis */}
-            <Text style={styles().text}>
-              Based on our analysis, on days that you did not exercise, you often reported...
-            </Text>
-            <View style={styles().suggestionView}>
-               <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #1)</Text>
+            {/* Display recommended activity level switch */}
+            <View style={styles().line}/>
+            <View style={{ flexDirection: 'row', width: '90%', alignItems: 'center' }}>
+              <Text style={styles().textLight}>Display recommended activity level</Text>
+              <View style={styles().switchView}>
+                <View style={styles().line2}/>
+                  <Switch
+                    trackColor={{ 
+                      false: global.colorblindMode 
+                        ? global.cb_switchTrackColorFalse
+                        : global.switchTrackColorFalse,
+                      true: global.colorblindMode
+                        ? global.cb_switchTrackColorTrue 
+                        : global.switchTrackColorTrue
+                    }}
+                    thumbColor={
+                      useReccActivity
+                        ? (global.colorblindMode 
+                          ? global.cb_switchThumbColorTrue
+                          : global.switchThumbColorTrue)
+                        : (global.colorblindMode
+                          ? global.cb_switchThumbColorFalse
+                          : global.switchThumbColorFalse)
+                    }
+                    ios_backgroundColor={global.cb_switchIosBackgroundColor}
+                    onValueChange={toggleReccActivity}
+                    value={useReccActivity}
+                  />
+              </View>
+            </View>
+            <View style={styles().line}/>
+
+            {/* App suggestions */}
+            <View style={{ marginHorizontal: '5%', marginTop: 20, }}>
+              {/* Exercised analysis */}
+              <Text style={styles().text}>
+                Based on our analysis, on days that you exercised, you often reported...
+              </Text>
+              <View style={styles().suggestionView}>
+                <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #1)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #3)</Text>
+                    </View>
                   </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #3)</Text>
-                  </View>
-                </View>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #2)</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #4)</Text>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #2)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #4)</Text>
+                    </View>
                   </View>
                 </View>
               </View>
+
+              {/* Did not exercise analysis */}
+              <Text style={styles().text}>
+                Based on our analysis, on days that you did not exercise, you often reported...
+              </Text>
+              <View style={styles().suggestionView}>
+                <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #1)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #3)</Text>
+                    </View>
+                  </View>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #2)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #4)</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+
+              {/* Medical disclaimer */}
+              <Text style={styles().textLightSmall}>
+                ** Please consult a medical professional before altering your exercise routine 
+                as a result of these analyses. As a reminder, these analyses indicate correlation, 
+                not causation, and thus may not indicate direct effects of your exercise routine. 
+              </Text>
             </View>
 
-            {/* Medical disclaimer */}
-            <Text style={styles().textLightSmall}>
-              ** Please consult a medical professional before altering your exercise routine 
-              as a result of these analyses. As a reminder, these analyses indicate correlation, 
-              not causation, and thus may not indicate direct effects of your exercise routine. 
-            </Text>
-          </View>
+            {/* Middle divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
 
-          {/* Middle divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
+            {/* Recommended exercises (decide how we're going to add this in?) */}
+            <View style={{ marginHorizontal: '5%', }}>
+              <Text style={styles().text}>
+                Exercise is a great way to stay in shape and manage your weight! The
+                following exercise regimens are recommended for you.
+              </Text>
+            </View>
 
-          {/* Recommended exercises (decide how we're going to add this in?) */}
-          <View style={{ marginHorizontal: '5%', }}>
-            <Text style={styles().text}>
-              Exercise is a great way to stay in shape and manage your weight! The
-              following exercise regimens are recommended for you.
-            </Text>
+            <View style={styles().pageEnd}/>
           </View>
+        </ScrollView>
+        <NavBar history={true} navigation={navigation} />
+      </SafeAreaView>
+    );
+  }
+  
+  else
+    return (
+      <SafeAreaView style={styles().container}>
+        { /* Modal */}
+        <HistorySelectACategory
+          setModalView={setModalVisible}
+          showModalView={modalVisible}
+          navigation={navigation}
+          data={data}
+          settings={settings}
+        />
 
-          <View style={styles().pageEnd}/>
-        </View>
-      </ScrollView>
-      <NavBar history={true} navigation={navigation} />
-    </SafeAreaView>
-  );
+        {/* Actual screen */}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles().pageSetup}>
+            
+            {/* Gardener avatar + page blurb */}
+            <View style={styles().avatarView}>
+              <Text style={styles().pageDescription}>
+                View your fitness history and what effects we think your fitness routine
+                may be having on your health!
+              </Text>
+              <Image
+                style={styles().avatarFlipped}
+                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+              />
+            </View>
+            {/* Top page divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* Categories button */}
+            <TouchableOpacity 
+              style={styles().categoriesView} 
+              onPress={() => setModalVisible(true)}
+            >
+              <View 
+                style={styles().categories}>
+                <Text style={styles().textAlt}>Categories</Text>
+                <View>
+                  <Icon
+                    name='arrow-top-right'
+                    type='material-community'
+                    color='white'
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+
+            <View style={{alignContent: 'center', margin: 22}}>
+              <Text>
+                Uh Oh! It seems like you don't have any data to view!
+                Try making some health entries first!
+              </Text>
+            </View>
+            
+          </View>
+        </ScrollView>
+        <NavBar history={true} navigation={navigation} />
+      </SafeAreaView>
+    );
 };
 
 function makeYear(dataArr) {

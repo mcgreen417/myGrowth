@@ -331,219 +331,269 @@ const DataChoosers = ({
 
 function HistoryCorrelations({ route, navigation }) {
     const data = route.params.data;
-
-    const arr1 = initData('mood', data);
-    const arr2 = initData('stress', data);
-    const legendInit = makeLegend('mood', 'stress', 'unselected', 'unselected');
-
+    const settings = route.params.settings;
     const [modalVisible, setModalVisible] = useState(false);
-    const [picker1, setPicker1] = useState('mood');
-    const [picker2, setPicker2] = useState('stress');
-    const [data1, setData1] = useState(arr1);
-    const [data2, setData2] = useState(arr2);
-    const [labels, setLabels] = useState(dayLabels);
-    const [category1, setCategory1] = useState('unselected');
-    const [category2, setCategory2] = useState('unselected');
-    const [timePeriod, setTimePeriod] = useState('past_week');
-    const [legend, setLegend] = useState(legendInit);
 
-    return (
-      <SafeAreaView style={styles().container}>
-        {/* Modal + each of the navigable history pages */}
-        <HistorySelectACategory
-            setModalView={setModalVisible}
-            showModalView={modalVisible}
-            navigation={navigation}
-            data={data}
-        />
+    if(data !== null) {
+        const arr1 = initData('mood', data);
+        const arr2 = initData('stress', data);
+        const legendInit = makeLegend('mood', 'stress', 'unselected', 'unselected');
 
-        <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles().pageSetup}>
-                {/* Categories button */}
-                <TouchableOpacity 
+        const [picker1, setPicker1] = useState('mood');
+        const [picker2, setPicker2] = useState('stress');
+        const [data1, setData1] = useState(arr1);
+        const [data2, setData2] = useState(arr2);
+        const [labels, setLabels] = useState(dayLabels);
+        const [category1, setCategory1] = useState('unselected');
+        const [category2, setCategory2] = useState('unselected');
+        const [timePeriod, setTimePeriod] = useState('past_week');
+        const [legend, setLegend] = useState(legendInit);
+
+        return (
+        <SafeAreaView style={styles().container}>
+            {/* Modal + each of the navigable history pages */}
+            <HistorySelectACategory
+                setModalView={setModalVisible}
+                showModalView={modalVisible}
+                navigation={navigation}
+                data={data}
+                settings={settings}
+            />
+
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={styles().pageSetup}>
+                    {/* Categories button */}
+                    <TouchableOpacity 
+                        style={styles().categoriesView} 
+                        onPress={() => setModalVisible(true)}
+                    >
+                        <View style={styles().categories}>
+                            <Text style={styles().textAlt}>Categories</Text>
+                            <View>
+                                <Icon
+                                name='arrow-top-right'
+                                type='material-community'
+                                color='white'
+                                />
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+
+                    <Graph 
+                        labels={labels}
+                        data1={data1}
+                        data2={data2}
+                        legend={legend}
+                    />
+
+                    <View style={{width: '90%'}}>
+                        <Text style={styles().heading1}>Please select which categories you would like to compare.</Text>
+                    </View>
+
+                    {/* Middle divider */}
+                    <View style={styles().dividerView}>
+                        <View style={styles().divider} />
+                    </View>
+                    
+                    <View 
+                        style={{ 
+                        width: '90%', 
+                        justifyContent: 'flex-start', 
+                        marginVertical: 20, 
+                        flexDirection: 'row',
+                    }}>
+                        <View style={{ width: '50%', }}>
+                            <Text style={styles().heading}>PAGE 1</Text>
+                            <View style={styles().pickerView}>
+                                <Picker
+                                    selectedValue={picker1}
+                                    style={styles().picker}
+                                    onValueChange={(itemValue, itemIndex) => {
+                                        setPicker1(itemValue);
+
+                                        if(itemValue === 'mood' || 'stress' || 'weight' || 'period') {
+                                            makeData(data, setData1, itemValue, 'unselected', timePeriod);
+                                            setLegend(makeLegend(itemValue, picker2, 'unselected', 'unselected'));
+                                        }
+                                    }}
+                                    mode={'dropdown'}
+                                >
+                                    <Picker.Item label='Mood' value='mood' />
+                                    <Picker.Item label='Stress' value='stress' />
+                                    <Picker.Item label='Sleep' value='sleep' />
+                                    <Picker.Item label='Nap' value='nap' />
+                                    <Picker.Item label='Weight' value='weight' />
+                                    <Picker.Item label='Period' value='period' />
+                                    <Picker.Item label='Fitness' value='fitness' />
+                                    <Picker.Item label='Activities' value='activity' />
+                                    <Picker.Item label='Meals' value='meals' />
+                                    <Picker.Item label='Symptoms' value='symptoms' />
+                                    <Picker.Item label='Medications' value='medications' />
+                                </Picker>
+                            </View>
+                        </View>
+
+                        <View style={{ width: '50%', }}>
+                            <Text style={styles().heading}>PAGE 2</Text>
+                            <View style={styles().pickerView}>
+                                <Picker
+                                    selectedValue={picker2}
+                                    style={styles().picker}
+                                    onValueChange={(itemValue, itemIndex) => {
+                                        setPicker2(itemValue);
+
+                                        if(itemValue === 'mood' || 'stress' || 'weight' || 'period') {
+                                            makeData(data, setData2, itemValue, 'unselected', timePeriod);
+                                            setLegend(makeLegend(picker1, itemValue, 'unselected', 'unselected'));
+                                        }
+                                    }}
+                                    mode={'dropdown'}
+                                >
+                                    <Picker.Item label='Mood' value='mood' />
+                                    <Picker.Item label='Stress' value='stress' />
+                                    <Picker.Item label='Sleep' value='sleep' />
+                                    <Picker.Item label='Nap' value='nap' />
+                                    <Picker.Item label='Weight' value='weight' />
+                                    <Picker.Item label='Period' value='period' />
+                                    <Picker.Item label='Fitness' value='fitness' />
+                                    <Picker.Item label='Activities' value='activity' />
+                                    <Picker.Item label='Meals' value='meals' />
+                                    <Picker.Item label='Symptoms' value='symptoms' />
+                                    <Picker.Item label='Medications' value='medications' />
+                                </Picker>
+                            </View>
+                        </View>
+                    </View>
+
+                    <DataChoosers 
+                        showSleep={picker1 === 'sleep' ? true : false}
+                        showNap={picker1 === 'nap' ? true : false}
+                        showFitness={picker1 === 'fitness' ? true : false}
+                        showActivities={picker1 === 'activity' ? true : false}
+                        showMeal={picker1 === 'meals' ? true : false}
+                        showSymptom={picker1 === 'symptoms' ? true : false}
+                        showMedicine={picker1 === 'medications' ? true : false}
+                        dataRecs={data}
+                        category1={category1}
+                        setCategory1={setCategory1}
+                        category2={category2}
+                        setCategory2={setCategory2}
+                        isFirst={true}
+                        page1={picker1}
+                        page2={picker2}
+                        timePeriod={timePeriod}
+                        setLegend={setLegend}
+                        setData={setData1}
+                    />
+
+                    <DataChoosers 
+                        showSleep={picker2 === 'sleep' ? true : false}
+                        showNap={picker2 === 'nap' ? true : false}
+                        showFitness={picker2 === 'fitness' ? true : false}
+                        showActivities={picker2 === 'activity' ? true : false}
+                        showMeal={picker2 === 'meals' ? true : false}
+                        showSymptom={picker2 === 'symptoms' ? true : false}
+                        showMedicine={picker2 === 'medications' ? true : false}
+                        dataRecs={data}
+                        category1={category1}
+                        setCategory1={setCategory1}
+                        category2={category2}
+                        setCategory2={setCategory2}
+                        isFirst={false}
+                        page1={picker1}
+                        page2={picker2}
+                        timePeriod={timePeriod}
+                        setLegend={setLegend}
+                        setData={setData2}
+                    />
+
+                    <View style={styles().dividerView}>
+                        <View style={styles().divider} />
+                    </View>
+
+                    <View style={{width: '90%'}}>
+                        <Text style={styles().heading1}>Please select the time period you like to view.</Text>
+                    </View>
+
+                    <View>
+                        <Text style={styles().heading}>TIME PERIOD</Text>
+                        <View style={styles().pickerView}>
+                            <Picker
+                                selectedValue={timePeriod}
+                                style={styles().picker}
+                                onValueChange={(itemValue, itemIndex) => {
+                                    setTimePeriod(itemValue);
+
+                                    //make data per category selected
+                                    makeData(data, setData1, picker1, category1, itemValue);
+                                    makeData(data, setData2, picker2, category2, itemValue);
+
+                                    //new graph labels
+                                    makeLabels(itemValue, setLabels, data);
+                                }}
+                                mode={'dropdown'}
+                            >
+                                <Picker.Item label='Past Week' value='past_week' />
+                                <Picker.Item label='Past Month' value='past_month' />
+                                <Picker.Item label='Past Year' value='past_year' />
+                            </Picker>
+                        </View>
+                    </View>
+
+                    <View style={styles().pageEnd} />
+                </View>
+            </ScrollView>
+
+            <NavBar history={true} navigation={navigation} />
+        </SafeAreaView>
+        );
+    }
+
+    else
+        return (
+        <SafeAreaView style={styles().container}>
+            { /* Modal */}
+            <HistorySelectACategory
+                setModalView={setModalVisible}
+                showModalView={modalVisible}
+                navigation={navigation}
+                data={data}
+                settings={settings}
+            />
+
+            {/* Actual screen */}
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={styles().pageSetup}>
+                    {/* Categories button */}
+                    <TouchableOpacity 
                     style={styles().categoriesView} 
                     onPress={() => setModalVisible(true)}
-                >
-                    <View style={styles().categories}>
-                        <Text style={styles().textAlt}>Categories</Text>
-                        <View>
-                            <Icon
-                            name='arrow-top-right'
-                            type='material-community'
-                            color='white'
-                            />
+                    >
+                        <View 
+                            style={styles().categories}>
+                            <Text style={styles().textAlt}>Categories</Text>
+                            <View>
+                                <Icon
+                                    name='arrow-top-right'
+                                    type='material-community'
+                                    color='white'
+                                />
+                                </View>
                         </View>
+                    </TouchableOpacity>
+
+                    <View style={{alignContent: 'center', margin: 22}}>
+                        <Text>
+                            Uh Oh! It seems like you don't have any data to view!
+                            Try making some health entries first!
+                        </Text>
                     </View>
-                </TouchableOpacity>
-
-                <Graph 
-                    labels={labels}
-                    data1={data1}
-                    data2={data2}
-                    legend={legend}
-                />
-
-                <View style={{width: '90%'}}>
-                    <Text style={styles().heading1}>Please select which categories you would like to compare.</Text>
+                    
                 </View>
-
-                {/* Middle divider */}
-                <View style={styles().dividerView}>
-                    <View style={styles().divider} />
-                </View>
-                
-                <View 
-                    style={{ 
-                    width: '90%', 
-                    justifyContent: 'flex-start', 
-                    marginVertical: 20, 
-                    flexDirection: 'row',
-                }}>
-                    <View style={{ width: '50%', }}>
-                        <Text style={styles().heading}>PAGE 1</Text>
-                        <View style={styles().pickerView}>
-                            <Picker
-                                selectedValue={picker1}
-                                style={styles().picker}
-                                onValueChange={(itemValue, itemIndex) => {
-                                    setPicker1(itemValue);
-
-                                    if(itemValue === 'mood' || 'stress' || 'weight' || 'period') {
-                                        makeData(data, setData1, itemValue, 'unselected', timePeriod);
-                                        setLegend(makeLegend(itemValue, picker2, 'unselected', 'unselected'));
-                                    }
-                                }}
-                                mode={'dropdown'}
-                            >
-                                <Picker.Item label='Mood' value='mood' />
-                                <Picker.Item label='Stress' value='stress' />
-                                <Picker.Item label='Sleep' value='sleep' />
-                                <Picker.Item label='Nap' value='nap' />
-                                <Picker.Item label='Weight' value='weight' />
-                                <Picker.Item label='Period' value='period' />
-                                <Picker.Item label='Fitness' value='fitness' />
-                                <Picker.Item label='Activities' value='activity' />
-                                <Picker.Item label='Meals' value='meals' />
-                                <Picker.Item label='Symptoms' value='symptoms' />
-                                <Picker.Item label='Medications' value='medications' />
-                            </Picker>
-                        </View>
-                    </View>
-
-                    <View style={{ width: '50%', }}>
-                        <Text style={styles().heading}>PAGE 2</Text>
-                        <View style={styles().pickerView}>
-                            <Picker
-                                selectedValue={picker2}
-                                style={styles().picker}
-                                onValueChange={(itemValue, itemIndex) => {
-                                    setPicker2(itemValue);
-
-                                    if(itemValue === 'mood' || 'stress' || 'weight' || 'period') {
-                                        makeData(data, setData2, itemValue, 'unselected', timePeriod);
-                                        setLegend(makeLegend(picker1, itemValue, 'unselected', 'unselected'));
-                                    }
-                                }}
-                                mode={'dropdown'}
-                            >
-                                <Picker.Item label='Mood' value='mood' />
-                                <Picker.Item label='Stress' value='stress' />
-                                <Picker.Item label='Sleep' value='sleep' />
-                                <Picker.Item label='Nap' value='nap' />
-                                <Picker.Item label='Weight' value='weight' />
-                                <Picker.Item label='Period' value='period' />
-                                <Picker.Item label='Fitness' value='fitness' />
-                                <Picker.Item label='Activities' value='activity' />
-                                <Picker.Item label='Meals' value='meals' />
-                                <Picker.Item label='Symptoms' value='symptoms' />
-                                <Picker.Item label='Medications' value='medications' />
-                            </Picker>
-                        </View>
-                    </View>
-                </View>
-
-                <DataChoosers 
-                    showSleep={picker1 === 'sleep' ? true : false}
-                    showNap={picker1 === 'nap' ? true : false}
-                    showFitness={picker1 === 'fitness' ? true : false}
-                    showActivities={picker1 === 'activity' ? true : false}
-                    showMeal={picker1 === 'meals' ? true : false}
-                    showSymptom={picker1 === 'symptoms' ? true : false}
-                    showMedicine={picker1 === 'medications' ? true : false}
-                    dataRecs={data}
-                    category1={category1}
-                    setCategory1={setCategory1}
-                    category2={category2}
-                    setCategory2={setCategory2}
-                    isFirst={true}
-                    page1={picker1}
-                    page2={picker2}
-                    timePeriod={timePeriod}
-                    setLegend={setLegend}
-                    setData={setData1}
-                />
-
-                <DataChoosers 
-                    showSleep={picker2 === 'sleep' ? true : false}
-                    showNap={picker2 === 'nap' ? true : false}
-                    showFitness={picker2 === 'fitness' ? true : false}
-                    showActivities={picker2 === 'activity' ? true : false}
-                    showMeal={picker2 === 'meals' ? true : false}
-                    showSymptom={picker2 === 'symptoms' ? true : false}
-                    showMedicine={picker2 === 'medications' ? true : false}
-                    dataRecs={data}
-                    category1={category1}
-                    setCategory1={setCategory1}
-                    category2={category2}
-                    setCategory2={setCategory2}
-                    isFirst={false}
-                    page1={picker1}
-                    page2={picker2}
-                    timePeriod={timePeriod}
-                    setLegend={setLegend}
-                    setData={setData2}
-                />
-
-                <View style={styles().dividerView}>
-                    <View style={styles().divider} />
-                </View>
-
-                <View style={{width: '90%'}}>
-                    <Text style={styles().heading1}>Please select the time period you like to view.</Text>
-                </View>
-
-                <View>
-                    <Text style={styles().heading}>TIME PERIOD</Text>
-                    <View style={styles().pickerView}>
-                        <Picker
-                            selectedValue={timePeriod}
-                            style={styles().picker}
-                            onValueChange={(itemValue, itemIndex) => {
-                                setTimePeriod(itemValue);
-
-                                //make data per category selected
-                                makeData(data, setData1, picker1, category1, itemValue);
-                                makeData(data, setData2, picker2, category2, itemValue);
-
-                                //new graph labels
-                                makeLabels(itemValue, setLabels, data);
-                            }}
-                            mode={'dropdown'}
-                        >
-                            <Picker.Item label='Past Week' value='past_week' />
-                            <Picker.Item label='Past Month' value='past_month' />
-                            <Picker.Item label='Past Year' value='past_year' />
-                        </Picker>
-                    </View>
-                </View>
-
-                <View style={styles().pageEnd} />
-            </View>
-        </ScrollView>
-
-        <NavBar history={true} navigation={navigation} />
-      </SafeAreaView>
-    );
+            </ScrollView>
+            <NavBar history={true} navigation={navigation} />
+        </SafeAreaView>
+        );
 }
 
 function getPickerLabels(page, data) {

@@ -39,331 +39,399 @@ const monthLabels = [
 
 function HistoryMealTracking({ route, navigation }) {
   const data = route.params.data;
-  const arr = initDisplayData(data);
-
+  const settings = route.params.settings;
   const [modalVisible, setModalVisible] = useState(false);
-  const [timePeriod, setTimePeriod] = useState('past_week');
-  const [selectNutrients, setNutrients] = useState('calories');
-  const [timestamps, setTimestamps] = useState(dayLabels);
-  const [displayData, setDisplayData] = useState(arr);
 
-  //switch state
-  const [useReccNutrition, setUseReccNutrition] = useState(false);
-  
-  const toggleReccNutrition = () =>
-    setUseReccNutrition((previousState) => !previousState);
+  if(data !== null) {
+    const arr = initDisplayData(data);
+    const [timePeriod, setTimePeriod] = useState('past_week');
+    const [selectNutrients, setNutrients] = useState('calories');
+    const [timestamps, setTimestamps] = useState(dayLabels);
+    const [displayData, setDisplayData] = useState(arr);
 
-  return (
-    <SafeAreaView style={styles().container}>
+    //switch state
+    const [useReccNutrition, setUseReccNutrition] = useState(false);
+    
+    const toggleReccNutrition = () =>
+      setUseReccNutrition((previousState) => !previousState);
 
-      {/* Modal + each of the navigable history pages */}
-      <HistorySelectACategory
-        setModalView={setModalVisible}
-        showModalView={modalVisible}
-        navigation={navigation}
-        data={data}
-      />
+    return (
+      <SafeAreaView style={styles().container}>
 
-      {/* Actual screen */}
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles().pageSetup}>
+        {/* Modal + each of the navigable history pages */}
+        <HistorySelectACategory
+          setModalView={setModalVisible}
+          showModalView={modalVisible}
+          navigation={navigation}
+          data={data}
+          settings={settings}
+        />
 
-          {/* Gardener avatar + page blurb */}
-          <View style={styles().avatarView}>
-            <Text style={styles().pageDescription}>
-              View your meal history and what effects we think your diet may be having
-              on your health!
-            </Text>
-            <Image
-              style={styles().avatarFlipped}
-              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
-            />
-          </View>
-          {/* Top page divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
+        {/* Actual screen */}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles().pageSetup}>
 
-          {/* Categories button */}
-          <TouchableOpacity 
-            style={styles().categoriesView} 
-            onPress={() => setModalVisible(true)}
-          >
+            {/* Gardener avatar + page blurb */}
+            <View style={styles().avatarView}>
+              <Text style={styles().pageDescription}>
+                View your meal history and what effects we think your diet may be having
+                on your health!
+              </Text>
+              <Image
+                style={styles().avatarFlipped}
+                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+              />
+            </View>
+            {/* Top page divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* Categories button */}
+            <TouchableOpacity 
+              style={styles().categoriesView} 
+              onPress={() => setModalVisible(true)}
+            >
+              <View 
+                style={styles().categories}>
+                <Text style={styles().textAlt}>Categories</Text>
+                <View>
+                  <Icon
+                    name='arrow-top-right'
+                    type='material-community'
+                    color='white'
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+
+            {/* Custom history component */}
+            <View style={{marginTop: 6}}>
+              <TabBarAndContent 
+                navigation={navigation} 
+                data={data} 
+                multiPageData={displayData}
+                timePeriod={timestamps} 
+                page={'historyGenComp'}
+                page2Color={false} 
+                settings={settings}
+              />
+            </View>
+
+            {/* Time Period and Select Nutrient drop-down selection */}
             <View 
-              style={styles().categories}>
-              <Text style={styles().textAlt}>Categories</Text>
-              <View>
-                <Icon
-                  name='arrow-top-right'
-                  type='material-community'
-                  color='white'
-                />
+              style={{ 
+                width: '90%', 
+                justifyContent: 'flex-start', 
+                marginVertical: 20, 
+                flexDirection: 'row',
+              }}>
+              <View style={{ width: '50%', }}>
+                <Text style={styles().heading}>TIME PERIOD</Text>
+                <View style={styles().pickerView}>
+                  <Picker
+                    selectedValue={timePeriod}
+                    style={styles().picker}
+                    onValueChange={(itemValue, itemIndex) => {
+                      setTimePeriod(itemValue);
+                      getDisplayData(data, itemValue, setDisplayData, selectNutrients);
+                      getTimestamps(data, timestamps, setTimestamps, itemValue);
+                    }}
+                    mode={'dropdown'}
+                  >
+                    <Picker.Item label='Past week' value='past_week' />
+                    <Picker.Item label='Past month' value='past_month' />
+                    <Picker.Item label='Past year' value='past_year' />
+                  </Picker>
+                </View>
+              </View>
+              <View style={{ width: '50%', }}>
+                <Text style={styles().heading}>SELECT NUTRIENT</Text>
+                <View style={styles().pickerView}>
+                  <Picker
+                    selectedValue={selectNutrients}
+                    style={styles().picker}
+                    onValueChange={(itemValue, itemIndex) => {
+                      setNutrients(itemValue);
+                      getDisplayData(data, timePeriod, setDisplayData, itemValue);
+                      getTimestamps(data, timestamps, setTimestamps, timePeriod);
+                    }}
+                    mode={'dropdown'}
+                  >
+                    <Picker.Item label='Calories' value='calories' />
+                    <Picker.Item label='Total fat' value='total_fat' />
+                    <Picker.Item label='Total Protein' value='total_protein' />
+                    <Picker.Item label='Total carbs' value='total_carbs' />
+                  </Picker>
+                </View>
               </View>
             </View>
-          </TouchableOpacity>
 
-          {/* Custom history component */}
-          <View style={{marginTop: 6}}>
-            <TabBarAndContent 
-              navigation={navigation} 
-              data={data} 
-              multiPageData={displayData}
-              timePeriod={timestamps} 
-              page={'historyGenComp'}
-              page2Color={false} 
-            />
+            {/* Display recommended nutritional values switch */}
+            <View style={styles().line}/>
+            <View style={{ flexDirection: 'row', width: '90%', alignItems: 'center' }}>
+              <Text style={styles().textLight}>Display recommended nutritional values</Text>
+              <View style={styles().switchView}>
+                <View style={styles().line2}/>
+                  <Switch
+                    trackColor={{ 
+                      false: global.colorblindMode 
+                        ? global.cb_switchTrackColorFalse
+                        : global.switchTrackColorFalse,
+                      true: global.colorblindMode
+                        ? global.cb_switchTrackColorTrue 
+                        : global.switchTrackColorTrue
+                    }}
+                    thumbColor={
+                      useReccNutrition
+                        ? (global.colorblindMode 
+                          ? global.cb_switchThumbColorTrue
+                          : global.switchThumbColorTrue)
+                        : (global.colorblindMode
+                          ? global.cb_switchThumbColorFalse
+                          : global.switchThumbColorFalse)
+                    }
+                    ios_backgroundColor={global.cb_switchIosBackgroundColor}
+                    onValueChange={toggleReccNutrition}
+                    value={useReccNutrition}
+                  />
+              </View>
+            </View>
+            <View style={styles().line}/>
+
+            {/* App suggestions */}
+            <View style={{ marginHorizontal: '5%', marginTop: 20, }}>
+              {/* Nutritional values met analysis */}
+              <Text style={styles().text}>
+                Based on our analysis, on days that you met or came close to meeting the daily
+                recommended nutritional requirements, you often reported...
+              </Text>
+              <View style={styles().suggestionView}>
+                <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #1)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #3)</Text>
+                    </View>
+                  </View>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #2)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #4)</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+
+              {/* Nutritional values not met analysis */}
+              <Text style={styles().text}>
+                Based on our analysis, on days that you did not meet or fell significnatly 
+                short of the daily recommended nutritional requirements, you often reported...
+              </Text>
+              <View style={styles().suggestionView}>
+                <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #1)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #3)</Text>
+                    </View>
+                  </View>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #2)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #4)</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+
+              {/* Medical disclaimer */}
+              <Text style={styles().textLightSmall}>
+                ** Please consult a medical professional before altering your diet as a result 
+                of these analyses. As a reminder, these analyses indicate correlation, not 
+                causation, and thus may not indicate direct effects of your diet. 
+              </Text>
+            </View>
+
+            {/* Middle divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* Recommended calories */}
+            <View style={{ marginHorizontal: '5%', }}>
+              <Text style={styles().text}>
+                Based on your biological information, we can provide you the following
+                recommendations on your calorie consumption thresholds...
+              </Text>
+              <View style={{ borderRadius: 10, marginVertical: 10, }}>
+                <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
+                  <View style={{ width: '50%', backgroundColor: '#43A56C', borderTopLeftRadius: 10, }}>
+                    <Text style={styles().textAltWhite}>Weight gain</Text>
+                  </View>
+                  <View style={{ width: '50%', backgroundColor: '#F5F5F5', borderTopRightRadius: 10, }}>
+                    <Text style={styles().textAltBrown}>xxxx cal</Text>
+                  </View>
+                </View>
+                <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
+                  <View style={{ width: '50%', backgroundColor: '#4CB97A', borderLeftRadius: 10, }}>
+                    <Text style={styles().textAltWhite}>Mild weight gain</Text>
+                  </View>
+                  <View style={{ width: '50%', backgroundColor: 'white', borderRightRadius: 10, }}>
+                    <Text style={styles().textAltBrown}>xxxx cal</Text>
+                  </View>
+                </View>
+                <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
+                  <View style={{ width: '50%', backgroundColor: '#A5DFB2', borderLeftRadius: 10, }}>
+                    <Text style={styles().textAltWhite}>Maintan weight</Text>
+                  </View>
+                  <View style={{ width: '50%', backgroundColor: '#F5F5F5', borderRightRadius: 10, }}>
+                    <Text style={styles().textAltBrown}>xxxx cal</Text>
+                  </View>
+                </View>
+                <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
+                  <View style={{ width: '50%', backgroundColor: '#C5E8CF', borderLeftRadius: 10, }}>
+                    <Text style={styles().textAltWhite}>Mild weight loss</Text>
+                  </View>
+                  <View style={{ width: '50%', backgroundColor: 'white', borderRightRadius: 10, }}>
+                    <Text style={styles().textAltBrown}>xxxx cal</Text>
+                  </View>
+                </View>
+                <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
+                  <View style={{ width: '50%', backgroundColor: '#D8EFDE', borderBottomLeftRadius: 10, }}>
+                    <Text style={styles().textAltWhite}>Weight loss</Text>
+                  </View>
+                  <View style={{ width: '50%', backgroundColor: '#F5F5F5', borderBottomRightRadius: 10, }}>
+                    <Text style={styles().textAltBrown}>xxxx cal</Text>
+                  </View>
+                </View>
+              </View>
+              <Text style={styles().textLightSmall}>
+                ** Please consult a medical professional before planning to go above 
+                (xxxx cal) or below (1200 cal), the minimum/maximum recommended daily calories 
+                amounts, for an extended period of time. Recommendations are based on current 
+                height, weight, and activity level, and thus may not always be accurate.
+              </Text>
+            </View>
+
+            <View style={styles().pageEnd}/>
           </View>
+        </ScrollView>
+        <NavBar history={true} navigation={navigation} />
+      </SafeAreaView>
+    );
+  }
 
-          {/* Time Period and Select Nutrient drop-down selection */}
-          <View 
-            style={{ 
-              width: '90%', 
-              justifyContent: 'flex-start', 
-              marginVertical: 20, 
-              flexDirection: 'row',
-            }}>
-            <View style={{ width: '50%', }}>
-              <Text style={styles().heading}>TIME PERIOD</Text>
-              <View style={styles().pickerView}>
-                <Picker
-                  selectedValue={timePeriod}
-                  style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => {
-                    setTimePeriod(itemValue);
-                    getDisplayData(data, itemValue, setDisplayData, selectNutrients);
-                    getTimestamps(data, timestamps, setTimestamps, itemValue);
-                  }}
-                  mode={'dropdown'}
-                >
-                  <Picker.Item label='Past week' value='past_week' />
-                  <Picker.Item label='Past month' value='past_month' />
-                  <Picker.Item label='Past year' value='past_year' />
-                </Picker>
-              </View>
+  else
+    return (
+      <SafeAreaView style={styles().container}>
+        { /* Modal */}
+        <HistorySelectACategory
+          setModalView={setModalVisible}
+          showModalView={modalVisible}
+          navigation={navigation}
+          data={data}
+          settings={settings}
+        />
+
+        {/* Actual screen */}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles().pageSetup}>
+            
+            {/* Gardener avatar + page blurb */}
+            <View style={styles().avatarView}>
+              <Text style={styles().pageDescription}>
+                View your meal history and what effects we think your diet may be having
+                on your health!
+              </Text>
+              <Image
+                style={styles().avatarFlipped}
+                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+              />
             </View>
-            <View style={{ width: '50%', }}>
-              <Text style={styles().heading}>SELECT NUTRIENT</Text>
-              <View style={styles().pickerView}>
-                <Picker
-                  selectedValue={selectNutrients}
-                  style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => {
-                    setNutrients(itemValue);
-                    getDisplayData(data, timePeriod, setDisplayData, itemValue);
-                    getTimestamps(data, timestamps, setTimestamps, timePeriod);
-                  }}
-                  mode={'dropdown'}
-                >
-                  <Picker.Item label='Calories' value='calories' />
-                  <Picker.Item label='Total fat' value='total_fat' />
-                  <Picker.Item label='Total Protein' value='total_protein' />
-                  <Picker.Item label='Total carbs' value='total_carbs' />
-                </Picker>
-              </View>
+            {/* Top page divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
             </View>
+
+            {/* Categories button */}
+            <TouchableOpacity 
+              style={styles().categoriesView} 
+              onPress={() => setModalVisible(true)}
+            >
+              <View 
+                style={styles().categories}>
+                <Text style={styles().textAlt}>Categories</Text>
+                <View>
+                  <Icon
+                    name='arrow-top-right'
+                    type='material-community'
+                    color='white'
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+
+            <View style={{alignContent: 'center', margin: 22}}>
+              <Text>
+                Uh Oh! It seems like you don't have any data to view!
+                Try making some health entries first!
+              </Text>
+            </View>
+            
           </View>
-
-          {/* Display recommended nutritional values switch */}
-          <View style={styles().line}/>
-          <View style={{ flexDirection: 'row', width: '90%', alignItems: 'center' }}>
-            <Text style={styles().textLight}>Display recommended nutritional values</Text>
-            <View style={styles().switchView}>
-              <View style={styles().line2}/>
-                <Switch
-                  trackColor={{ 
-                    false: global.colorblindMode 
-                      ? global.cb_switchTrackColorFalse
-                      : global.switchTrackColorFalse,
-                    true: global.colorblindMode
-                      ? global.cb_switchTrackColorTrue 
-                      : global.switchTrackColorTrue
-                  }}
-                  thumbColor={
-                    useReccNutrition
-                      ? (global.colorblindMode 
-                        ? global.cb_switchThumbColorTrue
-                        : global.switchThumbColorTrue)
-                      : (global.colorblindMode
-                        ? global.cb_switchThumbColorFalse
-                        : global.switchThumbColorFalse)
-                  }
-                  ios_backgroundColor={global.cb_switchIosBackgroundColor}
-                  onValueChange={toggleReccNutrition}
-                  value={useReccNutrition}
-                />
-            </View>
-          </View>
-          <View style={styles().line}/>
-
-          {/* App suggestions */}
-          <View style={{ marginHorizontal: '5%', marginTop: 20, }}>
-            {/* Nutritional values met analysis */}
-            <Text style={styles().text}>
-              Based on our analysis, on days that you met or came close to meeting the daily
-              recommended nutritional requirements, you often reported...
-            </Text>
-            <View style={styles().suggestionView}>
-               <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #1)</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #3)</Text>
-                  </View>
-                </View>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #2)</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #4)</Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-
-            {/* Nutritional values not met analysis */}
-            <Text style={styles().text}>
-              Based on our analysis, on days that you did not meet or fell significnatly 
-              short of the daily recommended nutritional requirements, you often reported...
-            </Text>
-            <View style={styles().suggestionView}>
-               <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #1)</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #3)</Text>
-                  </View>
-                </View>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #2)</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #4)</Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-
-            {/* Medical disclaimer */}
-            <Text style={styles().textLightSmall}>
-              ** Please consult a medical professional before altering your diet as a result 
-              of these analyses. As a reminder, these analyses indicate correlation, not 
-              causation, and thus may not indicate direct effects of your diet. 
-            </Text>
-          </View>
-
-          {/* Middle divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
-
-          {/* Recommended calories */}
-          <View style={{ marginHorizontal: '5%', }}>
-            <Text style={styles().text}>
-              Based on your biological information, we can provide you the following
-              recommendations on your calorie consumption thresholds...
-            </Text>
-            <View style={{ borderRadius: 10, marginVertical: 10, }}>
-              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
-                <View style={{ width: '50%', backgroundColor: '#43A56C', borderTopLeftRadius: 10, }}>
-                  <Text style={styles().textAltWhite}>Weight gain</Text>
-                </View>
-                <View style={{ width: '50%', backgroundColor: '#F5F5F5', borderTopRightRadius: 10, }}>
-                  <Text style={styles().textAltBrown}>xxxx cal</Text>
-                </View>
-              </View>
-              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
-                <View style={{ width: '50%', backgroundColor: '#4CB97A', borderLeftRadius: 10, }}>
-                  <Text style={styles().textAltWhite}>Mild weight gain</Text>
-                </View>
-                <View style={{ width: '50%', backgroundColor: 'white', borderRightRadius: 10, }}>
-                  <Text style={styles().textAltBrown}>xxxx cal</Text>
-                </View>
-              </View>
-              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
-                <View style={{ width: '50%', backgroundColor: '#A5DFB2', borderLeftRadius: 10, }}>
-                  <Text style={styles().textAltWhite}>Maintan weight</Text>
-                </View>
-                <View style={{ width: '50%', backgroundColor: '#F5F5F5', borderRightRadius: 10, }}>
-                  <Text style={styles().textAltBrown}>xxxx cal</Text>
-                </View>
-              </View>
-              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
-                <View style={{ width: '50%', backgroundColor: '#C5E8CF', borderLeftRadius: 10, }}>
-                  <Text style={styles().textAltWhite}>Mild weight loss</Text>
-                </View>
-                <View style={{ width: '50%', backgroundColor: 'white', borderRightRadius: 10, }}>
-                  <Text style={styles().textAltBrown}>xxxx cal</Text>
-                </View>
-              </View>
-              <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
-                <View style={{ width: '50%', backgroundColor: '#D8EFDE', borderBottomLeftRadius: 10, }}>
-                  <Text style={styles().textAltWhite}>Weight loss</Text>
-                </View>
-                <View style={{ width: '50%', backgroundColor: '#F5F5F5', borderBottomRightRadius: 10, }}>
-                  <Text style={styles().textAltBrown}>xxxx cal</Text>
-                </View>
-              </View>
-            </View>
-            <Text style={styles().textLightSmall}>
-              ** Please consult a medical professional before planning to go above 
-              (xxxx cal) or below (1200 cal), the minimum/maximum recommended daily calories 
-              amounts, for an extended period of time. Recommendations are based on current 
-              height, weight, and activity level, and thus may not always be accurate.
-            </Text>
-          </View>
-
-          <View style={styles().pageEnd}/>
-        </View>
-      </ScrollView>
-      <NavBar history={true} navigation={navigation} />
-    </SafeAreaView>
-  );
+        </ScrollView>
+        <NavBar history={true} navigation={navigation} />
+      </SafeAreaView>
+    );
 };
 
 function makeYear(dataArr) {

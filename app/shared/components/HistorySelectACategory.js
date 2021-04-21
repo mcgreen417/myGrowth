@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -67,13 +67,28 @@ const screensInfo = [
   },
 ];
 
+const defaultSettings = {
+  "dailyActivities": false,
+  "fitness": false,
+  "meal": false,
+  "medication": false,
+  "metric": false,
+  "period": false,
+  "sleep": false,
+  "stress": false,
+  "weight": false,
+}  
+
 const HistorySelectACategory = ({
   setModalView,
   showModalView,
   navigation,
   data,
+  settings,
   ...rest
 }) => {
+  const [newScreensInfo, setNewScreensInfo] = useState(createNewScreensInfo(settings));
+
   return (
     <Modal
       animationType='fade'
@@ -137,12 +152,13 @@ const HistorySelectACategory = ({
               maxHeight: '60%',
             }}>
             {/* Will create each of the icons for all pages */}
-            {screensInfo.map((screen, index) => (
+            {newScreensInfo.map((screen, index) => (
               <SelectACategoryIcon
                 key={index}
                 screens={screen}
                 navigation={navigation}
                 data={data}
+                settings={settings}
                 setModalVisible={setModalView}
                 modalVisible={showModalView}
               />
@@ -153,6 +169,56 @@ const HistorySelectACategory = ({
     </Modal>
   );
 };
+
+async function setSettingsFromCache() {
+  //instantiate new cache
+  const cache = new Cache({
+    namespace: "myapp",
+    policy: {
+      maxEntries: 50000
+    },
+    backend: AsyncStorage
+  });
+
+  var newSettings = await cache.peek('settings');
+  
+  setSettings(newSettings);
+}
+
+function createNewScreensInfo(settings) {
+  var arr = [screensInfo[0], screensInfo[1]];
+
+  for(var i = 0; i < screensInfo.length; i++) {
+    if(i === 2 && settings.stress)
+      arr.push(screensInfo[2]);
+
+    else if(i === 3 && settings.dailyActivities)
+      arr.push(screensInfo[3]);
+    
+    else if(i === 4 && settings.period)
+      arr.push(screensInfo[4]);
+
+    else if(i === 5 && settings.weight)
+      arr.push(screensInfo[5]);
+
+    else if(i === 6)
+      arr.push(screensInfo[6]);
+
+    else if(i === 7 && settings.medication)
+      arr.push(screensInfo[7]);
+
+    else if(i === 8 && settings.sleep)
+      arr.push(screensInfo[8]);
+
+    else if(i === 9 && settings.meal)
+      arr.push(screensInfo[9]);
+
+    else if(i === 10 && settings.fitness)
+      arr.push(screensInfo[10]);
+  }
+
+  return arr;
+}
 
 export default HistorySelectACategory;
 

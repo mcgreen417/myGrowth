@@ -22,7 +22,8 @@ const TabBarAndContent = ({
   timePeriod, 
   page,
   multiPageData,
-  page2Color
+  page2Color, 
+  settings
 }) => {
   //page 2 buttons: activity, intensity, quality, exercise
   const [historyButtonColor, setHistoryButtonColor] = useState(page2Color == false ? buttonColors.darkGreen : buttonColors.lightGreen);
@@ -72,7 +73,7 @@ const TabBarAndContent = ({
             backgroundGradientFrom: "#4CB97A",
             backgroundGradientTo: "#4CB97A",
             fillShadowGradientOpacity: 3,
-            decimalPlaces: 2, // optional, defaults to 2dp
+            decimalPlaces: 1, // optional, defaults to 2dp
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             style: {
@@ -120,7 +121,7 @@ const TabBarAndContent = ({
               setShowTable(false);
               setCorrButtonColor(buttonColors.darkGreen);
               setHistoryButtonColor(buttonColors.lightGreen);
-              navigation.navigate('HistoryCorrelations', {data});
+              navigation.navigate('HistoryCorrelations', {data, settings});
             }}
           >
             <Text style={styles.text}>Correlations</Text>
@@ -153,7 +154,7 @@ const TabBarAndContent = ({
             backgroundColor: "#4CB97A",
             backgroundGradientFrom: "#4CB97A",
             backgroundGradientTo: "#4CB97A",
-            decimalPlaces: 2, // optional, defaults to 2dp
+            decimalPlaces: 1, // optional, defaults to 2dp
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             style: {
@@ -210,7 +211,7 @@ const TabBarAndContent = ({
               setShowTable(false);
               setCorrButtonColor(buttonColors.darkGreen);
               setHistoryButtonColor(buttonColors.lightGreen);
-              navigation.navigate('HistoryCorrelations', {data});
+              navigation.navigate('HistoryCorrelations', {data, settings});
             }}
           >
             <Text style={styles.text}>Correlations</Text>
@@ -233,7 +234,7 @@ const TabBarAndContent = ({
             backgroundGradientFrom: "#4CB97A",
             backgroundGradientTo: "#4CB97A",
             fillShadowGradientOpacity: 3,
-            decimalPlaces: 2, // optional, defaults to 2dp
+            decimalPlaces: 1, // optional, defaults to 2dp
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             style: {
@@ -267,7 +268,7 @@ const TabBarAndContent = ({
               setCorrButtonColor(buttonColors.lightGreen);
               setHistoryButtonColor(buttonColors.darkGreen);
               setActivityButtonColor(buttonColors.lightGreen);
-              navigation.navigate('HistoryDailyActivities1', {data});
+              navigation.navigate('HistoryDailyActivities1', {data, settings});
             }}
           >
             <Text style={styles.text}>History</Text>
@@ -282,7 +283,7 @@ const TabBarAndContent = ({
             }}
             onPress={() => {
               setShowTable(true);
-              navigation.navigate('HistoryDailyActivities2', {data});
+              navigation.navigate('HistoryDailyActivities2', {data, settings});
             }}
           >
             <Text style={styles.text}>Activity</Text>
@@ -300,7 +301,7 @@ const TabBarAndContent = ({
               setCorrButtonColor(buttonColors.darkGreen);
               setHistoryButtonColor(buttonColors.lightGreen);
               setActivityButtonColor(buttonColors.lightGreen);
-              navigation.navigate('HistoryCorrelations', {data});
+              navigation.navigate('HistoryCorrelations', {data, settings});
             }}
           >
             <Text style={styles.text}>Correlations</Text>
@@ -325,7 +326,7 @@ const TabBarAndContent = ({
               backgroundGradientFrom: "#4CB97A",
               backgroundGradientTo: "#4CB97A",
               fillShadowGradientOpacity: 3,
-              decimalPlaces: 2, // optional, defaults to 2dp
+              decimalPlaces: 1, // optional, defaults to 2dp
               color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
               labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
               style: {
@@ -354,7 +355,7 @@ const TabBarAndContent = ({
             backgroundColor: "#4CB97A",
             backgroundGradientFrom: "#4CB97A",
             backgroundGradientTo: "#4CB97A",
-            decimalPlaces: 2, // optional, defaults to 2dp
+            decimalPlaces: 1, // optional, defaults to 2dp
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             style: {
@@ -388,7 +389,7 @@ const TabBarAndContent = ({
               setCorrButtonColor(buttonColors.lightGreen);
               setHistoryButtonColor(buttonColors.darkGreen);
               setIntensityButtonColor(buttonColors.lightGreen);
-              navigation.navigate('HistoryGeneralHealth1', {data});
+              navigation.navigate('HistoryGeneralHealth1', {data, settings});
             }}
           >
             <Text style={styles.text}>History</Text>
@@ -403,7 +404,7 @@ const TabBarAndContent = ({
             }}
             onPress={() => {
               setShowTable(true);
-              navigation.navigate('HistoryGeneralHealth2', {data});
+              navigation.navigate('HistoryGeneralHealth2', {data, settings});
             }}
           >
             <Text style={styles.text}>Intensity</Text>
@@ -421,7 +422,7 @@ const TabBarAndContent = ({
               setCorrButtonColor(buttonColors.darkGreen);
               setHistoryButtonColor(buttonColors.lightGreen);
               setIntensityButtonColor(buttonColors.lightGreen);
-              navigation.navigate('HistoryCorrelations', {data});
+              navigation.navigate('HistoryCorrelations', {data, settings});
             }}
           >
             <Text style={styles.text}>Correlations</Text>
@@ -453,7 +454,7 @@ const TabBarAndContent = ({
             backgroundColor: "#4CB97A",
             backgroundGradientFrom: "#4CB97A",
             backgroundGradientTo: "#4CB97A",
-            decimalPlaces: 2, // optional, defaults to 2dp
+            decimalPlaces: 1, // optional, defaults to 2dp
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             style: {
@@ -490,7 +491,7 @@ const TabBarAndContent = ({
             backgroundColor: "#4CB97A",
             backgroundGradientFrom: "#4CB97A",
             backgroundGradientTo: "#4CB97A",
-            decimalPlaces: 2, // optional, defaults to 2dp
+            decimalPlaces: 1, // optional, defaults to 2dp
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             style: {
@@ -539,7 +540,7 @@ const TabBarAndContent = ({
               setShowTable(false);
               setCorrButtonColor(buttonColors.darkGreen);
               setScriptButtonColor(buttonColors.lightGreen);
-              navigation.navigate('HistoryCorrelations', {data});
+              navigation.navigate('HistoryCorrelations', {data, settings});
             }}
           >
             <Text style={styles.text}>Correlations</Text>
@@ -564,7 +565,7 @@ const TabBarAndContent = ({
             backgroundGradientFrom: "#4CB97A",
             backgroundGradientTo: "#4CB97A",
             fillShadowGradientOpacity: 3,
-            decimalPlaces: 2, // optional, defaults to 2dp
+            decimalPlaces: 1, // optional, defaults to 2dp
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             style: {
@@ -612,7 +613,7 @@ const TabBarAndContent = ({
             }}
             onPress={() => {
               setShowTable(true);
-              navigation.navigate('HistorySleep2', {data});
+              navigation.navigate('HistorySleep2', {data, settings});
             }}
           >
             <Text style={styles.text}>Quality</Text>
@@ -670,7 +671,7 @@ const TabBarAndContent = ({
             backgroundColor: "#4CB97A",
             backgroundGradientFrom: "#4CB97A",
             backgroundGradientTo: "#4CB97A",
-            decimalPlaces: 2, // optional, defaults to 2dp
+            decimalPlaces: 1, // optional, defaults to 2dp
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             style: {
@@ -705,7 +706,7 @@ const TabBarAndContent = ({
             backgroundColor: "#4CB97A",
             backgroundGradientFrom: "#4CB97A",
             backgroundGradientTo: "#4CB97A",
-            decimalPlaces: 2, // optional, defaults to 2dp
+            decimalPlaces: 1, // optional, defaults to 2dp
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             style: {
@@ -740,7 +741,7 @@ const TabBarAndContent = ({
             backgroundColor: "#4CB97A",
             backgroundGradientFrom: "#4CB97A",
             backgroundGradientTo: "#4CB97A",
-            decimalPlaces: 2, // optional, defaults to 2dp
+            decimalPlaces: 1, // optional, defaults to 2dp
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             style: {
@@ -774,7 +775,7 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              navigation.navigate('HistoryFitness1', {data});
+              navigation.navigate('HistoryFitness1', {data, settings});
               setShowTable(true);
               setCorrButtonColor(buttonColors.lightGreen);
               setHistoryButtonColor(buttonColors.darkGreen);
@@ -792,7 +793,7 @@ const TabBarAndContent = ({
               borderTopRightRadius: 10,
             }}
             onPress={() => {
-              navigation.navigate('HistoryFitness2', {data});
+              navigation.navigate('HistoryFitness2', {data, settings});
               setShowTable(true);
             }}
           >
@@ -811,7 +812,7 @@ const TabBarAndContent = ({
               setCorrButtonColor(buttonColors.darkGreen);
               setHistoryButtonColor(buttonColors.lightGreen);
               setExerciseButtonColor(buttonColors.lightGreen);
-              navigation.navigate('HistoryCorrelations', {data});
+              navigation.navigate('HistoryCorrelations', {data, settings});
             }}
           >
             <Text style={styles.text}>Correlations</Text>
@@ -843,7 +844,7 @@ const TabBarAndContent = ({
             backgroundColor: "#4CB97A",
             backgroundGradientFrom: "#4CB97A",
             backgroundGradientTo: "#4CB97A",
-            decimalPlaces: 2, // optional, defaults to 2dp
+            decimalPlaces: 1, // optional, defaults to 2dp
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             style: {
@@ -880,7 +881,7 @@ const TabBarAndContent = ({
             backgroundColor: "#4CB97A",
             backgroundGradientFrom: "#4CB97A",
             backgroundGradientTo: "#4CB97A",
-            decimalPlaces: 2, // optional, defaults to 2dp
+            decimalPlaces: 1, // optional, defaults to 2dp
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             style: {
