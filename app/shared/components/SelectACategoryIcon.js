@@ -1,5 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { 
+  StyleSheet, 
+  Text, 
+  View, 
+  TouchableOpacity, 
+  Dimensions 
+} from 'react-native';
 
 const SelectACategoryIcon = ({
   screens,
@@ -20,7 +26,15 @@ const SelectACategoryIcon = ({
         width: '25%',
         marginVertical: '5%',
       }}>
-      <Image style={styles().chooserImg} source={screens.imageSrc} />
+      <View style={{ 
+        borderRadius: 100, 
+        borderColor: '#A5DFB2', 
+        borderWidth: 2, 
+        paddingHorizontal: Math.round(Dimensions.get('window').width * 0.03), 
+        alignItems: 'center' 
+      }}>
+        {screens.imageSrc}
+      </View>
       <Text style={styles().text}>{screens.category}</Text>
     </TouchableOpacity>
   );
@@ -30,14 +44,6 @@ export default SelectACategoryIcon;
 
 const styles = () =>
   StyleSheet.create({
-    chooserImg: {
-      borderWidth: 1,
-      borderColor: global.colorblindMode
-        ? global.cb_optionButtonsColor
-        : global.optionButtonsColor,
-      width: 50,
-      height: 50,
-    },
     text: {
       color: global.colorblindMode ? global.cb_textColor : global.textColor,
       flexWrap: 'wrap',

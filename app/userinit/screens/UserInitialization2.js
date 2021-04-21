@@ -19,7 +19,7 @@ const avatars = new Array(48).fill('http://placeimg.com/100/100/any');
 
 function UserInitialization2({ route, navigation }) {
   const [avatar, setAvatar] = useState(avatars);
-  const { height, weight, heightMeasurement, weightMeasurement } = route.params;
+  const { activityLevel, height, weight, metric } = route.params;
 
   return (
     <SafeAreaView style={styles().container}>
@@ -58,6 +58,7 @@ function UserInitialization2({ route, navigation }) {
             />
           </View>
 
+<<<<<<< Updated upstream
           {/* Back & next buttons */}
           <View style={styles().buttonsContainer}>
             <Button
@@ -85,6 +86,34 @@ function UserInitialization2({ route, navigation }) {
               })}
             />
           </View>
+=======
+        {/* Back & next buttons */}
+        <View style={styles().buttonsContainer}>
+          <Button
+            title='Back'
+            color={
+              global.colorblindMode
+                ? global.cb_optionButtonsColor
+                : global.optionButtonsColor
+            }
+            onPress={() => navigation.navigate('UserInitialization1')}
+          />
+          <View style={{ width: '72%' }}></View>
+          <Button
+            title='Next'
+            color={
+              global.colorblindMode
+                ? global.cb_optionButtonsColor
+                : global.optionButtonsColor
+            }
+            onPress={() => navigation.navigate('UserInitialization3',{ 
+              activityLevel: activityLevel,
+              height: height,
+              weight: weight, 
+              metric: metric, 
+            })}
+          />
+>>>>>>> Stashed changes
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -6,64 +6,81 @@ import {
   Image,
   TouchableOpacity,
   Modal,
+<<<<<<< Updated upstream
+=======
+  Pressable,
+  Dimensions,
+>>>>>>> Stashed changes
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import { SvgCssUri } from 'react-native-svg';
 import SelectACategoryIcon from './SelectACategoryIcon';
+import Book from '../../shared/assets/svgs/book-emoji.svg'
+import Smiley from '../../shared/assets/svgs/smiley-emoji.svg'
+import AngrySymbol from '../../shared/assets/svgs/angry-symbol-emoji.svg'
+import Camping from '../../shared/assets/svgs/camping-emoji.svg'
+import Flower from '../../shared/assets/svgs/flower-emoji.svg'
+import DNA from '../../shared/assets/svgs/dna-emoji.svg'
+import Stethoscope from '../../shared/assets/svgs/stethoscope-emoji.svg'
+import Pill from '../../shared/assets/svgs/pill-emoji.svg'
+import ManSleeping from '../../shared/assets/svgs/man-sleeping-emoji.svg'
+import Plate from '../../shared/assets/svgs/plate-emoji.svg'
+import WomanRunning from '../../shared/assets/svgs/woman-running-emoji.svg'
 
 const screensInfo = [
   {
     category: 'Health Entries',
-    imageSrc: require('../assets/icon.png'),
+    imageSrc: <Book height={Math.round(Dimensions.get('window').width * 0.12)}/>,
     navigateTo: 'HistoryHealthEntries',
   },
   {
     category: 'Mood',
-    imageSrc: require('../assets/icon.png'),
+    imageSrc: <Smiley height={Math.round(Dimensions.get('window').width * 0.12)}/>,
     navigateTo: 'HistoryMood',
   },
   {
     category: 'Stress',
-    imageSrc: require('../assets/icon.png'),
+    imageSrc: <AngrySymbol height={Math.round(Dimensions.get('window').width * 0.12)}/>,
     navigateTo: 'HistoryStress',
   },
   {
     category: 'Daily Activities',
-    imageSrc: require('../assets/icon.png'),
+    imageSrc: <Camping height={Math.round(Dimensions.get('window').width * 0.12)}/>,
     navigateTo: 'HistoryDailyActivities1',
   },
   {
     category: 'Period Tracking',
-    imageSrc: require('../assets/icon.png'),
+    imageSrc: <Flower height={Math.round(Dimensions.get('window').width * 0.12)}/>,
     navigateTo: 'HistoryPeriodTracking',
   },
   {
     category: 'Weight',
-    imageSrc: require('../assets/icon.png'),
+    imageSrc: <DNA height={Math.round(Dimensions.get('window').width * 0.12)}/>,
     navigateTo: 'HistoryWeight',
   },
   {
     category: 'General Health',
-    imageSrc: require('../assets/icon.png'),
+    imageSrc: <Stethoscope height={Math.round(Dimensions.get('window').width * 0.12)}/>,
     navigateTo: 'HistoryGeneralHealth1',
   },
   {
     category: 'Medicine',
-    imageSrc: require('../assets/icon.png'),
+    imageSrc: <Pill height={Math.round(Dimensions.get('window').width * 0.12)}/>,
     navigateTo: 'HistoryMedication',
   },
   {
     category: 'Sleep',
-    imageSrc: require('../assets/icon.png'),
+    imageSrc: <ManSleeping height={Math.round(Dimensions.get('window').width * 0.12)}/>,
     navigateTo: 'HistorySleep1',
   },
   {
     category: 'Meal Tracking',
-    imageSrc: require('../assets/icon.png'),
+    imageSrc: <Plate height={Math.round(Dimensions.get('window').width * 0.12)}/>,
     navigateTo: 'HistoryMealTracking',
   },
   {
     category: 'Fitness',
-    imageSrc: require('../assets/icon.png'),
+    imageSrc: <WomanRunning height={Math.round(Dimensions.get('window').width * 0.12)}/>,
     navigateTo: 'HistoryFitness1',
   },
 ];
