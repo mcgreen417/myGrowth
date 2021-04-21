@@ -219,10 +219,6 @@ function UserInitialization1({ navigation }) {
     }
   }
 
-  const toggleMetric = () => {
-    setToggleMetric((previousState) => !previousState);
-  }
-
   const checkRequiredFields = (firstName, dob, gender, bioSex, activityLevel) => {
     const ableToSignUp = (userInitializationProperties.validFirstName
                           && userInitializationProperties.validDateOfBirth
