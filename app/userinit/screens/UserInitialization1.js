@@ -33,8 +33,8 @@ function UserInitialization1({ navigation }) {
   const [dob, setDob] = useState('0000-00-00');
   const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
-  const [useHeightMeasurement, setToggleHeightMeasurement] = useState(false);
-  const [useWeightMeasurement, setToggleWeightMeasurement] = useState(false);
+  const [activityLevel, setActivityLevel] = useState('');
+  const [metric, setToggleMetric] = useState(false);
   const [showFirstNameInfo, setShowFirstNameInfo] = useState(false);
   const [showDOBInfo, setShowDOBInfo] = useState(false);
   const [showGenderInfo, setShowGenderInfo] = useState(false);
@@ -54,6 +54,7 @@ function UserInitialization1({ navigation }) {
     validDateOfBirth: false,
     validGender: false,
     validBiologicalSex: false,
+    validActivityLevel: false,
     checkTextInputChange: false,
     validSignUp: false,
   });
@@ -121,6 +122,10 @@ function UserInitialization1({ navigation }) {
     showMode('date');
   };
 
+  const toggleMetric = () => {
+    setToggleMetric((previousState) => !previousState);
+  }
+
   const handleGenderChange = (itemValue) => {
     setGender(itemValue);    
 
@@ -151,6 +156,23 @@ function UserInitialization1({ navigation }) {
       setUserInitializationProperties({
         ...userInitializationProperties,
         validBiologicalSex: true,
+      });  
+    }
+  }
+
+  const handleActivityLevelChange = (itemValue) => {
+    setActivityLevel(itemValue);    
+
+    if (itemValue === 'unselected') {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validActivityLevel: false,
+        validSignUp: false,        
+      });
+    } else {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validActivityLevel: true,
       });  
     }
   }
@@ -197,23 +219,21 @@ function UserInitialization1({ navigation }) {
     }
   }
 
-  const toggleHeightMeasurement = () => {
-    setToggleHeightMeasurement((previousState) => !previousState);
+  const toggleMetric = () => {
+    setToggleMetric((previousState) => !previousState);
   }
 
-  const toggleWeightMeasurement = () => {
-    setToggleWeightMeasurement((previousState) => !previousState);
-  }
-
-  const checkRequiredFields = (firstName, dob, gender, bioSex) => {
+  const checkRequiredFields = (firstName, dob, gender, bioSex, activityLevel) => {
     const ableToSignUp = (userInitializationProperties.validFirstName
                           && userInitializationProperties.validDateOfBirth
                           && userInitializationProperties.validGender
-                          && userInitializationProperties.validBiologicalSex);
+                          && userInitializationProperties.validBiologicalSex
+                          && userInitializationProperties.validActivityLevel);
     const validFirstName = userInitializationProperties.validFirstName;
     const validDOB = userInitializationProperties.validDateOfBirth;
     const validGender = userInitializationProperties.validGender;
     const validBioSex = userInitializationProperties.validBiologicalSex;
+    const validActivityLevel = userInitializationProperties.validActivityLevel;
     
     if (ableToSignUp) {
       setUserInitializationProperties({
@@ -228,41 +248,73 @@ function UserInitialization1({ navigation }) {
       });
 
       // Future update so that relevant input boxes have a red outline and a red 'x' next to/above them?
-      if (!validFirstName && !validDOB && !validGender && !validBioSex) {
+      if (!validFirstName && !validDOB && !validGender && !validBioSex && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check that you entered information in the First Name, Date of Birth, Gender, Biological Sex, and Activity Level fields.');
+      } else if (!validFirstName && !validDOB && !validGender && !validBioSex) {
         createAlert('Oh no!', 'Please double-check that you entered information in the First Name, Date of Birth, Gender, and Biological Sex fields.');
+      } else if (!validFirstName && !validDOB && !validGender && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name, Date of Birth, Gender, and Activity Level fields.');
       } else if (!validFirstName && !validDOB && !validGender) {
         createAlert('Oh no!', 'Please double-check your entered information in the First Name, Date of Birth, and Gender fields.');
+      } else if (!validFirstName && !validDOB && !validBioSex && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name, Date of Birth, Biological Sex, and Activity Level fields.');
       } else if (!validFirstName && !validDOB && !validBioSex) {
         createAlert('Oh no!', 'Please double-check your entered information in the First Name, Date of Birth, and Biological Sex fields.');
+      } else if (!validFirstName && !validGender && !validBioSex && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name, Gender, Biological Sex, and Activity Level fields.');
       } else if (!validFirstName && !validGender && !validBioSex) {
         createAlert('Oh no!', 'Please double-check your entered information in the First Name, Gender, and Biological Sex fields.');
+      } else if (!validDOB && !validGender && !validBioSex && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the Date of Birth, Gender, Biological Sex, and Activity Level fields.');
       } else if (!validDOB && !validGender && !validBioSex) {
         createAlert('Oh no!', 'Please double-check your entered information in the Date of Birth, Gender, and Biological Sex fields.');
+      } else if (!validFirstName && !validDOB && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name, Date of Birth, and Activity Level fields.');
       } else if (!validFirstName && !validDOB) {
         createAlert('Oh no!', 'Please double-check your entered information in the First Name and Date of Birth fields.');
+      } else if (!validFirstName && !validGender && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name, Gender, and Activity Level fields.');
       } else if (!validFirstName && !validGender) {
         createAlert('Oh no!', 'Please double-check your entered information in the First Name and Gender fields.');
+      } else if (!validFirstName && !validBioSex && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name, Biological Sex, and Activity Level fields.');
       } else if (!validFirstName && !validBioSex) {
         createAlert('Oh no!', 'Please double-check your entered information in the First Name and Biological Sex fields.');
+      } else if (!validDOB && !validGender && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the Date of Birth, Gender, and Activity Level fields.');
       } else if (!validDOB && !validGender) {
         createAlert('Oh no!', 'Please double-check your entered information in the Date of Birth and Gender fields.');   
+      } else if (!validDOB && !validBioSex && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the Date of Birth, Biological Sex, and Activity Level fields.');
       } else if (!validDOB && !validBioSex) {
         createAlert('Oh no!', 'Please double-check your entered information in the Date of Birth and Biological Sex fields.');  
+      } else if (!validGender && !validBioSex && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the Gender, Biological Sex, and Activity Level fields.'); 
       } else if (!validGender && !validBioSex) {
         createAlert('Oh no!', 'Please double-check your entered information in the Gender and Biological Sex fields.'); 
+      } else if (!validFirstName && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name and Activity Level fields.');
       } else if (!validFirstName) {
         createAlert('Oh no!', 'Please make sure that you\'ve entered at least one character for your name.'); 
+      } else if (!validDOB && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the Date of Birth and Activity Level fields.');
       } else if (!validDOB) {
         createAlert('Oh no!', 'Please make sure you\'ve selected your date of birth and are 13 years or older.'); 
+      } else if (!validGender && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the Gender and Activity Level fields.');
       } else if (!validGender) {
-        createAlert('Oh no!', 'Please select an option for Gender - if you do not wish to answer, please select \'Prefer not to answer\'.'); 
+        createAlert('Oh no!', 'Please select an option for Gender-- if you do not wish to answer, please select \'Prefer not to answer\'.'); 
+      } else if (!validBioSex && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the Biological Sex and Activity Level fields.');
       } else if (!validBioSex) {
-        createAlert('Oh no!', 'Please select an option for Biological Sex - if you do not wish to answer, please select \'Prefer not to answer\'.');   
+        createAlert('Oh no!', 'Please select an option for Biological Sex-- if you do not wish to answer, please select \'Prefer not to answer\'.');   
+      } else if (!validActivityLevel) {
+        createAlert('Oh no!', 'Please select an option for Activity Level-- if you do not wish to answer, please select \'Prefer not to answer\'.')
       } else {
         createAlert('Error', 'Please check all fields and try again');
       }
     }
-  }  
+  }
 
   return (
     <SafeAreaView style={styles().container}>
@@ -989,13 +1041,13 @@ function UserInitialization1({ navigation }) {
               onPress={() => setShowActivityLevelInfo(!showActivityLevelInfo)}
             />
           </View>
-          {/* Stored in gender */}
+          {/* Stored in activityLevel */}
           <View style={{ width: '90%' }}>
             <View style={styles().pickerView}>
               <Picker
-                selectedValue={gender}
+                selectedValue={activityLevel}
                 style={styles().picker}
-                onValueChange={(itemValue, itemIndex) => handleGenderChange(itemValue)}
+                onValueChange={(itemValue, itemIndex) => handleActivityLevelChange(itemValue)}
                 mode={'dropdown'}>
                 <Picker.Item label='Select one...' value='unselected' />
                 <Picker.Item label='Sedentary (minimal activity)' value='sedentary' />
@@ -1036,14 +1088,14 @@ function UserInitialization1({ navigation }) {
               <View style={{ marginRight: 8, }}/>
               <Icon
                 name={
-                  useHeightMeasurement
+                  metric
                     ? 'toggle-on'
                     : 'toggle-off'
                 }
                 type='fontisto'
-                value='heightMeasurement'
-                status={useHeightMeasurement ? 'checked' : 'unchecked'}
-                onPress={toggleHeightMeasurement}
+                value='metric'
+                status={metric ? 'checked' : 'unchecked'}
+                onPress={toggleMetric}
                 color={global.colorblindMode
                   ? global.cb_textColor
                   : global.textColor}
@@ -1085,14 +1137,14 @@ function UserInitialization1({ navigation }) {
                   <View style={{ marginRight: 8, }}/>
                   <Icon
                     name={
-                      useWeightMeasurement
+                      metric
                         ? 'toggle-on'
                         : 'toggle-off'
                     }
                     type='fontisto'
-                    value='weightMeasurement'
-                    status={useWeightMeasurement ? 'checked' : 'unchecked'}
-                    onPress={toggleWeightMeasurement}
+                    value='metric'
+                    status={metric ? 'checked' : 'unchecked'}
+                    onPress={setToggleMetric}
                     color={global.colorblindMode
                       ? global.cb_textColor
                       : global.textColor}
@@ -1114,14 +1166,14 @@ function UserInitialization1({ navigation }) {
                       : global.optionButtonsColor
                   }
                   onPress={() => {
-                    checkRequiredFields(firstName, dob, gender, bioSex);
+                    checkRequiredFields(firstName, dob, gender, bioSex, activityLevel);
                     if (userInitializationProperties.validSignUp) {
                       updateUser(firstName, dob, gender, bioSex);
                       navigation.navigate('UserInitialization2', { 
+                        activityLevel: activityLevel,
                         height: height, 
                         weight: weight, 
-                        heightMeasurement: useHeightMeasurement, 
-                        weightMeasurement: useWeightMeasurement
+                        metric: metric,
                       });
                     }
                   }}

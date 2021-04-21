@@ -21,7 +21,7 @@ import { Cache } from 'react-native-cache';
 import * as mutations from '../../../src/graphql/mutations';
 
 function UserInitialization3({ route, navigation }) {
-  const { height, weight, heightMeasurement, weightMeasurement } = route.params;
+  const { activityLevel, height, weight, metric, } = route.params;
 
   const [useStressLevels, setUseStressLevels] = useState(true);
   const toggleStressLevels = () =>
@@ -338,10 +338,10 @@ function UserInitialization3({ route, navigation }) {
                   : global.optionButtonsColor
               }
               onPress={() => navigation.navigate('UserInitialization2', { 
+                activityLevel: activityLevel,
                 height: height, 
                 weight: weight, 
-                heightMeasurement: heightMeasurement, 
-                weightMeasurement: weightMeasurement,
+                metric: metric, 
               })}
             />
             <View style={{ width: '70%' }}></View>
@@ -354,6 +354,7 @@ function UserInitialization3({ route, navigation }) {
               }
               onPress={() => {
                 settingQuery(
+                  activityLevel,
                   weight,
                   height,
                   useStressLevels,
@@ -364,7 +365,7 @@ function UserInitialization3({ route, navigation }) {
                   useSleepTracking,
                   useMealTracking,
                   useFitnessTracking,
-                  heightMeasurement
+                  metric,
                 );
                 navigation.navigate('Home');
               }}
@@ -378,6 +379,7 @@ function UserInitialization3({ route, navigation }) {
 }
 
 async function settingQuery(
+  activityLevel,
   weight,
   height,
   useStressLevels,
@@ -388,7 +390,7 @@ async function settingQuery(
   useSleepTracking,
   useMealTracking,
   useFitnessTracking,
-  heightMeasurement
+  metric,
 ) {
   const cache = new Cache({
     namespace: 'myapp',
@@ -407,9 +409,10 @@ async function settingQuery(
     sleep: useSleepTracking,
     meal: useMealTracking,
     fitness: useFitnessTracking,
+    activityLevel: activityLevel,
     userHeight: height,
     userWeight: weight,
-    metric: heightMeasurement,
+    metric: metric,
   };
 
   const res = await API.graphql({
