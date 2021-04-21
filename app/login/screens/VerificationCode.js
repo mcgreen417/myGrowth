@@ -12,11 +12,13 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 
 function VerificationCode({ route, navigation }) {
   const [verificationCode, setVerificationCode] = useState('');
   const [validLengthVerificationCode, setValidLengthVerificationCode] = useState(false);
+  const [pressed, setPressed] = useState(false);
   const { username } = route.params;
 
   const handleVerificationCode = (verificationCode) => {
@@ -59,23 +61,53 @@ function VerificationCode({ route, navigation }) {
             Enter the verification code you received below.
           </Text>
 
-          {/* verification code text entry + verify button */}
+          {/* Verification code text input */}
+          <View style={{ marginTop: 20, marginBottom: 10 }}>
+            <View style={styles().textInputView}>
+              <View style={styles().labelView}>
+                <Text
+                  style={{
+                    color: pressed ? '#4CB97A' : '#816868',
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                  }}>
+                  Verification Code
+                </Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  borderWidth: 1,
+                  borderColor: pressed ? '#4CB97A' : '#816868',
+                  justifyContent: 'flex-end',
+                  borderRadius: 6,
+                  paddingHorizontal: 16,
+                }}>
+                <TextInput
+                  placeholder='Verification code'
+                  fontSize={16}
+                  color='#816868'
+                  placeholderTextColor={
+                    global.colorblindMode
+                      ? global.cb_placeHolderTextColor
+                      : global.placeHolderTextColor
+                  }
+                  keyboardType='number-pad'
+                  value={verificationCode}
+                  onChangeText={(verificationCode) => {
+                    handleVerificationCode(verificationCode);
+                  }}
+                  maxLength={6}
+                  onFocus={() => setPressed(true)}
+                  onBlur={() => setPressed(false)}
+                  style={{ top: -8 }}
+                />
+              </View>
+            </View>
+          </View>
+
+          {/* Verify button */}
           <View style={styles().buttons}>
-            <TextInput
-              style={styles().textInput}
-              placeholder='Verification Code'
-              placeholderTextColor={global.colorblindMode
-                ? global.cb_placeHolderTextColor
-                : global.placeHolderTextColor
-              }
-              keyboardType='number-pad'
-              value={verificationCode}
-              maxLength={6}
-              onChangeText={(verificationCode) => {
-                handleVerificationCode(verificationCode);
-              }}
-            />
-            <View style={{ marginVertical: 8 }} />
             <Button 
               title='VERIFY'
               color={
@@ -85,17 +117,14 @@ function VerificationCode({ route, navigation }) {
               }
               onPress={() => verify(username, verificationCode, validLengthVerificationCode, navigation)}
             />
-            <View style={{ marginVertical: 8 }} />
           </View>
 
           {/* Resend verification code */}
-          <View>
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={styles().text}>Didn't receive a verification code?{' '}</Text>
-              <TouchableOpacity onPress={() => resend(username)}>
-                <Text style={styles().textLink}>Resend e-mail.</Text>
-              </TouchableOpacity>
-            </View>
+          <View style={{ flexDirection: 'row', marginTop: 16, }}>
+            <Text style={styles().text}>Didn't receive a verification code?{' '}</Text>
+            <TouchableOpacity onPress={() => resend(username)}>
+              <Text style={styles().textLink}>Resend e-mail.</Text>
+            </TouchableOpacity>
           </View>
 
           {/* Login page redirect */}
@@ -156,51 +185,61 @@ const styles = () => StyleSheet.create({
       : global.pageBackgroundColor,
   },
   logo: {
-    height: 100,
-    width: 100,
+    height: Math.round(Dimensions.get('window').width * 1/4),
+    width: Math.round(Dimensions.get('window').width * 1/4),
   },
   buttons: {
-    marginTop: 10,
-    marginBottom: 10,
-    width: '70%',
+    marginVertical: 10,
+    width: Math.round(Dimensions.get('window').width * 3/4),
     borderColor: global.colorblindMode
       ? global.cb_optionButtonsBorderColor
       : global.optionButtonsBorderColor,
+  },
+  label: {
+    color: '#816868',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  labelView: {
+    position: 'absolute',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
+    top: -16,
+    left: 14,
+    padding: 5,
+    zIndex: 50,
   },
   pageSetup:{
     height: '100%', 
     justifyContent: 'center', 
     alignItems: 'center'
   },
-  textInput: {
-    height: 40,
-    borderColor: global.colorblindMode
-      ? global.cb_textInputBorderColor
-      : global.textInputBorderColor,
-    borderWidth: 2,
-    borderRadius: 10,
-    backgroundColor: global.colorblindMode
-      ? global.cb_textInputFillColor
-      : global.textInputFillColor,
-    textAlign: 'center',
+  text: {
+    color: global.colorblindMode
+      ? global.cb_textColor
+      : global.textColor,
+    fontSize: 14,
+  },
+  textInputView: {
+    height: 48,
+    width: Math.round(Dimensions.get('window').width * 3/4),
+    position: 'relative',
   },
   textInstructions: {
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor, 
-    marginBottom: 12, 
-    textAlign: 'center'
+    marginBottom: 10, 
+    textAlign: 'center',
+    fontSize: 16,
   },
   textLink: {
     color: global.colorblindMode
       ? global.cb_hyperlinkedTextColor
       : global.hyperlinkedTextColor,
     textDecorationLine: 'underline',
-  },
-  text: {
-    color: global.colorblindMode
-      ? global.cb_textColor
-      : global.textColor,
+    fontSize: 14,
   },
   textSubtitle: {
     color: global.colorblindMode

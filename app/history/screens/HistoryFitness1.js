@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Modal,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
@@ -37,334 +38,530 @@ const monthLabels = [
 
 function HistoryFitness1({ route, navigation }) {
   const data = route.params.data;
-  const arr = initDisplayData(data);
+  const settings = route.params.settings;
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const [modalVisible, setModalVisible] = useState(false); 
-  const [timePeriod, setTimePeriod] = useState('unselected');
-  const [selectDisplay, setDisplay] = useState('unselected');
-  const [timestamps, setTimestamps] = useState(dayLabels);
-  const [displayData, setDisplayData] = useState(arr);  
+  if(data !== null) {
+    const arr = initDisplayData(data); 
+    const [timePeriod, setTimePeriod] = useState('past_week');
+    const [selectDisplay, setDisplay] = useState('exercise_time');
+    const [timestamps, setTimestamps] = useState(dayLabels);
+    const [displayData, setDisplayData] = useState(arr);  
 
-  const [useReccActivity, setUseReccActivity] = useState(false);
+    const [useReccActivity, setUseReccActivity] = useState(false);
 
-  const toggleReccActivity = () =>
-    setUseReccActivity((previousState) => !previousState);
-  
-  return (
-    <SafeAreaView style={styles().container}>
+    const toggleReccActivity = () =>
+      setUseReccActivity((previousState) => !previousState);
+    
+    return (
+      <SafeAreaView style={styles().container}>
 
-      {/* Modal + each of the navigable history pages */}
-      <HistorySelectACategory
-        setModalView={setModalVisible}
-        showModalView={modalVisible}
-        navigation={navigation}
-        data={data}
-      />
+        {/* Modal + each of the navigable history pages */}
+        <HistorySelectACategory
+          setModalView={setModalVisible}
+          showModalView={modalVisible}
+          navigation={navigation}
+          data={data}
+          settings={settings}
+        />
 
-      {/* Actual screen */}
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles().pageSetup}>
+        {/* Actual screen */}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles().pageSetup}>
 
-          {/* Gardener avatar + page blurb */}
-          <View style={styles().avatarView}>
-            <Text style={styles().pageDescription}>
-              View your fitness history and our analysis of health effects that 
-              may be attributed to your current exercise routine.
-            </Text>
-            <Image
-              style={styles().avatar}
-              source={require('../../shared/assets/gardener-avatar.png')}
-            />
-          </View>
-          {/* Top page divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
+            {/* Gardener avatar + page blurb */}
+            <View style={styles().avatarView}>
+              <Text style={styles().pageDescription}>
+                View your fitness history and what effects we think your fitness routine
+                may be having on your health!
+              </Text>
+              <Image
+                style={styles().avatarFlipped}
+                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+              />
+            </View>
+            {/* Top page divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
 
-          {/* Categories button */}
-          <TouchableOpacity 
-            style={styles().categoriesView} 
-            onPress={() => setModalVisible(true)}
-          >
+            {/* Categories button */}
+            <TouchableOpacity 
+              style={styles().categoriesView} 
+              onPress={() => setModalVisible(true)}
+            >
+              <View 
+                style={styles().categories}>
+                <Text style={styles().textAlt}>Categories</Text>
+                <View>
+                  <Icon
+                    name='arrow-top-right'
+                    type='material-community'
+                    color='white'
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+
+            {/* Custom history component */}
+            <View style={{marginTop: 6}}>
+              <TabBarAndContent 
+                navigation={navigation} 
+                data={data} 
+                timePeriod={timestamps}
+                multiPageData={displayData} 
+                page={'fitness'}
+                page2Color={false}
+                settings={settings} 
+              />
+            </View>
+
+            {/* Time Period and Select Display drop-down selection */}
             <View 
-              style={styles().categories}>
-              <Text style={styles().textAlt}>Categories</Text>
-              <View>
-                <Icon
-                  name='arrow-top-right'
-                  type='material-community'
-                  color='white'
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
-
-          {/* Custom history component */}
-          <View style={{marginTop: 6}}>
-            <TabBarAndContent 
-              navigation={navigation} 
-              data={data} 
-              timePeriod={timestamps}
-              multiPageData={displayData} 
-              page={'fitness'}
-              page2Color={false} 
-            />
-          </View>
-
-          {/* Time Period and Select Display drop-down selection */}
-          <View 
-            style={{ 
-              width: '90%', 
-              justifyContent: 'flex-start', 
-              marginVertical: 20, 
-              flexDirection: 'row',
-            }}>
-            <View style={{ width: '50%', }}>
-              <Text style={styles().heading}>TIME PERIOD</Text>
-              <View style={styles().pickerView}>
-                <Picker
-                  selectedValue={timePeriod}
-                  style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => {
-                    setTimePeriod(itemValue);
-                    getDisplayData(data, itemValue, setDisplayData, selectDisplay);
-                    getTimestamps(data, timestamps, setTimestamps, itemValue);
-                  }}
-                  mode={'dropdown'}
-                >
-                  <Picker.Item label='Select one...' value='unselected' />
-                  <Picker.Item label='Past week' value='past_week' />
-                  <Picker.Item label='Past month' value='past_month' />
-                  <Picker.Item label='Past year' value='past_year' />
-                </Picker>
-              </View>
-            </View>
-            <View style={{ width: '50%', }}>
-              <Text style={styles().heading}>SELECT DISPLAY</Text>
-              <View style={styles().pickerView}>
-                <Picker
-                  selectedValue={selectDisplay}
-                  style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => {
-                    setDisplay(itemValue);
-                    getDisplayData(data, timePeriod, setDisplayData, itemValue);
-                    getTimestamps(data, timestamps, setTimestamps, timePeriod);
-                  }}
-                  mode={'dropdown'}
-                >
-                  <Picker.Item label='Select one...' value='unselected' />
-                  <Picker.Item label='Time spent exercising' value='exercise_time' />
-                  <Picker.Item label='Calories burned' value='cals_burned' />
-                  <Picker.Item label='Steps taken' value='steps_taken' />
-                </Picker>
-              </View>
-            </View>
-          </View>
-
-          {/* Display recommended activity level switch */}
-          <View style={styles().line}/>
-          <View style={{ flexDirection: 'row', width: '90%', alignItems: 'center' }}>
-            <Text style={styles().textLight}>Display recommended activity level</Text>
-            <View style={styles().switchView}>
-              <View style={styles().line2}/>
-                <Switch
-                  trackColor={{ 
-                    false: global.colorblindMode 
-                      ? global.cb_switchTrackColorFalse
-                      : global.switchTrackColorFalse,
-                    true: global.colorblindMode
-                      ? global.cb_switchTrackColorTrue 
-                      : global.switchTrackColorTrue
-                  }}
-                  thumbColor={
-                    useReccActivity
-                      ? (global.colorblindMode 
-                        ? global.cb_switchThumbColorTrue
-                        : global.switchThumbColorTrue)
-                      : (global.colorblindMode
-                        ? global.cb_switchThumbColorFalse
-                        : global.switchThumbColorFalse)
-                  }
-                  ios_backgroundColor={global.cb_switchIosBackgroundColor}
-                  onValueChange={toggleReccActivity}
-                  value={useReccActivity}
-                />
-            </View>
-          </View>
-          <View style={styles().line}/>
-
-          {/* App suggestions */}
-          <View style={{ marginHorizontal: '5%', marginTop: 20, }}>
-            {/* Exercised analysis */}
-            <Text style={styles().text}>
-              Based on our analysis, on days that you exercised, you often reported...
-            </Text>
-            <View style={styles().suggestionView}>
-               <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #1)</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #3)</Text>
-                  </View>
+              style={{ 
+                width: '90%', 
+                justifyContent: 'flex-start', 
+                marginVertical: 20, 
+                flexDirection: 'row',
+              }}>
+              <View style={{ width: '50%', }}>
+                <Text style={styles().heading}>TIME PERIOD</Text>
+                <View style={styles().pickerView}>
+                  <Picker
+                    selectedValue={timePeriod}
+                    style={styles().picker}
+                    onValueChange={(itemValue, itemIndex) => {
+                      setTimePeriod(itemValue);
+                      getDisplayData(data, itemValue, setDisplayData, selectDisplay);
+                      getTimestamps(data, timestamps, setTimestamps, itemValue);
+                    }}
+                    mode={'dropdown'}
+                  >
+                    <Picker.Item label='Past week' value='past_week' />
+                    <Picker.Item label='Past month' value='past_month' />
+                    <Picker.Item label='Past year' value='past_year' />
+                  </Picker>
                 </View>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #2)</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #4)</Text>
-                  </View>
+              </View>
+              <View style={{ width: '50%', }}>
+                <Text style={styles().heading}>SELECT DISPLAY</Text>
+                <View style={styles().pickerView}>
+                  <Picker
+                    selectedValue={selectDisplay}
+                    style={styles().picker}
+                    onValueChange={(itemValue, itemIndex) => {
+                      setDisplay(itemValue);
+                      getDisplayData(data, timePeriod, setDisplayData, itemValue);
+                      getTimestamps(data, timestamps, setTimestamps, timePeriod);
+                    }}
+                    mode={'dropdown'}
+                  >
+                    <Picker.Item label='Time spent exercising' value='exercise_time' />
+                    <Picker.Item label='Calories burned' value='cals_burned' />
+                    <Picker.Item label='Steps taken' value='steps_taken' />
+                  </Picker>
                 </View>
               </View>
             </View>
 
-            {/* Did not exercise analysis */}
-            <Text style={styles().text}>
-              Based on our analysis, on days that you did not exercise, you often reported...
-            </Text>
-            <View style={styles().suggestionView}>
-               <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #1)</Text>
+            {/* Display recommended activity level switch */}
+            <View style={styles().line}/>
+            <View style={{ flexDirection: 'row', width: '90%', alignItems: 'center' }}>
+              <Text style={styles().textLight}>Display recommended activity level</Text>
+              <View style={styles().switchView}>
+                <View style={styles().line2}/>
+                  <Switch
+                    trackColor={{ 
+                      false: global.colorblindMode 
+                        ? global.cb_switchTrackColorFalse
+                        : global.switchTrackColorFalse,
+                      true: global.colorblindMode
+                        ? global.cb_switchTrackColorTrue 
+                        : global.switchTrackColorTrue
+                    }}
+                    thumbColor={
+                      useReccActivity
+                        ? (global.colorblindMode 
+                          ? global.cb_switchThumbColorTrue
+                          : global.switchThumbColorTrue)
+                        : (global.colorblindMode
+                          ? global.cb_switchThumbColorFalse
+                          : global.switchThumbColorFalse)
+                    }
+                    ios_backgroundColor={global.cb_switchIosBackgroundColor}
+                    onValueChange={toggleReccActivity}
+                    value={useReccActivity}
+                  />
+              </View>
+            </View>
+            <View style={styles().line}/>
+
+            {/* App suggestions */}
+            <View style={{ marginHorizontal: '5%', marginTop: 20, }}>
+              {/* Exercised analysis */}
+              <Text style={styles().text}>
+                Based on our analysis, on days that you exercised, you often reported...
+              </Text>
+              <View style={styles().suggestionView}>
+                <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #1)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #3)</Text>
+                    </View>
                   </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #3)</Text>
-                  </View>
-                </View>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #2)</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #4)</Text>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #2)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #4)</Text>
+                    </View>
                   </View>
                 </View>
               </View>
+
+              {/* Did not exercise analysis */}
+              <Text style={styles().text}>
+                Based on our analysis, on days that you did not exercise, you often reported...
+              </Text>
+              <View style={styles().suggestionView}>
+                <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #1)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #3)</Text>
+                    </View>
+                  </View>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #2)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #4)</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+
+              {/* Medical disclaimer */}
+              <Text style={styles().textLightSmall}>
+                ** Please consult a medical professional before altering your exercise routine 
+                as a result of these analyses. As a reminder, these analyses indicate correlation, 
+                not causation, and thus may not indicate direct effects of your exercise routine. 
+              </Text>
             </View>
 
-            {/* Medical disclaimer */}
-            <Text style={styles().textLightSmall}>
-              ** Please consult a medical professional before altering your exercise routine 
-              as a result of these analyses. As a reminder, these analyses indicate correlation, 
-              not causation, and thus may not indicate direct effects of your exercise routine. 
-            </Text>
-          </View>
+            {/* Middle divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
 
-          {/* Middle divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
+            {/* Recommended exercises (decide how we're going to add this in?) */}
+            <View style={{ marginHorizontal: '5%', }}>
+              <Text style={styles().text}>
+                Exercise is a great way to stay in shape and manage your weight! The
+                following exercise regimens are recommended for you.
+              </Text>
+            </View>
 
-          {/* Recommended exercises (decide how we're going to add this in?) */}
-          <View style={{ marginHorizontal: '5%', }}>
-            <Text style={styles().text}>
-              Exercise is a great way to stay in shape and manage your weight! The
-              following exercise regimens are recommended for you.
-            </Text>
+            <View style={styles().pageEnd}/>
           </View>
+        </ScrollView>
+        <NavBar history={true} navigation={navigation} />
+      </SafeAreaView>
+    );
+  }
+  
+  else
+    return (
+      <SafeAreaView style={styles().container}>
+        { /* Modal */}
+        <HistorySelectACategory
+          setModalView={setModalVisible}
+          showModalView={modalVisible}
+          navigation={navigation}
+          data={data}
+          settings={settings}
+        />
 
-          <View style={styles().pageEnd}/>
-        </View>
-      </ScrollView>
-      <NavBar history={true} navigation={navigation} />
-    </SafeAreaView>
-  );
+        {/* Actual screen */}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles().pageSetup}>
+            
+            {/* Gardener avatar + page blurb */}
+            <View style={styles().avatarView}>
+              <Text style={styles().pageDescription}>
+                View your fitness history and what effects we think your fitness routine
+                may be having on your health!
+              </Text>
+              <Image
+                style={styles().avatarFlipped}
+                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+              />
+            </View>
+            {/* Top page divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* Categories button */}
+            <TouchableOpacity 
+              style={styles().categoriesView} 
+              onPress={() => setModalVisible(true)}
+            >
+              <View 
+                style={styles().categories}>
+                <Text style={styles().textAlt}>Categories</Text>
+                <View>
+                  <Icon
+                    name='arrow-top-right'
+                    type='material-community'
+                    color='white'
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+
+            <View style={{alignContent: 'center', margin: 22}}>
+              <Text>
+                Uh Oh! It seems like you don't have any data to view!
+                Try making some health entries first!
+              </Text>
+            </View>
+            
+          </View>
+        </ScrollView>
+        <NavBar history={true} navigation={navigation} />
+      </SafeAreaView>
+    );
 };
 
-function initDisplayData(data) {
-  var len = data.fitnessData.burned.length;
+function makeYear(dataArr) {
+  var arr = [];
+  var [sum, len] = [0, dataArr.length];
+
+  for(var i = len < 365 ? 0: len - 365; i < len; i++) {
+      if(i === len - 1 && len < 365) {
+          let fullHalfWeeks = Math.floor(len / 30);
+          let spareHalves = len - (fullHalfWeeks * 30);
+  
+          sum = sum / spareHalves;
+
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else if(i === len - 1) {
+          sum = sum / 35;
+
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else if(i % 30 === 0 && i > 0) {
+          sum = sum / 30;
+
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else
+          sum += dataArr[i] === -1 ? 0 : dataArr[i];
+  }
+
+  if(arr.length < 12) {
+      let diff = 12 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+
+      arr = zeros.concat(arr);
+  }
+
+  return arr;
+}
+
+function makeMonth(dataArr) {
+  var [sum, len] = [0, dataArr.length];
   var arr = [];
 
-  arr = data.fitnessData.burned.slice(len - 7, len);
+  for(var i = len < 30 ? 0: len - 30; i < len; i++) {
+      if(i === len - 1 && len < 30) {
+        let fullHalfWeeks = Math.floor(len / 4);
+        let spareHalves = len - (fullHalfWeeks * 4);
+
+        sum = sum / spareHalves;
+
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else if(i === len - 1) {
+        sum = sum / 2;
+
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else if(i % 4 === 0 && i > 0) {
+        sum = sum / 4;
+
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else
+        sum += dataArr[i] === -1 ? 0 : dataArr[i];
+    }
+
+    if(arr.length < 8) {
+      let diff = 8 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+  
+      arr = zeros.concat(arr);
+    }
+
+  return arr;
+}
+
+function makeWeek(dataArr) {
+  var len = dataArr.length;
+  var arr = [];
+
+  for(var i = len < 7 ? 0 : len - 7; i < len; i++)
+      arr.push(dataArr[i]);
+        
+  if(arr.length < 7) {
+      let diff = 7 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+  
+      arr = zeros.concat(arr);
+  }
+
+  return arr;
+}
+
+function cleanUpData(arr) {
+  const len = arr.length;
+
+  for(var i = 0; i < len; i++)
+    if(arr[i] == -1)
+      arr[i] = 0;
+
+  return arr;
+}
+
+function initDisplayData(data) {
+  var arr = [];
+
+  arr = makeWeek(data.fitnessData.burned);
+
+  arr = cleanUpData(arr);
 
   return arr;
 }
 
 function getDisplayData(data, timePeriod, setDisplayData, selectExercise) {
-  //burned || unselected
-  if(selectExercise === 'cals_burned' || selectExercise === 'unselected') {
-    var len = data.fitnessData.burned.length;
+  var arr = [];
+  var sum = 0;
 
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
-      setDisplayData(data.fitnessData.burned.slice(len - 7, len));
+  //burned || unselected
+  if(selectExercise === 'cals_burned') {
+    if(timePeriod === 'past_week')
+      arr = makeWeek(data.fitnessData.burned);
 
     else if(timePeriod === 'past_month')
-      setDisplayData(data.fitnessData.burned.slice(len - 30, len));
+      arr = makeMonth(data.fitnessData.burned);
 
-    else
-      setDisplayData(data.fitnessData.burned.slice(len - 365, len));
+    else 
+      arr = makeWeek(data.fitnessData.burned);
   }
 
   //dur
   if(selectExercise === 'exercise_time') {
-    var len = data.fitnessData.dur.length;
-
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
-      setDisplayData(data.fitnessData.dur.slice(len - 7, len));
+    if(timePeriod === 'past_week')
+      arr = makeWeek(data.fitnessData.dur);
 
     else if(timePeriod === 'past_month')
-      setDisplayData(data.fitnessData.dur.slice(len - 30, len));
+      arr = makeMonth(data.fitnessData.dur);
 
-    else
-      setDisplayData(data.fitnessData.dur.slice(len - 365, len));
+    else 
+      arr = makeWeek(data.fitnessData.dur);
   }
 
   //steps
   if(selectExercise === 'steps_taken') {
-    var len = data.fitnessData.steps.length;
-
-    if(timePeriod === 'past_week' || timePeriod === 'unselected')
-      setDisplayData(data.fitnessData.steps.slice(len - 7, len));
+    if(timePeriod === 'past_week')
+      arr = makeWeek(data.fitnessData.steps);
 
     else if(timePeriod === 'past_month')
-      setDisplayData(data.fitnessData.steps.slice(len - 30, len));
+      arr = makeMonth(data.fitnessData.steps);
 
-    else
-      setDisplayData(data.fitnessData.steps.slice(len - 365, len));
+    else 
+      arr = makeWeek(data.fitnessData.steps);
   }
+
+  arr = cleanUpData(arr);
+  setDisplayData(arr);
+}
+
+function rotateCalLabels(data) {
+  var labels = monthLabels;
+  labels = labels.concat(labels.splice(0, new Date(data.latestDate).getMonth() % 6 - 1));
+
+  return labels;
 }
 
 function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
@@ -377,14 +574,14 @@ function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
       dates.push(date.toISOString().substring(5, 10));
   }
 
-  if(timePeriod === 'past_week' || timePeriod === 'unselected')
+  if(timePeriod === 'past_week')
     setTimestamps(dayLabels);
 
   else if(timePeriod === 'past_month')
     setTimestamps(dates); 
 
   else if(timePeriod === 'past_year')
-    setTimestamps(monthLabels);
+    setTimestamps(rotateCalLabels(data));
 }
 
 export default HistoryFitness1;
@@ -396,9 +593,12 @@ const styles = () => StyleSheet.create({
       ? global.cb_pageBackgroundColor
       : global.pageBackgroundColor,
   },
-  avatar: {
-    width: 75,
-    height: 75,
+  avatarFlipped: {
+    width: Math.round(Dimensions.get('window').width * 1/4),
+    height: Math.round(Dimensions.get('window').width * 1/4),
+    transform: [
+      { scaleX: -1 }
+    ]
   },
   avatarView: {
     flexDirection: 'row',
@@ -472,7 +672,7 @@ const styles = () => StyleSheet.create({
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
     flex: 1,
     flexWrap: 'wrap',

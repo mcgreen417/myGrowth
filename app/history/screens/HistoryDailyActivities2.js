@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Modal,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
@@ -17,103 +18,169 @@ import HistorySelectACategory from '../../shared/components/HistorySelectACatego
 
 function HistoryDailyActivities2({ route, navigation }) {
   const data = route.params.data;
-  const dates = getTimestamps(data);
-  const activities = getPickerLabels(data);
-  const comms = initCommits(activities, dates, data);
-  console.log(comms);
-
+  const settings = route.params.settings;
   const [modalVisible, setModalVisible] = useState(false); 
-  const [selectactivity, setActivity] = useState('unselected');
-  const [commits, setCommits] = useState(comms);
-  
-  return (
-    <SafeAreaView style={styles().container}>
-      
-      { /* Modal + each of the navigable history pages */}
-      <HistorySelectACategory
-        setModalView={setModalVisible}
-        showModalView={modalVisible}
-        navigation={navigation}
-        data={data}
-      />
 
-      {/* Actual screen */}
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles().pageSetup}>
-          
-          {/* Gardener avatar + page blurb */}
-          <View style={styles().avatarView}>
-            <Text style={styles().pageDescription}>
-              View a summary of your past daily activities and check out 
-              the periods where you were the most active!
-            </Text>
-            <Image
-              style={styles().avatar}
-              source={require('../../shared/assets/gardener-avatar.png')}
-            />
-          </View>
-          {/* Top page divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
+  if(data !== null) {  
+    const dates = getTimestamps(data);
+    const activities = getPickerLabels(data);
+    const comms = initCommits(activities, dates, data);
+    const [selectactivity, setActivity] = useState(activities[0]);
+    const [commits, setCommits] = useState(comms);
+    
+    return (
+      <SafeAreaView style={styles().container}>
+        
+        { /* Modal + each of the navigable history pages */}
+        <HistorySelectACategory
+          setModalView={setModalVisible}
+          showModalView={modalVisible}
+          navigation={navigation}
+          data={data}
+          settings={settings}
+        />
 
-          {/* Categories button */}
-          <TouchableOpacity 
-            style={styles().categoriesView} 
-            onPress={() => setModalVisible(true)}
-          >
-            <View 
-              style={styles().categories}>
-              <Text style={styles().textAlt}>Categories</Text>
-              <View>
-                <Icon
-                  name='arrow-top-right'
-                  type='material-community'
-                  color='white'
-                />
+        {/* Actual screen */}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles().pageSetup}>
+            
+            {/* Gardener avatar + page blurb */}
+            <View style={styles().avatarView}>
+              <Text style={styles().pageDescription}>
+                View a summary of your past daily activities and check out 
+                when you were the most active!
+              </Text>
+              <Image
+                style={styles().avatarFlipped}
+                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+              />
+            </View>
+            {/* Top page divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* Categories button */}
+            <TouchableOpacity 
+              style={styles().categoriesView} 
+              onPress={() => setModalVisible(true)}
+            >
+              <View 
+                style={styles().categories}>
+                <Text style={styles().textAlt}>Categories</Text>
+                <View>
+                  <Icon
+                    name='arrow-top-right'
+                    type='material-community'
+                    color='white'
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+              
+            {/* Custom history component */}
+            <View style={{marginTop: 6}}>
+              <TabBarAndContent 
+                navigation={navigation}
+                data={data} 
+                multiPageData={commits}
+                page={'dailyActivities'}
+                page2Color={true}
+                settings={settings}
+              />
+            </View>
+
+            {/* Select Activity drop-down selection */}
+            <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, }}>
+              <Text style={styles().heading}>SELECT ACTIVITY</Text>
+              <View style={styles().pickerView}>
+                <Picker
+                  selectedValue={selectactivity}
+                  style={styles().picker}
+                  onValueChange={(itemValue, itemIndex) => {
+                    setActivity(itemValue);
+                    getCommits(itemValue, dates, data, setCommits);
+                    //console.log(commits);
+                  }}
+                  mode={'dropdown'}
+                >
+                  {activities.map((item, index) => {
+                    return (
+                        <Picker.Item key={index} label={item} value={item} />
+                    );
+                  })}
+                </Picker>
               </View>
             </View>
-          </TouchableOpacity>
-            
-          {/* Custom history component */}
-          <View style={{marginTop: 6}}>
-            <TabBarAndContent 
-              navigation={navigation}
-              data={data} 
-              multiPageData={commits}
-              page={'dailyActivities'}
-              page2Color={true}
-            />
           </View>
+        </ScrollView>
+        <NavBar history={true} navigation={navigation} />
+      </SafeAreaView>
+    );
+  }
 
-          {/* Select Activity drop-down selection */}
-          <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, }}>
-            <Text style={styles().heading}>SELECT ACTIVITY</Text>
-            <View style={styles().pickerView}>
-              <Picker
-                selectedValue={selectactivity}
-                style={styles().picker}
-                onValueChange={(itemValue, itemIndex) => {
-                  setActivity(itemValue);
-                  getCommits(itemValue, dates, data, setCommits);
-                  //console.log(commits);
-                }}
-                mode={'dropdown'}
-              >
-                <Picker.Item label='Select One...' value='unselected'/>
-                {activities.map((item, index) => {
-                  return (
-                      <Picker.Item key={index} label={item} value={item} />
-                  );
-                })}
-              </Picker>
+  else
+    return (
+      <SafeAreaView style={styles().container}>
+        { /* Modal */}
+        <HistorySelectACategory
+          setModalView={setModalVisible}
+          showModalView={modalVisible}
+          navigation={navigation}
+          data={data}
+          settings={settings}
+        />
+
+        {/* Actual screen */}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles().pageSetup}>
+            
+            {/* Gardener avatar + page blurb */}
+            <View style={styles().avatarView}>
+              <Text style={styles().pageDescription}>
+                View a summary of your past daily activities and check out 
+                when you were the most active!
+              </Text>
+              <Image
+                style={styles().avatarFlipped}
+                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+              />
             </View>
+            {/* Top page divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* Categories button */}
+            <TouchableOpacity 
+              style={styles().categoriesView} 
+              onPress={() => setModalVisible(true)}
+            >
+              <View 
+                style={styles().categories}>
+                <Text style={styles().textAlt}>Categories</Text>
+                <View>
+                  <Icon
+                    name='arrow-top-right'
+                    type='material-community'
+                    color='white'
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+
+            <View style={{alignContent: 'center', margin: 22}}>
+              <Text>
+                Uh Oh! It seems like you don't have any data to view!
+                Try making some health entries first!
+              </Text>
+            </View>
+            
           </View>
-        </View>
-      </ScrollView>
-      <NavBar history={true} navigation={navigation} />
-    </SafeAreaView>
-  );
+        </ScrollView>
+        <NavBar history={true} navigation={navigation} />
+      </SafeAreaView>
+    );
 };
 
 function getCommits(actName, dates, data, setCommits) {
@@ -121,14 +188,13 @@ function getCommits(actName, dates, data, setCommits) {
   var commits = [];
   var j = 364;
 
-    for(var i = length < 365 ? 0 : length - 365; i < length; i++)
+    for(var i = length < 365 ? 0 : length - 365; i < length; i++) {
       for(var [key, value] of Object.entries(JSON.parse(data.activityData[i]))) {
         //check if key is in what we are searching for
         if(key === actName) {
           let obj = new Object();
           obj.date = dates[j];
-          
-          j--;
+
           obj.count = 1;
           commits.push(obj);
         }
@@ -138,11 +204,12 @@ function getCommits(actName, dates, data, setCommits) {
           let obj = new Object();
           obj.date = dates[j];
 
-          j--;
           obj.count = 0;
           commits.push(obj);
         }
       }
+      j--;
+    }
 
   setCommits(commits);
 }
@@ -152,14 +219,13 @@ function initCommits(activities, dates, data) {
   var commits = [];
   var j = 364;
 
-  for(var i = length < 365 ? 0 : length - 365; i < length; i++)
+  for(var i = length < 365 ? 0 : length - 365; i < length; i++) {
     for(var [key, value] of Object.entries(JSON.parse(data.activityData[i]))) {
       //check if key is in what we are searching for
       if(key === activities[0]) {
         let obj = new Object();
         obj.date = dates[j];
-          
-        j--;
+
         obj.count = 1;
         commits.push(obj);
       }
@@ -168,12 +234,13 @@ function initCommits(activities, dates, data) {
       else {
         let obj = new Object();
         obj.date = dates[j];
-          
-        j--;
+
         obj.count = 0;
         commits.push(obj);
       }
     }
+    j--;
+  }
 
   return commits;
 }
@@ -194,7 +261,7 @@ function getPickerLabels(data) {
   var length = data.activityData.length;
   var arr = [];
 
-  for(var i = i = length < 90 ? 0 : length - 90; i < length; i++)
+  for(var i = length < 365 ? 0 : length - 365; i < length; i++)
     for(var [key, value] of Object.entries(JSON.parse(data.activityData[i]))) {
       //check if key is in map
       if(!arr.includes(key)) {
@@ -219,9 +286,12 @@ const styles = () => StyleSheet.create({
       ? global.cb_pageBackgroundColor
       : global.pageBackgroundColor,
   },
-  avatar: {
-    width: 75,
-    height: 75,
+  avatarFlipped: {
+    width: Math.round(Dimensions.get('window').width * 1/4),
+    height: Math.round(Dimensions.get('window').width * 1/4),
+    transform: [
+      { scaleX: -1 }
+    ]
   },
   avatarView: {
     flexDirection: 'row',
@@ -273,7 +343,7 @@ const styles = () => StyleSheet.create({
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
     flex: 1,
     flexWrap: 'wrap',

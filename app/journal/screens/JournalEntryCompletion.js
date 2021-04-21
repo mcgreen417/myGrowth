@@ -10,9 +10,9 @@ import {
 } from 'react-native';
 
 const JournalEntryCompletion = ({ route, navigation }) => {
-  const {date, entry} = route.params;
-  console.log(date);
-  console.log(entry);
+  const date = route.params.date;
+  const updateDate = route.params.updateDate;
+  const entry = route.params.entry;
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView 
@@ -23,7 +23,7 @@ const JournalEntryCompletion = ({ route, navigation }) => {
           {/* Congratulations banner + filler image */}
           <Image 
             style={styles.bannerImage}
-            source={require('../../shared/assets/journal-banner.png')}
+            source={require('../../shared/assets/journal-banner-edited.png')}
           />
           <View style={{ marginVertical: '-4%' }}/>
           <View style={{ width: '90%', height: '60%', }}>
@@ -53,7 +53,8 @@ const JournalEntryCompletion = ({ route, navigation }) => {
                 onPress={() =>
                   navigation.navigate('ViewJournalEntry', {
                     date,
-                    entry
+                    entry, 
+                    updateDate
                   })
                 }
               />

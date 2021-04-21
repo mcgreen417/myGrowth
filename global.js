@@ -8,6 +8,7 @@ var blackColor = "#000000";
 var whiteColor = "#FFFFFF";
 var offWhiteColor = "#F5F5F5";
 var lightGreyColor = "#D3D3D3";
+var darkGreyColor = "#9C9896";
 
 var switchTrackColorTrue = "#9AD2AF";
 var switchTrackColorFalse = "#E5E5E5";
@@ -85,13 +86,13 @@ global.cb_textInputColor = cb_blackColor;
 
 
 // Any sort of text being used.
-global.placeHolderTextColor = lightGreyColor;
+global.placeHolderTextColor = darkGreyColor;
 global.textColor = brownColor;
-global.hyperlinkedTextColor = lightGreenColor;
+global.hyperlinkedTextColor = darkGreenColor;
 
 global.cb_placeHolderTextColor = cb_lightGreyColor;
 global.cb_textColor = cb_brownColor;
-global.cb_hyperlinkedTextColor = cb_lightGreenColor;
+global.cb_hyperlinkedTextColor = darkGreenColor;
 
 
 // Colorblind mode value tracked, can be changed only on starting

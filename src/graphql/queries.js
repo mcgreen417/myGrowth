@@ -85,6 +85,7 @@ export const getSetting = /* GraphQL */ `
         userHeight
         userWeight
         metric
+        activityLevel
       }
       Medications {
         name
@@ -136,6 +137,7 @@ export const getDailyEntry = /* GraphQL */ `
         Ate
         TotalCalories
         MealList {
+          Name
           Food
           Calories
           Proteins
@@ -178,7 +180,7 @@ export const getDailyEntries = /* GraphQL */ `
     $UserID: ID
     $count: Int
     $nextToken: String
-    $timerange: String
+    $timerange: Timerange
   ) {
     getDailyEntries(
       UserID: $UserID
@@ -220,6 +222,94 @@ export const getDailyEntries = /* GraphQL */ `
           Ate
           TotalCalories
           MealList {
+            Name
+            Food
+            Calories
+            Proteins
+            Carbs
+            Fats
+          }
+          TotalProteins
+          TotalCarbs
+          TotalFats
+        }
+        Fitness {
+          Exercised
+          Duration
+          CaloriesBurned
+          Steps
+          Exercises {
+            Name
+            Sets
+            Reps
+            Duration
+            Weight
+            CaloriesBurned
+          }
+        }
+        MedCheck {
+          Name
+          Taken
+        }
+        Activities {
+          Activities {
+            Name
+            Duration
+          }
+        }
+      }
+      nextToken
+    }
+  }
+`;
+export const getDailyEntriesAsc = /* GraphQL */ `
+  query GetDailyEntriesAsc(
+    $UserID: ID
+    $count: Int
+    $nextToken: String
+    $timerange: Timerange
+  ) {
+    getDailyEntriesAsc(
+      UserID: $UserID
+      count: $count
+      nextToken: $nextToken
+      timerange: $timerange
+    ) {
+      dailyEntries {
+        UserID
+        Timestamp
+        Health {
+          Period
+          Weight
+        }
+        Symptoms {
+          Title
+          Severity
+        }
+        Stress {
+          Severity
+          Stressors
+        }
+        Mood {
+          Mood
+          Feelings
+        }
+        Sleep {
+          Slept
+          Start
+          End
+          Quality
+          Naps {
+            Start
+            End
+            Quality
+          }
+        }
+        Meals {
+          Ate
+          TotalCalories
+          MealList {
+            Name
             Food
             Calories
             Proteins
@@ -301,6 +391,7 @@ export const getJournalEntry = /* GraphQL */ `
         word
         count
       }
+      LastUpdated
     }
   }
 `;
@@ -309,7 +400,7 @@ export const getJournalEntries = /* GraphQL */ `
     $UserID: ID
     $count: Int
     $nextToken: String
-    $timerange: String
+    $timerange: Timerange
   ) {
     getJournalEntries(
       UserID: $UserID
@@ -324,6 +415,33 @@ export const getJournalEntries = /* GraphQL */ `
           word
           count
         }
+        LastUpdated
+      }
+      nextToken
+    }
+  }
+`;
+export const getJournalEntriesAsc = /* GraphQL */ `
+  query GetJournalEntriesAsc(
+    $UserID: ID
+    $count: Int
+    $nextToken: String
+    $timerange: Timerange
+  ) {
+    getJournalEntriesAsc(
+      UserID: $UserID
+      count: $count
+      nextToken: $nextToken
+      timerange: $timerange
+    ) {
+      journalEntries {
+        Entry
+        Timestamp
+        FreqWords {
+          word
+          count
+        }
+        LastUpdated
       }
       nextToken
     }

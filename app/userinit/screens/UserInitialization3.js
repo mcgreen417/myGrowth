@@ -13,6 +13,8 @@ import {
   View,
   FlatList,
   Switch,
+  ScrollView,
+  Dimensions,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Cache } from 'react-native-cache';
@@ -61,11 +63,11 @@ function UserInitialization3({ route, navigation }) {
           <View style={styles().avatarView}>
             <Image
               style={styles().avatar}
-              source={require('../../shared/assets/gardener-avatar.png')}
+              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
             />
             <Text style={styles().pageDescription}>
-              Edit your user settings below. These user settings may be changed at
-              any time by returning to this page.
+              Edit your user settings below. These settings may be changed at
+              any time in Account Settings.
             </Text>
           </View>
           {/* Top page divider */}
@@ -326,7 +328,7 @@ function UserInitialization3({ route, navigation }) {
           <View style={styles().line} />
 
           {/* Back & next buttons */}
-          <View style={{ marginTop: '33%' }} />
+          <View style={{ marginTop: '27%', }} />
           <View style={styles().buttonsContainer}>
             <Button
               title='Back'
@@ -369,6 +371,7 @@ function UserInitialization3({ route, navigation }) {
               }}
             />
           </View>
+          <View style={{ marginTop: '3%', }}/>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -432,16 +435,16 @@ const styles = () => StyleSheet.create({
       : global.pageBackgroundColor,
   },
   avatar: {
-    width: 75,
-    height: 75,
-    marginRight: 24,
+    width: Math.round(Dimensions.get('window').width * 1/4),
+    height: Math.round(Dimensions.get('window').width * 1/4),
+    marginRight: 20,
   },
   avatarView: {
     flexDirection: 'row',
     marginTop: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    width: '90%'
+    width: '90%',
   },
   avatarSelectView: {
     height: '68%',
@@ -519,7 +522,7 @@ const styles = () => StyleSheet.create({
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
-    fontSize: 16,
+    fontSize: 20,
     flex: 1,
     flexWrap: 'wrap',
     fontWeight: 'bold',

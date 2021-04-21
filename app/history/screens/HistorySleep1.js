@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Modal,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
@@ -37,353 +38,551 @@ const monthLabels = [
 
 function HistorySleep1({ route, navigation }) {
   const data = route.params.data;
-  const obj = initDisplayData(data);
-
+  const settings = route.params.settings;
   const [modalVisible, setModalVisible] = useState(false);
-  const [timePeriod, setTimePeriod] = useState('unselected');
-  const [sleepView, setSleepView] = useState('unselected');
-  const [displayData, setDisplay] = useState(obj);
-  const [timestamps, setTimestamps] = useState(dayLabels);
-  const [useReccSleep, setUseReccSleep] = useState(false);
-  
-  const toggleReccSleep = () =>
-    setUseReccSleep((previousState) => !previousState);
 
-  return (
-    <SafeAreaView style={styles().container}>
+  if(data !== null) {
+    const obj = initDisplayData(data);
+    const [timePeriod, setTimePeriod] = useState('past_week');
+    const [sleepView, setSleepView] = useState('sleep_nap');
+    const [displayData, setDisplay] = useState(obj);
+    const [timestamps, setTimestamps] = useState(dayLabels);
+    const [useReccSleep, setUseReccSleep] = useState(false);
+    
+    const toggleReccSleep = () =>
+      setUseReccSleep((previousState) => !previousState);
 
-      {/* Modal + each of the navigable history pages */}
-      <HistorySelectACategory
-        setModalView={setModalVisible}
-        showModalView={modalVisible}
-        navigation={navigation}
-        data={data}
-      />
+    return (
+      <SafeAreaView style={styles().container}>
 
-      {/* Actual screen */}
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles().pageSetup}>
+        {/* Modal + each of the navigable history pages */}
+        <HistorySelectACategory
+          setModalView={setModalVisible}
+          showModalView={modalVisible}
+          navigation={navigation}
+          data={data}
+          settings={settings}
+        />
 
-          {/* Gardener avatar + page blurb */}
-          <View style={styles().avatarView}>
-            <Text style={styles().pageDescription}>
-              View your sleep history and our analysis of activities that may have a
-              measurable effect on your duration or quality of sleep.
-            </Text>
-            <Image
-              style={styles().avatar}
-              source={require('../../shared/assets/gardener-avatar.png')}
-            />
-          </View>
-          {/* Top page divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
+        {/* Actual screen */}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles().pageSetup}>
 
-          {/* Categories button */}
-          <TouchableOpacity 
-            style={styles().categoriesView} 
-            onPress={() => setModalVisible(true)}
-          >
+            {/* Gardener avatar + page blurb */}
+            <View style={styles().avatarView}>
+              <Text style={styles().pageDescription}>
+                View your changes in sleep over time and some improvments we think you can make!
+              </Text>
+              <Image
+                style={styles().avatarFlipped}
+                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+              />
+            </View>
+            {/* Top page divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* Categories button */}
+            <TouchableOpacity 
+              style={styles().categoriesView} 
+              onPress={() => setModalVisible(true)}
+            >
+              <View 
+                style={styles().categories}>
+                <Text style={styles().textAlt}>Categories</Text>
+                <View>
+                  <Icon
+                    name='arrow-top-right'
+                    type='material-community'
+                    color='white'
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+
+            {/* Custom history component */}
+            <View style={{marginTop: 5}}>
+              <TabBarAndContent 
+                navigation={navigation}
+                data={data} 
+                multiPageData={displayData}
+                timePeriod={timestamps} 
+                page={'sleep'}
+                page2Color={false}
+                settings={settings}
+              />
+            </View>
+
+            {/* Time Period and Select Display drop-down selection */}
             <View 
-              style={styles().categories}>
-              <Text style={styles().textAlt}>Categories</Text>
-              <View>
-                <Icon
-                  name='arrow-top-right'
-                  type='material-community'
-                  color='white'
-                />
+              style={{ 
+                width: '90%', 
+                justifyContent: 'flex-start', 
+                marginVertical: 20, 
+                flexDirection: 'row',
+              }}>
+              <View style={{ width: '50%', }}>
+                <Text style={styles().heading}>TIME PERIOD</Text>
+                <View style={styles().pickerView}>
+                  <Picker
+                    selectedValue={timePeriod}
+                    style={styles().picker}
+                    onValueChange={(itemValue, itemIndex) => {
+                      setTimePeriod(itemValue);
+                      getDisplayData(data, itemValue, setDisplay, sleepView);
+                      getTimestamps(data, timestamps, setTimestamps, itemValue);
+                    }}
+                    mode={'dropdown'}
+                  >
+                    <Picker.Item label='Past week' value='past_week' />
+                    <Picker.Item label='Past month' value='past_month' />
+                    <Picker.Item label='Past year' value='past_year' />
+                  </Picker>
+                </View>
+              </View>
+              <View style={{ width: '50%', }}>
+                <Text style={styles().heading}>SELECT DISPLAY</Text>
+                <View style={styles().pickerView}>
+                  <Picker
+                    selectedValue={sleepView}
+                    style={styles().picker}
+                    onValueChange={(itemValue, itemIndex) => {
+                      setSleepView(itemValue);
+                      getDisplayData(data, timePeriod, setDisplay, itemValue);
+                      getTimestamps(data, timestamps, setTimestamps, timePeriod);
+                    }}
+                    mode={'dropdown'}
+                  >
+                    <Picker.Item label='Sleep and Naps' value='sleep_nap' />
+                    <Picker.Item label='Sleep Only' value='sleep_only' />
+                    <Picker.Item label='Naps Only' value='naps_only' />
+                  </Picker>
+                </View>
               </View>
             </View>
-          </TouchableOpacity>
 
-          {/* Custom history component */}
-          <View style={{marginTop: 5}}>
-            <TabBarAndContent 
-              navigation={navigation}
-              data={data} 
-              multiPageData={displayData}
-              timePeriod={timestamps} 
-              page={'sleep'}
-              page2Color={false}
-            />
+            {/* Display recommended sleep amount switch */}
+            <View style={styles().line}/>
+            <View style={{ flexDirection: 'row', width: '90%', alignItems: 'center' }}>
+              <Text style={styles().textLight}>Display recommended sleep amount</Text>
+              <View style={styles().switchView}>
+                <View style={styles().line2}/>
+                  <Switch
+                    trackColor={{ 
+                      false: global.colorblindMode 
+                        ? global.cb_switchTrackColorFalse
+                        : global.switchTrackColorFalse,
+                      true: global.colorblindMode
+                        ? global.cb_switchTrackColorTrue 
+                        : global.switchTrackColorTrue
+                    }}
+                    thumbColor={
+                      useReccSleep
+                        ? (global.colorblindMode 
+                          ? global.cb_switchThumbColorTrue
+                          : global.switchThumbColorTrue)
+                        : (global.colorblindMode
+                          ? global.cb_switchThumbColorFalse
+                          : global.switchThumbColorFalse)
+                    }
+                    ios_backgroundColor={global.cb_switchIosBackgroundColor}
+                    onValueChange={toggleReccSleep}
+                    value={useReccSleep}
+                  />
+              </View>
+            </View>
+            <View style={styles().line}/>
+
+            {/* App suggestions */}
+            <View style={{ marginHorizontal: '5%', marginTop: 20,  }}>
+              {/* Proper sleep analysis */}
+              <Text style={styles().text}>
+                Based on our analysis, on days that you slept for the traditionally recommended
+                amount of time, you often reported...
+              </Text>
+              <View style={styles().suggestionView}>
+                <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #1)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #3)</Text>
+                    </View>
+                  </View>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #2)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='checkmark-sharp' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #4)</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+
+              {/* Underslept analysis */}
+              <Text style={styles().text}>
+                Likewise, on days that you slept for a shorter amount of time than recommended,
+                you often reported...
+              </Text>
+              <View style={styles().suggestionView}>
+                <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #1)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #3)</Text>
+                    </View>
+                  </View>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #2)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #4)</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+
+              {/* Overslept analysis */}
+              <Text style={styles().text}>
+                Likewise, on days that you slept for a longer amount of time than recommended,
+                you often reported...
+              </Text>
+              <View style={styles().suggestionView}>
+                <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #1)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #3)</Text>
+                    </View>
+                  </View>
+                  <View style={{ flexDirection: 'row', marginVertical: 3, }}>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #2)</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', width: '50%', }}>
+                      <Icon 
+                        name='close' 
+                        type='ionicon' 
+                        color='#A5DFB2'
+                      />
+                      <Text style={styles().textAlt}>(Suggestion #4)</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+
+              {/* Medical disclaimer */}
+              <Text style={styles().textLightSmall}>
+                ** Please consult a medical professional before altering your sleeping habits 
+                as a result of these analyses. As a reminder, these analyses indicate correlation, 
+                not causation, and thus may not indicate direct effects of your sleeping habits. 
+              </Text>
+            </View>
+
+            <View style={styles().pageEnd}/>
           </View>
+        </ScrollView>
+        <NavBar history={true} navigation={navigation} />
+      </SafeAreaView>
+    );
+  }
 
-          {/* Time Period and Select Display drop-down selection */}
-          <View 
-            style={{ 
-              width: '90%', 
-              justifyContent: 'flex-start', 
-              marginVertical: 20, 
-              flexDirection: 'row',
-            }}>
-            <View style={{ width: '50%', }}>
-              <Text style={styles().heading}>TIME PERIOD</Text>
-              <View style={styles().pickerView}>
-                <Picker
-                  selectedValue={timePeriod}
-                  style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => {
-                    setTimePeriod(itemValue);
-                    getDisplayData(data, itemValue, setDisplay, sleepView);
-                    getTimestamps(data, timestamps, setTimestamps, itemValue);
-                  }}
-                  mode={'dropdown'}
-                >
-                  <Picker.Item label='Select one...' value='unselected' />
-                  <Picker.Item label='Past week' value='past_week' />
-                  <Picker.Item label='Past month' value='past_month' />
-                  <Picker.Item label='Past year' value='past_year' />
-                </Picker>
-              </View>
+  else
+    return (
+      <SafeAreaView style={styles().container}>
+        { /* Modal */}
+        <HistorySelectACategory
+          setModalView={setModalVisible}
+          showModalView={modalVisible}
+          navigation={navigation}
+          data={data}
+          settings={settings}
+        />
+
+        {/* Actual screen */}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles().pageSetup}>
+            
+            {/* Gardener avatar + page blurb */}
+            <View style={styles().avatarView}>
+              <Text style={styles().pageDescription}>
+                View your changes in sleep over time and some improvments we think you can make!
+              </Text>
+              <Image
+                style={styles().avatarFlipped}
+                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+              />
             </View>
-            <View style={{ width: '50%', }}>
-              <Text style={styles().heading}>SELECT DISPLAY</Text>
-              <View style={styles().pickerView}>
-                <Picker
-                  selectedValue={sleepView}
-                  style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => {
-                    setSleepView(itemValue);
-                    getDisplayData(data, timePeriod, setDisplay, itemValue);
-                    getTimestamps(data, timestamps, setTimestamps, timePeriod);
-                  }}
-                  mode={'dropdown'}
-                >
-                  <Picker.Item label='Select one...' value='unselected' />
-                  <Picker.Item label='Sleep and Naps' value='sleep_nap' />
-                  <Picker.Item label='Sleep Only' value='sleep_only' />
-                  <Picker.Item label='Naps Only' value='naps_only' />
-                </Picker>
-              </View>
+            {/* Top page divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
             </View>
+
+            {/* Categories button */}
+            <TouchableOpacity 
+              style={styles().categoriesView} 
+              onPress={() => setModalVisible(true)}
+            >
+              <View 
+                style={styles().categories}>
+                <Text style={styles().textAlt}>Categories</Text>
+                <View>
+                  <Icon
+                    name='arrow-top-right'
+                    type='material-community'
+                    color='white'
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+
+            <View style={{alignContent: 'center', margin: 22}}>
+              <Text>
+                Uh Oh! It seems like you don't have any data to view!
+                Try making some health entries first!
+              </Text>
+            </View>
+            
           </View>
-
-          {/* Display recommended sleep amount switch */}
-          <View style={styles().line}/>
-          <View style={{ flexDirection: 'row', width: '90%', alignItems: 'center' }}>
-            <Text style={styles().textLight}>Display recommended sleep amount</Text>
-            <View style={styles().switchView}>
-              <View style={styles().line2}/>
-                <Switch
-                  trackColor={{ 
-                    false: global.colorblindMode 
-                      ? global.cb_switchTrackColorFalse
-                      : global.switchTrackColorFalse,
-                    true: global.colorblindMode
-                      ? global.cb_switchTrackColorTrue 
-                      : global.switchTrackColorTrue
-                  }}
-                  thumbColor={
-                    useReccSleep
-                      ? (global.colorblindMode 
-                        ? global.cb_switchThumbColorTrue
-                        : global.switchThumbColorTrue)
-                      : (global.colorblindMode
-                        ? global.cb_switchThumbColorFalse
-                        : global.switchThumbColorFalse)
-                  }
-                  ios_backgroundColor={global.cb_switchIosBackgroundColor}
-                  onValueChange={toggleReccSleep}
-                  value={useReccSleep}
-                />
-            </View>
-          </View>
-          <View style={styles().line}/>
-
-          {/* App suggestions */}
-          <View style={{ marginHorizontal: '5%', marginTop: 20,  }}>
-            {/* Proper sleep analysis */}
-            <Text style={styles().text}>
-              Based on our analysis, on days that you slept for the traditionally recommended
-              amount of time, you often reported...
-            </Text>
-            <View style={styles().suggestionView}>
-               <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #1)</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #3)</Text>
-                  </View>
-                </View>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #2)</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='checkmark-sharp' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #4)</Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-
-            {/* Underslept analysis */}
-            <Text style={styles().text}>
-              Likewise, on days that you slept for a shorter amount of time than recommended,
-              you often reported...
-            </Text>
-            <View style={styles().suggestionView}>
-               <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #1)</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #3)</Text>
-                  </View>
-                </View>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #2)</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #4)</Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-
-            {/* Overslept analysis */}
-            <Text style={styles().text}>
-              Likewise, on days that you slept for a longer amount of time than recommended,
-              you often reported...
-            </Text>
-            <View style={styles().suggestionView}>
-               <View style={{ marginVertical: 6, marginHorizontal: '2.5%', }}>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #1)</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #3)</Text>
-                  </View>
-                </View>
-                <View style={{ flexDirection: 'row', marginVertical: 3, }}>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #2)</Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', width: '50%', }}>
-                    <Icon 
-                      name='close' 
-                      type='ionicon' 
-                      color='#A5DFB2'
-                    />
-                    <Text style={styles().textAlt}>(Suggestion #4)</Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-
-            {/* Medical disclaimer */}
-            <Text style={styles().textLightSmall}>
-              ** Please consult a medical professional before altering your sleeping habits 
-              as a result of these analyses. As a reminder, these analyses indicate correlation, 
-              not causation, and thus may not indicate direct effects of your sleeping habits. 
-            </Text>
-          </View>
-
-          <View style={styles().pageEnd}/>
-        </View>
-      </ScrollView>
-      <NavBar history={true} navigation={navigation} />
-    </SafeAreaView>
-  );
+        </ScrollView>
+        <NavBar history={true} navigation={navigation} />
+      </SafeAreaView>
+    );
 };
 
-function initDisplayData(data) {
-  var len1 = data.nightSleepData.length;
-  var len2 = data.napSleepData.length;
-  var obj = new Object();
+function makeYear(dataArr) {
+  var arr = [];
+  var [sum, len] = [0, dataArr.length];
 
-  obj.sleep = data.nightSleepData.slice(len1 - 7, len1);
-  obj.nap = data.napSleepData.slice(len2 - 7, len2);
+  for(var i = len < 365 ? 0: len - 365; i < len; i++) {
+      if(i === len - 1 && len < 365) {
+          let fullHalfWeeks = Math.floor(len / 30);
+          let spareHalves = len - (fullHalfWeeks * 30);
+  
+          sum = sum / spareHalves;
+
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else if(i === len - 1) {
+          sum = sum / 35;
+
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else if(i % 30 === 0 && i > 0) {
+          sum = sum / 30;
+
+          arr.push(sum);
+  
+          sum = 0;
+      }
+
+      else
+          sum += dataArr[i] === -1 ? 0 : dataArr[i];
+  }
+
+  if(arr.length < 12) {
+      let diff = 12 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+
+      arr = zeros.concat(arr);
+  }
+
+  return arr;
+}
+
+function makeMonth(dataArr) {
+  var [sum, len] = [0, dataArr.length];
+  var arr = [];
+
+  for(var i = len < 30 ? 0: len - 30; i < len; i++) {
+      if(i === len - 1 && len < 30) {
+        let fullHalfWeeks = Math.floor(len / 4);
+        let spareHalves = len - (fullHalfWeeks * 4);
+
+        sum = sum / spareHalves;
+
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else if(i === len - 1) {
+        sum = sum / 2;
+
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else if(i % 4 === 0 && i > 0) {
+        sum = sum / 4;
+
+        arr.push(sum);
+
+        sum = 0;
+      }
+
+      else
+        sum += dataArr[i] === -1 ? 0 : dataArr[i];
+    }
+
+    if(arr.length < 8) {
+      let diff = 8 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+  
+      arr = zeros.concat(arr);
+    }
+
+  return arr;
+}
+
+function makeWeek(dataArr) {
+  var len = dataArr.length;
+  var arr = [];
+
+  for(var i = len < 7 ? 0 : len - 7; i < len; i++)
+      arr.push(dataArr[i]);
+        
+  if(arr.length < 7) {
+      let diff = 7 - arr.length;
+      var zeros = new Array(diff);
+      zeros.fill(0);
+  
+      arr = zeros.concat(arr);
+  }
+
+  return arr;
+}
+
+function cleanUpData(arr) {
+  const len = arr.length;
+
+  for(var i = 0; i < len; i++)
+    if(arr[i] == -1)
+      arr[i] = 0;
+
+  return arr;
+}
+
+function initDisplayData(data) {
+  var obj = new Object();
+  obj.sleep = [];
+  obj.nap = [];
+
+  obj.sleep = makeWeek(data.nightSleepData);
+  obj.nap = makeWeek(data.napSleepData);
+
+  obj.sleep = cleanUpData(obj.sleep);
+  obj.nap = cleanUpData(obj.nap);
 
   return obj;
 }
 
 function getDisplayData(data, timePeriod, setDisplay, sleepView) {
+  var [sum1, sum2] = [0, 0];
   var obj = new Object();
+  obj.sleep = [];
+  obj.nap = [];
 
   //both
-  if(sleepView === 'unselected' || sleepView === 'sleep_nap') {
-    var len1 = data.nightSleepData.length;
-    var len2 = data.napSleepData.length;
+  if(sleepView === 'sleep_nap') {
+    if(timePeriod = 'past_week') {
+      obj.sleep = makeWeek(data.nightSleepData);
+      obj.nap = makeWeek(data.napSleepData);
 
-    if(timePeriod === 'past_week' || timePeriod === 'unselected') {
-      obj.sleep = data.nightSleepData.slice(len1 - 7, len1);
-      obj.nap = data.napSleepData.slice(len2 - 7, len2);
+      obj.sleep = cleanUpData(obj.sleep);
+      obj.nap = cleanUpData(obj.nap);
 
       setDisplay(obj);
     }
 
     else if(timePeriod === 'past_month') {
-      obj.sleep = data.nightSleepData.slice(len1 - 30, len1);
-      obj.nap = data.napSleepData.slice(len2 - 30, len2);
+      obj.sleep = makeMonth(data.nightSleepData);
+      obj.nap = makeMonth(data.napSleepData);
+
+      obj.sleep = cleanUpData(obj.sleep);
+      obj.nap = cleanUpData(obj.nap);
 
       setDisplay(obj);
     }
 
     else {
-      obj.sleep = data.nightSleepData.slice(len1 - 365, len1);
-      obj.nap = data.napSleepData.slice(len2 - 365, len2);
+      obj.sleep = makeYear(data.nightSleepData);
+      obj.nap = makeYear(data.napSleepData);
+
+      obj.sleep = cleanUpData(obj.sleep);
+      obj.nap = cleanUpData(obj.nap);
 
       setDisplay(obj);
     }
@@ -391,43 +590,70 @@ function getDisplayData(data, timePeriod, setDisplay, sleepView) {
   
   //sleep only
   else if(sleepView === 'sleep_only') {
-    var len = data.nightSleepData.length;
+    if(timePeriod === 'past_week') {
+      obj.sleep = makeWeek(data.nightSleepData);
 
-    if(timePeriod === 'past_week' || timePeriod === 'unselected') {
-      obj = data.nightSleepData.slice(len - 7, len);
+      obj.sleep = cleanUpData(obj.sleep);
+
       setDisplay(obj);
     }
 
     else if(timePeriod === 'past_month') {
-      obj = data.nightSleepData.slice(len - 30, len);
+      obj.sleep = makeMonth(data.nightSleepData);
+
+      obj.sleep = cleanUpData(obj.sleep);
+
       setDisplay(obj);
     }
 
     else {
-      obj = data.nightSleepData.slice(len - 365, len);
+      obj.sleep = makeYear(data.nightSleepData);
+
+      obj.sleep = cleanUpData(obj.sleep);
+
       setDisplay(obj);
     }
+
+    obj.sleep = cleanUpData(obj.sleep);
+
+    setDisplay(obj);
   }
 
   //nap only
   else {
     var len = data.napSleepData.length;
 
-    if(timePeriod === 'past_week' || timePeriod === 'unselected') {
-      obj = data.napSleepData.slice(len - 7, len);
+    if(timePeriod === 'past_week') {
+      obj.nap = makeWeek(data.napSleepData);
+
+      obj.nap = cleanUpData(obj.nap);
+
       setDisplay(obj);
     }
 
     else if(timePeriod === 'past_month') {
-      obj = data.napSleepData.slice(len - 30, len);
+      obj.nap = makeMonth(data.napSleepData);
+
+      obj.nap = cleanUpData(obj.nap);
+
       setDisplay(obj);
     }
 
     else {
-      obj = data.napSleepData.slice(len - 365, len);
+      obj.nap = makeYear(data.napSleepData);
+
+      obj.nap = cleanUpData(obj.nap);
+
       setDisplay(obj);
     }
   }
+}
+
+function rotateCalLabels(data) {
+  var labels = monthLabels;
+  labels = labels.concat(labels.splice(0, new Date(data.latestDate).getMonth() % 6 - 1));
+
+  return labels;
 }
 
 function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
@@ -447,7 +673,7 @@ function getTimestamps(data, timestamps, setTimestamps, timePeriod) {
     setTimestamps(dates); 
 
   else if(timePeriod === 'past_year')
-    setTimestamps(monthLabels);
+    setTimestamps(rotateCalLabels(data));
 }
 
 export default HistorySleep1;
@@ -459,9 +685,12 @@ const styles = () => StyleSheet.create({
       ? global.cb_pageBackgroundColor
       : global.pageBackgroundColor,
   },
-  avatar: {
-    width: 75,
-    height: 75,
+  avatarFlipped: {
+    width: Math.round(Dimensions.get('window').width * 1/4),
+    height: Math.round(Dimensions.get('window').width * 1/4),
+    transform: [
+      { scaleX: -1 }
+    ]
   },
   avatarView: {
     flexDirection: 'row',
@@ -535,7 +764,7 @@ const styles = () => StyleSheet.create({
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
     flex: 1,
     flexWrap: 'wrap',

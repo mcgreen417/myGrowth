@@ -7,9 +7,10 @@ import {
   SafeAreaView,
   Image,
   Pressable,
+  TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import * as queries from '../../../src/graphql/queries';
-
 import { ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
@@ -43,7 +44,6 @@ function Home({ navigation }) {
         ;
 
       else {
-        const lastInd = res.data.getDailyEntries.dailyEntries.length - 1;
         var date = new Date(res.data.getDailyEntries.dailyEntries[0].Timestamp);
         const month = date.getMonth() + 1;
         const day = date.getDate();
@@ -62,191 +62,193 @@ function Home({ navigation }) {
   return (
     <SafeAreaView style={styles().container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Gardener avatar + page blurb */}
-        <View style={styles().avatarView}>
-          <Text style={styles().pageDescription}>
-            Good Morning, {'\n'}{displayName}!
-          </Text>
-          <Image
-            style={styles().avatar}
-            source={require('../../shared/assets/gardener-avatar.png')}
-          />
-        </View>
-
-        {/* Plant Section */}
-        <View style={styles().plantSection}>
-          <View style={styles().plantImage}>
+        <View style={styles().pageSetup}>
+          {/* Gardener avatar + page blurb */}
+          <View style={styles().avatarView}>
+            <Text style={styles().pageDescription}>
+              Good Morning,{'\n'}{displayName}!
+            </Text>
             <Image
-              source={require('../../shared/assets/plant_sprites/' +
-                plant +
-                '_' +
-                stage +
-                '.png')}
-              style={styles().plant}
+              style={styles().avatarFlipped}
+              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
             />
           </View>
-        </View>
 
-        {/* Plant buttons */}
-        <View style={styles().plantButtons}>
-          <Pressable
-            style={styles().inlineRow}
-            onPress={() => navigation.navigate('CustomizePlant')}>
-            <Icon name='arrow-left' color='#816868' />
-            <View>
-              <Text style={styles().plantLinks}>Customize Plant</Text>
+          {/* Plant Section */}
+          <View style={styles().plantSection}>
+            <View style={styles().plantImage}>
+              <Image
+                source={require('../../shared/assets/plant_sprites/' +
+                  plant +
+                  '_' +
+                  stage +
+                  '.png')}
+                style={styles().plant}
+              />
             </View>
-          </Pressable>
-          <View style={styles().line2} />
-          <Pressable
-            style={styles().inlineRow}
-            onPress={() => navigation.navigate('PlantShop')}>
-            <View>
-              <Text style={styles().plantLinks}>Enter Plant Shop</Text>
-            </View>
-            <Icon name='arrow-right' color='#816868' />
-          </Pressable>
-        </View>
+          </View>
 
-        {/* Write a new entry button - make it navigate - MAKE STRING DYNAMIC */}
-        <View style={styles().dividerView}>
-          <View style={styles().dividerLeft} />
-          <View>
-            <Pressable onPress={() => navigation.navigate('HealthEntry1')}>
-              <View style={styles().entryButton}>
-                <View
-                  style={{
-                    marginVertical: 4,
-                    marginHorizontal: 8,
-                    paddingLeft: 8,
-                    paddingTop: 2,
-                  }}>
-                  <Text
+          {/* Plant shop + customize buttons */}
+          <View style={styles().plantButtonBackground}>
+            <View style={styles().plantButtonView}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', }}>
+                <Pressable
+                  style={styles().plantButton}
+                  onPress={() => navigation.navigate('CustomizePlant')}>
+                  <Icon name='arrow-left' color='#816868' />
+                  <Text style={styles().textPlantButton}>Customize Plant</Text>
+                </Pressable>
+                <View style={styles().line2} />
+                <Pressable
+                  style={styles().plantButton}
+                  onPress={() => navigation.navigate('PlantShop')}>
+                  <Text style={styles().textPlantButton}>Enter Plant Shop</Text>
+                  <Icon name='arrow-right' color='#816868' />
+                </Pressable>
+              </View>
+            </View>
+          </View>
+
+          {/* Write a new entry button */}
+          <View style={styles().dividerView}>
+            <View style={styles().dividerLeft} />
+            <View>
+              <Pressable onPress={() => navigation.navigate('HealthEntry')}>
+                <View style={styles().entryButton}>
+                  <View
                     style={{
-                      fontSize: 24,
-                      fontWeight: 'bold',
-                      color: '#A5DFB2',
+                      marginVertical: 4,
+                      marginHorizontal: 8,
+                      paddingLeft: 8,
+                      paddingTop: 2,
                     }}>
-                    Write a new entry!
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: 'bold',
-                      color: '#F6EFED',
-                      marginTop: -4,
-                    }}>
-                    {mostRecentEntryString}
-                  </Text>
+                    <Text
+                      style={{
+                        fontSize: 24,
+                        fontWeight: 'bold',
+                        color: '#A5DFB2',
+                      }}>
+                      Write a new entry!
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        fontWeight: 'bold',
+                        color: '#F6EFED',
+                        marginTop: -4,
+                      }}>
+                      {mostRecentEntryString}
+                    </Text>
+                  </View>
+                </View>
+              </Pressable>
+            </View>
+            <View style={styles().dividerRight} />
+          </View>
+
+          {/* View past entries */}
+          <View style={{ alignSelf: 'flex-end', marginTop: -16, marginRight: '2.5%' }}>
+            <TouchableOpacity
+              style={{ flexDirection: 'row', }}
+              onPress={() => navigation.navigate('HealthEntryHistory')}>
+              <Text style={styles().plantLinks}>View Past Entries</Text>
+              <Icon name='arrow-right' color='#816868' />
+            </TouchableOpacity>
+          </View>
+
+          {/* Avatar Section */}
+
+          <View style={{ width: '90%', marginTop: 20, }}>
+            <View style={{ flexDirection: 'row', }}>
+              <Image
+                style={styles().avatar}
+                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+              />
+              <View style={{ marginLeft: '5%', flex: 1, }}>
+                <Text style={styles().activityView}>
+                  Why don't you try doing one of these activities?
+                </Text>
+                <TouchableOpacity
+                  style={styles().inlineRow}
+                  onPress={() => navigation.navigate('HealthEntry')}>
+                  <Text style={styles().text}>Write a health entry</Text>
+                  <Icon
+                    name='checkmark-circle-outline'
+                    type='ionicon'
+                    color={
+                      global.colorblindMode
+                        ? global.cb_switchThumbColorTrue
+                        : global.switchThumbColorTrue
+                    }
+                    style={{ marginLeft: 8 }}
+                  />
+                </TouchableOpacity>
+
+                <View style={styles().dividerViewLow}>
+                  <View style={styles().line} />
+                </View>
+
+                <TouchableOpacity
+                  style={styles().inlineRow}
+                  onPress={() => navigation.navigate('Journal')}>
+                  <Text style={styles().text}>Write a journal entry</Text>
+                  <Icon
+                    name='checkmark-circle-outline'
+                    type='ionicon'
+                    color={
+                      global.colorblindMode
+                        ? global.cb_switchThumbColorTrue
+                        : global.switchThumbColorTrue
+                    }
+                    style={{ marginLeft: 8 }}
+                  />
+                </TouchableOpacity>
+
+                <View style={styles().dividerViewLow}>
+                  <View style={styles().line} />
+                </View>
+
+                <TouchableOpacity
+                  style={styles().inlineRow}
+                  onPress={() => navigation.navigate('Goals')}>
+                  <Text style={styles().text}>Complete a goal</Text>
+                  <Icon
+                    name='checkmark-circle-outline'
+                    type='ionicon'
+                    color={
+                      global.colorblindMode
+                        ? global.cb_switchThumbColorTrue
+                        : global.switchThumbColorTrue
+                    }
+                    style={{ marginLeft: 8 }}
+                  />
+                </TouchableOpacity>
+
+                <View style={styles().dividerViewLow}>
+                  <View style={styles().line} />
+                </View>
+
+                <TouchableOpacity
+                  style={styles().inlineRow}
+                  onPress={() => getTodos(navigation)}>
+                  <Text style={styles().text}>Check your to-do list</Text>
+                  <Icon
+                    name='checkmark-circle-outline'
+                    type='ionicon'
+                    color='#4CB97A'
+                    style={{ marginLeft: 8 }}
+                  />
+                </TouchableOpacity>
+
+                <View style={styles().dividerViewLow}>
+                  <View style={styles().line} />
                 </View>
               </View>
-            </Pressable>
-          </View>
-          <View style={styles().dividerRight} />
-        </View>
-
-        {/* View past entries */}
-        <View style={{ marginTop: -20 }}>
-          <Pressable
-            style={styles().inlineRowEnd}
-            onPress={() => navigation.navigate('')}>
-            <View style={{ alignSelf: 'flex-end' }}>
-              <Text style={styles().plantLinks}>View Past Entries</Text>
             </View>
-            <Icon name='arrow-right' color='#816868' />
-          </Pressable>
+          </View>
+
+          <View style={styles().pageEnd} />
         </View>
-
-        {/* Avatar Section */}
-        <View style={styles().avatarView}>
-          <Image
-            style={styles().avatar}
-            source={require('../../shared/assets/gardener-avatar.png')}
-          />
-          <Text style={styles().activityView}>
-            Why don't you try doing one of these activities?
-          </Text>
-        </View>
-
-        <View style={{ marginLeft: '29%' }}>
-          <Pressable
-            style={styles().inlineRow}
-            onPress={() => navigation.navigate('HealthEntry1')}>
-            <Text style={styles().text}>Write a health entry</Text>
-            <Icon
-              name='checkmark-circle-outline'
-              type='ionicon'
-              color={
-                global.colorblindMode
-                  ? global.cb_switchThumbColorTrue
-                  : global.switchThumbColorTrue
-              }
-              style={{ marginLeft: 10 }}
-            />
-          </Pressable>
-
-          <View style={styles().dividerViewLow}>
-            <View style={styles().line} />
-          </View>
-
-          <Pressable
-            style={styles().inlineRow}
-            onPress={() => navigation.navigate('Journal')}>
-            <Text style={styles().text}>Write a journal entry</Text>
-            <Icon
-              name='checkmark-circle-outline'
-              type='ionicon'
-              color={
-                global.colorblindMode
-                  ? global.cb_switchThumbColorTrue
-                  : global.switchThumbColorTrue
-              }
-              style={{ marginLeft: 10 }}
-            />
-          </Pressable>
-
-          <View style={styles().dividerViewLow}>
-            <View style={styles().line} />
-          </View>
-
-          <Pressable
-            style={styles().inlineRow}
-            onPress={() => navigation.navigate('Goals')}>
-            <Text style={styles().text}>Complete a goal</Text>
-            <Icon
-              name='checkmark-circle-outline'
-              type='ionicon'
-              color={
-                global.colorblindMode
-                  ? global.cb_switchThumbColorTrue
-                  : global.switchThumbColorTrue
-              }
-              style={{ marginLeft: 10 }}
-            />
-          </Pressable>
-
-          <View style={styles().dividerViewLow}>
-            <View style={styles().line} />
-          </View>
-
-          <Pressable
-            style={styles().inlineRow}
-            onPress={() => getTodos(navigation)}>
-            <Text style={styles().text}>Check your to-do list</Text>
-            <Icon
-              name='checkmark-circle-outline'
-              type='ionicon'
-              color='#4CB97A'
-              style={{ marginLeft: 10 }}
-            />
-          </Pressable>
-
-          <View style={styles().dividerViewLow}>
-            <View style={styles().line} />
-          </View>
-        </View>
-
-        <View style={styles().pageEnd} />
       </ScrollView>
       <NavBar home={true} navigation={navigation} />
     </SafeAreaView>
@@ -271,35 +273,62 @@ const styles = () => StyleSheet.create({
     backgroundColor: global.colorblindMode
       ? global.cb_pageBackgroundColor
       : global.pageBackgroundColor,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   activityView: {
     color: '#816868',
     fontSize: 20,
     fontWeight: 'bold',
-    marginLeft: 30,
     flex: 1,
     flexWrap: 'wrap',
+    marginBottom: 20,
   },
   avatar: {
-    width: 75,
-    height: 75,
+    width: Math.round(Dimensions.get('window').width * 1/4),
+    height: Math.round(Dimensions.get('window').width * 1/4),
+  },
+  avatarFlipped: {
+    width: Math.round(Dimensions.get('window').width * 1/4),
+    height: Math.round(Dimensions.get('window').width * 1/4),
+    transform: [
+      { scaleX: -1 }
+    ]
   },
   avatarView: {
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 10,
     alignItems: 'center',
+    justifyContent: 'center',
+    width: '90%',
+  },
+  divider: {
+    flex: 1,
+    height: 1,
+    backgroundColor: global.colorblindMode
+      ? global.cb_contentDividerColor
+      : global.contentDividerColor,
+    marginHorizontal: '5%',
+  },
+  dividerView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 20,
   },
   dividerLeft: {
     flex: 1,
     height: 1,
     backgroundColor: '#816868',
+    marginLeft: '5%',
+    borderWidth: 1,
+    borderColor: '#816868'
   },
   dividerRight: {
     flex: 1,
     height: 1,
     backgroundColor: '#816868',
+    marginRight: '5%',
+    borderWidth: 1,
+    borderColor: '#816868'
   },
   dividerView: {
     flexDirection: 'row',
@@ -347,16 +376,14 @@ const styles = () => StyleSheet.create({
     backgroundColor: global.colorblindMode
       ? global.cb_contentDividerColor
       : global.contentDividerColor,
-    marginLeft: 40,
-    marginRight: 40,
-    height: '100%',
+    height: '80%',
     width: 2,
   },
   pageDescription: {
     color: global.colorblindMode
       ? global.cb_contentDividerColor
       : global.contentDividerColor,
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
     flex: 1,
     flexWrap: 'wrap',
@@ -364,20 +391,47 @@ const styles = () => StyleSheet.create({
   pageEnd: {
     marginBottom: 100,
   },
+  pageSetup: {
+    alignItems: 'center',
+    height: '100%',
+  },
   plant: {
     width: '60%',
     height: '90%',
   },
-  plantButtons: {
-    flex: 1,
+  plantButton: {
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 5,
+    width: '47%',
+  },
+  plantButtonBackground: {
+    backgroundColor: '#816868',
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    paddingVertical: 10,
+    width: '90%',
+  },
+  plantButtonView: {
+    backgroundColor: '#A5DFB2', 
+    marginHorizontal: 6, 
+    marginTop: -6, 
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
   },
   plantSection: {
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,
+    width: '90%',
   },
   plantImage: {
     width: '100%',
@@ -386,7 +440,8 @@ const styles = () => StyleSheet.create({
     backgroundColor: '#E5E5E5',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
     borderWidth: 6,
     borderColor: '#816868',
   },
@@ -400,5 +455,11 @@ const styles = () => StyleSheet.create({
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
+  },
+  textPlantButton: {
+    fontSize: 18, 
+    color: 'white', 
+    marginVertical: 4, 
+    fontWeight: 'bold',
   },
 });

@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
+  Pressable,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
@@ -31,85 +32,103 @@ const monthNames = [
 
 const ViewJournalEntry = ({ route, navigation }) => {
   const journal_date  = route.params.date;
+  const journal_updateDate = route.params.updateDate;
   const journal_entry = route.params.entry;
+  var displayEdit = true;
+
+  if(journal_date === journal_updateDate) {}
+    displayEdit = false;
+  
   const d = new Date(journal_date);
+  const updateD = new Date(journal_updateDate);
   const [modalVisible, setModalVisible] = useState(false);
 
   const date =
     monthNames[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
 
+  const updateDate = 
+    monthNames[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+
+  const updateTime = 
+    (updateD.getHours() % 12 == 0 ? 12 : updateD.getHours() % 12) +
+    ':' +
+    (updateD.getMinutes() < 10 ? '0' + updateD.getMinutes() : updateD.getMinutes()) +
+    (updateD.getHours() > 12 ? 'pm' : 'am');
+
   const time =
-    (d.getHours() % 12) +
-    1 +
+    (d.getHours() % 12 == 0 ? 12 : d.getHours() % 12) +
     ':' +
     (d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes()) +
     (d.getHours() > 12 ? 'pm' : 'am');
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* delete goal modal */}
+      {/* Delete goal modal */}
       <View>
         <Modal
           animationType='fade'
           transparent={true}
           visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}>
-          <View
+          onRequestClose={() => setModalVisible(!modalVisible)}>
+          <Pressable
             style={{
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
               zIndex: 1,
               backgroundColor: '#00000055',
-            }}>
-              <View style={styles.modalContainer}>
-                <View style={styles.modalHeaderBar}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      flex: 2,
-                      marginLeft: 6,
-                      marginVertical: 4,
-                    }}>
-                    <Icon
-                      name='pencil'
-                      type='material-community'
-                      color='white'
-                      style={{ marginRight: 8 }}
-                    />
-                    <Text style={styles.textAlt}>Delete Entry</Text>
-                  </View>
-                </View>
+            }}
+            onPressOut={() => setModalVisible(!modalVisible)}
+          >
+            <Pressable 
+              style={styles.modalContainer}
+              onPress={() => setModalVisible(true)}
+            >
+              <View style={styles.modalHeaderBar}>
                 <View
                   style={{
                     flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    marginHorizontal: '5%',
-                    maxHeight: '60%',
-                    marginVertical: 10,
-                  }}>
-                  <Text style={styles.text}>
-                    Are you sure you wish to delete this journal entry?
-                  </Text>
-                  <Text style={styles.textBoldAlt}>This action cannot be undone.</Text>
-                </View>
-                <View style={{ flexDirection: 'row', alignSelf: 'flex-end', marginVertical: 10, marginHorizontal: '5%', }}>
-                  <TouchableOpacity 
-                    style={{ marginRight: 20, }}
-                    onPress={() => {
-                      deleteEntry(date, navigation);
-                      setModalVisible(!modalVisible);
-                    }}>
-                    <Text style={styles.textDateTime}>DELETE</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
-                    <Text style={styles.textDateTime}>CANCEL</Text>
-                  </TouchableOpacity>
+                    flex: 2,
+                    marginLeft: 6,
+                    marginVertical: 4,
+                }}>
+                  <Icon
+                    name='pencil'
+                    type='material-community'
+                    color='white'
+                    style={{ marginRight: 8 }}
+                  />
+                  <Text style={styles.textAlt}>Delete Entry</Text>
                 </View>
               </View>
-            </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  marginHorizontal: '5%',
+                  maxHeight: '60%',
+                  marginVertical: 10,
+                }}>
+                <Text style={styles.text}>
+                  Are you sure you wish to delete this journal entry?
+                </Text>
+                <Text style={styles.textBoldAlt}>This action cannot be undone.</Text>
+              </View>
+              <View style={{ flexDirection: 'row', alignSelf: 'flex-end', marginVertical: 10, marginHorizontal: '5%', }}>
+                <TouchableOpacity 
+                  style={{ marginRight: 20, }}
+                  onPress={() => {
+                    deleteEntry(journal_entry, journal_date, navigation);
+                    setModalVisible(!modalVisible);
+                  }}>
+                  <Text style={styles.textDateTime}>DELETE</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+                  <Text style={styles.textDateTime}>CANCEL</Text>
+                </TouchableOpacity>
+              </View>
+            </Pressable>
+          </Pressable>
         </Modal>
       </View>
       
@@ -119,13 +138,13 @@ const ViewJournalEntry = ({ route, navigation }) => {
           <Icon 
             name='arrow-back' 
             color='#816868' 
-            onPress={() => navigation.navigate('JournalHistory')}
+            onPress={() => getEntries(navigation, journal_date)}
           />
           <Icon 
             name='pencil' 
             type='material-community' 
             color='#816868' 
-            onPress={() => navigation.navigate('CreateNewJournalEntry')}
+            onPress={() => goToEdit(navigation, journal_entry, journal_date)}
           />
           <Icon 
             name='close' 
@@ -169,12 +188,12 @@ const ViewJournalEntry = ({ route, navigation }) => {
           </View>
 
           {/* Date/time of last entry edit */}
-          <View style={{ flexDirection: 'row' }}>
+          {displayEdit && <View style={{ flexDirection: 'row' }}>
             <Text style={styles.textBold}>Last edited on </Text>
-            <Text style={styles.textDateTime}>{date}</Text>
+            <Text style={styles.textDateTime}>{updateDate}</Text>
             <Text style={styles.textBold}> at </Text>
-            <Text style={styles.textDateTime}>{time}</Text>
-          </View>
+            <Text style={styles.textDateTime}>{updateTime}</Text>
+          </View>}
           {/* Entry text */}
           <View style={{ marginVertical: 8 }} >
             <Text style={styles.text}>{journal_entry}</Text>
@@ -187,24 +206,42 @@ const ViewJournalEntry = ({ route, navigation }) => {
   );
 };
 
-async function deleteEntry(date, navigation) {
-  const datePass = new Date(date);
-  const dateRet = datePass.toISOString();
+function goToEdit(navigation, entry, date) {
+  navigation.navigate('CreateNewJournalEntry', {entry, date});
+}
+
+async function getEntries(navigation, journal_date) {
+  const date = new Date(journal_date);
+  const timerange = {start: new Date(date.getFullYear(), date.getMonth(), 1), end: new Date(date.getFullYear(), date.getMonth() + 1, 0)};
+  const datePass = date.toISOString();
+  const res = await API.graphql({
+    query: queries.getJournalEntries,
+    variables: {timerange: timerange}
+  });
+
+  const arr = res.data.getJournalEntries.journalEntries;
+
+  navigation.navigate('JournalHistory', {arr, datePass})
+}
+
+async function deleteEntry(entry, date, navigation) {
+  const dateRet = new Date(date);
+  const timerange = {start: new Date(dateRet.getFullYear(), dateRet.getMonth(), 1), end: new Date(dateRet.getFullYear(), dateRet.getMonth() + 1, 0)};
+  const datePass = dateRet.toISOString();
 
   const res = await API.graphql({
     query: mutations.removeJournalEntry,
-    variables: {Timestamp: datePass.toISOString().slice(0, 10)}
+    variables: {Timestamp: dateRet.toISOString(), Entry: entry}
   });
-
-  console.log(res);
 
   const forRet = await API.graphql({
     query: queries.getJournalEntries,
-    variables: {timerange: datePass.toISOString().slice(0, 7)}
+    variables: {timerange: timerange}
   });
 
   const arr = forRet.data.getJournalEntries.journalEntries;
-  navigation.navigate('JournalHistory', {arr, dateRet});
+
+  navigation.push('JournalHistory', {arr, datePass});
 }
 
 export default ViewJournalEntry;

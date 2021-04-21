@@ -60,27 +60,13 @@ function Start({ navigation }) {
           />
         </View>
 
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100%',
-          }}>
+        <View style={styles().pageSetup}>
           {/* Logo + title */}
           <Image
             style={styles().logo}
             source={require('../../shared/assets/icon.png')}
           />
-          <Text
-            style={{
-              fontWeight: 'bold',
-              color: global.colorblindMode
-                ? global.cb_textColor
-                : global.textColor,
-              fontSize: 44,
-            }}>
-            myGrowth
-          </Text>
+          <Text style={styles().textTitle}>myGrowth</Text>
           <Text
             style={{
               fontWeight: 'bold',
@@ -92,6 +78,7 @@ function Start({ navigation }) {
             }}>
             Your General Wellness Tracker
           </Text>
+
           {/* Sign up + login buttons */}
           <View style={styles().buttons}>
             <Button
@@ -103,16 +90,18 @@ function Start({ navigation }) {
               }
               onPress={() => navigation.navigate('SignUp')}
             />
-            <View style={{ marginVertical: 8 }} />
-            <Button
-              title='LOG IN'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              onPress={() => navigation.navigate('Login')}
-            />
+            
+            <View style={{ marginTop: 16, }}>
+              <Button
+                title='LOG IN'
+                color={
+                  global.colorblindMode
+                    ? global.cb_optionButtonsColor
+                    : global.optionButtonsColor
+                }
+                onPress={() => navigation.navigate('Login')}
+              />
+            </View>
           </View>
         </View>
       </ScrollView>
@@ -135,10 +124,22 @@ const styles = () => {
       marginTop: -100,
     },
     buttons: {
-      marginTop: 10,
-      marginBottom: 10,
-      width: 200,
-      height: 50,
+      width: '50%',
+      borderColor: global.colorblindMode
+        ? global.cb_optionButtonsBorderColor
+        : global.optionButtonsBorderColor,
+    },
+    pageSetup: {
+      height: '100%',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    textTitle: {
+      color: global.colorblindMode 
+        ? global.cb_textColor 
+        : global.textColor,
+      fontWeight: 'bold',
+      fontSize: 44,
     },
   });
 };

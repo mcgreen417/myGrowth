@@ -25,12 +25,17 @@ import WordCloudDisplay from './app/journal/screens/WordCloudDisplay';
 import { Goals } from './app/goals/screens/Goals';
 import { GoalComplete } from './app/goals/screens/GoalComplete';
 import HealthEntry from './app/healthentry/screens/HealthEntry';
+import HealthEntry1 from './app/healthentry/screens/HealthEntry1';
+import HealthEntry2 from './app/healthentry/screens/HealthEntry2';
+import HealthEntry3 from './app/healthentry/screens/HealthEntry3';
+import HealthEntry4 from './app/healthentry/screens/HealthEntry4';
+import HealthEntry5 from './app/healthentry/screens/HealthEntry5';
+import ReviewEntry from './app/healthentry/screens/ReviewEntry';
+import HealthEntryHistory from './app/healthentry/screens/HealthEntryHistory';
 import EntryCompletion from './app/healthentry/screens/EntryCompletion';
 import { ToDoList } from './app/todolist/screens/ToDoList';
-import {
-  HistoryHealthEntries,
-  HistoryCorrelations,
-} from './app/history/screens/History';
+import HistoryHealthEntries from './app/history/screens/History';
+import HistoryCorrelations from './app/history/screens/HistoryCorrelations';
 import HistoryDailyActivities1 from './app/history/screens/HistoryDailyActivities1';
 import HistoryDailyActivities2 from './app/history/screens/HistoryDailyActivities2';
 import HistoryFitness1 from './app/history/screens/HistoryFitness1';
@@ -189,8 +194,49 @@ function App() {
         />
 
         <Stack.Screen
-          name='HealthEntry1'
+          name='HealthEntry'
           component={HealthEntry}
+          options={{ header: () => null }}
+        />
+        <Stack.Screen
+          name='HealthEntry1'
+          component={HealthEntry1}
+          options={{ header: () => null }}
+        />
+
+        <Stack.Screen
+          name='HealthEntry2'
+          component={HealthEntry2}
+          options={{ header: () => null }}
+        />
+
+        <Stack.Screen
+          name='HealthEntry3'
+          component={HealthEntry3}
+          options={{ header: () => null }}
+        />
+
+        <Stack.Screen
+          name='HealthEntry4'
+          component={HealthEntry4}
+          options={{ header: () => null }}
+        />
+
+        <Stack.Screen
+          name='HealthEntry5'
+          component={HealthEntry5}
+          options={{ header: () => null }}
+        />
+
+        <Stack.Screen
+          name='ReviewEntry'
+          component={ReviewEntry}
+          options={{ header: () => null }}
+        />
+
+        <Stack.Screen
+          name='HealthEntryHistory'
+          component={HealthEntryHistory}
           options={{ header: () => null }}
         />
 
