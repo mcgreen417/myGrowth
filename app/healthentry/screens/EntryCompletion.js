@@ -7,59 +7,65 @@ import {
   View,
   Image,
   ScrollView,
+  Dimensions,
 } from 'react-native';
+import Party from '../../shared/assets/svgs/party-emoji.svg'
 
 const EntryCompletion = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
+      <ScrollView 
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
-        <View style={{ alignItems: 'center' }}>
-          {/* Congratulations banner + filler image */}
-          <Image
-            source={require('../../shared/assets/health-entry-banner-edited.png')}
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', }}
+      >
+        <View style={{alignContent: 'center', marginHorizontal: '10%', marginTop: '-5%' }}>
+          <Text style={{ 
+            fontSize: 44, 
+            color: '#816868', 
+            fontWeight: 'bold', 
+            textAlign: 'center',
+            marginBottom: '10%',
+          }}>
+            Congrats! <Party height={44} width={44} />
+          </Text>
+          <Image 
+            style={{ 
+              width: Math.round(Dimensions.get('window').width * 0.5),
+              height: Math.round(Dimensions.get('window').width * 0.6), 
+              alignSelf: 'center',
+            }}
+            source={require('../../shared/assets/bee-sprites/worker-bee.png')}
           />
-          <View style={{ marginTop: '-4%' }} />
-          <View style={{ width: '90%', height: '60%' }}>
-            <Image
-              style={styles.fillerImage}
-              source={require('../../shared/assets/health-entry-watering-plant.png')}
+          <View style={{ marginVertical: '10%' }}>
+            <Text style={{ fontSize: 20, color: '#816868', fontWeight: 'bold', textAlign: 'center', }}>
+              You've watered your plant today!
+            </Text>
+            <Text style={{ fontSize: 20, color: '#816868', fontWeight: 'bold', textAlign: 'center', }}>
+              Your plant has gained +5 EXP! 
+            </Text>
+          </View>
+        </View>
+
+        {/* View Entry + Return to Home buttons */}
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}>
+          <View style={{ minWidth: '37.5%' }}>
+            <Button
+              title='View Entry'
+              color='#A5DFB2'
+              onPress={() => navigation.navigate('')}
             />
           </View>
-
-          <View
-            style={{
-              marginTop: '-4%',
-              marginBottom: '10%',
-              alignItems: 'center',
-            }}>
-            <Text style={styles.text}>You've watered your plant today!</Text>
-            <Text style={styles.text}>You have gained +5 Growth Points!</Text>
-          </View>
-
-          {/* View Entry + Return to Home buttons */}
-          <View
-            style={{
-              flexDirection: 'row',
-              marginTop: 10,
-              justifyContent: 'center',
-            }}>
-            <View style={{ width: '42.5%' }}>
-              <Button
-                title='View Health Entry'
-                color='#A5DFB2'
-                onPress={() => navigation.navigate('')}
-              />
-            </View>
-            <View style={{ width: '5%' }} />
-            <View style={{ width: '42.5%' }}>
-              <Button
-                title='Return to Home'
-                color='#A5DFB2'
-                onPress={() => navigation.navigate('Home')}
-              />
-            </View>
+          <View style={{ width: '5%' }} />
+          <View style={{ minWidth: '37.5%' }}>
+            <Button
+              title='Return to Home'
+              color='#A5DFB2'
+              onPress={() => navigation.navigate('Home')}
+            />
           </View>
         </View>
       </ScrollView>

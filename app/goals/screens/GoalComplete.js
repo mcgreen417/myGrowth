@@ -54,7 +54,7 @@ function GoalComplete({ navigation }) {
           </View>
         </View>
 
-        {/* New Health Entry + Return to Home buttons */}
+        {/* Return to Goals + Return to Home buttons */}
         <View
           style={{
             flexDirection: 'row',
