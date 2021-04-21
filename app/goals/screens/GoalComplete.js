@@ -7,65 +7,73 @@ import {
   Button,
   Image,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import Party from '../../shared/assets/svgs/party-emoji.svg'
 
 function GoalComplete({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView 
-        showsVerticalScrollIndicator={false} 
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', }}
       >
-        <View style={{ alignItems: 'center', }}>
-
-          {/* Congratulations banner + filler image */}
-          <Image source={require('../../shared/assets/goals-banner-edited.png')}/>
-          <View style={{ marginVertical: '-2%' }}/>
-          <View style={{ width: '90%', height: '50%', }}>
-            <Image
-              style={styles.fillerImage}
-              source={require('../../shared/assets/goals-trophy.png')}
-            />
-          </View>
-          <View style={{ marginVertical: '-4%' }}/>
-          
-          <View style={{ marginVertical: '10%', alignItems: 'center' }}>
-            <Text style={styles.text}>You have completed a goal!</Text>
-            <View style={styles.inlineRow}>
-              <Text style={styles.text}>You have gained +30</Text>
+        <View style={{alignContent: 'center', marginHorizontal: '10%', marginTop: '-5%' }}>
+          <Text style={{ 
+            fontSize: 44, 
+            color: '#816868', 
+            fontWeight: 'bold', 
+            textAlign: 'center',
+            marginBottom: '10%',
+          }}>
+            Congrats! <Party height={44} width={44} />
+          </Text>
+          <Image 
+            style={{ 
+              width: Math.round(Dimensions.get('window').width * 0.5),
+              height: Math.round(Dimensions.get('window').width * 0.6), 
+              alignSelf: 'center',
+            }}
+            source={require('../../shared/assets/bee-sprites/jumping-bee.png')}
+          />
+          <View style={{ marginVertical: '10%' }}>
+            <Text style={{ fontSize: 20, color: '#816868', fontWeight: 'bold', textAlign: 'center', }}>
+              You have completed a goal!
+            </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', }}>
+              <Text style={{ fontSize: 20, color: '#816868', fontWeight: 'bold', textAlign: 'center', }}>
+                You have gained +30 
+              </Text>
               <Icon
                 name='star'
                 type='MaterialCommunityIcons'
                 color='#816868'
-                style={{ marginLeft: -2 }}
               />
-              <Text style={styles.text}>!</Text>
             </View>
           </View>
+        </View>
 
-          {/* Return to Goals + Return to Home buttons */}
-          <View
-            style={{
-              flexDirection: 'row',
-              marginTop: 10,
-              justifyContent: 'center',
-            }}>
-            <View style={{ width: '42.5%' }}>
-              <Button
-                title='Return to Goals'
-                color='#A5DFB2'
-                onPress={() => navigation.navigate('Goals')}
-              />
-            </View>
-            <View style={{ width: '5%' }} />
-            <View style={{ width: '42.5%' }}>
-              <Button
-                title='Return to Home'
-                color='#A5DFB2'
-                onPress={() => navigation.navigate('Home')}
-              />
-            </View>
+        {/* New Health Entry + Return to Home buttons */}
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}>
+          <View style={{ minWidth: '37.5%' }}>
+            <Button
+              title='Return to Goals'
+              color='#A5DFB2'
+              onPress={() => navigation.navigate('Goals')}
+            />
+          </View>
+          <View style={{ width: '5%' }} />
+          <View style={{ minWidth: '37.5%' }}>
+            <Button
+              title='Return to Home'
+              color='#A5DFB2'
+              onPress={() => navigation.navigate('Home')}
+            />
           </View>
         </View>
       </ScrollView>

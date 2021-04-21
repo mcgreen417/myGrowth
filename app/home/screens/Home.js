@@ -67,7 +67,7 @@ function Home({ navigation }) {
           {/* Gardener avatar + page blurb */}
           <View style={styles().avatarView}>
             <Text style={styles().pageDescription}>
-              Good Morning,{'\n'}{displayName}! <Wave />
+              Good Morning,{'\n'}{displayName}! <Wave height={28} width={28}/>
             </Text>
             <Image
               style={styles().avatarFlipped}
