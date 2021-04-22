@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Auth, API } from 'aws-amplify';
-import * as queries from '../../../src/graphql/queries';
 import {
   StyleSheet,
   SafeAreaView,
@@ -12,6 +11,8 @@ import {
   Dimensions,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import * as queries from '../../../src/graphql/queries';
+import * as mutations from '../../../src/graphql/mutations';
 import Party from '../../shared/assets/svgs/party-emoji.svg'
 
 function GoalComplete({ navigation, route }) {
@@ -102,15 +103,12 @@ async function getGoals(navigation) {
       if(testDate.getDate() < date.getDate()) {
         goals[i].Completed = false;
         goals[i].Progress = 0;
-        goals[i].Timestamp = date.toISOString();
 
-        const res1 = API.graphql({
+        const res1 = await API.graphql({
           query: mutations.updateMilestone,
           variables: {Title: goals[i].Title, Timestamp: goals[i].Timestamp, Completed: goals[i].Completed, Category: goals[i].Category, 
             Requirement: goals[i].Requirement, Progress: goals[i].Progress, Reward: goals[i].Reward}
         })
-
-        goals = res1.data.getMilestones.Milestones;
       }
     }
 
@@ -118,20 +116,23 @@ async function getGoals(navigation) {
       if(testDate.getDate() - sunday.getDate() >= 7) {
         goals[i].Completed = false;
         goals[i].Progress = 0;
-        goals[i].Timestamp = date.toISOString();
 
-        const res1 = API.graphql({
+        const res1 = await API.graphql({
           query: mutations.updateMilestone,
           variables: {Title: goals[i].Title, Timestamp: goals[i].Timestamp, Completed: goals[i].Completed, Category: goals[i].Category, 
             Requirement: goals[i].Requirement, Progress: goals[i].Progress, Reward: goals[i].Reward}
         })
-
-        goals = res1.data.getMilestones.Milestones;
       }
     }
   }
 
-  navigation.push('Goals', { goals });
+  const res1 = await API.graphql({
+    query: queries.getMilestones
+  });
+
+  goals = res1.data.getMilestones.Milestones;
+
+  navigation.navigate('Goals', { goals });
 }
 
 export { GoalComplete };

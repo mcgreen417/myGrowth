@@ -16,6 +16,21 @@ import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
 
+const monthNames = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'June',
+  'July',
+  'Aug',
+  'Sept',
+  'Oct',
+  'Nov',
+  'Dec'
+];
+
 function HistoryPeriodTracking({ route, navigation }) {
   const data = route.params.data;
   const settings = route.params.settings;
@@ -25,6 +40,9 @@ function HistoryPeriodTracking({ route, navigation }) {
     const arr = initDisplayData(data);
     const labels = getTimestamps(data);
     const commits = genCommits(arr, labels);
+    const today = new Date();
+    var predictDate = new Date();
+    predictDate.setDate((today.getDate() + getPeriod(data)));
 
     return (
       <SafeAreaView style={styles().container}>
@@ -112,7 +130,7 @@ function HistoryPeriodTracking({ route, navigation }) {
                       : global.navBarCurrentIconColor,
                   }}>
                     <View style={{ marginVertical: 12 }}>
-                      <Text style={styles().textNumber}>02</Text>
+                      <Text style={styles().textNumber}>{getPeriod(data)}</Text>
                       <Text style={styles().textLight}>days until your{"\n"} next period</Text>
                     </View>
                 </View>
@@ -122,9 +140,10 @@ function HistoryPeriodTracking({ route, navigation }) {
               <View style={{ width: '45%' }}>
                 <View style={{ flexDirection: 'row', }}>
                   <Text style={styles().text}>Next period predicted to occur on
-                    <Text style={styles().textAltGreen}> Apr 18th{"\n"}</Text>
+                    <Text style={styles().textAltGreen}> {monthNames[predictDate.getMonth()]} {predictDate.getDate()}!{"\n"}</Text>
                   </Text>
                 </View>
+                {/*
                 <View style={{ flexDirection: 'row', }}>
                   <Text style={styles().textLight}>Average time between cycles: 
                     <Text style={styles().textLightGreen}> 28 days</Text>
@@ -135,6 +154,7 @@ function HistoryPeriodTracking({ route, navigation }) {
                     <Text style={styles().textLightGreen}> 7 days</Text>
                   </Text>
                 </View>
+                */}
               </View>
             </View>
 
@@ -310,6 +330,26 @@ function getTimestamps(data) {
   }
 
   return dates;
+}
+
+//simple 28 days in th future prediction
+function getPeriod(data) {
+  const curDate = new Date();
+  const date = new Date(data.latestDate);
+  var daysUntil = 28;
+  var dateOfLastPeriod = date;
+
+  //find date of last period
+  for(var i = data.periodData.length; i >= 0; i--) {
+    if(data.periodData[i] === 1) {
+      dateOfLastPeriod = new Date(date.getDate() - (data.periodData.length - i));
+      daysUntil = Math.abs(daysUntil - ((curDate.getDate() - dateOfLastPeriod.getDate()))) % 28;
+
+      break;
+    }
+  }
+
+  return daysUntil;
 }
 
 export default HistoryPeriodTracking;

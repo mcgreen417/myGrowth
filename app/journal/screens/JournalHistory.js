@@ -63,7 +63,6 @@ function JournalHistory({ route, navigation }) {
     
     const onChange = (event, selectedDate) => {
       const currentDate = selectedDate || date;
-      //console.log(currentDate);
       setShow(Platform.OS === 'ios');
       setDate(currentDate);
       getEntries(currentDate, navigation);

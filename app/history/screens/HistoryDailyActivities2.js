@@ -120,7 +120,6 @@ function HistoryDailyActivities2({ route, navigation }) {
                     onValueChange={(itemValue, itemIndex) => {
                       setActivity(itemValue);
                       getCommits(itemValue, dates, data, setCommits);
-                      //console.log(commits);
                     }}
                     mode={'dropdown'}>
                     {activities.map((item, index) => {
