@@ -164,7 +164,7 @@ function HistorySleep1({ route, navigation }) {
                       fontSize: 16,
                       fontWeight: 'bold',
                     }}>
-                    Select Symptom
+                    Select Display
                   </Text>
                 </View>
                 <View

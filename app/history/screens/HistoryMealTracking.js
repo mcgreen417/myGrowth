@@ -159,7 +159,7 @@ function HistoryMealTracking({ route, navigation }) {
                 </View>
               </View>
               <View style={{ marginHorizontal: '2.5%' }}/>
-              {/* Select Symptom dropdown picker */}
+              {/* Select Nutrient dropdown picker */}
               <View style={styles().textInputView}>
                 <View style={styles().labelView}>
                   <Text
@@ -168,7 +168,7 @@ function HistoryMealTracking({ route, navigation }) {
                       fontSize: 16,
                       fontWeight: 'bold',
                     }}>
-                    Select Symptom
+                    Select Nutrient
                   </Text>
                 </View>
                 <View

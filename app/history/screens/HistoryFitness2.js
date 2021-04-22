@@ -132,7 +132,7 @@ function HistoryFitness2({ route, navigation }) {
                 </View>
               </View>
               <View style={{ marginHorizontal: '2.5%' }}/>
-              {/* Select Symptom dropdown picker */}
+              {/* Select Exercise dropdown picker */}
               <View style={styles().textInputView}>
                 <View style={styles().labelView}>
                   <Text
