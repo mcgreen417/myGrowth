@@ -160,7 +160,6 @@ function HistoryFitness2({ route, navigation }) {
                     onValueChange={(itemValue, itemIndex) => {
                       setExercise(itemValue);
                       setFreqs(getFreqs(fitMap, itemValue));
-                      //console.log(itemValue);
                     }}
                     mode={'dropdown'}>
                     {exercises.map((item, index) => {

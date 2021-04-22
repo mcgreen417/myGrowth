@@ -2522,10 +2522,10 @@
     xcode "^2.1.0"
     xml2js "^0.4.23"
 
-"@expo/config-plugins@1.0.27":
-  version "1.0.27"
-  resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-1.0.27.tgz#e1a8d2cc1d31f1fc21695cd4c4b6b05afbcc8519"
-  integrity sha512-rdLykx/RgcfYmJEZ23+d1wH6RxifMsPh+q8TSzsBb3yXQPU/oCz14/RFLgNojWvKTAjTo9kNu5erIVlwDIJHxQ==
+"@expo/config-plugins@1.0.28":
+  version "1.0.28"
+  resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-1.0.28.tgz#6c3911d493bc329bf9ef5c99585564539b1a57e1"
+  integrity sha512-i5SpC6U3LjRQlwi1xM4SRj8dR2Qm+0dykPo0GeesByB7IvT36AT1ZjI7VjecuoZ6yKbLpaa5tWvU3JGObxIPSw==
   dependencies:
     "@expo/config-types" "^40.0.0-beta.2"
     "@expo/configure-splash-screen" "0.3.4"
@@ -2547,16 +2547,16 @@
   resolved "https://registry.npmjs.org/@expo/config-types/-/config-types-40.0.0-beta.2.tgz"
   integrity sha512-t9pHCQMXOP4nwd7LGXuHkLlFy0JdfknRSCAeVF4Kw2/y+5OBbR9hW9ZVnetpBf0kORrekgiI7K/qDaa3hh5+Qg==
 
-"@expo/config@3.3.37":
-  version "3.3.37"
-  resolved "https://registry.yarnpkg.com/@expo/config/-/config-3.3.37.tgz#918b40f2ab8f419180febc619b3f572d631a13e1"
-  integrity sha512-RJrGwjEWGvRVo9zZ4T0q/5bwW6ewf2FsIS5Cj79IOS9AFu1LNJpUuI6PdJ6VX6O4xR3BDxCtL713rWgihQfbmg==
+"@expo/config@3.3.38":
+  version "3.3.38"
+  resolved "https://registry.yarnpkg.com/@expo/config/-/config-3.3.38.tgz#cdda7307600d185eb5d7b37ce8e47dcb8df6a4cd"
+  integrity sha512-0SsvF7yTy+kdJaAc2W75yhwnaXIRasnA1Vygna83tlPhCx6ynIBzTbJAvdkddSk5euUTJpXc5nePaflGvNboXw==
   dependencies:
     "@babel/core" "7.9.0"
     "@babel/plugin-proposal-class-properties" "~7.12.13"
     "@babel/preset-env" "~7.12.13"
     "@babel/preset-typescript" "~7.12.13"
-    "@expo/config-plugins" "1.0.27"
+    "@expo/config-plugins" "1.0.28"
     "@expo/config-types" "^40.0.0-beta.2"
     "@expo/json-file" "8.2.29"
     fs-extra "9.0.0"
@@ -2657,12 +2657,12 @@
     json5 "^1.0.1"
     write-file-atomic "^2.3.0"
 
-"@expo/metro-config@^0.1.63":
-  version "0.1.63"
-  resolved "https://registry.yarnpkg.com/@expo/metro-config/-/metro-config-0.1.63.tgz#cc502e8f14b90908b4a37db2caf3e45355acb4b2"
-  integrity sha512-NIJ4vvVwyHaOlkFAvP17bSazc+vmAX7wyQ/sT85DEIbwxltfEXxZIcJUGxObf5SgR5V5iPurwrGyS/7HPcA7eA==
+"@expo/metro-config@^0.1.64":
+  version "0.1.64"
+  resolved "https://registry.yarnpkg.com/@expo/metro-config/-/metro-config-0.1.64.tgz#f889f1383db145923d364c956e2c25e0465d49fd"
+  integrity sha512-ooD+XOVGnKPIIZbyfVTvMeQ3p9HpRt4aNCehSM6H1ueQm8+IpVwrhw8sJjL5xr+FVxFqj0+Ga9DI8d0AXS8U4g==
   dependencies:
-    "@expo/config" "3.3.37"
+    "@expo/config" "3.3.38"
     chalk "^4.1.0"
     getenv "^1.0.0"
     metro-react-native-babel-transformer "^0.59.0"

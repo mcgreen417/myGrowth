@@ -20,7 +20,7 @@ import * as mutations from '../../../src/graphql/mutations';
 import * as queries from '../../../src/graphql/queries';
 import NavBar from '../../shared/components/NavBar';
 
-const GoalEditModal = ({title, timestamp, userGoals, setUserGoals, editModal, setEditModal, navigation}) => {
+const GoalEditModal = ({title, goals, timestamp, userGoals, setUserGoals, editModal, setEditModal, navigation}) => {
   const [goalTitle, setGoalTitle] = useState('');
   const [pressed, setPressed] = useState(false);
 
@@ -135,7 +135,7 @@ const GoalEditModal = ({title, timestamp, userGoals, setUserGoals, editModal, se
                     <Button
                       title='Edit Goal'
                       onPress={() => {
-                        editGoal(title, timestamp, goalTitle, userGoals, setUserGoals, navigation);
+                        editGoal(title, goals, timestamp, goalTitle, userGoals, setUserGoals, navigation);
                         setEditModal(!editModal);
                       }}
                       color={
@@ -155,7 +155,7 @@ const GoalEditModal = ({title, timestamp, userGoals, setUserGoals, editModal, se
   );
 }
 
-const Goal = ({ title, type, timestamp, progress, completed, userGoals, setUserGoals, navigation }) => {
+const Goal = ({ goals, title, type, timestamp, progress, completed, userGoals, setUserGoals, navigation }) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(completed);
   const [deleteEntry, setDeleteEntry] = useState(false);
   const [editModal, setEditModal] = useState(false);
@@ -229,7 +229,7 @@ const Goal = ({ title, type, timestamp, progress, completed, userGoals, setUserG
                 <TouchableOpacity 
                   style={{ marginRight: 20, }}
                   onPress={() => {
-                    deleteGoal(title, timestamp, userGoals, setUserGoals, navigation);
+                    deleteGoal(title, goals, timestamp, userGoals, setUserGoals, navigation);
                     setDeleteEntry(!deleteEntry);
                   }}>
                   <Text style={styles().textDateTime}>DELETE</Text>
@@ -244,6 +244,7 @@ const Goal = ({ title, type, timestamp, progress, completed, userGoals, setUserG
       </View>
 
       <GoalEditModal 
+        goals={goals}
         title={title}
         timestamp={timestamp}
         userGoals={userGoals}
@@ -324,6 +325,7 @@ const Goal = ({ title, type, timestamp, progress, completed, userGoals, setUserG
 };
 
 const AddDailyGoalModal = ({
+  goals,
   userDailies, 
   setUserDailies, 
   type,
@@ -441,7 +443,7 @@ const AddDailyGoalModal = ({
                     <Button
                       title='Add Daily Goal'
                       onPress={() => {
-                        addGoal(type, goalTitle, userDailies, setUserDailies, navigation);
+                        addGoal(type, goalTitle, goals, userDailies, setUserDailies, navigation);
                         setShowAddDailyGoals(!showAddDailyGoals);
                       }}
                       color={
@@ -462,6 +464,7 @@ const AddDailyGoalModal = ({
 };
 
 const AddWeeklyGoalModal = ({
+  goals,
   userWeeklies, 
   setUserWeeklies, 
   type,
@@ -579,7 +582,7 @@ const AddWeeklyGoalModal = ({
                     <Button
                       title='Add Weekly Goal'
                       onPress={() => {
-                        addGoal(type, goalTitle, userWeeklies, setUserWeeklies,  navigation);
+                        addGoal(type, goalTitle, goals, userWeeklies, setUserWeeklies,  navigation);
                         setShowAddWeeklyGoals(!showAddWeeklyGoals);
                       }}
                       color={
@@ -600,6 +603,7 @@ const AddWeeklyGoalModal = ({
 };
 
 const AddLongTermGoalModal = ({
+  goals,
   userLongTerms, 
   setUserLongTerms, 
   type,
@@ -717,7 +721,7 @@ const AddLongTermGoalModal = ({
                     <Button
                       title='Add Long-Term Goal'
                       onPress={() => {
-                        addGoal(type, goalTitle, userLongTerms, setUserLongTerms, navigation);
+                        addGoal(type, goalTitle, goals, userLongTerms, setUserLongTerms, navigation);
                         setShowAddLongTermGoals(!showAddLongTermGoals);
                       }}
                       color={
@@ -1037,6 +1041,7 @@ function Goals({ navigation, route }) {
 
       {/* Daily Goals add */}
       <AddDailyGoalModal 
+        goals={goals}
         userDailies={userDailies}
         setUserDailies={setUserDailies}
         type={'daily'}
@@ -1047,6 +1052,7 @@ function Goals({ navigation, route }) {
 
       {/* Weekly Goals add */}
       <AddWeeklyGoalModal 
+        goals={goals}
         userWeeklies={userWeeklies}
         setUserWeeklies={setUserWeeklies}
         type={'weekly'}
@@ -1057,6 +1063,7 @@ function Goals({ navigation, route }) {
 
       {/* Long Term Goals add */}
       <AddLongTermGoalModal 
+        goals={goals}
         userLongTerms={userLongTerms}
         setUserLongTerms={setUserLongTerms}
         type={'longterm'}
@@ -1113,6 +1120,7 @@ function Goals({ navigation, route }) {
             {userDailies.map((item, index) => (
               <Goal
                 key={index}
+                goals={goals}
                 type={item.Category}
                 timestamp={item.Timestamp}
                 title={item.Title}
@@ -1166,6 +1174,7 @@ function Goals({ navigation, route }) {
             {userWeeklies.map((item, index) => (
               <Goal
                 key={index}
+                goals={goals}
                 type={item.Category}
                 timestamp={item.Timestamp}
                 title={item.Title}
@@ -1219,6 +1228,7 @@ function Goals({ navigation, route }) {
             {userLongTerms.map((item, index) => (
               <Goal
                 key={index}
+                goals={goals}
                 type={item.Category}
                 timestamp={item.Timestamp}
                 title={item.Title}
@@ -1246,58 +1256,74 @@ function Goals({ navigation, route }) {
   );
 }
 
-async function refreshPage(navigation) {
+async function refreshPage(navigation, goals) {
   const date = new Date();
   const findSunday = 0 - date.getDay();
   const sunday = new Date(date.getDate() - findSunday);
-
-  const res = await API.graphql({
-    query: queries.getMilestones
-  });
-
-  var goals = res.data.getMilestones.Milestones;
+  var arr = [];
 
   for(var i = 0; i < goals.length; i++) {
     let testDate = new Date(goals[i].Timestamp);
-
+    
     if(goals[i].Category === 'daily') {
-      if(testDate.getDate() < date.getDate()) {
-        goals[i].Completed = false;
-        goals[i].Progress = 0;
-        goals[i].Timestamp = date.toISOString();
+      if(testDate.getDate() - sunday.getDate() >= 7) {
+        let obj = goals[i];
+        obj.Completed = false;
+        obj.Progress = 0;
+        obj.Timestamp = new Date().toISOString();
 
-        const res1 = API.graphql({
+        const res = await API.graphql ({
+          query: mutations.deleteMilestone,
+          variables: {timestamp: goals[i].Timestamp}
+        });
+
+        const res1 = await API.graphql({
           query: mutations.updateMilestone,
-          variables: {Title: goals[i].Title, Timestamp: goals[i].Timestamp, Completed: goals[i].Completed, Category: goals[i].Category, 
-          Requirement: goals[i].Requirement, Progress: goals[i].Progress, Reward: goals[i].Reward}
+          variables: {Title: obj.Title, Timestamp: obj.Timestamp, Completed: obj.Completed, Category: obj.Category, 
+            Requirement: obj.Requirement, Progress: obj.Progress, Reward: obj.Reward}
         })
 
-        goals = res1.data.getMilestones.Milestones;
+        arr.push(obj);
       }
+
+      else
+        arr.push(goals[i]);
     }
 
     else if(goals[i].Category === 'weekly') {
       if(testDate.getDate() - sunday.getDate() >= 7) {
-        goals[i].Completed = false;
-        goals[i].Progress = 0;
-        goals[i].Timestamp = date.toISOString();
+        let obj = goals[i];
+        obj.Completed = false;
+        obj.Progress = 0;
+        obj.Timestamp = new Date().toISOString();
 
-        const res1 = API.graphql({
+        const res = await API.graphql ({
+          query: mutations.deleteMilestone,
+          variables: {timestamp: goals[i].Timestamp}
+        });
+
+        const res1 = await API.graphql({
           query: mutations.updateMilestone,
-          variables: {Title: goals[i].Title, Timestamp: goals[i].Timestamp, Completed: goals[i].Completed, Category: goals[i].Category, 
-            Requirement: goals[i].Requirement, Progress: goals[i].Progress, Reward: goals[i].Reward}
+          variables: {Title: obj.Title, Timestamp: obj.Timestamp, Completed: obj.Completed, Category: obj.Category, 
+            Requirement: obj.Requirement, Progress: obj.Progress, Reward: obj.Reward}
         })
 
-        goals = res1.data.getMilestones.Milestones;
+        arr.push(obj);
       }
+
+      else
+        arr.push(goals[i]);
     }
+
+    else
+      arr.push(goals[i]);
   }
 
-  navigation.push('Goals', { goals });
+  navigation.push('Goals', { goals: arr });
 }
 
-async function addGoal(type, title, userGoals, setUserGoals, navigation) {
-  var arr = userGoals;
+async function addGoal(type, title, goals, userGoals, setUserGoals, navigation) {
+  var arr = goals;
 
   const res = await API.graphql ({
     query: mutations.addMilestone,
@@ -1312,35 +1338,28 @@ async function addGoal(type, title, userGoals, setUserGoals, navigation) {
 
   arr.push(res.data.addMilestone);
 
-  setUserGoals(arr);
-
-  refreshPage(navigation);
+  refreshPage(navigation, arr);
 }
 
-async function deleteGoal(title, timestamp, userGoals, setUserGoals, navigation) {
-  var arr = userGoals;
+async function deleteGoal(title, goals, timestamp, userGoals, setUserGoals, navigation) {
   var newArr = [];
-  var timestamp = new Date().toISOString();
 
   //find timestamp of goal
-  for(var i = 0; i < arr.length; i++) {
-    if(arr[i].Title === title) {
-      timestamp = new Date(arr[i].Timestamp).toISOString();
+  for(var i = 0; i < goals.length; i++) {
+    if(goals[i].Title === title && goals[i].Timestamp === timestamp) {
+      const res = await API.graphql ({
+        query: mutations.deleteMilestone,
+        variables: {timestamp: timestamp}
+      });
+
       break;
     }
     
     else
-      newArr.push(arr[i]);
+      newArr.push(goals[i]);
   }
 
-  const res = await API.graphql ({
-    query: mutations.deleteMilestone,
-    variables: {timestamp: timestamp}
-  });
-
-  setUserGoals(newArr);
-
-  //refreshPage(navigation);
+  refreshPage(navigation, newArr);
 }
 
 async function updateCompletion(title, userGoals, setUserGoals, navigation) {
@@ -1425,27 +1444,36 @@ async function updateCompletion(title, userGoals, setUserGoals, navigation) {
 
 }
 
-async function editGoal(title, timestamp, newTitle, userGoals, setUserGoals, navigation) {
-  var arr = userGoals;
+async function editGoal(title, goals, timestamp, newTitle, userGoals, setUserGoals, navigation) {
+  var newArr = [];
 
-  for(var i = 0; i < arr.length; i++)
-    if(arr[i].Title === title && arr[i].Timestamp === timestamp) {
-      arr[i].Title = newTitle;
-      arr[i].Completed = false;
-      arr[i].Progress = 0;
+  for(var i = 0; i < goals.length; i++) {
+    if(goals[i].Title === title && goals[i].Timestamp === timestamp) {
+      let obj = goals[i];
+        obj.Title = newTitle
+        obj.Completed = false;
+        obj.Progress = 0;
+        obj.Timestamp = new Date().toISOString();
 
-      console.log(arr[i]);
+        const res = await API.graphql ({
+          query: mutations.deleteMilestone,
+          variables: {timestamp: goals[i].Timestamp}
+        });
 
-      const res = await API.graphql ({
-        query: mutations.updateMilestone,
-        variables: {Title: arr[i].Title, Timestamp: arr[i].Timestamp, Completed: arr[i].Completed, Category: arr[i].Category, 
-          Requirement: arr[i].Requirement, Progress: arr[i].Progress, Reward: arr[i].Reward}
-      });
+        const res1 = await API.graphql({
+          query: mutations.updateMilestone,
+          variables: {Title: obj.Title, Timestamp: obj.Timestamp, Completed: obj.Completed, Category: obj.Category, 
+            Requirement: obj.Requirement, Progress: obj.Progress, Reward: obj.Reward}
+        })
+
+        newArr.push(obj);
     }
+    
+    else
+      newArr.push(goals[i]);
+  }
 
-  setUserGoals(arr);
-
-  refreshPage(navigation);
+  refreshPage(navigation, newArr);
 }
 
 function populateGoals(goals) {

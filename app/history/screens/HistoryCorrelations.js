@@ -674,17 +674,7 @@ function makeFirstPickers(settings) {
         pickerLabels.push(newObj);
     }
 
-    // <Picker.Item label='Mood' value='mood' />
-    // <Picker.Item label='Stress' value='stress' />
-    // <Picker.Item label='Sleep' value='sleep' />
-    // <Picker.Item label='Nap' value='nap' />
-    // <Picker.Item label='Weight' value='weight' />
-    // <Picker.Item label='Period' value='period' />
-    // <Picker.Item label='Fitness' value='fitness' />
-    // <Picker.Item label='Activities' value='activity' />
-    // <Picker.Item label='Meals' value='meals' />
-    // <Picker.Item label='Symptoms' value='symptoms' />
-    // <Picker.Item label='Medications' value='medications' />
+    return(pickerLabels);
 }
 
 function getPickerLabels(page, data) {

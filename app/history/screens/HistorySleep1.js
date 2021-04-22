@@ -589,7 +589,7 @@ function getDisplayData(data, timePeriod, setDisplay, sleepView) {
 
   //both
   if(sleepView === 'sleep_nap') {
-    if(timePeriod = 'past_week') {
+    if(timePeriod === 'past_week') {
       obj.sleep = makeWeek(data.nightSleepData);
       obj.nap = makeWeek(data.napSleepData);
 
