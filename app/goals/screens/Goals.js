@@ -12,6 +12,8 @@ import {
   Modal,
   TouchableOpacity,
   Dimensions,
+  Button,
+  Keyboard,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import * as mutations from '../../../src/graphql/mutations';
@@ -20,98 +22,136 @@ import NavBar from '../../shared/components/NavBar';
 
 const GoalEditModal = ({title, timestamp, userGoals, setUserGoals, editModal, setEditModal, navigation}) => {
   const [goalTitle, setGoalTitle] = useState('');
+  const [pressed, setPressed] = useState(false);
 
   return( 
-    <View>
-      <Modal
-        animationType='fade'
-        transparent={true}
-        visible={editModal}
-        onRequestClose={() => setEditModal(!editModal)}
-      >
-        <Pressable
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 1,
-            backgroundColor: '#00000055',
-          }}
-          onPressOut={() => setEditModal(!editModal)}
-        >
-          <Pressable 
-              style={styles().modalContainer}
-              onPress={() => setEditModal(true)}
+    <SafeAreaView style={{ width: '90%' }}>
+      <ScrollView keyboardShouldPersistTaps='handled'>
+        {/* Add Feelings modal */}
+        <View style={styles().container}>
+          <Modal
+            animationType='fade'
+            transparent={true}
+            visible={editModal}
+            onRequestClose={() => setEditModal(!editModal)}
           >
-            <View style={styles().modalHeaderBar}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  flex: 2,
-                  marginLeft: 6,
-                  marginVertical: 4,
-              }}>
-                <Text style={styles().textAlt}>Create Daily Goal</Text>
+            <Pressable
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                zIndex: 1,
+                backgroundColor: '#00000055',
+              }}
+              onPressOut={() => {
+                setPressed(false);
+                setEditModal(!editModal);
+              }}
+              >
+              <Pressable 
+                style={styles().modalContainer}
+                onPressOut={() => {
+                  Keyboard.dismiss();
+                  setEditModal(true);
+                }}
+              >
+                <View style={styles().modalHeaderBar}>
                   <View
                     style={{
                       flexDirection: 'row',
-                      flex: 1,
-                      justifyContent: 'flex-end',
-                      marginRight: 6,
+                      flex: 2,
+                      marginLeft: 6,
+                      marginVertical: 4,
+                      alignItems: 'center',
                     }}>
                     <Icon
-                      name='close'
-                      type='ionicon'
+                      name='pencil'
+                      type='material-community'
                       color='white'
-                      onPress={() => setEditModal(!editModal)}
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles().textAlt}>Edit Goal</Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        flex: 1,
+                        justifyContent: 'flex-end',
+                        marginRight: 6,
+                      }}>
+                      <Icon
+                        name='close'
+                        type='ionicon'
+                        color='white'
+                        onPress={() => setEditModal(!editModal)}
+                      />
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    marginHorizontal: '5%',
+                    maxHeight: '60%',
+                    marginTop: 10,
+                    marginBottom: 16,
+                  }}>
+                  <View style={{ marginTop: 16, marginBottom: 20, }}>
+                    <View style={styles().textInputView}>
+                      <View style={styles().labelView}>
+                        <Text style={{
+                            color: pressed 
+                              ? '#4CB97A'
+                              : '#816868',
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                          }}>New Goal Name</Text>
+                      </View>
+                      <View style={{
+                          flex: 1, 
+                          borderWidth: 1, 
+                          borderColor: pressed
+                            ? '#4CB97A'
+                            : '#816868',
+                          justifyContent: 'flex-end',
+                          borderRadius: 10,
+                          paddingHorizontal: 16,
+                        }}>
+                        <TextInput 
+                          placeholder={title}
+                          fontSize={16}
+                          color='#816868'
+                          value={goalTitle}
+                          onChangeText={(goalTitle) => setGoalTitle(goalTitle)}
+                          maxLength={99}
+                          onFocus={() => setPressed(true)}
+                          onBlur={() => setPressed(false)}
+                          style={{ top: -8, }}
+                          editable={true}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                  {/* Add Feeling button */}
+                  <View style={{ alignSelf: 'center', }}>
+                    <Button
+                      title='Edit Goal'
+                      onPress={() => {
+                        editGoal(title, timestamp, goalTitle, userGoals, setUserGoals, navigation);
+                        setEditModal(!editModal);
+                      }}
+                      color={
+                        global.colorblindMode
+                          ? global.cb_optionButtonsColor
+                          : global.optionButtonsColor
+                      }
                     />
                   </View>
-              </View>
-            </View>
-
-            <View
-              style={{
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                marginHorizontal: '5%',
-                maxHeight: '60%',
-                marginTop: 10,
-                marginBottom: 16,
-            }}>
-              <View>
-                <Text>Please enter the new goal name below:</Text>
-              </View>
-
-              <TextInput 
-                placeholder='Please type your title here'
-                value={goalTitle}
-                onChangeText={(goalTitle) => setGoalTitle(goalTitle)}
-              />
-            </View>
-
-            <View 
-              style={{ 
-                flexDirection: 'row', 
-                alignSelf: 'flex-end', 
-                marginVertical: 10, 
-                marginHorizontal: '5%', 
-              }}>
-              <TouchableOpacity 
-                style={{ marginRight: 20, }}
-                onPress={() => {
-                  editGoal(title, timestamp, goalTitle, userGoals, setUserGoals, navigation);
-                  setEditModal(!editModal);
-                }}>
-                <Text style={styles().textDateTime}>SAVE</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => setEditModal(!editModal)}>
-                <Text style={styles().textDateTime}>CANCEL</Text>
-              </TouchableOpacity>
-            </View>
-          </Pressable>
-        </Pressable>
-      </Modal>
-    </View>
+                </View>
+              </Pressable>
+            </Pressable>
+          </Modal>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -121,7 +161,7 @@ const Goal = ({ title, type, timestamp, progress, completed, userGoals, setUserG
   const [editModal, setEditModal] = useState(false);
   const progrArr = new Array(progress).fill('line');
 
-  console.log(type === 'weekly', ' ', title);
+  //console.log(type === 'weekly', ' ', title);
 
   return (
     <View>
@@ -220,7 +260,6 @@ const Goal = ({ title, type, timestamp, progress, completed, userGoals, setUserG
         alignSelf: 'center', 
         marginVertical: 4,
       }}>
-        {/* This icon should change to check-box when the user clicks on it (and retain that until daily reset) */}
         <Icon
           name={toggleCheckBox
             ? 'check-box'
@@ -232,38 +271,51 @@ const Goal = ({ title, type, timestamp, progress, completed, userGoals, setUserG
             : '#816868'
           }
           onPress={() => {
-            setToggleCheckBox(true);
-            updateCompletion(title, userGoals, setUserGoals, navigation);
-          }}/>
+            if (!toggleCheckBox) {
+              setToggleCheckBox(true);
+              updateCompletion(title, userGoals, setUserGoals, navigation);
+            } else {
+              setToggleCheckBox(false);
+            }
+          }}
+        />
         <View style={{ marginRight: 8 }}/>
-        <Text style={styles().text}>{title}</Text>
+        {!toggleCheckBox &&
+          <Text style={styles().textGoal}>{title}</Text>
+        }
+        {toggleCheckBox &&
+          <Text style={styles().textStrikethrough}>{title}</Text>
+        }
 
         <View style={styles().iconView}>
           <View style={{ flexDirection: 'row' }}>
-            <Pressable>
-              <Icon 
-                name='pencil' 
-                type='material-community' 
-                color='#816868' 
-                onPress={() => setEditModal(!editModal)}
-              />
-            </Pressable>
-            <Pressable>
-              <Icon 
-                name='close' 
-                type='ionicon' 
-                color='#816868' 
-                onPress={() => setDeleteEntry(!deleteEntry)}
-              />
-            </Pressable>
+            <Icon 
+              name='pencil' 
+              type='material-community' 
+              color={toggleCheckBox 
+                ? '#D5CDCD'
+                : '#816868'
+              } 
+              onPress={() => {
+                if (!toggleCheckBox) {
+                  setEditModal(!editModal)
+                }
+              }}
+            />
+            <Icon 
+              name='close' 
+              type='ionicon' 
+              color='#816868' 
+              onPress={() => setDeleteEntry(!deleteEntry)}
+            />
           </View>
         </View>
       </View>
 
       {type === 'weekly' && 
-        <View style={{flexDirection:'row'}}>
+        <View style={{ flexDirection:'row', marginLeft: '13%', marginTop: 4, marginBottom: 16, }}>
           {progrArr.map((item, index) => (         
-            <View key={index} style={styles.progressBar} />
+            <View key={index} style={styles().progressBar} />
           ))}
         </View>
       }
@@ -280,98 +332,132 @@ const AddDailyGoalModal = ({
   navigation
 }) => {
   const [goalTitle, setGoalTitle] = useState('');
+  const [pressed, setPressed] = useState(false);
 
   return( 
-    <View>
-      <Modal
-        animationType='fade'
-        transparent={true}
-        visible={showAddDailyGoals}
-        onRequestClose={() => setShowAddDailyGoals(!showAddDailyGoals)}
-      >
-        <Pressable
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 1,
-            backgroundColor: '#00000055',
-          }}
-          onPressOut={() => setShowAddDailyGoals(!showAddDailyGoals)}
-        >
-          <Pressable 
-              style={styles().modalContainer}
-              onPress={() => setShowAddDailyGoals(true)}
+    <SafeAreaView style={{ width: '90%' }}>
+      <ScrollView keyboardShouldPersistTaps='handled'>
+        {/* Add Daily Goal modal */}
+        <View style={styles().container}>
+          <Modal
+            animationType='fade'
+            transparent={true}
+            visible={showAddDailyGoals}
+            onRequestClose={() => setShowAddDailyGoals(!showAddDailyGoals)}
           >
-            <View style={styles().modalHeaderBar}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  flex: 2,
-                  marginLeft: 6,
-                  marginVertical: 4,
-              }}>
-                <Text style={styles().textAlt}>Create Daily Goal</Text>
+            <Pressable
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                zIndex: 1,
+                backgroundColor: '#00000055',
+              }}
+              onPressOut={() => setShowAddDailyGoals(!showAddDailyGoals)}
+              >
+              <Pressable 
+                style={styles().modalContainer}
+                onPressOut={() => {
+                  Keyboard.dismiss();
+                  setShowAddDailyGoals(true);
+                }}
+              >
+                <View style={styles().modalHeaderBar}>
                   <View
                     style={{
                       flexDirection: 'row',
-                      flex: 1,
-                      justifyContent: 'flex-end',
-                      marginRight: 6,
+                      flex: 2,
+                      marginLeft: 6,
+                      marginVertical: 4,
+                      alignItems: 'center',
                     }}>
                     <Icon
-                      name='close'
-                      type='ionicon'
+                      name='star'
+                      type='material-community'
                       color='white'
-                      onPress={() => setShowAddDailyGoals(!showAddDailyGoals)}
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles().textAlt}>Add Daily Goal</Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        flex: 1,
+                        justifyContent: 'flex-end',
+                        marginRight: 6,
+                      }}>
+                      <Icon
+                        name='close'
+                        type='ionicon'
+                        color='white'
+                        onPress={() => setShowAddDailyGoals(!showAddDailyGoals)}
+                      />
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    marginHorizontal: '5%',
+                    maxHeight: '60%',
+                    marginTop: 10,
+                    marginBottom: 16,
+                  }}>
+                  <View style={{ marginTop: 16, marginBottom: 20, }}>
+                    <View style={styles().textInputView}>
+                      <View style={styles().labelView}>
+                        <Text style={{
+                            color: pressed 
+                              ? '#4CB97A'
+                              : '#816868',
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                          }}>Daily Goal Name</Text>
+                      </View>
+                      <View style={{
+                          flex: 1, 
+                          borderWidth: 1, 
+                          borderColor: pressed
+                            ? '#4CB97A'
+                            : '#816868',
+                          justifyContent: 'flex-end',
+                          borderRadius: 10,
+                          paddingHorizontal: 16,
+                        }}>
+                        <TextInput 
+                          placeholder='Daily goal name'
+                          fontSize={16}
+                          color='#816868'
+                          value={goalTitle}
+                          onChangeText={(goalTitle) => setGoalTitle(goalTitle)}
+                          maxLength={99}
+                          onFocus={() => setPressed(true)}
+                          onBlur={() => setPressed(false)}
+                          style={{ top: -8, }}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                  {/* Add Daily Goal button */}
+                  <View style={{ alignSelf: 'center', }}>
+                    <Button
+                      title='Add Daily Goal'
+                      onPress={() => {
+                        addGoal(type, goalTitle, userDailies, setUserDailies, navigation);
+                        setShowAddDailyGoals(!showAddDailyGoals);
+                      }}
+                      color={
+                        global.colorblindMode
+                          ? global.cb_optionButtonsColor
+                          : global.optionButtonsColor
+                      }
                     />
                   </View>
-              </View>
-            </View>
-
-            <View
-              style={{
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                marginHorizontal: '5%',
-                maxHeight: '60%',
-                marginTop: 10,
-                marginBottom: 16,
-            }}>
-              <View>
-                <Text>Please enter the goal you would like recur daily:</Text>
-              </View>
-
-              <TextInput 
-                placeholder='Please type your title here'
-                value={goalTitle}
-                onChangeText={(goalTitle) => setGoalTitle(goalTitle)}
-              />
-            </View>
-
-            <View 
-              style={{ 
-                flexDirection: 'row', 
-                alignSelf: 'flex-end', 
-                marginVertical: 10, 
-                marginHorizontal: '5%', 
-              }}>
-              <TouchableOpacity 
-                style={{ marginRight: 20, }}
-                onPress={() => {
-                  addGoal(type, goalTitle, userDailies, setUserDailies, navigation);
-                  setShowAddDailyGoals(!showAddDailyGoals);
-                }}>
-                <Text style={styles().textDateTime}>SAVE</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => setShowAddDailyGoals(!showAddDailyGoals)}>
-                <Text style={styles().textDateTime}>CANCEL</Text>
-              </TouchableOpacity>
-            </View>
-          </Pressable>
-        </Pressable>
-      </Modal>
-    </View>
+                </View>
+              </Pressable>
+            </Pressable>
+          </Modal>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   )
 };
 
@@ -384,98 +470,132 @@ const AddWeeklyGoalModal = ({
   navigation,
 }) => {
   const [goalTitle, setGoalTitle] = useState('');
+  const [pressed, setPressed] = useState(false);
 
   return( 
-    <View>
-      <Modal
-        animationType='fade'
-        transparent={true}
-        visible={showAddWeeklyGoals}
-        onRequestClose={() => setShowAddWeeklyGoals(!showAddWeeklyGoals)}
-      >
-        <Pressable
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 1,
-            backgroundColor: '#00000055',
-          }}
-          onPressOut={() => setShowAddWeeklyGoals(!showAddWeeklyGoals)}
-        >
-          <Pressable 
-              style={styles().modalContainer}
-              onPress={() => setShowAddWeeklyGoals(true)}
+    <SafeAreaView style={{ width: '90%' }}>
+      <ScrollView keyboardShouldPersistTaps='handled'>
+        {/* Add Weekly Goal modal */}
+        <View style={styles().container}>
+          <Modal
+            animationType='fade'
+            transparent={true}
+            visible={showAddWeeklyGoals}
+            onRequestClose={() => setShowAddWeeklyGoals(!showAddWeeklyGoals)}
           >
-            <View style={styles().modalHeaderBar}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  flex: 2,
-                  marginLeft: 6,
-                  marginVertical: 4,
-              }}>
-                <Text style={styles().textAlt}>Create Weekly Goal</Text>
+            <Pressable
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                zIndex: 1,
+                backgroundColor: '#00000055',
+              }}
+              onPressOut={() => setShowAddWeeklyGoals(!showAddWeeklyGoals)}
+              >
+              <Pressable 
+                style={styles().modalContainer}
+                onPressOut={() => {
+                  Keyboard.dismiss();
+                  setShowAddWeeklyGoals(true);
+                }}
+              >
+                <View style={styles().modalHeaderBar}>
                   <View
                     style={{
                       flexDirection: 'row',
-                      flex: 1,
-                      justifyContent: 'flex-end',
-                      marginRight: 6,
+                      flex: 2,
+                      marginLeft: 6,
+                      marginVertical: 4,
+                      alignItems: 'center',
                     }}>
                     <Icon
-                      name='close'
-                      type='ionicon'
+                      name='star'
+                      type='material-community'
                       color='white'
-                      onPress={() => setShowAddWeeklyGoals(!showAddWeeklyGoals)}
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles().textAlt}>Add Weekly Goal</Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        flex: 1,
+                        justifyContent: 'flex-end',
+                        marginRight: 6,
+                      }}>
+                      <Icon
+                        name='close'
+                        type='ionicon'
+                        color='white'
+                        onPress={() => setShowAddWeeklyGoals(!showAddWeeklyGoals)}
+                      />
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    marginHorizontal: '5%',
+                    maxHeight: '60%',
+                    marginTop: 10,
+                    marginBottom: 16,
+                  }}>
+                  <View style={{ marginTop: 16, marginBottom: 20, }}>
+                    <View style={styles().textInputView}>
+                      <View style={styles().labelView}>
+                        <Text style={{
+                            color: pressed 
+                              ? '#4CB97A'
+                              : '#816868',
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                          }}>Weekly Goal Name</Text>
+                      </View>
+                      <View style={{
+                          flex: 1, 
+                          borderWidth: 1, 
+                          borderColor: pressed
+                            ? '#4CB97A'
+                            : '#816868',
+                          justifyContent: 'flex-end',
+                          borderRadius: 10,
+                          paddingHorizontal: 16,
+                        }}>
+                        <TextInput 
+                          placeholder='Weekly goal name'
+                          fontSize={16}
+                          color='#816868'
+                          value={goalTitle}
+                          onChangeText={(goalTitle) => setGoalTitle(goalTitle)}
+                          maxLength={99}
+                          onFocus={() => setPressed(true)}
+                          onBlur={() => setPressed(false)}
+                          style={{ top: -8, }}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                  {/* Add Weekly Goal button */}
+                  <View style={{ alignSelf: 'center', }}>
+                    <Button
+                      title='Add Weekly Goal'
+                      onPress={() => {
+                        addGoal(type, goalTitle, userWeeklies, setUserWeeklies,  navigation);
+                        setShowAddWeeklyGoals(!showAddWeeklyGoals);
+                      }}
+                      color={
+                        global.colorblindMode
+                          ? global.cb_optionButtonsColor
+                          : global.optionButtonsColor
+                      }
                     />
                   </View>
-              </View>
-            </View>
-
-            <View
-              style={{
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                marginHorizontal: '5%',
-                maxHeight: '60%',
-                marginTop: 10,
-                marginBottom: 16,
-            }}>
-              <View>
-                <Text>Please enter the goal you would like to recur weekly:</Text>
-              </View>
-
-              <TextInput 
-                placeholder='Please type your title here'
-                value={goalTitle}
-                onChangeText={(goalTitle) => setGoalTitle(goalTitle)}
-              />
-            </View>
-
-            <View 
-              style={{ 
-                flexDirection: 'row', 
-                alignSelf: 'flex-end', 
-                marginVertical: 10, 
-                marginHorizontal: '5%', 
-              }}>
-              <TouchableOpacity 
-                style={{ marginRight: 20, }}
-                onPress={() => {
-                  addGoal(type, goalTitle, userWeeklies, setUserWeeklies,  navigation);
-                  setShowAddWeeklyGoals(!showAddWeeklyGoals);
-                }}>
-                <Text style={styles().textDateTime}>SAVE</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => setShowAddWeeklyGoals(!showAddWeeklyGoals)}>
-                <Text style={styles().textDateTime}>CANCEL</Text>
-              </TouchableOpacity>
-            </View>
-          </Pressable>
-        </Pressable>
-      </Modal>
-    </View>
+                </View>
+              </Pressable>
+            </Pressable>
+          </Modal>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   )
 };
 
@@ -488,98 +608,132 @@ const AddLongTermGoalModal = ({
   navigation,
 }) => {
   const [goalTitle, setGoalTitle] = useState('');
+  const [pressed, setPressed] = useState(false);
 
   return( 
-    <View>
-      <Modal
-        animationType='fade'
-        transparent={true}
-        visible={showAddLongTermGoals}
-        onRequestClose={() => setShowAddLongTermGoals(!showAddLongTermGoals)}
-      >
-        <Pressable
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 1,
-            backgroundColor: '#00000055',
-          }}
-          onPressOut={() => setShowAddLongTermGoals(!showAddLongTermGoals)}
-        >
-          <Pressable 
-              style={styles().modalContainer}
-              onPress={() => setShowAddLongTermGoals(true)}
+    <SafeAreaView style={{ width: '90%' }}>
+      <ScrollView keyboardShouldPersistTaps='handled'>
+        {/* Add Long-Term Goal modal */}
+        <View style={styles().container}>
+          <Modal
+            animationType='fade'
+            transparent={true}
+            visible={showAddLongTermGoals}
+            onRequestClose={() => setShowAddLongTermGoals(!showAddLongTermGoals)}
           >
-            <View style={styles().modalHeaderBar}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  flex: 2,
-                  marginLeft: 6,
-                  marginVertical: 4,
-              }}>
-                <Text style={styles().textAlt}>Create Long-Term Goal</Text>
+            <Pressable
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                zIndex: 1,
+                backgroundColor: '#00000055',
+              }}
+              onPressOut={() => setShowAddLongTermGoals(!showAddLongTermGoals)}
+              >
+              <Pressable 
+                style={styles().modalContainer}
+                onPressOut={() => {
+                  Keyboard.dismiss();
+                  setShowAddLongTermGoals(true);
+                }}
+              >
+                <View style={styles().modalHeaderBar}>
                   <View
                     style={{
                       flexDirection: 'row',
-                      flex: 1,
-                      justifyContent: 'flex-end',
-                      marginRight: 6,
+                      flex: 2,
+                      marginLeft: 6,
+                      marginVertical: 4,
+                      alignItems: 'center',
                     }}>
                     <Icon
-                      name='close'
-                      type='ionicon'
+                      name='star'
+                      type='material-community'
                       color='white'
-                      onPress={() => setShowAddLongTermGoals(!showAddLongTermGoals)}
+                      style={{ marginRight: 8 }}
+                    />
+                    <Text style={styles().textAlt}>Add Long-Term Goal</Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        flex: 1,
+                        justifyContent: 'flex-end',
+                        marginRight: 6,
+                      }}>
+                      <Icon
+                        name='close'
+                        type='ionicon'
+                        color='white'
+                        onPress={() => setShowAddLongTermGoals(!showAddLongTermGoals)}
+                      />
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    marginHorizontal: '5%',
+                    maxHeight: '60%',
+                    marginTop: 10,
+                    marginBottom: 16,
+                  }}>
+                  <View style={{ marginTop: 16, marginBottom: 20, }}>
+                    <View style={styles().textInputView}>
+                      <View style={styles().labelView}>
+                        <Text style={{
+                            color: pressed 
+                              ? '#4CB97A'
+                              : '#816868',
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                          }}>Long-Term Goal Name</Text>
+                      </View>
+                      <View style={{
+                          flex: 1, 
+                          borderWidth: 1, 
+                          borderColor: pressed
+                            ? '#4CB97A'
+                            : '#816868',
+                          justifyContent: 'flex-end',
+                          borderRadius: 10,
+                          paddingHorizontal: 16,
+                        }}>
+                        <TextInput 
+                          placeholder='Long-term goal name'
+                          fontSize={16}
+                          color='#816868'
+                          value={goalTitle}
+                          onChangeText={(goalTitle) => setGoalTitle(goalTitle)}
+                          maxLength={99}
+                          onFocus={() => setPressed(true)}
+                          onBlur={() => setPressed(false)}
+                          style={{ top: -8, }}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                  {/* Add Long-Term Goal button */}
+                  <View style={{ alignSelf: 'center', }}>
+                    <Button
+                      title='Add Long-Term Goal'
+                      onPress={() => {
+                        addGoal(type, goalTitle, userLongTerms, setUserLongTerms, navigation);
+                        setShowAddLongTermGoals(!showAddLongTermGoals);
+                      }}
+                      color={
+                        global.colorblindMode
+                          ? global.cb_optionButtonsColor
+                          : global.optionButtonsColor
+                      }
                     />
                   </View>
-              </View>
-            </View>
-
-            <View
-              style={{
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                marginHorizontal: '5%',
-                maxHeight: '60%',
-                marginTop: 10,
-                marginBottom: 16,
-            }}>
-              <View>
-                <Text>Please enter the long-term goal you would like to add below:</Text>
-              </View>
-
-              <TextInput 
-                placeholder='Please type your title here'
-                value={goalTitle}
-                onChangeText={(goalTitle) => setGoalTitle(goalTitle)}
-              />
-            </View>
-
-            <View 
-              style={{ 
-                flexDirection: 'row', 
-                alignSelf: 'flex-end', 
-                marginVertical: 10, 
-                marginHorizontal: '5%', 
-              }}>
-              <TouchableOpacity 
-                style={{ marginRight: 20, }}
-                onPress={() => {
-                  addGoal(type, goalTitle, userLongTerms, setUserLongTerms, navigation);
-                  setShowAddLongTermGoals(!showAddLongTermGoals);
-                }}>
-                <Text style={styles().textDateTime}>SAVE</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => setShowAddLongTermGoals(!showAddLongTermGoals)}>
-                <Text style={styles().textDateTime}>CANCEL</Text>
-              </TouchableOpacity>
-            </View>
-          </Pressable>
-        </Pressable>
-      </Modal>
-    </View>
+                </View>
+              </Pressable>
+            </Pressable>
+          </Modal>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   )
 };
 
@@ -974,8 +1128,8 @@ function Goals({ navigation, route }) {
 
         {/* daily goals if data is null */}
         {showDailyGoals && userDailies.length === 0 &&
-          <View style={{ marginVertical: 16 }}>
-            <Text>Add some daily goals to get started!</Text>
+          <View style={{ marginVertical: 16, marginHorizontal: '5%' }}>
+            <Text style={styles().textBold}>Add some daily goals to get started!</Text>
           </View>
         }
 
@@ -1027,8 +1181,8 @@ function Goals({ navigation, route }) {
 
         {/* weekly goals if data is null */}
         {showWeeklyGoals && userWeeklies.length === 0 &&
-          <View style={{ marginVertical: 16 }}>
-            <Text>Add some weekly goals to get started!</Text>
+          <View style={{ marginVertical: 16, marginHorizontal: '5%', }}>
+            <Text style={styles().textBold}>Add some weekly goals to get started!</Text>
           </View>
         }
 
@@ -1080,8 +1234,8 @@ function Goals({ navigation, route }) {
 
         {/* long term goals if data is null */}
         {showLongTermGoals && userLongTerms.length === 0 &&
-          <View style={{ marginVertical: 16 }}>
-            <Text>Add some long-term goals to get started!</Text>
+          <View style={{ marginVertical: 16, marginHorizontal: '5%', }}>
+            <Text style={styles().textBold}>Add some long-term goals to get started!</Text>
           </View>
         }
 
@@ -1147,8 +1301,12 @@ async function addGoal(type, title, userGoals, setUserGoals, navigation) {
 
   const res = await API.graphql ({
     query: mutations.addMilestone,
-    variables: {Title: title, Category: type, Requirement: type === 'daily' ? 1 : type === 'weekly' ? 7 : 100, 
-      Progress: 0, Reward: type === 'daily' ? 5 : type === 'weekly' ? 10 : 100
+    variables: {
+      Title: title, 
+      Category: type, 
+      Requirement: type === 'daily' ? 1 : type === 'weekly' ? 7 : 100, 
+      Progress: 0, 
+      Reward: type === 'daily' ? 5 : type === 'weekly' ? 10 : 100
     }
   });
 
@@ -1369,6 +1527,16 @@ const styles = () => StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'center'
   },
+  labelView: {
+    position: 'absolute',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
+    top: -16,
+    left: 14,
+    padding: 5,
+    zIndex: 50,
+  },
   modalContainer: {
     backgroundColor: global.colorblindMode
       ? global.cb_pageBackgroundColor
@@ -1452,15 +1620,33 @@ const styles = () => StyleSheet.create({
     marginTop: 6,
     marginBottom: 2,
   },
+  textGoal: {
+    color: '#816868',
+    fontSize: 16,
+    flexWrap: 'wrap',
+    flex: 5,
+  },
   textInfo: {
     color: '#816868',
     fontSize: 16,
     marginBottom: 8,
+  },
+  textInputView: {
+    height: 48, 
+    width: Math.round(Dimensions.get('window').width * 0.7),
+    position: 'relative',
   },
   textModal: {
     fontSize: 16,
     color: '#816868',
     fontWeight: 'bold',
     justifyContent: 'center',
-  }
+  },
+  textStrikethrough: {
+    color: '#816868',
+    fontSize: 16,
+    textDecorationLine: 'line-through',
+    flexWrap: 'wrap',
+    flex: 5,
+  },
 });
