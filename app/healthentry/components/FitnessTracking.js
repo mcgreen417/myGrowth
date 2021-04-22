@@ -67,6 +67,7 @@ const AddExercises = ({
   duration,
 }) => {
   const [deleteEntry, setDeleteEntry] = useState(false);
+  const [showExercise, setShowExercise] = useState(true);
 
   return (
     <View>
@@ -146,13 +147,13 @@ const AddExercises = ({
         </Modal>
       </View>
 
-      <View style={{ marginVertical: 10 }}>
+      <View style={{ marginTop: 10 }}>
         <View
           style={{
             backgroundColor: '#816868',
             borderRadius: 10,
-            paddingLeft: 12,
-            paddingTop: 12,
+            paddingLeft: 10,
+            paddingTop: 10,
             paddingBottom: 20,
             shadowColor: '#000',
             shadowOffset: {
@@ -191,160 +192,175 @@ const AddExercises = ({
                 }}
               />
 
-              <View
-                style={{ flex: 1, alignItems: 'flex-end', marginRight: 12 }}>
-                {index != null && (
+              <View style={{ flex: 1, alignItems: 'flex-end', marginRight: 12 }}>
+                <View style={{ flexDirection: 'row', }}>
+                  <Icon
+                    name={showExercise
+                      ? 'arrow-drop-up'
+                      : 'arrow-drop-down'
+                    }
+                    color={global.colorblindMode
+                      ? global.cb_optionButtonsColor
+                      : global.optionButtonsColor
+                    }
+                    onPress={() => setShowExercise(!showExercise)}
+                  />
+                  <View style={{ marginRight: 8 }}/>
                   <Icon
                     name='close'
-                    color={
-                      global.colorblindMode
-                        ? global.cb_optionButtonsColor
-                        : global.optionButtonsColor
+                    color={global.colorblindMode
+                      ? global.cb_optionButtonsColor
+                      : global.optionButtonsColor
                     }
                     onPress={() => setDeleteEntry(!deleteEntry)}
                   />
-                )}
+                </View>
               </View>
             </View>
-            <View style={{ flexDirection: 'row', marginTop: 10 }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  width: '46%',
-                }}>
-                <Text style={styles().textAltLight}>Sets: </Text>
-                <TextInput
-                  placeholder='#'
-                  color='#E5E5E5'
-                  placeholderTextColor='#C4BEBD'
-                  fontSize={16}
+
+            {showExercise &&
+              <View>
+                <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      width: '46%',
+                    }}>
+                    <Text style={styles().textAltLight}>Sets: </Text>
+                    <TextInput
+                      placeholder='#'
+                      color='#E5E5E5'
+                      placeholderTextColor='#C4BEBD'
+                      fontSize={16}
+                      style={{
+                        borderBottomColor: '#C4BEBD',
+                        borderBottomWidth: 1,
+                        textAlign: 'center',
+                        width: 50,
+                      }}
+                      keyboardType='number-pad'
+                      value={sets.toString()}
+                      onChangeText={(val) => {
+                        changeSets(exercises, setExercises, index, val);
+                      }}
+                    />
+                    <Text style={styles().textAltLight}> sets</Text>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      width: '40%',
+                    }}>
+                    <Text style={styles().textAltLight}>Calories: </Text>
+                    <TextInput
+                      placeholder='#'
+                      color='#E5E5E5'
+                      placeholderTextColor='#C4BEBD'
+                      fontSize={16}
+                      style={{
+                        borderBottomColor: '#C4BEBD',
+                        borderBottomWidth: 1,
+                        textAlign: 'center',
+                        width: 50,
+                      }}
+                      keyboardType='number-pad'
+                      value={cals.toString()}
+                      onChangeText={(val) => {
+                        changeCals(exercises, setExercises, index, val);
+                      }}
+                    />
+                    <Text style={styles().textAltLight}> cal</Text>
+                  </View>
+                </View>
+                <View
                   style={{
-                    borderBottomColor: '#C4BEBD',
-                    borderBottomWidth: 1,
-                    textAlign: 'center',
-                    width: 50,
-                  }}
-                  keyboardType='number-pad'
-                  value={sets.toString()}
-                  onChangeText={(val) => {
-                    changeSets(exercises, setExercises, index, val);
-                  }}
-                />
-                <Text style={styles().textAltLight}> sets</Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  width: '40%',
-                }}>
-                <Text style={styles().textAltLight}>Calories: </Text>
-                <TextInput
-                  placeholder='#'
-                  color='#E5E5E5'
-                  placeholderTextColor='#C4BEBD'
-                  fontSize={16}
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginTop: 4,
+                  }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      width: '46%',
+                    }}>
+                    <Text style={styles().textAltLight}>Reps: </Text>
+                    <TextInput
+                      placeholder='#'
+                      color='#E5E5E5'
+                      placeholderTextColor='#C4BEBD'
+                      fontSize={16}
+                      style={{
+                        borderBottomColor: '#C4BEBD',
+                        borderBottomWidth: 1,
+                        textAlign: 'center',
+                        width: 50,
+                      }}
+                      keyboardType='number-pad'
+                      value={reps.toString()}
+                      onChangeText={(val) => {
+                        changeReps(exercises, setExercises, index, val);
+                      }}
+                    />
+                    <Text style={styles().textAltLight}> reps</Text>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      width: '40%',
+                    }}>
+                    <Text style={styles().textAltLight}>Duration: </Text>
+                    <TextInput
+                      placeholder='#'
+                      color='#E5E5E5'
+                      placeholderTextColor='#C4BEBD'
+                      fontSize={16}
+                      style={{
+                        borderBottomColor: '#C4BEBD',
+                        borderBottomWidth: 1,
+                        textAlign: 'center',
+                        width: 50,
+                      }}
+                      keyboardType='number-pad'
+                      value={duration.toString()}
+                      onChangeText={(val) => {
+                        changeDuration(exercises, setExercises, index, val);
+                      }}
+                    />
+                    <Text style={styles().textAltLight}> mins</Text>
+                  </View>
+                </View>
+                <View
                   style={{
-                    borderBottomColor: '#C4BEBD',
-                    borderBottomWidth: 1,
-                    textAlign: 'center',
-                    width: 50,
-                  }}
-                  keyboardType='number-pad'
-                  value={cals.toString()}
-                  onChangeText={(val) => {
-                    changeCals(exercises, setExercises, index, val);
-                  }}
-                />
-                <Text style={styles().textAltLight}> cal</Text>
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginTop: 4,
+                  }}>
+                  <Text style={styles().textAltLight}>Weight: </Text>
+                  <TextInput
+                    placeholder='#'
+                    color='#E5E5E5'
+                    placeholderTextColor='#C4BEBD'
+                    fontSize={16}
+                    style={{
+                      borderBottomColor: '#C4BEBD',
+                      borderBottomWidth: 1,
+                      textAlign: 'center',
+                      width: 50,
+                    }}
+                    keyboardType='number-pad'
+                    value={weight.toString()}
+                    onChangeText={(val) => {
+                      changeWeight(exercises, setExercises, index, val);
+                    }}
+                  />
+                  <Text style={styles().textAltLight}> lbs</Text>
+                </View>
               </View>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginTop: 4,
-              }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  width: '46%',
-                }}>
-                <Text style={styles().textAltLight}>Reps: </Text>
-                <TextInput
-                  placeholder='#'
-                  color='#E5E5E5'
-                  placeholderTextColor='#C4BEBD'
-                  fontSize={16}
-                  style={{
-                    borderBottomColor: '#C4BEBD',
-                    borderBottomWidth: 1,
-                    textAlign: 'center',
-                    width: 50,
-                  }}
-                  keyboardType='number-pad'
-                  value={reps.toString()}
-                  onChangeText={(val) => {
-                    changeReps(exercises, setExercises, index, val);
-                  }}
-                />
-                <Text style={styles().textAltLight}> reps</Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  width: '40%',
-                }}>
-                <Text style={styles().textAltLight}>Duration: </Text>
-                <TextInput
-                  placeholder='#'
-                  color='#E5E5E5'
-                  placeholderTextColor='#C4BEBD'
-                  fontSize={16}
-                  style={{
-                    borderBottomColor: '#C4BEBD',
-                    borderBottomWidth: 1,
-                    textAlign: 'center',
-                    width: 50,
-                  }}
-                  keyboardType='number-pad'
-                  value={duration.toString()}
-                  onChangeText={(val) => {
-                    changeDuration(exercises, setExercises, index, val);
-                  }}
-                />
-                <Text style={styles().textAltLight}> mins</Text>
-              </View>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginTop: 4,
-              }}>
-              <Text style={styles().textAltLight}>Weight: </Text>
-              <TextInput
-                placeholder='#'
-                color='#E5E5E5'
-                placeholderTextColor='#C4BEBD'
-                fontSize={16}
-                style={{
-                  borderBottomColor: '#C4BEBD',
-                  borderBottomWidth: 1,
-                  textAlign: 'center',
-                  width: 50,
-                }}
-                keyboardType='number-pad'
-                value={weight.toString()}
-                onChangeText={(val) => {
-                  changeWeight(exercises, setExercises, index, val);
-                }}
-              />
-              <Text style={styles().textAltLight}> lbs</Text>
-            </View>
+            }
           </View>
         </View>
       </View>
@@ -373,6 +389,9 @@ const AdvanceFitnessTracking = ({ exercises, setExercises }) => {
           </View>
         );
       })}
+      {exercises.length > 0 &&
+        <View style={{ marginBottom: 10, }}/>
+      }
 
       <View style={{ marginTop: 10, width: '40%' }}>
         <Button

@@ -289,7 +289,10 @@ const Medication = ({
                           backgroundColor: '#00000055',
                         }}
                         onPressOut={() => setDeleteEntry(!deleteEntry)}>
-                        <View style={styles().modalContainer}>
+                        <Pressable 
+                          style={styles().modalContainer}
+                          onePress={() => setDeleteEntry(true)}
+                        >
                           <View style={styles().modalHeaderBar}>
                             <View
                               style={{
@@ -349,7 +352,7 @@ const Medication = ({
                               <Text style={styles().textButton}>CANCEL</Text>
                             </TouchableOpacity>
                           </View>
-                        </View>
+                        </Pressable>
                       </Pressable>
                     </Modal>
                   </View>

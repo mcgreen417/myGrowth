@@ -40,6 +40,7 @@ const AddFood = ({
   potassium,
 }) => {
   const [deleteFood, setDeleteFood] = useState(false);
+  const [showFood, setShowFood] = useState(true);
 
   return (
     <View>
@@ -61,7 +62,10 @@ const AddFood = ({
               backgroundColor: '#00000055',
             }}
             onPressOut={() => setDeleteFood(!deleteFood)}>
-            <View style={styles().modalContainer}>
+            <Pressable 
+              style={styles().modalContainer}
+              onPress={() => setDeleteFood(true)}
+            >
               <View style={styles().modalHeaderBar}>
                 <View
                   style={{
@@ -112,7 +116,7 @@ const AddFood = ({
                   <Text style={styles().textButton}>CANCEL</Text>
                 </TouchableOpacity>
               </View>
-            </View>
+            </Pressable>
           </Pressable>
         </Modal>
       </View>
@@ -124,7 +128,8 @@ const AddFood = ({
           padding: 10,
           margin: 10,
           paddingBottom: 10,
-          paddingTop: 15,
+          paddingTop: 10,
+          marginTop: -5,
           marginBottom: 20,
           shadowColor: '#000',
           shadowOffset: {
@@ -170,469 +175,489 @@ const AddFood = ({
             }}
           />
           <View style={{ flex: 1, alignItems: 'flex-end', marginRight: 10 }}>
-            <Icon
-              name='close'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              onPress={() => setDeleteFood(!deleteFood)}
-            />
+            <View style={{ flexDirection: 'row' }}>
+              <Icon
+                name={showFood
+                  ? 'arrow-drop-up'
+                  : 'arrow-drop-down'
+                }
+                color={
+                  global.colorblindMode
+                    ? global.cb_optionButtonsColor
+                    : global.optionButtonsColor
+                }
+                onPress={() => setShowFood(!showFood)}
+              />
+              <View style={{ marginRight: 8 }}/>
+              <Icon
+                name='close'
+                color={
+                  global.colorblindMode
+                    ? global.cb_optionButtonsColor
+                    : global.optionButtonsColor
+                }
+                onPress={() => setDeleteFood(!deleteFood)}
+              />
+            </View>
           </View>
         </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={styles().textAltLight}>Serving measurement: </Text>
-          <TextInput
-            placeholder='Tbsp, bags, etc.'
-            color='#C4BEBD'
-            placeholderTextColor='#C4BEBD'
-            style={{
-              borderBottomColor: '#E5E5E5',
-              borderBottomWidth: 1,
-              textAlign: 'center',
-              width: 125,
-            }}
-            value={measurement.toString()}
-            onChangeText={(val) => {
-              let tempMeals = [...meals];
-              let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
-              tempFood.measurement = val.toString();
-              tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
-              setMeals(tempMeals);
-            }}
-          />
-        </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={styles().textAltLight}>Serving amount: </Text>
-          <TextInput
-            placeholder='#'
-            color='#C4BEBD'
-            placeholderTextColor='#C4BEBD'
-            style={{
-              borderBottomColor: '#C4BEBD',
-              borderBottomWidth: 1,
-              textAlign: 'center',
-            }}
-            value={amount.toString()}
-            onChangeText={(val) => {
-              let tempMeals = [...meals];
-              let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
-              tempFood.amount = parseInt(val || 0);
-              tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
-              setMeals(tempMeals);
-            }}
-            keyboardType='number-pad'
-          />
-          <Text style={styles().textAltLight}> servings</Text>
-        </View>
-        <View>
-          <Text style={styles().headingAlt}>NUTRIENTS PER SERVING:</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            // alignItems: 'center',
-            // justifyContent: 'space-around',
-            // width: '100%',
-          }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              width: '55%',
-            }}>
-            <Text style={styles().textAltLight}>Calories: </Text>
-            <TextInput
-              placeholder='#'
-              color='#C4BEBD'
-              placeholderTextColor='#C4BEBD'
+        {showFood &&
+          <View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={styles().textAltLight}>Serving measurement: </Text>
+              <TextInput
+                placeholder='Tbsp, bags, etc.'
+                color='#C4BEBD'
+                placeholderTextColor='#C4BEBD'
+                style={{
+                  borderBottomColor: '#E5E5E5',
+                  borderBottomWidth: 1,
+                  textAlign: 'center',
+                  width: 125,
+                }}
+                value={measurement.toString()}
+                onChangeText={(val) => {
+                  let tempMeals = [...meals];
+                  let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                  tempFood.measurement = val.toString();
+                  tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                  setMeals(tempMeals);
+                }}
+              />
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={styles().textAltLight}>Serving amount: </Text>
+              <TextInput
+                placeholder='#'
+                color='#C4BEBD'
+                placeholderTextColor='#C4BEBD'
+                style={{
+                  borderBottomColor: '#C4BEBD',
+                  borderBottomWidth: 1,
+                  textAlign: 'center',
+                  width: 30,
+                }}
+                value={amount.toString()}
+                onChangeText={(val) => {
+                  let tempMeals = [...meals];
+                  let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                  tempFood.amount = parseInt(val || 0);
+                  tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                  setMeals(tempMeals);
+                }}
+                keyboardType='number-pad'
+              />
+              <Text style={styles().textAltLight}> servings</Text>
+            </View>
+            <View>
+              <Text style={styles().headingAlt}>NUTRIENTS PER SERVING:</Text>
+            </View>
+            <View
               style={{
-                borderBottomColor: '#C4BEBD',
-                borderBottomWidth: 1,
-                textAlign: 'center',
-                width: 30,
-              }}
-              value={calories.toString()}
-              onChangeText={(val) => {
-                let tempMeals = [...meals];
-                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
-                tempFood.calories = parseInt(val || 0);
-                tempMeals[mealIndex].Calories =
-                  tempMeals[mealIndex].Calories -
-                  parseInt(calories) +
-                  tempFood.calories;
-                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
-                setMeals(tempMeals);
-              }}
-              keyboardType='number-pad'
-            />
-            <Text style={styles().textAltLight}> cal</Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              width: '45%',
-            }}>
-            <Text style={styles().textAltLight}>Total Fat: </Text>
-            <TextInput
-              placeholder='#'
-              color='#C4BEBD'
-              placeholderTextColor='#C4BEBD'
+                flexDirection: 'row',
+                // alignItems: 'center',
+                // justifyContent: 'space-around',
+                // width: '100%',
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '55%',
+                }}>
+                <Text style={styles().textAltLight}>Calories: </Text>
+                <TextInput
+                  placeholder='#'
+                  color='#C4BEBD'
+                  placeholderTextColor='#C4BEBD'
+                  style={{
+                    borderBottomColor: '#C4BEBD',
+                    borderBottomWidth: 1,
+                    textAlign: 'center',
+                    width: 30,
+                  }}
+                  value={calories.toString()}
+                  onChangeText={(val) => {
+                    let tempMeals = [...meals];
+                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    tempFood.calories = parseInt(val || 0);
+                    tempMeals[mealIndex].Calories =
+                      tempMeals[mealIndex].Calories -
+                      parseInt(calories) +
+                      tempFood.calories;
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                    setMeals(tempMeals);
+                  }}
+                  keyboardType='number-pad'
+                />
+                <Text style={styles().textAltLight}> cal</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '45%',
+                }}>
+                <Text style={styles().textAltLight}>Total Fat: </Text>
+                <TextInput
+                  placeholder='#'
+                  color='#C4BEBD'
+                  placeholderTextColor='#C4BEBD'
+                  style={{
+                    borderBottomColor: '#C4BEBD',
+                    borderBottomWidth: 1,
+                    textAlign: 'center',
+                    width: 30,
+                  }}
+                  value={fats.toString()}
+                  onChangeText={(val) => {
+                    let tempMeals = [...meals];
+                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    tempFood.fats = parseInt(val || 0);
+                    tempMeals[mealIndex].Fats =
+                      tempMeals[mealIndex].Fats - parseInt(fats) + tempFood.fats;
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                    setMeals(tempMeals);
+                  }}
+                  keyboardType='number-pad'
+                />
+                <Text style={styles().textAltLight}> g</Text>
+              </View>
+            </View>
+            <View
               style={{
-                borderBottomColor: '#C4BEBD',
-                borderBottomWidth: 1,
-                textAlign: 'center',
-                width: 30,
-              }}
-              value={fats.toString()}
-              onChangeText={(val) => {
-                let tempMeals = [...meals];
-                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
-                tempFood.fats = parseInt(val || 0);
-                tempMeals[mealIndex].Fats =
-                  tempMeals[mealIndex].Fats - parseInt(fats) + tempFood.fats;
-                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
-                setMeals(tempMeals);
-              }}
-              keyboardType='number-pad'
-            />
-            <Text style={styles().textAltLight}> g</Text>
-          </View>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            // alignItems: 'center',
-            // justifyContent: 'space-around',
-            // width: '100%',
-          }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              width: '55%',
-            }}>
-            <Text style={styles().textAltLight}>Cholesterol: </Text>
-            <TextInput
-              placeholder='#'
-              color='#C4BEBD'
-              placeholderTextColor='#C4BEBD'
+                flexDirection: 'row',
+                // alignItems: 'center',
+                // justifyContent: 'space-around',
+                // width: '100%',
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '55%',
+                }}>
+                <Text style={styles().textAltLight}>Cholesterol: </Text>
+                <TextInput
+                  placeholder='#'
+                  color='#C4BEBD'
+                  placeholderTextColor='#C4BEBD'
+                  style={{
+                    borderBottomColor: '#C4BEBD',
+                    borderBottomWidth: 1,
+                    textAlign: 'center',
+                    width: 30,
+                  }}
+                  value={cholesterol.toString()}
+                  onChangeText={(val) => {
+                    let tempMeals = [...meals];
+                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    tempFood.cholesterol = parseInt(val || 0);
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                    setMeals(tempMeals);
+                  }}
+                  keyboardType='number-pad'
+                />
+                <Text style={styles().textAltLight}> mg</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '45%',
+                }}>
+                <Text style={styles().textAltLight}>Sodium: </Text>
+                <TextInput
+                  placeholder='#'
+                  color='#C4BEBD'
+                  placeholderTextColor='#C4BEBD'
+                  style={{
+                    borderBottomColor: '#C4BEBD',
+                    borderBottomWidth: 1,
+                    textAlign: 'center',
+                    width: 30,
+                  }}
+                  value={sodium.toString()}
+                  onChangeText={(val) => {
+                    let tempMeals = [...meals];
+                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    tempFood.sodium = parseInt(val || 0);
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                    setMeals(tempMeals);
+                  }}
+                  keyboardType='number-pad'
+                />
+                <Text style={styles().textAltLight}> mg</Text>
+              </View>
+            </View>
+            <View
               style={{
-                borderBottomColor: '#C4BEBD',
-                borderBottomWidth: 1,
-                textAlign: 'center',
-                width: 30,
-              }}
-              value={cholesterol.toString()}
-              onChangeText={(val) => {
-                let tempMeals = [...meals];
-                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
-                tempFood.cholesterol = parseInt(val || 0);
-                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
-                setMeals(tempMeals);
-              }}
-              keyboardType='number-pad'
-            />
-            <Text style={styles().textAltLight}> mg</Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              width: '45%',
-            }}>
-            <Text style={styles().textAltLight}>Sodium: </Text>
-            <TextInput
-              placeholder='#'
-              color='#C4BEBD'
-              placeholderTextColor='#C4BEBD'
+                flexDirection: 'row',
+                // alignItems: 'center',
+                // justifyContent: 'space-around',
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '55%',
+                }}>
+                <Text style={styles().textAltLight}>Total Carbs: </Text>
+                <TextInput
+                  placeholder='#'
+                  color='#C4BEBD'
+                  placeholderTextColor='#C4BEBD'
+                  style={{
+                    borderBottomColor: '#C4BEBD',
+                    borderBottomWidth: 1,
+                    textAlign: 'center',
+                    width: 30,
+                  }}
+                  value={carbs.toString()}
+                  onChangeText={(val) => {
+                    let tempMeals = [...meals];
+                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    tempFood.carbs = parseInt(val || 0);
+                    tempMeals[mealIndex].Carbs =
+                      tempMeals[mealIndex].Carbs - parseInt(carbs) + tempFood.carbs;
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                    setMeals(tempMeals);
+                  }}
+                  keyboardType='number-pad'
+                />
+                <Text style={styles().textAltLight}> g</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '45%',
+                }}>
+                <Text style={styles().textAltLight}>Fiber: </Text>
+                <TextInput
+                  placeholder='#'
+                  color='#C4BEBD'
+                  placeholderTextColor='#C4BEBD'
+                  style={{
+                    borderBottomColor: '#C4BEBD',
+                    borderBottomWidth: 1,
+                    textAlign: 'center',
+                    width: 30,
+                  }}
+                  value={fiber.toString()}
+                  onChangeText={(val) => {
+                    let tempMeals = [...meals];
+                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    tempFood.fiber = parseInt(val || 0);
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                    setMeals(tempMeals);
+                  }}
+                  keyboardType='number-pad'
+                />
+                <Text style={styles().textAltLight}> g</Text>
+              </View>
+            </View>
+            <View
               style={{
-                borderBottomColor: '#C4BEBD',
-                borderBottomWidth: 1,
-                textAlign: 'center',
-                width: 30,
-              }}
-              value={sodium.toString()}
-              onChangeText={(val) => {
-                let tempMeals = [...meals];
-                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
-                tempFood.sodium = parseInt(val || 0);
-                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
-                setMeals(tempMeals);
-              }}
-              keyboardType='number-pad'
-            />
-            <Text style={styles().textAltLight}> mg</Text>
-          </View>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            // alignItems: 'center',
-            // justifyContent: 'space-around',
-          }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              width: '55%',
-            }}>
-            <Text style={styles().textAltLight}>Total Carbs: </Text>
-            <TextInput
-              placeholder='#'
-              color='#C4BEBD'
-              placeholderTextColor='#C4BEBD'
+                flexDirection: 'row',
+                // alignItems: 'center',
+                // justifyContent: 'space-around',
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '55%',
+                }}>
+                <Text style={styles().textAltLight}>Total Sugars: </Text>
+                <TextInput
+                  placeholder='#'
+                  color='#C4BEBD'
+                  placeholderTextColor='#C4BEBD'
+                  style={{
+                    borderBottomColor: '#C4BEBD',
+                    borderBottomWidth: 1,
+                    textAlign: 'center',
+                    width: 30,
+                  }}
+                  value={sugars.toString()}
+                  onChangeText={(val) => {
+                    let tempMeals = [...meals];
+                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    tempFood.sugars = parseInt(val || 0);
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                    setMeals(tempMeals);
+                  }}
+                  keyboardType='number-pad'
+                />
+                <Text style={styles().textAltLight}> g</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '45%',
+                }}>
+                <Text style={styles().textAltLight}>Protein: </Text>
+                <TextInput
+                  placeholder='#'
+                  color='#C4BEBD'
+                  placeholderTextColor='#C4BEBD'
+                  style={{
+                    borderBottomColor: '#C4BEBD',
+                    borderBottomWidth: 1,
+                    textAlign: 'center',
+                    width: 30,
+                  }}
+                  value={protein.toString()}
+                  onChangeText={(val) => {
+                    let tempMeals = [...meals];
+                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    tempFood.protein = parseInt(val || 0);
+                    tempMeals[mealIndex].Proteins =
+                      tempMeals[mealIndex].Proteins -
+                      parseInt(protein) +
+                      tempFood.protein;
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                    setMeals(tempMeals);
+                  }}
+                  keyboardType='number-pad'
+                />
+                <Text style={styles().textAltLight}> g</Text>
+              </View>
+            </View>
+            <View
               style={{
-                borderBottomColor: '#C4BEBD',
-                borderBottomWidth: 1,
-                textAlign: 'center',
-                width: 30,
-              }}
-              value={carbs.toString()}
-              onChangeText={(val) => {
-                let tempMeals = [...meals];
-                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
-                tempFood.carbs = parseInt(val || 0);
-                tempMeals[mealIndex].Carbs =
-                  tempMeals[mealIndex].Carbs - parseInt(carbs) + tempFood.carbs;
-                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
-                setMeals(tempMeals);
-              }}
-              keyboardType='number-pad'
-            />
-            <Text style={styles().textAltLight}> g</Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              width: '45%',
-            }}>
-            <Text style={styles().textAltLight}>Fiber: </Text>
-            <TextInput
-              placeholder='#'
-              color='#C4BEBD'
-              placeholderTextColor='#C4BEBD'
+                flexDirection: 'row',
+                // alignItems: 'center',
+                // justifyContent: 'space-around',
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '55%',
+                }}>
+                <Text style={styles().textAltLight}>Vitamin D: </Text>
+                <TextInput
+                  placeholder='#'
+                  color='#C4BEBD'
+                  placeholderTextColor='#C4BEBD'
+                  style={{
+                    borderBottomColor: '#C4BEBD',
+                    borderBottomWidth: 1,
+                    textAlign: 'center',
+                    width: 30,
+                  }}
+                  value={vitaminD.toString()}
+                  onChangeText={(val) => {
+                    let tempMeals = [...meals];
+                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    tempFood.vitaminD = parseInt(val || 0);
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                    setMeals(tempMeals);
+                  }}
+                  keyboardType='number-pad'
+                />
+                <Text style={styles().textAltLight}> mcg</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '45%',
+                }}>
+                <Text style={styles().textAltLight}>Calcium: </Text>
+                <TextInput
+                  placeholder='#'
+                  color='#C4BEBD'
+                  placeholderTextColor='#C4BEBD'
+                  style={{
+                    borderBottomColor: '#C4BEBD',
+                    borderBottomWidth: 1,
+                    textAlign: 'center',
+                    width: 30,
+                  }}
+                  value={calcium.toString()}
+                  onChangeText={(val) => {
+                    let tempMeals = [...meals];
+                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    tempFood.calcium = parseInt(val || 0);
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                    setMeals(tempMeals);
+                  }}
+                  keyboardType='number-pad'
+                />
+                <Text style={styles().textAltLight}> mg</Text>
+              </View>
+            </View>
+            <View
               style={{
-                borderBottomColor: '#C4BEBD',
-                borderBottomWidth: 1,
-                textAlign: 'center',
-                width: 30,
-              }}
-              value={fiber.toString()}
-              onChangeText={(val) => {
-                let tempMeals = [...meals];
-                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
-                tempFood.fiber = parseInt(val || 0);
-                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
-                setMeals(tempMeals);
-              }}
-              keyboardType='number-pad'
-            />
-            <Text style={styles().textAltLight}> g</Text>
+                flexDirection: 'row',
+                // alignItems: 'center',
+                // justifyContent: 'space-around',
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '55%',
+                }}>
+                <Text style={styles().textAltLight}>Iron: </Text>
+                <TextInput
+                  placeholder='#'
+                  color='#C4BEBD'
+                  placeholderTextColor='#C4BEBD'
+                  style={{
+                    borderBottomColor: '#C4BEBD',
+                    borderBottomWidth: 1,
+                    textAlign: 'center',
+                    width: 30,
+                  }}
+                  value={iron.toString()}
+                  onChangeText={(val) => {
+                    let tempMeals = [...meals];
+                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    tempFood.iron = parseInt(val || 0);
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                    setMeals(tempMeals);
+                  }}
+                  keyboardType='number-pad'
+                />
+                <Text style={styles().textAltLight}> mg</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '45%',
+                }}>
+                <Text style={styles().textAltLight}>Potassium: </Text>
+                <TextInput
+                  placeholder='#'
+                  color='#C4BEBD'
+                  placeholderTextColor='#C4BEBD'
+                  style={{
+                    borderBottomColor: '#C4BEBD',
+                    borderBottomWidth: 1,
+                    textAlign: 'center',
+                    width: 30,
+                  }}
+                  value={potassium.toString()}
+                  onChangeText={(val) => {
+                    let tempMeals = [...meals];
+                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    tempFood.potassium = parseInt(val || 0);
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                    setMeals(tempMeals);
+                  }}
+                  keyboardType='number-pad'
+                />
+                <Text style={styles().textAltLight}> mg</Text>
+              </View>
+            </View>
           </View>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            // alignItems: 'center',
-            // justifyContent: 'space-around',
-          }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              width: '55%',
-            }}>
-            <Text style={styles().textAltLight}>Total Sugars: </Text>
-            <TextInput
-              placeholder='#'
-              color='#C4BEBD'
-              placeholderTextColor='#C4BEBD'
-              style={{
-                borderBottomColor: '#C4BEBD',
-                borderBottomWidth: 1,
-                textAlign: 'center',
-                width: 30,
-              }}
-              value={sugars.toString()}
-              onChangeText={(val) => {
-                let tempMeals = [...meals];
-                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
-                tempFood.sugars = parseInt(val || 0);
-                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
-                setMeals(tempMeals);
-              }}
-              keyboardType='number-pad'
-            />
-            <Text style={styles().textAltLight}> g</Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              width: '45%',
-            }}>
-            <Text style={styles().textAltLight}>Protein: </Text>
-            <TextInput
-              placeholder='#'
-              color='#C4BEBD'
-              placeholderTextColor='#C4BEBD'
-              style={{
-                borderBottomColor: '#C4BEBD',
-                borderBottomWidth: 1,
-                textAlign: 'center',
-                width: 30,
-              }}
-              value={protein.toString()}
-              onChangeText={(val) => {
-                let tempMeals = [...meals];
-                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
-                tempFood.protein = parseInt(val || 0);
-                tempMeals[mealIndex].Proteins =
-                  tempMeals[mealIndex].Proteins -
-                  parseInt(protein) +
-                  tempFood.protein;
-                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
-                setMeals(tempMeals);
-              }}
-              keyboardType='number-pad'
-            />
-            <Text style={styles().textAltLight}> g</Text>
-          </View>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            // alignItems: 'center',
-            // justifyContent: 'space-around',
-          }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              width: '55%',
-            }}>
-            <Text style={styles().textAltLight}>Vitamin D: </Text>
-            <TextInput
-              placeholder='#'
-              color='#C4BEBD'
-              placeholderTextColor='#C4BEBD'
-              style={{
-                borderBottomColor: '#C4BEBD',
-                borderBottomWidth: 1,
-                textAlign: 'center',
-                width: 30,
-              }}
-              value={vitaminD.toString()}
-              onChangeText={(val) => {
-                let tempMeals = [...meals];
-                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
-                tempFood.vitaminD = parseInt(val || 0);
-                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
-                setMeals(tempMeals);
-              }}
-              keyboardType='number-pad'
-            />
-            <Text style={styles().textAltLight}> mcg</Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              width: '45%',
-            }}>
-            <Text style={styles().textAltLight}>Calcium: </Text>
-            <TextInput
-              placeholder='#'
-              color='#C4BEBD'
-              placeholderTextColor='#C4BEBD'
-              style={{
-                borderBottomColor: '#C4BEBD',
-                borderBottomWidth: 1,
-                textAlign: 'center',
-                width: 30,
-              }}
-              value={calcium.toString()}
-              onChangeText={(val) => {
-                let tempMeals = [...meals];
-                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
-                tempFood.calcium = parseInt(val || 0);
-                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
-                setMeals(tempMeals);
-              }}
-              keyboardType='number-pad'
-            />
-            <Text style={styles().textAltLight}> mg</Text>
-          </View>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            // alignItems: 'center',
-            // justifyContent: 'space-around',
-          }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              width: '55%',
-            }}>
-            <Text style={styles().textAltLight}>Iron: </Text>
-            <TextInput
-              placeholder='#'
-              color='#C4BEBD'
-              placeholderTextColor='#C4BEBD'
-              style={{
-                borderBottomColor: '#C4BEBD',
-                borderBottomWidth: 1,
-                textAlign: 'center',
-                width: 30,
-              }}
-              value={iron.toString()}
-              onChangeText={(val) => {
-                let tempMeals = [...meals];
-                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
-                tempFood.iron = parseInt(val || 0);
-                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
-                setMeals(tempMeals);
-              }}
-              keyboardType='number-pad'
-            />
-            <Text style={styles().textAltLight}> mg</Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              width: '45%',
-            }}>
-            <Text style={styles().textAltLight}>Potassium: </Text>
-            <TextInput
-              placeholder='#'
-              color='#C4BEBD'
-              placeholderTextColor='#C4BEBD'
-              style={{
-                borderBottomColor: '#C4BEBD',
-                borderBottomWidth: 1,
-                textAlign: 'center',
-                width: 30,
-              }}
-              value={potassium.toString()}
-              onChangeText={(val) => {
-                let tempMeals = [...meals];
-                let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
-                tempFood.potassium = parseInt(val || 0);
-                tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
-                setMeals(tempMeals);
-              }}
-              keyboardType='number-pad'
-            />
-            <Text style={styles().textAltLight}> mg</Text>
-          </View>
-        </View>
+        }
       </View>
     </View>
   );
@@ -646,6 +671,7 @@ function removeMeal(meals, setMeals, index) {
 
 const AddMeal = ({ meals, setMeals, index, foods, mealName }) => {
   const [deleteMeal, setDeleteMeal] = useState(false);
+  const [showMeal, setShowMeal] = useState(true);
 
   return (
     <View>
@@ -667,7 +693,10 @@ const AddMeal = ({ meals, setMeals, index, foods, mealName }) => {
               backgroundColor: '#00000055',
             }}
             onPressOut={() => setDeleteMeal(!deleteMeal)}>
-            <View style={styles().modalContainer}>
+            <Pressable 
+              style={styles().modalContainer}
+              onPress={() => setDeleteMeal(true)}
+            >
               <View style={styles().modalHeaderBar}>
                 <View
                   style={{
@@ -718,7 +747,7 @@ const AddMeal = ({ meals, setMeals, index, foods, mealName }) => {
                   <Text style={styles().textButton}>CANCEL</Text>
                 </TouchableOpacity>
               </View>
-            </View>
+            </Pressable>
           </Pressable>
         </Modal>
       </View>
@@ -728,9 +757,9 @@ const AddMeal = ({ meals, setMeals, index, foods, mealName }) => {
           backgroundColor: '#816868',
           borderRadius: 10,
           padding: 10,
-          paddingBottom: 10,
-          marginBottom: 20,
-          paddingTop: 15,
+          paddingBottom: -10,
+          marginBottom: 10,
+          paddingTop: 10,
           shadowColor: '#000',
           shadowOffset: {
             width: 0,
@@ -744,6 +773,7 @@ const AddMeal = ({ meals, setMeals, index, foods, mealName }) => {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
+            marginBottom: 20,
           }}>
           <Icon
             name='restaurant'
@@ -772,94 +802,113 @@ const AddMeal = ({ meals, setMeals, index, foods, mealName }) => {
             }}
           />
           <View style={{ flex: 1, alignItems: 'flex-end', marginRight: 10 }}>
-            <Icon
-              name='close'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              onPress={() => setDeleteMeal(!deleteMeal)}
-            />
+            <View style={{ flexDirection: 'row' }}>
+              <Icon
+                name={showMeal 
+                  ? 'arrow-drop-up'
+                  : 'arrow-drop-down'
+                }
+                color={
+                  global.colorblindMode
+                    ? global.cb_optionButtonsColor
+                    : global.optionButtonsColor
+                }
+                onPress={() => setShowMeal(!showMeal)}
+              />
+              <View style={{ marginRight: 8 }}/>
+              <Icon
+                name='close'
+                color={
+                  global.colorblindMode
+                    ? global.cb_optionButtonsColor
+                    : global.optionButtonsColor
+                }
+                onPress={() => setDeleteMeal(!deleteMeal)}
+              />
+            </View>
           </View>
         </View>
-        {foods.map((item, foodIndex) => {
-          const {
-            name,
-            measurement,
-            amount,
-            calories,
-            fats,
-            cholesterol,
-            sodium,
-            carbs,
-            fiber,
-            sugars,
-            protein,
-            vitaminD,
-            calcium,
-            iron,
-            potassium,
-          } = JSON.parse(item);
-          return (
-            <AddFood
-              key={foodIndex}
-              meals={meals}
-              setMeals={setMeals}
-              mealIndex={index}
-              foodIndex={foodIndex}
-              fiber={fiber}
-              name={name}
-              measurement={measurement}
-              amount={amount}
-              calories={calories}
-              fats={fats}
-              cholesterol={cholesterol}
-              sodium={sodium}
-              carbs={carbs}
-              sugars={sugars}
-              protein={protein}
-              vitaminD={vitaminD}
-              calcium={calcium}
-              iron={iron}
-              potassium={potassium}
-            />
-          );
-        })}
-
-        <View style={{ width: '40%', marginLeft: 10, marginBottom: 10 }}>
-          <Button
-            title='+ Add Food'
-            color={
-              global.colorblindMode
-                ? global.cb_optionButtonsColor
-                : global.optionButtonsColor
-            }
-            onPress={() => {
-              let tempMeals = [...meals];
-              tempMeals[index].Food.push(
-                JSON.stringify({
-                  name: '',
-                  measurement: '',
-                  amount: 0,
-                  calories: 0,
-                  fats: 0,
-                  cholesterol: 0,
-                  sodium: 0,
-                  carbs: 0,
-                  fiber: 0,
-                  sugars: 0,
-                  protein: 0,
-                  vitaminD: 0,
-                  calcium: 0,
-                  iron: 0,
-                  potassium: 0,
-                })
+        {showMeal &&
+          <View>
+            {foods.map((item, foodIndex) => {
+              const {
+                name,
+                measurement,
+                amount,
+                calories,
+                fats,
+                cholesterol,
+                sodium,
+                carbs,
+                fiber,
+                sugars,
+                protein,
+                vitaminD,
+                calcium,
+                iron,
+                potassium,
+              } = JSON.parse(item);
+              return (
+                <AddFood
+                  key={foodIndex}
+                  meals={meals}
+                  setMeals={setMeals}
+                  mealIndex={index}
+                  foodIndex={foodIndex}
+                  fiber={fiber}
+                  name={name}
+                  measurement={measurement}
+                  amount={amount}
+                  calories={calories}
+                  fats={fats}
+                  cholesterol={cholesterol}
+                  sodium={sodium}
+                  carbs={carbs}
+                  sugars={sugars}
+                  protein={protein}
+                  vitaminD={vitaminD}
+                  calcium={calcium}
+                  iron={iron}
+                  potassium={potassium}
+                />
               );
-              setMeals(tempMeals);
-            }}
-          />
-        </View>
+            })}
+
+            <View style={{ width: '40%', marginLeft: 10, marginBottom: 20 }}>
+              <Button
+                title='+ Add Food'
+                color={
+                  global.colorblindMode
+                    ? global.cb_optionButtonsColor
+                    : global.optionButtonsColor
+                }
+                onPress={() => {
+                  let tempMeals = [...meals];
+                  tempMeals[index].Food.push(
+                    JSON.stringify({
+                      name: '',
+                      measurement: '',
+                      amount: 0,
+                      calories: 0,
+                      fats: 0,
+                      cholesterol: 0,
+                      sodium: 0,
+                      carbs: 0,
+                      fiber: 0,
+                      sugars: 0,
+                      protein: 0,
+                      vitaminD: 0,
+                      calcium: 0,
+                      iron: 0,
+                      potassium: 0,
+                    })
+                  );
+                  setMeals(tempMeals);
+                }}
+              />
+            </View>
+          </View>
+        }
       </View>
     </View>
   );
@@ -867,7 +916,7 @@ const AddMeal = ({ meals, setMeals, index, foods, mealName }) => {
 
 const AdvanceMealTracking = ({ meals, setMeals }) => {
   return (
-    <View style={{ marginTop: 10 }}>
+    <View style={{ marginTop: 20 }}>
       {meals.map((item, index) => {
         return (
           <AddMeal
@@ -880,8 +929,11 @@ const AdvanceMealTracking = ({ meals, setMeals }) => {
           />
         );
       })}
+      {meals.length > 0 &&
+        <View style={{ marginBottom: 10, }}/>
+      }
 
-      <View style={{ width: '40%' }}>
+      <View style={{ width: '40%', }}>
         <Button
           title='+ Add Meal'
           color={
