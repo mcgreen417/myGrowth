@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Auth, API } from 'aws-amplify';
 import {
   StyleSheet,
   SafeAreaView,
@@ -7,16 +8,120 @@ import {
   Pressable,
   Image,
   ScrollView,
+  TextInput,
   Modal,
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import * as mutations from '../../../src/graphql/mutations';
+import * as queries from '../../../src/graphql/queries';
 import NavBar from '../../shared/components/NavBar';
 
-const Goal = ({ title, description, type, navigation }) => {
-  const [toggleCheckBox, setToggleCheckBox] = useState(false);
+const GoalEditModal = ({title, timestamp, userGoals, setUserGoals, editModal, setEditModal, navigation}) => {
+  const [goalTitle, setGoalTitle] = useState('');
+
+  return( 
+    <View>
+      <Modal
+        animationType='fade'
+        transparent={true}
+        visible={editModal}
+        onRequestClose={() => setEditModal(!editModal)}
+      >
+        <Pressable
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1,
+            backgroundColor: '#00000055',
+          }}
+          onPressOut={() => setEditModal(!editModal)}
+        >
+          <Pressable 
+              style={styles().modalContainer}
+              onPress={() => setEditModal(true)}
+          >
+            <View style={styles().modalHeaderBar}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flex: 2,
+                  marginLeft: 6,
+                  marginVertical: 4,
+              }}>
+                <Text style={styles().textAlt}>Create Daily Goal</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 1,
+                      justifyContent: 'flex-end',
+                      marginRight: 6,
+                    }}>
+                    <Icon
+                      name='close'
+                      type='ionicon'
+                      color='white'
+                      onPress={() => setEditModal(!editModal)}
+                    />
+                  </View>
+              </View>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                marginHorizontal: '5%',
+                maxHeight: '60%',
+                marginTop: 10,
+                marginBottom: 16,
+            }}>
+              <View>
+                <Text>Please enter the new goal name below:</Text>
+              </View>
+
+              <TextInput 
+                placeholder='Please type your title here'
+                value={goalTitle}
+                onChangeText={(goalTitle) => setGoalTitle(goalTitle)}
+              />
+            </View>
+
+            <View 
+              style={{ 
+                flexDirection: 'row', 
+                alignSelf: 'flex-end', 
+                marginVertical: 10, 
+                marginHorizontal: '5%', 
+              }}>
+              <TouchableOpacity 
+                style={{ marginRight: 20, }}
+                onPress={() => {
+                  editGoal(title, timestamp, goalTitle, userGoals, setUserGoals, navigation);
+                  setEditModal(!editModal);
+                }}>
+                <Text style={styles().textDateTime}>SAVE</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setEditModal(!editModal)}>
+                <Text style={styles().textDateTime}>CANCEL</Text>
+              </TouchableOpacity>
+            </View>
+          </Pressable>
+        </Pressable>
+      </Modal>
+    </View>
+  );
+}
+
+const Goal = ({ title, type, timestamp, progress, completed, userGoals, setUserGoals, navigation }) => {
+  const [toggleCheckBox, setToggleCheckBox] = useState(completed);
   const [deleteEntry, setDeleteEntry] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+  const progrArr = new Array(progress).fill('line');
+
+  console.log(type === 'weekly', ' ', title);
 
   return (
     <View>
@@ -83,7 +188,10 @@ const Goal = ({ title, description, type, navigation }) => {
                 }}>
                 <TouchableOpacity 
                   style={{ marginRight: 20, }}
-                  onPress={() => setDeleteEntry(!deleteEntry)}>
+                  onPress={() => {
+                    deleteGoal(title, timestamp, userGoals, setUserGoals, navigation);
+                    setDeleteEntry(!deleteEntry);
+                  }}>
                   <Text style={styles().textDateTime}>DELETE</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => setDeleteEntry(!deleteEntry)}>
@@ -94,6 +202,16 @@ const Goal = ({ title, description, type, navigation }) => {
           </Pressable>
         </Modal>
       </View>
+
+      <GoalEditModal 
+        title={title}
+        timestamp={timestamp}
+        userGoals={userGoals}
+        setUserGoals={setUserGoals}
+        editModal={editModal}
+        setEditModal={setEditModal}
+        navigation={navigation}
+      />
 
       <View style={{ 
         flexDirection: 'row',
@@ -115,10 +233,11 @@ const Goal = ({ title, description, type, navigation }) => {
           }
           onPress={() => {
             setToggleCheckBox(true);
-            navigation.navigate('GoalComplete');}}
-        />
+            updateCompletion(title, userGoals, setUserGoals, navigation);
+          }}/>
         <View style={{ marginRight: 8 }}/>
         <Text style={styles().text}>{title}</Text>
+
         <View style={styles().iconView}>
           <View style={{ flexDirection: 'row' }}>
             <Pressable>
@@ -126,6 +245,7 @@ const Goal = ({ title, description, type, navigation }) => {
                 name='pencil' 
                 type='material-community' 
                 color='#816868' 
+                onPress={() => setEditModal(!editModal)}
               />
             </Pressable>
             <Pressable>
@@ -139,18 +259,349 @@ const Goal = ({ title, description, type, navigation }) => {
           </View>
         </View>
       </View>
+
+      {type === 'weekly' && 
+        <View style={{flexDirection:'row'}}>
+          {progrArr.map((item, index) => (         
+            <View key={index} style={styles.progressBar} />
+          ))}
+        </View>
+      }
     </View>
   );
 };
 
-function Goals({ navigation }) {
-  var time = new Date();
+const AddDailyGoalModal = ({
+  userDailies, 
+  setUserDailies, 
+  type,
+  showAddDailyGoals, 
+  setShowAddDailyGoals,
+  navigation
+}) => {
+  const [goalTitle, setGoalTitle] = useState('');
+
+  return( 
+    <View>
+      <Modal
+        animationType='fade'
+        transparent={true}
+        visible={showAddDailyGoals}
+        onRequestClose={() => setShowAddDailyGoals(!showAddDailyGoals)}
+      >
+        <Pressable
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1,
+            backgroundColor: '#00000055',
+          }}
+          onPressOut={() => setShowAddDailyGoals(!showAddDailyGoals)}
+        >
+          <Pressable 
+              style={styles().modalContainer}
+              onPress={() => setShowAddDailyGoals(true)}
+          >
+            <View style={styles().modalHeaderBar}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flex: 2,
+                  marginLeft: 6,
+                  marginVertical: 4,
+              }}>
+                <Text style={styles().textAlt}>Create Daily Goal</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 1,
+                      justifyContent: 'flex-end',
+                      marginRight: 6,
+                    }}>
+                    <Icon
+                      name='close'
+                      type='ionicon'
+                      color='white'
+                      onPress={() => setShowAddDailyGoals(!showAddDailyGoals)}
+                    />
+                  </View>
+              </View>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                marginHorizontal: '5%',
+                maxHeight: '60%',
+                marginTop: 10,
+                marginBottom: 16,
+            }}>
+              <View>
+                <Text>Please enter the goal you would like recur daily:</Text>
+              </View>
+
+              <TextInput 
+                placeholder='Please type your title here'
+                value={goalTitle}
+                onChangeText={(goalTitle) => setGoalTitle(goalTitle)}
+              />
+            </View>
+
+            <View 
+              style={{ 
+                flexDirection: 'row', 
+                alignSelf: 'flex-end', 
+                marginVertical: 10, 
+                marginHorizontal: '5%', 
+              }}>
+              <TouchableOpacity 
+                style={{ marginRight: 20, }}
+                onPress={() => {
+                  addGoal(type, goalTitle, userDailies, setUserDailies, navigation);
+                  setShowAddDailyGoals(!showAddDailyGoals);
+                }}>
+                <Text style={styles().textDateTime}>SAVE</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setShowAddDailyGoals(!showAddDailyGoals)}>
+                <Text style={styles().textDateTime}>CANCEL</Text>
+              </TouchableOpacity>
+            </View>
+          </Pressable>
+        </Pressable>
+      </Modal>
+    </View>
+  )
+};
+
+const AddWeeklyGoalModal = ({
+  userWeeklies, 
+  setUserWeeklies, 
+  type,
+  showAddWeeklyGoals, 
+  setShowAddWeeklyGoals,
+  navigation,
+}) => {
+  const [goalTitle, setGoalTitle] = useState('');
+
+  return( 
+    <View>
+      <Modal
+        animationType='fade'
+        transparent={true}
+        visible={showAddWeeklyGoals}
+        onRequestClose={() => setShowAddWeeklyGoals(!showAddWeeklyGoals)}
+      >
+        <Pressable
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1,
+            backgroundColor: '#00000055',
+          }}
+          onPressOut={() => setShowAddWeeklyGoals(!showAddWeeklyGoals)}
+        >
+          <Pressable 
+              style={styles().modalContainer}
+              onPress={() => setShowAddWeeklyGoals(true)}
+          >
+            <View style={styles().modalHeaderBar}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flex: 2,
+                  marginLeft: 6,
+                  marginVertical: 4,
+              }}>
+                <Text style={styles().textAlt}>Create Weekly Goal</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 1,
+                      justifyContent: 'flex-end',
+                      marginRight: 6,
+                    }}>
+                    <Icon
+                      name='close'
+                      type='ionicon'
+                      color='white'
+                      onPress={() => setShowAddWeeklyGoals(!showAddWeeklyGoals)}
+                    />
+                  </View>
+              </View>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                marginHorizontal: '5%',
+                maxHeight: '60%',
+                marginTop: 10,
+                marginBottom: 16,
+            }}>
+              <View>
+                <Text>Please enter the goal you would like to recur weekly:</Text>
+              </View>
+
+              <TextInput 
+                placeholder='Please type your title here'
+                value={goalTitle}
+                onChangeText={(goalTitle) => setGoalTitle(goalTitle)}
+              />
+            </View>
+
+            <View 
+              style={{ 
+                flexDirection: 'row', 
+                alignSelf: 'flex-end', 
+                marginVertical: 10, 
+                marginHorizontal: '5%', 
+              }}>
+              <TouchableOpacity 
+                style={{ marginRight: 20, }}
+                onPress={() => {
+                  addGoal(type, goalTitle, userWeeklies, setUserWeeklies,  navigation);
+                  setShowAddWeeklyGoals(!showAddWeeklyGoals);
+                }}>
+                <Text style={styles().textDateTime}>SAVE</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setShowAddWeeklyGoals(!showAddWeeklyGoals)}>
+                <Text style={styles().textDateTime}>CANCEL</Text>
+              </TouchableOpacity>
+            </View>
+          </Pressable>
+        </Pressable>
+      </Modal>
+    </View>
+  )
+};
+
+const AddLongTermGoalModal = ({
+  userLongTerms, 
+  setUserLongTerms, 
+  type,
+  showAddLongTermGoals, 
+  setShowAddLongTermGoals,
+  navigation,
+}) => {
+  const [goalTitle, setGoalTitle] = useState('');
+
+  return( 
+    <View>
+      <Modal
+        animationType='fade'
+        transparent={true}
+        visible={showAddLongTermGoals}
+        onRequestClose={() => setShowAddLongTermGoals(!showAddLongTermGoals)}
+      >
+        <Pressable
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1,
+            backgroundColor: '#00000055',
+          }}
+          onPressOut={() => setShowAddLongTermGoals(!showAddLongTermGoals)}
+        >
+          <Pressable 
+              style={styles().modalContainer}
+              onPress={() => setShowAddLongTermGoals(true)}
+          >
+            <View style={styles().modalHeaderBar}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flex: 2,
+                  marginLeft: 6,
+                  marginVertical: 4,
+              }}>
+                <Text style={styles().textAlt}>Create Long-Term Goal</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 1,
+                      justifyContent: 'flex-end',
+                      marginRight: 6,
+                    }}>
+                    <Icon
+                      name='close'
+                      type='ionicon'
+                      color='white'
+                      onPress={() => setShowAddLongTermGoals(!showAddLongTermGoals)}
+                    />
+                  </View>
+              </View>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                marginHorizontal: '5%',
+                maxHeight: '60%',
+                marginTop: 10,
+                marginBottom: 16,
+            }}>
+              <View>
+                <Text>Please enter the long-term goal you would like to add below:</Text>
+              </View>
+
+              <TextInput 
+                placeholder='Please type your title here'
+                value={goalTitle}
+                onChangeText={(goalTitle) => setGoalTitle(goalTitle)}
+              />
+            </View>
+
+            <View 
+              style={{ 
+                flexDirection: 'row', 
+                alignSelf: 'flex-end', 
+                marginVertical: 10, 
+                marginHorizontal: '5%', 
+              }}>
+              <TouchableOpacity 
+                style={{ marginRight: 20, }}
+                onPress={() => {
+                  addGoal(type, goalTitle, userLongTerms, setUserLongTerms, navigation);
+                  setShowAddLongTermGoals(!showAddLongTermGoals);
+                }}>
+                <Text style={styles().textDateTime}>SAVE</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setShowAddLongTermGoals(!showAddLongTermGoals)}>
+                <Text style={styles().textDateTime}>CANCEL</Text>
+              </TouchableOpacity>
+            </View>
+          </Pressable>
+        </Pressable>
+      </Modal>
+    </View>
+  )
+};
+
+function Goals({ navigation, route }) {
+  const goals = route.params.goals;
+  const goalsObj = populateGoals(goals);
+  const countDown = new Date();
+
+  const [userDailies, setUserDailies] = useState(goalsObj.dailies);
+  const [userWeeklies, setUserWeeklies] = useState(goalsObj.weeklies);
+  const [userLongTerms, setUserLongTerms] = useState(goalsObj.longterms);
+
   const [showDailyGoals, setShowDailyGoals] = useState(true);
   const [showWeeklyGoals, setShowWeeklyGoals] = useState(true);
   const [showLongTermGoals, setShowLongTermGoals] = useState(true);
   const [showDailyGoalsInfo, setShowDailyGoalsInfo] = useState(false);
   const [showWeeklyGoalsInfo, setShowWeeklyGoalsInfo] = useState(false);
   const [showLongTermGoalsInfo, setShowLongTermGoalsInfo] = useState(false);
+
+  const [showAddDailyGoals, setShowAddDailyGoals] = useState(false);
+  const [showAddWeeklyGoals, setShowAddWeeklyGoals] = useState(false);
+  const [showAddLongTermGoals, setShowAddLongTermGoals] = useState(false);
 
   return (
     <SafeAreaView style={styles().container}>
@@ -430,6 +881,36 @@ function Goals({ navigation }) {
         </Modal>
       </View>
 
+      {/* Daily Goals add */}
+      <AddDailyGoalModal 
+        userDailies={userDailies}
+        setUserDailies={setUserDailies}
+        type={'daily'}
+        showAddDailyGoals={showAddDailyGoals} 
+        setShowAddDailyGoals={setShowAddDailyGoals}
+        navigation={navigation}
+      />
+
+      {/* Weekly Goals add */}
+      <AddWeeklyGoalModal 
+        userWeeklies={userWeeklies}
+        setUserWeeklies={setUserWeeklies}
+        type={'weekly'}
+        showAddWeeklyGoals={showAddWeeklyGoals}
+        setShowAddWeeklyGoals={setShowAddWeeklyGoals}
+        navigation={navigation}
+      />
+
+      {/* Long Term Goals add */}
+      <AddLongTermGoalModal 
+        userLongTerms={userLongTerms}
+        setUserLongTerms={setUserLongTerms}
+        type={'longterm'}
+        showAddLongTermGoals={showAddLongTermGoals}
+        setShowAddLongTermGoals={setShowAddLongTermGoals}
+        navigation={navigation}
+      />
+
       {/* Start of the Goals page */}
       <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled'>
         {/* Gardener avatar + page blurb */}
@@ -464,39 +945,37 @@ function Goals({ navigation }) {
                     color='#816868' 
                     style={{ marginRight: 8, }}
                   />
-                  <Icon name='plus' type='feather' color='#816868'/>
+                  <Icon name='plus' onPress={() => setShowAddDailyGoals(!showAddDailyGoals)} type='feather' color='#816868'/>
                 </View>
               </View>
             </View>
-            <Text style={styles().textBold}>({time.toLocaleString()} until reset)</Text>
+            <Text style={styles().textBold}>({Math.abs(countDown.getHours() - 24)} hours until reset)</Text>
         </View>
         <View style={styles().line} />
-        {showDailyGoals &&
+
+        {/* daily goals if data is not null */}
+        {showDailyGoals && userDailies.length > 0 &&
           <View style={{ marginVertical: 16 }}>
-            <Goal
-              title='Write a health entry'
-              description='description 1'
-              type='daily'
-              navigation={navigation}
-            />
-            <Goal
-              title='Write a journal entry'
-              description='description 2'
-              type='daily'
-              navigation={navigation}
-            />
-            <Goal
-              title='Consume 1200 calories total'
-              description='description 3'
-              type='daily'
-              navigation={navigation}
-            />
-            <Goal
-              title='Take medicine'
-              description='description 4'
-              type='daily'
-              navigation={navigation}
-            />
+            {userDailies.map((item, index) => (
+              <Goal
+                key={index}
+                type={item.Category}
+                timestamp={item.Timestamp}
+                title={item.Title}
+                progress={item.Progress}
+                completed={item.Completed}
+                navigation={navigation}
+                userGoals={userDailies}
+                setUserGoals={setUserDailies}
+              />
+            ))}
+          </View>
+        }
+
+        {/* daily goals if data is null */}
+        {showDailyGoals && userDailies.length === 0 &&
+          <View style={{ marginVertical: 16 }}>
+            <Text>Add some daily goals to get started!</Text>
           </View>
         }
 
@@ -519,45 +998,37 @@ function Goals({ navigation }) {
                   color='#816868' 
                   style={{ marginRight: 8, }}
                 />
-                <Icon name='plus' type='feather' color='#816868'/>
+                <Icon name='plus' onPress={() => setShowAddWeeklyGoals(!showAddWeeklyGoals)} type='feather' color='#816868'/>
               </View>
             </View>
           </View>
-          <Text style={styles().textBold}>({time.toLocaleString()} until reset)</Text>
+          <Text style={styles().textBold}>({Math.abs(countDown.getDay() - 0 + 1)} days until reset)</Text>
         </View>
         <View style={styles().line} />
-        {showWeeklyGoals &&
+
+        {/* weekly goals if data is not null */}
+        {showWeeklyGoals && userWeeklies.length > 0 &&
           <View style={{ marginVertical: 16 }}>
-            <Goal
-              title='Exercise for 30m'
-              description='description 1'
-              type='weekly'
-              navigation={navigation}
-            />
-            <Goal
-              title='Read for 1h'
-              description='description 2'
-              type='weekly'
-              navigation={navigation}
-            />
-            <Goal
-              title='Go to class'
-              description='description 3'
-              type='weekly'
-              navigation={navigation}
-            />
-            <Goal
-              title='Go to work'
-              description='description 4'
-              type='weekly'
-              navigation={navigation}
-            />
-            <Goal
-              title='Study for 3h'
-              description='description 5'
-              type='weekly'
-              navigation={navigation}
-            />
+            {userWeeklies.map((item, index) => (
+              <Goal
+                key={index}
+                type={item.Category}
+                timestamp={item.Timestamp}
+                title={item.Title}
+                progress={item.Progress}
+                completed={item.Completed}
+                navigation={navigation}
+                userGoals={userWeeklies}
+                setUserGoals={setUserWeeklies}
+              />
+            ))}
+          </View>
+        }
+
+        {/* weekly goals if data is null */}
+        {showWeeklyGoals && userWeeklies.length === 0 &&
+          <View style={{ marginVertical: 16 }}>
+            <Text>Add some weekly goals to get started!</Text>
           </View>
         }
 
@@ -580,39 +1051,37 @@ function Goals({ navigation }) {
                   color='#816868' 
                   style={{ marginRight: 8, }}
                 />
-                <Icon name='plus' type='feather' color='#816868'/>
+                <Icon name='plus' onPress={() => setShowAddLongTermGoals(!showAddLongTermGoals)} type='feather' color='#816868'/>
               </View>
             </View>
           </View>
           <Text style={styles().textBold}>Shoot for the stars!</Text>
         </View>
         <View style={styles().line} />
-        {showLongTermGoals &&
-          <View style={{ marginTop: 16 }}>
-            <Goal
-              title='Graduate university'
-              description='description 1'
-              type='longterm'
-              navigation={navigation}
-            />
-            <Goal
-              title='Get a job'
-              description='description 2'
-              type='longterm'
-              navigation={navigation}
-            />
-            <Goal
-              title='Buy a house'
-              description='description 3'
-              type='longterm'
-              navigation={navigation}
-            />
-            <Goal
-              title='Get married'
-              description='description 4'
-              type='longterm'
-              navigation={navigation}
-            />
+
+        {/* long term goals if data is not null */}
+        {showLongTermGoals && userLongTerms.length > 0 &&
+          <View style={{ marginVertical: 16 }}>
+            {userLongTerms.map((item, index) => (
+              <Goal
+                key={index}
+                type={item.Category}
+                timestamp={item.Timestamp}
+                title={item.Title}
+                progress={item.Progress}
+                completed={item.Completed}
+                navigation={navigation}
+                userGoals={userLongTerms}
+                setUserGoals={setUserLongTerms}
+              />
+            ))}
+          </View>
+        }
+
+        {/* long term goals if data is null */}
+        {showLongTermGoals && userLongTerms.length === 0 &&
+          <View style={{ marginVertical: 16 }}>
+            <Text>Add some long-term goals to get started!</Text>
           </View>
         }
 
@@ -621,6 +1090,222 @@ function Goals({ navigation }) {
       <NavBar goals={true} navigation={navigation} />
     </SafeAreaView>
   );
+}
+
+async function refreshPage(navigation) {
+  const date = new Date();
+  const findSunday = 0 - date.getDay();
+  const sunday = new Date(date.getDate() - findSunday);
+
+  const res = await API.graphql({
+    query: queries.getMilestones
+  });
+
+  var goals = res.data.getMilestones.Milestones;
+
+  for(var i = 0; i < goals.length; i++) {
+    let testDate = new Date(goals[i].Timestamp);
+
+    if(goals[i].Category === 'daily') {
+      if(testDate.getDate() < date.getDate()) {
+        goals[i].Completed = false;
+        goals[i].Progress = 0;
+        goals[i].Timestamp = date.toISOString();
+
+        const res1 = API.graphql({
+          query: mutations.updateMilestone,
+          variables: {Title: goals[i].Title, Timestamp: goals[i].Timestamp, Completed: goals[i].Completed, Category: goals[i].Category, 
+          Requirement: goals[i].Requirement, Progress: goals[i].Progress, Reward: goals[i].Reward}
+        })
+
+        goals = res1.data.getMilestones.Milestones;
+      }
+    }
+
+    else if(goals[i].Category === 'weekly') {
+      if(testDate.getDate() - sunday.getDate() >= 7) {
+        goals[i].Completed = false;
+        goals[i].Progress = 0;
+        goals[i].Timestamp = date.toISOString();
+
+        const res1 = API.graphql({
+          query: mutations.updateMilestone,
+          variables: {Title: goals[i].Title, Timestamp: goals[i].Timestamp, Completed: goals[i].Completed, Category: goals[i].Category, 
+            Requirement: goals[i].Requirement, Progress: goals[i].Progress, Reward: goals[i].Reward}
+        })
+
+        goals = res1.data.getMilestones.Milestones;
+      }
+    }
+  }
+
+  navigation.push('Goals', { goals });
+}
+
+async function addGoal(type, title, userGoals, setUserGoals, navigation) {
+  var arr = userGoals;
+
+  const res = await API.graphql ({
+    query: mutations.addMilestone,
+    variables: {Title: title, Category: type, Requirement: type === 'daily' ? 1 : type === 'weekly' ? 7 : 100, 
+      Progress: 0, Reward: type === 'daily' ? 5 : type === 'weekly' ? 10 : 100
+    }
+  });
+
+  arr.push(res.data.addMilestone);
+
+  setUserGoals(arr);
+
+  refreshPage(navigation);
+}
+
+async function deleteGoal(title, timestamp, userGoals, setUserGoals, navigation) {
+  var arr = userGoals;
+  var newArr = [];
+  var timestamp = new Date().toISOString();
+
+  //find timestamp of goal
+  for(var i = 0; i < arr.length; i++) {
+    if(arr[i].Title === title) {
+      timestamp = new Date(arr[i].Timestamp).toISOString();
+      break;
+    }
+    
+    else
+      newArr.push(arr[i]);
+  }
+
+  const res = await API.graphql ({
+    query: mutations.deleteMilestone,
+    variables: {timestamp: timestamp}
+  });
+
+  setUserGoals(newArr);
+
+  //refreshPage(navigation);
+}
+
+async function updateCompletion(title, userGoals, setUserGoals, navigation) {
+  var arr = userGoals;
+  var points = 0;
+
+  for(var i = 0; i < arr.length; i++) {
+    if(arr[i].Title === title && arr[i].Category === 'daily') {
+      arr[i].Progress++;
+      arr[i].Completed = true;
+
+      const res = await API.graphql ({
+        query: mutations.updateMilestone,
+        variables: {Title: arr[i].Title, Timestamp: arr[i].Timestamp, Completed: arr[i].Completed, Category: arr[i].Category, 
+          Requirement: arr[i].Requirement, Progress: arr[i].Progress, Reward: arr[i].Reward}
+      });
+
+      const getPoints = await API.graphql ({
+        query: queries.getSetting
+      });
+
+      let pointsAdded = getPoints.data.getSetting.Points + arr[i].Reward;
+      points = arr[i].Reward;
+
+      const setPoints = await API.graphql ({
+        query: mutations.updatePoints,
+        variables: {points: pointsAdded}
+      });
+    }
+
+    else if(arr[i].Title === title && arr[i].Category === 'weekly') {
+      arr[i].Progress++;
+      if(arr[i].Requirement === arr[i].Progress)
+        arr[i].Completed = true;
+
+      const res = await API.graphql ({
+        query: mutations.updateMilestone,
+        variables: {Title: arr[i].Title, Timestamp: arr[i].Timestamp, Completed: arr[i].Completed, Category: arr[i].Category, 
+          Requirement: arr[i].Requirement, Progress: arr[i].Progress, Reward: arr[i].Reward}
+      });
+
+      const getPoints = await API.graphql ({
+        query: queries.getSetting
+      });
+
+      let pointsAdded = getPoints.data.getSetting.Points + arr[i].Completed ? arr[i].Reward : 5;
+      points = arr[i].Completed ? arr[i].Reward : 5;
+
+      const setPoints = await API.graphql ({
+        query: mutations.updatePoints,
+        variables: {points: pointsAdded}
+      });
+    }
+
+    else if(arr[i].Title === title && arr[i].Category === 'weekly') {
+      arr[i].Progress = 100;
+      arr[i].Completed = true;
+      
+      const res = await API.graphql ({
+        query: mutations.updateMilestone,
+        variables: {Title: arr[i].Title, Timestamp: arr[i].Timestamp, Completed: arr[i].Completed, Category: arr[i].Category, 
+          Requirement: arr[i].Requirement, Progress: arr[i].Progress, Reward: arr[i].Reward}
+      });
+
+      const getPoints = await API.graphql ({
+        query: queries.getSetting
+      });
+
+      let pointsAdded = getPoints.data.getSetting.Points + arr[i].Reward;
+      points = arr[i].Reward;
+
+      const setPoints = await API.graphql ({
+        query: mutations.updatePoints,
+        variables: {points: pointsAdded}
+      });
+    }
+  }
+
+  setUserGoals(arr);
+
+  navigation.navigate('GoalComplete', {points});
+
+}
+
+async function editGoal(title, timestamp, newTitle, userGoals, setUserGoals, navigation) {
+  var arr = userGoals;
+
+  for(var i = 0; i < arr.length; i++)
+    if(arr[i].Title === title && arr[i].Timestamp === timestamp) {
+      arr[i].Title = newTitle;
+      arr[i].Completed = false;
+      arr[i].Progress = 0;
+
+      console.log(arr[i]);
+
+      const res = await API.graphql ({
+        query: mutations.updateMilestone,
+        variables: {Title: arr[i].Title, Timestamp: arr[i].Timestamp, Completed: arr[i].Completed, Category: arr[i].Category, 
+          Requirement: arr[i].Requirement, Progress: arr[i].Progress, Reward: arr[i].Reward}
+      });
+    }
+
+  setUserGoals(arr);
+
+  refreshPage(navigation);
+}
+
+function populateGoals(goals) {
+  var goalsObj = new Object();
+  [goalsObj.dailies, goalsObj.weeklies, goalsObj.longterms] = [[], [], []];
+
+  for(var i = 0; i < goals.length; i++) {
+    if(goals[i].Category === 'daily')
+      goalsObj.dailies.push(goals[i]);
+
+    else if(goals[i].Category === 'weekly')
+      goalsObj.weeklies.push(goals[i]);
+
+    else
+      goalsObj.longterms.push(goals[i]);
+  }
+
+  return goalsObj;
 }
 
 export { Goals };
@@ -728,6 +1413,13 @@ const styles = () => StyleSheet.create({
   },
   pageEnd: {
     marginBottom: 110,
+  },
+  progressBar: {
+    width: 30, 
+    height: 10, 
+    backgroundColor: global.colorblindMode
+    ? global.cb_optionButtonsColor
+    : global.optionButtonsColor
   },
   text: {
     color: '#816868',

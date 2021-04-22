@@ -11,6 +11,7 @@ import {
   Dimensions,
 } from 'react-native';
 import * as queries from '../../../src/graphql/queries';
+import * as mutations from '../../../src/graphql/mutations';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
@@ -210,7 +211,7 @@ function Home({ navigation }) {
 
                 <TouchableOpacity
                   style={styles().inlineRow}
-                  onPress={() => navigation.navigate('Goals')}>
+                  onPress={() => getGoals(navigation)}>
                   <Text style={styles().text}>Complete a goal</Text>
                   <Icon
                     name='checkmark-circle-outline'
@@ -253,6 +254,56 @@ function Home({ navigation }) {
       <NavBar home={true} navigation={navigation} />
     </SafeAreaView>
   );
+}
+
+async function getGoals(navigation) {
+  const date = new Date();
+  const findSunday = 0 - date.getDay();
+  const sunday = new Date(date.getDate() - findSunday);
+
+  const res = await API.graphql({
+    query: queries.getMilestones
+  });
+
+  var goals = res.data.getMilestones.Milestones;
+
+  for(var i = 0; i < goals.length; i++) {
+    let testDate = new Date(goals[i].Timestamp);
+
+    if(goals[i].Category === 'daily') {
+      if(testDate.getDate() < date.getDate()) {
+        goals[i].Completed = false;
+        goals[i].Progress = 0;
+        goals[i].Timestamp = date.toISOString();
+
+        const res1 = API.graphql({
+          query: mutations.updateMilestone,
+          variables: {Title: goals[i].Title, Timestamp: goals[i].Timestamp, Completed: goals[i].Completed, Category: goals[i].Category, 
+          Requirement: goals[i].Requirement, Progress: goals[i].Progress, Reward: goals[i].Reward}
+        })
+
+        goals = res1.data.getMilestones.Milestones;
+      }
+    }
+
+    else if(goals[i].Category === 'weekly') {
+      if(testDate.getDate() - sunday.getDate() >= 7) {
+        goals[i].Completed = false;
+        goals[i].Progress = 0;
+        goals[i].Timestamp = date.toISOString();
+
+        const res1 = API.graphql({
+          query: mutations.updateMilestone,
+          variables: {Title: goals[i].Title, Timestamp: goals[i].Timestamp, Completed: goals[i].Completed, Category: goals[i].Category, 
+            Requirement: goals[i].Requirement, Progress: goals[i].Progress, Reward: goals[i].Reward}
+        })
+
+        goals = res1.data.getMilestones.Milestones;
+      }
+    }
+  }
+
+  navigation.navigate('Goals', { goals });
 }
 
 async function getTodos(navigation) {
