@@ -1395,7 +1395,7 @@ async function updateCompletion(title, userGoals, setUserGoals, navigation) {
       });
     }
 
-    else if(arr[i].Title === title && arr[i].Category === 'weekly') {
+    else if(arr[i].Title === title && arr[i].Category === 'longterm') {
       arr[i].Progress = 100;
       arr[i].Completed = true;
       

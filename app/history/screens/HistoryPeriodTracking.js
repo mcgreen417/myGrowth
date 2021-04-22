@@ -121,10 +121,11 @@ function HistoryPeriodTracking({ route, navigation }) {
               {/* Period statistics */}
               <View style={{ width: '45%' }}>
                 <View style={{ flexDirection: 'row', }}>
-                  <Text style={styles().text}>Next period predicted to occur on
-                    <Text style={styles().textAltGreen}> Apr 18th{"\n"}</Text>
+                  <Text style={styles().text}>Next period predicted to occur in
+                    <Text style={styles().textAltGreen}> {getPeriod(data)} days!{"\n"}</Text>
                   </Text>
                 </View>
+                {/*
                 <View style={{ flexDirection: 'row', }}>
                   <Text style={styles().textLight}>Average time between cycles: 
                     <Text style={styles().textLightGreen}> 28 days</Text>
@@ -135,6 +136,7 @@ function HistoryPeriodTracking({ route, navigation }) {
                     <Text style={styles().textLightGreen}> 7 days</Text>
                   </Text>
                 </View>
+                */}
               </View>
             </View>
 
@@ -310,6 +312,26 @@ function getTimestamps(data) {
   }
 
   return dates;
+}
+
+//simple 28 days in th future prediction
+function getPeriod(data) {
+  const curDate = new Date();
+  const date = new Date(data.latestDate);
+  var daysUntil = 28;
+  var dateOfLastPeriod = date;
+
+  //find date of last period
+  for(var i = data.periodData.length; i >= 0; i++) {
+    if(data.periodData[i] === 1) {
+      dateOfLastPeriod = date.getDate() (data.periodData.length - i);
+      daysUntil = Math.abs(daysUntil - ((curDate.getDate() - dateOfLastPeriod.getDate()) % 28));
+
+      break;
+    }
+  }
+
+  return daysUntil;
 }
 
 export default HistoryPeriodTracking;

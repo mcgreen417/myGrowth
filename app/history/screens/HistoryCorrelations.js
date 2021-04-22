@@ -338,6 +338,7 @@ function HistoryCorrelations({ route, navigation }) {
         const arr1 = initData('mood', data);
         const arr2 = initData('stress', data);
         const legendInit = makeLegend('mood', 'stress', 'unselected', 'unselected');
+        const pickerOpts = makeFirstPickers(settings);
 
         const [picker1, setPicker1] = useState('mood');
         const [picker2, setPicker2] = useState('stress');
@@ -418,17 +419,9 @@ function HistoryCorrelations({ route, navigation }) {
                                     }}
                                     mode={'dropdown'}
                                 >
-                                    <Picker.Item label='Mood' value='mood' />
-                                    <Picker.Item label='Stress' value='stress' />
-                                    <Picker.Item label='Sleep' value='sleep' />
-                                    <Picker.Item label='Nap' value='nap' />
-                                    <Picker.Item label='Weight' value='weight' />
-                                    <Picker.Item label='Period' value='period' />
-                                    <Picker.Item label='Fitness' value='fitness' />
-                                    <Picker.Item label='Activities' value='activity' />
-                                    <Picker.Item label='Meals' value='meals' />
-                                    <Picker.Item label='Symptoms' value='symptoms' />
-                                    <Picker.Item label='Medications' value='medications' />
+                                    {pickerOpts.map((item, index) => (
+                                        <Picker.Item key={index} label={item.name} value={item.value} />
+                                    ))}
                                 </Picker>
                             </View>
                         </View>
@@ -449,17 +442,9 @@ function HistoryCorrelations({ route, navigation }) {
                                     }}
                                     mode={'dropdown'}
                                 >
-                                    <Picker.Item label='Mood' value='mood' />
-                                    <Picker.Item label='Stress' value='stress' />
-                                    <Picker.Item label='Sleep' value='sleep' />
-                                    <Picker.Item label='Nap' value='nap' />
-                                    <Picker.Item label='Weight' value='weight' />
-                                    <Picker.Item label='Period' value='period' />
-                                    <Picker.Item label='Fitness' value='fitness' />
-                                    <Picker.Item label='Activities' value='activity' />
-                                    <Picker.Item label='Meals' value='meals' />
-                                    <Picker.Item label='Symptoms' value='symptoms' />
-                                    <Picker.Item label='Medications' value='medications' />
+                                    {pickerOpts.map((item, index) => (
+                                        <Picker.Item key={index} label={item.name} value={item.value} />
+                                    ))}
                                 </Picker>
                             </View>
                         </View>
@@ -594,6 +579,112 @@ function HistoryCorrelations({ route, navigation }) {
             <NavBar history={true} navigation={navigation} />
         </SafeAreaView>
         );
+}
+
+function makeFirstPickers(settings) {
+    var pickerLabels = [];
+
+    //gen health, mood
+    let throwaway1 = new Object();
+    throwaway1.name = 'Symptoms';
+    throwaway1.value = 'symptoms';
+
+    let throwaway2 = new Object();
+    throwaway2.name = 'Mood';
+    throwaway2.value = 'mood';
+
+    pickerLabels.push(throwaway1);
+    pickerLabels.push(throwaway2);
+
+    // stress
+    if(settings.stress) {
+        let newObj = new Object();
+        newObj.name = 'Stress';
+        newObj.value = 'stress';
+
+        pickerLabels.push(newObj);
+    }
+
+    // dailyActivities
+    if(settings.dailyActivits) {
+        let newObj = new Object();
+        newObj.name = 'Activities';
+        newObj.value = 'activity';
+
+        pickerLabels.push(newObj);
+    }
+
+    // weight
+    if(settings.weight) {
+        let newObj = new Object();
+        newObj.name = 'Weight';
+        newObj.value = 'weight';
+
+        pickerLabels.push(newObj);
+    }
+
+    // period
+    if(settings.period) {
+        let newObj = new Object();
+        newObj.name = 'Period';
+        newObj.value = 'period';
+
+        pickerLabels.push(newObj);
+    }
+
+    // medication
+    if(settings.medication) {
+        let newObj = new Object();
+        newObj.name = 'Medications';
+        newObj.value = 'medications';
+
+        pickerLabels.push(newObj);
+    }
+
+    // sleep
+    if(settings.sleep) {
+        let newObj = new Object();
+        newObj.name = 'Sleep';
+        newObj.value = 'sleep';
+
+        pickerLabels.push(newObj);
+
+        let newObj1 = new Object();
+        newObj1.name = 'Nap';
+        newObj1.value = 'nap';
+
+        pickerLabels.push(newObj1);
+    }
+
+    // meal
+    if(settings.meal) {
+        let newObj = new Object();
+        newObj.name = 'Meals';
+        newObj.value = 'meals';
+
+        pickerLabels.push(newObj);
+    }
+
+    // fitness
+    if(settings.fitness) {
+        let newObj = new Object();
+        newObj.name = 'Fitness';
+        newObj.value = 'fitness';
+
+        pickerLabels.push(newObj);
+    }
+
+    // <Picker.Item label='Mood' value='mood' />
+    // <Picker.Item label='Stress' value='stress' />
+    // <Picker.Item label='Sleep' value='sleep' />
+    // <Picker.Item label='Nap' value='nap' />
+    // <Picker.Item label='Weight' value='weight' />
+    // <Picker.Item label='Period' value='period' />
+    // <Picker.Item label='Fitness' value='fitness' />
+    // <Picker.Item label='Activities' value='activity' />
+    // <Picker.Item label='Meals' value='meals' />
+    // <Picker.Item label='Symptoms' value='symptoms' />
+    // <Picker.Item label='Medications' value='medications' />
 }
 
 function getPickerLabels(page, data) {
@@ -965,8 +1056,14 @@ function initData(page, data) {
     if(page === 'mood')
         arr = makeWeek(data.moodData);
 
-    else
+    else if(page === 'stress')
         arr = makeWeek(data.stressData);
+
+    else if(page === 'symptoms') {
+        arrFromObj = makeArr(data.symptomData, category);
+
+        arr = makeWeek(arrFromObj);
+    }
 
     arr = cleanUpData(arr);
 
