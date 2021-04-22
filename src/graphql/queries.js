@@ -11,6 +11,11 @@ export const function2 = /* GraphQL */ `
     function2(consumer_key: $consumer_key, consumer_secret: $consumer_secret)
   }
 `;
+export const getAllCorrelations = /* GraphQL */ `
+  query GetAllCorrelations($UserID: ID) {
+    getAllCorrelations(UserID: $UserID)
+  }
+`;
 export const getMilestones = /* GraphQL */ `
   query GetMilestones($UserID: ID, $count: Int, $nextToken: String) {
     getMilestones(UserID: $UserID, count: $count, nextToken: $nextToken) {
@@ -20,6 +25,7 @@ export const getMilestones = /* GraphQL */ `
         Completed
         Timestamp
         Category
+        Requirement
         Progress
         Reward
       }
@@ -28,13 +34,14 @@ export const getMilestones = /* GraphQL */ `
   }
 `;
 export const getMilestone = /* GraphQL */ `
-  query GetMilestone($UserID: ID, $timestamp: AWSDateTime!) {
-    getMilestone(UserID: $UserID, timestamp: $timestamp) {
+  query GetMilestone($UserID: ID, $Timestamp: AWSDateTime!) {
+    getMilestone(UserID: $UserID, Timestamp: $Timestamp) {
       UserID
       Title
       Completed
       Timestamp
       Category
+      Requirement
       Progress
       Reward
     }

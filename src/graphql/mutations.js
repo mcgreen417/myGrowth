@@ -73,25 +73,28 @@ export const deleteTodo = /* GraphQL */ `
 export const addMilestone = /* GraphQL */ `
   mutation AddMilestone(
     $UserID: ID
-    $title: String!
-    $timestamp: AWSDateTime
-    $category: String!
-    $progress: Float!
-    $reward: Int!
+    $Title: String!
+    $Timestamp: AWSDateTime
+    $Category: String!
+    $Requirement: Int!
+    $Progress: Int!
+    $Reward: Int!
   ) {
     addMilestone(
       UserID: $UserID
-      title: $title
-      timestamp: $timestamp
-      category: $category
-      progress: $progress
-      reward: $reward
+      Title: $Title
+      Timestamp: $Timestamp
+      Category: $Category
+      Requirement: $Requirement
+      Progress: $Progress
+      Reward: $Reward
     ) {
       UserID
       Title
       Completed
       Timestamp
       Category
+      Requirement
       Progress
       Reward
     }
@@ -100,27 +103,30 @@ export const addMilestone = /* GraphQL */ `
 export const updateMilestone = /* GraphQL */ `
   mutation UpdateMilestone(
     $UserID: ID
-    $title: String!
-    $timestamp: AWSDateTime!
-    $completed: Boolean!
-    $category: String!
-    $progress: Float!
-    $reward: Int!
+    $Title: String!
+    $Timestamp: AWSDateTime!
+    $Completed: Boolean!
+    $Category: String!
+    $Requirement: Int!
+    $Progress: Int!
+    $Reward: Int!
   ) {
     updateMilestone(
       UserID: $UserID
-      title: $title
-      timestamp: $timestamp
-      completed: $completed
-      category: $category
-      progress: $progress
-      reward: $reward
+      Title: $Title
+      Timestamp: $Timestamp
+      Completed: $Completed
+      Category: $Category
+      Requirement: $Requirement
+      Progress: $Progress
+      Reward: $Reward
     ) {
       UserID
       Title
       Completed
       Timestamp
       Category
+      Requirement
       Progress
       Reward
     }
@@ -134,6 +140,7 @@ export const deleteMilestone = /* GraphQL */ `
       Completed
       Timestamp
       Category
+      Requirement
       Progress
       Reward
     }
