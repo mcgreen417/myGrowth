@@ -439,7 +439,7 @@ function HistoryCorrelations({ route, navigation }) {
                                             makeData(data, setData2, itemValue, 'unselected', timePeriod);
                                             setLegend(makeLegend(picker1, itemValue, 'unselected', 'unselected'));
                                         }
-                                    }}
+                                    }} 
                                     mode={'dropdown'}
                                 >
                                     {pickerOpts.map((item, index) => (
