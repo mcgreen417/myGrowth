@@ -14,6 +14,7 @@ import { Icon } from 'react-native-elements';
 import * as queries from '../../../src/graphql/queries';
 import * as mutations from '../../../src/graphql/mutations';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { Platform } from 'react-native';
 
 function getTime(d) {
   return (
@@ -31,35 +32,52 @@ function removeNap(naps, setNaps, index) {
   setNaps(tempNaps);
 }
 
+function changeQuality(naps, setNaps, index, val) {
+  if (val != null || val != undefined) {
+    let tempNaps = [...naps];
+    tempNaps[index].Quality = val;
+    setNaps(tempNaps);
+  }
+}
+
+function changeStartDate(naps, setNaps, index, val) {
+  if (val != null || val != undefined) {
+    let tempNaps = [...naps];
+    tempNaps[index].Start = val.toISOString();
+    setNaps(tempNaps);
+  }
+}
+
+function changeEndDate(naps, setNaps, index, val) {
+  if (val != null || val != undefined) {
+    let tempNaps = [...naps];
+    tempNaps[index].End = val.toISOString();
+    setNaps(tempNaps);
+  }
+}
+
 const AddNap = ({
-  napTimeStart,
-  setNapTimeStart,
-  napTimeEnd,
-  setNapTimeEnd,
-  qualityOfNap,
-  setQualityOfNap,
-  showStartPicker,
-  setShowStartPicker,
-  showEndPicker,
-  setShowEndPicker,
-  onStartChange,
-  onEndChange,
-  editable,
-  index,
   naps,
   setNaps,
+  index,
+  napTimeStart,
+  napTimeEnd,
+  qualityOfNap,
 }) => {
+  const [showStartPicker, setShowStartPicker] = useState(false);
+  const [showEndPicker, setShowEndPicker] = useState(false);
+
   return (
     <View>
-      <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center', }}>
+      <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
         <Text style={styles().text}>When did you nap today?</Text>
-        <View style={{ alignSelf: 'flex-end', flex: 1, }}></View>
-          <Icon
-            name='close'
-            type='ionicon'
-            color='#816868'
-            onPress={() => removeNap(naps, setNaps, index)}
-          />
+        <View style={{ alignSelf: 'flex-end', flex: 1 }}></View>
+        <Icon
+          name='close'
+          type='ionicon'
+          color='#816868'
+          onPress={() => removeNap(naps, setNaps, index)}
+        />
       </View>
       <View
         style={{
@@ -77,9 +95,7 @@ const AddNap = ({
           <Icon
             name='schedule'
             color={
-              global.colorblindMode
-                ? global.cb_textColor
-                : global.textColor
+              global.colorblindMode ? global.cb_textColor : global.textColor
             }
             style={{ marginRight: 4 }}
           />
@@ -93,20 +109,22 @@ const AddNap = ({
               name='arrow-drop-down'
               type='material'
               color={
-                global.colorblindMode
-                  ? global.cb_textColor
-                  : global.textColor
+                global.colorblindMode ? global.cb_textColor : global.textColor
               }
             />
           </TouchableOpacity>
         </View>
         {showStartPicker && (
           <DateTimePicker
-            value={napTimeStart}
+            value={new Date(napTimeStart)}
             mode={'time'}
             is24Hour={false}
             display='clock'
-            onChange={onStartChange}
+            onChange={(event, val) => {
+              const currentDate = val || new Date(napTimeStart);
+              setShowStartPicker(Platform.OS === 'ios');
+              changeStartDate(naps, setNaps, index, currentDate);
+            }}
           />
         )}
         <Text style={styles().text}> to </Text>
@@ -119,9 +137,7 @@ const AddNap = ({
           <Icon
             name='schedule'
             color={
-              global.colorblindMode
-                ? global.cb_textColor
-                : global.textColor
+              global.colorblindMode ? global.cb_textColor : global.textColor
             }
             style={{ marginRight: 4 }}
           />
@@ -135,26 +151,30 @@ const AddNap = ({
               name='arrow-drop-down'
               type='material'
               color={
-                global.colorblindMode
-                  ? global.cb_textColor
-                  : global.textColor
+                global.colorblindMode ? global.cb_textColor : global.textColor
               }
             />
           </TouchableOpacity>
         </View>
         {showEndPicker && (
           <DateTimePicker
-            value={napTimeEnd}
+            value={new Date(napTimeEnd)}
             mode={'time'}
             is24Hour={false}
             display='clock'
-            onChange={onEndChange}
+            onChange={(event, val) => {
+              const currentDate = val || new Date(napTimeEnd);
+              setShowEndPicker(Platform.OS === 'ios');
+              changeEndDate(naps, setNaps, index, currentDate);
+            }}
           />
         )}
       </View>
 
-      <View style={{ marginTop: 20, }}>
-        <Text style={styles().text}>How would you rate your quality of sleep during your nap?</Text>
+      <View style={{ marginTop: 20 }}>
+        <Text style={styles().text}>
+          How would you rate your quality of sleep during your nap?
+        </Text>
         <View style={{ alignItems: 'center' }}>
           <View
             style={{
@@ -179,7 +199,7 @@ const AddNap = ({
                 bottom: 0,
                 top: 20 / 2,
               }}></View>
-            <Pressable onPress={() => setQualityOfNap(0)}>
+            <Pressable onPress={() => changeQuality(naps, setNaps, index, 1)}>
               <View
                 style={{
                   width: qualityOfNap == 1 ? 25 : 5,
@@ -196,7 +216,7 @@ const AddNap = ({
               style={{
                 width: (Dimensions.get('window').width * 0.55 - 20) / 4,
               }}></View>
-            <Pressable onPress={() => setQualityOfNap(2)}>
+            <Pressable onPress={() => changeQuality(naps, setNaps, index, 2)}>
               <View
                 style={{
                   width: qualityOfNap == 2 ? 25 : 5,
@@ -213,7 +233,7 @@ const AddNap = ({
               style={{
                 width: (Dimensions.get('window').width * 0.55 - 20) / 4,
               }}></View>
-            <Pressable onPress={() => setQualityOfNap(3)}>
+            <Pressable onPress={() => changeQuality(naps, setNaps, index, 3)}>
               <View
                 style={{
                   width: qualityOfNap == 3 ? 25 : 5,
@@ -230,7 +250,7 @@ const AddNap = ({
               style={{
                 width: (Dimensions.get('window').width * 0.55 - 20) / 4,
               }}></View>
-            <Pressable onPress={() => setQualityOfNap(4)}>
+            <Pressable onPress={() => changeQuality(naps, setNaps, index, 4)}>
               <View
                 style={{
                   width: qualityOfNap == 4 ? 25 : 5,
@@ -247,7 +267,7 @@ const AddNap = ({
               style={{
                 width: (Dimensions.get('window').width * 0.55 - 20) / 4,
               }}></View>
-            <Pressable onPress={() => setQualityOfNap(5)}>
+            <Pressable onPress={() => changeQuality(naps, setNaps, index, 5)}>
               <View
                 style={{
                   width: qualityOfNap == 5 ? 25 : 5,
@@ -266,77 +286,38 @@ const AddNap = ({
   );
 };
 
-const AddNaps = ({ naps, setNaps, setShowAddNap }) => {
-  const [qualityOfNap, setQualityOfNap] = useState(0);
-  const [napTimeStart, setNapTimeStart] = useState(new Date());
-  const [napTimeEnd, setNapTimeEnd] = useState(new Date());
-  const [showStartPicker, setShowStartPicker] = useState(false);
-  const [showEndPicker, setShowEndPicker] = useState(false);
-
-  const onEndChange = (event, selectedDate) => {
-    setShowEndPicker(false);
-    const currentDate = selectedDate || napTimeEnd;
-    setNapTimeEnd(new Date(currentDate));
-  };
-
-  const onStartChange = (event, selectedDate) => {
-    setShowStartPicker(false);
-    const currentDate = selectedDate || napTimeStart;
-    setNapTimeStart(new Date(currentDate));
-  };
-
+const AddNaps = ({ naps, setNaps }) => {
   return (
     <View>
-      <View style={{ marginTop: 20, }}>
+      <View style={{ marginTop: 20 }}>
         <View>
-          <AddNap
-            napTimeStart={napTimeStart}
-            setNapTimeStart={setNapTimeStart}
-            napTimeEnd={napTimeEnd}
-            setNapTimeEnd={setNapTimeEnd}
-            qualityOfNap={qualityOfNap}
-            setQualityOfNap={setQualityOfNap}
-            showStartPicker={showStartPicker}
-            setShowStartPicker={setShowStartPicker}
-            showEndPicker={showEndPicker}
-            setShowEndPicker={setShowEndPicker}
-            onStartChange={onStartChange}
-            onEndChange={onEndChange}
-            editable={true}
-          />
+          {naps.map((item, index) => {
+            return (
+              <View key={index}>
+                <AddNap
+                  naps={naps}
+                  setNaps={setNaps}
+                  index={index}
+                  napTimeStart={item.Start}
+                  napTimeEnd={item.End}
+                  qualityOfNap={item.Quality}
+                />
+              </View>
+            );
+          })}
         </View>
-        <View>
-        {naps.map((item, index) => {
-          return (
-            <View key={index}>
-              <AddNap
-                naps={naps}
-                setNaps={setNaps}
-                index={index}
-                napTimeStart={item.Start}
-                napTimeEnd={item.End}
-                qualityOfNap={item.Quality}
-                editable={false}
-              />
-            </View>
-          );
-        })}
-      </View>
-        <View style={{ width: '40%', }}>
+        <View style={{ width: '40%' }}>
           <Button
             title='+ Add Nap'
             color='#A5DFB2'
             onPress={() => {
               let tempNaps = [...naps];
               tempNaps.push({
-                Start: napTimeStart.toISOString(),
-                End: napTimeEnd.toISOString(),
-                Quality: qualityOfNap,
+                Start: new Date().toISOString(),
+                End: new Date().toISOString(),
+                Quality: 0,
               });
               setNaps(tempNaps);
-              setQualityOfNap(-1);
-              setNapTimeStart(new Date());
-              setNapTimeEnd(new Date());
             }}
           />
         </View>

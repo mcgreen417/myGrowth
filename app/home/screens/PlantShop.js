@@ -43,9 +43,93 @@ function PlantShop({ navigation }) {
   );
   const [plantItem, setPlantItem] = useState(plantItemList);
   const [showGoalInfo, setShowGoalInfo] = useState(false);
+  const [showPurchaseConfirmation, setShowPurchaseConfirmation] = useState(false);
 
   return (
     <SafeAreaView style={styles().container}>
+
+      {/* Confirm Purchase modal */}
+      <View style={styles().container}>
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={showPurchaseConfirmation}
+          onRequestClose={() => setShowPurchaseConfirmation(!showPurchaseConfirmation)}
+        >
+          <Pressable
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 1,
+              backgroundColor: '#00000055',
+            }}
+            onPressOut={() => setShowPurchaseConfirmation(!showPurchaseConfirmation)}
+          >
+            <Pressable 
+              style={styles().modalContainer}
+              onPress={() => setShowPurchaseConfirmation(true)}              
+            >
+              <View style={styles().modalHeaderBar}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flex: 2,
+                    marginLeft: 6,
+                    marginVertical: 4,
+                }}>
+                  <Icon
+                    name='star'
+                    type='material-community'
+                    color='white'
+                    style={{ marginRight: 8 }}
+                  />
+                  <Text style={styles().textAlt}>Confirm Purchase</Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  marginHorizontal: '5%',
+                  maxHeight: '60%',
+                  marginVertical: 10,
+                }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', }}>
+                  <Text style={styles().text}>
+                    Are you sure you wish to purchase the selected items for a total of   
+                    <Text style={styles().textBoldAlt}> 900</Text>
+                    <Icon
+                      name='star'
+                      type='MaterialCommunityIcons'
+                      color='#816868'
+                      size={16}
+                      style={{ alignItems: 'center', justifyContent: 'center', alignSelf: 'center', alignContent: 'center' }}
+                    />?
+                  </Text>
+                </View>
+                <Text style={styles().textBoldAlt}>This action cannot be undone.</Text>
+              </View>
+              <View 
+                style={{ 
+                  flexDirection: 'row', 
+                  alignSelf: 'flex-end', 
+                  marginVertical: 10, 
+                  marginHorizontal: '5%', 
+                }}>
+                <TouchableOpacity 
+                  style={{ marginRight: 20, }}
+                  onPress={() => setShowPurchaseConfirmation(!showPurchaseConfirmation)}>
+                  <Text style={styles().textButton}>CONFIRM</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setShowPurchaseConfirmation(!showPurchaseConfirmation)}>
+                  <Text style={styles().textButton}>CANCEL</Text>
+                </TouchableOpacity>
+              </View>
+            </Pressable>
+          </Pressable>
+        </Modal>
+      </View>
 
       {/* Goals info pop-up */}
       <View>
@@ -226,7 +310,7 @@ function PlantShop({ navigation }) {
               <Button
                 title='Clear Changes'
                 color='#A5DFB2'
-                onPress={() => onPress()}
+                onPress={() => setPlant(require('../../shared/assets/plant_sprites/4_0.png'))}
               />
             </View>
             <View style={{ width: '5%' }} />
@@ -234,7 +318,7 @@ function PlantShop({ navigation }) {
               <Button
                 title='Purchase Shown'
                 color='#A5DFB2'
-                onPress={() => onPress()}
+                onPress={() => setShowPurchaseConfirmation(!showPurchaseConfirmation)}
               />
             </View>
           </View>
@@ -449,6 +533,11 @@ const styles = () => StyleSheet.create({
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
+  },
+  textButton: {
+    fontSize: 16,
+    color: '#4CB97A',
+    fontWeight: 'bold',
   },
   textSpaced: {
     fontSize: 16,

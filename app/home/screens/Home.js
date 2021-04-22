@@ -15,6 +15,7 @@ import * as mutations from '../../../src/graphql/mutations';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
+import Wave from '../../shared/assets/svgs/wave-emoji.svg'
 
 function Home({ navigation }) {
   let plant = 4;
@@ -66,9 +67,14 @@ function Home({ navigation }) {
         <View style={styles().pageSetup}>
           {/* Gardener avatar + page blurb */}
           <View style={styles().avatarView}>
-            <Text style={styles().pageDescription}>
-              Good Morning,{'\n'}{displayName}!
-            </Text>
+            <View style={{ flex: 1, }}>
+              <Text style={styles().pageDescription}>Good Morning,</Text>
+              <View style={{ flexDirection: 'row', }}>
+                <Text style={styles().pageDescription}>{displayName}!</Text>
+                <View style={{ marginRight: 8, }}/>
+                <Wave height={28} width={28}/>
+              </View>
+            </View>
             <Image
               style={styles().avatarFlipped}
               source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
@@ -436,8 +442,6 @@ const styles = () => StyleSheet.create({
       : global.contentDividerColor,
     fontSize: 28,
     fontWeight: 'bold',
-    flex: 1,
-    flexWrap: 'wrap',
   },
   pageEnd: {
     marginBottom: 100,

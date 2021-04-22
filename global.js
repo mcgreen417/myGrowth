@@ -17,7 +17,7 @@ var switchThumbColorFalse = "#F4F3F4";
 
 var cb_lightGreenColor = "#1D572A";
 var cb_creamColor = "#F6EFED";
-var cb_brownColor = "#812800";
+var cb_brownColor = "#5B4949";
 var cb_blackColor = "#000000";
 var cb_whiteColor = "#FFFFFF";
 var cb_offWhiteColor = "#F5F5F5";

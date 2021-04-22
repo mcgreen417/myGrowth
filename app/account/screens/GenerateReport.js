@@ -17,6 +17,7 @@ import NavBar from '../../shared/components/NavBar';
 
 function GenerateReport({ navigation }) {
   const [time, setTime] = useState('unselected');
+  const [pressed, setPressed] = useState(false);
 
   const [useMoodNFeel, setUseMoodNFeel] = useState(false);
   const toggleMoodNFeel = () =>
@@ -89,27 +90,44 @@ function GenerateReport({ navigation }) {
             <View style={styles().divider} />
           </View>
 
-          {/* Time period */}
-          <Text style={styles().heading}>TIME PERIOD</Text>
-          <View style={{ width: '90%' }}>
-            <View style={styles().pickerView}>
-              <Picker
-                selectedValue={time}
-                style={styles().picker}
-                onValueChange={(itemValue, itemIndex) => setTime(itemValue)}
-                mode={'dropdown'}>
-                <Picker.Item label='Select one...' value='unselected' />
-                <Picker.Item label='One week' value='oneWeek' />
-                <Picker.Item label='Two weeks' value='twoWeeks' />
-                <Picker.Item label='One month' value='oneMonth' />
-                <Picker.Item label='Three months' value='threeMonths' />
-                <Picker.Item label='Six months' value='sixMonths' />
-                <Picker.Item label='One year' value='oneYear' />
-                <Picker.Item
-                  label='Beginning of time'
-                  value='beginningOfTime'
-                />
-              </Picker>
+          {/* Time Period dropdown picker */}
+          <View style={{ marginTop: 10, marginBottom: 20, alignSelf: 'flex-start', marginLeft: '5%', }}>
+            <View style={styles().textInputView}>
+              <View style={styles().labelView}>
+                <Text
+                  style={{
+                    color: pressed ? '#4CB97A' : '#816868',
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                  }}>
+                  Time Period
+                </Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  borderWidth: 1,
+                  borderColor: pressed ? '#4CB97A' : '#816868',
+                  justifyContent: 'flex-end',
+                  borderRadius: 6,
+                  paddingLeft: 12,
+                }}>
+                <Picker
+                  selectedValue={time}
+                  style={styles().picker}
+                  dropdownIconColor='#816868'
+                  onValueChange={(itemValue, itemIndex) => setTime(itemValue)}
+                  mode={'dropdown'}>
+                  <Picker.Item label='Select one...' value='unselected' color='#816868' />
+                  <Picker.Item label='One week' value='oneWeek' color='#816868' />
+                  <Picker.Item label='Two weeks' value='twoWeeks' color='#816868' />
+                  <Picker.Item label='One month' value='oneMonth' color='#816868' />
+                  <Picker.Item label='Three months' value='threeMonths' color='#816868' />
+                  <Picker.Item label='Six months' value='sixMonths' color='#816868' />
+                  <Picker.Item label='One year' value='oneYear' color='#816868' />
+                  <Picker.Item label='Beginning of time' value='beginningOfTime' color='#816868'/>
+                </Picker>
+              </View>
             </View>
           </View>
 
@@ -551,6 +569,16 @@ const styles = () => StyleSheet.create({
     width: '90%',
     alignItems: 'center',
   },
+  labelView: {
+    position: 'absolute',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
+    top: -16,
+    left: 14,
+    padding: 5,
+    zIndex: 50,
+  },
   line: {
     borderColor: global.colorblindMode
       ? global.cb_lineColor
@@ -599,7 +627,9 @@ const styles = () => StyleSheet.create({
   },
   picker: {
     height: 32,
+    marginBottom: 4,
     width: '100%',
+    color: '#816868',
   },
   pickerView: {
     borderWidth: 1,
@@ -617,5 +647,10 @@ const styles = () => StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  textInputView: {
+    height: 48,
+    width: Math.round(Dimensions.get('window').width * 0.6),
+    position: 'relative',
   },
 });

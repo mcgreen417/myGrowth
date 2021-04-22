@@ -15,6 +15,7 @@ import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
 import TabBarAndContent from '../../shared/components/TabBarAndContent';
 import HistorySelectACategory from '../../shared/components/HistorySelectACategory';
+import Sweat from '../../shared/assets/svgs/sweat-emoji.svg'
 
 function HistoryHealthEntries({ route, navigation }) {
   const data = route.params.data;
@@ -125,63 +126,60 @@ function HistoryHealthEntries({ route, navigation }) {
   else
     return (
       <SafeAreaView style={styles().container}>
-        { /* Modal */}
-        <HistorySelectACategory
-          setModalView={setModalVisible}
-          showModalView={modalVisible}
-          navigation={navigation}
-          data={data}
-          settings={settings}
-        />
-
-        {/* Actual screen */}
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles().pageSetup}>
-            
-            {/* Gardener avatar + page blurb */}
-            <View style={styles().avatarView}>
-              <Text style={styles().pageDescription}>
-                View a summary of your health entry history! Select a category below to
-                get started.
+        <ScrollView 
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', }}
+        >
+          <View style={{alignContent: 'center', marginHorizontal: '10%', marginTop: '-5%' }}>
+            <Text style={{ 
+              fontSize: 44, 
+              color: '#816868', 
+              fontWeight: 'bold', 
+              textAlign: 'center',
+              marginBottom: '10%',
+            }}>
+              Uh-oh! <Sweat />
+            </Text>
+            <Image 
+              style={{ 
+                width: Math.round(Dimensions.get('window').width * 0.5),
+                height: Math.round(Dimensions.get('window').width * 0.6), 
+                alignSelf: 'center',
+              }}
+              source={require('../../shared/assets/bee-sprites/sad-bee.png')}/>
+            <View style={{ marginVertical: '10%' }}>
+              <Text style={{ fontSize: 20, color: '#816868', fontWeight: 'bold', textAlign: 'center', }}>
+                It seems like you don't have any health entry data to view!
               </Text>
-              <Image
-                style={styles().avatarFlipped}
-                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+              <Text style={{ fontSize: 20, color: '#816868', fontWeight: 'bold', textAlign: 'center', marginTop: '3%', }}>
+                Try creating a health entry first!
+              </Text>
+            </View>
+          </View>
+
+          {/* Write Journal Entry + Return to Home buttons */}
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+            }}>
+            <View style={{ minWidth: '37.5%', }}>
+              <Button
+                title='New Health Entry'
+                color='#A5DFB2'
+                onPress={() => navigation.navigate('HealthEntry')}
               />
             </View>
-            {/* Top page divider */}
-            <View style={styles().dividerView}>
-              <View style={styles().divider} />
+            <View style={{ width: '5%' }} />
+            <View style={{ minWidth: '37.5%' }}>
+              <Button
+                title='Return to Home'
+                color='#A5DFB2'
+                onPress={() => navigation.navigate('Home')}
+              />
             </View>
-
-            {/* Categories button */}
-            <TouchableOpacity 
-              style={styles().categoriesView} 
-              onPress={() => setModalVisible(true)}
-            >
-              <View 
-                style={styles().categories}>
-                <Text style={styles().textAlt}>Categories</Text>
-                <View>
-                  <Icon
-                    name='arrow-top-right'
-                    type='material-community'
-                    color='white'
-                  />
-                </View>
-              </View>
-            </TouchableOpacity>
-
-            <View style={{alignContent: 'center', margin: 22}}>
-              <Text>
-                Uh Oh! It seems like you don't have any data to view!
-                Try making some health entries first!
-              </Text>
-            </View>
-            
           </View>
         </ScrollView>
-        <NavBar history={true} navigation={navigation} />
       </SafeAreaView>
     );
 }

@@ -45,6 +45,7 @@ function HistoryWeight({ route, navigation }) {
     const [timePeriod, setTimePeriod] = useState('past_week');
     const [timestamps, setTimestamps] = useState(dayLabels);
     const [displayData, setDisplayData] = useState(arr);
+    const [pressed, setPressed] = useState(false);
 
     return (
       <SafeAreaView style={styles().container}>
@@ -109,24 +110,43 @@ function HistoryWeight({ route, navigation }) {
               />
             </View>
 
-            {/* pass in itemValue not timePeriod */}
-            <View style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, }}>
-              <Text style={styles().heading}>TIME PERIOD</Text>
-              <View style={styles().pickerView}>
-                <Picker
-                  selectedValue={timePeriod}
-                  style={styles().picker}
-                  onValueChange={(itemValue, itemIndex) => {
-                    setTimePeriod(itemValue);
-                    getDisplayData(data, itemValue, setDisplayData);
-                    getTimestamps(data, timestamps, setTimestamps, itemValue);
-                  }}
-                  mode={'dropdown'}
-                >
-                  <Picker.Item label='Past week' value='past_week' />
-                  <Picker.Item label='Past month' value='past_month' />
-                  <Picker.Item label='Past year' value='past_year' />
-                </Picker>
+            {/* Time Period dropdown picker */}
+            <View style={{ marginTop: 30, alignSelf: 'flex-start', marginLeft: '5%', }}>
+              <View style={styles().textInputView}>
+                <View style={styles().labelView}>
+                  <Text
+                    style={{
+                      color: pressed ? '#4CB97A' : '#816868',
+                      fontSize: 16,
+                      fontWeight: 'bold',
+                    }}>
+                    Time Period
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    borderWidth: 1,
+                    borderColor: pressed ? '#4CB97A' : '#816868',
+                    justifyContent: 'flex-end',
+                    borderRadius: 6,
+                    paddingLeft: 12,
+                  }}>
+                  <Picker
+                    selectedValue={timePeriod}
+                    style={styles().picker}
+                    dropdownIconColor='#816868'
+                    onValueChange={(itemValue, itemIndex) => {
+                      setTimePeriod(itemValue);
+                      getDisplayData(data, itemValue, setDisplayData);
+                      getTimestamps(data, timestamps, setTimestamps, itemValue);
+                    }}
+                    mode={'dropdown'}>
+                    <Picker.Item label='Past week' value='past_week' color='#816868' />
+                    <Picker.Item label='Past month' value='past_month' color='#816868' />
+                    <Picker.Item label='Past year' value='past_year' color='#816868' />
+                  </Picker>
+                </View>
               </View>
             </View>
 
@@ -514,6 +534,16 @@ const styles = () => StyleSheet.create({
     marginTop: 20,
     marginBottom: 20,
   },
+  labelView: {
+    position: 'absolute',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
+    top: -16,
+    left: 14,
+    padding: 5,
+    zIndex: 50,
+  },
   heading: {
     color: global.colorblindMode
       ? global.cb_textColor
@@ -597,6 +627,11 @@ const styles = () => StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginVertical: 2,
+  },
+  textInputView: {
+    height: 48,
+    width: Math.round(Dimensions.get('window').width * 0.425),
+    position: 'relative',
   },
   textLight: {
     color: global.colorblindMode

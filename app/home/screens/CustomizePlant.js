@@ -126,7 +126,7 @@ function PlantShop({ navigation }) {
               <Button
                 title='Clear Changes'
                 color='#A5DFB2'
-                onPress={() => onPress()}
+                onPress={() => setPlant(require('../../shared/assets/plant_sprites/4_0.png'))}
               />
             </View>
             <View style={{ width: '5%' }} />

@@ -16,7 +16,6 @@ import {
   Pressable,
   Dimensions,
 } from 'react-native';
-
 import { Icon } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -33,8 +32,8 @@ function UserInitialization1({ navigation }) {
   const [dob, setDob] = useState('0000-00-00');
   const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
-  const [useHeightMeasurement, setToggleHeightMeasurement] = useState(false);
-  const [useWeightMeasurement, setToggleWeightMeasurement] = useState(false);
+  const [activityLevel, setActivityLevel] = useState('');
+  const [metric, setToggleMetric] = useState(false);
   const [showFirstNameInfo, setShowFirstNameInfo] = useState(false);
   const [showDOBInfo, setShowDOBInfo] = useState(false);
   const [showGenderInfo, setShowGenderInfo] = useState(false);
@@ -42,6 +41,12 @@ function UserInitialization1({ navigation }) {
   const [showActivityLevelInfo, setShowActivityLevelInfo] = useState(false);
   const [showHeightInfo, setShowHeightInfo] = useState(false);
   const [showWeightInfo, setShowWeightInfo] = useState(false);
+  const [pressedFirstName, setPressedFirstName] = useState(false);
+  const [pressedGender, setPressedGender] = useState(false);
+  const [pressedBioSex, setPressedBioSex] = useState(false);
+  const [pressedActivityLevel, setPressedActivityLevel] = useState(false);
+  const [pressedHeight, setPressedHeight] = useState(false);
+  const [pressedWeight, setPressedWeight] = useState(false);
 
   const currentDay = new Date().getDate();
   const currentMonth = new Date().getMonth();
@@ -54,6 +59,7 @@ function UserInitialization1({ navigation }) {
     validDateOfBirth: false,
     validGender: false,
     validBiologicalSex: false,
+    validActivityLevel: false,
     checkTextInputChange: false,
     validSignUp: false,
   });
@@ -121,6 +127,10 @@ function UserInitialization1({ navigation }) {
     showMode('date');
   };
 
+  const toggleMetric = () => {
+    setToggleMetric((previousState) => !previousState);
+  }
+
   const handleGenderChange = (itemValue) => {
     setGender(itemValue);    
 
@@ -151,6 +161,23 @@ function UserInitialization1({ navigation }) {
       setUserInitializationProperties({
         ...userInitializationProperties,
         validBiologicalSex: true,
+      });  
+    }
+  }
+
+  const handleActivityLevelChange = (itemValue) => {
+    setActivityLevel(itemValue);    
+
+    if (itemValue === 'unselected') {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validActivityLevel: false,
+        validSignUp: false,        
+      });
+    } else {
+      setUserInitializationProperties({
+        ...userInitializationProperties,
+        validActivityLevel: true,
       });  
     }
   }
@@ -197,23 +224,17 @@ function UserInitialization1({ navigation }) {
     }
   }
 
-  const toggleHeightMeasurement = () => {
-    setToggleHeightMeasurement((previousState) => !previousState);
-  }
-
-  const toggleWeightMeasurement = () => {
-    setToggleWeightMeasurement((previousState) => !previousState);
-  }
-
-  const checkRequiredFields = (firstName, dob, gender, bioSex) => {
+  const checkRequiredFields = (firstName, dob, gender, bioSex, activityLevel) => {
     const ableToSignUp = (userInitializationProperties.validFirstName
                           && userInitializationProperties.validDateOfBirth
                           && userInitializationProperties.validGender
-                          && userInitializationProperties.validBiologicalSex);
+                          && userInitializationProperties.validBiologicalSex
+                          && userInitializationProperties.validActivityLevel);
     const validFirstName = userInitializationProperties.validFirstName;
     const validDOB = userInitializationProperties.validDateOfBirth;
     const validGender = userInitializationProperties.validGender;
     const validBioSex = userInitializationProperties.validBiologicalSex;
+    const validActivityLevel = userInitializationProperties.validActivityLevel;
     
     if (ableToSignUp) {
       setUserInitializationProperties({
@@ -228,41 +249,73 @@ function UserInitialization1({ navigation }) {
       });
 
       // Future update so that relevant input boxes have a red outline and a red 'x' next to/above them?
-      if (!validFirstName && !validDOB && !validGender && !validBioSex) {
+      if (!validFirstName && !validDOB && !validGender && !validBioSex && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check that you entered information in the First Name, Date of Birth, Gender, Biological Sex, and Activity Level fields.');
+      } else if (!validFirstName && !validDOB && !validGender && !validBioSex) {
         createAlert('Oh no!', 'Please double-check that you entered information in the First Name, Date of Birth, Gender, and Biological Sex fields.');
+      } else if (!validFirstName && !validDOB && !validGender && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name, Date of Birth, Gender, and Activity Level fields.');
       } else if (!validFirstName && !validDOB && !validGender) {
         createAlert('Oh no!', 'Please double-check your entered information in the First Name, Date of Birth, and Gender fields.');
+      } else if (!validFirstName && !validDOB && !validBioSex && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name, Date of Birth, Biological Sex, and Activity Level fields.');
       } else if (!validFirstName && !validDOB && !validBioSex) {
         createAlert('Oh no!', 'Please double-check your entered information in the First Name, Date of Birth, and Biological Sex fields.');
+      } else if (!validFirstName && !validGender && !validBioSex && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name, Gender, Biological Sex, and Activity Level fields.');
       } else if (!validFirstName && !validGender && !validBioSex) {
         createAlert('Oh no!', 'Please double-check your entered information in the First Name, Gender, and Biological Sex fields.');
+      } else if (!validDOB && !validGender && !validBioSex && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the Date of Birth, Gender, Biological Sex, and Activity Level fields.');
       } else if (!validDOB && !validGender && !validBioSex) {
         createAlert('Oh no!', 'Please double-check your entered information in the Date of Birth, Gender, and Biological Sex fields.');
+      } else if (!validFirstName && !validDOB && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name, Date of Birth, and Activity Level fields.');
       } else if (!validFirstName && !validDOB) {
         createAlert('Oh no!', 'Please double-check your entered information in the First Name and Date of Birth fields.');
+      } else if (!validFirstName && !validGender && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name, Gender, and Activity Level fields.');
       } else if (!validFirstName && !validGender) {
         createAlert('Oh no!', 'Please double-check your entered information in the First Name and Gender fields.');
+      } else if (!validFirstName && !validBioSex && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name, Biological Sex, and Activity Level fields.');
       } else if (!validFirstName && !validBioSex) {
         createAlert('Oh no!', 'Please double-check your entered information in the First Name and Biological Sex fields.');
+      } else if (!validDOB && !validGender && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the Date of Birth, Gender, and Activity Level fields.');
       } else if (!validDOB && !validGender) {
         createAlert('Oh no!', 'Please double-check your entered information in the Date of Birth and Gender fields.');   
+      } else if (!validDOB && !validBioSex && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the Date of Birth, Biological Sex, and Activity Level fields.');
       } else if (!validDOB && !validBioSex) {
         createAlert('Oh no!', 'Please double-check your entered information in the Date of Birth and Biological Sex fields.');  
+      } else if (!validGender && !validBioSex && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the Gender, Biological Sex, and Activity Level fields.'); 
       } else if (!validGender && !validBioSex) {
         createAlert('Oh no!', 'Please double-check your entered information in the Gender and Biological Sex fields.'); 
+      } else if (!validFirstName && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the First Name and Activity Level fields.');
       } else if (!validFirstName) {
         createAlert('Oh no!', 'Please make sure that you\'ve entered at least one character for your name.'); 
+      } else if (!validDOB && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the Date of Birth and Activity Level fields.');
       } else if (!validDOB) {
         createAlert('Oh no!', 'Please make sure you\'ve selected your date of birth and are 13 years or older.'); 
+      } else if (!validGender && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the Gender and Activity Level fields.');
       } else if (!validGender) {
-        createAlert('Oh no!', 'Please select an option for Gender - if you do not wish to answer, please select \'Prefer not to answer\'.'); 
+        createAlert('Oh no!', 'Please select an option for Gender-- if you do not wish to answer, please select \'Prefer not to answer\'.'); 
+      } else if (!validBioSex && !validActivityLevel) {
+        createAlert('Oh no!', 'Please double-check your entered information in the Biological Sex and Activity Level fields.');
       } else if (!validBioSex) {
-        createAlert('Oh no!', 'Please select an option for Biological Sex - if you do not wish to answer, please select \'Prefer not to answer\'.');   
+        createAlert('Oh no!', 'Please select an option for Biological Sex-- if you do not wish to answer, please select \'Prefer not to answer\'.');   
+      } else if (!validActivityLevel) {
+        createAlert('Oh no!', 'Please select an option for Activity Level-- if you do not wish to answer, please select \'Prefer not to answer\'.')
       } else {
         createAlert('Error', 'Please check all fields and try again');
       }
     }
-  }  
+  }
 
   return (
     <SafeAreaView style={styles().container}>
@@ -295,7 +348,7 @@ function UserInitialization1({ navigation }) {
           >
             <Pressable 
               style={styles().modalContainer}
-              onPress={() => setShowFirstNameInfo(!showFirstNameInfo)}
+              onPress={() => setShowFirstNameInfo(true)}
             >
               <View style={styles().modalHeaderBar}>
                 <View
@@ -347,7 +400,7 @@ function UserInitialization1({ navigation }) {
                 </Text>
                 <Text style={styles().textBoldAlt}>This field is required.</Text>
               </View>
-            </Pressable >
+            </Pressable>
           </Pressable>
         </Modal>
       </View>
@@ -768,7 +821,7 @@ function UserInitialization1({ navigation }) {
           >
             <Pressable 
               style={styles().modalContainer}
-              onPress={() => setShowWeightInfo(false)}  
+              onPress={() => setShowWeightInfo(true)}  
             >
               <View style={styles().modalHeaderBar}>
                 <View
@@ -847,265 +900,406 @@ function UserInitialization1({ navigation }) {
           </View>
 
           {/* First name user input entry */}
-          <View style={styles().inlineRow2}>
-            <Text style={styles().heading}>FIRST NAME</Text>
-            <View style={{ marginRight: 8 }}/>
-            <Icon
-              name='information-circle-outline'
-              type='ionicon'
-              color='#816868'
-              onPress={() => setShowFirstNameInfo(!showFirstNameInfo)}
-            />
-          </View>
-
-          {/* zuser's name in firstname var */}
-          <View style={styles().userPrompt}>
-            <TextInput 
-              style={styles().textInput}
-              placeholder='First name' 
-              placeholderTextColor={global.colorblindMode
-                  ? global.cb_placeHolderTextColor
-                  : global.placeHolderTextColor}
-              color={global.colorblindMode
-                ? global.cb_textColor
-                : global.textColor}
-              value = {firstName}
-              maxLength = {50}
-              onChangeText = {(firstName) => {
-                handleFirstNameChange(firstName);
-              }}
-            />
-          </View>
-
-          {/* Date of birth calendar pop-up */}
-          <View style={styles().inlineRow2}>
-            <Text style={styles().heading}>DATE OF BIRTH</Text>
-            <View style={{ marginLeft: 8, }}/>
-            <Icon
-              name='information-circle-outline'
-              type='ionicon'
-              color='#816868'
-              onPress={() => setShowDOBInfo(!showDOBInfo)}
-            />
-          </View>
-
-          {/* Stores the date in date var */}
-          <View style={styles().datePicker}>
-            <TouchableOpacity onPress={showDatepicker}>
-              <View style={styles().inlineRow}>
-                <Icon name='calendar-sharp' type='ionicon' color='#816868' />
-                <Text
-                  style={{
-                    textDecorationLine: 'underline',
-                    color: global.colorblindMode
-                      ? global.cb_hyperlinkedTextColor
-                      : global.hyperlinkedTextColor,
-                    marginLeft: 8,
-                  }}
-                >
-                  {dateDisplayText}
-                </Text>
+          <View style={{ marginTop: 10, marginBottom: 20, alignSelf: 'flex-start', marginLeft: '5%', }}>
+            <View style={styles().textInputView}>
+              <View style={styles().labelView}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Text
+                    style={{
+                      color: pressedFirstName ? '#4CB97A' : '#816868',
+                      fontSize: 16,
+                      fontWeight: 'bold',
+                    }}>
+                    First Name
+                  </Text>
+                  <View style={{ marginRight: 4 }}/>
+                  <Icon
+                    name='information-circle-outline'
+                    type='ionicon'
+                    color={pressedFirstName
+                      ? '#4CB97A'
+                      : '#816868'
+                    }
+                    onPress={() => setShowFirstNameInfo(!showFirstNameInfo)}
+                  />
+                </View>
               </View>
-            </TouchableOpacity>
-            {show && (
-              <RNDateTimePicker
-                testID='dateTimePicker'
-                minimumDate={maximumUserBirthDate}
-                maximumDate={minimumUserBirthDate}
-                value={minimumUserBirthDate}
-                mode={mode}
-                is24Hour={true}
-                display='default'
-                onChange={onChange}
-              />
-            )}
-          </View>
-
-          {/* Gender drop-down */}
-          <View style={styles().inlineRow2}>
-            <Text style={styles().heading}>GENDER</Text>
-            <View style={{ marginRight: 8, }}/>
-            <Icon
-              name='information-circle-outline'
-              type='ionicon'
-              color='#816868'
-              onPress={() => setShowGenderInfo(!showGenderInfo)}
-            />
-          </View>
-          {/* Stored in gender */}
-          <View style={{ width: '90%' }}>
-            <View style={styles().pickerView}>
-              <Picker
-                selectedValue={gender}
-                style={styles().picker}
-                onValueChange={(itemValue, itemIndex) => handleGenderChange(itemValue)}
-                mode={'dropdown'}>
-                <Picker.Item label='Select one...' value='unselected' />
-                <Picker.Item label='Male' value='male' />
-                <Picker.Item label='Female' value='female' />
-                <Picker.Item label='Non-binary' value='nonbinary' />
-                <Picker.Item label='Other' value='other' />
-                <Picker.Item label='Prefer not to answer' value='noAnswer' />
-              </Picker>
-            </View>
-          </View>
-
-          {/* Biological sex drop-down */}
-          <View style={styles().inlineRow2}>
-            <Text style={styles().heading}>BIOLOGICAL SEX</Text>
-            <View style={{ marginRight: 8, }}/>
-            <Icon
-              name='information-circle-outline'
-              type='ionicon'
-              color='#816868'
-              onPress={() => setShowBioSexInfo(!showBioSexInfo)}
-            />
-          </View>
-          {/* Stored in bioSex */}
-          <View style={{ width: '90%' }}>
-            <View style={styles().pickerView}>
-              <Picker
-                selectedValue={bioSex}
-                style={styles().picker}
-                onValueChange={(itemValue, itemIndex) => handleBioSexChange(itemValue)}
-                mode={'dropdown'}>
-                <Picker.Item label='Select one...' value='unselected' />
-                <Picker.Item label='Male' value='male' />
-                <Picker.Item label='Female' value='female' />
-                <Picker.Item label='Assigned Male' value='amab' />
-                <Picker.Item label='Assigned Female' value='afab' />
-              </Picker>
-            </View>
-          </View>
-
-          {/* Activity level drop-down */}
-          <View style={styles().inlineRow2}>
-            <Text style={styles().heading}>ACTIVITY LEVEL</Text>
-            <View style={{ marginRight: 8, }}/>
-            <Icon
-              name='information-circle-outline'
-              type='ionicon'
-              color='#816868'
-              onPress={() => setShowActivityLevelInfo(!showActivityLevelInfo)}
-            />
-          </View>
-          {/* Stored in gender */}
-          <View style={{ width: '90%' }}>
-            <View style={styles().pickerView}>
-              <Picker
-                selectedValue={gender}
-                style={styles().picker}
-                onValueChange={(itemValue, itemIndex) => handleGenderChange(itemValue)}
-                mode={'dropdown'}>
-                <Picker.Item label='Select one...' value='unselected' />
-                <Picker.Item label='Sedentary (minimal activity)' value='sedentary' />
-                <Picker.Item label='Lightly active (1-2 days/week)' value='lightlyActive' />
-                <Picker.Item label='Moderately active (3-5 days/week)' value='moderatelyActive' />
-                <Picker.Item label='Very active (6-7 days/week)' value='veryActive' />
-              </Picker>
-            </View>
-          </View>
-
-          {/* Height user input entry + cm switch button */}
-          <View style={styles().inlineRow2}>
-            <Text style={styles().heading}>HEIGHT</Text>
-            <View style={{ marginRight: 8, }}/>
-            <Icon
-              name='information-circle-outline'
-              type='ionicon'
-              color='#816868'
-              onPress={() => setShowHeightInfo(!showHeightInfo)}
-            />
-          </View>
-          <View style={styles().userPrompt}>
-            <TextInput 
-              style={styles().textInput2}
-              maxLength = {3}
-              value={height}
-              onChangeText = {(height) => handleHeightChange(height)} 
-              placeholder='#'
-              placeholderTextColor={
-                global.colorblindMode
-                  ? global.cb_placeHolderTextColor
-                  : global.placeHolderTextColor
-              }
-              keyboardType='number-pad'
-            />
-            <View style={{ flexDirection: 'row', marginTop: 4, }}>
-              <Text style={styles().text}>IN</Text>
-              <View style={{ marginRight: 8, }}/>
-              <Icon
-                name={
-                  useHeightMeasurement
-                    ? 'toggle-on'
-                    : 'toggle-off'
-                }
-                type='fontisto'
-                value='heightMeasurement'
-                status={useHeightMeasurement ? 'checked' : 'unchecked'}
-                onPress={toggleHeightMeasurement}
-                color={global.colorblindMode
-                  ? global.cb_textColor
-                  : global.textColor}
-              />
-              <View style={{ marginRight: 8, }}/>
-              <Text style={styles().text}>CM</Text>
-            </View>
-          </View>
-
-          {/* Weight user input entry + kgs switch button */}
-          <View style={{ flexDirection: 'row', width: '90%', }}>
-            <View style={{ width: '50%' }}>
-              <View style={styles().inlineRow2}>
-                <Text style={styles().heading}>WEIGHT</Text>
-                <View style={{ marginRight: 8 }}/>
-                <Icon
-                  name='information-circle-outline'
-                  type='ionicon'
+              <View
+                style={{
+                  flex: 1,
+                  borderWidth: 1,
+                  borderColor: pressedFirstName ? '#4CB97A' : '#816868',
+                  justifyContent: 'flex-end',
+                  borderRadius: 6,
+                  paddingHorizontal: 16,
+                }}>
+                {/* zuser's name in firstname var */}
+                <TextInput
+                  placeholder='First name'
+                  fontSize={16}
                   color='#816868'
-                  onPress={() => setShowWeightInfo(!showWeightInfo)}
-                />
-              </View>
-              <View style={styles().userPrompt}>
-                <TextInput 
-                  style={styles().textInput3}
-                  maxLength = {3}
-                  value={weight}
-                  onChangeText = {(weight) => handleWeightChange(weight)}
-                  placeholder='#' 
                   placeholderTextColor={
                     global.colorblindMode
                       ? global.cb_placeHolderTextColor
                       : global.placeHolderTextColor
                   }
-                  keyboardType='number-pad'
+                  value={firstName}
+                  onChangeText = {(firstName) => {
+                    handleFirstNameChange(firstName);
+                  }}
+                  maxLength={50}
+                  onFocus={() => setPressedFirstName(true)}
+                  onBlur={() => setPressedFirstName(false)}
+                  style={{ top: -8 }}
                 />
-                <View style={{ flexDirection: 'row', marginTop: 4, }}>
-                  <Text style={styles().text}>LB</Text>
-                  <View style={{ marginRight: 8, }}/>
-                  <Icon
-                    name={
-                      useWeightMeasurement
-                        ? 'toggle-on'
-                        : 'toggle-off'
-                    }
-                    type='fontisto'
-                    value='weightMeasurement'
-                    status={useWeightMeasurement ? 'checked' : 'unchecked'}
-                    onPress={toggleWeightMeasurement}
-                    color={global.colorblindMode
-                      ? global.cb_textColor
-                      : global.textColor}
-                  />
-                  <View style={{ marginRight: 8, }}/>
-                  <Text style={styles().text}>KG</Text>
-                </View>
               </View>
             </View>
+          </View>
 
-            {/* Next button */}
-            <View style={{ alignSelf: 'flex-end', width: '50%', }}>
-              <View style={styles().buttonsContainer}>
+          {/* Date of birth calendar pop-up */}
+          <View style={{ marginVertical: 2, alignSelf: 'flex-start', marginLeft: '5%', }}>
+            <View style={styles().inlineRow2}>
+              <Text style={styles().heading}>Date of Birth</Text>
+              <View style={{ marginLeft: 4, }}/>
+              <Icon
+                name='information-circle-outline'
+                type='ionicon'
+                color='#816868'
+                onPress={() => setShowDOBInfo(!showDOBInfo)}
+              />
+            </View>
+
+            {/* Stores the date in date var */}
+            <View style={styles().datePicker}>
+              <TouchableOpacity onPress={showDatepicker}>
+                <View style={styles().inlineRow}>
+                  <Icon name='calendar-sharp' type='ionicon' color='#816868' />
+                  <Text
+                    style={{
+                      textDecorationLine: 'underline',
+                      color: global.colorblindMode
+                        ? global.cb_hyperlinkedTextColor
+                        : global.hyperlinkedTextColor,
+                      marginLeft: 8,
+                    }}
+                  >
+                    {dateDisplayText}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+              {show && (
+                <RNDateTimePicker
+                  testID='dateTimePicker'
+                  minimumDate={maximumUserBirthDate}
+                  maximumDate={minimumUserBirthDate}
+                  value={minimumUserBirthDate}
+                  mode={mode}
+                  is24Hour={true}
+                  display='default'
+                  onChange={onChange}
+                />
+              )}
+            </View>
+          </View>
+
+          {/* Gender dropdown picker */}
+          <View style={{ marginTop: 10, marginBottom: 20, alignSelf: 'flex-start', marginLeft: '5%', }}>
+            <View style={styles().textInputView}>
+              <View style={styles().labelView}>
+                <View style={{ flexDirection: 'row', }}>
+                  <Text
+                    style={{
+                      color: pressedGender ? '#4CB97A' : '#816868',
+                      fontSize: 16,
+                      fontWeight: 'bold',
+                    }}>
+                    Gender
+                  </Text>
+                  <View style={{ marginRight: 4, }}/>
+                  <Icon
+                    name='information-circle-outline'
+                    type='ionicon'
+                    color='#816868'
+                    onPress={() => setShowGenderInfo(!showGenderInfo)}
+                  />
+                </View>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  borderWidth: 1,
+                  borderColor: pressedGender ? '#4CB97A' : '#816868',
+                  justifyContent: 'flex-end',
+                  borderRadius: 6,
+                  paddingLeft: 12,
+                }}>
+                <Picker
+                  selectedValue={gender}
+                  style={styles().picker}
+                  dropdownIconColor='#816868'
+                  onValueChange={(itemValue, itemIndex) => handleGenderChange(itemValue)}
+                  mode={'dropdown'}>
+                  <Picker.Item label='Select one...' value='unselected' color='#816868' />
+                  <Picker.Item label='Male' value='male' color='#816868' />
+                  <Picker.Item label='Female' value='female' color='#816868' />
+                  <Picker.Item label='Non-binary' value='nonbinary' color='#816868' />
+                  <Picker.Item label='Other' value='other' color='#816868' />
+                  <Picker.Item label='Prefer not to answer' value='noAnswer' color='#816868' />
+                </Picker>
+              </View>
+            </View>
+          </View>
+
+          {/* Biological Sex dropdown picker */}
+          <View style={{ marginTop: 10, marginBottom: 20, alignSelf: 'flex-start', marginLeft: '5%', }}>
+            <View style={styles().textInputView}>
+              <View style={styles().labelView}>
+                <View style={{ flexDirection: 'row', }}>
+                  <Text
+                    style={{
+                      color: pressedBioSex ? '#4CB97A' : '#816868',
+                      fontSize: 16,
+                      fontWeight: 'bold',
+                    }}>
+                    Biological Sex
+                  </Text>
+                  <View style={{ marginRight: 4, }}/>
+                  <Icon
+                    name='information-circle-outline'
+                    type='ionicon'
+                    color='#816868'
+                    onPress={() => setShowBioSexInfo(!showBioSexInfo)}
+                  />
+                </View>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  borderWidth: 1,
+                  borderColor: pressedBioSex ? '#4CB97A' : '#816868',
+                  justifyContent: 'flex-end',
+                  borderRadius: 6,
+                  paddingLeft: 12,
+                }}>
+                <Picker
+                  selectedValue={bioSex}
+                  style={styles().picker}
+                  dropdownIconColor='#816868'
+                  onValueChange={(itemValue, itemIndex) => handleBioSexChange(itemValue)}
+                  mode={'dropdown'}>
+                  <Picker.Item label='Select one...' value='unselected' color='#816868' />
+                  <Picker.Item label='Male' value='male' color='#816868' />
+                  <Picker.Item label='Female' value='female' color='#816868' />
+                  <Picker.Item label='Assigned Male' value='amab' color='#816868' />
+                  <Picker.Item label='Assigned Female' value='afab' color='#816868' />
+                  <Picker.Item label='Prefer not to answer' value='noAnswer' color='#816868' />
+                </Picker>
+              </View>
+            </View>
+          </View>
+
+          {/* Activity Level dropdown picker */}
+          <View style={{ marginTop: 10, marginBottom: 20, alignSelf: 'flex-start', marginLeft: '5%', }}>
+            <View style={styles().textInputView}>
+              <View style={styles().labelView}>
+                <View style={{ flexDirection: 'row', }}>
+                  <Text
+                    style={{
+                      color: pressedActivityLevel ? '#4CB97A' : '#816868',
+                      fontSize: 16,
+                      fontWeight: 'bold',
+                    }}>
+                    Activity Level
+                  </Text>
+                  <View style={{ marginRight: 4, }}/>
+                  <Icon
+                    name='information-circle-outline'
+                    type='ionicon'
+                    color='#816868'
+                    onPress={() => setShowActivityLevelInfo(!showActivityLevelInfo)}
+                  />
+                </View>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  borderWidth: 1,
+                  borderColor: pressedActivityLevel ? '#4CB97A' : '#816868',
+                  justifyContent: 'flex-end',
+                  borderRadius: 6,
+                  paddingLeft: 12,
+                }}>
+                <Picker
+                  selectedValue={activityLevel}
+                  style={styles().picker}
+                  dropdownIconColor='#816868'
+                  onValueChange={(itemValue, itemIndex) => handleActivityLevelChange(itemValue)}
+                  mode={'dropdown'}>
+                  <Picker.Item label='Select one...' value='unselected' color='#816868' />
+                  <Picker.Item label='Sedentary (minimal activity)' value='sedentary' color='#816868' />
+                  <Picker.Item label='Lightly active (1-2 days/week)' value='lightlyActive' color='#816868' />
+                  <Picker.Item label='Moderately active (3-5 days/week)' value='moderatelyActive' color='#816868' />
+                  <Picker.Item label='Very active (6-7 days/week)' value='veryActive' color='#816868' />
+                </Picker>
+              </View>
+            </View>
+          </View>
+
+          {/* Height user input entry + cm switch button */}
+          <View style={{ marginTop: 10, marginBottom: 20, alignSelf: 'flex-start', marginLeft: '5%', }}>
+            <View style={{ flexDirection: 'row', }}>
+              <View style={styles().textInputView2}>
+                <View style={styles().labelView}>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text
+                      style={{
+                        color: pressedHeight ? '#4CB97A' : '#816868',
+                        fontSize: 16,
+                        fontWeight: 'bold',
+                      }}>
+                      Height
+                    </Text>
+                    <View style={{ marginRight: 4 }}/>
+                    <Icon
+                      name='information-circle-outline'
+                      type='ionicon'
+                      color={pressedHeight
+                        ? '#4CB97A'
+                        : '#816868'
+                      }
+                      onPress={() => setShowHeightInfo(!showHeightInfo)}
+                    />
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    borderWidth: 1,
+                    borderColor: pressedHeight ? '#4CB97A' : '#816868',
+                    justifyContent: 'flex-end',
+                    borderRadius: 6,
+                    paddingHorizontal: 16,
+                  }}>
+                  <TextInput
+                    placeholder='Height'
+                    fontSize={16}
+                    color='#816868'
+                    placeholderTextColor={
+                      global.colorblindMode
+                        ? global.cb_placeHolderTextColor
+                        : global.placeHolderTextColor
+                    }
+                    value={height}
+                    onChangeText = {(height) => handleHeightChange(height)} 
+                    maxLength={3}
+                    keyboardType='number-pad'
+                    onFocus={() => setPressedHeight(true)}
+                    onBlur={() => setPressedHeight(false)}
+                    style={{ top: -8 }}
+                  />
+                </View>
+              </View>
+              <View style={{ flexDirection: 'row', marginTop: 12, marginLeft: 16, }}>
+                <Text style={styles().text}>IN</Text>
+                <View style={{ marginRight: 8, }}/>
+                <Icon
+                  name={
+                    metric
+                      ? 'toggle-on'
+                      : 'toggle-off'
+                  }
+                  type='fontisto'
+                  value='metric'
+                  status={metric ? 'checked' : 'unchecked'}
+                  onPress={toggleMetric}
+                  color={global.colorblindMode
+                    ? global.cb_textColor
+                    : global.textColor}
+                />
+                <View style={{ marginRight: 8, }}/>
+                <Text style={styles().text}>CM</Text>
+              </View>
+            </View>
+          </View>
+
+          {/* Weight user input entry + cm switch button */}
+          <View style={{ marginTop: 10, marginBottom: 20, alignSelf: 'flex-start', marginLeft: '5%', }}>
+            <View style={{ flexDirection: 'row', }}>
+              <View style={styles().textInputView2}>
+                <View style={styles().labelView}>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text
+                      style={{
+                        color: pressedWeight ? '#4CB97A' : '#816868',
+                        fontSize: 16,
+                        fontWeight: 'bold',
+                      }}>
+                      Weight
+                    </Text>
+                    <View style={{ marginRight: 4 }}/>
+                    <Icon
+                      name='information-circle-outline'
+                      type='ionicon'
+                      color={pressedWeight
+                        ? '#4CB97A'
+                        : '#816868'
+                      }
+                      onPress={() => setShowWeightInfo(!showWeightInfo)}
+                    />
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    borderWidth: 1,
+                    borderColor: pressedWeight ? '#4CB97A' : '#816868',
+                    justifyContent: 'flex-end',
+                    borderRadius: 6,
+                    paddingHorizontal: 16,
+                  }}>
+                  <TextInput
+                    placeholder='Weight'
+                    fontSize={16}
+                    color='#816868'
+                    placeholderTextColor={
+                      global.colorblindMode
+                        ? global.cb_placeHolderTextColor
+                        : global.placeHolderTextColor
+                    }
+                    value={weight}
+                    onChangeText = {(weight) => handleWeightChange(weight)} 
+                    maxLength={3}
+                    keyboardType='number-pad'
+                    onFocus={() => setPressedWeight(true)}
+                    onBlur={() => setPressedWeight(false)}
+                    style={{ top: -8 }}
+                  />
+                </View>
+              </View>
+              <View style={{ flexDirection: 'row', marginTop: 12, marginLeft: 16, }}>
+                <Text style={styles().text}>LB</Text>
+                <View style={{ marginRight: 8, }}/>
+                <Icon
+                  name={
+                    metric
+                      ? 'toggle-on'
+                      : 'toggle-off'
+                  }
+                  type='fontisto'
+                  value='metric'
+                  status={metric ? 'checked' : 'unchecked'}
+                  onPress={toggleMetric}
+                  color={global.colorblindMode
+                    ? global.cb_textColor
+                    : global.textColor}
+                />
+                <View style={{ marginRight: 8, }}/>
+                <Text style={styles().text}>KG</Text>
+              </View>
+            </View>
+          </View>
+
+          <View style={{ alignSelf: 'flex-end', marginRight: '5%', marginTop: -38 }}>
                 <Button
                   title='NEXT'
                   color={
@@ -1114,21 +1308,20 @@ function UserInitialization1({ navigation }) {
                       : global.optionButtonsColor
                   }
                   onPress={() => {
-                    checkRequiredFields(firstName, dob, gender, bioSex);
+                    checkRequiredFields(firstName, dob, gender, bioSex, activityLevel);
                     if (userInitializationProperties.validSignUp) {
                       updateUser(firstName, dob, gender, bioSex);
                       navigation.navigate('UserInitialization2', { 
+                        activityLevel: activityLevel,
                         height: height, 
                         weight: weight, 
-                        heightMeasurement: useHeightMeasurement, 
-                        weightMeasurement: useWeightMeasurement
+                        metric: metric,
                       });
                     }
                   }}
                 />
               </View>
-            </View>
-          </View>
+          
           <View style={styles().pageEnd}/>
         </View>
       </ScrollView>
@@ -1226,6 +1419,21 @@ const styles = () =>
       flexDirection: 'row',
       width: '90%',
     },
+    label: {
+      color: '#816868',
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
+    labelView: {
+      position: 'absolute',
+      backgroundColor: global.colorblindMode
+        ? global.cb_pageBackgroundColor
+        : global.pageBackgroundColor,
+      top: -16,
+      left: 14,
+      padding: 5,
+      zIndex: 50,
+    },
     line: {
       width: '90%',
       borderColor: global.colorblindMode
@@ -1289,7 +1497,7 @@ const styles = () =>
       fontWeight: 'bold',
     },
     pageEnd: {
-      marginBottom: '4%',
+      marginBottom: '6%',
     },
     pageSetup: {
       justifyContent: 'center',
@@ -1297,7 +1505,9 @@ const styles = () =>
     },
     picker: {
       height: 32,
+      marginBottom: 4,
       width: '100%',
+      color: '#816868',
     },
     pickerView: {
       borderWidth: 1,
@@ -1392,6 +1602,16 @@ const styles = () =>
       textDecorationLine: 'underline', 
       color: '#4CB97A',
       fontSize: 16,
+    },
+    textInputView: {
+      height: 48,
+      width: Math.round(Dimensions.get('window').width * 0.7),
+      position: 'relative',
+    },
+    textInputView2: {
+      height: 48,
+      width: Math.round(Dimensions.get('window').width * 0.35),
+      position: 'relative',
     },
     userPrompt: {
       marginBottom: 20,

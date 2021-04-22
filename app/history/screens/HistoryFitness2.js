@@ -27,6 +27,8 @@ function HistoryFitness2({ route, navigation }) {
     const [timePeriod, setTimePeriod] = useState('past_week');
     const [selectExercise, setExercise] = useState(exercises[0]);
     const [freqs, setFreqs] = useState(getFreqs(fitMap, exercises[0]));
+    const [pressedTime, setPressedTime] = useState(false);
+    const [pressedExercise, setPressedExercise] = useState(false); 
 
     return (
       <SafeAreaView style={styles().container}>
@@ -91,49 +93,79 @@ function HistoryFitness2({ route, navigation }) {
               />
             </View>
 
-            {/* Time Period and Select Exercise drop-down selection */}
-            <View 
-              style={{ 
-                width: '90%', 
-                justifyContent: 'flex-start', 
-                marginTop: 20, 
-                flexDirection: 'row',
-              }}>
-              <View style={{ width: '50%', }}>
-                <Text style={styles().heading}>TIME PERIOD</Text>
-                <View style={styles().pickerView}>
+            <View style={{ marginHorizontal: '5%', flexDirection: 'row', marginTop: 30, }}>
+              {/* Time Period dropdown picker */}
+              <View style={styles().textInputView}>
+                <View style={styles().labelView}>
+                  <Text
+                    style={{
+                      color: pressedTime ? '#4CB97A' : '#816868',
+                      fontSize: 16,
+                      fontWeight: 'bold',
+                    }}>
+                    Time Period
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    borderWidth: 1,
+                    borderColor: pressedTime ? '#4CB97A' : '#816868',
+                    justifyContent: 'flex-end',
+                    borderRadius: 6,
+                    paddingLeft: 12,
+                  }}>
                   <Picker
                     selectedValue={timePeriod}
                     style={styles().picker}
+                    dropdownIconColor='#816868'
                     onValueChange={(itemValue, itemIndex) => {
                       setTimePeriod(itemValue);
                       fitMap = getMap(data, itemValue);
                       setFreqs(getFreqs(fitMap, selectExercise));
                     }}
-                    mode={'dropdown'}
-                  >
-                    <Picker.Item label='Past week' value='past_week' />
-                    <Picker.Item label='Past month' value='past_month' />
-                    <Picker.Item label='Past year' value='past_year' />
+                    mode={'dropdown'}>
+                    <Picker.Item label='Past week' value='past_week' color='#816868' />
+                    <Picker.Item label='Past month' value='past_month' color='#816868' />
+                    <Picker.Item label='Past year' value='past_year' color='#816868' />
                   </Picker>
                 </View>
               </View>
-              <View style={{ width: '50%', }}>
-                <Text style={styles().heading}>SELECT EXERCISE</Text>
-                <View style={styles().pickerView}>
+              <View style={{ marginHorizontal: '2.5%' }}/>
+              {/* Select Exercise dropdown picker */}
+              <View style={styles().textInputView}>
+                <View style={styles().labelView}>
+                  <Text
+                    style={{
+                      color: pressedExercise ? '#4CB97A' : '#816868',
+                      fontSize: 16,
+                      fontWeight: 'bold',
+                    }}>
+                    Select Exercise
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    borderWidth: 1,
+                    borderColor: pressedExercise ? '#4CB97A' : '#816868',
+                    justifyContent: 'flex-end',
+                    borderRadius: 6,
+                    paddingLeft: 12,
+                  }}>
                   <Picker
                     selectedValue={selectExercise}
                     style={styles().picker}
+                    dropdownIconColor='#816868'
                     onValueChange={(itemValue, itemIndex) => {
                       setExercise(itemValue);
                       setFreqs(getFreqs(fitMap, itemValue));
-                      console.log(itemValue);
+                      //console.log(itemValue);
                     }}
-                    mode={'dropdown'}
-                  >
+                    mode={'dropdown'}>
                     {exercises.map((item, index) => {
                       return (
-                        <Picker.Item key={index} label={item} value={item} />
+                        <Picker.Item key={index} label={item} value={item} color='#816868' />
                       );
                     })}
                   </Picker>
@@ -353,6 +385,16 @@ const styles = () => StyleSheet.create({
     marginTop: 20,
     marginBottom: 20,
   },
+  labelView: {
+    position: 'absolute',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
+    top: -16,
+    left: 14,
+    padding: 5,
+    zIndex: 50,
+  },
   heading: {
     color: global.colorblindMode
       ? global.cb_textColor
@@ -405,5 +447,10 @@ const styles = () => StyleSheet.create({
     textDecorationLine: 'none',
     textAlign: 'center',
     fontSize: 16,
+  },
+  textInputView: {
+    height: 48,
+    width: Math.round(Dimensions.get('window').width * 0.425),
+    position: 'relative',
   },
 });

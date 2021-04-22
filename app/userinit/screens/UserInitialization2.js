@@ -20,7 +20,7 @@ const avatars = new Array(48).fill('http://placeimg.com/100/100/any');
 
 function UserInitialization2({ route, navigation }) {
   const [avatar, setAvatar] = useState(avatars);
-  const { height, weight, heightMeasurement, weightMeasurement } = route.params;
+  const { activityLevel, height, weight, metric } = route.params;
 
   return (
     <SafeAreaView style={styles().container}>
@@ -77,10 +77,10 @@ function UserInitialization2({ route, navigation }) {
                 : global.optionButtonsColor
             }
             onPress={() => navigation.navigate('UserInitialization3',{ 
+              activityLevel: activityLevel,
               height: height,
               weight: weight, 
-              heightMeasurement: heightMeasurement, 
-              weightMeasurement: weightMeasurement
+              metric: metric, 
             })}
           />
         </View>

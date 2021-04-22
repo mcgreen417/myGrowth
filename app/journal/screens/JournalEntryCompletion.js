@@ -7,7 +7,9 @@ import {
   SafeAreaView,
   Image,
   ScrollView,
+  Dimensions,
 } from 'react-native';
+import Party from '../../shared/assets/svgs/party-emoji.svg'
 
 const JournalEntryCompletion = ({ route, navigation }) => {
   const date = route.params.date;
@@ -16,57 +18,60 @@ const JournalEntryCompletion = ({ route, navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView 
-        showsVerticalScrollIndicator={false} 
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', }}
       >
-        <View style={{ alignItems: 'center' }}>
-          {/* Congratulations banner + filler image */}
+        <View style={{alignContent: 'center', marginHorizontal: '10%', marginTop: '-5%' }}>
+          <Text style={{ 
+            fontSize: 44, 
+            color: '#816868', 
+            fontWeight: 'bold', 
+            textAlign: 'center',
+            marginBottom: '10%',
+          }}>
+            Congrats! <Party height={44} width={44} />
+          </Text>
           <Image 
-            style={styles.bannerImage}
-            source={require('../../shared/assets/journal-banner-edited.png')}
+            style={{ 
+              width: Math.round(Dimensions.get('window').width * 0.5),
+              height: Math.round(Dimensions.get('window').width * 0.6), 
+              alignSelf: 'center',
+            }}
+            source={require('../../shared/assets/bee-sprites/excited-bee.png')}
           />
-          <View style={{ marginVertical: '-4%' }}/>
-          <View style={{ width: '90%', height: '60%', }}>
-            <Image
-              style={styles.fillerImage}
-              source={require('../../shared/assets/SettingsGirlReading2.png')}
+          <View style={{ marginVertical: '10%' }}>
+            <Text style={{ fontSize: 20, color: '#816868', fontWeight: 'bold', textAlign: 'center', }}>
+              You've completed a journal entry! Keep up the good habit!
+            </Text>
+          </View>
+        </View>
+
+        {/* View Entry + Return to Home buttons */}
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}>
+          <View style={{ minWidth: '37.5%' }}>
+            <Button
+              title='View Entry'
+              color='#A5DFB2'
+              onPress={() =>
+                navigation.navigate('ViewJournalEntry', {
+                  date,
+                  entry, 
+                  updateDate
+                })
+              }
             />
           </View>
-          <View style={{ marginVertical: '-2%' }}/>
-
-          {/* Success text */}
-          <View style={{ marginBottom: '10%', marginHorizontal: '5%', alignItems: 'center' }}>
-            <Text style={styles.text}>You have completed a journal entry!</Text>
-          </View>
-
-          {/* View Journal Entry + Return to Home buttons */}
-          <View
-            style={{
-              flexDirection: 'row',
-              marginTop: 10,
-              justifyContent: 'center',
-            }}>
-            <View style={{ width: '42.5%' }}>
-              <Button
-                title='View Entry'
-                color='#A5DFB2'
-                onPress={() =>
-                  navigation.navigate('ViewJournalEntry', {
-                    date,
-                    entry, 
-                    updateDate
-                  })
-                }
-              />
-            </View>
-            <View style={{ width: '5%' }} />
-            <View style={{ width: '42.5%' }}>
-              <Button
-                title='Return to Home'
-                color='#A5DFB2'
-                onPress={() => navigation.navigate('Home')}
-              />
-            </View>
+          <View style={{ width: '5%' }} />
+          <View style={{ minWidth: '37.5%' }}>
+            <Button
+              title='Return to Home'
+              color='#A5DFB2'
+              onPress={() => navigation.navigate('Home')}
+            />
           </View>
         </View>
       </ScrollView>
