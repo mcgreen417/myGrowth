@@ -1031,7 +1031,7 @@ function UserInitialization1({ navigation }) {
                   borderColor: pressedGender ? '#4CB97A' : '#816868',
                   justifyContent: 'flex-end',
                   borderRadius: 6,
-                  paddingHorizontal: 12,
+                  paddingLeft: 12,
                 }}>
                 <Picker
                   selectedValue={gender}
@@ -1079,7 +1079,7 @@ function UserInitialization1({ navigation }) {
                   borderColor: pressedBioSex ? '#4CB97A' : '#816868',
                   justifyContent: 'flex-end',
                   borderRadius: 6,
-                  paddingHorizontal: 12,
+                  paddingLeft: 12,
                 }}>
                 <Picker
                   selectedValue={bioSex}
@@ -1127,7 +1127,7 @@ function UserInitialization1({ navigation }) {
                   borderColor: pressedActivityLevel ? '#4CB97A' : '#816868',
                   justifyContent: 'flex-end',
                   borderRadius: 6,
-                  paddingHorizontal: 12,
+                  paddingLeft: 12,
                 }}>
                 <Picker
                   selectedValue={activityLevel}

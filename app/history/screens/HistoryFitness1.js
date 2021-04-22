@@ -46,7 +46,9 @@ function HistoryFitness1({ route, navigation }) {
     const [timePeriod, setTimePeriod] = useState('past_week');
     const [selectDisplay, setDisplay] = useState('exercise_time');
     const [timestamps, setTimestamps] = useState(dayLabels);
-    const [displayData, setDisplayData] = useState(arr);  
+    const [displayData, setDisplayData] = useState(arr); 
+    const [pressedTime, setPressedTime] = useState(false);
+    const [pressedDisplay, setPressedDisplay] = useState(false); 
 
     const [useReccActivity, setUseReccActivity] = useState(false);
 
@@ -116,49 +118,79 @@ function HistoryFitness1({ route, navigation }) {
               />
             </View>
 
-            {/* Time Period and Select Display drop-down selection */}
-            <View 
-              style={{ 
-                width: '90%', 
-                justifyContent: 'flex-start', 
-                marginVertical: 20, 
-                flexDirection: 'row',
-              }}>
-              <View style={{ width: '50%', }}>
-                <Text style={styles().heading}>TIME PERIOD</Text>
-                <View style={styles().pickerView}>
+            <View style={{ marginHorizontal: '5%', flexDirection: 'row', marginTop: 30, marginBottom: 20, }}>
+              {/* Time Period dropdown picker */}
+              <View style={styles().textInputView}>
+                <View style={styles().labelView}>
+                  <Text
+                    style={{
+                      color: pressedTime ? '#4CB97A' : '#816868',
+                      fontSize: 16,
+                      fontWeight: 'bold',
+                    }}>
+                    Time Period
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    borderWidth: 1,
+                    borderColor: pressedTime ? '#4CB97A' : '#816868',
+                    justifyContent: 'flex-end',
+                    borderRadius: 6,
+                    paddingLeft: 12,
+                  }}>
                   <Picker
                     selectedValue={timePeriod}
                     style={styles().picker}
+                    dropdownIconColor='#816868'
                     onValueChange={(itemValue, itemIndex) => {
                       setTimePeriod(itemValue);
                       getDisplayData(data, itemValue, setDisplayData, selectDisplay);
                       getTimestamps(data, timestamps, setTimestamps, itemValue);
                     }}
-                    mode={'dropdown'}
-                  >
-                    <Picker.Item label='Past week' value='past_week' />
-                    <Picker.Item label='Past month' value='past_month' />
-                    <Picker.Item label='Past year' value='past_year' />
+                    mode={'dropdown'}>
+                    <Picker.Item label='Past week' value='past_week' color='#816868' />
+                    <Picker.Item label='Past month' value='past_month' color='#816868' />
+                    <Picker.Item label='Past year' value='past_year' color='#816868' />
                   </Picker>
                 </View>
               </View>
-              <View style={{ width: '50%', }}>
-                <Text style={styles().heading}>SELECT DISPLAY</Text>
-                <View style={styles().pickerView}>
+              <View style={{ marginHorizontal: '2.5%' }}/>
+              {/* Select Symptom dropdown picker */}
+              <View style={styles().textInputView}>
+                <View style={styles().labelView}>
+                  <Text
+                    style={{
+                      color: pressedDisplay ? '#4CB97A' : '#816868',
+                      fontSize: 16,
+                      fontWeight: 'bold',
+                    }}>
+                    Select Display
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    borderWidth: 1,
+                    borderColor: pressedDisplay ? '#4CB97A' : '#816868',
+                    justifyContent: 'flex-end',
+                    borderRadius: 6,
+                    paddingLeft: 12,
+                  }}>
                   <Picker
                     selectedValue={selectDisplay}
                     style={styles().picker}
+                    dropdownIconColor='#816868'
                     onValueChange={(itemValue, itemIndex) => {
                       setDisplay(itemValue);
                       getDisplayData(data, timePeriod, setDisplayData, itemValue);
                       getTimestamps(data, timestamps, setTimestamps, timePeriod);
                     }}
-                    mode={'dropdown'}
-                  >
-                    <Picker.Item label='Time spent exercising' value='exercise_time' />
-                    <Picker.Item label='Calories burned' value='cals_burned' />
-                    <Picker.Item label='Steps taken' value='steps_taken' />
+                    mode={'dropdown'}>
+                    <Picker.Item label='Time spent exercising' value='exercise_time' color='#816868' />
+                    <Picker.Item label='Calories burned' value='cals_burned' color='#816868' />
+                    <Picker.Item label='Steps taken' value='steps_taken' color='#816868' />
                   </Picker>
                 </View>
               </View>
@@ -646,6 +678,16 @@ const styles = () => StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
   },
+  labelView: {
+    position: 'absolute',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
+    top: -16,
+    left: 14,
+    padding: 5,
+    zIndex: 50,
+  },
   line: {
     width: '90%',
     borderColor: global.colorblindMode
@@ -733,12 +775,18 @@ const styles = () => StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
   },
+  textInputView: {
+    height: 48,
+    width: Math.round(Dimensions.get('window').width * 0.425),
+    position: 'relative',
+  },
   textLight: {
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
     fontSize: 16,
     textAlign: 'center',
+    flexWrap: 'wrap'
   },
   textLightSmall: {
     color: global.colorblindMode

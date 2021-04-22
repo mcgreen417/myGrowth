@@ -47,6 +47,8 @@ function HistorySleep2({ route, navigation }) {
     const [timestamps, setTimestamps] = useState(dayLabels);
     const [displayData, setDisplayData] = useState(arr);
     const [useReccSleep, setUseReccSleep] = useState(false);
+    const [pressedTime, setPressedTime] = useState(false);
+    const [pressedDisplay, setPressedDisplay] = useState(false);
 
     const toggleReccSleep = () =>
       setUseReccSleep((previousState) => !previousState);
@@ -113,50 +115,78 @@ function HistorySleep2({ route, navigation }) {
               />
             </View>
 
-            {/* Time Period and Select Display drop-down selection */}
-            <View 
-              style={{ 
-                width: '90%', 
-                justifyContent: 'flex-start', 
-                marginTop: 20, 
-                flexDirection: 'row',
-              }}>
-              <View style={{ width: '50%', }}>
-                <Text style={styles().heading}>TIME PERIOD</Text>
-                <View style={styles().pickerView}>
+            <View style={{ marginHorizontal: '5%', flexDirection: 'row', marginTop: 30, }}>
+              {/* Time Period dropdown picker */}
+              <View style={styles().textInputView}>
+                <View style={styles().labelView}>
+                  <Text
+                    style={{
+                      color: pressedTime ? '#4CB97A' : '#816868',
+                      fontSize: 16,
+                      fontWeight: 'bold',
+                    }}>
+                    Time Period
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    borderWidth: 1,
+                    borderColor: pressedTime ? '#4CB97A' : '#816868',
+                    justifyContent: 'flex-end',
+                    borderRadius: 6,
+                    paddingLeft: 12,
+                  }}>
                   <Picker
                     selectedValue={timePeriod}
                     style={styles().picker}
+                    dropdownIconColor='#816868'
                     onValueChange={(itemValue, itemIndex) => {
                       setTimePeriod(itemValue);
                       getDisplayData(data, itemValue, setDisplayData, sleepView);
                       getTimestamps(data, timestamps, setTimestamps, itemValue);
                     }}
-                    mode={'dropdown'}
-                  >
-                    <Picker.Item label='Select one...' value='unselected' />
-                    <Picker.Item label='Past week' value='past_week' />
-                    <Picker.Item label='Past month' value='past_month' />
-                    <Picker.Item label='Past year' value='past_year' />
+                    mode={'dropdown'}>
+                    <Picker.Item label='Past week' value='past_week' color='#816868' />
+                    <Picker.Item label='Past month' value='past_month' color='#816868' />
+                    <Picker.Item label='Past year' value='past_year' color='#816868' />
                   </Picker>
                 </View>
               </View>
-              <View style={{ width: '50%', }}>
-                <Text style={styles().heading}>SELECT DISPLAY</Text>
-                <View style={styles().pickerView}>
+              <View style={{ marginHorizontal: '2.5%' }}/>
+              {/* Select Symptom dropdown picker */}
+              <View style={styles().textInputView}>
+                <View style={styles().labelView}>
+                  <Text
+                    style={{
+                      color: pressedDisplay ? '#4CB97A' : '#816868',
+                      fontSize: 16,
+                      fontWeight: 'bold',
+                    }}>
+                    Select Symptom
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    borderWidth: 1,
+                    borderColor: pressedDisplay ? '#4CB97A' : '#816868',
+                    justifyContent: 'flex-end',
+                    borderRadius: 6,
+                    paddingLeft: 12,
+                  }}>
                   <Picker
                     selectedValue={sleepView}
                     style={styles().picker}
+                    dropdownIconColor='#816868'
                     onValueChange={(itemValue, itemIndex) => {
                       setSleepView(itemValue);
                       getDisplayData(data, timePeriod, setDisplayData, itemValue);
                       getTimestamps(data, timestamps, setTimestamps, timePeriod);
                     }}
-                    mode={'dropdown'}
-                  >
-                    <Picker.Item label='Select one...' value='unselected' />
-                    <Picker.Item label='Sleep Only' value='sleep_only' />
-                    <Picker.Item label='Naps Only' value='naps_only' />
+                    mode={'dropdown'}>
+                    <Picker.Item label='Sleep Only' value='sleep_only' color='#816868' />
+                    <Picker.Item label='Naps Only' value='naps_only' color='#816868' />
                   </Picker>
                 </View>
               </View>
@@ -584,6 +614,16 @@ const styles = () => StyleSheet.create({
     marginTop: 20,
     marginBottom: 20,
   },
+  labelView: {
+    position: 'absolute',
+    backgroundColor: global.colorblindMode
+      ? global.cb_pageBackgroundColor
+      : global.pageBackgroundColor,
+    top: -16,
+    left: 14,
+    padding: 5,
+    zIndex: 50,
+  },
   heading: {
     color: global.colorblindMode
       ? global.cb_textColor
@@ -650,6 +690,11 @@ const styles = () => StyleSheet.create({
     textDecorationLine: 'none',
     textAlign: 'center',
     fontSize: 16,
+  },
+  textInputView: {
+    height: 48,
+    width: Math.round(Dimensions.get('window').width * 0.425),
+    position: 'relative',
   },
   textLight: {
     color: global.colorblindMode

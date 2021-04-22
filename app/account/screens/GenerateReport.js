@@ -110,7 +110,7 @@ function GenerateReport({ navigation }) {
                   borderColor: pressed ? '#4CB97A' : '#816868',
                   justifyContent: 'flex-end',
                   borderRadius: 6,
-                  paddingHorizontal: 12,
+                  paddingLeft: 12,
                 }}>
                 <Picker
                   selectedValue={time}
