@@ -209,66 +209,88 @@ const HealthEntry = ({ route, navigation }) => {
 
   useEffect(() => {
     getHealthEntry(timestamp).then((entry) => {
-      if (entry != null) {
-        let health = entry.Health;
-        setHadPeriod(health.Period || false);
-        setWeight(health.Weight || 0);
+      let health =
+        entry != null ? entry.Health : { Period: null, Weight: null };
+      setHadPeriod(health.Period || false);
+      setWeight(health.Weight || 0);
 
-        let symptoms = entry.Symptoms;
-        setSymptoms(symptoms || []);
+      let symptoms = entry != null ? entry.Symptoms : null;
+      setSymptoms(symptoms || []);
 
-        let stress = entry.Stress;
-        setStressSeverity(stress.Severity || 0);
-        setStressors(stress.Stressors || []);
+      let stress =
+        entry != null ? entry.Stress : { Severity: null, Stressors: null };
+      setStressSeverity(stress.Severity || 0);
+      setStressors(stress.Stressors || []);
 
-        let mood = entry.Mood;
-        setMood(mood.Mood || 0);
-        setFeelings(mood.Feelings || []);
+      let mood = entry != null ? entry.Mood : { Mood: null, Feelings: null };
+      setMood(mood.Mood || 0);
+      setFeelings(mood.Feelings || []);
 
-        let sleep = entry.Sleep;
-        setHadSleep(sleep.Slept || true);
-        setSleepTimeStart(new Date(sleep.Start) || new Date());
-        setSleepTimeEnd(new Date(sleep.End) || new Date());
-        setQualityOfSleep(sleep.Quality || 0);
-        if (sleep.Naps != undefined && sleep.Naps != []) {
-          setHadNap(true);
-        } else {
-          setHadNap(false);
-        }
-        setNaps(sleep.Naps || []);
-
-        let meals = entry.Meals;
-        setEatenToday(meals.Ate || true);
-        setTotalCalories(meals.TotalCalories || 0);
-        setTotalProteins(meals.TotalProteins || 0);
-        setTotalCarbs(meals.TotalCarbs || 0);
-        setTotalFats(meals.TotalFats || 0);
-        setMeals(meals.MealList || []);
-
-        let fitness = entry.Fitness;
-        setExerciseToday(fitness.Exercised || false);
-        setExerciseLength(fitness.Duration || 0);
-        setCaloriesBurn(fitness.CaloriesBurned || 0);
-        setSteps(fitness.Steps || 0);
-        setExercises(fitness.Exercises || []);
-
-        let medcheck = entry.MedCheck;
-        let tempMedCheck = 0;
-
-        if (medcheck != null) {
-          for (var index = 0; index < medcheck.length; index++) {
-            let tempMed = medcheck[index];
-            tempMedCheck = tempMed.Taken
-              ? flipBit(tempMedCheck, index)
-              : tempMedCheck;
-          }
-        }
-
-        setMedChecked(tempMedCheck);
-
-        let activities = entry.Activities;
-        setActivities(activities.Activities || []);
+      let sleep =
+        entry != null
+          ? entry.Sleep
+          : { Slept: null, Start: null, End: null, Quality: null, Naps: null };
+      setHadSleep(sleep.Slept || true);
+      setSleepTimeStart(new Date(sleep.Start) || new Date());
+      setSleepTimeEnd(new Date(sleep.End) || new Date());
+      setQualityOfSleep(sleep.Quality || 0);
+      if (sleep.Naps != undefined && sleep.Naps != []) {
+        setHadNap(true);
+      } else {
+        setHadNap(false);
       }
+      setNaps(sleep.Naps || []);
+
+      let meals =
+        entry != null
+          ? entry.Meals
+          : {
+              Ate: null,
+              TotalCalories: null,
+              TotalProteins: null,
+              TotalCarbs: null,
+              TotalFats: null,
+              mealList: null,
+            };
+      setEatenToday(meals.Ate || true);
+      setTotalCalories(meals.TotalCalories || 0);
+      setTotalProteins(meals.TotalProteins || 0);
+      setTotalCarbs(meals.TotalCarbs || 0);
+      setTotalFats(meals.TotalFats || 0);
+      setMeals(meals.MealList || []);
+
+      let fitness =
+        entry != null
+          ? entry.Fitness
+          : {
+              Exercised: null,
+              Duration: null,
+              CaloriesBurned: null,
+              Steps: null,
+              Exercises: null,
+            };
+      setExerciseToday(fitness.Exercised || false);
+      setExerciseLength(fitness.Duration || 0);
+      setCaloriesBurn(fitness.CaloriesBurned || 0);
+      setSteps(fitness.Steps || 0);
+      setExercises(fitness.Exercises || []);
+
+      let medcheck = entry != null ? entry.MedCheck : null;
+      let tempMedCheck = 0;
+
+      if (medcheck != null) {
+        for (var index = 0; index < medcheck.length; index++) {
+          let tempMed = medcheck[index];
+          tempMedCheck = tempMed.Taken
+            ? flipBit(tempMedCheck, index)
+            : tempMedCheck;
+        }
+      }
+
+      setMedChecked(tempMedCheck);
+
+      let activities = entry != null ? entry.Activities : { Activities: null };
+      setActivities(activities.Activities || []);
     });
   }, [timestamp]);
 
