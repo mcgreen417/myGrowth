@@ -131,46 +131,43 @@ const DataChoosers = ({
       {/* SLEEP */}
       { showSleep &&
         <View>
-          <Text style={styles().heading2}>Use either the duration or quality of your sleep!</Text>
-          <View style={{ marginTop: 20, alignSelf: 'flex-start', marginLeft: '5%', }}>
-            <View style={styles().textInputView}>
-              <View style={styles().labelView}>
-                <Text
-                  style={{
-                    color: pressedSleep ? '#4CB97A' : '#816868',
-                    fontSize: 16,
-                    fontWeight: 'bold',
-                  }}>
-                  Select Display
-                </Text>
-              </View>
-              <View
+          <View style={styles().textInputView}>
+            <View style={styles().labelView}>
+              <Text
                 style={{
-                  flex: 1,
-                  borderWidth: 1,
-                  borderColor: pressedSleep ? '#4CB97A' : '#816868',
-                  justifyContent: 'flex-end',
-                  borderRadius: 6,
-                  paddingLeft: 12,
+                  color: pressedSleep ? '#4CB97A' : '#816868',
+                  fontSize: 16,
+                  fontWeight: 'bold',
                 }}>
-                <Picker
-                  selectedValue={isFirst ? category1 : category2}
-                  style={styles().picker}
-                  dropdownIconColor='#816868'
-                  onValueChange={(itemValue, itemIndex) => {
-                    if(isFirst)
-                      setCategory1(itemValue);
-                    else
-                      setCategory2(itemValue);
-                    
-                    makeData(dataRecs, setData, isFirst ? page1 : page2, itemValue === 'unselected' ? 'duration' : itemValue, timePeriod);
-                    setLegend(makeLegend(page1, page2, isFirst ? itemValue : category1, isFirst ? category2 : itemValue));
-                  }}
-                  mode={'dropdown'}>
-                  <Picker.Item label='Duration' value='duration' color='#816868' />
-                  <Picker.Item label='Quality' value='quality' color='#816868' />
-                </Picker>
-              </View>
+                Select Display
+              </Text>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                borderWidth: 1,
+                borderColor: pressedSleep ? '#4CB97A' : '#816868',
+                justifyContent: 'flex-end',
+                borderRadius: 6,
+                paddingLeft: 12,
+              }}>
+              <Picker
+                selectedValue={isFirst ? category1 : category2}
+                style={styles().picker}
+                dropdownIconColor='#816868'
+                onValueChange={(itemValue, itemIndex) => {
+                  if(isFirst)
+                    setCategory1(itemValue);
+                  else
+                    setCategory2(itemValue);
+                  
+                  makeData(dataRecs, setData, isFirst ? page1 : page2, itemValue === 'unselected' ? 'duration' : itemValue, timePeriod);
+                  setLegend(makeLegend(page1, page2, isFirst ? itemValue : category1, isFirst ? category2 : itemValue));
+                }}
+                mode={'dropdown'}>
+                <Picker.Item label='Duration' value='duration' color='#816868' />
+                <Picker.Item label='Quality' value='quality' color='#816868' />
+              </Picker>
             </View>
           </View>
         </View>
@@ -179,151 +176,144 @@ const DataChoosers = ({
       {/* NAP */}
       { showNap &&
         <View>
-          <Text style={styles().heading2}>Use either the duration or quality of your naps!</Text>
-          <View style={{ marginTop: 20, alignSelf: 'flex-start', marginLeft: '5%', }}>
-            <View style={styles().textInputView}>
-              <View style={styles().labelView}>
-                <Text
-                  style={{
-                    color: pressedNap ? '#4CB97A' : '#816868',
-                    fontSize: 16,
-                    fontWeight: 'bold',
-                  }}>
-                  Select Display
-                </Text>
-              </View>
-              <View
+          <View style={styles().textInputView}>
+            <View style={styles().labelView}>
+              <Text
                 style={{
-                  flex: 1,
-                  borderWidth: 1,
-                  borderColor: pressedNap ? '#4CB97A' : '#816868',
-                  justifyContent: 'flex-end',
-                  borderRadius: 6,
-                  paddingLeft: 12,
+                  color: pressedNap ? '#4CB97A' : '#816868',
+                  fontSize: 16,
+                  fontWeight: 'bold',
                 }}>
-                <Picker
-                  selectedValue={isFirst ? category1 : category2}
-                  style={styles().picker}
-                  dropdownIconColor='#816868'
-                  onValueChange={(itemValue, itemIndex) => {
-                    if(isFirst)
-                      setCategory1(itemValue);
-                    else
-                      setCategory2(itemValue);
-    
-                    makeData(dataRecs, setData, isFirst ? page1 : page2, itemValue === 'unselected' ? 'duration' : itemValue, timePeriod);
-                    setLegend(makeLegend(page1, page2, isFirst ? itemValue : category1, isFirst ? category2 : itemValue));
-                  }}
-                  mode={'dropdown'}>
-                  <Picker.Item label='Duration' value='duration' color='#816868' />
-                  <Picker.Item label='Quality' value='quality' color='#816868' />
-                </Picker>
-              </View>
+                Select Display
+              </Text>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                borderWidth: 1,
+                borderColor: pressedNap ? '#4CB97A' : '#816868',
+                justifyContent: 'flex-end',
+                borderRadius: 6,
+                paddingLeft: 12,
+              }}>
+              <Picker
+                selectedValue={isFirst ? category1 : category2}
+                style={styles().picker}
+                dropdownIconColor='#816868'
+                onValueChange={(itemValue, itemIndex) => {
+                  if(isFirst)
+                    setCategory1(itemValue);
+                  else
+                    setCategory2(itemValue);
+  
+                  makeData(dataRecs, setData, isFirst ? page1 : page2, itemValue === 'unselected' ? 'duration' : itemValue, timePeriod);
+                  setLegend(makeLegend(page1, page2, isFirst ? itemValue : category1, isFirst ? category2 : itemValue));
+                }}
+                mode={'dropdown'}>
+                <Picker.Item label='Duration' value='duration' color='#816868' />
+                <Picker.Item label='Quality' value='quality' color='#816868' />
+              </Picker>
             </View>
           </View>
         </View>
+
       }
 
       {/* FITNESS */}
       { showFitness &&
         <View>
-          <Text style={styles().heading2}>Choose from a number of options regarding your fitness!</Text>
-          <View style={{ marginTop: 20, alignSelf: 'flex-start', marginLeft: '5%', }}>
-            <View style={styles().textInputView}>
-              <View style={styles().labelView}>
-                <Text
-                  style={{
-                    color: pressedFitness ? '#4CB97A' : '#816868',
-                    fontSize: 16,
-                    fontWeight: 'bold',
-                  }}>
-                  Select Display
-                </Text>
-              </View>
-              <View
+          <View style={styles().textInputView}>
+            <View style={styles().labelView}>
+              <Text
                 style={{
-                  flex: 1,
-                  borderWidth: 1,
-                  borderColor: pressedFitness ? '#4CB97A' : '#816868',
-                  justifyContent: 'flex-end',
-                  borderRadius: 6,
-                  paddingLeft: 12,
+                  color: pressedFitness ? '#4CB97A' : '#816868',
+                  fontSize: 16,
+                  fontWeight: 'bold',
                 }}>
-                <Picker
-                  selectedValue={isFirst ? category1 : category2}
-                  style={styles().picker}
-                  dropdownIconColor='#816868'
-                  onValueChange={(itemValue, itemIndex) => {
-                    if(isFirst)
-                      setCategory1(itemValue);
-                    else
-                      setCategory2(itemValue);
-    
-                    makeData(dataRecs, setData, isFirst ? page1 : page2, itemValue === 'unselected' ? 'burned' : itemValue, timePeriod);
-                    setLegend(makeLegend(page1, page2, isFirst ? itemValue : category1, isFirst ? category2 : itemValue));
-                  }}
-                  mode={'dropdown'}>
-                  <Picker.Item label='Calories Burned' value='burned' color='#816868' />
-                  <Picker.Item label='Workout Duration' value='dur' color='#816868' />
-                  <Picker.Item label='Total Steps' value='steps' color='#816868' />
-                  {exercises.map((item, index) => {
-                    return (
-                      <Picker.Item key={index} label={item} value={item} color='#816868' />
-                    );
-                  })}
-                </Picker>
-              </View>
+                Select Display
+              </Text>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                borderWidth: 1,
+                borderColor: pressedFitness ? '#4CB97A' : '#816868',
+                justifyContent: 'flex-end',
+                borderRadius: 6,
+                paddingLeft: 12,
+              }}>
+              <Picker
+                selectedValue={isFirst ? category1 : category2}
+                style={styles().picker}
+                dropdownIconColor='#816868'
+                onValueChange={(itemValue, itemIndex) => {
+                  if(isFirst)
+                    setCategory1(itemValue);
+                  else
+                    setCategory2(itemValue);
+  
+                  makeData(dataRecs, setData, isFirst ? page1 : page2, itemValue === 'unselected' ? 'burned' : itemValue, timePeriod);
+                  setLegend(makeLegend(page1, page2, isFirst ? itemValue : category1, isFirst ? category2 : itemValue));
+                }}
+                mode={'dropdown'}>
+                <Picker.Item label='Calories Burned' value='burned' color='#816868' />
+                <Picker.Item label='Workout Duration' value='dur' color='#816868' />
+                <Picker.Item label='Total Steps' value='steps' color='#816868' />
+                {exercises.map((item, index) => {
+                  return (
+                    <Picker.Item key={index} label={item} value={item} color='#816868' />
+                  );
+                })}
+              </Picker>
             </View>
           </View>
         </View>
+
       }
 
       {/* ACTIVITIES */}
       { showActivities &&
         <View>
-          <Text style={styles().heading2}>Compare data with specific activities!</Text>
-          <View style={{ marginTop: 20, alignSelf: 'flex-start', marginLeft: '5%', }}>
-            <View style={styles().textInputView}>
-              <View style={styles().labelView}>
-                <Text
-                  style={{
-                    color: pressedActivities ? '#4CB97A' : '#816868',
-                    fontSize: 16,
-                    fontWeight: 'bold',
-                  }}>
-                  Select Activity
-                </Text>
-              </View>
-              <View
+          <View style={styles().textInputView}>
+            <View style={styles().labelView}>
+              <Text
                 style={{
-                  flex: 1,
-                  borderWidth: 1,
-                  borderColor: pressedActivities ? '#4CB97A' : '#816868',
-                  justifyContent: 'flex-end',
-                  borderRadius: 6,
-                  paddingLeft: 12,
+                  color: pressedActivities ? '#4CB97A' : '#816868',
+                  fontSize: 16,
+                  fontWeight: 'bold',
                 }}>
-                <Picker
-                  selectedValue={isFirst ? category1 : category2}
-                  style={styles().picker}
-                  dropdownIconColor='#816868'
-                  onValueChange={(itemValue, itemIndex) => {
-                    if(isFirst)
-                      setCategory1(itemValue);
-                    else
-                      setCategory2(itemValue);
-    
-                    makeData(dataRecs, setData, isFirst ? page1 : page2, itemValue === 'unselected' ? activities[0] : itemValue, timePeriod);
-                    setLegend(makeLegend(page1, page2, isFirst ? itemValue : category1, isFirst ? category2 : itemValue));
-                  }}
-                  mode={'dropdown'}>
-                  {activities.map((item, index) => {
-                    return (
-                      <Picker.Item key={index} label={item} value={item} color='#816868' />
-                    );
-                  })}
-                </Picker>
-              </View>
+                Select Activity
+              </Text>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                borderWidth: 1,
+                borderColor: pressedActivities ? '#4CB97A' : '#816868',
+                justifyContent: 'flex-end',
+                borderRadius: 6,
+                paddingLeft: 12,
+              }}>
+              <Picker
+                selectedValue={isFirst ? category1 : category2}
+                style={styles().picker}
+                dropdownIconColor='#816868'
+                onValueChange={(itemValue, itemIndex) => {
+                  if(isFirst)
+                    setCategory1(itemValue);
+                  else
+                    setCategory2(itemValue);
+  
+                  makeData(dataRecs, setData, isFirst ? page1 : page2, itemValue === 'unselected' ? activities[0] : itemValue, timePeriod);
+                  setLegend(makeLegend(page1, page2, isFirst ? itemValue : category1, isFirst ? category2 : itemValue));
+                }}
+                mode={'dropdown'}>
+                {activities.map((item, index) => {
+                  return (
+                    <Picker.Item key={index} label={item} value={item} color='#816868' />
+                  );
+                })}
+              </Picker>
             </View>
           </View>
         </View>
@@ -332,48 +322,45 @@ const DataChoosers = ({
       {/* MEAL */}
       { showMeal &&
         <View>
-          <Text style={styles().heading2}>Compare data with your nutritional values!</Text>
-          <View style={{ marginTop: 20, alignSelf: 'flex-start', marginLeft: '5%', }}>
-            <View style={styles().textInputView}>
-              <View style={styles().labelView}>
-                <Text
-                  style={{
-                    color: pressedNutrition ? '#4CB97A' : '#816868',
-                    fontSize: 16,
-                    fontWeight: 'bold',
-                  }}>
-                  Select Nutrient
-                </Text>
-              </View>
-              <View
+          <View style={styles().textInputView}>
+            <View style={styles().labelView}>
+              <Text
                 style={{
-                  flex: 1,
-                  borderWidth: 1,
-                  borderColor: pressedNutrition ? '#4CB97A' : '#816868',
-                  justifyContent: 'flex-end',
-                  borderRadius: 6,
-                  paddingLeft: 12,
+                  color: pressedNutrition ? '#4CB97A' : '#816868',
+                  fontSize: 16,
+                  fontWeight: 'bold',
                 }}>
-                <Picker
-                  selectedValue={isFirst ? category1 : category2}
-                  style={styles().picker}
-                  dropdownIconColor='#816868'
-                  onValueChange={(itemValue, itemIndex) => {
-                    if(isFirst)
-                      setCategory1(itemValue);
-                    else
-                      setCategory2(itemValue);
-    
-                    makeData(dataRecs, setData, isFirst ? page1 : page2, itemValue === 'unselected' ? 'cals' : itemValue, timePeriod);
-                    setLegend(makeLegend(page1, page2, isFirst ? itemValue : category1, isFirst ? category2 : itemValue));
-                  }}
-                  mode={'dropdown'}>
-                  <Picker.Item label='Calories' value='cals' color='#816868' />
-                  <Picker.Item label='Carbohydrates' value='carbs' color='#816868' />
-                  <Picker.Item label='Fats' value='fats' color='#816868' />
-                  <Picker.Item label='Proteins' value='proteins' color='#816868' />
-                </Picker>
-              </View>
+                Select Nutrient
+              </Text>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                borderWidth: 1,
+                borderColor: pressedNutrition ? '#4CB97A' : '#816868',
+                justifyContent: 'flex-end',
+                borderRadius: 6,
+                paddingLeft: 12,
+              }}>
+              <Picker
+                selectedValue={isFirst ? category1 : category2}
+                style={styles().picker}
+                dropdownIconColor='#816868'
+                onValueChange={(itemValue, itemIndex) => {
+                  if(isFirst)
+                    setCategory1(itemValue);
+                  else
+                    setCategory2(itemValue);
+  
+                  makeData(dataRecs, setData, isFirst ? page1 : page2, itemValue === 'unselected' ? 'cals' : itemValue, timePeriod);
+                  setLegend(makeLegend(page1, page2, isFirst ? itemValue : category1, isFirst ? category2 : itemValue));
+                }}
+                mode={'dropdown'}>
+                <Picker.Item label='Calories' value='cals' color='#816868' />
+                <Picker.Item label='Carbohydrates' value='carbs' color='#816868' />
+                <Picker.Item label='Fats' value='fats' color='#816868' />
+                <Picker.Item label='Proteins' value='proteins' color='#816868' />
+              </Picker>
             </View>
           </View>
         </View>
@@ -382,49 +369,46 @@ const DataChoosers = ({
       {/* SYMPTOM */}
       { showSymptom &&
         <View>
-          <Text style={styles().heading2}>Track how your symptoms may be affecting other aspects your days!</Text>
-          <View style={{ marginTop: 20, alignSelf: 'flex-start', marginLeft: '5%', }}>
-            <View style={styles().textInputView}>
-              <View style={styles().labelView}>
-                <Text
-                  style={{
-                    color: pressedSymptom ? '#4CB97A' : '#816868',
-                    fontSize: 16,
-                    fontWeight: 'bold',
-                  }}>
-                  Select Symptom
-                </Text>
-              </View>
-              <View
+          <View style={styles().textInputView}>
+            <View style={styles().labelView}>
+              <Text
                 style={{
-                  flex: 1,
-                  borderWidth: 1,
-                  borderColor: pressedSymptom ? '#4CB97A' : '#816868',
-                  justifyContent: 'flex-end',
-                  borderRadius: 6,
-                  paddingLeft: 12,
+                  color: pressedSymptom ? '#4CB97A' : '#816868',
+                  fontSize: 16,
+                  fontWeight: 'bold',
                 }}>
-                <Picker
-                  selectedValue={isFirst ? category1 : category2}
-                  style={styles().picker}
-                  dropdownIconColor='#816868'
-                  onValueChange={(itemValue, itemIndex) => {
-                    if(isFirst)
-                      setCategory1(itemValue);
-                    else
-                      setCategory2(itemValue);
-    
-                    makeData(dataRecs, setData, isFirst ? page1 : page2, itemValue === 'unselected' ? symptoms[0] : itemValue, timePeriod);
-                    setLegend(makeLegend(page1, page2, isFirst ? itemValue : category1, isFirst ? category2 : itemValue));
-                  }}
-                  mode={'dropdown'}>
-                  {symptoms.map((item, index) => {
-                    return (
-                      <Picker.Item key={index} label={item} value={item} color='#816868' />
-                    );
-                  })}
-                </Picker>
-              </View>
+                Select Symptom
+              </Text>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                borderWidth: 1,
+                borderColor: pressedSymptom ? '#4CB97A' : '#816868',
+                justifyContent: 'flex-end',
+                borderRadius: 6,
+                paddingLeft: 12,
+              }}>
+              <Picker
+                selectedValue={isFirst ? category1 : category2}
+                style={styles().picker}
+                dropdownIconColor='#816868'
+                onValueChange={(itemValue, itemIndex) => {
+                  if(isFirst)
+                    setCategory1(itemValue);
+                  else
+                    setCategory2(itemValue);
+  
+                  makeData(dataRecs, setData, isFirst ? page1 : page2, itemValue === 'unselected' ? symptoms[0] : itemValue, timePeriod);
+                  setLegend(makeLegend(page1, page2, isFirst ? itemValue : category1, isFirst ? category2 : itemValue));
+                }}
+                mode={'dropdown'}>
+                {symptoms.map((item, index) => {
+                  return (
+                    <Picker.Item key={index} label={item} value={item} color='#816868' />
+                  );
+                })}
+              </Picker>
             </View>
           </View>
         </View>
@@ -433,49 +417,46 @@ const DataChoosers = ({
       {/* MEDICINE */}
       { showMedicine &&
         <View>
-          <Text style={styles().heading2}>Choose between your medications and inspect how they may be affecting you!</Text>
-          <View style={{ marginTop: 20, alignSelf: 'flex-start', marginLeft: '5%', }}>
-            <View style={styles().textInputView}>
-              <View style={styles().labelView}>
-                <Text
-                  style={{
-                    color: pressedMedicine ? '#4CB97A' : '#816868',
-                    fontSize: 16,
-                    fontWeight: 'bold',
-                  }}>
-                  Select Medicine
-                </Text>
-              </View>
-              <View
+          <View style={styles().textInputView}>
+            <View style={styles().labelView}>
+              <Text
                 style={{
-                  flex: 1,
-                  borderWidth: 1,
-                  borderColor: pressedMedicine ? '#4CB97A' : '#816868',
-                  justifyContent: 'flex-end',
-                  borderRadius: 6,
-                  paddingLeft: 12,
+                  color: pressedMedicine ? '#4CB97A' : '#816868',
+                  fontSize: 16,
+                  fontWeight: 'bold',
                 }}>
-                <Picker
-                  selectedValue={isFirst ? category1 : category2}
-                  style={styles().picker}
-                  dropdownIconColor='#816868'
-                  onValueChange={(itemValue, itemIndex) => {
-                    if(isFirst)
-                      setCategory1(itemValue);
-                    else
-                      setCategory2(itemValue);
-    
-                    makeData(dataRecs, setData, isFirst ? page1 : page2, itemValue === 'unselected' ? medications[0] : itemValue, timePeriod);
-                    setLegend(makeLegend(page1, page2, isFirst ? itemValue : category1, isFirst ? category2 : itemValue));
-                  }}
-                  mode={'dropdown'}>
-                  {medications.map((item, index) => {
-                    return (
-                      <Picker.Item key={index} label={item} value={item} color='#816868' />
-                    );
-                  })}
-                </Picker>
-              </View>
+                Select Medicine
+              </Text>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                borderWidth: 1,
+                borderColor: pressedMedicine ? '#4CB97A' : '#816868',
+                justifyContent: 'flex-end',
+                borderRadius: 6,
+                paddingLeft: 12,
+              }}>
+              <Picker
+                selectedValue={isFirst ? category1 : category2}
+                style={styles().picker}
+                dropdownIconColor='#816868'
+                onValueChange={(itemValue, itemIndex) => {
+                  if(isFirst)
+                    setCategory1(itemValue);
+                  else
+                    setCategory2(itemValue);
+  
+                  makeData(dataRecs, setData, isFirst ? page1 : page2, itemValue === 'unselected' ? medications[0] : itemValue, timePeriod);
+                  setLegend(makeLegend(page1, page2, isFirst ? itemValue : category1, isFirst ? category2 : itemValue));
+                }}
+                mode={'dropdown'}>
+                {medications.map((item, index) => {
+                  return (
+                    <Picker.Item key={index} label={item} value={item} color='#816868' />
+                  );
+                })}
+              </Picker>
             </View>
           </View>
         </View>
@@ -504,6 +485,9 @@ function HistoryCorrelations({ route, navigation }) {
     const [category2, setCategory2] = useState('unselected');
     const [timePeriod, setTimePeriod] = useState('past_week');
     const [legend, setLegend] = useState(legendInit);
+
+    const [showCategory1, setShowCategory1] = useState(true);
+    const [showCategory2, setShowCategory2] = useState(true);
 
     const [pressedTime, setPressedTime] = useState(false);
     const [pressedCategory1, setPressedCategory1] = useState(false);
@@ -538,170 +522,32 @@ function HistoryCorrelations({ route, navigation }) {
             <View style={styles().divider} />
             </View>
 
-            {/* Categories button */}
-            <View style={{ marginTop: 10, marginBottom: -10, }}>
-              <TouchableOpacity 
-                style={styles().categoriesView} 
-                onPress={() => setModalVisible(true)}
-              >
-                <View style={styles().categories}>
-                  <Text style={styles().textAlt}>Categories</Text>
-                  <View>
-                    <Icon
-                    name='arrow-top-right'
-                    type='material-community'
-                    color='white'
-                    />
-                  </View>
-                </View>
-              </TouchableOpacity>
-
-              <Graph 
-                labels={labels}
-                data1={data1}
-                data2={data2}
-                legend={legend}
-              />
-            </View>
-
-            {/* Middle divider */}
-            <View style={styles().dividerView}>
-              <View style={styles().divider} />
-            </View>
-
-            <Text style={styles().heading1}>Please select which categories you would like to compare.</Text>
-            <View style={{ marginHorizontal: '5%', flexDirection: 'row', marginTop: 20, marginBottom: 10,}}>
-              {/* Category 1 dropdown picker */}
-              <View style={styles().textInputView}>
-                <View style={styles().labelView}>
-                  <Text
-                    style={{
-                      color: pressedCategory1 ? '#4CB97A' : '#816868',
-                      fontSize: 16,
-                      fontWeight: 'bold',
-                    }}>
-                    Category1
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flex: 1,
-                    borderWidth: 1,
-                    borderColor: pressedCategory1 ? '#4CB97A' : '#816868',
-                    justifyContent: 'flex-end',
-                    borderRadius: 6,
-                    paddingLeft: 12,
-                  }}>
-                  <Picker
-                    selectedValue={picker1}
-                    style={styles().picker}
-                    dropdownIconColor='#816868'
-                    onValueChange={(itemValue, itemIndex) => {
-                      setPicker1(itemValue);
-
-                      if(itemValue === 'mood' || 'stress' || 'weight' || 'period') {
-                        makeData(data, setData1, itemValue, 'unselected', timePeriod);
-                        setLegend(makeLegend(itemValue, picker2, 'unselected', 'unselected'));
-                      }
-                    }}
-                    mode={'dropdown'}>
-                    {pickerOpts.map((item, index) => (
-                      <Picker.Item key={index} label={item.name} value={item.value} color='#816868' />
-                    ))}
-                  </Picker>
+            {/* Categories button + graph */}
+            <View style={{ marginTop: 10, }}/>
+            <TouchableOpacity 
+              style={styles().categoriesView} 
+              onPress={() => setModalVisible(true)}
+            >
+              <View style={styles().categories}>
+                <Text style={styles().textAlt}>Categories</Text>
+                <View>
+                  <Icon
+                  name='arrow-top-right'
+                  type='material-community'
+                  color='white'
+                  />
                 </View>
               </View>
-              <View style={{ marginHorizontal: '2.5%' }}/>
-              {/* Category 2 dropdown picker */}
-              <View style={styles().textInputView}>
-                <View style={styles().labelView}>
-                  <Text
-                    style={{
-                      color: pressedCategory2 ? '#4CB97A' : '#816868',
-                      fontSize: 16,
-                      fontWeight: 'bold',
-                    }}>
-                    Category 2
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flex: 1,
-                    borderWidth: 1,
-                    borderColor: pressedCategory2? '#4CB97A' : '#816868',
-                    justifyContent: 'flex-end',
-                    borderRadius: 6,
-                    paddingLeft: 12,
-                  }}>
-                  <Picker
-                    selectedValue={picker2}
-                    style={styles().picker}
-                    dropdownIconColor='#816868'
-                    onValueChange={(itemValue, itemIndex) => {
-                      setPicker2(itemValue);
+            </TouchableOpacity>
 
-                      if(itemValue === 'mood' || 'stress' || 'weight' || 'period') {
-                        makeData(data, setData2, itemValue, 'unselected', timePeriod);
-                        setLegend(makeLegend(picker1, itemValue, 'unselected', 'unselected'));
-                      }
-                    }} 
-                    mode={'dropdown'}>
-                    {pickerOpts.map((item, index) => (
-                      <Picker.Item key={index} label={item.name} value={item.value} color='#816868' />
-                    ))}
-                  </Picker>
-                </View>
-              </View>
-            </View>
-
-            <DataChoosers 
-              showSleep={picker1 === 'sleep' ? true : false}
-              showNap={picker1 === 'nap' ? true : false}
-              showFitness={picker1 === 'fitness' ? true : false}
-              showActivities={picker1 === 'activity' ? true : false}
-              showMeal={picker1 === 'meals' ? true : false}
-              showSymptom={picker1 === 'symptoms' ? true : false}
-              showMedicine={picker1 === 'medications' ? true : false}
-              dataRecs={data}
-              category1={category1}
-              setCategory1={setCategory1}
-              category2={category2}
-              setCategory2={setCategory2}
-              isFirst={true}
-              page1={picker1}
-              page2={picker2}
-              timePeriod={timePeriod}
-              setLegend={setLegend}
-              setData={setData1}
+            <Graph 
+              labels={labels}
+              data1={data1}
+              data2={data2}
+              legend={legend}
             />
 
-            <DataChoosers 
-              showSleep={picker2 === 'sleep' ? true : false}
-              showNap={picker2 === 'nap' ? true : false}
-              showFitness={picker2 === 'fitness' ? true : false}
-              showActivities={picker2 === 'activity' ? true : false}
-              showMeal={picker2 === 'meals' ? true : false}
-              showSymptom={picker2 === 'symptoms' ? true : false}
-              showMedicine={picker2 === 'medications' ? true : false}
-              dataRecs={data}
-              category1={category1}
-              setCategory1={setCategory1}
-              category2={category2}
-              setCategory2={setCategory2}
-              isFirst={false}
-              page1={picker1}
-              page2={picker2}
-              timePeriod={timePeriod}
-              setLegend={setLegend}
-              setData={setData2}
-            />
-
-            <View style={styles().dividerView}>
-              <View style={styles().divider} />
-            </View>
-
-            <Text style={styles().heading1}>Please select the time period you like to view.</Text>
-            <View style={{ marginTop: 20, alignSelf: 'flex-start', marginLeft: '5%', }}>
+            <View style={{ marginTop: 10, marginBottom: 20, alignSelf: 'flex-start', marginLeft: '5%', }}>
               <View style={styles().textInputView}>
                 <View style={styles().labelView}>
                   <Text
@@ -744,6 +590,176 @@ function HistoryCorrelations({ route, navigation }) {
                 </View>
               </View>
             </View>
+
+            {/* Category 1 Selection heading */}
+            <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
+              <Text style={styles().heading}>Category #1 Selection</Text>
+              <View style={styles().iconView}>
+                <Icon 
+                  name={showCategory1 ? 'arrow-drop-up' : 'arrow-drop-down'}
+                  color='#816868' 
+                  onPress={() => setShowCategory1(!showCategory1)}
+                />
+              </View>
+            </View>
+            <Text style={styles().heading2}>Currently selected: {picker1}</Text>
+
+            {/* Middle divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {showCategory1 &&
+              <View style={{ marginHorizontal: '5%', flexDirection: 'row', marginTop: 16, marginBottom: 30, alignSelf: 'flex-start',}}>
+                {/* Category 1 dropdown picker */}
+                <View style={styles().textInputView}>
+                  <View style={styles().labelView}>
+                    <Text
+                      style={{
+                        color: pressedCategory1 ? '#4CB97A' : '#816868',
+                        fontSize: 16,
+                        fontWeight: 'bold',
+                      }}>
+                      Category 1
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      borderWidth: 1,
+                      borderColor: pressedCategory1 ? '#4CB97A' : '#816868',
+                      justifyContent: 'flex-end',
+                      borderRadius: 6,
+                      paddingLeft: 12,
+                    }}>
+                    <Picker
+                      selectedValue={picker1}
+                      style={styles().picker}
+                      dropdownIconColor='#816868'
+                      onValueChange={(itemValue, itemIndex) => {
+                        setPicker1(itemValue);
+
+                        if(itemValue === 'mood' || 'stress' || 'weight' || 'period') {
+                          makeData(data, setData1, itemValue, 'unselected', timePeriod);
+                          setLegend(makeLegend(itemValue, picker2, 'unselected', 'unselected'));
+                        }
+                      }}
+                      mode={'dropdown'}>
+                      {pickerOpts.map((item, index) => (
+                        <Picker.Item key={index} label={item.name} value={item.value} color='#816868' />
+                      ))}
+                    </Picker>
+                  </View>
+                </View>
+                <View style={{ marginHorizontal: '2.5%' }}/>
+                {/* Category 1 Display dropdown picker */}
+                <DataChoosers 
+                  showSleep={picker1 === 'sleep' ? true : false}
+                  showNap={picker1 === 'nap' ? true : false}
+                  showFitness={picker1 === 'fitness' ? true : false}
+                  showActivities={picker1 === 'activity' ? true : false}
+                  showMeal={picker1 === 'meals' ? true : false}
+                  showSymptom={picker1 === 'symptoms' ? true : false}
+                  showMedicine={picker1 === 'medications' ? true : false}
+                  dataRecs={data}
+                  category1={category1}
+                  setCategory1={setCategory1}
+                  category2={category2}
+                  setCategory2={setCategory2}
+                  isFirst={true}
+                  page1={picker1}
+                  page2={picker2}
+                  timePeriod={timePeriod}
+                  setLegend={setLegend}
+                  setData={setData1}
+                />
+              </View>
+            }
+
+            {/* Category 2 Selection heading */}
+            <View style={{ flexDirection: 'row', marginHorizontal: '5%', }}>
+              <Text style={styles().heading}>Category #2 Selection</Text>
+              <View style={styles().iconView}>
+                <Icon 
+                  name={showCategory2 ? 'arrow-drop-up' : 'arrow-drop-down'}
+                  color='#816868' 
+                  onPress={() => setShowCategory2(!showCategory2)}
+                />
+              </View>
+            </View>
+            <Text style={styles().heading2}>Currently selected: {picker2}</Text>
+
+            {/* Middle divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {showCategory2 &&
+              <View style={{ marginHorizontal: '5%', flexDirection: 'row', marginTop: 16, marginBottom: 10, alignSelf: 'flex-start', }}>
+                {/* Category 2 dropdown picker */}
+                <View style={styles().textInputView}>
+                  <View style={styles().labelView}>
+                    <Text
+                      style={{
+                        color: pressedCategory2 ? '#4CB97A' : '#816868',
+                        fontSize: 16,
+                        fontWeight: 'bold',
+                      }}>
+                      Category 2
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      borderWidth: 1,
+                      borderColor: pressedCategory2? '#4CB97A' : '#816868',
+                      justifyContent: 'flex-end',
+                      borderRadius: 6,
+                      paddingLeft: 12,
+                    }}>
+                    <Picker
+                      selectedValue={picker2}
+                      style={styles().picker}
+                      dropdownIconColor='#816868'
+                      onValueChange={(itemValue, itemIndex) => {
+                        setPicker2(itemValue);
+
+                        if(itemValue === 'mood' || 'stress' || 'weight' || 'period') {
+                          makeData(data, setData2, itemValue, 'unselected', timePeriod);
+                          setLegend(makeLegend(picker1, itemValue, 'unselected', 'unselected'));
+                        }
+                      }} 
+                      mode={'dropdown'}>
+                      {pickerOpts.map((item, index) => (
+                        <Picker.Item key={index} label={item.name} value={item.value} color='#816868' />
+                      ))}
+                    </Picker>
+                  </View>
+                </View>
+                <View style={{ marginHorizontal: '2.5%' }}/>
+                {/* Category 2 Display dropdown picker */}
+                <DataChoosers 
+                  showSleep={picker2 === 'sleep' ? true : false}
+                  showNap={picker2 === 'nap' ? true : false}
+                  showFitness={picker2 === 'fitness' ? true : false}
+                  showActivities={picker2 === 'activity' ? true : false}
+                  showMeal={picker2 === 'meals' ? true : false}
+                  showSymptom={picker2 === 'symptoms' ? true : false}
+                  showMedicine={picker2 === 'medications' ? true : false}
+                  dataRecs={data}
+                  category1={category1}
+                  setCategory1={setCategory1}
+                  category2={category2}
+                  setCategory2={setCategory2}
+                  isFirst={false}
+                  page1={picker1}
+                  page2={picker2}
+                  timePeriod={timePeriod}
+                  setLegend={setLegend}
+                  setData={setData2}
+                />
+              </View>
+            }
 
             <View style={styles().pageEnd} />
           </View>
@@ -1584,31 +1600,24 @@ const styles = () => StyleSheet.create({
     marginBottom: 12,
   },
   heading: {
-    color: global.colorblindMode
-      ? global.cb_textColor
-      : global.textColor,
-    fontSize: 16,
+    color: '#4CB97A',
+    fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  heading1: {
-    color: global.colorblindMode
-      ? global.cb_textColor
-      : global.textColor,
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 6,
-    marginHorizontal: '5%',
+    alignSelf: 'flex-start'
   },
   heading2: {
     color: global.colorblindMode
       ? global.cb_textColor
       : global.textColor,
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 6,
-    marginTop: 12,
     marginHorizontal: '5%',
+    alignSelf: 'flex-start',
+  },
+  iconView: {
+    flex: 1,
+    alignItems: 'flex-end',
+    justifyContent: 'center'
   },
   labelView: {
     position: 'absolute',
