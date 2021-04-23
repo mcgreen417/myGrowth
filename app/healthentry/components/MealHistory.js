@@ -38,6 +38,14 @@ const AddFood = ({
   calcium,
   iron,
   potassium,
+  totalCalories,
+  setTotalCalories,
+  totalProteins,
+  setTotalProteins,
+  totalCarbs,
+  setTotalCarbs,
+  totalFats,
+  setTotalFats,
 }) => {
   const [deleteFood, setDeleteFood] = useState(false);
   const [showFood, setShowFood] = useState(true);
@@ -62,10 +70,9 @@ const AddFood = ({
               backgroundColor: '#00000055',
             }}
             onPressOut={() => setDeleteFood(!deleteFood)}>
-            <Pressable 
+            <Pressable
               style={styles().modalContainer}
-              onPress={() => setDeleteFood(true)}
-            >
+              onPress={() => setDeleteFood(true)}>
               <View style={styles().modalHeaderBar}>
                 <View
                   style={{
@@ -177,10 +184,7 @@ const AddFood = ({
           <View style={{ flex: 1, alignItems: 'flex-end', marginRight: 10 }}>
             <View style={{ flexDirection: 'row' }}>
               <Icon
-                name={showFood
-                  ? 'arrow-drop-up'
-                  : 'arrow-drop-down'
-                }
+                name={showFood ? 'arrow-drop-up' : 'arrow-drop-down'}
                 color={
                   global.colorblindMode
                     ? global.cb_optionButtonsColor
@@ -188,7 +192,7 @@ const AddFood = ({
                 }
                 onPress={() => setShowFood(!showFood)}
               />
-              <View style={{ marginRight: 8 }}/>
+              <View style={{ marginRight: 8 }} />
               <Icon
                 name='close'
                 color={
@@ -201,7 +205,7 @@ const AddFood = ({
             </View>
           </View>
         </View>
-        {showFood &&
+        {showFood && (
           <View>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Text style={styles().textAltLight}>Serving measurement: </Text>
@@ -218,9 +222,13 @@ const AddFood = ({
                 value={measurement.toString()}
                 onChangeText={(val) => {
                   let tempMeals = [...meals];
-                  let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                  let tempFood = JSON.parse(
+                    tempMeals[mealIndex].Food[foodIndex]
+                  );
                   tempFood.measurement = val.toString();
-                  tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                  tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(
+                    tempFood
+                  );
                   setMeals(tempMeals);
                 }}
               />
@@ -240,9 +248,13 @@ const AddFood = ({
                 value={amount.toString()}
                 onChangeText={(val) => {
                   let tempMeals = [...meals];
-                  let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                  let tempFood = JSON.parse(
+                    tempMeals[mealIndex].Food[foodIndex]
+                  );
                   tempFood.amount = parseInt(val || 0);
-                  tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                  tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(
+                    tempFood
+                  );
                   setMeals(tempMeals);
                 }}
                 keyboardType='number-pad'
@@ -278,14 +290,21 @@ const AddFood = ({
                   }}
                   value={calories.toString()}
                   onChangeText={(val) => {
+                    let tempTotalCals = totalCalories != '' ? totalCalories : 0;
                     let tempMeals = [...meals];
-                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    let tempFood = JSON.parse(
+                      tempMeals[mealIndex].Food[foodIndex]
+                    );
                     tempFood.calories = parseInt(val || 0);
                     tempMeals[mealIndex].Calories =
                       tempMeals[mealIndex].Calories -
                       parseInt(calories) +
                       tempFood.calories;
-                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(
+                      tempFood
+                    );
+                    tempTotalCals += tempMeals[mealIndex].Calories;
+                    setTotalCalories(tempTotalCals);
                     setMeals(tempMeals);
                   }}
                   keyboardType='number-pad'
@@ -311,12 +330,21 @@ const AddFood = ({
                   }}
                   value={fats.toString()}
                   onChangeText={(val) => {
+                    let tempTotalFats = totalFats != '' ? totalFats : 0;
                     let tempMeals = [...meals];
-                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    let tempFood = JSON.parse(
+                      tempMeals[mealIndex].Food[foodIndex]
+                    );
                     tempFood.fats = parseInt(val || 0);
                     tempMeals[mealIndex].Fats =
-                      tempMeals[mealIndex].Fats - parseInt(fats) + tempFood.fats;
-                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                      tempMeals[mealIndex].Fats -
+                      parseInt(fats) +
+                      tempFood.fats;
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(
+                      tempFood
+                    );
+                    tempTotalFats += tempMeals[mealIndex].Fats;
+                    setTotalFats(tempTotalFats);
                     setMeals(tempMeals);
                   }}
                   keyboardType='number-pad'
@@ -351,9 +379,13 @@ const AddFood = ({
                   value={cholesterol.toString()}
                   onChangeText={(val) => {
                     let tempMeals = [...meals];
-                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    let tempFood = JSON.parse(
+                      tempMeals[mealIndex].Food[foodIndex]
+                    );
                     tempFood.cholesterol = parseInt(val || 0);
-                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(
+                      tempFood
+                    );
                     setMeals(tempMeals);
                   }}
                   keyboardType='number-pad'
@@ -380,9 +412,13 @@ const AddFood = ({
                   value={sodium.toString()}
                   onChangeText={(val) => {
                     let tempMeals = [...meals];
-                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    let tempFood = JSON.parse(
+                      tempMeals[mealIndex].Food[foodIndex]
+                    );
                     tempFood.sodium = parseInt(val || 0);
-                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(
+                      tempFood
+                    );
                     setMeals(tempMeals);
                   }}
                   keyboardType='number-pad'
@@ -415,12 +451,21 @@ const AddFood = ({
                   }}
                   value={carbs.toString()}
                   onChangeText={(val) => {
+                    let tempTotalCarbs = totalCarbs != '' ? totalCarbs : 0;
                     let tempMeals = [...meals];
-                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    let tempFood = JSON.parse(
+                      tempMeals[mealIndex].Food[foodIndex]
+                    );
                     tempFood.carbs = parseInt(val || 0);
                     tempMeals[mealIndex].Carbs =
-                      tempMeals[mealIndex].Carbs - parseInt(carbs) + tempFood.carbs;
-                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                      tempMeals[mealIndex].Carbs -
+                      parseInt(carbs) +
+                      tempFood.carbs;
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(
+                      tempFood
+                    );
+                    tempTotalCarbs += tempMeals[mealIndex].Carbs;
+                    setTotalCarbs(tempTotalCarbs);
                     setMeals(tempMeals);
                   }}
                   keyboardType='number-pad'
@@ -447,9 +492,13 @@ const AddFood = ({
                   value={fiber.toString()}
                   onChangeText={(val) => {
                     let tempMeals = [...meals];
-                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    let tempFood = JSON.parse(
+                      tempMeals[mealIndex].Food[foodIndex]
+                    );
                     tempFood.fiber = parseInt(val || 0);
-                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(
+                      tempFood
+                    );
                     setMeals(tempMeals);
                   }}
                   keyboardType='number-pad'
@@ -483,9 +532,13 @@ const AddFood = ({
                   value={sugars.toString()}
                   onChangeText={(val) => {
                     let tempMeals = [...meals];
-                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    let tempFood = JSON.parse(
+                      tempMeals[mealIndex].Food[foodIndex]
+                    );
                     tempFood.sugars = parseInt(val || 0);
-                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(
+                      tempFood
+                    );
                     setMeals(tempMeals);
                   }}
                   keyboardType='number-pad'
@@ -511,14 +564,22 @@ const AddFood = ({
                   }}
                   value={protein.toString()}
                   onChangeText={(val) => {
+                    let tempTotalProtein =
+                      totalProteins != '' ? totalProteins : 0;
                     let tempMeals = [...meals];
-                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    let tempFood = JSON.parse(
+                      tempMeals[mealIndex].Food[foodIndex]
+                    );
                     tempFood.protein = parseInt(val || 0);
                     tempMeals[mealIndex].Proteins =
                       tempMeals[mealIndex].Proteins -
                       parseInt(protein) +
                       tempFood.protein;
-                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(
+                      tempFood
+                    );
+                    tempTotalProtein += tempMeals[mealIndex].Proteins;
+                    setTotalProteins(tempTotalProtein);
                     setMeals(tempMeals);
                   }}
                   keyboardType='number-pad'
@@ -552,9 +613,13 @@ const AddFood = ({
                   value={vitaminD.toString()}
                   onChangeText={(val) => {
                     let tempMeals = [...meals];
-                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    let tempFood = JSON.parse(
+                      tempMeals[mealIndex].Food[foodIndex]
+                    );
                     tempFood.vitaminD = parseInt(val || 0);
-                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(
+                      tempFood
+                    );
                     setMeals(tempMeals);
                   }}
                   keyboardType='number-pad'
@@ -581,9 +646,13 @@ const AddFood = ({
                   value={calcium.toString()}
                   onChangeText={(val) => {
                     let tempMeals = [...meals];
-                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    let tempFood = JSON.parse(
+                      tempMeals[mealIndex].Food[foodIndex]
+                    );
                     tempFood.calcium = parseInt(val || 0);
-                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(
+                      tempFood
+                    );
                     setMeals(tempMeals);
                   }}
                   keyboardType='number-pad'
@@ -617,9 +686,13 @@ const AddFood = ({
                   value={iron.toString()}
                   onChangeText={(val) => {
                     let tempMeals = [...meals];
-                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    let tempFood = JSON.parse(
+                      tempMeals[mealIndex].Food[foodIndex]
+                    );
                     tempFood.iron = parseInt(val || 0);
-                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(
+                      tempFood
+                    );
                     setMeals(tempMeals);
                   }}
                   keyboardType='number-pad'
@@ -646,9 +719,13 @@ const AddFood = ({
                   value={potassium.toString()}
                   onChangeText={(val) => {
                     let tempMeals = [...meals];
-                    let tempFood = JSON.parse(tempMeals[mealIndex].Food[foodIndex]);
+                    let tempFood = JSON.parse(
+                      tempMeals[mealIndex].Food[foodIndex]
+                    );
                     tempFood.potassium = parseInt(val || 0);
-                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(tempFood);
+                    tempMeals[mealIndex].Food[foodIndex] = JSON.stringify(
+                      tempFood
+                    );
                     setMeals(tempMeals);
                   }}
                   keyboardType='number-pad'
@@ -657,7 +734,7 @@ const AddFood = ({
               </View>
             </View>
           </View>
-        }
+        )}
       </View>
     </View>
   );
@@ -669,7 +746,21 @@ function removeMeal(meals, setMeals, index) {
   setMeals(tempMeals);
 }
 
-const AddMeal = ({ meals, setMeals, index, foods, mealName }) => {
+const AddMeal = ({
+  meals,
+  setMeals,
+  index,
+  foods,
+  mealName,
+  totalCalories,
+  setTotalCalories,
+  totalProteins,
+  setTotalProteins,
+  totalCarbs,
+  setTotalCarbs,
+  totalFats,
+  setTotalFats,
+}) => {
   const [deleteMeal, setDeleteMeal] = useState(false);
   const [showMeal, setShowMeal] = useState(true);
 
@@ -693,10 +784,9 @@ const AddMeal = ({ meals, setMeals, index, foods, mealName }) => {
               backgroundColor: '#00000055',
             }}
             onPressOut={() => setDeleteMeal(!deleteMeal)}>
-            <Pressable 
+            <Pressable
               style={styles().modalContainer}
-              onPress={() => setDeleteMeal(true)}
-            >
+              onPress={() => setDeleteMeal(true)}>
               <View style={styles().modalHeaderBar}>
                 <View
                   style={{
@@ -804,10 +894,7 @@ const AddMeal = ({ meals, setMeals, index, foods, mealName }) => {
           <View style={{ flex: 1, alignItems: 'flex-end', marginRight: 10 }}>
             <View style={{ flexDirection: 'row' }}>
               <Icon
-                name={showMeal 
-                  ? 'arrow-drop-up'
-                  : 'arrow-drop-down'
-                }
+                name={showMeal ? 'arrow-drop-up' : 'arrow-drop-down'}
                 color={
                   global.colorblindMode
                     ? global.cb_optionButtonsColor
@@ -815,7 +902,7 @@ const AddMeal = ({ meals, setMeals, index, foods, mealName }) => {
                 }
                 onPress={() => setShowMeal(!showMeal)}
               />
-              <View style={{ marginRight: 8 }}/>
+              <View style={{ marginRight: 8 }} />
               <Icon
                 name='close'
                 color={
@@ -828,7 +915,7 @@ const AddMeal = ({ meals, setMeals, index, foods, mealName }) => {
             </View>
           </View>
         </View>
-        {showMeal &&
+        {showMeal && (
           <View>
             {foods.map((item, foodIndex) => {
               const {
@@ -870,6 +957,14 @@ const AddMeal = ({ meals, setMeals, index, foods, mealName }) => {
                   calcium={calcium}
                   iron={iron}
                   potassium={potassium}
+                  totalCalories={totalCalories}
+                  setTotalCalories={setTotalCalories}
+                  totalProteins={totalProteins}
+                  setTotalProteins={setTotalProteins}
+                  totalCarbs={totalCarbs}
+                  setTotalCarbs={setTotalCarbs}
+                  totalFats={totalFats}
+                  setTotalFats={setTotalFats}
                 />
               );
             })}
@@ -908,13 +1003,24 @@ const AddMeal = ({ meals, setMeals, index, foods, mealName }) => {
               />
             </View>
           </View>
-        }
+        )}
       </View>
     </View>
   );
 };
 
-const AdvanceMealTracking = ({ meals, setMeals }) => {
+const AdvanceMealTracking = ({
+  meals,
+  setMeals,
+  totalCalories,
+  setTotalCalories,
+  totalProteins,
+  setTotalProteins,
+  totalCarbs,
+  setTotalCarbs,
+  totalFats,
+  setTotalFats,
+}) => {
   return (
     <View style={{ marginTop: 20 }}>
       {meals.map((item, index) => {
@@ -926,14 +1032,20 @@ const AdvanceMealTracking = ({ meals, setMeals }) => {
             setMeals={setMeals}
             foods={item.Food}
             mealName={item.Name}
+            totalCalories={totalCalories}
+            setTotalCalories={setTotalCalories}
+            totalProteins={totalProteins}
+            setTotalProteins={setTotalProteins}
+            totalCarbs={totalCarbs}
+            setTotalCarbs={setTotalCarbs}
+            totalFats={totalFats}
+            setTotalFats={setTotalFats}
           />
         );
       })}
-      {meals.length > 0 &&
-        <View style={{ marginBottom: 10, }}/>
-      }
+      {meals.length > 0 && <View style={{ marginBottom: 10 }} />}
 
-      <View style={{ width: '40%', }}>
+      <View style={{ width: '40%' }}>
         <Button
           title='+ Add Meal'
           color={
@@ -1039,7 +1151,18 @@ const MealHistory = ({
         />
       </Pressable>
       {showAdvanceMealTracking && (
-        <AdvanceMealTracking meals={meals} setMeals={setMeals} />
+        <AdvanceMealTracking
+          meals={meals}
+          setMeals={setMeals}
+          totalCalories={totalCalories}
+          setTotalCalories={setTotalCalories}
+          totalProteins={totalProteins}
+          setTotalProteins={setTotalProteins}
+          totalCarbs={totalCarbs}
+          setTotalCarbs={setTotalCarbs}
+          totalFats={totalFats}
+          setTotalFats={setTotalFats}
+        />
       )}
     </View>
   );
