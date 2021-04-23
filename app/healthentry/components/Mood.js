@@ -18,6 +18,7 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
   const [showAddFeelings, setShowAddFeelings] = useState(false);
   const [pressed, setPressed] = useState(false);
   const [feel, setFeel] = useState('');
+  console.log(mood);
 
   return (
     <SafeAreaView style={{ width: '90%' }}>
@@ -28,8 +29,7 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
             animationType='fade'
             transparent={true}
             visible={showAddFeelings}
-            onRequestClose={() => setShowAddFeelings(!showAddFeelings)}
-          >
+            onRequestClose={() => setShowAddFeelings(!showAddFeelings)}>
             <Pressable
               style={{
                 flex: 1,
@@ -38,14 +38,13 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
                 zIndex: 1,
                 backgroundColor: '#00000055',
               }}
-              onPressOut={() => setShowAddFeelings(!showAddFeelings)}
-              >
-              <Pressable 
+              onPressOut={() => setShowAddFeelings(!showAddFeelings)}>
+              <Pressable
                 style={styles().modalContainer}
                 onPressOut={() => {
                   Keyboard.dismiss();
-                  setShowAddFeelings(true);}}
-              >
+                  setShowAddFeelings(true);
+                }}>
                 <View style={styles().modalHeaderBar}>
                   <View
                     style={{
@@ -86,28 +85,28 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
                     marginTop: 10,
                     marginBottom: 16,
                   }}>
-                  <View style={{ marginTop: 16, marginBottom: 20, }}>
+                  <View style={{ marginTop: 16, marginBottom: 20 }}>
                     <View style={styles().textInputView}>
                       <View style={styles().labelView}>
-                        <Text style={{
-                            color: pressed 
-                              ? '#4CB97A'
-                              : '#816868',
+                        <Text
+                          style={{
+                            color: pressed ? '#4CB97A' : '#816868',
                             fontSize: 16,
                             fontWeight: 'bold',
-                          }}>Feeling</Text>
+                          }}>
+                          Feeling
+                        </Text>
                       </View>
-                      <View style={{
-                          flex: 1, 
-                          borderWidth: 1, 
-                          borderColor: pressed
-                            ? '#4CB97A'
-                            : '#816868',
+                      <View
+                        style={{
+                          flex: 1,
+                          borderWidth: 1,
+                          borderColor: pressed ? '#4CB97A' : '#816868',
                           justifyContent: 'flex-end',
                           borderRadius: 10,
                           paddingHorizontal: 16,
                         }}>
-                        <TextInput 
+                        <TextInput
                           placeholder='Feeling name'
                           fontSize={16}
                           color='#816868'
@@ -116,13 +115,13 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
                           maxLength={99}
                           onFocus={() => setPressed(true)}
                           onBlur={() => setPressed(false)}
-                          style={{ top: -8, }}
+                          style={{ top: -8 }}
                         />
                       </View>
                     </View>
                   </View>
                   {/* Add Feeling button */}
-                  <View style={{ alignSelf: 'center', }}>
+                  <View style={{ alignSelf: 'center' }}>
                     <Button
                       title='Add Feeling'
                       onPress={() => {
@@ -285,7 +284,7 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
         </View>
 
         {/* Add Feelings button */}
-        <View style={{ width: '40%', marginTop: 10, marginBottom: 10, }}>
+        <View style={{ width: '40%', marginTop: 10, marginBottom: 10 }}>
           <Button
             title='+ Add Feelings'
             onPress={() => setShowAddFeelings(!showAddFeelings)}
@@ -315,9 +314,7 @@ const styles = () =>
       width: '100%',
     },
     heading: {
-      color: global.colorblindMode 
-        ? global.cb_textColor 
-        : global.textColor,
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
       fontSize: 18,
       fontWeight: 'bold',
       marginBottom: 10,
@@ -342,7 +339,7 @@ const styles = () =>
         ? global.cb_pageBackgroundColor
         : global.pageBackgroundColor,
       alignItems: 'center',
-      width: Math.round(Dimensions.get('window').width * 4/5),
+      width: Math.round((Dimensions.get('window').width * 4) / 5),
       borderRadius: 10,
       shadowColor: '#000',
       shadowOffset: {
@@ -368,8 +365,8 @@ const styles = () =>
       fontWeight: 'bold',
     },
     textInputView: {
-      height: 48, 
-      width: Math.round(Dimensions.get('window').width * 1/2),
+      height: 48,
+      width: Math.round((Dimensions.get('window').width * 1) / 2),
       position: 'relative',
     },
   });

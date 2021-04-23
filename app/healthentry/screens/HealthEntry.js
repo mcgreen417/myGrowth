@@ -21,6 +21,7 @@ import Medication from '../components/Medication';
 import Sleep from '../components/Sleep';
 import MealHistory from '../components/MealHistory';
 import FitnessTracking from '../components/FitnessTracking';
+import LoadingGetHealthEntry from '../components/LoadingGetHealthEntry';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Cache } from 'react-native-cache';
 import * as mutations from '../../../src/graphql/mutations';
@@ -102,7 +103,7 @@ async function submit(
     Exercises: exercises,
   };
 
-  console.log(timestamp);
+  // console.log(timestamp);
   const query = {
     Timestamp: new Date(timestamp).toISOString(),
     Health: healthIn,
@@ -136,28 +137,32 @@ function flipBit(medChecked, index) {
   return medChecked ^ mask;
 }
 
-async function getHealthEntry(timestamp) {
-  // console.log(timestamp);
+async function getHealthEntry(timestamp, setLoadingVisible) {
+  // set spinner
+  setLoadingVisible(true);
   const res = await API.graphql({
     query: queries.getDailyEntry,
     variables: { Timestamp: new Date(timestamp).toISOString() },
   })
     .then((res) => {
       // console.log(res);
+
       return res.data.getDailyEntry;
     })
     .catch((error) => {
       console.log('Empty Health Entry');
     });
-
   return res;
 }
 
 const HealthEntry = ({ route, navigation }) => {
+  // Spinner
+  const [loadingVisible, setLoadingVisible] = useState(false);
+
   // Timestamp variables
   const [timestamp, setTimestamp] = useState(
     route.params != undefined
-      ? new Date(route.params.reviewTimestamp)
+      ? new Date(route.params.reviewTimestamp).setSeconds(0, 0)
       : new Date().setSeconds(0, 0)
   );
 
@@ -208,24 +213,41 @@ const HealthEntry = ({ route, navigation }) => {
   const [exercises, setExercises] = useState([]);
 
   useEffect(() => {
-    getHealthEntry(timestamp).then((entry) => {
+    getHealthEntry(timestamp, setLoadingVisible).then((entry) => {
+      // var t0 = performance.now();
       let health =
         entry != null ? entry.Health : { Period: null, Weight: null };
       setHadPeriod(health.Period || false);
       setWeight(health.Weight || 0);
 
+      // var t1 = performance.now();
+      // console.log('Setting health took ' + (t1 - t0) + ' milliseconds.');
+
+      // var t0 = performance.now();
       let symptoms = entry != null ? entry.Symptoms : null;
       setSymptoms(symptoms || []);
 
+      // var t1 = performance.now();
+      // console.log('Setting symptoms took ' + (t1 - t0) + ' milliseconds.');
+
+      // var t0 = performance.now();
       let stress =
         entry != null ? entry.Stress : { Severity: null, Stressors: null };
       setStressSeverity(stress.Severity || 0);
       setStressors(stress.Stressors || []);
 
+      // var t1 = performance.now();
+      // console.log('Setting stress took ' + (t1 - t0) + ' milliseconds.');
+
+      // var t0 = performance.now();
       let mood = entry != null ? entry.Mood : { Mood: null, Feelings: null };
       setMood(mood.Mood || 0);
       setFeelings(mood.Feelings || []);
 
+      // var t1 = performance.now();
+      // console.log('Setting mood took ' + (t1 - t0) + ' milliseconds.');
+
+      // var t0 = performance.now();
       let sleep =
         entry != null
           ? entry.Sleep
@@ -241,6 +263,10 @@ const HealthEntry = ({ route, navigation }) => {
       }
       setNaps(sleep.Naps || []);
 
+      // var t1 = performance.now();
+      // console.log('Setting sleep took ' + (t1 - t0) + ' milliseconds.');
+
+      // var t0 = performance.now();
       let meals =
         entry != null
           ? entry.Meals
@@ -259,6 +285,10 @@ const HealthEntry = ({ route, navigation }) => {
       setTotalFats(meals.TotalFats || 0);
       setMeals(meals.MealList || []);
 
+      // var t1 = performance.now();
+      // console.log('Setting meals took ' + (t1 - t0) + ' milliseconds.');
+
+      // var t0 = performance.now();
       let fitness =
         entry != null
           ? entry.Fitness
@@ -275,6 +305,10 @@ const HealthEntry = ({ route, navigation }) => {
       setSteps(fitness.Steps || 0);
       setExercises(fitness.Exercises || []);
 
+      // var t1 = performance.now();
+      // console.log('Setting fitness took ' + (t1 - t0) + ' milliseconds.');
+
+      // var t0 = performance.now();
       let medcheck = entry != null ? entry.MedCheck : null;
       let tempMedCheck = 0;
 
@@ -289,217 +323,233 @@ const HealthEntry = ({ route, navigation }) => {
 
       setMedChecked(tempMedCheck);
 
+      // var t1 = performance.now();
+      // console.log('Setting med took ' + (t1 - t0) + ' milliseconds.');
+
+      // var t0 = performance.now();
       let activities = entry != null ? entry.Activities : { Activities: null };
       setActivities(activities.Activities || []);
+
+      // var t1 = performance.now();
+      // console.log('Setting activities took ' + (t1 - t0) + ' milliseconds.');
+      //remove spinner
+      setLoadingVisible(false);
     });
   }, [timestamp]);
 
   return (
     <SafeAreaView style={styles().container}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps='handled'>
-        <View style={styles().pageSetup}>
-          {/* Gardener avatar + page blurb */}
-          <View style={styles().avatarView}>
-            <Text style={styles().pageDescription}>
-              Time for a new health entry! Fill out only the fields you'd like
-              to and come back here to edit your entry later.
-            </Text>
-            <Image
-              style={styles().avatarFlipped}
-              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
-            />
-          </View>
-          {/* Top page divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
-
-          {/* Select Data and Time */}
-          <Timestamp timestamp={timestamp} setTimestamp={setTimestamp} />
-
-          {/* Section divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
-
-          {/* Add Mood */}
-          <Mood
-            mood={mood}
-            setMood={setMood}
-            feelings={feelings}
-            setFeelings={setFeelings}
-          />
-          {/* Section divider */}
-          <View style={{ marginTop: -10 }} />
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
-
-          {/* Add Stress */}
-          <Stress
-            stress={stressSeverity}
-            setStress={setStressSeverity}
-            stressors={stressors}
-            setStressors={setStressors}
-          />
-          {/* Section divider */}
-          <View style={{ marginTop: -10 }} />
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
-
-          {/* Add Daily Activities */}
-          <DailyActivities
-            activities={activities}
-            setActivities={setActivities}
-          />
-          {/* Section divider */}
-          <View style={{ marginTop: -10 }} />
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
-
-          {/* Add Physical and Mental Health */}
-          <PhysicalMentalHealth
-            hadPeriod={hadPeriod}
-            setHadPeriod={setHadPeriod}
-            weight={weight}
-            setWeight={setWeight}
-            symptoms={symptoms}
-            setSymptoms={setSymptoms}
-          />
-          {/* Section divider */}
-          <View style={{ marginTop: -10 }} />
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
-
-          {/* Add Medication */}
-          <Medication
-            medChecked={medChecked}
-            setMedChecked={setMedChecked}
-            medications={medications}
-            setMedications={setMedications}
-          />
-          {/* Section divider */}
-          <View style={{ marginTop: -10 }} />
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
-
-          {/* Add Sleep */}
-          <Sleep
-            hadSleep={hadSleep}
-            setHadSleep={setHadSleep}
-            qualityOfSleep={qualityOfSleep}
-            setQualityOfSleep={setQualityOfSleep}
-            hadNap={hadNap}
-            setHadNap={setHadNap}
-            naps={naps}
-            setNaps={setNaps}
-            sleepTimeStart={sleepTimeStart}
-            setSleepTimeStart={setSleepTimeStart}
-            sleepTimeEnd={sleepTimeEnd}
-            setSleepTimeEnd={setSleepTimeEnd}
-          />
-          {/* Section divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
-
-          {/* Add Meal History */}
-          <MealHistory
-            eatenToday={eatenToday}
-            setEatenToday={setEatenToday}
-            totalCalories={totalCalories}
-            setTotalCalories={setTotalCalories}
-            totalProteins={totalProteins}
-            setTotalProteins={setTotalProteins}
-            totalCarbs={totalCarbs}
-            setTotalCarbs={setTotalCarbs}
-            totalFats={totalFats}
-            setTotalFats={setTotalFats}
-            meals={meals}
-            setMeals={setMeals}
-          />
-          {/* Section divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
-
-          {/* Add Fitness Tracking */}
-          <FitnessTracking
-            exerciseToday={exerciseToday}
-            setExerciseToday={setExerciseToday}
-            exerciseLength={exerciseLength}
-            setExerciseLength={setExerciseLength}
-            caloriesBurn={caloriesBurn}
-            setCaloriesBurn={setCaloriesBurn}
-            stepsTracked={stepsTracked}
-            setStepsTracked={setStepsTracked}
-            steps={steps}
-            setSteps={setSteps}
-            exercises={exercises}
-            setExercises={setExercises}
-          />
-          {/* Section divider */}
-          <View style={styles().dividerView}>
-            <View style={styles().divider} />
-          </View>
-
-          {/* Save Entry */}
-          <View
-            style={{
-              flexDirection: 'row',
-              marginTop: 10,
-              marginBottom: 16,
-              alignSelf: 'center',
-            }}>
-            <View style={{ width: '42.5%' }}>
-              <Button
-                title='Save Entry'
-                color='#A5DFB2'
-                onPress={() =>
-                  submit(
-                    timestamp,
-                    mood,
-                    feelings,
-                    stressSeverity,
-                    stressors,
-                    activities,
-                    hadPeriod,
-                    weight,
-                    symptoms,
-                    medChecked,
-                    medications,
-                    hadSleep,
-                    sleepTimeStart,
-                    sleepTimeEnd,
-                    qualityOfSleep,
-                    naps,
-                    eatenToday,
-                    totalCalories,
-                    meals,
-                    totalProteins,
-                    totalCarbs,
-                    totalFats,
-                    exerciseToday,
-                    exerciseLength,
-                    caloriesBurn,
-                    steps,
-                    exercises,
-                    navigation
-                  )
-                }
+      <LoadingGetHealthEntry
+        loadingVisible={loadingVisible}
+        setLoadingVisible={setLoadingVisible}
+      />
+      {!loadingVisible && (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps='handled'>
+          <View style={styles().pageSetup}>
+            {/* Gardener avatar + page blurb */}
+            <View style={styles().avatarView}>
+              <Text style={styles().pageDescription}>
+                Time for a new health entry! Fill out only the fields you'd like
+                to and come back here to edit your entry later.
+              </Text>
+              <Image
+                style={styles().avatarFlipped}
+                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
               />
             </View>
-          </View>
-        </View>
+            {/* Top page divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
 
-        <View style={styles().pageEnd} />
-      </ScrollView>
+            {/* Select Data and Time */}
+            <Timestamp timestamp={timestamp} setTimestamp={setTimestamp} />
+
+            {/* Section divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* Add Mood */}
+            <Mood
+              mood={mood}
+              setMood={setMood}
+              feelings={feelings}
+              setFeelings={setFeelings}
+            />
+            {/* Section divider */}
+            <View style={{ marginTop: -10 }} />
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* Add Stress */}
+            <Stress
+              stress={stressSeverity}
+              setStress={setStressSeverity}
+              stressors={stressors}
+              setStressors={setStressors}
+            />
+            {/* Section divider */}
+            <View style={{ marginTop: -10 }} />
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* Add Daily Activities */}
+            <DailyActivities
+              activities={activities}
+              setActivities={setActivities}
+            />
+            {/* Section divider */}
+            <View style={{ marginTop: -10 }} />
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* Add Physical and Mental Health */}
+            <PhysicalMentalHealth
+              hadPeriod={hadPeriod}
+              setHadPeriod={setHadPeriod}
+              weight={weight}
+              setWeight={setWeight}
+              symptoms={symptoms}
+              setSymptoms={setSymptoms}
+            />
+            {/* Section divider */}
+            <View style={{ marginTop: -10 }} />
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* Add Medication */}
+            <Medication
+              medChecked={medChecked}
+              setMedChecked={setMedChecked}
+              medications={medications}
+              setMedications={setMedications}
+            />
+            {/* Section divider */}
+            <View style={{ marginTop: -10 }} />
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* Add Sleep */}
+            <Sleep
+              hadSleep={hadSleep}
+              setHadSleep={setHadSleep}
+              qualityOfSleep={qualityOfSleep}
+              setQualityOfSleep={setQualityOfSleep}
+              hadNap={hadNap}
+              setHadNap={setHadNap}
+              naps={naps}
+              setNaps={setNaps}
+              sleepTimeStart={sleepTimeStart}
+              setSleepTimeStart={setSleepTimeStart}
+              sleepTimeEnd={sleepTimeEnd}
+              setSleepTimeEnd={setSleepTimeEnd}
+            />
+            {/* Section divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* Add Meal History */}
+            <MealHistory
+              eatenToday={eatenToday}
+              setEatenToday={setEatenToday}
+              totalCalories={totalCalories}
+              setTotalCalories={setTotalCalories}
+              totalProteins={totalProteins}
+              setTotalProteins={setTotalProteins}
+              totalCarbs={totalCarbs}
+              setTotalCarbs={setTotalCarbs}
+              totalFats={totalFats}
+              setTotalFats={setTotalFats}
+              meals={meals}
+              setMeals={setMeals}
+            />
+            {/* Section divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* Add Fitness Tracking */}
+            <FitnessTracking
+              exerciseToday={exerciseToday}
+              setExerciseToday={setExerciseToday}
+              exerciseLength={exerciseLength}
+              setExerciseLength={setExerciseLength}
+              caloriesBurn={caloriesBurn}
+              setCaloriesBurn={setCaloriesBurn}
+              stepsTracked={stepsTracked}
+              setStepsTracked={setStepsTracked}
+              steps={steps}
+              setSteps={setSteps}
+              exercises={exercises}
+              setExercises={setExercises}
+            />
+            {/* Section divider */}
+            <View style={styles().dividerView}>
+              <View style={styles().divider} />
+            </View>
+
+            {/* Save Entry */}
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 10,
+                marginBottom: 16,
+                alignSelf: 'center',
+              }}>
+              <View style={{ width: '42.5%' }}>
+                <Button
+                  title='Save Entry'
+                  color='#A5DFB2'
+                  onPress={() =>
+                    submit(
+                      timestamp,
+                      mood,
+                      feelings,
+                      stressSeverity,
+                      stressors,
+                      activities,
+                      hadPeriod,
+                      weight,
+                      symptoms,
+                      medChecked,
+                      medications,
+                      hadSleep,
+                      sleepTimeStart,
+                      sleepTimeEnd,
+                      qualityOfSleep,
+                      naps,
+                      eatenToday,
+                      totalCalories,
+                      meals,
+                      totalProteins,
+                      totalCarbs,
+                      totalFats,
+                      exerciseToday,
+                      exerciseLength,
+                      caloriesBurn,
+                      steps,
+                      exercises,
+                      navigation
+                    )
+                  }
+                />
+              </View>
+            </View>
+          </View>
+
+          <View style={styles().pageEnd} />
+        </ScrollView>
+      )}
+
       <NavBar navigation={navigation} />
     </SafeAreaView>
   );
