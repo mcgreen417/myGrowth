@@ -77,8 +77,8 @@ async function submit(
   // Sleep and Naps
   const sleepIn = {
     Slept: hadSleep,
-    Start: sleepTimeStart.toISOString(),
-    End: sleepTimeEnd.toISOString(),
+    Start: new Date(sleepTimeStart).toISOString(),
+    End: new Date(sleepTimeEnd).toISOString(),
     Quality: qualityOfSleep,
     Naps: naps,
   };
@@ -115,21 +115,52 @@ async function submit(
     Activities: activitiesIn,
   };
 
-  console.log('Query: ', query);
+  // console.log('Query: ', query);
 
   const res = await API.graphql({
     query: mutations.updateDailyEntry,
     variables: query,
   });
 
-  console.log('Response: ', res);
+  // console.log('Response: ', res);
 
-  navigation.navigate('EntryCompletion');
+  navigation.navigate('EntryCompletion', {
+    timestamp: timestamp.toISOString(),
+  });
 }
 
-const HealthEntry = ({ navigation }) => {
+function flipBit(medChecked, index) {
+  var mask = 1 << index;
+
+  return medChecked ^ mask;
+}
+
+async function getHealthEntry(timestamp) {
+  // console.log(timestamp);
+  const res = await API.graphql({
+    query: queries.getDailyEntry,
+    variables: { Timestamp: new Date(timestamp).toISOString() },
+  })
+    .then((res) => {
+      // console.log(res);
+      return res.data.getDailyEntry;
+    })
+    .catch((error) => {
+      console.log('Empty Health Entry');
+    });
+
+  return res;
+}
+
+const HealthEntry = ({ route, navigation }) => {
   // Timestamp variables
-  const [timestamp, setTimestamp] = useState(new Date());
+  const [timestamp, setTimestamp] = useState(
+    route.params != undefined
+      ? new Date(route.params.reviewTimestamp)
+      : new Date().setSeconds(0, 0)
+  );
+
+  // console.log(route.params);
 
   // Stress variables
   const [stressSeverity, setStressSeverity] = useState(0);
@@ -174,6 +205,71 @@ const HealthEntry = ({ navigation }) => {
   const [stepsTracked, setStepsTracked] = useState(false);
   const [steps, setSteps] = useState('');
   const [exercises, setExercises] = useState([]);
+
+  useEffect(() => {
+    getHealthEntry(timestamp).then((entry) => {
+      if (entry != null) {
+        let health = entry.Health;
+        setHadPeriod(health.Period || false);
+        setWeight(health.Weight || 0);
+
+        let symptoms = entry.Symptoms;
+        setSymptoms(symptoms || []);
+
+        let stress = entry.Stress;
+        setStressSeverity(stress.Severity || 0);
+        setStressors(stress.Stressors || []);
+
+        let mood = entry.Mood;
+        setMood(mood.Mood || 0);
+        setFeelings(mood.Feelings || []);
+
+        let sleep = entry.Sleep;
+        setHadSleep(sleep.Slept || true);
+        setSleepTimeStart(new Date(sleep.Start) || new Date());
+        setSleepTimeEnd(new Date(sleep.End) || new Date());
+        setQualityOfSleep(sleep.Quality || 0);
+        if (sleep.Naps != undefined && sleep.Naps != []) {
+          setHadNap(true);
+        } else {
+          setHadNap(false);
+        }
+        setNaps(sleep.Naps || []);
+
+        let meals = entry.Meals;
+        setEatenToday(meals.Ate || true);
+        setTotalCalories(meals.TotalCalories || 0);
+        setTotalProteins(meals.TotalProteins || 0);
+        setTotalCarbs(meals.TotalCarbs || 0);
+        setTotalFats(meals.TotalFats || 0);
+        setMeals(meals.MealList || []);
+
+        let fitness = entry.Fitness;
+        setExerciseToday(fitness.Exercised || false);
+        setExerciseLength(fitness.Duration || 0);
+        setCaloriesBurn(fitness.CaloriesBurned || 0);
+        setSteps(fitness.Steps || 0);
+        setExercises(fitness.Exercises || []);
+
+        let medcheck = entry.MedCheck;
+        let tempMedCheck = 0;
+
+        if (medcheck != null) {
+          for (var index = 0; index < medcheck.length; index++) {
+            let tempMed = medcheck[index];
+            tempMedCheck = tempMed.Taken
+              ? flipBit(tempMedCheck, index)
+              : tempMedCheck;
+          }
+        }
+
+        setMedChecked(tempMedCheck);
+
+        let activities = entry.Activities;
+        setActivities(activities.Activities || []);
+      }
+    });
+  }, [timestamp]);
 
   return (
     <SafeAreaView style={styles().container}>

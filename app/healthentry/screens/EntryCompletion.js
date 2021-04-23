@@ -9,39 +9,57 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
-import Party from '../../shared/assets/svgs/party-emoji.svg'
+import Party from '../../shared/assets/svgs/party-emoji.svg';
 
-const EntryCompletion = ({ navigation }) => {
+const EntryCompletion = ({ route, navigation }) => {
+  const { timestamp } = route.params;
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView 
+      <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', }}
-      >
-        <View style={{alignContent: 'center', marginHorizontal: '10%', marginTop: '-5%' }}>
-          <Text style={{ 
-            fontSize: 44, 
-            color: '#816868', 
-            fontWeight: 'bold', 
-            textAlign: 'center',
-            marginBottom: '10%',
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
+        <View
+          style={{
+            alignContent: 'center',
+            marginHorizontal: '10%',
+            marginTop: '-5%',
           }}>
+          <Text
+            style={{
+              fontSize: 44,
+              color: '#816868',
+              fontWeight: 'bold',
+              textAlign: 'center',
+              marginBottom: '10%',
+            }}>
             Congrats! <Party height={44} width={44} />
           </Text>
-          <Image 
-            style={{ 
+          <Image
+            style={{
               width: Math.round(Dimensions.get('window').width * 0.5),
-              height: Math.round(Dimensions.get('window').width * 0.6), 
+              height: Math.round(Dimensions.get('window').width * 0.6),
               alignSelf: 'center',
             }}
             source={require('../../shared/assets/bee-sprites/worker-bee.png')}
           />
           <View style={{ marginVertical: '10%' }}>
-            <Text style={{ fontSize: 20, color: '#816868', fontWeight: 'bold', textAlign: 'center', }}>
+            <Text
+              style={{
+                fontSize: 20,
+                color: '#816868',
+                fontWeight: 'bold',
+                textAlign: 'center',
+              }}>
               You've watered your plant today!
             </Text>
-            <Text style={{ fontSize: 20, color: '#816868', fontWeight: 'bold', textAlign: 'center', }}>
-              Your plant has gained +5 EXP! 
+            <Text
+              style={{
+                fontSize: 20,
+                color: '#816868',
+                fontWeight: 'bold',
+                textAlign: 'center',
+              }}>
+              Your plant has gained +5 EXP!
             </Text>
           </View>
         </View>
@@ -56,7 +74,11 @@ const EntryCompletion = ({ navigation }) => {
             <Button
               title='View Entry'
               color='#A5DFB2'
-              onPress={() => navigation.navigate('')}
+              onPress={() =>
+                navigation.navigate('HealthEntry', {
+                  reviewTimestamp: timestamp,
+                })
+              }
             />
           </View>
           <View style={{ width: '5%' }} />
