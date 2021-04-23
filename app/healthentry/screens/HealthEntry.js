@@ -102,8 +102,9 @@ async function submit(
     Exercises: exercises,
   };
 
+  console.log(timestamp);
   const query = {
-    Timestamp: timestamp.toISOString(),
+    Timestamp: new Date(timestamp).toISOString(),
     Health: healthIn,
     Symptoms: symptomIn,
     Stress: stressIn,
@@ -125,7 +126,7 @@ async function submit(
   // console.log('Response: ', res);
 
   navigation.navigate('EntryCompletion', {
-    timestamp: timestamp.toISOString(),
+    timestamp: new Date(timestamp).toISOString(),
   });
 }
 
