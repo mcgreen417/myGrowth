@@ -192,25 +192,25 @@ const AddExercises = ({
                 }}
               />
 
-              <View style={{ flex: 1, alignItems: 'flex-end', marginRight: 12 }}>
-                <View style={{ flexDirection: 'row', }}>
+              <View
+                style={{ flex: 1, alignItems: 'flex-end', marginRight: 12 }}>
+                <View style={{ flexDirection: 'row' }}>
                   <Icon
-                    name={showExercise
-                      ? 'arrow-drop-up'
-                      : 'arrow-drop-down'
-                    }
-                    color={global.colorblindMode
-                      ? global.cb_optionButtonsColor
-                      : global.optionButtonsColor
+                    name={showExercise ? 'arrow-drop-up' : 'arrow-drop-down'}
+                    color={
+                      global.colorblindMode
+                        ? global.cb_optionButtonsColor
+                        : global.optionButtonsColor
                     }
                     onPress={() => setShowExercise(!showExercise)}
                   />
-                  <View style={{ marginRight: 8 }}/>
+                  <View style={{ marginRight: 8 }} />
                   <Icon
                     name='close'
-                    color={global.colorblindMode
-                      ? global.cb_optionButtonsColor
-                      : global.optionButtonsColor
+                    color={
+                      global.colorblindMode
+                        ? global.cb_optionButtonsColor
+                        : global.optionButtonsColor
                     }
                     onPress={() => setDeleteEntry(!deleteEntry)}
                   />
@@ -218,7 +218,7 @@ const AddExercises = ({
               </View>
             </View>
 
-            {showExercise &&
+            {showExercise && (
               <View>
                 <View style={{ flexDirection: 'row', marginTop: 10 }}>
                   <View
@@ -360,7 +360,7 @@ const AddExercises = ({
                   <Text style={styles().textAltLight}> lbs</Text>
                 </View>
               </View>
-            }
+            )}
           </View>
         </View>
       </View>
@@ -389,9 +389,7 @@ const AdvanceFitnessTracking = ({ exercises, setExercises }) => {
           </View>
         );
       })}
-      {exercises.length > 0 &&
-        <View style={{ marginBottom: 10, }}/>
-      }
+      {exercises.length > 0 && <View style={{ marginBottom: 10 }} />}
 
       <View style={{ marginTop: 10, width: '40%' }}>
         <Button
@@ -404,7 +402,7 @@ const AdvanceFitnessTracking = ({ exercises, setExercises }) => {
           onPress={() => {
             let tempExercises = [...exercises];
             tempExercises.push({
-              Name: ' ',
+              Name: '',
               Sets: 0,
               Reps: 0,
               Duration: 0,
