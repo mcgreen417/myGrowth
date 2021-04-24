@@ -86,7 +86,7 @@ const HealthEntryHistory = ({ navigation }) => {
               theme={{
                 calendarBackground: '#F6EFED',
                 textSectionTitleColor: '#816868',
-                arrowColor: '#4CB97A', 
+                arrowColor: '#816868', 
                 selectedDayBackgroundColor: '#A5DFB2',
                 dotColor: '#4CB97A',
                 todayTextColor: '#4CB97A',
