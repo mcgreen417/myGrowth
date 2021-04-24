@@ -134,20 +134,6 @@ const CreateNewJournalEntry = ({ navigation, route }) => {
   );
 };
 
-async function getEntries(navigation) {
-  const date = new Date();
-  const timerange = {start: new Date(date.getFullYear(), date.getMonth(), 1), end: new Date(date.getFullYear(), date.getMonth() + 1, 0)};
-  const datePass = date.toISOString();
-  const res = await API.graphql({
-    query: queries.getJournalEntries,
-    variables: {timerange: timerange}
-  });
-
-  const arr = res.data.getJournalEntries.journalEntries;
-
-  navigation.push('JournalHistory', {arr, datePass})
-}
-
 async function saveEntry(datePass, entry, navigation, updateDatePass, oldEntry) {
   const date = new Date(datePass).toISOString();
   var updateDate = new Date(updateDatePass).toISOString();
@@ -164,7 +150,7 @@ async function saveEntry(datePass, entry, navigation, updateDatePass, oldEntry) 
     navigation.navigate('JournalEntryCompletion', {date, entry, updateDate});
 
   else
-    getEntries(navigation);
+    navigation.navigate('ViewJournalEntry', {date, updateDate, entry});
 }
 
 export default CreateNewJournalEntry;
