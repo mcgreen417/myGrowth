@@ -125,7 +125,7 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
                   {/* Add Feeling button */}
                   <View style={{ alignSelf: 'center', }}>
                     <Button
-                      title='Add Stressor'
+                      title='+ Add Stressor'
                       onPress={() => {
                         let temp = new Array(stressor).concat(stressors);
                         //console.log('temp:', temp);
@@ -161,7 +161,7 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
               marginBottom: 20,
               marginHorizontal: 10,
               alignItems: 'center',
-              width: '83.5%',
+              width: (Dimensions.get('window').width * 0.78),
             }}>
             <View
               style={{
@@ -258,7 +258,7 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
         </Text>
 
         {/* Add Stressors button */}
-        <View style={{ width: '40%', marginTop: 20, marginBottom: 10, }}>
+        <View style={{ minWidth: '40%', maxWidth: '50%', marginTop: 20, marginBottom: 10, }}>
           <Button
             title='+ Add Stressors'
             onPress={() => setShowAddStressors(true)}

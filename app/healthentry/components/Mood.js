@@ -123,7 +123,7 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
                   {/* Add Feeling button */}
                   <View style={{ alignSelf: 'center' }}>
                     <Button
-                      title='Add Feeling'
+                      title='+ Add Feeling'
                       onPress={() => {
                         let temp = new Array(feel).concat(feelings);
                         //console.log('temp:', temp);
@@ -284,7 +284,7 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
         </View>
 
         {/* Add Feelings button */}
-        <View style={{ width: '40%', marginTop: 10, marginBottom: 10 }}>
+        <View style={{ minWidth: '40%', maxWidth: '50%', marginTop: 10, marginBottom: 10 }}>
           <Button
             title='+ Add Feelings'
             onPress={() => setShowAddFeelings(!showAddFeelings)}

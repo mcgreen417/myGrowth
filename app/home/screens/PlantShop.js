@@ -9,10 +9,12 @@ import {
   Pressable,
   Modal,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import NavBar from '../../shared/components/NavBar';
+import Sprout from '../../shared/assets/svgs/sprout-emoji.svg';
 
 const plantItemList = new Array(
   require('../../shared/assets/plant_sprites/1_0.png'),
@@ -229,9 +231,38 @@ function PlantShop({ navigation }) {
               completing goals!
             </Text>
             <Image
-              style={styles().avatar}
-              source={require('../../shared/assets/gardener-avatar.png')}
+              style={styles().avatarFlipped}
+              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
             />
+          </View>
+
+          {/* Current GP + stars display */}
+          <View style={styles().plantInfoView}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+              <View style={{ flexDirection: 'column', maxWidth: Math.round(Dimensions.get('window').width * 0.6), }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -10, }}>
+                  <Sprout height={18} width={16} />
+                  <View style={{ marginRight: 6, }}/>
+                  <Text style={styles().textPlantInfo}>Current Plant Growth:</Text>
+                </View>
+                <Text style={styles().textPlantInfoSmall}>Plant fully grown, congratulations!</Text>
+              </View>
+              <View style={{ flex: 1, }}/>
+              <View style={{ alignSelf: 'flex-end', }}>
+                <Pressable
+                  style={styles().plantInfoBackground}
+                  onPress={() => getGoals(navigation)}
+                >
+                  <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                    <Text style={styles().textPlantInfo}>900</Text>
+                    <Icon
+                      name='star'
+                      color='white'
+                    />
+                  </View>
+                </Pressable>
+              </View>
+            </View>
           </View>
 
           {/* Plant section */}
@@ -334,7 +365,7 @@ function PlantShop({ navigation }) {
               />
               <View style={{ marginRight: 4, }}/>
               <Text style={styles().text}>Want more stars? </Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Goals')}>
+              <TouchableOpacity onPress={() => getGoals(navigation)}>
                 <Text style={styles().plantLinks}>Complete a new goal.</Text>
               </TouchableOpacity>
             </View>
@@ -348,6 +379,66 @@ function PlantShop({ navigation }) {
   );
 }
 
+async function getGoals(navigation) {
+  const date = new Date();
+  const findSunday = 0 - date.getDay();
+  const sunday = new Date(date.getDate() - findSunday);
+
+  const res = await API.graphql({
+    query: queries.getMilestones
+  });
+
+  var goals = res.data.getMilestones.Milestones;
+
+  for(var i = 0; i < goals.length; i++) {
+    let testDate = new Date(goals[i].Timestamp);
+
+    if(goals[i].Category === 'daily') {
+      if(testDate.getDate() < date.getDate()) {
+        goals[i].Completed = false;
+        goals[i].Progress = 0;
+
+        const res1 = await API.graphql({
+          query: mutations.updateMilestone,
+          variables: {Title: goals[i].Title, Timestamp: goals[i].Timestamp, Completed: goals[i].Completed, Category: goals[i].Category, 
+            Requirement: goals[i].Requirement, Progress: goals[i].Progress, Reward: goals[i].Reward}
+        })
+      }
+    }
+
+    else if(goals[i].Category === 'weekly') {
+      if(testDate.getDate() - sunday.getDate() >= 7) {
+        goals[i].Completed = false;
+        goals[i].Progress = 0;
+
+        const res1 = await API.graphql({
+          query: mutations.updateMilestone,
+          variables: {Title: goals[i].Title, Timestamp: goals[i].Timestamp, Completed: goals[i].Completed, Category: goals[i].Category, 
+            Requirement: goals[i].Requirement, Progress: goals[i].Progress, Reward: goals[i].Reward}
+        })
+      }
+    }
+  }
+
+  const res1 = await API.graphql({
+    query: queries.getMilestones
+  });
+
+  goals = res1.data.getMilestones.Milestones;
+
+  navigation.push('Goals', { goals });
+}
+
+async function getTodos(navigation) {
+  const res = await API.graphql({
+    query: queries.getTodos
+  });
+
+  const todos = res.data.getTodos.toDos;
+
+  navigation.navigate('ToDoList', {todos});
+}
+
 export default PlantShop;
 
 const styles = () => StyleSheet.create({
@@ -357,9 +448,12 @@ const styles = () => StyleSheet.create({
       ? global.cb_pageBackgroundColor
       : global.pageBackgroundColor,
   },
-  avatar: {
-    width: 75,
-    height: 75,
+  avatarFlipped: {
+    width: Math.round(Dimensions.get('window').width * 1/4),
+    height: Math.round(Dimensions.get('window').width * 1/4),
+    transform: [
+      { scaleX: -1 }
+    ]
   },
   avatarView: {
     flexDirection: 'row',
@@ -479,7 +573,6 @@ const styles = () => StyleSheet.create({
   plantSection: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
     width: '90%',
   },
   plantImage: {
@@ -489,19 +582,15 @@ const styles = () => StyleSheet.create({
     backgroundColor: '#E5E5E5',
     justifyContent: 'center',
     alignItems: 'center',
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
     borderWidth: 6,
     borderColor: '#816868',
+    marginBottom: -1,
   },
   plantItem: {
-    margin: 10,
+    margin: 12,
   },
   plantItemSelect: {
-    marginLeft: 12,
-    marginRight: 12,
-    marginTop: 4,
-    marginBottom: 4,
+    marginVertical: 4,
   },
   plantItemPress: {
     borderRadius: 10,
@@ -516,6 +605,29 @@ const styles = () => StyleSheet.create({
     borderWidth: 3,
     borderColor: '#816868',
   },
+  plantInfoBackground: {
+    backgroundColor: '#A5DFB2', 
+    borderRadius: 4, 
+    paddingHorizontal: 12, 
+    paddingVertical: 4,
+    marginVertical: 3,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+  },
+  plantInfoView: {
+    backgroundColor: '#816868',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    width: '90%',
+    marginTop: 20,
+    paddingHorizontal: 6,
+  },
   plantLinks: {
     color: '#4CB97A',
     textDecorationLine: 'underline',
@@ -527,6 +639,9 @@ const styles = () => StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     flexGrow: 5,
+    marginHorizontal: '5%',
+    justifyContent: 'space-around',
+    marginBottom: -4,
   },
   text: {
     fontSize: 16,
@@ -558,9 +673,22 @@ const styles = () => StyleSheet.create({
     marginTop: 4,
   },
   textPlantButton: {
+    fontSize: 16, 
+    color: 'white', 
+    marginVertical: 4, 
+    fontWeight: 'bold',
+  },
+  textPlantInfo: {
     fontSize: 18, 
     color: 'white', 
     marginVertical: 4, 
     fontWeight: 'bold',
+  },
+  textPlantInfoSmall: {
+    fontSize: 14, 
+    color: 'white', 
+    marginVertical: 4, 
+    fontWeight: 'bold',
+    flexWrap: 'wrap',
   },
 });

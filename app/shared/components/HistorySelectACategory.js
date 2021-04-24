@@ -75,7 +75,10 @@ const screensInfo = [
   },
   {
     category: 'Fitness',
-    imageSrc: <WomanRunning height={Math.round(Dimensions.get('window').width * 0.12)}/>,
+    imageSrc: <WomanRunning 
+                height={Math.round(Dimensions.get('window').width * 0.12)}
+                width={Math.round(Dimensions.get('window').width * 0.06)}                
+              />,
     navigateTo: 'HistoryFitness1',
   },
 ];
@@ -242,7 +245,7 @@ const styles = () =>
         ? global.cb_pageBackgroundColor
         : global.pageBackgroundColor,
       alignItems: 'center',
-      width: '70%',
+      width: '80%',
       borderRadius: 10,
       shadowColor: '#000',
       shadowOffset: {

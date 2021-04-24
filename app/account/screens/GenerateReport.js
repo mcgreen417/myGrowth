@@ -492,7 +492,7 @@ function GenerateReport({ navigation }) {
             <View style={{ width: '5%' }} />
             <View style={{ width: '42.5%' }}>
               <Button
-                title='Save to Google Drive'
+                title='Save to Drive'
                 color={
                   global.colorblindMode
                     ? global.cb_optionButtonsColor

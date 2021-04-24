@@ -170,7 +170,7 @@ const PhysicalMentalHealth = ({
                   {/* Add Feeling button */}
                   <View style={{ alignSelf: 'center' }}>
                     <Button
-                      title='Add Symptom'
+                      title='+ Add Symptom'
                       onPress={() => {
                         let symptom = {
                           Title: symptomTitle,
@@ -251,7 +251,7 @@ const PhysicalMentalHealth = ({
           today?
         </Text>
 
-        <View style={{ width: '40%', marginTop: 20, marginBottom: 10 }}>
+        <View style={{ minWidth: '40%', maxWidth: '50%', marginTop: 20, marginBottom: 10 }}>
           <Button
             title='+ Add Symptoms'
             onPress={() => setShowAddSymptoms(!showAddSymptoms)}

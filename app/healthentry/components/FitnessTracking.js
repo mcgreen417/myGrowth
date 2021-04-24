@@ -391,7 +391,7 @@ const AdvanceFitnessTracking = ({ exercises, setExercises }) => {
       })}
       {exercises.length > 0 && <View style={{ marginBottom: 10 }} />}
 
-      <View style={{ marginTop: 10, width: '40%' }}>
+      <View style={{ marginTop: 10, minWidth: '40%', maxWidth: '50%',}}>
         <Button
           title='+ Add Exercise'
           color={
@@ -441,7 +441,7 @@ const FitnessTracking = ({
       <View style={{ marginTop: 10 }}>
         <View style={styles().line} />
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={styles().text}>Did you exercise today?</Text>
+          <Text style={styles().textSwitch}>Did you exercise today?</Text>
           <View style={styles().switchView}>
             <View style={styles().line2} />
             <Switch
@@ -489,7 +489,7 @@ const FitnessTracking = ({
 
       <View style={styles().line} />
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text style={styles().text}>
+        <Text style={styles().textSwitch}>
           Did you track your number of steps today?
         </Text>
         <View style={styles().switchView}>
@@ -685,7 +685,7 @@ const styles = () =>
     },
     textAltLight: {
       color: '#E5E5E5',
-      fontSize: 16,
+      fontSize: 14,
     },
     textBoldAlt: {
       fontSize: 16,
@@ -702,5 +702,11 @@ const styles = () =>
       color: '#4CB97A',
       fontSize: 16,
       textDecorationLine: 'underline',
+    },
+    textSwitch: {
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
+      fontSize: 16,
+      flexWrap: 'wrap',
+      flex: 5,
     },
   });

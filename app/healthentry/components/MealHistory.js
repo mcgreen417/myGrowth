@@ -969,7 +969,7 @@ const AddMeal = ({
               );
             })}
 
-            <View style={{ width: '40%', marginLeft: 10, marginBottom: 20 }}>
+            <View style={{ minWidth: '40%', maxWidth: '50%', marginLeft: 10, marginBottom: 20 }}>
               <Button
                 title='+ Add Food'
                 color={
@@ -1045,7 +1045,7 @@ const AdvanceMealTracking = ({
       })}
       {meals.length > 0 && <View style={{ marginBottom: 10 }} />}
 
-      <View style={{ width: '40%' }}>
+      <View style={{ minWidth: '40%', maxWidth: '50%', }}>
         <Button
           title='+ Add Meal'
           color={
@@ -1195,7 +1195,7 @@ const styles = () =>
     },
     headingAlt: {
       color: '#E5E5E5',
-      fontSize: 16,
+      fontSize: 14,
       fontWeight: 'bold',
       marginTop: 20,
       marginBottom: 10,
@@ -1262,7 +1262,7 @@ const styles = () =>
     },
     textAltLight: {
       color: '#E5E5E5',
-      fontSize: 16,
+      fontSize: 14,
     },
     textBoldAlt: {
       fontSize: 16,

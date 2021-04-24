@@ -15,7 +15,8 @@ import * as mutations from '../../../src/graphql/mutations';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
-import Wave from '../../shared/assets/svgs/wave-emoji.svg'
+import Wave from '../../shared/assets/svgs/wave-emoji.svg';
+import Sprout from '../../shared/assets/svgs/sprout-emoji.svg';
 
 function Home({ navigation }) {
   let plant = 4;
@@ -81,14 +82,22 @@ function Home({ navigation }) {
             />
           </View>
 
+          {/* Current GP + stars display */}
           <View style={styles().plantInfoView}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-              <Text style={styles().textPlantInfo}>Current Plant Growth:{'\n'}
-                <Text style={{ fontSize: 16 }}>5/10 GP until next growth stage</Text>
-              </Text>
-              <View style={{ flex: 1, }}/>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+              <View style={{ flexDirection: 'column', maxWidth: Math.round(Dimensions.get('window').width * 0.6), }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -10, }}>
+                  <Sprout height={18} width={16} />
+                  <View style={{ marginRight: 6, }}/>
+                  <Text style={styles().textPlantInfo}>Current Plant Growth:</Text>
+                </View>
+                <Text style={styles().textPlantInfoSmall}>Plant fully grown, congratulations!</Text>
+              </View>
               <View style={{ alignSelf: 'flex-end', }}>
-                <View style={styles().plantInfoBackground}>
+                <Pressable
+                  style={styles().plantInfoBackground}
+                  onPress={() => getGoals(navigation)}
+                >
                   <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                     <Text style={styles().textPlantInfo}>900</Text>
                     <Icon
@@ -96,7 +105,7 @@ function Home({ navigation }) {
                       color='white'
                     />
                   </View>
-                </View>
+                </Pressable>
               </View>
             </View>
           </View>
@@ -516,6 +525,7 @@ const styles = () => StyleSheet.create({
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 4,
+    maxWidth: Math.round(Dimensions.get('window').width * 0.3),
   },
   plantInfoView: {
     backgroundColor: '#816868',
@@ -552,15 +562,22 @@ const styles = () => StyleSheet.create({
       : global.textColor,
   },
   textPlantButton: {
-    fontSize: 18, 
+    fontSize: 16, 
     color: 'white', 
     marginVertical: 4, 
     fontWeight: 'bold',
   },
   textPlantInfo: {
-    fontSize: 20, 
+    fontSize: 18, 
     color: 'white', 
     marginVertical: 4, 
     fontWeight: 'bold',
+  },
+  textPlantInfoSmall: {
+    fontSize: 14, 
+    color: 'white', 
+    marginVertical: 4, 
+    fontWeight: 'bold',
+    flexWrap: 'wrap',
   },
 });

@@ -28,10 +28,10 @@ const SelectACategoryIcon = ({
         marginVertical: '5%',
       }}>
       <View style={{ 
-        borderRadius: 100, 
+        borderRadius: 500, 
         borderColor: '#A5DFB2', 
         borderWidth: 2, 
-        paddingHorizontal: Math.round(Dimensions.get('window').width * 0.03), 
+        paddingHorizontal: Math.round(Dimensions.get('window').width * 0.025), 
         alignItems: 'center' 
       }}>
         {screens.imageSrc}

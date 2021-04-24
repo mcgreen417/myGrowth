@@ -239,7 +239,7 @@ const Medication = ({
                   {/* Add Medication button */}
                   <View style={{ alignSelf: 'center', marginTop: 20 }}>
                     <Button
-                      title='Add Medication'
+                      title='+ Add Medication'
                       onPress={() => {
                         if (medicineName != '' && date != undefined) {
                           addMedicationHelper(medicineName, date);
@@ -419,7 +419,7 @@ const Medication = ({
               );
             })}
         </View>
-        <View style={{ width: '40%', marginTop: 20, marginBottom: 10 }}>
+        <View style={{ minWidth: '40%', maxWidth: '50%', marginTop: 20, marginBottom: 10 }}>
           <Button
             title='+ Add Medication'
             onPress={() => setShowAddMedicine(!showAddMedicine)}

@@ -9,6 +9,9 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
+import { Auth, API } from 'aws-amplify';
+import * as mutations from '../../../src/graphql/mutations';
+import * as queries from '../../../src/graphql/queries';
 
 const monthNames = [
   'January',
@@ -61,7 +64,7 @@ const WordCloudDisplay = ({ route, navigation }) => {
           <Icon 
             name='arrow-back' 
             color='#816868' 
-            onPress={() => navigation.navigate('JournalHistory')}
+            onPress={() => getEntries(navigation, journal_date)}
           />
         </View>
         {/* Word cloud view button */}
@@ -72,7 +75,8 @@ const WordCloudDisplay = ({ route, navigation }) => {
               journal_date: journal_date,
               journal_entry: journal_entry,
             })
-        }>
+          }
+        >
           <Text style={{ color: '#816868', fontSize: 16, marginRight: 10 }}>Journal Entry View</Text>
           <Icon name='bookmark' color='#816868' />
         </TouchableOpacity>
@@ -105,6 +109,20 @@ const WordCloudDisplay = ({ route, navigation }) => {
     </SafeAreaView>
   );
 };
+
+async function getEntries(navigation, journal_date) {
+  const date = new Date(journal_date);
+  const timerange = {start: new Date(date.getFullYear(), date.getMonth(), 1), end: new Date(date.getFullYear(), date.getMonth() + 1, 0)};
+  const datePass = date.toISOString();
+  const res = await API.graphql({
+    query: queries.getJournalEntries,
+    variables: {timerange: timerange}
+  });
+
+  const arr = res.data.getJournalEntries.journalEntries;
+
+  navigation.navigate('JournalHistory', {arr, datePass})
+}
 
 export default WordCloudDisplay;
 

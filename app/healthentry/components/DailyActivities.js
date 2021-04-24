@@ -166,7 +166,7 @@ const DailyActivities = ({ activities, setActivities }) => {
                   {/* Add Feeling button */}
                   <View style={{ alignSelf: 'center' }}>
                     <Button
-                      title='Add Activity'
+                      title='+ Add Activity'
                       onPress={() => {
                         let activity = {
                           Name: activityName,
@@ -203,7 +203,7 @@ const DailyActivities = ({ activities, setActivities }) => {
         </Text>
 
         {/* Add Activities modal */}
-        <View style={{ width: '40%', marginTop: 20, marginBottom: 10 }}>
+        <View style={{ wminWidth: '40%', maxWidth: '50%', marginTop: 20, marginBottom: 10 }}>
           <Button
             title='+ Add Activities'
             onPress={() => setShowAddActivities(true)}

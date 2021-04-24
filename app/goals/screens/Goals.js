@@ -1352,7 +1352,7 @@ async function deleteGoal(title, goals, timestamp, userGoals, setUserGoals, navi
         variables: {timestamp: timestamp}
       });
 
-      break;
+      //break;
     }
     
     else

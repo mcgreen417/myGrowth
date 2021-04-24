@@ -55,7 +55,13 @@ function Login({ navigation }) {
               <View style={styles().labelView}>
                 <Text
                   style={{
-                    color: pressedEmail ? '#4CB97A' : '#816868',
+                    color: pressedEmail 
+                      ? (global.colorblindMode
+                        ? global.cb_hyperlinkedTextColor
+                        : global.hyperlinkedTextColor)
+                      : (global.colorblindMode
+                        ? global.cb_textColor
+                        : global.textColor),
                     fontSize: 16,
                     fontWeight: 'bold',
                   }}>
@@ -66,7 +72,13 @@ function Login({ navigation }) {
                 style={{
                   flex: 1,
                   borderWidth: 1,
-                  borderColor: pressedEmail ? '#4CB97A' : '#816868',
+                  borderColor: pressedEmail 
+                    ? (global.colorblindMode
+                      ? global.cb_hyperlinkedTextColor
+                      : global.hyperlinkedTextColor)
+                    : (global.colorblindMode
+                      ? global.cb_textColor
+                      : global.textColor),
                   justifyContent: 'flex-end',
                   borderRadius: 6,
                   paddingHorizontal: 16,
@@ -74,11 +86,13 @@ function Login({ navigation }) {
                 <TextInput
                   placeholder='E-mail address'
                   fontSize={16}
-                  color='#816868'
-                  placeholderTextColor={
-                    global.colorblindMode
-                      ? global.cb_placeHolderTextColor
-                      : global.placeHolderTextColor
+                  color={global.colorblindMode
+                    ? global.cb_textColor
+                    : global.textColor
+                  }
+                  placeholderTextColor={global.colorblindMode
+                    ? global.cb_placeHolderTextColor
+                    : global.placeHolderTextColor
                   }
                   value={email}
                   onChangeText={(email) => {
@@ -98,7 +112,13 @@ function Login({ navigation }) {
               <View style={styles().labelView}>
                 <Text
                   style={{
-                    color: pressedPassword ? '#4CB97A' : '#816868',
+                    color: pressedPassword
+                      ? (global.colorblindMode
+                        ? global.cb_hyperlinkedTextColor
+                        : global.hyperlinkedTextColor)
+                      : (global.colorblindMode
+                        ? global.cb_textColor
+                        : global.textColor),
                     fontSize: 16,
                     fontWeight: 'bold',
                   }}>
@@ -109,7 +129,13 @@ function Login({ navigation }) {
                 style={{
                   flex: 1,
                   borderWidth: 1,
-                  borderColor: pressedPassword ? '#4CB97A' : '#816868',
+                  borderColor: pressedPassword
+                    ? (global.colorblindMode
+                      ? global.cb_hyperlinkedTextColor
+                      : global.hyperlinkedTextColor)
+                    : (global.colorblindMode
+                      ? global.cb_textColor
+                      : global.textColor),
                   justifyContent: 'flex-end',
                   borderRadius: 6,
               }}>
@@ -117,11 +143,13 @@ function Login({ navigation }) {
                   <TextInput
                     placeholder='Password'
                     fontSize={16}
-                    color='#816868'
-                    placeholderTextColor={
-                      global.colorblindMode
-                        ? global.cb_placeHolderTextColor
-                        : global.placeHolderTextColor
+                    color={global.colorblindMode
+                      ? global.cb_textColor
+                      : global.textColor
+                    }
+                    placeholderTextColor={global.colorblindMode
+                      ? global.cb_placeHolderTextColor
+                      : global.placeHolderTextColor
                     }
                     secureTextEntry={showPassword 
                       ? false
@@ -137,10 +165,10 @@ function Login({ navigation }) {
                     style={{ 
                       paddingLeft: 16, 
                       flexWrap: 'wrap', 
-                      width: Math.round((Dimensions.get('window').width * 6/10)), 
+                      width: Math.round((Dimensions.get('window').width * 0.6)), 
                     }}
                   />
-                  <View style={{ flex: 1, alignItems: 'flex-end', paddingHorizontal: 16, }}>
+                  <View style={{ flex: 1, alignItems: 'flex-end', paddingLeft: 8, paddingRight: 16, }}>
                     <Icon
                       name={showPassword 
                         ? 'eye-off'
@@ -148,8 +176,12 @@ function Login({ navigation }) {
                       }
                       type='ionicon'
                       color={pressedPassword
-                        ? '#4CB97A'
-                        : '#816868'
+                        ? (global.colorblindMode
+                          ? global.cb_hyperlinkedTextColor
+                          : global.hyperlinkedTextColor)
+                        : (global.colorblindMode
+                          ? global.cb_textColor
+                          : global.textColor)
                       }
                       onPress={() => setShowPassword(!showPassword)}
                     />
@@ -275,6 +307,7 @@ async function signIn(username, pw, navigation) {
           createAlert('Oh no!', 'Email and password combination not found, please check your information and try again.');
         default:
           createAlert('Error', 'Please try signing in again.');
+          console.log(error.code)
       }
     }
   }
@@ -319,7 +352,9 @@ const styles = () => StyleSheet.create({
       : global.optionButtonsBorderColor,
   },
   label: {
-    color: '#816868',
+    color: global.colorblindMode
+    ? global.cb_textColor
+    : global.textColor,
     fontSize: 16,
     fontWeight: 'bold',
   },

@@ -177,7 +177,13 @@ function SignUp({ navigation }) {
               <View style={styles().labelView}>
                 <Text
                   style={{
-                    color: pressedEmail ? '#4CB97A' : '#816868',
+                    color: pressedEmail 
+                      ? (global.colorblindMode
+                        ? global.cb_hyperlinkedTextColor
+                        : global.hyperlinkedTextColor)
+                      : (global.colorblindMode
+                        ? global.cb_textColor
+                        : global.textColor),
                     fontSize: 16,
                     fontWeight: 'bold',
                   }}>
@@ -188,7 +194,13 @@ function SignUp({ navigation }) {
                 style={{
                   flex: 1,
                   borderWidth: 1,
-                  borderColor: pressedEmail ? '#4CB97A' : '#816868',
+                  borderColor: pressedEmail 
+                    ? (global.colorblindMode
+                      ? global.cb_hyperlinkedTextColor
+                      : global.hyperlinkedTextColor)
+                    : (global.colorblindMode
+                      ? global.cb_textColor
+                      : global.textColor),
                   justifyContent: 'flex-end',
                   borderRadius: 6,
                   paddingHorizontal: 16,
@@ -196,11 +208,13 @@ function SignUp({ navigation }) {
                 <TextInput
                   placeholder='E-mail address'
                   fontSize={16}
-                  color='#816868'
-                  placeholderTextColor={
-                    global.colorblindMode
-                      ? global.cb_placeHolderTextColor
-                      : global.placeHolderTextColor
+                  color={global.colorblindMode
+                    ? global.cb_textColor
+                    : global.textColor
+                  }
+                  placeholderTextColor={global.colorblindMode
+                    ? global.cb_placeHolderTextColor
+                    : global.placeHolderTextColor
                   }
                   value={email}
                   onChangeText={(email) => {
@@ -221,7 +235,13 @@ function SignUp({ navigation }) {
               <View style={styles().labelView}>
                 <Text
                   style={{
-                    color: pressedPassword ? '#4CB97A' : '#816868',
+                    color: pressedPassword
+                      ? (global.colorblindMode
+                        ? global.cb_hyperlinkedTextColor
+                        : global.hyperlinkedTextColor)
+                      : (global.colorblindMode
+                        ? global.cb_textColor
+                        : global.textColor),
                     fontSize: 16,
                     fontWeight: 'bold',
                   }}>
@@ -232,7 +252,13 @@ function SignUp({ navigation }) {
                 style={{
                   flex: 1,
                   borderWidth: 1,
-                  borderColor: pressedPassword ? '#4CB97A' : '#816868',
+                  borderColor: pressedPassword 
+                    ? (global.colorblindMode
+                      ? global.cb_hyperlinkedTextColor
+                      : global.hyperlinkedTextColor)
+                    : (global.colorblindMode
+                      ? global.cb_textColor
+                      : global.textColor),
                   justifyContent: 'flex-end',
                   borderRadius: 6,
               }}>
@@ -240,11 +266,13 @@ function SignUp({ navigation }) {
                   <TextInput
                     placeholder='Password'
                     fontSize={16}
-                    color='#816868'
-                    placeholderTextColor={
-                      global.colorblindMode
-                        ? global.cb_placeHolderTextColor
-                        : global.placeHolderTextColor
+                    color={global.colorblindMode
+                      ? global.cb_textColor
+                      : global.textColor
+                    }
+                    placeholderTextColor={global.colorblindMode
+                      ? global.cb_placeHolderTextColor
+                      : global.placeHolderTextColor
                     }
                     secureTextEntry={showPassword 
                       ? false
@@ -266,10 +294,10 @@ function SignUp({ navigation }) {
                     style={{ 
                       paddingLeft: 16, 
                       flexWrap: 'wrap', 
-                      width: Math.round((Dimensions.get('window').width * 6/10)), 
+                      width: Math.round((Dimensions.get('window').width * 0.6)), 
                     }}
                   />
-                  <View style={{ flex: 1, alignItems: 'flex-end', paddingHorizontal: 16, }}>
+                  <View style={{ flex: 1, alignItems: 'flex-end', paddingLeft: 8, paddingRight: 16, }}>
                     <Icon
                       name={showPassword 
                         ? 'eye-off'
@@ -277,8 +305,12 @@ function SignUp({ navigation }) {
                       }
                       type='ionicon'
                       color={pressedPassword
-                        ? '#4CB97A'
-                        : '#816868'
+                        ? (global.colorblindMode
+                          ? global.cb_hyperlinkedTextColor
+                          : global.hyperlinkedTextColor)
+                        : (global.colorblindMode
+                          ? global.cb_textColor
+                          : global.textColor)
                       }
                       onPress={() => setShowPassword(!showPassword)}
                     />
@@ -310,7 +342,13 @@ function SignUp({ navigation }) {
               <View style={styles().labelView}>
                 <Text
                   style={{
-                    color: pressedConfirmPassword ? '#4CB97A' : '#816868',
+                    color: pressedConfirmPassword 
+                      ? (global.colorblindMode
+                        ? global.cb_hyperlinkedTextColor
+                        : global.hyperlinkedTextColor)
+                      : (global.colorblindMode
+                        ? global.cb_textColor
+                        : global.textColor),
                     fontSize: 16,
                     fontWeight: 'bold',
                   }}>
@@ -321,7 +359,13 @@ function SignUp({ navigation }) {
                 style={{
                   flex: 1,
                   borderWidth: 1,
-                  borderColor: pressedConfirmPassword ? '#4CB97A' : '#816868',
+                  borderColor: pressedConfirmPassword 
+                    ? (global.colorblindMode
+                      ? global.cb_hyperlinkedTextColor
+                      : global.hyperlinkedTextColor)
+                    : (global.colorblindMode
+                      ? global.cb_textColor
+                      : global.textColor),
                   justifyContent: 'flex-end',
                   borderRadius: 6,
               }}>
@@ -329,11 +373,13 @@ function SignUp({ navigation }) {
                   <TextInput
                     placeholder='Confirm password'
                     fontSize={16}
-                    color='#816868'
-                    placeholderTextColor={
-                      global.colorblindMode
-                        ? global.cb_placeHolderTextColor
-                        : global.placeHolderTextColor
+                    color={global.colorblindMode
+                      ? global.cb_textColor
+                      : global.textColor
+                    }
+                    placeholderTextColor={global.colorblindMode
+                      ? global.cb_placeHolderTextColor
+                      : global.placeHolderTextColor
                     }
                     secureTextEntry={showConfirmPassword 
                       ? false
@@ -349,10 +395,10 @@ function SignUp({ navigation }) {
                     style={{ 
                       paddingLeft: 16, 
                       flexWrap: 'wrap', 
-                      width: Math.round((Dimensions.get('window').width * 6/10)), 
+                      width: Math.round((Dimensions.get('window').width * 0.6)), 
                     }}
                   />
-                  <View style={{ flex: 1, alignItems: 'flex-end', paddingHorizontal: 16, }}>
+                  <View style={{ flex: 1, alignItems: 'flex-end', paddingLeft: 8, paddingRight: 16, }}>
                     <Icon
                       name={showConfirmPassword 
                         ? 'eye-off'
@@ -360,8 +406,12 @@ function SignUp({ navigation }) {
                       }
                       type='ionicon'
                       color={pressedConfirmPassword
-                        ? '#4CB97A'
-                        : '#816868'
+                        ? (global.colorblindMode
+                          ? global.cb_hyperlinkedTextColor
+                          : global.hyperlinkedTextColor)
+                        : (global.colorblindMode
+                          ? global.cb_textColor
+                          : global.textColor)
                       }
                       onPress={() => setShowConfirmPassword(!showConfirmPassword)}
                     />
@@ -393,10 +443,13 @@ function SignUp({ navigation }) {
                 ? 'check-box'
                 : 'check-box-outline-blank'}
               type='MaterialIcons'
-              color={
-                confirmAge
-                ? '#4CB97A'
-                : '#816868'
+              color={confirmAge
+                ? (global.colorblindMode
+                  ? global.cb_hyperlinkedTextColor
+                  : global.hyperlinkedTextColor)
+                : (global.colorblindMode
+                  ? global.cb_textColor
+                  : global.textColor)
               }
               onPress={() => {
                 Keyboard.dismiss();
@@ -496,11 +549,6 @@ const styles = () => StyleSheet.create({
   logo: {
     height: Math.round(Dimensions.get('window').width * 1/4),
     width: Math.round(Dimensions.get('window').width * 1/4),
-  },
-  label: {
-    color: '#816868',
-    fontSize: 16,
-    fontWeight: 'bold',
   },
   labelView: {
     position: 'absolute',

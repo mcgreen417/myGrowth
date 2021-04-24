@@ -306,7 +306,7 @@ const AddNaps = ({ naps, setNaps }) => {
             );
           })}
         </View>
-        <View style={{ width: '40%' }}>
+        <View style={{ minWidth: '40%', maxWidth: '50%', }}>
           <Button
             title='+ Add Nap'
             color='#A5DFB2'

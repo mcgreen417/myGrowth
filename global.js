@@ -92,7 +92,7 @@ global.hyperlinkedTextColor = darkGreenColor;
 
 global.cb_placeHolderTextColor = cb_lightGreyColor;
 global.cb_textColor = cb_brownColor;
-global.cb_hyperlinkedTextColor = darkGreenColor;
+global.cb_hyperlinkedTextColor = cb_lightGreenColor;
 
 
 // Colorblind mode value tracked, can be changed only on starting
