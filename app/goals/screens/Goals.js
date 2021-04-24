@@ -1291,7 +1291,7 @@ async function refreshPage(navigation, goals) {
     }
 
     else if(goals[i].Category === 'weekly') {
-      if(testDate.getDate() - sunday.getDate() >= 7) {
+      if(Math.abs(testDate.getDate() - sunday.getDate()) >= 7) {
         let obj = goals[i];
         obj.Completed = false;
         obj.Progress = 0;

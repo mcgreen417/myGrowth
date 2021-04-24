@@ -319,7 +319,7 @@ async function getGoals(navigation) {
     }
 
     else if(goals[i].Category === 'weekly') {
-      if(testDate.getDate() - sunday.getDate() >= 7) {
+      if(Math.abs(testDate.getDate() - sunday.getDate()) >= 7) {
         goals[i].Completed = false;
         goals[i].Progress = 0;
 
