@@ -81,6 +81,26 @@ function Home({ navigation }) {
             />
           </View>
 
+          <View style={styles().plantInfoView}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+              <Text style={styles().textPlantInfo}>Current Plant Growth:{'\n'}
+                <Text style={{ fontSize: 16 }}>5/10 GP until next growth stage</Text>
+              </Text>
+              <View style={{ flex: 1, }}/>
+              <View style={{ alignSelf: 'flex-end', }}>
+                <View style={styles().plantInfoBackground}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                    <Text style={styles().textPlantInfo}>900</Text>
+                    <Icon
+                      name='star'
+                      color='white'
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+
           {/* Plant Section */}
           <View style={styles().plantSection}>
             <View style={styles().plantImage}>
@@ -482,10 +502,32 @@ const styles = () => StyleSheet.create({
     shadowRadius: 2.62,
     elevation: 4,
   },
+  plantInfoBackground: {
+    backgroundColor: '#A5DFB2', 
+    borderRadius: 4, 
+    paddingHorizontal: 12, 
+    paddingVertical: 4,
+    marginVertical: 3,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+  },
+  plantInfoView: {
+    backgroundColor: '#816868',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    width: '90%',
+    marginTop: 20,
+    paddingHorizontal: 6,
+  },
   plantSection: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
     width: '90%',
   },
   plantImage: {
@@ -495,8 +537,6 @@ const styles = () => StyleSheet.create({
     backgroundColor: '#E5E5E5',
     justifyContent: 'center',
     alignItems: 'center',
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
     borderWidth: 6,
     borderColor: '#816868',
   },
@@ -513,6 +553,12 @@ const styles = () => StyleSheet.create({
   },
   textPlantButton: {
     fontSize: 18, 
+    color: 'white', 
+    marginVertical: 4, 
+    fontWeight: 'bold',
+  },
+  textPlantInfo: {
+    fontSize: 20, 
     color: 'white', 
     marginVertical: 4, 
     fontWeight: 'bold',

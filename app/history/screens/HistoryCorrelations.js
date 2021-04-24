@@ -62,8 +62,8 @@ const Graph = ({labels, data1, data2, legend}) => {
           ],
           legend: legend,
         }}
-        width={353} // from react-native
-        height={250}
+        width={Math.round(Dimensions.get('window').width * 0.9)}
+        height={Math.round(Dimensions.get('window').width * 0.6)}
         yAxisLabel=""
         yAxisSuffix=""
         yAxisInterval={1} // optional, defaults to 1
@@ -510,7 +510,8 @@ function HistoryCorrelations({ route, navigation }) {
             {/* Gardener avatar + page blurb */}
             <View style={styles().avatarView}>
             <Text style={styles().pageDescription}>
-              View an overlay of your health entry graphs below to search for potential correlations!
+              View an overlay of your health entry graphs below to search for potential
+              health correlations!
             </Text>
             <Image
               style={styles().avatarFlipped}
@@ -602,7 +603,7 @@ function HistoryCorrelations({ route, navigation }) {
                 />
               </View>
             </View>
-            <Text style={styles().heading2}>Currently selected: {picker1}</Text>
+            <Text style={styles().heading2}>Currently selected: {convertUpperCase(picker1)}</Text>
 
             {/* Middle divider */}
             <View style={styles().dividerView}>
@@ -687,7 +688,7 @@ function HistoryCorrelations({ route, navigation }) {
                 />
               </View>
             </View>
-            <Text style={styles().heading2}>Currently selected: {picker2}</Text>
+            <Text style={styles().heading2}>Currently selected: {convertUpperCase(picker2)}</Text>
 
             {/* Middle divider */}
             <View style={styles().dividerView}>
@@ -1534,6 +1535,15 @@ function makeData(data, setData, page, category, timePeriod) {
   arr = cleanUpData(arr);
 
   setData(arr);
+}
+
+function convertUpperCase(str) {
+  var split1 = str[0].toUpperCase().toString();
+  var split2 = str.slice(1, str.length);
+
+  split1 = split1.concat(split2);
+  
+  return(split1);
 }
 
 export default HistoryCorrelations;

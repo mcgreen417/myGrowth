@@ -1,13 +1,20 @@
 import { button } from '@aws-amplify/ui';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, Pressable, ScrollView } from 'react-native';
+import { 
+  StyleSheet, 
+  Text, 
+  View, 
+  Image, 
+  Pressable, 
+  Dimensions,
+} from 'react-native';
 import {
   LineChart,
   BarChart,
   PieChart,
   ProgressChart,
   ContributionGraph,
-  StackedBarChart
+  StackedBarChart,
 } from "react-native-chart-kit";
 import HistoryCorrelations from '../../history/screens/HistoryCorrelations';
 
@@ -66,8 +73,8 @@ const TabBarAndContent = ({
           values={data}
           endDate={new Date()}
           numDays={90}
-          width={353}
-          height={250}
+          width={Math.round(Dimensions.get('window').width * 0.9)}
+          height={Math.round(Dimensions.get('window').width * 0.6)}
           chartConfig={{
             backgroundColor: "#4CB97A",
             backgroundGradientFrom: "#4CB97A",
@@ -111,7 +118,7 @@ const TabBarAndContent = ({
           </Pressable>
 
           {/* Correlations */}
-          <Pressable
+          {/*<Pressable
             style={{
               backgroundColor: corrButtonColor,
               borderTopLeftRadius: 10,
@@ -125,7 +132,7 @@ const TabBarAndContent = ({
             }}
           >
             <Text style={styles.text}>Correlations</Text>
-          </Pressable>
+          </Pressable>*/}
         </View>
 
         {/* Colored bar */}
@@ -145,8 +152,8 @@ const TabBarAndContent = ({
               }
             ]
           }}
-          width={353} // from react-native
-          height={250}
+          width={Math.round(Dimensions.get('window').width * 0.9)}
+          height={Math.round(Dimensions.get('window').width * 0.6)}
           yAxisLabel=""
           yAxisSuffix=""
           yAxisInterval={1} // optional, defaults to 1
@@ -201,7 +208,7 @@ const TabBarAndContent = ({
           </Pressable>
 
           {/* Correlations */}
-          <Pressable
+          {/*<Pressable
             style={{
               backgroundColor: corrButtonColor,
               borderTopLeftRadius: 10,
@@ -215,7 +222,7 @@ const TabBarAndContent = ({
             }}
           >
             <Text style={styles.text}>Correlations</Text>
-          </Pressable>
+          </Pressable>*/}
         </View>
 
         {/* Colored bar */}
@@ -227,8 +234,8 @@ const TabBarAndContent = ({
           values={multiPageData}
           endDate={new Date()}
           numDays={90}
-          width={353}
-          height={250}
+          width={Math.round(Dimensions.get('window').width * 0.9)}
+          height={Math.round(Dimensions.get('window').width * 0.6)}
           chartConfig={{
             backgroundColor: "#4CB97A",
             backgroundGradientFrom: "#4CB97A",
@@ -290,7 +297,7 @@ const TabBarAndContent = ({
           </Pressable>
 
           {/* Correlations */}
-          <Pressable
+          {/*<Pressable
             style={{
               backgroundColor: corrButtonColor,
               borderTopLeftRadius: 10,
@@ -305,7 +312,7 @@ const TabBarAndContent = ({
             }}
           >
             <Text style={styles.text}>Correlations</Text>
-          </Pressable>
+          </Pressable>*/}
         </View>
 
         {/* Colored bar */}
@@ -319,8 +326,8 @@ const TabBarAndContent = ({
             values={multiPageData}
             endDate={new Date()}
             numDays={90}
-            width={353}
-            height={250}
+            width={Math.round(Dimensions.get('window').width * 0.9)}
+            height={Math.round(Dimensions.get('window').width * 0.6)}
             chartConfig={{
               backgroundColor: "#4CB97A",
               backgroundGradientFrom: "#4CB97A",
@@ -346,8 +353,8 @@ const TabBarAndContent = ({
               }
             ]
           }}
-          width={353} // from react-native
-          height={250}
+          width={Math.round(Dimensions.get('window').width * 0.9)}
+          height={Math.round(Dimensions.get('window').width * 0.6)}
           yAxisLabel=""
           yAxisSuffix=""
           yAxisInterval={1} // optional, defaults to 1
@@ -411,7 +418,7 @@ const TabBarAndContent = ({
           </Pressable>
 
           {/* Correlation */}
-          <Pressable
+          {/*<Pressable
             style={{
               backgroundColor: corrButtonColor,
               borderTopLeftRadius: 10,
@@ -426,7 +433,7 @@ const TabBarAndContent = ({
             }}
           >
             <Text style={styles.text}>Correlations</Text>
-          </Pressable>
+          </Pressable>*/} 
         </View>
 
         {/* Colored bar */}
@@ -445,8 +452,8 @@ const TabBarAndContent = ({
               }
             ]
           }}
-          width={353} // from react-native
-          height={250}
+          width={Math.round(Dimensions.get('window').width * 0.9)}
+          height={Math.round(Dimensions.get('window').width * 0.6)}
           yAxisLabel=""
           yAxisSuffix=""
           yAxisInterval={1} // optional, defaults to 1
@@ -482,8 +489,8 @@ const TabBarAndContent = ({
               }
             ]
           }}
-          width={353} // from react-native
-          height={250}
+          width={Math.round(Dimensions.get('window').width * 0.9)}
+          height={Math.round(Dimensions.get('window').width * 0.6)}
           yAxisLabel=""
           yAxisSuffix=""
           yAxisInterval={1} // optional, defaults to 1
@@ -530,7 +537,7 @@ const TabBarAndContent = ({
           </Pressable>
 
           {/* Correlation */}
-          <Pressable
+          {/*<Pressable
             style={{
               backgroundColor: corrButtonColor,
               borderTopLeftRadius: 10,
@@ -544,7 +551,7 @@ const TabBarAndContent = ({
             }}
           >
             <Text style={styles.text}>Correlations</Text>
-          </Pressable>
+          </Pressable>*/}
         </View>
 
         {/* Colored bar */}
@@ -558,8 +565,8 @@ const TabBarAndContent = ({
           values={multiPageData}
           endDate={new Date()}
           numDays={90}
-          width={353}
-          height={250}
+          width={Math.round(Dimensions.get('window').width * 0.9)}
+          height={Math.round(Dimensions.get('window').width * 0.6)}
           chartConfig={{
             backgroundColor: "#4CB97A",
             backgroundGradientFrom: "#4CB97A",
@@ -620,7 +627,7 @@ const TabBarAndContent = ({
           </Pressable>
 
           {/* Correlation */}
-          <Pressable
+          {/*<Pressable
             style={{
               backgroundColor: corrButtonColor,
               borderTopLeftRadius: 10,
@@ -635,7 +642,7 @@ const TabBarAndContent = ({
             }}
           >
             <Text style={styles.text}>Correlations</Text>
-          </Pressable>
+          </Pressable>*/}
         </View>
 
         {/* Colored bar */}
@@ -662,8 +669,8 @@ const TabBarAndContent = ({
             ],
             legend: ['Sleep', 'Naps'],
           }}
-          width={353} // from react-native
-          height={250}
+          width={Math.round(Dimensions.get('window').width * 0.9)}
+          height={Math.round(Dimensions.get('window').width * 0.6)}
           yAxisLabel=""
           yAxisSuffix=""
           yAxisInterval={1} // optional, defaults to 1
@@ -697,8 +704,8 @@ const TabBarAndContent = ({
                 {data: multiPageData}
             ]
           }}
-          width={353} // from react-native
-          height={250}
+          width={Math.round(Dimensions.get('window').width * 0.9)}
+          height={Math.round(Dimensions.get('window').width * 0.6)}
           yAxisLabel=""
           yAxisSuffix=""
           yAxisInterval={1} // optional, defaults to 1
@@ -732,8 +739,8 @@ const TabBarAndContent = ({
                 {data: multiPageData}
             ]
           }}
-          width={353} // from react-native
-          height={250}
+          width={Math.round(Dimensions.get('window').width * 0.9)}
+          height={Math.round(Dimensions.get('window').width * 0.6)}
           yAxisLabel=""
           yAxisSuffix=""
           yAxisInterval={1} // optional, defaults to 1
@@ -801,7 +808,7 @@ const TabBarAndContent = ({
           </Pressable>
 
           {/* Correlation */}
-          <Pressable
+          {/*<Pressable
             style={{
               backgroundColor: corrButtonColor,
               borderTopLeftRadius: 10,
@@ -816,7 +823,7 @@ const TabBarAndContent = ({
             }}
           >
             <Text style={styles.text}>Correlations</Text>
-          </Pressable>
+          </Pressable>*/}
         </View>
 
         {/* Colored bar */}
@@ -835,8 +842,8 @@ const TabBarAndContent = ({
               }
             ]
           }}
-          width={353} // from react-native
-          height={250}
+          width={Math.round(Dimensions.get('window').width * 0.9)}
+          height={Math.round(Dimensions.get('window').width * 0.6)}
           yAxisLabel=""
           yAxisSuffix=""
           yAxisInterval={1} // optional, defaults to 1
@@ -872,8 +879,8 @@ const TabBarAndContent = ({
               }
             ]
           }}
-          width={353} // from react-native
-          height={250}
+          width={Math.round(Dimensions.get('window').width * 0.9)}
+          height={Math.round(Dimensions.get('window').width * 0.6)}
           yAxisLabel=""
           yAxisSuffix=""
           yAxisInterval={1} // optional, defaults to 1
@@ -904,15 +911,10 @@ const TabBarAndContent = ({
 export default TabBarAndContent;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: 345,
-    height: 230,
-  },
   coloredBar: {
     flex: 1,
     height: 20,
-    width: 349,
+    width: Math.round(Dimensions.get('window').width * 0.9),
     backgroundColor: '#4CB97A',
   },
   coloredBarView: {
