@@ -241,15 +241,6 @@ function PasswordResetVerification({ route, navigation }) {
             </View>
 
             <View style={{ marginVertical: 8 }} />
-            {/* <Button
-              title='VERIFY'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              onPress={() => navigation.navigate('ResetPassword', {email, code})}
-            /> */}
             <ButtonAndroidiOS
               buttonText='VERIFY'
               callFunction={checkValidSignup}
