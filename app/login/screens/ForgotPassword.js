@@ -1,21 +1,25 @@
 import React, { useState } from 'react';
 import {
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
-  View,
-  SafeAreaView,
-  Image,
-  StatusBar,
-  Button,
   TextInput,
   TouchableOpacity,
-  ScrollView,
+  View,
 } from 'react-native';
 import { Auth, API } from 'aws-amplify';
+import ButtonAndroidiOS from '../../shared/components/ButtonAndroidiOS';
 import StatusBariOS from '../../shared/components/StatusBariOS';
 
 function ForgotPassword({ navigation }) {
   const [email, setEmail] = useState('');
+
+  const resetPasswordWrapper = () => {
+    resetPassword(email, navigation);
+  }
 
   return (
     <SafeAreaView style={styles().container}>
@@ -89,14 +93,9 @@ function ForgotPassword({ navigation }) {
               }}
             />
             <View style={{ marginVertical: 8 }} />
-            <Button
-              title='SUBMIT'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              onPress={() => resetPassword(email, navigation)}
+            <ButtonAndroidiOS
+              buttonText='SUBMIT'
+              callFunction={resetPasswordWrapper}
             />
             <View style={{ marginVertical: 8 }} />
           </View>
@@ -124,7 +123,7 @@ function ForgotPassword({ navigation }) {
 async function resetPassword(email, navigation) {
   try {
     await Auth.forgotPassword(email);
-    navigation.navigate('PasswordResetVerification', {email});
+    navigation.navigate('PasswordResetVerification', {email, navigation});
   } catch(error) {
     console.log('error resetting pasword: ', error);
   }

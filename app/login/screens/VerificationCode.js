@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { Auth, API } from 'aws-amplify';
 import {
   Alert,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
-  View,
-  SafeAreaView,
-  Image,
-  StatusBar,
-  Button,
   TextInput,
   TouchableOpacity,
-  ScrollView,
+  View,
 } from 'react-native';
+import ButtonAndroidiOS from '../../shared/components/ButtonAndroidiOS';
 import StatusBariOS from '../../shared/components/StatusBariOS';
 
 function VerificationCode({ route, navigation }) {
@@ -32,6 +32,10 @@ function VerificationCode({ route, navigation }) {
     } else {
       setValidLengthVerificationCode(false);
     }
+  }
+
+  const verifyWrapper = () => {
+    verify(username, verificationCode, validLengthVerificationCode, navigation);
   }
 
   return (
@@ -78,14 +82,9 @@ function VerificationCode({ route, navigation }) {
               }}
             />
             <View style={{ marginVertical: 8 }} />
-            <Button 
-              title='VERIFY'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              onPress={() => verify(username, verificationCode, validLengthVerificationCode, navigation)}
+            <ButtonAndroidiOS 
+              buttonText='VERIFY'
+              callFunction={verifyWrapper}
             />
             <View style={{ marginVertical: 8 }} />
           </View>

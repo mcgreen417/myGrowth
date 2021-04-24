@@ -2,27 +2,33 @@ import React, { useState } from 'react';
 import { Auth, API } from 'aws-amplify';
 import {
   Alert,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
-  View,
-  SafeAreaView,
-  Image,
-  StatusBar,
-  Button,
   TextInput,
   TouchableOpacity,
-  ScrollView,
+  View,
 } from 'react-native';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Cache } from "react-native-cache";
 import * as queries from '../../../src/graphql/queries';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import ButtonAndroidiOS from '../../shared/components/ButtonAndroidiOS';
+import { Cache } from "react-native-cache";
 import StatusBariOS from '../../shared/components/StatusBariOS';
 //import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const signInWrapper = () => {
+    signIn(email, password, navigation);
+  }
+
   return (
     <SafeAreaView style={styles().container}>
       <StatusBariOS />
@@ -79,14 +85,9 @@ function Login({ navigation }) {
               }}
             />
             <View style={{ marginVertical: 8 }} />
-            <Button
-              title='LOG IN'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              onPress={() => signIn(email, password, navigation)}
+            <ButtonAndroidiOS
+              buttonText='LOG IN'
+              callFunction={signInWrapper}
             />
             <View style={{ marginVertical: 8 }} />
           </View>

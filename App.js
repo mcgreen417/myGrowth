@@ -9,7 +9,6 @@ import SignUp from './app/login/screens/SignUp';
 import Login from './app/login/screens/Login';
 import ForgotPassword from './app/login/screens/ForgotPassword';
 import PasswordResetVerification from './app/login/screens/PasswordResetVerification';
-import ResetPassword from './app/login/screens/ResetPassword';
 import UserInitialization1 from './app/userinit/screens/UserInitialization1';
 import UserInitialization2 from './app/userinit/screens/UserInitialization2';
 import UserInitialization3 from './app/userinit/screens/UserInitialization3';
@@ -97,12 +96,6 @@ function App() {
         <Stack.Screen
           name='PasswordResetVerification'
           component={PasswordResetVerification}
-          options={{ header: () => null }}
-        />
-
-        <Stack.Screen
-          name='ResetPassword'
-          component={ResetPassword}
           options={{ header: () => null }}
         />
 
