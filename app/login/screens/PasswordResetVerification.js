@@ -117,9 +117,6 @@ function PasswordResetVerification({ route, navigation }) {
         console.log(validConfirmationCode, validPassword, validConfirmPassword);
       }
     }
-
-
-
   }
 
   return (
