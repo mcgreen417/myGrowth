@@ -76,7 +76,7 @@ const CreateNewJournalEntry = ({ navigation, route }) => {
                   name='arrow-back-outline'
                   type='ionicon'
                   color='#816868'
-                  onPress={() => navigation.navigate('Journal')}
+                  onPress={() => oldEntry ? navigation.goBack() : navigation.navigate('Journal')}
                 />
                 <Text 
                   style={styles().heading}
@@ -134,9 +134,23 @@ const CreateNewJournalEntry = ({ navigation, route }) => {
   );
 };
 
+async function getEntries(navigation) {
+  const date = new Date();
+  const timerange = {start: new Date(date.getFullYear(), date.getMonth(), 1), end: new Date(date.getFullYear(), date.getMonth() + 1, 0)};
+  const datePass = date.toISOString();
+  const res = await API.graphql({
+    query: queries.getJournalEntries,
+    variables: {timerange: timerange}
+  });
+
+  const arr = res.data.getJournalEntries.journalEntries;
+
+  navigation.push('JournalHistory', {arr, datePass})
+}
+
 async function saveEntry(datePass, entry, navigation, updateDatePass, oldEntry) {
-  const date = datePass.toISOString();
-  var updateDate = updateDatePass.toISOString();
+  const date = new Date(datePass).toISOString();
+  var updateDate = new Date(updateDatePass).toISOString();
 
   if(!oldEntry)
     updateDate = date;
@@ -146,7 +160,11 @@ async function saveEntry(datePass, entry, navigation, updateDatePass, oldEntry) 
     variables: {Timestamp: date, Entry: entry, LastUpdated: updateDate}
   });
 
-  navigation.navigate('JournalEntryCompletion', {date, entry, updateDate});
+  if(!oldEntry)
+    navigation.navigate('JournalEntryCompletion', {date, entry, updateDate});
+
+  else
+    getEntries(navigation);
 }
 
 export default CreateNewJournalEntry;
