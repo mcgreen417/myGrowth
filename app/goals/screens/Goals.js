@@ -1377,16 +1377,11 @@ async function updateCompletion(title, userGoals, setUserGoals, navigation) {
           Requirement: arr[i].Requirement, Progress: arr[i].Progress, Reward: arr[i].Reward}
       });
 
-      const getPoints = await API.graphql ({
-        query: queries.getSetting
-      });
-
-      let pointsAdded = getPoints.data.getSetting.Points + arr[i].Reward;
-      points = arr[i].Reward;
+      points = 5;
 
       const setPoints = await API.graphql ({
         query: mutations.updatePoints,
-        variables: {points: pointsAdded}
+        variables: {points: 5}
       });
     }
 
@@ -1401,16 +1396,11 @@ async function updateCompletion(title, userGoals, setUserGoals, navigation) {
           Requirement: arr[i].Requirement, Progress: arr[i].Progress, Reward: arr[i].Reward}
       });
 
-      const getPoints = await API.graphql ({
-        query: queries.getSetting
-      });
-
-      let pointsAdded = getPoints.data.getSetting.Points + arr[i].Completed ? arr[i].Reward : 5;
-      points = arr[i].Completed ? arr[i].Reward : 5;
+      points = arr[i].Completed ? arr[i].Reward : 5
 
       const setPoints = await API.graphql ({
         query: mutations.updatePoints,
-        variables: {points: pointsAdded}
+        variables: {points: arr[i].Completed ? arr[i].Reward : 5}
       });
     }
 
@@ -1424,16 +1414,11 @@ async function updateCompletion(title, userGoals, setUserGoals, navigation) {
           Requirement: arr[i].Requirement, Progress: arr[i].Progress, Reward: arr[i].Reward}
       });
 
-      const getPoints = await API.graphql ({
-        query: queries.getSetting
-      });
-
-      let pointsAdded = getPoints.data.getSetting.Points + arr[i].Reward;
       points = arr[i].Reward;
 
       const setPoints = await API.graphql ({
         query: mutations.updatePoints,
-        variables: {points: pointsAdded}
+        variables: {points: arr[i].Reward}
       });
     }
   }
