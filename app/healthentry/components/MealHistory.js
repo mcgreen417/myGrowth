@@ -1131,7 +1131,7 @@ const MealHistory = ({
                 textAlign: 'center',
                 width: 50,
               }}
-              //value={totalCalories.toString()}
+              value={totalCalories.toString()}
               onChangeText={setTotalCalories}
               keyboardType='number-pad'
             />

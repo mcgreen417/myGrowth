@@ -117,14 +117,14 @@ async function submit(
     Activities: activitiesIn,
   };
 
-  // console.log('Query: ', query);
+  console.log('Query: ', query);
 
   const res = await API.graphql({
     query: mutations.updateDailyEntry,
     variables: query,
   });
 
-  // console.log('Response: ', res);
+  console.log('Response: ', res);
 
   navigation.navigate('EntryCompletion', {
     timestamp: new Date(timestamp).toISOString(),
@@ -145,7 +145,7 @@ async function getHealthEntry(timestamp, setLoadingVisible) {
     variables: { Timestamp: new Date(timestamp).toISOString() },
   })
     .then((res) => {
-      // console.log(res);
+      console.log('Get Health Entry', res);
 
       return res.data.getDailyEntry;
     })
@@ -309,16 +309,18 @@ const HealthEntry = ({ route, navigation }) => {
       // console.log('Setting fitness took ' + (t1 - t0) + ' milliseconds.');
 
       // var t0 = performance.now();
-      let medcheck = entry != null ? entry.MedCheck : null;
+      let medcheck = entry != null ? entry.Medcheck : null;
       let tempMedCheck = 0;
 
       if (medcheck != null) {
+        console.log('check medcheck');
         for (var index = 0; index < medcheck.length; index++) {
           let tempMed = medcheck[index];
           tempMedCheck = tempMed.Taken
             ? flipBit(tempMedCheck, index)
             : tempMedCheck;
         }
+        console.log(tempMedCheck);
       }
 
       setMedChecked(tempMedCheck);

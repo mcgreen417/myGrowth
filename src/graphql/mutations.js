@@ -491,15 +491,13 @@ export const addDailyEntry = /* GraphQL */ `
           CaloriesBurned
         }
       }
-      MedCheck {
+      Medcheck {
         Name
         Taken
       }
       Activities {
-        Activities {
-          Name
-          Duration
-        }
+        Name
+        Duration
       }
     }
   }
@@ -589,15 +587,13 @@ export const updateDailyEntry = /* GraphQL */ `
           CaloriesBurned
         }
       }
-      MedCheck {
+      Medcheck {
         Name
         Taken
       }
       Activities {
-        Activities {
-          Name
-          Duration
-        }
+        Name
+        Duration
       }
     }
   }
@@ -663,15 +659,13 @@ export const deleteDailyEntry = /* GraphQL */ `
           CaloriesBurned
         }
       }
-      MedCheck {
+      Medcheck {
         Name
         Taken
       }
       Activities {
-        Activities {
-          Name
-          Duration
-        }
+        Name
+        Duration
       }
     }
   }

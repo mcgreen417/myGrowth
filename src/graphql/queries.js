@@ -169,15 +169,13 @@ export const getDailyEntry = /* GraphQL */ `
           CaloriesBurned
         }
       }
-      MedCheck {
+      Medcheck {
         Name
         Taken
       }
       Activities {
-        Activities {
-          Name
-          Duration
-        }
+        Name
+        Duration
       }
     }
   }
@@ -254,15 +252,13 @@ export const getDailyEntries = /* GraphQL */ `
             CaloriesBurned
           }
         }
-        MedCheck {
+        Medcheck {
           Name
           Taken
         }
         Activities {
-          Activities {
-            Name
-            Duration
-          }
+          Name
+          Duration
         }
       }
       nextToken
@@ -341,15 +337,13 @@ export const getDailyEntriesAsc = /* GraphQL */ `
             CaloriesBurned
           }
         }
-        MedCheck {
+        Medcheck {
           Name
           Taken
         }
         Activities {
-          Activities {
-            Name
-            Duration
-          }
+          Name
+          Duration
         }
       }
       nextToken
