@@ -79,6 +79,7 @@ const GoalEditModal = ({title, goals, timestamp, userGoals, setUserGoals, editMo
                         marginRight: 6,
                       }}>
                       <Icon
+                        testID='closeButton'
                         name='close'
                         type='ionicon'
                         color='white'
@@ -117,6 +118,7 @@ const GoalEditModal = ({title, goals, timestamp, userGoals, setUserGoals, editMo
                         }}>
                         <TextInput 
                           placeholder={title}
+                          testID='editText'
                           fontSize={16}
                           color='#816868'
                           value={goalTitle}
@@ -134,6 +136,7 @@ const GoalEditModal = ({title, goals, timestamp, userGoals, setUserGoals, editMo
                   <View style={{ alignSelf: 'center', }}>
                     <Button
                       title='Edit Goal'
+                      testID='editButton'
                       onPress={() => {
                         editGoal(title, goals, timestamp, goalTitle, userGoals, setUserGoals, navigation);
                         setEditModal(!editModal);
@@ -160,8 +163,6 @@ const Goal = ({ goals, title, type, timestamp, progress, completed, userGoals, s
   const [deleteEntry, setDeleteEntry] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const progrArr = new Array(progress).fill('line');
-
-  //console.log(type === 'weekly', ' ', title);
 
   return (
     <View>
@@ -744,7 +745,7 @@ const AddLongTermGoalModal = ({
 function Goals({ navigation, route }) {
   const goals = route.params.goals;
   const goalsObj = populateGoals(goals);
-  const countDown = new Date();
+  const countDown = new Date();  
 
   const [userDailies, setUserDailies] = useState(goalsObj.dailies);
   const [userWeeklies, setUserWeeklies] = useState(goalsObj.weeklies);
@@ -1164,7 +1165,7 @@ function Goals({ navigation, route }) {
               </View>
             </View>
           </View>
-          <Text style={styles().textBold}>({Math.abs(countDown.getDay() - 0 + 1)} days until reset)</Text>
+          <Text style={styles().textBold}>({sundayCountdown(countDown)} day(s) until reset)</Text>
         </View>
         <View style={styles().line} />
 
@@ -1256,6 +1257,15 @@ function Goals({ navigation, route }) {
   );
 }
 
+function sundayCountdown(date) {
+  var sunday = new Date();
+  sunday.setDate(date.getDate() + (7 - date.getDay()) % 7 );
+
+  //+ (sunday.getDay() === 0 ? 1 : 0)
+  
+  return(7 + sunday.getDay() - date.getDay());
+}
+
 async function refreshPage(navigation, goals) {
   const date = new Date();
   const findSunday = 0 - date.getDay();
@@ -1266,7 +1276,7 @@ async function refreshPage(navigation, goals) {
     let testDate = new Date(goals[i].Timestamp);
     
     if(goals[i].Category === 'daily') {
-      if(testDate.getDate() - sunday.getDate() >= 7) {
+      if(testDate.getDate() < date.getDate()) {
         let obj = goals[i];
         obj.Completed = false;
         obj.Progress = 0;
@@ -1291,7 +1301,7 @@ async function refreshPage(navigation, goals) {
     }
 
     else if(goals[i].Category === 'weekly') {
-      if(testDate.getDate() - sunday.getDate() >= 7) {
+      if(Math.abs(testDate.getDate() - new Date(sunday.getDate() + testDate.getDay()).getDate()) >= 7) {
         let obj = goals[i];
         obj.Completed = false;
         obj.Progress = 0;

@@ -477,55 +477,53 @@ async function getGoals(navigation) {
   const sunday = new Date(date.getDate() - findSunday);
 
   const res = await API.graphql({
-    query: queries.getMilestones,
+    query: queries.getMilestones
   });
 
   var goals = res.data.getMilestones.Milestones;
 
-  for (var i = 0; i < goals.length; i++) {
+  for(var i = 0; i < goals.length; i++) {
     let testDate = new Date(goals[i].Timestamp);
 
-    if (goals[i].Category === 'daily') {
-      if (testDate.getDate() < date.getDate()) {
+    if(goals[i].Category === 'daily') {
+      if(testDate.getDate() < date.getDate()) {
         goals[i].Completed = false;
         goals[i].Progress = 0;
 
+        const res2 = await API.graphql ({
+          query: mutations.deleteMilestone,
+          variables: {timestamp: goals[i].Timestamp}
+        });
+
         const res1 = await API.graphql({
           query: mutations.updateMilestone,
-          variables: {
-            Title: goals[i].Title,
-            Timestamp: goals[i].Timestamp,
-            Completed: goals[i].Completed,
-            Category: goals[i].Category,
-            Requirement: goals[i].Requirement,
-            Progress: goals[i].Progress,
-            Reward: goals[i].Reward,
-          },
-        });
+          variables: {Title: goals[i].Title, Timestamp: new Date().toISOString(), Completed: goals[i].Completed, Category: goals[i].Category, 
+            Requirement: goals[i].Requirement, Progress: goals[i].Progress, Reward: goals[i].Reward}
+        })
       }
-    } else if (goals[i].Category === 'weekly') {
-      if (testDate.getDate() - sunday.getDate() >= 7) {
+    }
+
+    else if(goals[i].Category === 'weekly') {
+      if(Math.abs(testDate.getDate() - new Date(sunday.getDate() + testDate.getDay()).getDate()) >= 7) {
         goals[i].Completed = false;
         goals[i].Progress = 0;
 
+        const res2 = await API.graphql ({
+          query: mutations.deleteMilestone,
+          variables: {timestamp: goals[i].Timestamp}
+        });
+
         const res1 = await API.graphql({
           query: mutations.updateMilestone,
-          variables: {
-            Title: goals[i].Title,
-            Timestamp: goals[i].Timestamp,
-            Completed: goals[i].Completed,
-            Category: goals[i].Category,
-            Requirement: goals[i].Requirement,
-            Progress: goals[i].Progress,
-            Reward: goals[i].Reward,
-          },
-        });
+          variables: {Title: goals[i].Title, Timestamp: new Date().toISOString(), Completed: goals[i].Completed, Category: goals[i].Category, 
+            Requirement: goals[i].Requirement, Progress: goals[i].Progress, Reward: goals[i].Reward}
+        })
       }
     }
   }
 
   const res1 = await API.graphql({
-    query: queries.getMilestones,
+    query: queries.getMilestones
   });
 
   goals = res1.data.getMilestones.Milestones;
