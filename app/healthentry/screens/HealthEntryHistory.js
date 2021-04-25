@@ -102,10 +102,12 @@ const HealthEntryHistory = ({ navigation }) => {
           <View style={{ width: '90%', marginTop: -10 }}>
             <Calendar
               //minDate={VeryFirstEntryString} <- Qeury fetches this after the calendar loads, so
+              minDate={Object.keys(markers)[Object.keys(markers).length - 1]}
               // the calendar doesn't get the right date initially; pass this value in through home
               // (and wherever else the page can be accessed from)-- will have to pass this value out
               // to health entry view pages as well so it can be passed back in to this page on back
               //maxDate={Date()} <- This date is off bc UTC, please fix!
+              maxDate={Object.keys(markers)[0]}
               enableSwipeMonths={true}
               markedDates={
                 markers
@@ -115,6 +117,14 @@ const HealthEntryHistory = ({ navigation }) => {
                 //'2021-04-07': {selected: true, marked: true, } <- Current day, marked if it has an
                 // entry associated with it
               }
+              onDayPress={(day) => {
+                console.log(new Date(day.timestamp).toISOString());
+                if (day != undefined) {
+                  navigation.navigate('HealthEntry', {
+                    reviewTimestamp: new Date(day.timestamp).toISOString(),
+                  });
+                }
+              }}
               theme={{
                 calendarBackground: '#F6EFED',
                 textSectionTitleColor: '#816868',
