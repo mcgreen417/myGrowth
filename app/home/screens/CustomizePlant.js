@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Auth, API } from 'aws-amplify';
 import {
   StyleSheet,
   Text,
@@ -9,7 +10,8 @@ import {
   Pressable,
   Dimensions,
 } from 'react-native';
-
+import * as queries from '../../../src/graphql/queries';
+import * as mutations from '../../../src/graphql/mutations';
 import { Icon } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import NavBar from '../../shared/components/NavBar';
