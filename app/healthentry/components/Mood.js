@@ -120,6 +120,15 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
                       </View>
                     </View>
                   </View>
+                  <View>
+                    {feelings.map((item, index) => {
+                      return (
+                        <View key={index}>
+                          <Text>{item.toString()}</Text>
+                        </View>
+                      );
+                    })}
+                  </View>
                   {/* Add Feeling button */}
                   <View style={{ alignSelf: 'center' }}>
                     <Button
@@ -128,7 +137,7 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
                         let temp = new Array(feel).concat(feelings);
                         //console.log('temp:', temp);
                         setFeelings(temp);
-                        //console.log('feelings', feelings);
+                        // console.log('feelings', feelings);
                         //console.log('feelings', feelings);
                         setFeel('');
                         setShowAddFeelings(true);
@@ -284,7 +293,13 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
         </View>
 
         {/* Add Feelings button */}
-        <View style={{ minWidth: '40%', maxWidth: '50%', marginTop: 10, marginBottom: 10 }}>
+        <View
+          style={{
+            minWidth: '40%',
+            maxWidth: '50%',
+            marginTop: 10,
+            marginBottom: 10,
+          }}>
           <Button
             title='+ Add Feelings'
             onPress={() => setShowAddFeelings(!showAddFeelings)}

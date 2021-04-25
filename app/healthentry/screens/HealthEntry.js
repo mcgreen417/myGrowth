@@ -103,7 +103,7 @@ async function submit(
     Exercises: exercises,
   };
 
-  // console.log(timestamp);
+  console.log(timestamp);
   const query = {
     Timestamp: new Date(timestamp).toISOString(),
     Health: healthIn,
@@ -140,6 +140,7 @@ function flipBit(medChecked, index) {
 async function getHealthEntry(timestamp, setLoadingVisible) {
   // set spinner
   setLoadingVisible(true);
+  console.log(new Date(timestamp).toISOString());
   const res = await API.graphql({
     query: queries.getDailyEntry,
     variables: { Timestamp: new Date(timestamp).toISOString() },
@@ -162,8 +163,8 @@ const HealthEntry = ({ route, navigation }) => {
   // Timestamp variables
   const [timestamp, setTimestamp] = useState(
     route.params != undefined
-      ? new Date(route.params.reviewTimestamp).setSeconds(0, 0)
-      : new Date().setSeconds(0, 0)
+      ? new Date(route.params.reviewTimestamp).setHours(0, 0, 0, 0)
+      : new Date().setHours(0, 0, 0, 0)
   );
 
   // console.log(route.params);

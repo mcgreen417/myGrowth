@@ -40,7 +40,7 @@ const Timestamp = ({ timestamp, setTimestamp }) => {
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || timestamp;
     setShow(Platform.OS === 'ios');
-    setTimestamp(currentDate);
+    setTimestamp(new Date(currentDate).setHours(0, 0, 0, 0));
   };
 
   const showMode = (currentMode) => {
@@ -87,7 +87,7 @@ const Timestamp = ({ timestamp, setTimestamp }) => {
             }
           />
         </Pressable>
-        <Pressable
+        {/* <Pressable
           onPress={() => showTimepicker()}
           style={{
             flexDirection: 'row',
@@ -113,7 +113,7 @@ const Timestamp = ({ timestamp, setTimestamp }) => {
                 : global.contentDividerColor
             }
           />
-        </Pressable>
+        </Pressable> */}
         {show && (
           <DateTimePicker
             testID='dateTimePicker'

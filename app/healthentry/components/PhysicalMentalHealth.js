@@ -38,8 +38,7 @@ const PhysicalMentalHealth = ({
             animationType='fade'
             transparent={true}
             visible={showAddSymptoms}
-            onRequestClose={() => setShowAddSymptoms(!showAddSymptoms)}
-          >
+            onRequestClose={() => setShowAddSymptoms(!showAddSymptoms)}>
             <Pressable
               style={{
                 flex: 1,
@@ -48,8 +47,7 @@ const PhysicalMentalHealth = ({
                 zIndex: 1,
                 backgroundColor: '#00000055',
               }}
-              onPressOut={() => setShowAddSymptoms(!showAddSymptoms)}
-            >
+              onPressOut={() => setShowAddSymptoms(!showAddSymptoms)}>
               <Pressable
                 style={styles().modalContainer}
                 onPressOut={() => {
@@ -167,6 +165,16 @@ const PhysicalMentalHealth = ({
                       </View>
                     </View>
                   </View>
+                  {symptoms.map((item, index) => {
+                    console.log(item);
+                    return (
+                      <View key={index}>
+                        <Text>
+                          {item.Title.toString()} , {item.Severity.toString()}
+                        </Text>
+                      </View>
+                    );
+                  })}
                   {/* Add Feeling button */}
                   <View style={{ alignSelf: 'center' }}>
                     <Button
@@ -251,7 +259,13 @@ const PhysicalMentalHealth = ({
           today?
         </Text>
 
-        <View style={{ minWidth: '40%', maxWidth: '50%', marginTop: 20, marginBottom: 10 }}>
+        <View
+          style={{
+            minWidth: '40%',
+            maxWidth: '50%',
+            marginTop: 20,
+            marginBottom: 10,
+          }}>
           <Button
             title='+ Add Symptoms'
             onPress={() => setShowAddSymptoms(!showAddSymptoms)}

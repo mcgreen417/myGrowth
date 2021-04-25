@@ -14,7 +14,9 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-{/* Stressors section */}
+{
+  /* Stressors section */
+}
 const Stress = ({ stress, setStress, stressors, setStressors }) => {
   const [showAddStressors, setShowAddStressors] = useState(false);
   const [pressed, setPressed] = useState(false);
@@ -29,8 +31,7 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
             animationType='fade'
             transparent={true}
             visible={showAddStressors}
-            onRequestClose={() => setShowAddStressors(!showAddStressors)}
-          >
+            onRequestClose={() => setShowAddStressors(!showAddStressors)}>
             <Pressable
               style={{
                 flex: 1,
@@ -39,14 +40,13 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
                 zIndex: 1,
                 backgroundColor: '#00000055',
               }}
-              onPressOut={() => setShowAddStressors(!showAddStressors)}
-            >
-              <Pressable 
+              onPressOut={() => setShowAddStressors(!showAddStressors)}>
+              <Pressable
                 style={styles().modalContainer}
                 onPressOut={() => {
                   Keyboard.dismiss();
-                  setShowAddStressors(true);}}
-              >
+                  setShowAddStressors(true);
+                }}>
                 <View style={styles().modalHeaderBar}>
                   <View
                     style={{
@@ -87,28 +87,28 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
                     marginTop: 10,
                     marginBottom: 16,
                   }}>
-                  <View style={{ marginTop: 16, marginBottom: 20, }}>
+                  <View style={{ marginTop: 16, marginBottom: 20 }}>
                     <View style={styles().textInputView}>
                       <View style={styles().labelView}>
-                        <Text style={{
-                          color: pressed 
-                            ? '#4CB97A'
-                            : '#816868',
-                          fontSize: 16,
-                          fontWeight: 'bold',
-                        }}>Stressor</Text>
+                        <Text
+                          style={{
+                            color: pressed ? '#4CB97A' : '#816868',
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                          }}>
+                          Stressor
+                        </Text>
                       </View>
-                      <View style={{
-                          flex: 1, 
-                          borderWidth: 1, 
-                          borderColor: pressed
-                            ? '#4CB97A'
-                            : '#816868',
+                      <View
+                        style={{
+                          flex: 1,
+                          borderWidth: 1,
+                          borderColor: pressed ? '#4CB97A' : '#816868',
                           justifyContent: 'flex-end',
                           borderRadius: 10,
                           paddingHorizontal: 16,
                         }}>
-                        <TextInput 
+                        <TextInput
                           placeholder='Stressor name'
                           fontSize={16}
                           color='#816868'
@@ -117,13 +117,22 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
                           maxLength={99}
                           onFocus={() => setPressed(true)}
                           onBlur={() => setPressed(false)}
-                          style={{ top: -8, }}
+                          style={{ top: -8 }}
                         />
                       </View>
                     </View>
                   </View>
+                  <View>
+                    {stressors.map((item, index) => {
+                      return (
+                        <View key={index}>
+                          <Text>{item.toString()}</Text>
+                        </View>
+                      );
+                    })}
+                  </View>
                   {/* Add Feeling button */}
-                  <View style={{ alignSelf: 'center', }}>
+                  <View style={{ alignSelf: 'center' }}>
                     <Button
                       title='+ Add Stressor'
                       onPress={() => {
@@ -145,12 +154,14 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
               </Pressable>
             </Pressable>
           </Modal>
-        </View>       
-        
+        </View>
+
         {/* Stress heading */}
         <Text style={styles().heading}>STRESS</Text>
 
-        <Text style={styles().text}>How would you rate your level of stress today?</Text>
+        <Text style={styles().text}>
+          How would you rate your level of stress today?
+        </Text>
 
         {/* Stress slider */}
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -161,7 +172,7 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
               marginBottom: 20,
               marginHorizontal: 10,
               alignItems: 'center',
-              width: (Dimensions.get('window').width * 0.78),
+              width: Dimensions.get('window').width * 0.78,
             }}>
             <View
               style={{
@@ -175,7 +186,8 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
                 right: 0,
                 bottom: 0,
                 top: 20 / 2,
-              }}/>
+              }}
+            />
 
             {/* Not stresssed */}
             <Pressable onPress={() => setStress(1)}>
@@ -187,10 +199,15 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
                   backgroundColor: stress == 1 ? '#A5DFB2' : '#816868',
                   marginLeft: stress == 1 ? -10 : 0,
                   zIndex: 1,
-                }}/>
+                }}
+              />
               <Text style={styles().textSlider}>1</Text>
             </Pressable>
-            <View style={{ width: (Dimensions.get('window').width * 0.55 - 20) / 4, }}/>
+            <View
+              style={{
+                width: (Dimensions.get('window').width * 0.55 - 20) / 4,
+              }}
+            />
 
             {/* A bit stressed */}
             <Pressable onPress={() => setStress(2)}>
@@ -202,10 +219,15 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
                   backgroundColor: stress == 2 ? '#A5DFB2' : '#816868',
                   marginLeft: stress == 2 ? -10 : 0,
                   zIndex: 1,
-                }}/>
+                }}
+              />
               <Text style={styles().textSlider}>2</Text>
             </Pressable>
-            <View style={{ width: (Dimensions.get('window').width * 0.55 - 20) / 4, }}/>
+            <View
+              style={{
+                width: (Dimensions.get('window').width * 0.55 - 20) / 4,
+              }}
+            />
 
             {/* Stressed */}
             <Pressable onPress={() => setStress(3)}>
@@ -217,10 +239,15 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
                   backgroundColor: stress == 3 ? '#A5DFB2' : '#816868',
                   marginLeft: stress == 3 ? -10 : 0,
                   zIndex: 1,
-                }}/>
+                }}
+              />
               <Text style={styles().textSlider}>3</Text>
             </Pressable>
-            <View style={{ width: (Dimensions.get('window').width * 0.55 - 20) / 4, }}/>
+            <View
+              style={{
+                width: (Dimensions.get('window').width * 0.55 - 20) / 4,
+              }}
+            />
 
             {/* Very stressed */}
             <Pressable onPress={() => setStress(4)}>
@@ -232,10 +259,15 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
                   backgroundColor: stress == 4 ? '#A5DFB2' : '#816868',
                   marginLeft: stress == 4 ? -10 : 0,
                   zIndex: 1,
-                }}/>
+                }}
+              />
               <Text style={styles().textSlider}>4</Text>
             </Pressable>
-            <View style={{ width: (Dimensions.get('window').width * 0.55 - 20) / 4, }}/>
+            <View
+              style={{
+                width: (Dimensions.get('window').width * 0.55 - 20) / 4,
+              }}
+            />
 
             {/* Extremely stressed */}
             <Pressable onPress={() => setStress(5)}>
@@ -247,25 +279,33 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
                   backgroundColor: stress == 5 ? '#A5DFB2' : '#816868',
                   marginLeft: stress == 5 ? -10 : 0,
                   zIndex: 1,
-                }}/>
+                }}
+              />
               <Text style={styles().textSlider}>5</Text>
             </Pressable>
           </View>
         </View>
 
         <Text style={styles().text}>
-          If you were stressed today, what were some of the sources of your stress?
+          If you were stressed today, what were some of the sources of your
+          stress?
         </Text>
 
         {/* Add Stressors button */}
-        <View style={{ minWidth: '40%', maxWidth: '50%', marginTop: 20, marginBottom: 10, }}>
+        <View
+          style={{
+            minWidth: '40%',
+            maxWidth: '50%',
+            marginTop: 20,
+            marginBottom: 10,
+          }}>
           <Button
             title='+ Add Stressors'
             onPress={() => setShowAddStressors(true)}
             color={
               global.colorblindMode
-              ? global.cb_optionButtonsColor
-              : global.optionButtonsColor
+                ? global.cb_optionButtonsColor
+                : global.optionButtonsColor
             }
           />
         </View>
@@ -288,9 +328,7 @@ const styles = () =>
       width: '100%',
     },
     heading: {
-      color: global.colorblindMode
-        ? global.cb_textColor
-        : global.textColor,
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
       fontSize: 18,
       fontWeight: 'bold',
       marginBottom: 10,
@@ -315,7 +353,7 @@ const styles = () =>
         ? global.cb_pageBackgroundColor
         : global.pageBackgroundColor,
       alignItems: 'center',
-      width: Math.round(Dimensions.get('window').width * 4/5),
+      width: Math.round((Dimensions.get('window').width * 4) / 5),
       borderRadius: 10,
       shadowColor: '#000',
       shadowOffset: {
@@ -336,9 +374,7 @@ const styles = () =>
       borderTopRightRadius: 10,
     },
     text: {
-      color: global.colorblindMode 
-        ? global.cb_textColor 
-        : global.textColor,
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
       fontSize: 16,
     },
     textAlt: {
@@ -347,8 +383,8 @@ const styles = () =>
       fontWeight: 'bold',
     },
     textInputView: {
-      height: 48, 
-      width: Math.round(Dimensions.get('window').width * 1/2),
+      height: 48,
+      width: Math.round((Dimensions.get('window').width * 1) / 2),
       position: 'relative',
     },
     textSlider: {
@@ -359,9 +395,7 @@ const styles = () =>
       marginLeft: -20,
       flexWrap: 'wrap',
       marginTop: 4,
-      color: global.colorblindMode 
-        ? global.cb_textColor 
-        : global.textColor,
+      color: global.colorblindMode ? global.cb_textColor : global.textColor,
       fontSize: 20,
     },
   });

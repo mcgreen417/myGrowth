@@ -33,8 +33,7 @@ const DailyActivities = ({ activities, setActivities }) => {
             animationType='fade'
             transparent={true}
             visible={showAddActivities}
-            onRequestClose={() => setShowAddActivities(!showAddActivities)}
-          >
+            onRequestClose={() => setShowAddActivities(!showAddActivities)}>
             <Pressable
               style={{
                 flex: 1,
@@ -43,15 +42,13 @@ const DailyActivities = ({ activities, setActivities }) => {
                 zIndex: 1,
                 backgroundColor: '#00000055',
               }}
-              onPressOut={() => setShowAddActivities(!showAddActivities)
-            }>
+              onPressOut={() => setShowAddActivities(!showAddActivities)}>
               <Pressable
                 style={styles().modalContainer}
                 onPressOut={() => {
                   Keyboard.dismiss();
                   setShowAddActivities(true);
-                }}
-              >
+                }}>
                 <View style={styles().modalHeaderBar}>
                   <View
                     style={{
@@ -163,6 +160,18 @@ const DailyActivities = ({ activities, setActivities }) => {
                       </View>
                     </View>
                   </View>
+                  <View>
+                    {activities.map((item, index) => {
+                      // console.log(item);
+                      return (
+                        <View key={index}>
+                          <Text>
+                            {item.Name.toString()} , {item.Duration.toString()}
+                          </Text>
+                        </View>
+                      );
+                    })}
+                  </View>
                   {/* Add Feeling button */}
                   <View style={{ alignSelf: 'center' }}>
                     <Button
@@ -203,7 +212,13 @@ const DailyActivities = ({ activities, setActivities }) => {
         </Text>
 
         {/* Add Activities modal */}
-        <View style={{ wminWidth: '40%', maxWidth: '50%', marginTop: 20, marginBottom: 10 }}>
+        <View
+          style={{
+            wminWidth: '40%',
+            maxWidth: '50%',
+            marginTop: 20,
+            marginBottom: 10,
+          }}>
           <Button
             title='+ Add Activities'
             onPress={() => setShowAddActivities(true)}
