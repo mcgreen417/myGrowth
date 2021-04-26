@@ -204,16 +204,36 @@ const DailyActivities = ({ activities, setActivities }) => {
           style={{
             flexDirection: 'row',
             width: '100%',
+            flexWrap: 'wrap',
           }}>
           {activities.map((item, index) => {
             // console.log(item);
             return (
               <View
                 key={index}
-                style={{ backgroundColor: 'grey', marginHorizontal: 10 }}>
-                <Text>
+                style={{
+                  backgroundColor: global.colorblindMode
+                    ? global.cb_navBarCurrentIconColor
+                    : global.navBarCurrentIconColor,
+                  marginHorizontal: 10,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  padding: 5,
+                  borderRadius: 10,
+                  marginVertical: 5,
+                }}>
+                <Text style={{ color: 'white' }}>
                   {item.Name.toString()} , {item.Duration.toString()}
                 </Text>
+                <Icon
+                  name='close'
+                  color='white'
+                  onPress={() => {
+                    let tempActivities = [...activities];
+                    tempActivities.splice(index, 1);
+                    setActivities(tempActivities);
+                  }}
+                />
               </View>
             );
           })}

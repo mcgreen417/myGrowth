@@ -265,16 +265,36 @@ const PhysicalMentalHealth = ({
           style={{
             flexDirection: 'row',
             width: '100%',
+            flexWrap: 'wrap',
           }}>
           {symptoms.map((item, index) => {
             // console.log(item);
             return (
               <View
                 key={index}
-                style={{ backgroundColor: 'grey', marginHorizontal: 10 }}>
-                <Text>
+                style={{
+                  backgroundColor: global.colorblindMode
+                    ? global.cb_navBarCurrentIconColor
+                    : global.navBarCurrentIconColor,
+                  marginHorizontal: 10,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  padding: 5,
+                  borderRadius: 10,
+                  marginVertical: 5,
+                }}>
+                <Text style={{ color: 'white' }}>
                   {item.Title.toString()} , {item.Severity.toString()}
                 </Text>
+                <Icon
+                  name='close'
+                  color='white'
+                  onPress={() => {
+                    let tempSymptoms = [...symptoms];
+                    tempSymptoms.splice(index, 1);
+                    setSymptoms(tempSymptoms);
+                  }}
+                />
               </View>
             );
           })}

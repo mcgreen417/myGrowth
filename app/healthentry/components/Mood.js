@@ -294,11 +294,7 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
               <View
                 key={index}
                 style={{
-                  backgroundColor: pressed
-                    ? global.colorblindMode
-                      ? global.cb_navBarCurrentIconColor
-                      : global.navBarCurrentIconColor
-                    : global.colorblindMode
+                  backgroundColor: global.colorblindMode
                     ? global.cb_navBarCurrentIconColor
                     : global.navBarCurrentIconColor,
                   marginHorizontal: 10,

@@ -286,13 +286,33 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
           style={{
             flexDirection: 'row',
             width: '100%',
+            flexWrap: 'wrap',
           }}>
           {stressors.map((item, index) => {
             return (
               <View
                 key={index}
-                style={{ backgroundColor: 'grey', marginHorizontal: 10 }}>
-                <Text>{item.toString()}</Text>
+                style={{
+                  backgroundColor: global.colorblindMode
+                    ? global.cb_navBarCurrentIconColor
+                    : global.navBarCurrentIconColor,
+                  marginHorizontal: 10,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  padding: 5,
+                  borderRadius: 10,
+                  marginVertical: 5,
+                }}>
+                <Text style={{ color: 'white' }}>{item.toString()}</Text>
+                <Icon
+                  name='close'
+                  color='white'
+                  onPress={() => {
+                    let tempStressors = [...stressors];
+                    tempStressors.splice(index, 1);
+                    setStressors(tempStressors);
+                  }}
+                />
               </View>
             );
           })}
