@@ -3,22 +3,23 @@ import { Auth, API } from 'aws-amplify';
 import {
   Alert,
   Button,
+  Dimensions,
   Image,
+  Modal,
+  Platform,
+  Pressable,
   SafeAreaView,
   StatusBar,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  Platform,
   View,
-  Modal,
-  Pressable,
-  Dimensions,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
 import { ScrollView } from 'react-native-gesture-handler';
+import ButtonAndroidiOS from '../../shared/components/ButtonAndroidiOS';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import StatusBariOS from '../../shared/components/StatusBariOS';
 
@@ -225,6 +226,10 @@ function UserInitialization1({ navigation }) {
     }
   }
 
+  const checkRequiredFieldsWrapper = () => {
+    checkRequiredFields(firstName, dob, gender, bioSex, activityLevel);
+  }
+
   const checkRequiredFields = (firstName, dob, gender, bioSex, activityLevel) => {
     const ableToSignUp = (userInitializationProperties.validFirstName
                           && userInitializationProperties.validDateOfBirth
@@ -241,6 +246,14 @@ function UserInitialization1({ navigation }) {
       setUserInitializationProperties({
         ...userInitializationProperties,
         validSignUp: true,
+      });
+
+      updateUser(firstName, dob, gender, bioSex);
+      navigation.navigate('UserInitialization2', { 
+        activityLevel: activityLevel,
+        height: height, 
+        weight: weight, 
+        metric: metric,
       });
 
     } else {
@@ -1301,28 +1314,12 @@ function UserInitialization1({ navigation }) {
             </View>
           </View>
 
-          <View style={{ alignSelf: 'flex-end', marginRight: '5%', marginTop: -38 }}>
-                <Button
-                  title='NEXT'
-                  color={
-                    global.colorblindMode
-                      ? global.cb_optionButtonsColor
-                      : global.optionButtonsColor
-                  }
-                  onPress={() => {
-                    checkRequiredFields(firstName, dob, gender, bioSex, activityLevel);
-                    if (userInitializationProperties.validSignUp) {
-                      updateUser(firstName, dob, gender, bioSex);
-                      navigation.navigate('UserInitialization2', { 
-                        activityLevel: activityLevel,
-                        height: height, 
-                        weight: weight, 
-                        metric: metric,
-                      });
-                    }
-                  }}
-                />
-              </View>
+          <View style={{ alignSelf: 'flex-end', marginRight: '5%', marginTop: -38, width: '14%' }}>
+            <ButtonAndroidiOS
+              buttonText='NEXT'
+              callFunction={checkRequiredFieldsWrapper}
+            />
+          </View>
           
           <View style={styles().pageEnd}/>
         </View>
