@@ -88,11 +88,11 @@ function UserSettings({ navigation, route }) {
           </View>
 
           {/* Account Protection */}
-          <Text style={styles().heading}>ACCOUNT PROTECTION</Text>
+          {/*<Text style={styles().heading}>ACCOUNT PROTECTION</Text>
           <View style={styles().line} />
 
           {/* Require pin when opening app */}
-          <View style={styles().inlineRow}>
+          {/*<View style={styles().inlineRow}>
             <Text style={styles().text}>Require PIN when opening app</Text>
             <View style={styles().switchView}>
               <View style={styles().line2} />
@@ -124,7 +124,7 @@ function UserSettings({ navigation, route }) {
           <View style={styles().line} />
 
           {/* Set user pin */}
-          <View style={styles().inlineRow}>
+          {/*<View style={styles().inlineRow}>
             <TouchableOpacity style={styles().buttons} onPress={() => navigation.navigate('UserSettings')}>
               <View style={styles().inlineRow}>
                 <Text style={styles().text}>Create/Edit User PIN</Text>
@@ -142,7 +142,7 @@ function UserSettings({ navigation, route }) {
           <View style={styles().line} />
 
           {/* Change password */}
-          <View style={styles().inlineRow}>
+          {/*<View style={styles().inlineRow}>
             <TouchableOpacity style={styles().buttons} onPress={() => navigation.navigate('UserSettings')}>
               <View style={styles().inlineRow}>
                 <Text style={styles().text}>Change Password</Text>
@@ -160,7 +160,7 @@ function UserSettings({ navigation, route }) {
           <View style={styles().line} />
 
           {/* Change email */}
-          <View style={styles().inlineRow}>
+          {/*<View style={styles().inlineRow}>
             <TouchableOpacity style={styles().buttons} onPress={() => navigation.navigate('UserSettings')}>
               <View style={styles().inlineRow}>
                 <Text style={styles().text}>Change Email</Text>
@@ -178,8 +178,8 @@ function UserSettings({ navigation, route }) {
           <View style={styles().line} />
 
           {/* Link your acct */}
-          <View style={styles().inlineRow}>
-            <TouchableOpacity style={styles().buttons} onPress={() => navigation.navigate('LinkAccountPage')}>
+          {/*<View style={styles().inlineRow}>
+            <TouchableOpacity style={styles().buttons} /*onPress={() => navigation.navigate('LinkAccountPage')}>
               <View style={styles().inlineRow}>
                 <Text style={styles().text}>Link Your Account</Text>
                 <View style={styles().iconView}>
@@ -196,13 +196,13 @@ function UserSettings({ navigation, route }) {
           <View style={styles().line} />
 
           {/* Customization */}
-          <View style={{ marginTop: 20 }} />
+          {/*<View style={{ marginTop: 20 }} />
           <Text style={styles().heading}>CUSTOMIZATION</Text>
           <View style={styles().line} />
 
           {/* Personal profile */}
-          <View style={styles().inlineRow}>
-            <TouchableOpacity style={styles().buttons} onPress={() => navigation.navigate('ProfilePage')}>
+          {/*<View style={styles().inlineRow}>
+            <TouchableOpacity style={styles().buttons} /*onPress={() => navigation.navigate('ProfilePage')}>
               <View style={styles().inlineRow}>
                 <Text style={styles().text}>Personal Profile</Text>
                 <View style={styles().iconView}>
@@ -219,8 +219,8 @@ function UserSettings({ navigation, route }) {
           <View style={styles().line} />
 
           {/* Change gardener avatar */}
-          <View style={styles().inlineRow}>
-            <TouchableOpacity style={styles().buttons} onPress={() => navigation.navigate('AvatarSelectPage')}>
+          {/*<View style={styles().inlineRow}>
+            <TouchableOpacity style={styles().buttons} /*onPress={() => navigation.navigate('AvatarSelectPage')}>
               <View style={styles().inlineRow}>
                 <Text style={styles().text}>Change Gardener Avatar</Text>
                 <View style={styles().iconView}>

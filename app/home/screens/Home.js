@@ -13,16 +13,20 @@ import {
 import * as queries from '../../../src/graphql/queries';
 import * as mutations from '../../../src/graphql/mutations';
 import { ScrollView } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Cache } from 'react-native-cache';
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
 import Wave from '../../shared/assets/svgs/wave-emoji.svg';
 import Sprout from '../../shared/assets/svgs/sprout-emoji.svg';
 
-function Home({ navigation }) {
+function Home({ navigation, route }) {
   let plant = 4;
   let stage = 0;
+  const [avatar, setAvatar] = useState(0);
   const [displayName, setDisplayName] = useState('(FirstName)');
   const [mostRecentEntryString, setMostRecentEntryString] = useState('You wrote your last entry on (date) at (time).');
+  const [points, setPoints] = useState(900);
 
   useEffect(() => {
     async function setName() {
@@ -58,8 +62,34 @@ function Home({ navigation }) {
       setMostRecentEntryString(setString);
     }
 
+    async function getAvatarId() {
+      const cache = new Cache({
+        namespace: 'myapp',
+        policy: {
+          maxEntries: 50000,
+        },
+        backend: AsyncStorage,
+      });
+
+      const id = await cache.peek('avatar');
+
+      setAvatar(id);
+    }
+
+    async function getPoints() {
+      const res = await API.graphql({
+        query: queries.getSetting
+      });
+
+      const points = res.data.getSetting.Points;
+
+      setPoints(points);
+    }
+
     setName();
     setRecentEntryString();
+    getAvatarId();
+    getPoints();
   });
 
   return (
@@ -78,7 +108,7 @@ function Home({ navigation }) {
             </View>
             <Image
               style={styles().avatarFlipped}
-              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+              source={global.avatars[avatar].imgSource}
             />
           </View>
 
@@ -99,7 +129,7 @@ function Home({ navigation }) {
                   onPress={() => getGoals(navigation)}
                 >
                   <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                    <Text style={styles().textPlantInfo}>900</Text>
+                    <Text style={styles().textPlantInfo}>{points}</Text>
                     <Icon
                       name='star'
                       color='white'
@@ -130,17 +160,17 @@ function Home({ navigation }) {
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', }}>
                 <Pressable
                   style={styles().plantButton}
-                  onPress={() => navigation.navigate('CustomizePlant')}>
-                  <Icon name='arrow-left' color='#816868' />
+                  onPress={() => navigation.navigate('CustomizePlant', {points})}>
+                  {/*<Icon name='arrow-left' color='#816868' />*/}
                   <Text style={styles().textPlantButton}>Customize Plant</Text>
                 </Pressable>
-                <View style={styles().line2} />
+                {/*<View style={styles().line2} />
                 <Pressable
                   style={styles().plantButton}
-                  onPress={() => navigation.navigate('PlantShop')}>
+                  onPress={() => navigation.navigate('PlantShop', {points})}>
                   <Text style={styles().textPlantButton}>Enter Plant Shop</Text>
                   <Icon name='arrow-right' color='#816868' />
-                </Pressable>
+                </Pressable>*/}
               </View>
             </View>
           </View>
@@ -198,7 +228,7 @@ function Home({ navigation }) {
             <View style={{ flexDirection: 'row', }}>
               <Image
                 style={styles().avatar}
-                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+                source={global.avatars[avatar].imgSource}
               />
               <View style={{ marginLeft: '5%', flex: 1, }}>
                 <Text style={styles().activityView}>
@@ -226,7 +256,7 @@ function Home({ navigation }) {
 
                 <TouchableOpacity
                   style={styles().inlineRow}
-                  onPress={() => navigation.navigate('Journal')}>
+                  onPress={() => navigation.navigate('Journal', {avatar})}>
                   <Text style={styles().text}>Write a journal entry</Text>
                   <Icon
                     name='checkmark-circle-outline'

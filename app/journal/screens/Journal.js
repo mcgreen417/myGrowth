@@ -13,9 +13,12 @@ import {
 import { Icon } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as queries from '../../../src/graphql/queries';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Cache } from 'react-native-cache';
 import NavBar from '../../shared/components/NavBar';
 
-const Journal = ({ navigation }) => {
+const Journal = ({ navigation, route }) => {
+  const avatar = route.params.avatar;
   const [searchTerm, setSearchTerm] = useState('');
   const [pressed, setPressed] = useState(false);
 
@@ -31,7 +34,7 @@ const Journal = ({ navigation }) => {
             </Text>
             <Image
               style={styles().avatarFlipped}
-              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+              source={global.avatars[avatar].imgSource}
             />
           </View>
           {/* Top page divider */}
@@ -141,7 +144,17 @@ async function getEntries(navigation) {
 
   const arr = res.data.getJournalEntries.journalEntries;
 
-  navigation.navigate('JournalHistory', {arr, datePass})
+  const cache = new Cache({
+    namespace: 'myapp',
+    policy: {
+      maxEntries: 50000,
+    },
+    backend: AsyncStorage,
+  });
+
+  const avatar = await cache.peek('avatar');
+
+  navigation.navigate('JournalHistory', {arr, datePass, avatar});
 }
 
 export default Journal;

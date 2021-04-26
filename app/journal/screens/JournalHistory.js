@@ -50,6 +50,7 @@ const monthAbbreviations = [
 
 function JournalHistory({ route, navigation }) {
   const arr = route.params.arr;
+  const avatar = route.params.avatar;
 
   if(arr.length > 0) {  
     const datePass = route.params.datePass;
@@ -88,7 +89,7 @@ function JournalHistory({ route, navigation }) {
               </Text>
               <Image
                 style={styles.avatarFlipped}
-                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+                source={global.avatars[avatar].imgSource}
               />
             </View>
             {/* Top page divider */}

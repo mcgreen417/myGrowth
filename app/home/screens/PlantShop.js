@@ -39,13 +39,14 @@ const plantItemList = new Array(
   require('../../shared/assets/plant_sprites/20_0.png')
 );
 
-function PlantShop({ navigation }) {
+function PlantShop({ navigation, route }) {
   const [plant, setPlant] = useState(
     require('../../shared/assets/plant_sprites/4_0.png')
   );
   const [plantItem, setPlantItem] = useState(plantItemList);
   const [showGoalInfo, setShowGoalInfo] = useState(false);
   const [showPurchaseConfirmation, setShowPurchaseConfirmation] = useState(false);
+  const points = route.params.points;
 
   return (
     <SafeAreaView style={styles().container}>
@@ -254,7 +255,7 @@ function PlantShop({ navigation }) {
                   onPress={() => getGoals(navigation)}
                 >
                   <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                    <Text style={styles().textPlantInfo}>900</Text>
+                    <Text style={styles().textPlantInfo}>{points}</Text>
                     <Icon
                       name='star'
                       color='white'
@@ -278,7 +279,7 @@ function PlantShop({ navigation }) {
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', }}>
                 <Pressable
                   style={styles().plantButton}
-                  onPress={() => navigation.navigate('CustomizePlant')}>
+                  onPress={() => navigation.navigate('CustomizePlant', {points})}>
                   <Icon name='arrow-left' color='#816868' />
                   <Text style={styles().textPlantButton}>Customize Plant</Text>
                 </Pressable>

@@ -38,11 +38,12 @@ const plantItemList = new Array(
   require('../../shared/assets/plant_sprites/20_0.png')
 );
 
-function PlantShop({ navigation }) {
+function PlantShop({ navigation, route }) {
   const [plant, setPlant] = useState(
     require('../../shared/assets/plant_sprites/4_0.png')
   );
   const [plantItem, setPlantItem] = useState(plantItemList);
+  const points = route.params.points;
 
   return (
     <SafeAreaView style={styles().container}>
@@ -78,7 +79,7 @@ function PlantShop({ navigation }) {
                   onPress={() => getGoals(navigation)}
                 >
                   <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                    <Text style={styles().textPlantInfo}>900</Text>
+                    <Text style={styles().textPlantInfo}>{points}</Text>
                     <Icon
                       name='star'
                       color='white'
@@ -103,16 +104,16 @@ function PlantShop({ navigation }) {
                 <Pressable
                   style={styles().plantButton}
                   onPress={() => navigation.navigate('Home')}>
-                  <Icon name='arrow-left' color='#816868' />
+                  {/*<Icon name='arrow-left' color='#816868' />*/}
                   <Text style={styles().textPlantButton}>Return to Home</Text>
                 </Pressable>
-                <View style={styles().line2} />
+                {/*<View style={styles().line2} />
                 <Pressable
                   style={styles().plantButton}
-                  onPress={() => navigation.navigate('PlantShop')}>
+                  onPress={() => navigation.navigate('PlantShop', {points})}>
                   <Text style={styles().textPlantButton}>Enter Plant Shop</Text>
                   <Icon name='arrow-right' color='#816868' />
-                </Pressable>
+                </Pressable>*/}
               </View>
             </View>
           </View>
