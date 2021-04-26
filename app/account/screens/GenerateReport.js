@@ -14,6 +14,7 @@ import {
 import { Icon } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
 import NavBar from '../../shared/components/NavBar';
+import StatusBariOS from '../../shared/components/StatusBariOS';
 
 function GenerateReport({ navigation }) {
   const [time, setTime] = useState('unselected');
@@ -64,6 +65,7 @@ function GenerateReport({ navigation }) {
     setUseJournalEntries((previousState) => !previousState);
   return (
     <SafeAreaView style={styles().container}>
+      <StatusBariOS />
       <StatusBar
         backgroundColor={
           global.colorblindMode

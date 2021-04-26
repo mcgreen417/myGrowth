@@ -2,18 +2,19 @@ import React, { useState } from 'react';
 import { Auth, API } from 'aws-amplify';
 import {
   Alert,
+  Dimensions,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
-  View,
-  SafeAreaView,
-  Image,
-  StatusBar,
-  Button,
   TextInput,
   TouchableOpacity,
-  ScrollView,
-  Dimensions,
+  View,
 } from 'react-native';
+import ButtonAndroidiOS from '../../shared/components/ButtonAndroidiOS';
+import StatusBariOS from '../../shared/components/StatusBariOS';
 
 function VerificationCode({ route, navigation }) {
   const [verificationCode, setVerificationCode] = useState('');
@@ -35,8 +36,13 @@ function VerificationCode({ route, navigation }) {
     }
   }
 
+  const verifyWrapper = () => {
+    verify(username, verificationCode, validLengthVerificationCode, navigation);
+  }
+
   return (
     <SafeAreaView style={styles().container}>
+      <StatusBariOS />
       <StatusBar
         backgroundColor={
           global.colorblindMode
@@ -108,14 +114,9 @@ function VerificationCode({ route, navigation }) {
 
           {/* Verify button */}
           <View style={styles().buttons}>
-            <Button 
-              title='VERIFY'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              onPress={() => verify(username, verificationCode, validLengthVerificationCode, navigation)}
+            <ButtonAndroidiOS 
+              buttonText='VERIFY'
+              callFunction={verifyWrapper}
             />
           </View>
 

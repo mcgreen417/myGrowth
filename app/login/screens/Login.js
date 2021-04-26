@@ -2,22 +2,25 @@ import React, { useState } from 'react';
 import { Auth, API } from 'aws-amplify';
 import {
   Alert,
+  Dimensions,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
-  View,
-  SafeAreaView,
-  Image,
-  StatusBar,
-  Button,
   TextInput,
   TouchableOpacity,
-  ScrollView,
-  Dimensions,
+  View,
 } from 'react-native';
-import { Icon } from 'react-native-elements';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Cache } from "react-native-cache";
+import { Icon } from 'react-native-elements';
 import * as queries from '../../../src/graphql/queries';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import ButtonAndroidiOS from '../../shared/components/ButtonAndroidiOS';
+import StatusBariOS from '../../shared/components/StatusBariOS';
+//import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 function Login({ navigation }) {
   const [email, setEmail] = useState('');
@@ -26,8 +29,13 @@ function Login({ navigation }) {
   const [pressedPassword, setPressedPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  const signInWrapper = () => {
+    signIn(email, password, navigation);
+  }
+
   return (
     <SafeAreaView style={styles().container}>
+      <StatusBariOS />
       <StatusBar
         backgroundColor={
           global.colorblindMode
@@ -193,14 +201,9 @@ function Login({ navigation }) {
 
           {/* Login button */}
           <View style={styles().buttons}>
-            <Button
-              title='LOG IN'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              onPress={() => signIn(email, password, navigation)}
+            <ButtonAndroidiOS
+              buttonText='LOG IN'
+              callFunction={signInWrapper}
             />
           </View>
 
@@ -305,7 +308,9 @@ async function signIn(username, pw, navigation) {
           break;
         case 'NotAuthorizedException':
           createAlert('Oh no!', 'Email and password combination not found, please check your information and try again.');
+          break;
         default:
+          console.log(error);
           createAlert('Error', 'Please try signing in again.');
           console.log(error.code)
       }

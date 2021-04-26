@@ -1,25 +1,129 @@
 import React, { useState } from 'react';
+import { Auth, API } from 'aws-amplify';
 import {
+  Alert,
+  Dimensions,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
-  View,
-  SafeAreaView,
-  Image,
-  StatusBar,
-  Button,
   TextInput,
   TouchableOpacity,
-  ScrollView,
-  Dimensions,
+  View,
 } from 'react-native';
+import ButtonAndroidiOS from '../../shared/components/ButtonAndroidiOS';
+import StatusBariOS from '../../shared/components/StatusBariOS';
 
 function PasswordResetVerification({ route, navigation }) {
-  const email = route.params;
+  const email = route.params.email;
   const [code, setCode] = useState('');
   const [pressed, setPressed] = useState(false);
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const [signupProperties, setSignupProperties] = useState({
+    validConfirmationCode: false,
+    validPassword: false,
+    validConfirmPassword: false,
+    checkTextInputChange: false,
+    validSignUp: false,
+  });
+
+  const handleCode = (code) => {
+    const codeRegexPattern = /^(?=.*[0-9]).{6,6}$/;
+    const charsNotAllowedRegex = /[^0-9]+$/;
+
+    code = code.replace(charsNotAllowedRegex, '');
+    setCode(code);
+
+    if (code.match(codeRegexPattern)) {
+      setSignupProperties({
+        ...signupProperties,
+        validConfirmationCode: true,
+      });
+    } else {
+      setSignupProperties({
+        ...signupProperties,
+        validConfirmationCode: false,
+        validSignUp: false,
+      });
+    }
+  }
+
+  const handlePasswordChange = (val) => {
+    // Handles: at least 1 number, 1 lowercase character, 1 capital character,
+    //   1 special character (any character that isn't a number/character, including whitespace).
+    // Last argument checks length of the password - this requires 8 characters min with no max size.
+    const passwordRegexPattern = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/;
+
+    if (val.match(passwordRegexPattern)) {
+      setSignupProperties({
+        ...signupProperties,
+        validPassword: true,
+      });
+    } else {
+      setSignupProperties({
+        ...signupProperties,
+        validPassword: false,
+        validSignUp: false,
+      });
+    }
+
+    setPassword(val);
+  }
+
+  const handleConfirmPasswordChange = (val) => {
+    if ((signupProperties.validPassword === true) && (val === password)) {
+      setSignupProperties({
+        ...signupProperties,
+        validConfirmPassword: true,
+      });
+    } else {
+      setSignupProperties({
+        ...signupProperties,
+        validConfirmPassword: false,
+        validSignUp: false,
+      });
+    }
+
+    setConfirmPassword(val);
+  }
+
+  const checkValidSignup = () => {
+    const validConfirmationCode = signupProperties.validConfirmationCode;
+    const validPassword = signupProperties.validPassword;
+    const validConfirmPassword = signupProperties.validConfirmPassword;
+    const ableToSignUp = (validConfirmationCode && validPassword && validConfirmPassword);
+
+    if (ableToSignUp) {
+      setSignupProperties({
+        ...signupProperties,
+        validSignUp: true,
+      });
+
+      passwordReset(email, code, password, navigation);
+
+    } else {
+      if (!validConfirmationCode && !validPassword && !validConfirmPassword) {
+        createAlert('Oh no!', 'Please double-check all fields and make sure they were properly filled.');
+      } else if (!validPassword) {
+        createAlert('Oh no!', 'Your password is missing some important characters - please check the requirements and try again.');
+      } else if (!validConfirmPassword) {
+        createAlert('Oh no!', 'Your password was entered differently in both boxes.  Please try again.');
+      } else if (!validConfirmationCode) {
+        createAlert('Oh no!', 'Please check that you entered the verification code correctly.');
+      } else {
+        createAlert('Error', 'Please try again.');
+        console.log(validConfirmationCode, validPassword, validConfirmPassword);
+      }
+    }
+  }
 
   return (
     <SafeAreaView style={styles().container}>
+      <StatusBariOS />
       <StatusBar
         backgroundColor={
           global.colorblindMode
@@ -80,7 +184,7 @@ function PasswordResetVerification({ route, navigation }) {
                   keyboardType='number-pad'
                   value={code}
                   onChangeText={(code) => {
-                    setCode(code);
+                    handleCode(code);
                   }}
                   maxLength={6}
                   onFocus={() => setPressed(true)}
@@ -92,22 +196,63 @@ function PasswordResetVerification({ route, navigation }) {
           </View>
 
           <View style={styles().buttons}>
-            <Button
-              title='VERIFY'
-              color={
+          <Text
+            style={{
+              color: global.colorblindMode
+                ? global.cb_textColor
+                : global.textColor,
+              marginTop: 18,
+              textAlign: 'center',
+            }}>
+            You may now reset your password.{'\n'}
+            Enter your new password below.
+          </Text>
+          
+          <View style={styles().buttons}>
+            <TextInput
+              style={styles().textInput}
+              placeholder='New Password'
+              secureTextEntry={true}
+              placeholderTextColor={
                 global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
+                  ? global.cb_placeHolderTextColor
+                  : global.placeholderTextColor
               }
-              onPress={() => navigation.navigate('ResetPassword', {email, code})}
+              value={password}
+              onChangeText={(password) => {
+                handlePasswordChange(password);
+              }}
+            />
+
+            <View style={{ marginVertical: 8 }} />
+              <TextInput
+                style={styles().textInput}
+                placeholder='Confirm New Password'
+                secureTextEntry={true}
+                placeholderTextColor={
+                  global.colorblindMode
+                    ? global.cb_placeHolderTextColor
+                    : global.placeholderTextColor
+                }
+                value={confirmPassword}
+                onChangeText={(confirmPassword) => {
+                  handleConfirmPasswordChange(confirmPassword);
+                }}
+              />
+            </View>
+
+            <View style={{ marginVertical: 8 }} />
+            <ButtonAndroidiOS
+              buttonText='VERIFY'
+              callFunction={checkValidSignup}
             />
           </View>
 
           {/* Resend password reset code */}
           <View>
-            <View style={{ flexDirection: 'row', marginTop: 16, }}>
-              <Text style={styles().text}>Didn't receive a reset code?{' '}</Text>
-              <TouchableOpacity>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={styles().text}>Didn't receive a password reset code?{' '}</Text>
+              <TouchableOpacity onPress={() => resend(email)}>
                 <Text style={styles().textLink}>Resend e-mail.</Text>
               </TouchableOpacity>
             </View>
@@ -123,6 +268,39 @@ function PasswordResetVerification({ route, navigation }) {
       </ScrollView>
     </SafeAreaView>
   );
+}
+
+const createAlert = (title, message) => {
+  Alert.alert(
+    title,
+    message,
+    [
+      {
+        text: 'Cancel',
+        style: 'cancel'
+      },
+      { text: 'OK', }
+    ]
+  );
+}
+
+async function passwordReset(email, code, newPassword, navigation) {
+  try {  
+    await Auth.forgotPasswordSubmit(email, code, newPassword);
+    navigation.navigate('Login');
+  } catch(error) {
+    createAlert('Oh no!', 'Please double-check that your confirmation code was entered correctly.');
+    console.log('error resetting password', error);
+  }
+}
+
+async function resend(email) {
+  try {
+    await Auth.forgotPassword(email);
+    // console.log('code resent successfully');
+  } catch (error) {
+    createAlert('Error', 'Error resending password reset verification code.  Please try again.')
+  }
 }
 
 const styles = () =>
@@ -174,7 +352,9 @@ const styles = () =>
       position: 'relative',
     },
     textInstructions: {
-      color: '#816868',
+      color: global.colorblindMode
+        ? global.cb_textColor
+        : global.textColor,
       marginBottom: 10,
       textAlign: 'center',
       fontSize: 16,
@@ -187,14 +367,23 @@ const styles = () =>
       textDecorationLine: 'underline',
       fontSize: 14,
     },
+    text: {
+      color: global.colorblindMode
+        ? global.cb_textColor
+        : global.textColor,
+    },
     textSubtitle: {
-      color: '#816868',
+      color: global.colorblindMode
+        ? global.cb_textColor
+        : global.textColor,
       fontWeight: 'bold',
       fontSize: 20,
       marginBottom: 20,
     },
     textTitle: {
-      color: '#816868',
+      color: global.colorblindMode
+        ? global.cb_textColor
+        : global.textColor,
       fontWeight: 'bold',
       fontSize: 44,
     },
