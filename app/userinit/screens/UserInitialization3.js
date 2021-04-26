@@ -361,9 +361,9 @@ function UserInitialization3({ route, navigation }) {
                   useMealTracking,
                   useFitnessTracking,
                   metric,
-                  cognitoAttr
+                  cognitoAttr,
+                  navigation
                 );
-                navigation.navigate('Home');
               }}
             />
           </View>
@@ -387,7 +387,8 @@ async function settingQuery(
   useMealTracking,
   useFitnessTracking,
   metric,
-  cognitoAttr
+  cognitoAttr, 
+  navigation
 ) {
   const cache = new Cache({
     namespace: 'myapp',
@@ -433,6 +434,8 @@ async function settingQuery(
   //set cache settings
   await cache.set('settings', res.data.addSetting.Options);
   await cache.set('avatar', cognitoAttr.avatar_id);
+
+  navigation.navigate('Home');
 }
 
 export default UserInitialization3;
