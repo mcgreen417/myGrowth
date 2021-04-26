@@ -22,6 +22,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import ButtonAndroidiOS from '../../shared/components/ButtonAndroidiOS';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import StatusBariOS from '../../shared/components/StatusBariOS';
+import DropdownPickerAndroidiOS from '../../shared/components/DropdownPickerAndroidiOS';
 
 function UserInitialization1({ navigation }) {
   const [date, setDate] = useState(new Date());
@@ -131,6 +132,10 @@ function UserInitialization1({ navigation }) {
 
   const toggleMetric = () => {
     setToggleMetric((previousState) => !previousState);
+  }
+
+  const handleGenderChangeWrapper = () => {
+
   }
 
   const handleGenderChange = (itemValue) => {
@@ -1048,6 +1053,9 @@ function UserInitialization1({ navigation }) {
                   borderRadius: 6,
                   paddingLeft: 12,
                 }}>
+
+                {/* Android picker */}
+                {!global.usingiOSDevice &&
                 <Picker
                   selectedValue={gender}
                   style={styles().picker}
@@ -1061,6 +1069,18 @@ function UserInitialization1({ navigation }) {
                   <Picker.Item label='Other' value='other' color='#816868' />
                   <Picker.Item label='Prefer not to answer' value='noAnswer' color='#816868' />
                 </Picker>
+                }
+
+                {/* iOS picker */}
+                {global.usingiOSDevice &&
+                <>
+                </>
+                }
+
+                {/* Future component listed here, not implemented yet. */}
+                {/* Delete both Android and iOS pickers once this component is finished. */}
+                {/* <DropdownPickerAndroidiOS /> */}
+
               </View>
             </View>
           </View>
@@ -1502,12 +1522,12 @@ const styles = () =>
       justifyContent: 'center',
       alignItems: 'center',
     },
-    picker: {
-      height: 32,
-      marginBottom: 4,
-      width: '100%',
-      color: '#816868',
-    },
+    // picker: {
+    //   height: 32,
+    //   marginBottom: 4,
+    //   width: '100%',
+    //   color: '#816868',
+    // },
     pickerView: {
       borderWidth: 1,
       marginBottom: 20,
