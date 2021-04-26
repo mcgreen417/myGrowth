@@ -43,6 +43,7 @@ function UserInitialization1({ navigation }) {
   const [showGenderInfo, setShowGenderInfo] = useState(false);
   const [showBioSexInfo, setShowBioSexInfo] = useState(false);
   const [showActivityLevelInfo, setShowActivityLevelInfo] = useState(false);
+  const [activityLeveliOS, setActivityLeveliOS] = useState(false);
   const [showHeightInfo, setShowHeightInfo] = useState(false);
   const [showWeightInfo, setShowWeightInfo] = useState(false);
   const [pressedFirstName, setPressedFirstName] = useState(false);
@@ -57,6 +58,14 @@ function UserInitialization1({ navigation }) {
   const currentYear = new Date().getFullYear();
   const minimumUserBirthDate = new Date(currentYear - 13, currentMonth, currentDay);
   const maximumUserBirthDate = new Date(currentYear - 150, currentMonth, currentDay);
+
+  const genderOptions = ['Cancel', 'Male', 'Female', 'Non-binary', 'Other', 'Prefer not to answer'];
+  const bioSexOptions = ['Cancel', 'Male', 'Female', 'Assigned Male', 'Assigned Female', 'Prefer not to answer'];
+  const activityLevelOptions = ['Cancel', 'Sedentary (minimal activity)', 'Lightly active (1-2 days/week)', 'Moderately active (3-5 days/week)', 'Very active (6-7 days/week)'];
+  const [genderDisplaySelected, setGenderDisplaySelected] = useState('Select one...');
+  const [bioSexDisplaySelected, setBioSexDisplaySelected] = useState('Select one...');
+  const [activityLevelDisplaySelected, setActivityLevelDisplaySelected] = useState('Select one...');
+
 
   const [userInitializationProperties, setUserInitializationProperties] = useState({
     validFirstName: false,
@@ -231,6 +240,87 @@ function UserInitialization1({ navigation }) {
       });
     }
   }
+
+  const genderOnPressiOS = () =>
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: genderOptions,
+        cancelButtonIndex: 0,
+      },
+      buttonIndex => {
+        if (buttonIndex === 0) {
+          // cancel action
+        } else if (buttonIndex === 1) {
+          setGenderDisplaySelected(genderOptions[1]);
+          handleGenderChange('male');    
+        } else if (buttonIndex === 2) {
+          setGenderDisplaySelected(genderOptions[2]);
+          handleGenderChange('female');    
+        } else if (buttonIndex === 3) {
+          setGenderDisplaySelected(genderOptions[3]);
+          handleGenderChange('nonbinary');
+        } else if (buttonIndex === 4) {
+          setGenderDisplaySelected(genderOptions[4]);
+          handleGenderChange('other');
+        } else if (buttonIndex === 5) {
+          setGenderDisplaySelected(genderOptions[5]);
+          handleGenderChange('noAnswer');
+        }
+      }
+  );
+
+  const bioSexOnPressiOS = () =>
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: bioSexOptions,
+        cancelButtonIndex: 0,
+      },
+      buttonIndex => {
+        if (buttonIndex === 0) {
+          // cancel action
+        } else if (buttonIndex === 1) {
+          setBioSexDisplaySelected(bioSexOptions[1]);
+          handleBioSexChange('male');
+        } else if (buttonIndex === 2) {
+          setBioSexDisplaySelected(bioSexOptions[2]);
+          handleBioSexChange('female');
+        } else if (buttonIndex === 3) {
+          setBioSexDisplaySelected(bioSexOptions[3]);
+          handleBioSexChange('amab');
+        } else if (buttonIndex === 4) {
+          setBioSexDisplaySelected(bioSexOptions[4]);
+          handleBioSexChange('afab');
+        } else if (buttonIndex === 5) {
+          setBioSexDisplaySelected(bioSexOptions[5]);
+          handleBioSexChange('noAnswer');
+        }
+      }
+    );
+
+  const activityLevelOnPressiOS = () =>
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: activityLevelOptions,
+        cancelButtonIndex: 0,
+      },
+      buttonIndex => {
+        if (buttonIndex === 0) {
+          // cancel action
+        } else if (buttonIndex === 1) {
+          setActivityLevelDisplaySelected(activityLevelOptions[1]);
+          handleActivityLevelChange('sedentary');
+        } else if (buttonIndex === 2) {
+          setActivityLevelDisplaySelected(activityLevelOptions[2]);
+          handleActivityLevelChange('lightlyActive');
+        } else if (buttonIndex === 3) {
+          setActivityLevelDisplaySelected(activityLevelOptions[3]);
+          handleActivityLevelChange('moderatelyActive');
+        } else if (buttonIndex === 4) {
+          setActivityLevelDisplaySelected(activityLevelOptions[4]);
+          handleActivityLevelChange('veryActive');
+        }
+      }
+    );
 
   const checkRequiredFieldsWrapper = () => {
     checkRequiredFields(firstName, dob, gender, bioSex, activityLevel);
@@ -1074,8 +1164,7 @@ function UserInitialization1({ navigation }) {
 
                 {/* iOS picker */}
                 {global.usingiOSDevice &&
-                <>
-                </>
+                  <Button onPress={genderOnPressiOS} title={genderDisplaySelected} color="#816868" />
                 }
 
                 {/* Future component listed here, not implemented yet. */}
@@ -1137,8 +1226,7 @@ function UserInitialization1({ navigation }) {
 
                 {/* iOS picker */}
                 {global.usingiOSDevice &&
-                <>
-                </>
+                  <Button onPress={bioSexOnPressiOS} title={bioSexDisplaySelected} color="#816868" />
                 }
 
                 {/* Future component listed here, not implemented yet. */}
@@ -1199,8 +1287,7 @@ function UserInitialization1({ navigation }) {
 
                 {/* iOS picker */}
                 {global.usingiOSDevice &&
-                <>
-                </>
+                  <Button onPress={activityLevelOnPressiOS} title={activityLevelDisplaySelected} color="#816868" />
                 }
 
                 {/* Future component listed here, not implemented yet. */}
