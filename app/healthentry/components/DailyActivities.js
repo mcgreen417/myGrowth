@@ -11,6 +11,7 @@ import {
   Keyboard,
   SafeAreaView,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 
@@ -23,6 +24,7 @@ const DailyActivities = ({ activities, setActivities }) => {
   const [pressedDuration, setPressedDuration] = useState(false);
   const [activityName, setActivityName] = useState('');
   const [activityDuration, setActivityDuration] = useState('');
+  const [deleteEntry, setDeleteEntry] = useState(false);
 
   return (
     <SafeAreaView style={{ width: '90%' }}>
@@ -222,6 +224,89 @@ const DailyActivities = ({ activities, setActivities }) => {
                   borderRadius: 10,
                   marginVertical: 5,
                 }}>
+                <View style={styles().container}>
+                  <Modal
+                    animationType='fade'
+                    transparent={true}
+                    visible={deleteEntry}
+                    onRequestClose={() => {
+                      setDeleteEntry(!deleteEntry);
+                    }}>
+                    <Pressable
+                      style={{
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        zIndex: 1,
+                        backgroundColor: '#00000055',
+                      }}
+                      onPressOut={() => setDeleteEntry(!deleteEntry)}>
+                      <Pressable
+                        style={styles().modalContainer}
+                        onePress={() => setDeleteEntry(true)}>
+                        <View style={styles().modalHeaderBar}>
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              flex: 2,
+                              marginLeft: 6,
+                              marginVertical: 4,
+                            }}>
+                            <Icon
+                              name='pill'
+                              type='material-community'
+                              color='white'
+                              style={{ marginRight: 8 }}
+                            />
+                            <Text style={styles().textAlt}>Delete Feeling</Text>
+                          </View>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            flexWrap: 'wrap',
+                            marginHorizontal: '5%',
+                            maxHeight: '60%',
+                            marginVertical: 10,
+                          }}>
+                          <Text style={styles().text}>
+                            Are you sure you wish to delete the medication
+                            <Text style={styles().textBoldAlt}>
+                              {' '}
+                              "{item.Name.toString()}"{' '}
+                            </Text>
+                            ?
+                          </Text>
+                          <Text style={styles().textBoldAlt}>
+                            This action cannot be undone.
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            alignSelf: 'flex-end',
+                            marginVertical: 10,
+                            marginHorizontal: '5%',
+                          }}>
+                          <TouchableOpacity
+                            style={{ marginRight: 20 }}
+                            onPress={() => {
+                              setDeleteEntry(!deleteEntry);
+                              let tempActivities = [...activities];
+                              tempActivities.splice(index, 1);
+                              setActivities(tempActivities);
+                            }}>
+                            <Text style={styles().textButton}>DELETE</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            onPress={() => setDeleteEntry(!deleteEntry)}>
+                            <Text style={styles().textButton}>CANCEL</Text>
+                          </TouchableOpacity>
+                        </View>
+                      </Pressable>
+                    </Pressable>
+                  </Modal>
+                </View>
                 <Text style={{ color: 'white' }}>
                   {item.Name.toString()} , {item.Duration.toString()}
                 </Text>
@@ -229,9 +314,7 @@ const DailyActivities = ({ activities, setActivities }) => {
                   name='close'
                   color='white'
                   onPress={() => {
-                    let tempActivities = [...activities];
-                    tempActivities.splice(index, 1);
-                    setActivities(tempActivities);
+                    setDeleteEntry(!deleteEntry);
                   }}
                 />
               </View>
