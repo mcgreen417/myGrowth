@@ -16,11 +16,9 @@ import {
   Dimensions,
 } from 'react-native';
 
-const avatars = new Array(48).fill('http://placeimg.com/100/100/any');
-
 function UserInitialization2({ route, navigation }) {
-  const [avatar, setAvatar] = useState(avatars);
-  const { activityLevel, height, weight, metric } = route.params;
+  const { activityLevel, height, weight, metric, cognitoAttr } = route.params;
+  const [avatar, setAvatar] = useState(cognitoAttr.avatar_id);
 
   return (
     <SafeAreaView style={styles().container}>
@@ -29,7 +27,7 @@ function UserInitialization2({ route, navigation }) {
         <View style={styles().avatarView}>
           <Image
             style={styles().avatar}
-            source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+            source={global.avatars[avatar].imgSource}
           />
           <Text style={styles().pageDescription}>
             Next, let me know which look you prefer! Think of me as your new friend, here to guide
@@ -44,15 +42,20 @@ function UserInitialization2({ route, navigation }) {
         {/* Gardener avatar select */}
         <View style={styles().avatarSelectView}>
           <FlatList
-            data={avatar}
+            data={global.avatars}
             renderItem={({ item, index }) => (
-              <Image
-                source={{ uri: item, cache: 'reload' }}
-                key={index}
-                style={{ width: 55, height: 55, margin: 4 }}
-              />
+              <TouchableOpacity onPress={() => {
+                cognitoAttr.avatar_id = item.id.toString();
+                setAvatar(item.id);
+                }}>
+                <Image
+                  source={item.imgSource}
+                  key={index}
+                  style={{ width: 55, height: 55, margin: 4 }}
+                />
+              </TouchableOpacity>
             )}
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={(item, index) => item.id}
             numColumns={6}
           />
         </View>
@@ -66,7 +69,7 @@ function UserInitialization2({ route, navigation }) {
                 ? global.cb_optionButtonsColor
                 : global.optionButtonsColor
             }
-            onPress={() => navigation.navigate('UserInitialization1')}
+            onPress={() => navigation.goBack()}
           />
           <View style={{ width: '72%' }}></View>
           <Button
@@ -80,7 +83,8 @@ function UserInitialization2({ route, navigation }) {
               activityLevel: activityLevel,
               height: height,
               weight: weight, 
-              metric: metric, 
+              metric: metric,
+              cognitoAttr: cognitoAttr 
             })}
           />
         </View>

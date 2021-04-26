@@ -21,7 +21,7 @@ import { Cache } from 'react-native-cache';
 import * as mutations from '../../../src/graphql/mutations';
 
 function UserInitialization3({ route, navigation }) {
-  const { activityLevel, height, weight, metric, } = route.params;
+  const { activityLevel, height, weight, metric, cognitoAttr} = route.params;
 
   const [useStressLevels, setUseStressLevels] = useState(true);
   const toggleStressLevels = () =>
@@ -63,7 +63,7 @@ function UserInitialization3({ route, navigation }) {
           <View style={styles().avatarView}>
             <Image
               style={styles().avatar}
-              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
+              source={global.avatars[cognitoAttr.avatar_id].imgSource}
             />
             <Text style={styles().pageDescription}>
               Edit your user settings below. These settings may be changed at
@@ -337,12 +337,7 @@ function UserInitialization3({ route, navigation }) {
                   ? global.cb_optionButtonsColor
                   : global.optionButtonsColor
               }
-              onPress={() => navigation.navigate('UserInitialization2', { 
-                activityLevel: activityLevel,
-                height: height, 
-                weight: weight, 
-                metric: metric, 
-              })}
+              onPress={() => navigation.goBack()}
             />
             <View style={{ width: '70%' }}></View>
             <Button
@@ -366,6 +361,7 @@ function UserInitialization3({ route, navigation }) {
                   useMealTracking,
                   useFitnessTracking,
                   metric,
+                  cognitoAttr
                 );
                 navigation.navigate('Home');
               }}
@@ -391,6 +387,7 @@ async function settingQuery(
   useMealTracking,
   useFitnessTracking,
   metric,
+  cognitoAttr
 ) {
   const cache = new Cache({
     namespace: 'myapp',
@@ -399,7 +396,9 @@ async function settingQuery(
     },
     backend: AsyncStorage,
   });
+
   const user = Auth.currentUserInfo();
+
   const settingOptions = {
     stress: useStressLevels,
     dailyActivities: useDailyActivities,
@@ -420,8 +419,20 @@ async function settingQuery(
     variables: { UserID: user.username, options: settingOptions },
   });
 
+  const user1 = await Auth.currentAuthenticatedUser();
+
+  await Auth.updateUserAttributes(user1, {
+    'name': cognitoAttr.name,
+    'birthdate': cognitoAttr.birthdate,
+    'gender': cognitoAttr.gender,
+    'custom:biological_sex': cognitoAttr.biological_sex,
+    'custom:avatar_id': cognitoAttr.avatar_id,
+    'custom:initialized': cognitoAttr.initialized
+  });
+
   //set cache settings
   await cache.set('settings', res.data.addSetting.Options);
+  await cache.set('avatar', cognitoAttr.avatar_id);
 }
 
 export default UserInitialization3;
