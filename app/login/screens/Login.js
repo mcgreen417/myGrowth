@@ -288,7 +288,7 @@ async function signIn(username, pw, navigation) {
         //store settings from db
         await cache.set("settings", res.data.getSetting.Options);
         await cache.set("avatar", user.attributes['custom:avatar_id']);
-        
+
         //store data from db
         const res2 = await API.graphql({
           query: queries.getChartData,
