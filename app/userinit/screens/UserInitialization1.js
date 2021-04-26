@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Auth, API } from 'aws-amplify';
 import {
+  ActionSheetIOS,
   Alert,
   Button,
   Dimensions,
@@ -1116,6 +1117,9 @@ function UserInitialization1({ navigation }) {
                   borderRadius: 6,
                   paddingLeft: 12,
                 }}>
+
+                {/* Android picker */}
+                {!global.usingiOSDevice &&
                 <Picker
                   selectedValue={bioSex}
                   style={styles().picker}
@@ -1129,6 +1133,18 @@ function UserInitialization1({ navigation }) {
                   <Picker.Item label='Assigned Female' value='afab' color='#816868' />
                   <Picker.Item label='Prefer not to answer' value='noAnswer' color='#816868' />
                 </Picker>
+                }
+
+                {/* iOS picker */}
+                {global.usingiOSDevice &&
+                <>
+                </>
+                }
+
+                {/* Future component listed here, not implemented yet. */}
+                {/* Delete both Android and iOS pickers once this component is finished. */}
+                {/* <DropdownPickerAndroidiOS /> */}
+
               </View>
             </View>
           </View>
@@ -1164,6 +1180,9 @@ function UserInitialization1({ navigation }) {
                   borderRadius: 6,
                   paddingLeft: 12,
                 }}>
+
+                {/* Android picker */}
+                {!global.usingiOSDevice &&
                 <Picker
                   selectedValue={activityLevel}
                   style={styles().picker}
@@ -1176,6 +1195,19 @@ function UserInitialization1({ navigation }) {
                   <Picker.Item label='Moderately active (3-5 days/week)' value='moderatelyActive' color='#816868' />
                   <Picker.Item label='Very active (6-7 days/week)' value='veryActive' color='#816868' />
                 </Picker>
+                }
+
+                {/* iOS picker */}
+                {global.usingiOSDevice &&
+                <>
+                </>
+                }
+
+                {/* Future component listed here, not implemented yet. */}
+                {/* Delete both Android and iOS pickers once this component is finished. */}
+                {/* <DropdownPickerAndroidiOS /> */}
+
+
               </View>
             </View>
           </View>
