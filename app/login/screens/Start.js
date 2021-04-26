@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import {
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
   StyleSheet,
+  Switch,
   Text,
   View,
-  SafeAreaView,
-  Switch,
-  Image,
-  StatusBar,
-  Button,
-  ScrollView,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import ButtonAndroidiOS from '../../shared/components/ButtonAndroidiOS';
+import StatusBariOS from '../../shared/components/StatusBariOS';
 
 function Start({ navigation }) {
   // Colorblind mode switch initialization
@@ -24,6 +25,7 @@ function Start({ navigation }) {
     // styles is now a function (styles()), will allow us to reload changes made to stylesheet
     //   from the colorblind mode toggle.
     <SafeAreaView style={styles().container}>
+      <StatusBariOS />
       <StatusBar
         backgroundColor={
           global.colorblindMode
@@ -80,25 +82,17 @@ function Start({ navigation }) {
 
           {/* Sign up + login buttons */}
           <View style={styles().buttons}>
-            <Button
-              title='SIGN UP'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              onPress={() => navigation.navigate('SignUp')}
+            <ButtonAndroidiOS
+              buttonText='SIGN UP'
+              navigation={navigation}
+              screenName='SignUp'
             />
             
             <View style={{ marginTop: 16, }}>
-              <Button
-                title='LOG IN'
-                color={
-                  global.colorblindMode
-                    ? global.cb_optionButtonsColor
-                    : global.optionButtonsColor
-                }
-                onPress={() => navigation.navigate('Login')}
+              <ButtonAndroidiOS
+                buttonText='LOG IN'
+                navigation={navigation}
+                screenName='Login'
               />
             </View>
           </View>

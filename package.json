@@ -61,5 +61,5 @@
     "preset": "jest-expo"
   },
   "private": true,
-  "name": "myGrowth"
+  "name": "mygrowth"
 }

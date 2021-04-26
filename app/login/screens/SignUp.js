@@ -9,13 +9,14 @@ import {
   SafeAreaView,
   Image,
   StatusBar,
-  Button,
   TextInput,
   TouchableOpacity,
   ScrollView,
   Dimensions,
   Keyboard,
 } from 'react-native';
+import ButtonAndroidiOS from '../../shared/components/ButtonAndroidiOS';
+import StatusBariOS from '../../shared/components/StatusBariOS';
 
 function SignUp({ navigation }) {
   const [email, setEmail] = useState('');
@@ -104,6 +105,11 @@ function SignUp({ navigation }) {
     setConfirmPassword(val);
   }
 
+  // Wrapper functions are needed in order to pass into custom Button component.
+  const checkRequiredFieldsWrapper = () => {
+    checkRequiredFields(email, password, navigation);
+  }
+
   const checkRequiredFields = (email, password, navigation) => {
     const ableToSignUp = (signupProperties.validEmail
                           && signupProperties.validPassword
@@ -143,12 +149,11 @@ function SignUp({ navigation }) {
         createAlert("Error", "Please check all fields and try again.");
       }
     }    
-
-    // return signupProperties.validSignUp;
   }
 
   return (
     <SafeAreaView style={styles().container}>
+      <StatusBariOS />
       <StatusBar
         backgroundColor={
           global.colorblindMode
@@ -423,16 +428,9 @@ function SignUp({ navigation }) {
 
           {/* Signup button */}
           <View style={styles().buttons}>            
-            <Button
-              title='SIGN UP'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              onPress={() => {
-                checkRequiredFields(email, password, navigation);
-              }}
+          <ButtonAndroidiOS
+              buttonText='SIGN UP'
+              callFunction={checkRequiredFieldsWrapper}
             />
           </View>
 

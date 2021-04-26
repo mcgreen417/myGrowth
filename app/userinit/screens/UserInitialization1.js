@@ -20,6 +20,7 @@ import { Icon } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
 import { ScrollView } from 'react-native-gesture-handler';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
+import StatusBariOS from '../../shared/components/StatusBariOS';
 
 function UserInitialization1({ navigation }) {
   const [date, setDate] = useState(new Date());
@@ -319,6 +320,7 @@ function UserInitialization1({ navigation }) {
 
   return (
     <SafeAreaView style={styles().container}>
+      <StatusBariOS />
       <StatusBar
         backgroundColor={
           global.colorblindMode

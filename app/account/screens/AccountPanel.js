@@ -13,13 +13,14 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Cache } from "react-native-cache";
-
 import { Icon } from 'react-native-elements';
 import NavBar from '../../shared/components/NavBar';
+import StatusBariOS from '../../shared/components/StatusBariOS';
 
 function AccountPanel({ navigation }) {
   return (
     <SafeAreaView style={styles().container}>
+      <StatusBariOS />
       <StatusBar
         backgroundColor={
           global.colorblindMode
