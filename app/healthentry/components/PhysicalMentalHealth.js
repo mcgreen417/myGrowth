@@ -22,12 +22,15 @@ const PhysicalMentalHealth = ({
   setWeight,
   symptoms,
   setSymptoms,
+  options,
 }) => {
   const [showAddSymptoms, setShowAddSymptoms] = useState(false);
   const [pressedSymptom, setPressedSymptom] = useState(false);
   const [pressedSeverity, setPressedSeverity] = useState(false);
   const [symptomTitle, setSymptomTitle] = useState('');
   const [symptomSeverity, setSymptomSeverity] = useState('');
+
+  // console.log(options);
 
   return (
     <SafeAreaView style={{ width: '90%' }}>
@@ -165,16 +168,7 @@ const PhysicalMentalHealth = ({
                       </View>
                     </View>
                   </View>
-                  {symptoms.map((item, index) => {
-                    console.log(item);
-                    return (
-                      <View key={index}>
-                        <Text>
-                          {item.Title.toString()} , {item.Severity.toString()}
-                        </Text>
-                      </View>
-                    );
-                  })}
+
                   {/* Add Feeling button */}
                   <View style={{ alignSelf: 'center' }}>
                     <Button
@@ -209,56 +203,82 @@ const PhysicalMentalHealth = ({
 
         <Text style={styles().heading}>PHYSICAL & MENTAL HEALTH</Text>
 
-        <View style={{ marginTop: 10 }} />
-        <View style={styles().line} />
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={styles().text}>Did you have your period today?</Text>
-          <View style={styles().switchView}>
-            <View style={styles().line2} />
-            <Switch
-              trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
-              thumbColor={hadPeriod ? '#4CB97A' : '#f4f3f4'}
-              ios_backgroundColor='#3e3e3e'
-              onValueChange={() => setHadPeriod(!hadPeriod)}
-              value={hadPeriod}
-              style={{ marginLeft: 8 }}
-            />
+        {options.period && (
+          <View>
+            <View style={{ marginTop: 10 }} />
+            <View style={styles().line} />
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={styles().text}>Did you have your period today?</Text>
+              <View style={styles().switchView}>
+                <View style={styles().line2} />
+                <Switch
+                  trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
+                  thumbColor={hadPeriod ? '#4CB97A' : '#f4f3f4'}
+                  ios_backgroundColor='#3e3e3e'
+                  onValueChange={() => setHadPeriod(!hadPeriod)}
+                  value={hadPeriod}
+                  style={{ marginLeft: 8 }}
+                />
+              </View>
+            </View>
+            <View style={styles().line} />
+            <View style={{ marginBottom: 20 }} />
           </View>
-        </View>
-        <View style={styles().line} />
-        <View style={{ marginBottom: 20 }} />
+        )}
 
-        <Text style={styles().text}>
-          If you have weighed yourself today, how much do you weigh?
-        </Text>
+        {options.weight && (
+          <View>
+            <Text style={styles().text}>
+              If you have weighed yourself today, how much do you weigh?
+            </Text>
 
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: 10,
-            marginBottom: 20,
-          }}>
-          <TextInput
-            placeholder='#'
-            style={{
-              borderBottomColor: '#C4BEBD',
-              borderBottomWidth: 1,
-              textAlign: 'center',
-              width: 50,
-            }}
-            keyboardType='number-pad'
-            value={weight.toString()}
-            onChangeText={setWeight}
-          />
-          <Text style={styles().text}> lbs</Text>
-        </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 10,
+                marginBottom: 20,
+              }}>
+              <TextInput
+                placeholder='#'
+                style={{
+                  borderBottomColor: '#C4BEBD',
+                  borderBottomWidth: 1,
+                  textAlign: 'center',
+                  width: 50,
+                }}
+                keyboardType='number-pad'
+                value={weight.toString()}
+                onChangeText={setWeight}
+              />
+              <Text style={styles().text}> lbs</Text>
+            </View>
+          </View>
+        )}
 
         <Text style={styles().text}>
           Have you experienced any unusual physical or mental health symptoms
           today?
         </Text>
 
+        <View
+          style={{
+            flexDirection: 'row',
+            width: '100%',
+          }}>
+          {symptoms.map((item, index) => {
+            // console.log(item);
+            return (
+              <View
+                key={index}
+                style={{ backgroundColor: 'grey', marginHorizontal: 10 }}>
+                <Text>
+                  {item.Title.toString()} , {item.Severity.toString()}
+                </Text>
+              </View>
+            );
+          })}
+        </View>
         <View
           style={{
             minWidth: '40%',

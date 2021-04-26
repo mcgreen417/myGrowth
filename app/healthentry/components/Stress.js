@@ -122,15 +122,7 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
                       </View>
                     </View>
                   </View>
-                  <View>
-                    {stressors.map((item, index) => {
-                      return (
-                        <View key={index}>
-                          <Text>{item.toString()}</Text>
-                        </View>
-                      );
-                    })}
-                  </View>
+
                   {/* Add Feeling button */}
                   <View style={{ alignSelf: 'center' }}>
                     <Button
@@ -172,7 +164,7 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
               marginBottom: 20,
               marginHorizontal: 10,
               alignItems: 'center',
-              width: Dimensions.get('window').width * 0.78,
+              width: Dimensions.get('window').width * 0.75,
             }}>
             <View
               style={{
@@ -290,7 +282,21 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
           If you were stressed today, what were some of the sources of your
           stress?
         </Text>
-
+        <View
+          style={{
+            flexDirection: 'row',
+            width: '100%',
+          }}>
+          {stressors.map((item, index) => {
+            return (
+              <View
+                key={index}
+                style={{ backgroundColor: 'grey', marginHorizontal: 10 }}>
+                <Text>{item.toString()}</Text>
+              </View>
+            );
+          })}
+        </View>
         {/* Add Stressors button */}
         <View
           style={{

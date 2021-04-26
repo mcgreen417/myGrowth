@@ -118,10 +118,14 @@ const HealthEntryHistory = ({ navigation }) => {
                 // entry associated with it
               }
               onDayPress={(day) => {
-                console.log(new Date(day.timestamp).toISOString());
+                console.log(day);
+                let newDay = new Date(day.dateString);
+                console.log(newDay);
+                newDay.setHours(newDay.getTimezoneOffset() / 10);
+                console.log(newDay);
                 if (day != undefined) {
                   navigation.navigate('HealthEntry', {
-                    reviewTimestamp: new Date(day.timestamp).toISOString(),
+                    reviewTimestamp: newDay.toISOString(),
                   });
                 }
               }}

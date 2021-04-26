@@ -160,18 +160,7 @@ const DailyActivities = ({ activities, setActivities }) => {
                       </View>
                     </View>
                   </View>
-                  <View>
-                    {activities.map((item, index) => {
-                      // console.log(item);
-                      return (
-                        <View key={index}>
-                          <Text>
-                            {item.Name.toString()} , {item.Duration.toString()}
-                          </Text>
-                        </View>
-                      );
-                    })}
-                  </View>
+
                   {/* Add Feeling button */}
                   <View style={{ alignSelf: 'center' }}>
                     <Button
@@ -210,6 +199,25 @@ const DailyActivities = ({ activities, setActivities }) => {
         <Text style={styles().text}>
           What activities did you participate in today?
         </Text>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            width: '100%',
+          }}>
+          {activities.map((item, index) => {
+            // console.log(item);
+            return (
+              <View
+                key={index}
+                style={{ backgroundColor: 'grey', marginHorizontal: 10 }}>
+                <Text>
+                  {item.Name.toString()} , {item.Duration.toString()}
+                </Text>
+              </View>
+            );
+          })}
+        </View>
 
         {/* Add Activities modal */}
         <View

@@ -18,7 +18,7 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
   const [showAddFeelings, setShowAddFeelings] = useState(false);
   const [pressed, setPressed] = useState(false);
   const [feel, setFeel] = useState('');
-  console.log(mood);
+  // console.log(mood);
 
   return (
     <SafeAreaView style={{ width: '90%' }}>
@@ -120,15 +120,7 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
                       </View>
                     </View>
                   </View>
-                  <View>
-                    {feelings.map((item, index) => {
-                      return (
-                        <View key={index}>
-                          <Text>{item.toString()}</Text>
-                        </View>
-                      );
-                    })}
-                  </View>
+
                   {/* Add Feeling button */}
                   <View style={{ alignSelf: 'center' }}>
                     <Button
@@ -290,6 +282,45 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
               Great
             </Text>
           </View>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            width: '100%',
+            flexWrap: 'wrap',
+          }}>
+          {feelings.map((item, index) => {
+            return (
+              <View
+                key={index}
+                style={{
+                  backgroundColor: pressed
+                    ? global.colorblindMode
+                      ? global.cb_navBarCurrentIconColor
+                      : global.navBarCurrentIconColor
+                    : global.colorblindMode
+                    ? global.cb_navBarCurrentIconColor
+                    : global.navBarCurrentIconColor,
+                  marginHorizontal: 10,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  padding: 5,
+                  borderRadius: 10,
+                  marginVertical: 5,
+                }}>
+                <Text style={{ color: 'white' }}>{item.toString()}</Text>
+                <Icon
+                  name='close'
+                  color='white'
+                  onPress={() => {
+                    let tempFeelings = [...feelings];
+                    tempFeelings.splice(index, 1);
+                    setFeelings(tempFeelings);
+                  }}
+                />
+              </View>
+            );
+          })}
         </View>
 
         {/* Add Feelings button */}
