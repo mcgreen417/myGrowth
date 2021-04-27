@@ -76,7 +76,7 @@ function AccountPanel({ navigation }) {
           <View style={styles().inlineRow}>
             <TouchableOpacity
               style={styles().buttons}
-              onPress={() => navigation.navigate('GenerateReport')}
+              //onPress={() => navigation.navigate('GenerateReport')}
             >
               <View style={styles().inlineRow}>
                 <Text style={styles().text}>Generate Report</Text>
@@ -95,7 +95,10 @@ function AccountPanel({ navigation }) {
 
           {/* Report a problem */}
           <View style={styles().inlineRow}>
-            <TouchableOpacity style={styles().buttons} onPress={() => navigation.navigate('ReportProblemPage')}>
+            <TouchableOpacity 
+              style={styles().buttons} 
+              //onPress={() => navigation.navigate('ReportProblemPage')}
+            >
               <View style={styles().inlineRow}>
                 <Text style={styles().text}>Report a Problem</Text>
                 <View style={styles().iconView}>
@@ -115,7 +118,7 @@ function AccountPanel({ navigation }) {
           <View style={styles().inlineRow}>
             <TouchableOpacity
               style={styles().buttons}
-              onPress={() => navigation.navigate('LeaveReviewPage')}
+              //onPress={() => navigation.navigate('LeaveReviewPage')}
             >
               <View style={styles().inlineRow}>
                 <Text style={styles().text}>Leave a Review</Text>
@@ -136,7 +139,7 @@ function AccountPanel({ navigation }) {
           <View style={styles().inlineRow}>
             <TouchableOpacity
               style={styles().buttons}
-              onPress={() => navigation.navigate('AboutPage')}
+              //onPress={() => navigation.navigate('AboutPage')}
             >
               <View style={styles().inlineRow}>
                 <Text style={styles().text}>About</Text>

@@ -103,7 +103,7 @@ async function submit(
     Exercises: exercises,
   };
 
-  console.log(timestamp);
+  console.log('submit timestamp ', timestamp);
   const query = {
     Timestamp: new Date(timestamp).toISOString(),
     Health: healthIn,
@@ -140,7 +140,7 @@ function flipBit(medChecked, index) {
 async function getHealthEntry(timestamp, setLoadingVisible) {
   // set spinner
   setLoadingVisible(true);
-  console.log(new Date(timestamp).toISOString());
+  console.log('get health entry timestamp', new Date(timestamp).toISOString());
   const res = await API.graphql({
     query: queries.getDailyEntry,
     variables: { Timestamp: new Date(timestamp).toISOString() },
@@ -156,16 +156,37 @@ async function getHealthEntry(timestamp, setLoadingVisible) {
   return res;
 }
 
+async function getOptions() {
+  const res = await API.graphql({
+    query: queries.getSetting,
+  });
+
+  return res;
+}
+
 const HealthEntry = ({ route, navigation }) => {
   // Spinner
   const [loadingVisible, setLoadingVisible] = useState(false);
 
-  // Timestamp variables
-  const [timestamp, setTimestamp] = useState(
+  // Options
+  const [options, setOptions] = useState({});
+
+  useEffect(() => {
+    getOptions().then((ops) => {
+      console.log(ops);
+      setOptions(ops.data.getSetting.Options);
+    });
+  }, []);
+
+  let tempTime = new Date(
     route.params != undefined
       ? new Date(route.params.reviewTimestamp).setHours(0, 0, 0, 0)
-      : new Date().setHours(0, 0, 0, 0)
+      : new Date()
   );
+  // Timestamp variables
+  const [timestamp, setTimestamp] = useState(tempTime);
+
+  console.log('passed calendar', timestamp);
 
   // console.log(route.params);
 
@@ -214,7 +235,10 @@ const HealthEntry = ({ route, navigation }) => {
   const [exercises, setExercises] = useState([]);
 
   useEffect(() => {
-    getHealthEntry(timestamp, setLoadingVisible).then((entry) => {
+    getHealthEntry(
+      new Date(timestamp).setHours(0, 0, 0, 0),
+      setLoadingVisible
+    ).then((entry) => {
       // var t0 = performance.now();
       let health =
         entry != null ? entry.Health : { Period: null, Weight: null };
@@ -314,14 +338,14 @@ const HealthEntry = ({ route, navigation }) => {
       let tempMedCheck = 0;
 
       if (medcheck != null) {
-        console.log('check medcheck');
+        // console.log('check medcheck');
         for (var index = 0; index < medcheck.length; index++) {
           let tempMed = medcheck[index];
           tempMedCheck = tempMed.Taken
             ? flipBit(tempMedCheck, index)
             : tempMedCheck;
         }
-        console.log(tempMedCheck);
+        // console.log(tempMedCheck);
       }
 
       setMedChecked(tempMedCheck);
@@ -389,28 +413,38 @@ const HealthEntry = ({ route, navigation }) => {
             </View>
 
             {/* Add Stress */}
-            <Stress
-              stress={stressSeverity}
-              setStress={setStressSeverity}
-              stressors={stressors}
-              setStressors={setStressors}
-            />
+            {options.stress && (
+              <Stress
+                stress={stressSeverity}
+                setStress={setStressSeverity}
+                stressors={stressors}
+                setStressors={setStressors}
+              />
+            )}
+
             {/* Section divider */}
-            <View style={{ marginTop: -10 }} />
-            <View style={styles().dividerView}>
-              <View style={styles().divider} />
-            </View>
+            {options.stress && <View style={{ marginTop: -10 }} />}
+            {options.stress && (
+              <View style={styles().dividerView}>
+                <View style={styles().divider} />
+              </View>
+            )}
 
             {/* Add Daily Activities */}
-            <DailyActivities
-              activities={activities}
-              setActivities={setActivities}
-            />
+            {options.dailyActivities && (
+              <DailyActivities
+                activities={activities}
+                setActivities={setActivities}
+              />
+            )}
+
             {/* Section divider */}
-            <View style={{ marginTop: -10 }} />
-            <View style={styles().dividerView}>
-              <View style={styles().divider} />
-            </View>
+            {options.dailyActivities && <View style={{ marginTop: -10 }} />}
+            {options.dailyActivities && (
+              <View style={styles().dividerView}>
+                <View style={styles().divider} />
+              </View>
+            )}
 
             {/* Add Physical and Mental Health */}
             <PhysicalMentalHealth
@@ -420,6 +454,7 @@ const HealthEntry = ({ route, navigation }) => {
               setWeight={setWeight}
               symptoms={symptoms}
               setSymptoms={setSymptoms}
+              options={options}
             />
             {/* Section divider */}
             <View style={{ marginTop: -10 }} />
@@ -428,77 +463,97 @@ const HealthEntry = ({ route, navigation }) => {
             </View>
 
             {/* Add Medication */}
-            <Medication
-              medChecked={medChecked}
-              setMedChecked={setMedChecked}
-              medications={medications}
-              setMedications={setMedications}
-            />
+            {options.medication && (
+              <Medication
+                medChecked={medChecked}
+                setMedChecked={setMedChecked}
+                medications={medications}
+                setMedications={setMedications}
+              />
+            )}
+
             {/* Section divider */}
-            <View style={{ marginTop: -10 }} />
-            <View style={styles().dividerView}>
-              <View style={styles().divider} />
-            </View>
+            {options.medication && <View style={{ marginTop: -10 }} />}
+            {options.medication && (
+              <View style={styles().dividerView}>
+                <View style={styles().divider} />
+              </View>
+            )}
 
             {/* Add Sleep */}
-            <Sleep
-              hadSleep={hadSleep}
-              setHadSleep={setHadSleep}
-              qualityOfSleep={qualityOfSleep}
-              setQualityOfSleep={setQualityOfSleep}
-              hadNap={hadNap}
-              setHadNap={setHadNap}
-              naps={naps}
-              setNaps={setNaps}
-              sleepTimeStart={sleepTimeStart}
-              setSleepTimeStart={setSleepTimeStart}
-              sleepTimeEnd={sleepTimeEnd}
-              setSleepTimeEnd={setSleepTimeEnd}
-            />
+            {options.sleep && (
+              <Sleep
+                hadSleep={hadSleep}
+                setHadSleep={setHadSleep}
+                qualityOfSleep={qualityOfSleep}
+                setQualityOfSleep={setQualityOfSleep}
+                hadNap={hadNap}
+                setHadNap={setHadNap}
+                naps={naps}
+                setNaps={setNaps}
+                sleepTimeStart={sleepTimeStart}
+                setSleepTimeStart={setSleepTimeStart}
+                sleepTimeEnd={sleepTimeEnd}
+                setSleepTimeEnd={setSleepTimeEnd}
+              />
+            )}
+
             {/* Section divider */}
-            <View style={styles().dividerView}>
-              <View style={styles().divider} />
-            </View>
+            {options.sleep && (
+              <View style={styles().dividerView}>
+                <View style={styles().divider} />
+              </View>
+            )}
 
             {/* Add Meal History */}
-            <MealHistory
-              eatenToday={eatenToday}
-              setEatenToday={setEatenToday}
-              totalCalories={totalCalories}
-              setTotalCalories={setTotalCalories}
-              totalProteins={totalProteins}
-              setTotalProteins={setTotalProteins}
-              totalCarbs={totalCarbs}
-              setTotalCarbs={setTotalCarbs}
-              totalFats={totalFats}
-              setTotalFats={setTotalFats}
-              meals={meals}
-              setMeals={setMeals}
-            />
+            {options.meal && (
+              <MealHistory
+                eatenToday={eatenToday}
+                setEatenToday={setEatenToday}
+                totalCalories={totalCalories}
+                setTotalCalories={setTotalCalories}
+                totalProteins={totalProteins}
+                setTotalProteins={setTotalProteins}
+                totalCarbs={totalCarbs}
+                setTotalCarbs={setTotalCarbs}
+                totalFats={totalFats}
+                setTotalFats={setTotalFats}
+                meals={meals}
+                setMeals={setMeals}
+              />
+            )}
+
             {/* Section divider */}
-            <View style={styles().dividerView}>
-              <View style={styles().divider} />
-            </View>
+            {options.meal && (
+              <View style={styles().dividerView}>
+                <View style={styles().divider} />
+              </View>
+            )}
 
             {/* Add Fitness Tracking */}
-            <FitnessTracking
-              exerciseToday={exerciseToday}
-              setExerciseToday={setExerciseToday}
-              exerciseLength={exerciseLength}
-              setExerciseLength={setExerciseLength}
-              caloriesBurn={caloriesBurn}
-              setCaloriesBurn={setCaloriesBurn}
-              stepsTracked={stepsTracked}
-              setStepsTracked={setStepsTracked}
-              steps={steps}
-              setSteps={setSteps}
-              exercises={exercises}
-              setExercises={setExercises}
-            />
+            {options.fitness && (
+              <FitnessTracking
+                exerciseToday={exerciseToday}
+                setExerciseToday={setExerciseToday}
+                exerciseLength={exerciseLength}
+                setExerciseLength={setExerciseLength}
+                caloriesBurn={caloriesBurn}
+                setCaloriesBurn={setCaloriesBurn}
+                stepsTracked={stepsTracked}
+                setStepsTracked={setStepsTracked}
+                steps={steps}
+                setSteps={setSteps}
+                exercises={exercises}
+                setExercises={setExercises}
+              />
+            )}
+
             {/* Section divider */}
-            <View style={styles().dividerView}>
-              <View style={styles().divider} />
-            </View>
+            {options.fitness && (
+              <View style={styles().dividerView}>
+                <View style={styles().divider} />
+              </View>
+            )}
 
             {/* Save Entry */}
             <View
@@ -514,7 +569,7 @@ const HealthEntry = ({ route, navigation }) => {
                   color='#A5DFB2'
                   onPress={() =>
                     submit(
-                      timestamp,
+                      new Date(timestamp).setHours(0, 0, 0, 0),
                       mood,
                       feelings,
                       stressSeverity,

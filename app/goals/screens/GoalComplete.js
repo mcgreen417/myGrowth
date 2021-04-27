@@ -140,6 +140,8 @@ async function getGoals(navigation) {
     query: queries.getMilestones
   });
 
+  console.log(res1);
+
   goals = res1.data.getMilestones.Milestones;
 
   navigation.push('Goals', { goals });

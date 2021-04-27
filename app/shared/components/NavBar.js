@@ -94,7 +94,7 @@ const NavBar = ({
 
       {/* journal */}
       <Pressable
-        onPress={() => navigation.navigate('Journal')}
+        onPress={() => goToJournal(navigation)}
         style={({ pressed }) => [
           {
             padding: 5,
@@ -554,6 +554,20 @@ async function goToHistory(navigation) {
   const settings = await cache.peek('settings');
 
   navigation.push('HistoryHealthEntries', { data, settings });
+}
+
+async function goToJournal(navigation) {
+  // const cache = new Cache({
+  //   namespace: 'myapp',
+  //   policy: {
+  //     maxEntries: 50000,
+  //   },
+  //   backend: AsyncStorage,
+  // });
+
+  // const avatar = await cache.peek('avatar');
+
+  navigation.navigate('Journal');
 }
 
 export default NavBar;

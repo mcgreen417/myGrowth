@@ -372,7 +372,7 @@ const AdvanceFitnessTracking = ({ exercises, setExercises }) => {
   return (
     <View style={{ marginTop: 10 }}>
       {exercises.map((item, index) => {
-        console.log(item);
+        // console.log(item);
         return (
           <View key={index}>
             <AddExercises
@@ -391,7 +391,7 @@ const AdvanceFitnessTracking = ({ exercises, setExercises }) => {
       })}
       {exercises.length > 0 && <View style={{ marginBottom: 10 }} />}
 
-      <View style={{ marginTop: 10, minWidth: '40%', maxWidth: '50%',}}>
+      <View style={{ marginTop: 10, minWidth: '40%', maxWidth: '50%' }}>
         <Button
           title='+ Add Exercise'
           color={

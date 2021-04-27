@@ -11,8 +11,101 @@ import {
   Keyboard,
   SafeAreaView,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+
+const Delete = ({
+  deleteEntry,
+  setDeleteEntry,
+  stressors,
+  setStressors,
+  item,
+  index,
+}) => {
+  return (
+    <View style={styles().container}>
+      <Modal
+        animationType='fade'
+        transparent={true}
+        visible={deleteEntry}
+        onRequestClose={() => {
+          setDeleteEntry(!deleteEntry);
+        }}>
+        <Pressable
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1,
+            backgroundColor: '#00000055',
+          }}
+          onPressOut={() => setDeleteEntry(!deleteEntry)}>
+          <Pressable
+            style={styles().modalContainer}
+            onePress={() => setDeleteEntry(true)}>
+            <View style={styles().modalHeaderBar}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flex: 2,
+                  marginLeft: 6,
+                  marginVertical: 4,
+                  alignItems: 'center',
+                }}>
+                <Icon
+                  name='frowning'
+                  size={20}
+                  type='fontisto'
+                  color='white'
+                  style={{ marginRight: 8 }}
+                />
+                <Text style={styles().textAlt}>Delete Stressor</Text>
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                marginHorizontal: '5%',
+                maxHeight: '60%',
+                marginVertical: 10,
+              }}>
+              <Text style={styles().text}>
+                Are you sure you wish to delete the stressor
+                <Text style={styles().textBoldAlt}> "{item.toString()}" </Text>?
+              </Text>
+              <Text style={styles().textBoldAlt}>
+                This action cannot be undone.
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignSelf: 'flex-end',
+                marginVertical: 10,
+                marginHorizontal: '5%',
+              }}>
+              <TouchableOpacity
+                style={{ marginRight: 20 }}
+                onPress={() => {
+                  setDeleteEntry(!deleteEntry);
+                  let tempStressors = [...stressors];
+                  tempStressors.splice(index, 1);
+                  setStressors(tempStressors);
+                }}>
+                <Text style={styles().textButton}>DELETE</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setDeleteEntry(!deleteEntry)}>
+                <Text style={styles().textButton}>CANCEL</Text>
+              </TouchableOpacity>
+            </View>
+          </Pressable>
+        </Pressable>
+      </Modal>
+    </View>
+  );
+};
 
 {
   /* Stressors section */
@@ -21,9 +114,21 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
   const [showAddStressors, setShowAddStressors] = useState(false);
   const [pressed, setPressed] = useState(false);
   const [stressor, setStressor] = useState('');
+  const [deleteEntry, setDeleteEntry] = useState(false);
+  const [stressorIndex, setStressorIndex] = useState();
 
   return (
     <SafeAreaView style={{ width: '90%' }}>
+      {deleteEntry && (
+        <Delete
+          stressors={stressors}
+          setStressors={setStressors}
+          deleteEntry={deleteEntry}
+          setDeleteEntry={setDeleteEntry}
+          index={stressorIndex}
+          item={stressors[stressorIndex]}
+        />
+      )}
       <ScrollView keyboardShouldPersistTaps='handled'>
         {/* Add Stressors modal */}
         <View style={styles().container}>
@@ -122,21 +227,13 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
                       </View>
                     </View>
                   </View>
-                  <View>
-                    {stressors.map((item, index) => {
-                      return (
-                        <View key={index}>
-                          <Text>{item.toString()}</Text>
-                        </View>
-                      );
-                    })}
-                  </View>
+
                   {/* Add Feeling button */}
                   <View style={{ alignSelf: 'center' }}>
                     <Button
                       title='+ Add Stressor'
                       onPress={() => {
-                        let temp = new Array(stressor).concat(stressors);
+                        let temp = stressors.concat(new Array(stressor));
                         //console.log('temp:', temp);
                         setStressors(temp);
                         setStressor('');
@@ -286,17 +383,42 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
           </View>
         </View>
 
-        <Text style={styles().text}>
-          If you were stressed today, what were some of the sources of your
-          stress?
-        </Text>
+        <View style={{ marginBottom: 16 }}>
+          <Text style={styles().text}>
+            If you were stressed today, what were some of the sources of your
+            stress?
+          </Text>
+        </View>
+
+        {stressors.length > 0 && (
+          <View style={styles().itemView}>
+            {stressors.map((item, index) => {
+              return (
+                <View key={index} style={styles().itemContainers}>
+                  <Text
+                    style={{ color: 'white', fontSize: 16, marginRight: 4 }}>
+                    {item.toString()}
+                  </Text>
+                  <Icon
+                    name='close'
+                    color='white'
+                    size={16}
+                    onPress={() => {
+                      setStressorIndex(index);
+                      setDeleteEntry(!deleteEntry);
+                    }}
+                  />
+                </View>
+              );
+            })}
+          </View>
+        )}
 
         {/* Add Stressors button */}
         <View
           style={{
             minWidth: '40%',
             maxWidth: '50%',
-            marginTop: 20,
             marginBottom: 10,
           }}>
           <Button
@@ -332,6 +454,33 @@ const styles = () =>
       fontSize: 18,
       fontWeight: 'bold',
       marginBottom: 10,
+    },
+    itemContainers: {
+      backgroundColor: global.colorblindMode
+        ? global.cb_navBarCurrentIconColor
+        : global.navBarCurrentIconColor,
+      marginHorizontal: 2,
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: 6,
+      paddingHorizontal: 10,
+      borderRadius: 10,
+      marginVertical: 2,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.23,
+      shadowRadius: 2.62,
+      elevation: 3,
+    },
+    itemView: {
+      flexDirection: 'row',
+      flex: 1,
+      width: '100%',
+      flexWrap: 'wrap',
+      marginBottom: 16,
     },
     label: {
       color: '#816868',
@@ -380,6 +529,17 @@ const styles = () =>
     textAlt: {
       color: 'white',
       fontSize: 20,
+      fontWeight: 'bold',
+    },
+    textBoldAlt: {
+      fontSize: 16,
+      color: '#816868',
+      fontWeight: 'bold',
+      marginTop: 4,
+    },
+    textButton: {
+      fontSize: 16,
+      color: '#4CB97A',
       fontWeight: 'bold',
     },
     textInputView: {

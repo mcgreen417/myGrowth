@@ -38,6 +38,7 @@ const HealthEntryHistory = ({ navigation }) => {
       else {
         let tempMarkers = {};
         for (let i = 0; i < res.data.getDailyEntries.dailyEntries.length; i++) {
+          console.log(res.data.getDailyEntries.dailyEntries[i].Timestamp);
           var date = new Date(
             res.data.getDailyEntries.dailyEntries[i].Timestamp
           );
@@ -118,10 +119,14 @@ const HealthEntryHistory = ({ navigation }) => {
                 // entry associated with it
               }
               onDayPress={(day) => {
-                console.log(new Date(day.timestamp).toISOString());
+                console.log(day);
+                let newDay = new Date(day.dateString);
+                console.log(newDay);
+                newDay.setHours(newDay.getTimezoneOffset() / 10);
+                console.log(newDay);
                 if (day != undefined) {
                   navigation.navigate('HealthEntry', {
-                    reviewTimestamp: new Date(day.timestamp).toISOString(),
+                    reviewTimestamp: newDay.toISOString(),
                   });
                 }
               }}

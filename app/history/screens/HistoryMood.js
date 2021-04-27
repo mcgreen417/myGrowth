@@ -246,7 +246,7 @@ function HistoryMood({ route, navigation }) {
                     </View>
                   </View>
                 </View>
-              </View>
+                  </View>
 
               {/* Medical disclaimer */}
               <Text style={styles().textLightSmall}>

@@ -50,6 +50,7 @@ const monthAbbreviations = [
 
 function JournalHistory({ route, navigation }) {
   const arr = route.params.arr;
+  //const avatar = route.params.avatar;
 
   if(arr.length > 0) {  
     const datePass = route.params.datePass;

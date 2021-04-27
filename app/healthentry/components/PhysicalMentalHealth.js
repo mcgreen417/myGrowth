@@ -12,8 +12,105 @@ import {
   Keyboard,
   ScrollView,
   SafeAreaView,
+  TouchableOpacity,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+
+const Delete = ({
+  deleteEntry,
+  setDeleteEntry,
+  symptoms,
+  setSymptoms,
+  item,
+  index,
+}) => {
+  return (
+    <View style={styles().container}>
+      <Modal
+        animationType='fade'
+        transparent={true}
+        visible={deleteEntry}
+        onRequestClose={() => {
+          setDeleteEntry(!deleteEntry);
+        }}>
+        <Pressable
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1,
+            backgroundColor: '#00000055',
+          }}
+          onPressOut={() => setDeleteEntry(!deleteEntry)}>
+          <Pressable
+            style={styles().modalContainer}
+            onePress={() => setDeleteEntry(true)}>
+            <View style={styles().modalHeaderBar}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flex: 2,
+                  marginLeft: 6,
+                  marginVertical: 4,
+                  alignItems: 'center',
+                }}>
+                <Icon
+                  name='sick'
+                  type='MaterialIcons'
+                  color='white'
+                  size={20}
+                  style={{ marginRight: 8 }}
+                />
+                <Text style={styles().textAlt}>Delete Symptom</Text>
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                marginHorizontal: '5%',
+                maxHeight: '60%',
+                marginVertical: 10,
+              }}>
+              <Text style={styles().text}>
+                Are you sure you wish to delete the symptom
+                <Text style={styles().textBoldAlt}>
+                  {' '}
+                  "{item.Title.toString()}"{' '}
+                </Text>
+                ?
+              </Text>
+              <Text style={styles().textBoldAlt}>
+                This action cannot be undone.
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignSelf: 'flex-end',
+                marginVertical: 10,
+                marginHorizontal: '5%',
+              }}>
+              <TouchableOpacity
+                style={{ marginRight: 20 }}
+                onPress={() => {
+                  setDeleteEntry(!deleteEntry);
+                  let tempSymptoms = [...symptoms];
+                  tempSymptoms.splice(index, 1);
+                  setSymptoms(tempSymptoms);
+                }}>
+                <Text style={styles().textButton}>DELETE</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setDeleteEntry(!deleteEntry)}>
+                <Text style={styles().textButton}>CANCEL</Text>
+              </TouchableOpacity>
+            </View>
+          </Pressable>
+        </Pressable>
+      </Modal>
+    </View>
+  );
+};
 
 const PhysicalMentalHealth = ({
   hadPeriod,
@@ -22,15 +119,31 @@ const PhysicalMentalHealth = ({
   setWeight,
   symptoms,
   setSymptoms,
+  options,
 }) => {
   const [showAddSymptoms, setShowAddSymptoms] = useState(false);
   const [pressedSymptom, setPressedSymptom] = useState(false);
   const [pressedSeverity, setPressedSeverity] = useState(false);
   const [symptomTitle, setSymptomTitle] = useState('');
   const [symptomSeverity, setSymptomSeverity] = useState('');
+  const [deleteEntry, setDeleteEntry] = useState(false);
+  const [symptomIndex, setSymptomIndex] = useState();
+
+  // console.log(options);
 
   return (
     <SafeAreaView style={{ width: '90%' }}>
+      {deleteEntry && (
+        <Delete
+          deleteEntry={deleteEntry}
+          setDeleteEntry={setDeleteEntry}
+          symptoms={symptoms}
+          setSymptoms={setSymptoms}
+          item={symptoms[symptomIndex]}
+          index={symptomIndex}
+        />
+      )}
+
       <ScrollView keyboardShouldPersistTaps='handled'>
         {/* Add Symptom modal */}
         <View style={styles().container}>
@@ -165,17 +278,8 @@ const PhysicalMentalHealth = ({
                       </View>
                     </View>
                   </View>
-                  {symptoms.map((item, index) => {
-                    console.log(item);
-                    return (
-                      <View key={index}>
-                        <Text>
-                          {item.Title.toString()} , {item.Severity.toString()}
-                        </Text>
-                      </View>
-                    );
-                  })}
-                  {/* Add Feeling button */}
+
+                  {/* Add Symptom button */}
                   <View style={{ alignSelf: 'center' }}>
                     <Button
                       title='+ Add Symptom'
@@ -184,7 +288,7 @@ const PhysicalMentalHealth = ({
                           Title: symptomTitle,
                           Severity: parseInt(symptomSeverity || 0),
                         };
-                        let temp = new Array(symptom).concat(symptoms);
+                        let temp = symptoms.concat(new Array(symptom));
                         //console.log('temp:', temp);
                         setSymptoms(temp);
                         //console.log('symptoms', symptoms);
@@ -209,61 +313,95 @@ const PhysicalMentalHealth = ({
 
         <Text style={styles().heading}>PHYSICAL & MENTAL HEALTH</Text>
 
-        <View style={{ marginTop: 10 }} />
-        <View style={styles().line} />
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={styles().text}>Did you have your period today?</Text>
-          <View style={styles().switchView}>
-            <View style={styles().line2} />
-            <Switch
-              trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
-              thumbColor={hadPeriod ? '#4CB97A' : '#f4f3f4'}
-              ios_backgroundColor='#3e3e3e'
-              onValueChange={() => setHadPeriod(!hadPeriod)}
-              value={hadPeriod}
-              style={{ marginLeft: 8 }}
-            />
+        {options.period && (
+          <View>
+            <View style={{ marginTop: 10 }} />
+            <View style={styles().line} />
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={styles().text}>Did you have your period today?</Text>
+              <View style={styles().switchView}>
+                <View style={styles().line2} />
+                <Switch
+                  trackColor={{ false: '#E5E5E5', true: '#9AD2AF' }}
+                  thumbColor={hadPeriod ? '#4CB97A' : '#f4f3f4'}
+                  ios_backgroundColor='#3e3e3e'
+                  onValueChange={() => setHadPeriod(!hadPeriod)}
+                  value={hadPeriod}
+                  style={{ marginLeft: 8 }}
+                />
+              </View>
+            </View>
+            <View style={styles().line} />
+            <View style={{ marginBottom: 20 }} />
           </View>
+        )}
+
+        {options.weight && (
+          <View>
+            <Text style={styles().text}>
+              If you have weighed yourself today, how much do you weigh?
+            </Text>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 10,
+                marginBottom: 20,
+              }}>
+              <TextInput
+                placeholder='#'
+                style={{
+                  borderBottomColor: '#C4BEBD',
+                  borderBottomWidth: 1,
+                  textAlign: 'center',
+                  width: 50,
+                }}
+                keyboardType='number-pad'
+                value={weight.toString()}
+                onChangeText={setWeight}
+              />
+              <Text style={styles().text}> lbs</Text>
+            </View>
+          </View>
+        )}
+
+        <View style={{ marginBottom: 16 }}>
+          <Text style={styles().text}>
+            Have you experienced any unusual physical or mental health symptoms
+            today?
+          </Text>
         </View>
-        <View style={styles().line} />
-        <View style={{ marginBottom: 20 }} />
 
-        <Text style={styles().text}>
-          If you have weighed yourself today, how much do you weigh?
-        </Text>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: 10,
-            marginBottom: 20,
-          }}>
-          <TextInput
-            placeholder='#'
-            style={{
-              borderBottomColor: '#C4BEBD',
-              borderBottomWidth: 1,
-              textAlign: 'center',
-              width: 50,
-            }}
-            keyboardType='number-pad'
-            value={weight.toString()}
-            onChangeText={setWeight}
-          />
-          <Text style={styles().text}> lbs</Text>
-        </View>
-
-        <Text style={styles().text}>
-          Have you experienced any unusual physical or mental health symptoms
-          today?
-        </Text>
+        {symptoms.length > 0 && (
+          <View style={styles().itemView}>
+            {symptoms.map((item, index) => {
+              // console.log(item);
+              return (
+                <View key={index} style={styles().itemContainers}>
+                  <Text
+                    style={{ color: 'white', fontSize: 16, marginRight: 4 }}>
+                    {item.Title.toString()}, {item.Severity.toString()}
+                  </Text>
+                  <Icon
+                    name='close'
+                    color='white'
+                    size={16}
+                    onPress={() => {
+                      setSymptomIndex(index);
+                      setDeleteEntry(!deleteEntry);
+                    }}
+                  />
+                </View>
+              );
+            })}
+          </View>
+        )}
 
         <View
           style={{
             minWidth: '40%',
             maxWidth: '50%',
-            marginTop: 20,
             marginBottom: 10,
           }}>
           <Button
@@ -299,6 +437,33 @@ const styles = () =>
       fontSize: 18,
       fontWeight: 'bold',
       marginBottom: 10,
+    },
+    itemContainers: {
+      backgroundColor: global.colorblindMode
+        ? global.cb_navBarCurrentIconColor
+        : global.navBarCurrentIconColor,
+      marginHorizontal: 2,
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: 6,
+      paddingHorizontal: 10,
+      borderRadius: 10,
+      marginVertical: 2,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.23,
+      shadowRadius: 2.62,
+      elevation: 3,
+    },
+    itemView: {
+      flexDirection: 'row',
+      flex: 1,
+      width: '100%',
+      flexWrap: 'wrap',
+      marginBottom: 16,
     },
     label: {
       color: '#816868',
@@ -373,6 +538,17 @@ const styles = () =>
     textAlt: {
       color: 'white',
       fontSize: 20,
+      fontWeight: 'bold',
+    },
+    textBoldAlt: {
+      fontSize: 16,
+      color: '#816868',
+      fontWeight: 'bold',
+      marginTop: 4,
+    },
+    textButton: {
+      fontSize: 16,
+      color: '#4CB97A',
       fontWeight: 'bold',
     },
     textInputView: {

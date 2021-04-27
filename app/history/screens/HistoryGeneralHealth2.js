@@ -45,7 +45,7 @@ function HistoryGeneralHealth2({ route, navigation }) {
     const symptoms = getPickerLabels(data);
     const arr = initDisplayData(symptoms, data, 'past_week');
     const [timePeriod, setTimePeriod] = useState('past_week');
-    const [selectsymptom, setSymptom] = useState(symptoms[0]);
+    const [selectSymptom, setSymptom] = useState(symptoms[0]);
     const [timestamps, setTimestamps] = useState(dayLabels);
     const [displayData, setDisplayData] = useState(arr);
     const [pressedTime, setPressedTime] = useState(false);
@@ -143,7 +143,7 @@ function HistoryGeneralHealth2({ route, navigation }) {
                     onValueChange={(itemValue, itemIndex) => {
                       setTimePeriod(itemValue);
                       getTimestamps(data, timestamps, setTimestamps, itemValue);
-                      getDisplayData(selectsymptom, data, itemValue, setDisplayData);
+                      getDisplayData(selectSymptom, data, itemValue, setDisplayData);
                     }}
                     mode={'dropdown'}>
                     <Picker.Item label='Past week' value='past_week' color='#816868' />

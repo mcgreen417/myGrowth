@@ -19,7 +19,10 @@ const monthNames = [
 ];
 
 function getDate(d) {
-  return monthNames[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  console.log('passed to getdate', d);
+  return (
+    monthNames[d.getMonth()] + ' ' + d.getUTCDate() + ', ' + d.getFullYear()
+  );
 }
 
 function getTime(d) {
@@ -33,14 +36,15 @@ function getTime(d) {
 }
 
 const Timestamp = ({ timestamp, setTimestamp }) => {
-  // console.log(timestamp);
+  console.log('set timestamp', new Date(timestamp));
+  console.log('timezone', new Date(timestamp).getTimezoneOffset());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || timestamp;
     setShow(Platform.OS === 'ios');
-    setTimestamp(new Date(currentDate).setHours(0, 0, 0, 0));
+    setTimestamp(currentDate);
   };
 
   const showMode = (currentMode) => {
@@ -117,7 +121,10 @@ const Timestamp = ({ timestamp, setTimestamp }) => {
         {show && (
           <DateTimePicker
             testID='dateTimePicker'
-            value={timestamp}
+            value={new Date(timestamp)}
+            timeZoneOffsetInMinutes={
+              -(new Date().getTimezoneOffset() * 60) / 10
+            }
             mode={mode}
             is24Hour={false}
             display='default'

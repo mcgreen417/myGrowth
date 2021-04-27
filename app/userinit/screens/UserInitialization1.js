@@ -1484,14 +1484,22 @@ const createAlert = (title, message) => {
   );
 }
 
-async function updateUser(firstName, dob, gender, bioSex) {
-  const user = await Auth.currentAuthenticatedUser();
-  await Auth.updateUserAttributes(user, {
+async function updateUser(firstName, dob, gender, bioSex, navigation, activityLevel, height, weight, metric) {
+  const cognitoAttr = {
     'name': firstName,
     'birthdate': dob,
     'gender': gender,
-    'custom:biological_sex': bioSex,
-    'custom:initialized': '1'
+    'biological_sex': bioSex,
+    'avatar_id': '0',
+    'initialized': '1'
+  }
+
+  navigation.navigate('UserInitialization2', { 
+    activityLevel: activityLevel,
+    height: height, 
+    weight: weight, 
+    metric: metric,
+    cognitoAttr: cognitoAttr
   });
 }
 

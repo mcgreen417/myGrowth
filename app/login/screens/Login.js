@@ -287,6 +287,8 @@ async function signIn(username, pw, navigation) {
 
         //store settings from db
         await cache.set("settings", res.data.getSetting.Options);
+        //await cache.set("avatar", user.attributes['custom:avatar_id']);
+
         //store data from db
         const res2 = await API.graphql({
           query: queries.getChartData,
@@ -298,7 +300,7 @@ async function signIn(username, pw, navigation) {
         navigation.navigate('Home');
       }
     } catch (error) {
-      // console.log(error);
+       console.log(error);
 
       // Error code handling
       // Update with other different errors (incorrect pass, not a user, etc.)
