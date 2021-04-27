@@ -1100,14 +1100,16 @@ function UserInitialization1({ navigation }) {
               </TouchableOpacity>
               {show && (
                 <RNDateTimePicker
+                  style={{width: '100%'}}
                   testID='dateTimePicker'
                   minimumDate={maximumUserBirthDate}
                   maximumDate={minimumUserBirthDate}
                   value={minimumUserBirthDate}
                   mode={mode}
                   is24Hour={true}
-                  display='default'
+                  display='compact'
                   onChange={onChange}
+                  value={date}
                 />
               )}
             </View>
