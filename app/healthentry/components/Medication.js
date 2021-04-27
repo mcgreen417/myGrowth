@@ -244,7 +244,7 @@ const Medication = ({
                         if (medicineName != '' && date != undefined) {
                           addMedicationHelper(medicineName, date);
                           setMedicineName('');
-                          setDate(Date());
+                          setDate(new Date());
                         }
                         setShowAddMedicine(true);
                         Keyboard.dismiss();
@@ -289,10 +289,9 @@ const Medication = ({
                           backgroundColor: '#00000055',
                         }}
                         onPressOut={() => setDeleteEntry(!deleteEntry)}>
-                        <Pressable 
+                        <Pressable
                           style={styles().modalContainer}
-                          onePress={() => setDeleteEntry(true)}
-                        >
+                          onePress={() => setDeleteEntry(true)}>
                           <View style={styles().modalHeaderBar}>
                             <View
                               style={{
@@ -419,7 +418,13 @@ const Medication = ({
               );
             })}
         </View>
-        <View style={{ minWidth: '40%', maxWidth: '50%', marginTop: 20, marginBottom: 10 }}>
+        <View
+          style={{
+            minWidth: '40%',
+            maxWidth: '50%',
+            marginTop: 20,
+            marginBottom: 10,
+          }}>
           <Button
             title='+ Add Medication'
             onPress={() => setShowAddMedicine(!showAddMedicine)}

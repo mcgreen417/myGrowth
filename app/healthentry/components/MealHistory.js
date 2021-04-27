@@ -12,9 +12,53 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-function removeFood(meals, setMeals, mealIndex, foodIndex) {
+function removeFood(
+  meals,
+  setMeals,
+  mealIndex,
+  foodIndex,
+  totalCalories,
+  setTotalCalories,
+  totalProteins,
+  setTotalProteins,
+  totalCarbs,
+  setTotalCarbs,
+  totalFats,
+  setTotalFats
+) {
   let tempMeals = [...meals];
+  tempMeals[mealIndex].Calories =
+    parseInt(tempMeals[mealIndex].Calories || 0) -
+    parseInt(tempMeals[mealIndex].Food[foodIndex].calories || 0);
+  tempMeals[mealIndex].Proteins =
+    parseInt(tempMeals[mealIndex].Proteins || 0) -
+    parseInt(tempMeals[mealIndex].Food[foodIndex].protein || 0);
+  tempMeals[mealIndex].Carbs =
+    parseInt(tempMeals[mealIndex].Carbs || 0) -
+    parseInt(tempMeals[mealIndex].Food[foodIndex].carbs || 0);
+  tempMeals[mealIndex].Fats =
+    parseInt(tempMeals[mealIndex].Fats || 0) -
+    parseInt(tempMeals[mealIndex].Food[foodIndex].fats || 0);
+
+  setTotalCalories(
+    parseInt(totalCalories || 0) -
+      parseInt(tempMeals[mealIndex].Food[foodIndex].calories || 0)
+  );
+  setTotalProteins(
+    parseInt(totalProteins || 0) -
+      parseInt(tempMeals[mealIndex].Food[foodIndex].protein || 0)
+  );
+  setTotalCarbs(
+    parseInt(totalCarbs || 0) -
+      parseInt(tempMeals[mealIndex].Food[foodIndex].carbs || 0)
+  );
+  setTotalFats(
+    parseInt(totalFats) -
+      parseInt(tempMeals[mealIndex].Food[foodIndex].fats || 0)
+  );
+
   tempMeals[mealIndex].Food.pop(foodIndex);
+
   setMeals(tempMeals);
 }
 
@@ -115,7 +159,20 @@ const AddFood = ({
                   style={{ marginRight: 20 }}
                   onPress={() => {
                     setDeleteFood(!deleteFood);
-                    removeFood(meals, setMeals, mealIndex, foodIndex);
+                    removeFood(
+                      meals,
+                      setMeals,
+                      mealIndex,
+                      foodIndex,
+                      totalCalories,
+                      setTotalCalories,
+                      totalProteins,
+                      setTotalProteins,
+                      totalCarbs,
+                      setTotalCarbs,
+                      totalFats,
+                      setTotalFats
+                    );
                   }}>
                   <Text style={styles().textButton}>DELETE</Text>
                 </TouchableOpacity>
@@ -740,8 +797,28 @@ const AddFood = ({
   );
 };
 
-function removeMeal(meals, setMeals, index) {
+function removeMeal(
+  meals,
+  setMeals,
+  index,
+  totalCalories,
+  setTotalCalories,
+  totalProteins,
+  setTotalProteins,
+  totalCarbs,
+  setTotalCarbs,
+  totalFats,
+  setTotalFats
+) {
   let tempMeals = [...meals];
+  setTotalCalories(
+    parseInt(totalCalories || 0) - parseInt(meals[index].Calories || 0)
+  );
+  setTotalProteins(
+    parseInt(totalProteins || 0) - parseInt(meals[index].Proteins || 0)
+  );
+  setTotalCarbs(parseInt(totalCarbs || 0) - parseInt(meals[index].Carbs || 0));
+  setTotalFats(parseInt(totalFats || 0) - parseInt(meals[index].Fats || 0));
   tempMeals.pop(index);
   setMeals(tempMeals);
 }
@@ -829,7 +906,19 @@ const AddMeal = ({
                   style={{ marginRight: 20 }}
                   onPress={() => {
                     setDeleteMeal(!deleteMeal);
-                    removeMeal(meals, setMeals, index);
+                    removeMeal(
+                      meals,
+                      setMeals,
+                      index,
+                      totalCalories,
+                      setTotalCalories,
+                      totalProteins,
+                      setTotalProteins,
+                      totalCarbs,
+                      setTotalCarbs,
+                      totalFats,
+                      setTotalFats
+                    );
                   }}>
                   <Text style={styles().textButton}>DELETE</Text>
                 </TouchableOpacity>
@@ -969,7 +1058,13 @@ const AddMeal = ({
               );
             })}
 
-            <View style={{ minWidth: '40%', maxWidth: '50%', marginLeft: 10, marginBottom: 20 }}>
+            <View
+              style={{
+                minWidth: '40%',
+                maxWidth: '50%',
+                marginLeft: 10,
+                marginBottom: 20,
+              }}>
               <Button
                 title='+ Add Food'
                 color={
@@ -1045,7 +1140,7 @@ const AdvanceMealTracking = ({
       })}
       {meals.length > 0 && <View style={{ marginBottom: 10 }} />}
 
-      <View style={{ minWidth: '40%', maxWidth: '50%', }}>
+      <View style={{ minWidth: '40%', maxWidth: '50%' }}>
         <Button
           title='+ Add Meal'
           color={
