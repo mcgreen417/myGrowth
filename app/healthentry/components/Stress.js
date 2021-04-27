@@ -397,10 +397,13 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
                 <View
                   key={index}
                   style={styles().itemContainers}>
-                  <Text style={{ color: 'white' }}>{item.toString()}</Text>
+                  <Text style={{ color: 'white', fontSize: 16, marginRight: 4, }}>
+                    {item.toString()}
+                  </Text>
                   <Icon
                     name='close'
                     color='white'
+                    size={16}
                     onPress={() => {
                       setStressorIndex(index);
                       setDeleteEntry(!deleteEntry);

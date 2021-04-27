@@ -52,14 +52,16 @@ const Delete = ({
                   flex: 2,
                   marginLeft: 6,
                   marginVertical: 4,
+                  alignItems: 'center',
                 }}>
                 <Icon
-                  name='pill'
-                  type='material-community'
+                  name='sick'
+                  type='MaterialIcons'
                   color='white'
+                  size={20}
                   style={{ marginRight: 8 }}
                 />
-                <Text style={styles().textAlt}>Delete Feeling</Text>
+                <Text style={styles().textAlt}>Delete Symptom</Text>
               </View>
             </View>
             <View
@@ -71,7 +73,7 @@ const Delete = ({
                 marginVertical: 10,
               }}>
               <Text style={styles().text}>
-                Are you sure you wish to delete the medication
+                Are you sure you wish to delete the symptom
                 <Text style={styles().textBoldAlt}>
                   {' '}
                   "{item.Title.toString()}"{' '}
@@ -277,7 +279,7 @@ const PhysicalMentalHealth = ({
                     </View>
                   </View>
 
-                  {/* Add Feeling button */}
+                  {/* Add Symptom button */}
                   <View style={{ alignSelf: 'center' }}>
                     <Button
                       title='+ Add Symptom'
@@ -364,53 +366,42 @@ const PhysicalMentalHealth = ({
           </View>
         )}
 
-        <Text style={styles().text}>
-          Have you experienced any unusual physical or mental health symptoms
-          today?
-        </Text>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            width: '100%',
-            flexWrap: 'wrap',
-          }}>
-          {symptoms.map((item, index) => {
-            // console.log(item);
-            return (
-              <View
-                key={index}
-                style={{
-                  backgroundColor: global.colorblindMode
-                    ? global.cb_navBarCurrentIconColor
-                    : global.navBarCurrentIconColor,
-                  marginHorizontal: 10,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  padding: 5,
-                  borderRadius: 10,
-                  marginVertical: 5,
-                }}>
-                <Text style={{ color: 'white' }}>
-                  {item.Title.toString()} , {item.Severity.toString()} Severity
-                </Text>
-                <Icon
-                  name='close'
-                  color='white'
-                  onPress={() => {
-                    setSymptomIndex(index);
-                    setDeleteEntry(!deleteEntry);
-                  }}
-                />
-              </View>
-            );
-          })}
+        <View style={{ marginBottom: 16, }}>
+          <Text style={styles().text}>
+            Have you experienced any unusual physical or mental health symptoms today?
+          </Text>
         </View>
+
+        {symptoms.length > 0 &&
+          <View style={styles().itemView}>
+            {symptoms.map((item, index) => {
+              // console.log(item);
+              return (
+                <View
+                  key={index}
+                  style={styles().itemContainers}>
+                  <Text style={{ color: 'white', fontSize: 16, marginRight: 4,}}>
+                    {item.Title.toString()}, {item.Severity.toString()}
+                  </Text>
+                  <Icon
+                    name='close'
+                    color='white'
+                    size={16}
+                    onPress={() => {
+                      setSymptomIndex(index);
+                      setDeleteEntry(!deleteEntry);
+                    }}
+                  />
+                </View>
+              );
+            })}
+          </View>
+        }
+
         <View
           style={{
             minWidth: '40%',
             maxWidth: '50%',
-            marginTop: 20,
             marginBottom: 10,
           }}>
           <Button
@@ -446,6 +437,33 @@ const styles = () =>
       fontSize: 18,
       fontWeight: 'bold',
       marginBottom: 10,
+    },
+    itemContainers: {
+      backgroundColor: global.colorblindMode
+        ? global.cb_navBarCurrentIconColor
+        : global.navBarCurrentIconColor,
+      marginHorizontal: 2,
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: 6,
+      paddingHorizontal: 10,
+      borderRadius: 10,
+      marginVertical: 2,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.23,
+      shadowRadius: 2.62,
+      elevation: 3,
+    },
+    itemView: {
+      flexDirection: 'row',
+      flex: 1,
+      width: '100%',
+      flexWrap: 'wrap',
+      marginBottom: 16,
     },
     label: {
       color: '#816868',
@@ -520,6 +538,17 @@ const styles = () =>
     textAlt: {
       color: 'white',
       fontSize: 20,
+      fontWeight: 'bold',
+    },
+    textBoldAlt: {
+      fontSize: 16,
+      color: '#816868',
+      fontWeight: 'bold',
+      marginTop: 4,
+    },
+    textButton: {
+      fontSize: 16,
+      color: '#4CB97A',
       fontWeight: 'bold',
     },
     textInputView: {

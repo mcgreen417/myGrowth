@@ -319,12 +319,13 @@ const DailyActivities = ({ activities, setActivities }) => {
                 <View
                   key={index}
                   style={styles().itemContainers}>
-                  <Text style={{ color: 'white', fontSize: 16, }}>
+                  <Text style={{ color: 'white', fontSize: 16, marginRight: 4, }}>
                     {item.Name.toString()}, {item.Duration.toString()} min
                   </Text>
                   <Icon
                     name='close'
                     color='white'
+                    size={16}
                     onPress={() => {
                       setActivityIndex(index);
                       setDeleteEntry(!deleteEntry);
