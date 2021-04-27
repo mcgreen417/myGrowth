@@ -56,7 +56,8 @@ function UserInitialization2({ route, navigation }) {
               </TouchableOpacity>
             )}
             keyExtractor={(item, index) => item.id}
-            numColumns={6}
+            numColumns={5}
+            horizontal={false}
           />
         </View>
 
