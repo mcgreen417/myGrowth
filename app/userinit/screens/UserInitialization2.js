@@ -16,6 +16,7 @@ import {
   View,
 } from 'react-native';
 import ButtonAndroidiOS from '../../shared/components/ButtonAndroidiOS';
+import StatusBariOS from '../../shared/components/StatusBariOS';
 
 function UserInitialization2({ route, navigation }) {
   const { activityLevel, height, weight, metric, cognitoAttr } = route.params;
@@ -26,12 +27,14 @@ function UserInitialization2({ route, navigation }) {
       activityLevel: activityLevel,
       height: height,
       weight: weight, 
-      metric: metric, 
+      metric: metric,
+      cognitoAttr: cognitoAttr,
     });
   }
 
   return (
     <SafeAreaView style={styles().container}>
+      <StatusBariOS />
       <View style={styles().pageSetup}>
         {/* Gardener avatar + page blurb */}
         <View style={styles().avatarView}>

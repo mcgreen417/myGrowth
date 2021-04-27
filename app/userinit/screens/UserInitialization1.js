@@ -344,13 +344,7 @@ function UserInitialization1({ navigation }) {
         validSignUp: true,
       });
 
-      updateUser(firstName, dob, gender, bioSex);
-      navigation.navigate('UserInitialization2', { 
-        activityLevel: activityLevel,
-        height: height, 
-        weight: weight, 
-        metric: metric,
-      });
+      updateUser(firstName, dob, gender, bioSex, navigation, activityLevel, height, weight, metric);
 
     } else {
       setUserInitializationProperties({
@@ -1499,7 +1493,7 @@ async function updateUser(firstName, dob, gender, bioSex, navigation, activityLe
     height: height, 
     weight: weight, 
     metric: metric,
-    cognitoAttr: cognitoAttr
+    cognitoAttr: cognitoAttr,
   });
 }
 

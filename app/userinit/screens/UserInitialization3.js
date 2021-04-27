@@ -16,9 +16,11 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Cache } from 'react-native-cache';
 import * as mutations from '../../../src/graphql/mutations';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import StatusBariOS from '../../shared/components/StatusBariOS';
+
 
 function UserInitialization3({ route, navigation }) {
   const { activityLevel, height, weight, metric, cognitoAttr} = route.params;
@@ -57,6 +59,7 @@ function UserInitialization3({ route, navigation }) {
 
   return (
     <SafeAreaView style={styles().container}>
+      <StatusBariOS />
       <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled'>
         <View style={styles().pageSetup}>
           {/* Gardener avatar + page blurb */}
