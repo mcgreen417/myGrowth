@@ -279,7 +279,7 @@ const DailyActivities = ({ activities, setActivities }) => {
                           Name: activityName,
                           Duration: parseInt(activityDuration || 0),
                         };
-                        let temp = new Array(activity).concat(activities);
+                        let temp = activities.concat(new Array(activity));
                         //console.log('temp:', temp);
                         setActivities(temp);
                         //console.log('activites', activities);
@@ -305,21 +305,20 @@ const DailyActivities = ({ activities, setActivities }) => {
         {/* Daily Activities heading */}
         <Text style={styles().heading}>DAILY ACTIVITIES</Text>
 
-        <View style={{ marginBottom: 16, }}>
+        <View style={{ marginBottom: 16 }}>
           <Text style={styles().text}>
             What activities did you participate in today?
           </Text>
         </View>
 
-        {activities.length > 0 &&
+        {activities.length > 0 && (
           <View style={styles().itemView}>
             {activities.map((item, index) => {
               // console.log(item);
               return (
-                <View
-                  key={index}
-                  style={styles().itemContainers}>
-                  <Text style={{ color: 'white', fontSize: 16, marginRight: 4, }}>
+                <View key={index} style={styles().itemContainers}>
+                  <Text
+                    style={{ color: 'white', fontSize: 16, marginRight: 4 }}>
                     {item.Name.toString()}, {item.Duration.toString()} min
                   </Text>
                   <Icon
@@ -335,7 +334,7 @@ const DailyActivities = ({ activities, setActivities }) => {
               );
             })}
           </View>
-        }
+        )}
 
         {/* Add Activities modal */}
         <View

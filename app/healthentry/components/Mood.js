@@ -231,7 +231,7 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
                     <Button
                       title='+ Add Feeling'
                       onPress={() => {
-                        let temp = new Array(feel).concat(feelings);
+                        let temp = feelings.concat(new Array(feel));
                         //console.log('temp:', temp);
                         setFeelings(temp);
                         // console.log('feelings', feelings);
@@ -389,21 +389,21 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
           </View>
         </View>
 
-        <View style={{ marginTop: 10, marginVertical: 20, }}>
+        <View style={{ marginTop: 10, marginVertical: 20 }}>
           <Text style={styles().text}>
             What were some feelings that stood out to you in particular today?
           </Text>
         </View>
 
-        {feelings.length > 0 &&
+        {feelings.length > 0 && (
           <View style={styles().itemView}>
             {feelings.map((item, index) => {
               return (
-                <View
-                  key={index}
-                  style={styles().itemContainers}>
-                  <Text style={{ color: 'white', fontSize: 16, }}>{item.toString()}</Text>
-                  <View style={{ marginRight: 4 }}/>
+                <View key={index} style={styles().itemContainers}>
+                  <Text style={{ color: 'white', fontSize: 16 }}>
+                    {item.toString()}
+                  </Text>
+                  <View style={{ marginRight: 4 }} />
                   <Icon
                     name='close'
                     color='white'
@@ -417,7 +417,7 @@ const Mood = ({ mood, setMood, feelings, setFeelings }) => {
               );
             })}
           </View>
-        }
+        )}
 
         {/* Add Feelings button */}
         <View

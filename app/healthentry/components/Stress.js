@@ -233,7 +233,7 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
                     <Button
                       title='+ Add Stressor'
                       onPress={() => {
-                        let temp = new Array(stressor).concat(stressors);
+                        let temp = stressors.concat(new Array(stressor));
                         //console.log('temp:', temp);
                         setStressors(temp);
                         setStressor('');
@@ -383,21 +383,20 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
           </View>
         </View>
 
-        <View style={{ marginBottom: 16, }}>
+        <View style={{ marginBottom: 16 }}>
           <Text style={styles().text}>
             If you were stressed today, what were some of the sources of your
             stress?
           </Text>
         </View>
 
-        {stressors.length > 0 &&
+        {stressors.length > 0 && (
           <View style={styles().itemView}>
             {stressors.map((item, index) => {
               return (
-                <View
-                  key={index}
-                  style={styles().itemContainers}>
-                  <Text style={{ color: 'white', fontSize: 16, marginRight: 4, }}>
+                <View key={index} style={styles().itemContainers}>
+                  <Text
+                    style={{ color: 'white', fontSize: 16, marginRight: 4 }}>
                     {item.toString()}
                   </Text>
                   <Icon
@@ -413,7 +412,7 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
               );
             })}
           </View>
-        }
+        )}
 
         {/* Add Stressors button */}
         <View

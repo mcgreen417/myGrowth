@@ -288,7 +288,7 @@ const PhysicalMentalHealth = ({
                           Title: symptomTitle,
                           Severity: parseInt(symptomSeverity || 0),
                         };
-                        let temp = new Array(symptom).concat(symptoms);
+                        let temp = symptoms.concat(new Array(symptom));
                         //console.log('temp:', temp);
                         setSymptoms(temp);
                         //console.log('symptoms', symptoms);
@@ -366,21 +366,21 @@ const PhysicalMentalHealth = ({
           </View>
         )}
 
-        <View style={{ marginBottom: 16, }}>
+        <View style={{ marginBottom: 16 }}>
           <Text style={styles().text}>
-            Have you experienced any unusual physical or mental health symptoms today?
+            Have you experienced any unusual physical or mental health symptoms
+            today?
           </Text>
         </View>
 
-        {symptoms.length > 0 &&
+        {symptoms.length > 0 && (
           <View style={styles().itemView}>
             {symptoms.map((item, index) => {
               // console.log(item);
               return (
-                <View
-                  key={index}
-                  style={styles().itemContainers}>
-                  <Text style={{ color: 'white', fontSize: 16, marginRight: 4,}}>
+                <View key={index} style={styles().itemContainers}>
+                  <Text
+                    style={{ color: 'white', fontSize: 16, marginRight: 4 }}>
                     {item.Title.toString()}, {item.Severity.toString()}
                   </Text>
                   <Icon
@@ -396,7 +396,7 @@ const PhysicalMentalHealth = ({
               );
             })}
           </View>
-        }
+        )}
 
         <View
           style={{
