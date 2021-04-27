@@ -38,6 +38,7 @@ const HealthEntryHistory = ({ navigation }) => {
       else {
         let tempMarkers = {};
         for (let i = 0; i < res.data.getDailyEntries.dailyEntries.length; i++) {
+          console.log(res.data.getDailyEntries.dailyEntries[i].Timestamp);
           var date = new Date(
             res.data.getDailyEntries.dailyEntries[i].Timestamp
           );

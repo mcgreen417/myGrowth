@@ -236,7 +236,7 @@ const HealthEntry = ({ route, navigation }) => {
 
   useEffect(() => {
     getHealthEntry(
-      new Date(timestamp).setUTCHours(0, 0, 0, 0),
+      new Date(timestamp).setHours(0, 0, 0, 0),
       setLoadingVisible
     ).then((entry) => {
       // var t0 = performance.now();
@@ -569,7 +569,7 @@ const HealthEntry = ({ route, navigation }) => {
                   color='#A5DFB2'
                   onPress={() =>
                     submit(
-                      new Date(timestamp).setUTCHours(0, 0, 0, 0),
+                      new Date(timestamp).setHours(0, 0, 0, 0),
                       mood,
                       feelings,
                       stressSeverity,
