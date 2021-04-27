@@ -121,7 +121,7 @@ const Timestamp = ({ timestamp, setTimestamp }) => {
         {show && (
           <DateTimePicker
             testID='dateTimePicker'
-            value={new Date(timestamp).setUTCMilliseconds(0, 0, 0, 0)}
+            value={new Date(timestamp).setUTCDate(0, 0, 0, 0)}
             timeZoneOffsetInMinutes={
               -(new Date().getTimezoneOffset() * 60) / 10
             }
