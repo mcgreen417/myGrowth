@@ -51,14 +51,16 @@ const Delete = ({
                   flex: 2,
                   marginLeft: 6,
                   marginVertical: 4,
+                  alignItems: 'center',
                 }}>
                 <Icon
-                  name='pill'
-                  type='material-community'
+                  name='sports-football'
+                  type='MaterialIcons'
                   color='white'
+                  size={20}
                   style={{ marginRight: 8 }}
                 />
-                <Text style={styles().textAlt}>Delete Feeling</Text>
+                <Text style={styles().textAlt}>Delete Daily Activity</Text>
               </View>
             </View>
             <View
@@ -70,7 +72,7 @@ const Delete = ({
                 marginVertical: 10,
               }}>
               <Text style={styles().text}>
-                Are you sure you wish to delete the medication
+                Are you sure you wish to delete the daily activity
                 <Text style={styles().textBoldAlt}>
                   {' '}
                   "{item.Name.toString()}"{' '}
@@ -303,54 +305,42 @@ const DailyActivities = ({ activities, setActivities }) => {
         {/* Daily Activities heading */}
         <Text style={styles().heading}>DAILY ACTIVITIES</Text>
 
-        <Text style={styles().text}>
-          What activities did you participate in today?
-        </Text>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            width: '100%',
-            flexWrap: 'wrap',
-          }}>
-          {activities.map((item, index) => {
-            // console.log(item);
-            return (
-              <View
-                key={index}
-                style={{
-                  backgroundColor: global.colorblindMode
-                    ? global.cb_navBarCurrentIconColor
-                    : global.navBarCurrentIconColor,
-                  marginHorizontal: 5,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  padding: 5,
-                  borderRadius: 10,
-                  marginVertical: 5,
-                }}>
-                <Text style={{ color: 'white' }}>
-                  {item.Name.toString()} , {item.Duration.toString()} min
-                </Text>
-                <Icon
-                  name='close'
-                  color='white'
-                  onPress={() => {
-                    setActivityIndex(index);
-                    setDeleteEntry(!deleteEntry);
-                  }}
-                />
-              </View>
-            );
-          })}
+        <View style={{ marginBottom: 16, }}>
+          <Text style={styles().text}>
+            What activities did you participate in today?
+          </Text>
         </View>
+
+        {activities.length > 0 &&
+          <View style={styles().itemView}>
+            {activities.map((item, index) => {
+              // console.log(item);
+              return (
+                <View
+                  key={index}
+                  style={styles().itemContainers}>
+                  <Text style={{ color: 'white', fontSize: 16, }}>
+                    {item.Name.toString()}, {item.Duration.toString()} min
+                  </Text>
+                  <Icon
+                    name='close'
+                    color='white'
+                    onPress={() => {
+                      setActivityIndex(index);
+                      setDeleteEntry(!deleteEntry);
+                    }}
+                  />
+                </View>
+              );
+            })}
+          </View>
+        }
 
         {/* Add Activities modal */}
         <View
           style={{
             wminWidth: '40%',
             maxWidth: '50%',
-            marginTop: 20,
             marginBottom: 10,
           }}>
           <Button
@@ -386,6 +376,33 @@ const styles = () =>
       fontSize: 18,
       fontWeight: 'bold',
       marginBottom: 10,
+    },
+    itemContainers: {
+      backgroundColor: global.colorblindMode
+        ? global.cb_navBarCurrentIconColor
+        : global.navBarCurrentIconColor,
+      marginHorizontal: 2,
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: 6,
+      paddingHorizontal: 10,
+      borderRadius: 10,
+      marginVertical: 2,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.23,
+      shadowRadius: 2.62,
+      elevation: 3,
+    },
+    itemView: {
+      flexDirection: 'row',
+      flex: 1,
+      width: '100%',
+      flexWrap: 'wrap',
+      marginBottom: 16,
     },
     label: {
       color: '#816868',
@@ -434,6 +451,17 @@ const styles = () =>
     textAlt: {
       color: 'white',
       fontSize: 20,
+      fontWeight: 'bold',
+    },
+    textBoldAlt: {
+      fontSize: 16,
+      color: '#816868',
+      fontWeight: 'bold',
+      marginTop: 4,
+    },
+    textButton: {
+      fontSize: 16,
+      color: '#4CB97A',
       fontWeight: 'bold',
     },
     textInputView: {
