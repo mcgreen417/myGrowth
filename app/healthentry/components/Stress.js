@@ -267,7 +267,7 @@ const Stress = ({ stress, setStress, stressors, setStressors }) => {
               marginBottom: 20,
               marginHorizontal: 10,
               alignItems: 'center',
-              width: Dimensions.get('window').width * 0.75,
+              width: Dimensions.get('window').width * 0.78,
             }}>
             <View
               style={{
