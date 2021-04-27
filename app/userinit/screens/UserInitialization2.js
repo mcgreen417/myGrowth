@@ -1,26 +1,36 @@
 import React, { useState } from 'react';
 import {
   Button,
+  Dimensions,
+  FlatList,
   Image,
+  Platform,
   SafeAreaView,
+  ScrollView,
   StatusBar,
   StyleSheet,
+  Switch,
   Text,
   TextInput,
   TouchableOpacity,
-  Platform,
   View,
-  FlatList,
-  Switch,
-  ScrollView,
-  Dimensions,
 } from 'react-native';
+import ButtonAndroidiOS from '../../shared/components/ButtonAndroidiOS';
 
 const avatars = new Array(48).fill('http://placeimg.com/100/100/any');
 
 function UserInitialization2({ route, navigation }) {
   const [avatar, setAvatar] = useState(avatars);
   const { activityLevel, height, weight, metric } = route.params;
+
+  const navigateToUserInitialization3 = () => {
+    navigation.navigate('UserInitialization3', { 
+      activityLevel: activityLevel,
+      height: height,
+      weight: weight, 
+      metric: metric, 
+    });
+  }
 
   return (
     <SafeAreaView style={styles().container}>
@@ -59,30 +69,23 @@ function UserInitialization2({ route, navigation }) {
 
         {/* Back & next buttons */}
         <View style={styles().buttonsContainer}>
-          <Button
-            title='Back'
-            color={
-              global.colorblindMode
-                ? global.cb_optionButtonsColor
-                : global.optionButtonsColor
-            }
-            onPress={() => navigation.navigate('UserInitialization1')}
-          />
-          <View style={{ width: '72%' }}></View>
-          <Button
-            title='Next'
-            color={
-              global.colorblindMode
-                ? global.cb_optionButtonsColor
-                : global.optionButtonsColor
-            }
-            onPress={() => navigation.navigate('UserInitialization3',{ 
-              activityLevel: activityLevel,
-              height: height,
-              weight: weight, 
-              metric: metric, 
-            })}
-          />
+
+          {/* Back button, left side of screen */}
+          <View style={{marginLeft: '5%', marginRight: '10%', width: '14%'}}>
+            <ButtonAndroidiOS
+              buttonText='BACK'
+              navigation={navigation}
+              screenName='UserInitialization1'
+            />
+          </View>
+
+          {/* Next button, right side of screen */}
+          <View style={{ marginLeft: '50%', marginRight: '5%', width: '14%' }}>
+            <ButtonAndroidiOS
+              buttonText='NEXT'
+              callFunction={navigateToUserInitialization3}
+            />
+          </View>
         </View>
       </View>
     </SafeAreaView>
@@ -119,10 +122,11 @@ const styles = () => StyleSheet.create({
     width: '20%',
   },
   buttonsContainer: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'flex-end',
-    justifyContent: 'flex-end',
-    width: '90%',
+    // justifyContent: 'flex-end',
+    // width: '100%',
   },
   datePicker: {
     marginTop: 10,

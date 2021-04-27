@@ -1098,6 +1098,7 @@ function UserInitialization1({ navigation }) {
                   </Text>
                 </View>
               </TouchableOpacity>
+              
               {show && (
                 <RNDateTimePicker
                   style={{width: '100%'}}
@@ -1164,7 +1165,7 @@ function UserInitialization1({ navigation }) {
                 </Picker>
                 }
 
-                {/* iOS picker */}
+                {/* iOS date picker */}
                 {global.usingiOSDevice &&
                   <Button onPress={genderOnPressiOS} title={genderDisplaySelected} color="#816868" />
                 }
