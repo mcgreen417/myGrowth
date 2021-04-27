@@ -184,7 +184,7 @@ const AddNap = ({
               marginLeft: 10,
               marginRight: 10,
               alignItems: 'center',
-              width: '83.5%',
+              width: Dimensions.get('window').width * 0.78,
             }}>
             <View
               style={{
@@ -507,7 +507,7 @@ const Sleep = ({
                 marginLeft: 10,
                 marginRight: 10,
                 alignItems: 'center',
-                width: '83.5%',
+                width: Dimensions.get('window').width * 0.78,
               }}>
               <View
                 style={{
