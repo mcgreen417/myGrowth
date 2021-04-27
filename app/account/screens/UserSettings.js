@@ -239,7 +239,7 @@ function UserSettings({ navigation, route }) {
           <View style={styles().line} />
 
           {/* Health entry settings */}
-          <View style={{ marginTop: 20 }} />
+          {/* <View style={{ marginTop: 20 }} /> */}
           <Text style={styles().heading}>HEALTH ENTRY SETTINGS</Text>
           <View style={styles().line} />
 

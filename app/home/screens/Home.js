@@ -23,7 +23,7 @@ import Sprout from '../../shared/assets/svgs/sprout-emoji.svg';
 function Home({ navigation, route }) {
   let plant = 4;
   let stage = 0;
-  const [avatar, setAvatar] = useState(0);
+  //const [avatar, setAvatar] = useState(0);
   const [displayName, setDisplayName] = useState('(FirstName)');
   const [mostRecentEntryString, setMostRecentEntryString] = useState('You wrote your last entry on (date) at (time).');
   const [points, setPoints] = useState(900);
@@ -62,19 +62,19 @@ function Home({ navigation, route }) {
       setMostRecentEntryString(setString);
     }
 
-    async function getAvatarId() {
-      const cache = new Cache({
-        namespace: 'myapp',
-        policy: {
-          maxEntries: 50000,
-        },
-        backend: AsyncStorage,
-      });
+    // async function getAvatarId() {
+    //   const cache = new Cache({
+    //     namespace: 'myapp',
+    //     policy: {
+    //       maxEntries: 50000,
+    //     },
+    //     backend: AsyncStorage,
+    //   });
 
-      const id = await cache.peek('avatar');
+    //   const id = await cache.peek('avatar');
 
-      setAvatar(id);
-    }
+    //   setAvatar(id);
+    // }
 
     async function getPoints() {
       const res = await API.graphql({
@@ -88,7 +88,7 @@ function Home({ navigation, route }) {
 
     setName();
     setRecentEntryString();
-    getAvatarId();
+    //getAvatarId();
     getPoints();
   });
 
@@ -108,7 +108,7 @@ function Home({ navigation, route }) {
             </View>
             <Image
               style={styles().avatarFlipped}
-              source={global.avatars[avatar].imgSource}
+              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
             />
           </View>
 
@@ -228,7 +228,7 @@ function Home({ navigation, route }) {
             <View style={{ flexDirection: 'row', }}>
               <Image
                 style={styles().avatar}
-                source={global.avatars[avatar].imgSource}
+                source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
               />
               <View style={{ marginLeft: '5%', flex: 1, }}>
                 <Text style={styles().activityView}>
@@ -256,7 +256,7 @@ function Home({ navigation, route }) {
 
                 <TouchableOpacity
                   style={styles().inlineRow}
-                  onPress={() => navigation.navigate('Journal', {avatar})}>
+                  onPress={() => navigation.navigate('Journal')}>
                   <Text style={styles().text}>Write a journal entry</Text>
                   <Icon
                     name='checkmark-circle-outline'

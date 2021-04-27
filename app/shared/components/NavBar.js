@@ -557,17 +557,17 @@ async function goToHistory(navigation) {
 }
 
 async function goToJournal(navigation) {
-  const cache = new Cache({
-    namespace: 'myapp',
-    policy: {
-      maxEntries: 50000,
-    },
-    backend: AsyncStorage,
-  });
+  // const cache = new Cache({
+  //   namespace: 'myapp',
+  //   policy: {
+  //     maxEntries: 50000,
+  //   },
+  //   backend: AsyncStorage,
+  // });
 
-  const avatar = await cache.peek('avatar');
+  // const avatar = await cache.peek('avatar');
 
-  navigation.navigate('Journal', {avatar});
+  navigation.navigate('Journal');
 }
 
 export default NavBar;
