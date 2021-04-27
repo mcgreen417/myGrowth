@@ -745,7 +745,7 @@ const AddLongTermGoalModal = ({
 function Goals({ navigation, route }) {
   const goals = route.params.goals;
   const goalsObj = populateGoals(goals);
-  const countDown = new Date();  
+  const countDown = new Date();
 
   const [userDailies, setUserDailies] = useState(goalsObj.dailies);
   const [userWeeklies, setUserWeeklies] = useState(goalsObj.weeklies);
@@ -1452,7 +1452,7 @@ async function editGoal(title, goals, timestamp, newTitle, userGoals, setUserGoa
 
         const res = await API.graphql ({
           query: mutations.deleteMilestone,
-          variables: {timestamp: goals[i].Timestamp}
+          variables: {timestamp: timestamp}
         });
 
         const res1 = await API.graphql({

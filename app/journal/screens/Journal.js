@@ -18,7 +18,7 @@ import { Cache } from 'react-native-cache';
 import NavBar from '../../shared/components/NavBar';
 
 const Journal = ({ navigation, route }) => {
-  const avatar = route.params.avatar;
+  //const avatar = route.params.avatar;
   const [searchTerm, setSearchTerm] = useState('');
   const [pressed, setPressed] = useState(false);
 
@@ -34,7 +34,7 @@ const Journal = ({ navigation, route }) => {
             </Text>
             <Image
               style={styles().avatarFlipped}
-              source={global.avatars[avatar].imgSource}
+              source={require('../../shared/assets/gardener-avatar/s1h1c1.png')}
             />
           </View>
           {/* Top page divider */}
@@ -144,17 +144,17 @@ async function getEntries(navigation) {
 
   const arr = res.data.getJournalEntries.journalEntries;
 
-  const cache = new Cache({
-    namespace: 'myapp',
-    policy: {
-      maxEntries: 50000,
-    },
-    backend: AsyncStorage,
-  });
+  // const cache = new Cache({
+  //   namespace: 'myapp',
+  //   policy: {
+  //     maxEntries: 50000,
+  //   },
+  //   backend: AsyncStorage,
+  // });
 
-  const avatar = await cache.peek('avatar');
+  // const avatar = await cache.peek('avatar');
 
-  navigation.navigate('JournalHistory', {arr, datePass, avatar});
+  navigation.navigate('JournalHistory', {arr, datePass});
 }
 
 export default Journal;
