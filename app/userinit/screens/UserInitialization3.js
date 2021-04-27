@@ -19,6 +19,7 @@ import {
 import { Cache } from 'react-native-cache';
 import * as mutations from '../../../src/graphql/mutations';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ButtonAndroidiOS from '../../shared/components/ButtonAndroidiOS';
 import StatusBariOS from '../../shared/components/StatusBariOS';
 
 
@@ -56,6 +57,29 @@ function UserInitialization3({ route, navigation }) {
   const [useFitnessTracking, setUseFitnessTracking] = useState(true);
   const toggleFitnessTracking = () =>
     setUseFitnessTracking((previousState) => !previousState);
+
+  const goToPreviousPage = () => {
+    navigation.goBack();
+  }
+
+  const setSettingQuery = () => {
+    settingQuery(
+      activityLevel,
+      weight,
+      height,
+      useStressLevels,
+      useDailyActivities,
+      useWeightTracking,
+      usePeriodTracking,
+      useMedicationTracking,
+      useSleepTracking,
+      useMealTracking,
+      useFitnessTracking,
+      metric,
+      cognitoAttr,
+      navigation
+    );
+  }
 
   return (
     <SafeAreaView style={styles().container}>
@@ -333,42 +357,23 @@ function UserInitialization3({ route, navigation }) {
           {/* Back & next buttons */}
           <View style={{ marginTop: '27%', }} />
           <View style={styles().buttonsContainer}>
-            <Button
-              title='Back'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              onPress={() => navigation.goBack()}
-            />
-            <View style={{ width: '70%' }}></View>
-            <Button
-              title='Finish'
-              color={
-                global.colorblindMode
-                  ? global.cb_optionButtonsColor
-                  : global.optionButtonsColor
-              }
-              onPress={() => {
-                settingQuery(
-                  activityLevel,
-                  weight,
-                  height,
-                  useStressLevels,
-                  useDailyActivities,
-                  useWeightTracking,
-                  usePeriodTracking,
-                  useMedicationTracking,
-                  useSleepTracking,
-                  useMealTracking,
-                  useFitnessTracking,
-                  metric,
-                  cognitoAttr,
-                  navigation
-                );
-              }}
-            />
+
+            {/* NEXT button, left side of screen */}
+            <View style={{marginLeft: '5%', marginRight: '10%', width: '14%'}}>
+              <ButtonAndroidiOS
+                buttonText='BACK'
+                callFunction={goToPreviousPage}
+              />
+            </View>
+
+            {/* FINISH button, right side of screen */}
+            <View style={{ marginLeft: '50%', marginRight: '5%', width: '14%' }}>
+              <ButtonAndroidiOS
+                buttonText='FINISH'
+                callFunction={setSettingQuery}
+              />
+            </View>
+            
           </View>
           <View style={{ marginTop: '3%', }}/>
         </View>
@@ -472,10 +477,11 @@ const styles = () => StyleSheet.create({
     width: '20%',
   },
   buttonsContainer: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'flex-end',
-    justifyContent: 'flex-end',
-    width: '90%',
+    // justifyContent: 'flex-end',
+    // width: '90%',
   },
   datePicker: {
     marginTop: 10,

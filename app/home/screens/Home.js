@@ -10,15 +10,17 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import * as queries from '../../../src/graphql/queries';
-import * as mutations from '../../../src/graphql/mutations';
-import { ScrollView } from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Cache } from 'react-native-cache';
 import { Icon } from 'react-native-elements';
+import { ScrollView } from 'react-native-gesture-handler';
+import * as mutations from '../../../src/graphql/mutations';
+import * as queries from '../../../src/graphql/queries';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import NavBar from '../../shared/components/NavBar';
-import Wave from '../../shared/assets/svgs/wave-emoji.svg';
 import Sprout from '../../shared/assets/svgs/sprout-emoji.svg';
+import StatusBariOS from '../../shared/components/StatusBariOS';
+import Wave from '../../shared/assets/svgs/wave-emoji.svg';
+
 
 function Home({ navigation, route }) {
   let plant = 4;
@@ -94,6 +96,7 @@ function Home({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles().container}>
+      <StatusBariOS />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles().pageSetup}>
           {/* Gardener avatar + page blurb */}
